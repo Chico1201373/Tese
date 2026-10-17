@@ -5,7 +5,7 @@ FORMALIZAÇÃO PREPD - TEXTO PARA COLAR NO PORTAL (PROJETOS@ISEP)
 PROBLEMA
 ----------------------------------------------------------------
 
-O Adhara QBank é uma plataforma de estudo da Adhara com um banco de dezenas de milhares de perguntas de escolha múltipla na área da saúde, em várias línguas, usada por estudantes, médicos e enfermeiros. O utilizador resolve exames de 40 perguntas em três modos (Teste, Estudo e Simulado), e cada pergunta tem informação validada pela equipa científica: vinheta clínica, opções de resposta, informação-chave, dicas, resposta correta, explicação, catalogação e informação complementar.
+O Adhara QBank é uma plataforma de estudo da Adhara com um banco de dezenas de centenas de perguntas de escolha múltipla na área da saúde, em várias línguas, usada por estudantes, médicos e enfermeiros. O utilizador resolve exames de 40 perguntas em três modos (Teste, Estudo e Simulado), e cada pergunta tem informação validada pela equipa científica: vinheta clínica, opções de resposta, informação-chave, dicas, resposta correta, explicação, catalogação e informação complementar.
 
 Ao estudar com o QBank, o utilizador pode ficar com dúvidas que a explicação estática de cada pergunta não resolve, e não tem forma de as esclarecer, no momento, dentro da plataforma. Os assistentes conversacionais baseados em modelos de linguagem (LLM) têm sido propostos como apoio ao estudo em educação médica [1], [2], com benefícios reportados num ensaio controlado com estudantes [3]. No entanto, recorrer a fontes externas ou a assistentes genéricos é arriscado em contexto médico: os LLM podem gerar respostas plausíveis mas incorretas ou infiéis ao contexto fornecido [4], e essas respostas podem não coincidir com o conteúdo validado pela equipa científica da Adhara. Fundamentar a resposta em informação fornecida ao modelo pode reduzir este risco [5], [6], mas não o elimina [4]. Além disso, as instruções que limitam o assistente podem ser contornadas por manipulação do prompt [7], [8], o que, num exame, pode comprometer a integridade da avaliação.
 
@@ -60,7 +60,7 @@ OUTCOMES ATINGÍVEIS
 
 Interpretação do problema a resolver - Haverá? Sim
 Se sim, como?
-Levantamento de requisitos com a Adhara e análise do fluxo de estudo nos modos do QBank.
+Levantamento de requisitos com a Adhara.
 
 Sistematização do conhecimento existente - Haverá? Sim
 Se sim, como?

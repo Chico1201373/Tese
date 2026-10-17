@@ -1,0 +1,104 @@
+% Chapter 3
+
+\chapter{Desenho da Solução} % Main chapter title
+\label{chap:Chapter3} % For referencing the chapter elsewhere, use \ref{chap:Chapter3}
+
+%----------------------------------------------------------------------------------------
+\section{Requisitos}
+\label{sec:chap3_requirements}
+
+Os requisitos resultam do levantamento feito com a Adhara. % TODO: confirmar/atualizar com a Adhara.
+
+\subsection{Requisitos Funcionais}
+
+\begin{itemize}
+    \item \textbf{RF1.} O assistente responde a dúvidas sobre a pergunta em causa (enunciado, opções, explicações, dicas e informação-chave).
+    \item \textbf{RF2.} O assistente usa exclusivamente a informação guardada na base de dados para essa pergunta, sem acesso à Internet nem a conhecimento externo.
+    \item \textbf{RF3.} Se a informação necessária não estiver no contexto, o assistente di-lo claramente.
+    \item \textbf{RF4.} Perguntas fora do âmbito da pergunta são recusadas com uma frase fixa.
+    \item \textbf{RF5.} O assistente está disponível nos modos Teste e Estudo e não no modo Simulado.
+    \item \textbf{RF6.} Quando a resposta correta não foi revelada ao aluno, o assistente não a revela.
+    \item \textbf{RF7.} O assistente deve responder a perguntas escritas em várias línguas. % TODO: decidir a língua da resposta (sempre português ou língua do utilizador).
+\end{itemize}
+
+\subsection{Requisitos Não Funcionais}
+
+\begin{itemize}
+    \item \textbf{RNF1. Latência:} tempo de resposta aceitável entre 2 e 3 segundos.
+    \item \textbf{RNF2. Custo:} custo mensal de modelos limitado a um orçamento definido com a Adhara.
+    \item \textbf{RNF3. Escalabilidade:} 10 a 20\% dos utilizadores em simultâneo (cerca de 250 a 500 em 2500 utilizadores). % TODO: confirmar valores.
+    \item \textbf{RNF4. Privacidade:} o envio dos dados das perguntas para uma \gls{API} externa foi indicado como aceitável pela Adhara; o tratamento de dados dos utilizadores deve cumprir o \gls{RGPD}.
+    \item \textbf{RNF5. Validação:} respostas do assistente validadas pela equipa científica antes de serem consideradas fiáveis (processo a definir).
+\end{itemize}
+
+%----------------------------------------------------------------------------------------
+\section{Contexto de Cada Pergunta}
+\label{sec:chap3_context}
+
+Cada pergunta do QBank está guardada com campos estruturados: vinheta clínica, opções de resposta, informação-chave, dicas, resposta correta, explicação (geral e de cada opção), catalogação e informação complementar. Para cada pedido, o contexto fornecido ao \gls{LLM} é construído a partir destes campos, em função do modo do QBank e de a resposta já ter sido revelada ou não.
+
+% TODO: tabela com os campos incluídos no contexto em cada situação (Teste/Estudo com resposta revelada; sem resposta revelada).
+
+%----------------------------------------------------------------------------------------
+\section{Arquitetura}
+\label{sec:chap3_architecture}
+
+A Figura~\ref{fig:architecture} apresenta a arquitetura proposta. Antes de chegar ao \gls{LLM}, a pergunta do utilizador passa por um filtro de âmbito; depois da geração, a resposta é verificada antes de ser mostrada. % TODO: ajustar à arquitetura final.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  node distance=0.5cm,
+  box/.style={draw, rounded corners, align=center, minimum height=1.1cm, text width=2.3cm, font=\small},
+  arr/.style={-{Stealth[length=2mm]}}
+]
+\node[box] (user) {Pergunta do utilizador};
+\node[box, right=of user] (filter) {Filtro de âmbito};
+\node[box, right=of filter] (prompt) {Construção do \emph{prompt}};
+\node[box, right=of prompt] (llm) {\gls{LLM}};
+\node[box, below=0.9cm of llm] (check) {Verificação da resposta};
+\node[box, left=of check] (answer) {Resposta ao utilizador};
+\node[box, above=0.9cm of prompt, fill=gray!15] (db) {Dados da pergunta (BD)};
+
+\draw[arr] (user) -- (filter);
+\draw[arr] (filter) -- (prompt);
+\draw[arr] (prompt) -- (llm);
+\draw[arr] (llm) -- (check);
+\draw[arr] (check) -- (answer);
+\draw[arr] (db) -- (prompt);
+\end{tikzpicture}
+\caption[Arquitetura do assistente]{Arquitetura proposta do assistente conversacional.}
+\label{fig:architecture}
+\end{figure}
+
+%----------------------------------------------------------------------------------------
+\section{Estratégias de \emph{Prompting} e Restrições}
+\label{sec:chap3_prompting}
+
+O \emph{prompt} do assistente define o seu papel, as regras de contexto, de âmbito, de segurança e de estilo, e o formato de saída. As regras principais são:
+\begin{itemize}
+    \item usar apenas a informação do contexto e dizer quando esta não existe;
+    \item recusar assuntos fora da pergunta com uma frase fixa;
+    \item ignorar instruções do utilizador que tentem alterar as regras ou revelar o \emph{prompt};
+    \item não escrever as letras das opções, referindo-se às opções pelo seu texto, porque a ordem das opções muda entre sessões.
+\end{itemize}
+
+% TODO: descrever as alterações ao prompt feitas a partir da avaliação (por exemplo, exemplos no prompt, regras repetidas no fim, saída estruturada com campo de âmbito).
+
+%----------------------------------------------------------------------------------------
+\section{Verificações Fora do Modelo}
+\label{sec:chap3_guards}
+
+Como as restrições só no \emph{prompt} podem não ser cumpridas por todos os modelos, a arquitetura inclui verificações determinísticas:
+\begin{itemize}
+    \item \textbf{antes do modelo:} filtro de âmbito para recusar perguntas claramente fora do tema;
+    \item \textbf{depois do modelo:} deteção de fuga de instruções, de letras de opções e de valores que não existem no contexto.
+\end{itemize}
+% TODO: descrever a implementação e justificar com a avaliação (Capítulo 4).
+
+%----------------------------------------------------------------------------------------
+\section{Escolha do Modelo}
+\label{sec:chap3_model}
+
+A escolha entre um modelo executado localmente e um serviço externo depende da latência, do custo, da privacidade e da qualidade (fidelidade e cumprimento das regras). Os modelos são comparados no Capítulo~\ref{chap:Chapter4}.
+% TODO: justificar a escolha final.

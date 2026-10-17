@@ -1,0 +1,89 @@
+% Chapter 1
+%
+% NOTAS:
+%  - Cada \textbf{[CITAR]} marca uma afirmação que precisa de referência verificada
+%    (usa só fontes que confirmaste). Pesquisa por "CITAR" antes de entregar.
+%  - Os pontos "a confirmar" dependem da revisão da literatura (Capítulo 2).
+%
+\chapter{Introdução} % Main chapter title
+\label{chap:Chapter1} % For referencing the chapter elsewhere, use Chapter~\ref{Chapter1}
+
+
+%-------------------------------------------------------------------------------
+\section{Contexto e Motivação}
+\label{sec:chap1_context}
+
+Os bancos de perguntas de escolha múltipla (\glspl{MCQ}) são utilizados por estudantes de medicina para praticar e preparar exames. No Adhara QBank, um exame é composto por 40 perguntas, apresentadas ao estudante uma de cada vez. Enquanto responde a cada pergunta, o estudante tem acesso à vinheta clínica, às opções e à explicação disponibilizada pela plataforma, mas não necessariamente a toda a informação associada ao item.
+
+Na base de dados do QBank, cada pergunta pode incluir, além do enunciado e da resposta, explicações gerais e por opção, dicas, informação-chave, conteúdo formativo e dados de catalogação. Esta informação estruturada pode ser relevante para aprofundar o raciocínio sobre a pergunta, mas não está toda diretamente acessível no ecrã de resposta. Os avanços em modelos de linguagem permitem explorar interfaces conversacionais para consultar esse conteúdo em linguagem natural. Num contexto médico e educativo, porém, é essencial que as respostas sejam fiáveis, adequadas à língua do estudante e limitadas à informação validada disponível para a pergunta \textbf{[CITAR]}.
+
+
+%-------------------------------------------------------------------------------
+\section{Definição do Problema}
+\label{sec:chap1_problem}
+
+Durante a resolução de uma pergunta no Adhara QBank, o estudante pode precisar de esclarecer aspetos que não são cobertos pela explicação apresentada no ecrã, por exemplo, porque uma determinada opção de resposta está errada. Embora a base de dados contenha informação adicional associada à pergunta, o estudante não dispõe de uma forma integrada de a consultar através de perguntas em linguagem natural. Recorrer a fontes externas ou a assistentes genéricos pode produzir respostas que não correspondem ao conteúdo validado do item ou que introduzem informação alheia ao contexto.
+
+O problema abordado nesta dissertação é, assim, a dificuldade de obter esclarecimentos adicionais, relevantes e fiáveis sobre uma pergunta durante a sua resolução, apesar de existir informação estruturada sobre essa pergunta na base de dados do QBank. Este problema é agravado pela necessidade de apoiar perguntas em várias línguas e de evitar respostas a questões que não possam ser sustentadas pelo conteúdo associado ao item.
+
+
+%-------------------------------------------------------------------------------
+\section{Objetivos}
+\label{sec:chap1_objectives}
+
+O objetivo geral é conceber, implementar e avaliar um assistente conversacional integrado no Adhara QBank que ajude o estudante a esclarecer dúvidas sobre a pergunta que está a resolver, usando a informação associada a esse item na base de dados.
+
+Para o atingir, definem-se os seguintes objetivos específicos:
+\begin{enumerate}
+    \item identificar os campos da base de dados relevantes para responder a dúvidas sobre cada pergunta e definir como são disponibilizados ao assistente;
+    \item desenvolver uma abordagem que permita responder em várias línguas e que indique quando a informação disponível não permite responder;
+    \item conceber e implementar mecanismos para limitar as respostas ao contexto da pergunta e recusar questões sem suporte nesse contexto;
+    \item integrar o assistente no fluxo de resolução de perguntas do QBank;
+    \item avaliar a correção e a fidelidade das respostas, a capacidade de recusa, o comportamento em várias línguas, o desempenho e a utilidade percebida pelos utilizadores.
+\end{enumerate}
+
+
+%-------------------------------------------------------------------------------
+\section{Questões de Investigação e Metodologia}
+\label{sec:chap1_rqs}
+
+Este trabalho procura responder às seguintes questões de investigação (\emph{Research Questions}, RQ):
+\begin{description}
+    \item[RQ1] Que estratégias permitem gerar respostas fiéis à informação associada a uma pergunta do QBank, em várias línguas?
+    \item[RQ2] Como pode o assistente identificar questões sem suporte no contexto da pergunta e evitar responder para além da informação disponível?
+    \item[RQ3] Qual é a correção, a utilidade percebida e o desempenho do assistente durante a resolução de perguntas?
+\end{description}
+
+A metodologia seguida é a \gls{DSR} \textbf{[CITAR]}, organizada em levantamento de requisitos, revisão do estado da arte, desenho da abordagem, implementação e avaliação. A avaliação técnica usará perguntas respondíveis e não respondíveis a partir dos dados de cada item, em várias línguas, e analisará a correção, a fidelidade ao contexto e a recusa. A utilidade do assistente será também avaliada com utilizadores e, quando aplicável, especialistas da Adhara.
+
+
+%-------------------------------------------------------------------------------
+\section{Estado da Arte e Enquadramento do Trabalho}
+\label{sec:chap1_soa}
+
+Esta secção apresenta, de forma breve, as áreas de investigação relevantes para o trabalho; a análise detalhada é feita no Capítulo~\ref{chap:Chapter2}.
+
+\paragraph{IA como apoio à aprendizagem.} Os \glspl{LLM} têm sido estudados como tutores, assistentes e geradores de explicações em contextos educativos, incluindo a educação médica \textbf{[CITAR]}. A sua utilidade depende, entre outros aspetos, da correção e adequação das respostas.
+
+\paragraph{Fiabilidade e validação.} A possibilidade de produzir respostas plausíveis mas incorretas constitui um risco em aplicações médicas. A literatura explora estratégias para fundamentar respostas em informação de referência e avaliar a sua fidelidade, embora a eficácia destas estratégias tenha de ser verificada em cada contexto \textbf{[CITAR]}.
+
+\paragraph{Enquadramento.} Este trabalho aborda um assistente conversacional para consulta da informação estruturada associada a cada pergunta de um QBank. Ao contrário de um assistente de propósito geral, a resposta pretendida deve apoiar-se nos dados do item em curso e reconhecer quando esses dados não contêm a informação necessária. A lacuna específica e a contribuição do trabalho serão estabelecidas com base na síntese crítica do Capítulo~\ref{chap:Chapter2}.
+
+
+%-------------------------------------------------------------------------------
+\section{Contribuições}
+\label{sec:chap1_contributions}
+
+Como resultados esperados, este trabalho pretende contribuir com:
+\begin{itemize}
+    \item a integração de um assistente conversacional no fluxo de resolução de perguntas do Adhara QBank;
+    \item uma abordagem para gerar respostas multilíngues fundamentadas na informação associada a cada pergunta e para recusar questões sem suporte;
+    \item um protocolo de avaliação da correção, fidelidade ao contexto, capacidade de recusa, desempenho e utilidade do assistente.
+\end{itemize}
+
+
+%-------------------------------------------------------------------------------
+\section{Estrutura do Documento}
+\label{sec:chap1_structure}
+
+Para além deste capítulo, o documento está organizado em quatro capítulos. O Capítulo~\ref{chap:Chapter2} apresenta o estado da arte. O Capítulo~\ref{chap:Chapter3} descreve o desenho da solução e a sua arquitetura. O Capítulo~\ref{chap:Chapter4} apresenta a implementação e a avaliação, com os resultados obtidos. Por fim, o Capítulo~\ref{chap:Chapter5} apresenta as conclusões e o trabalho futuro. % TODO: ajustar a divisão final dos capítulos.

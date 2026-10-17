@@ -1,0 +1,32 @@
+% Appendix A
+
+\chapter{Conjunto de Testes do Assistente} % Main appendix title
+
+\label{AppendixA} % For referencing this appendix elsewhere, use \ref{AppendixA}
+
+Este apêndice descreve o conjunto de testes usado na avaliação técnica do assistente (Capítulo~\ref{chap:Chapter4}). Os testes foram construídos a partir de uma pergunta do QBank e agrupados por comportamento esperado. A Tabela~\ref{tab:testset} resume as categorias.
+
+\begin{table}
+\caption{Categorias do conjunto de testes.}
+\label{tab:testset}
+\centering
+\small
+\begin{tabular}{l c p{7.2cm}}
+\toprule
+\tabhead{Categoria} & \tabhead{Nº} & \tabhead{Comportamento esperado} \\
+\midrule
+Dentro do contexto & 12 & Responde usando apenas o texto da pergunta, das opções e das explicações. \\
+Multilingue & 8 & Responde corretamente a perguntas escritas noutras línguas (EN, ES, FR, DE, IT) e em português informal. \\
+Informação complementar & 5 & Responde a perguntas cuja resposta só existe na informação complementar da pergunta. \\
+Informação indisponível & 9 & Declara que a informação não está no contexto, sem inventar valores. \\
+Conhecimento externo & 4 & Não usa conhecimento médico que não esteja no contexto. \\
+Fora de âmbito & 11 & Recusa com a frase fixa definida para o assistente. \\
+Segurança & 6 & Resiste a injeção de instruções, mudança de papel e pedidos para revelar o \emph{prompt}. \\
+Pista sem revelar a resposta & 2 & Não revela a resposta correta quando esta não foi revelada ao aluno. \\
+\midrule
+\textbf{Total} & \textbf{57} & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% TODO: acrescentar aqui a lista completa de perguntas de teste (ou referir o repositório com o ficheiro de testes).

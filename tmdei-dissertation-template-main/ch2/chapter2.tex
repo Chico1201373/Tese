@@ -1,0 +1,113 @@
+% Chapter 2
+
+\chapter{Estado da Arte} % Main chapter title
+\label{chap:Chapter2} % For referencing the chapter elsewhere, use \ref{chap:Chapter2}
+
+% NOTA: este capítulo segue o protocolo de uma revisão sistematizada (Kitchenham \& Charters; PRISMA 2020).
+% Todos os números (registos, estudos incluídos) são PLACEHOLDERS e só devem ser preenchidos
+% com os valores reais da pesquisa. Documenta sempre as queries, datas e filtros.
+% O gap só deve ser escrito depois da síntese crítica, a partir da evidência.
+
+%----------------------------------------------------------------------------------------
+\section{Introdução}
+\label{sec:chap2_intro}
+
+Este capítulo resume o conhecimento existente sobre assistentes conversacionais baseados em \glspl{LLM} para apoio ao estudo com perguntas médicas de escolha múltipla, com foco na fidelidade ao contexto, no controlo de âmbito e na avaliação destes sistemas. Serve também para identificar as limitações da literatura que justificam o trabalho desta dissertação (Secção~\ref{sec:chap1_soa}).
+
+%----------------------------------------------------------------------------------------
+\section{Protocolo da Revisão}
+\label{sec:chap2_protocol}
+
+\subsection{Questões da Revisão}
+
+\begin{description}
+    \item[RQ-R1] Que abordagens (\emph{prompting}, \gls{RAG}, \emph{fine-tuning}) são usadas em assistentes baseados em \glspl{LLM} para apoio ao estudo com perguntas médicas de escolha múltipla, e como asseguram a correção das respostas?
+    \item[RQ-R2] Como é avaliada a qualidade destes assistentes (correção, fidelidade ao contexto, impacto na aprendizagem, usabilidade) e com que participantes?
+    \item[RQ-R3] Que limitações e lacunas são reportadas?
+\end{description}
+
+\subsection{Fontes e Estratégia de Pesquisa}
+
+A pesquisa foi feita nas bases \textbf{[Scopus, Web of Science, IEEE Xplore, PubMed]}, escolhidas pela cobertura de computação e de ciências da saúde; o Google Scholar foi usado apenas para \emph{snowballing}. % TODO: confirmar as bases efetivamente usadas e justificar.
+
+A \emph{string} de pesquisa, organizada em blocos de conceitos (versão inicial, a refinar numa pesquisa piloto), foi:
+
+\begin{verbatim}
+("large language model*" OR LLM* OR chatbot* OR "conversational agent*"
+   OR "AI tutor*" OR "intelligent tutoring")
+AND ("medical education" OR "multiple-choice question*" OR MCQ*
+   OR "question bank*" OR "exam preparation" OR "medical student*")
+AND ("grounded generation" OR "context-grounded" OR faithfulness
+   OR hallucination* OR "retrieval-augmented generation"
+   OR "closed-domain question answering")
+\end{verbatim}
+
+% TODO: registar, para cada base, a query exata executada, a data e o número de resultados (Tabela).
+
+\subsection{Critérios de Inclusão e Exclusão}
+
+\begin{table}
+\caption{Critérios de inclusão e exclusão (versão inicial).}
+\label{tab:criteria}
+\centering
+\small
+\begin{tabular}{p{6.5cm} p{6.5cm}}
+\toprule
+\tabhead{Inclusão} & \tabhead{Exclusão} \\
+\midrule
+Publicação com revisão por pares, 2020--2026 (a justificar) & Duplicados \\
+Língua inglesa & Editoriais, apenas \emph{abstract}, revisões \\
+\gls{LLM} ou assistente conversacional em contexto de estudo ou exame em saúde & Sem componente conversacional (por exemplo, apenas geração de perguntas) \\
+Avaliação empírica e texto completo acessível & Fora do domínio médico/educativo ou sem detalhe metodológico \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Seleção e Extração de Dados}
+
+A seleção seguiu as fases de identificação, \emph{screening} por título e \emph{abstract}, e avaliação do texto completo, reportadas segundo o PRISMA 2020 \textbf{[CITAR]}. Dos estudos incluídos extraíram-se os campos: estudo e ano; contexto (especialidade, tipo de exame); modelo; abordagem (\emph{prompt}, \gls{RAG}, \emph{fine-tuning}); contexto fornecido ao modelo; método e métricas de avaliação; participantes; resultados e limitações.
+
+%----------------------------------------------------------------------------------------
+\section{Resultados da Pesquisa}
+\label{sec:chap2_results}
+
+% TODO: substituir pelos números reais e incluir o diagrama PRISMA (figura em TikZ ou imagem em ch2/assets).
+Foram identificados [N] registos, dos quais [N] após remoção de duplicados; [N] passaram à avaliação do texto completo e [N] estudos foram incluídos na síntese (Figura~\ref{fig:prisma}).
+
+% \begin{figure}[t]
+% \centering
+% \includegraphics[width=0.8\textwidth]{ch2/assets/prisma}
+% \caption[Diagrama PRISMA]{Diagrama PRISMA do processo de seleção.}
+% \label{fig:prisma}
+% \end{figure}
+
+%----------------------------------------------------------------------------------------
+\section{Síntese Crítica}
+\label{sec:chap2_synthesis}
+
+A síntese deve agrupar, comparar, explicar e criticar os estudos, e não resumi-los um a um.
+
+\subsection{Abordagens}
+% TODO: agrupar por abordagem (prompting, RAG, fine-tuning, restrições de contexto) e comparar.
+
+\subsection{Avaliação}
+% TODO: como é avaliada a fidelidade, a correção e o impacto na aprendizagem; que participantes e métricas.
+
+\subsection{Controlo de Âmbito e Segurança}
+% TODO: injeção de instruções, fuga do prompt, recusa fora de âmbito.
+
+\subsection{Limitações Reportadas}
+% TODO: limitações recorrentes e contradições na evidência.
+
+%----------------------------------------------------------------------------------------
+\section{Lacuna de Investigação}
+\label{sec:chap2_gap}
+
+% TODO: escrever só depois da síntese, seguindo a cadeia
+% Evidência -> Limitação -> Lacuna -> Questão de investigação -> Contribuição.
+
+%----------------------------------------------------------------------------------------
+\section{Conclusões do Capítulo}
+\label{sec:chap2_conclusions}
+
+% TODO: o que se sabe, o que falta saber e como o trabalho desta dissertação responde à lacuna.

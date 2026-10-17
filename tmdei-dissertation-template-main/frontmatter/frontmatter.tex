@@ -1,0 +1,112 @@
+% we include the glossary here (frontmatter is included with \input, so this command is as if it was in main.tex)
+\input{frontmatter/glossary}
+
+\frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the pre-content pages
+
+\pagestyle{plain} % Default to the plain heading style until the thesis style is called for the body content
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\maketitlepage
+
+
+%----------------------------------------------------------------------------------------
+%	STATEMENT of INTEGRITY
+%----------------------------------------------------------------------------------------
+\integritystatement
+
+%----------------------------------------------------------------------------------------
+%	DEDICATION  (optional)
+%----------------------------------------------------------------------------------------
+%
+%\begin{dedicatory}
+%Dedicatória (opcional).
+%\end{dedicatory}
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{abstract}
+
+% Resumo na língua principal do trabalho (português), até 200 palavras.
+
+
+No Adhara QBank, cada pergunta de escolha múltipla está associada a informação estruturada que vai além da explicação apresentada ao estudante durante a resolução do exame. Esta diferença pode deixar dúvidas por esclarecer, apesar de existirem dados relevantes na base de dados do item. Esta dissertação, desenvolvida em colaboração com a Adhara, concebe, implementa e avalia um assistente conversacional que responde a dúvidas sobre a pergunta em curso com base nessa informação.
+
+
+O assistente foi concebido para interagir em várias línguas, responder apenas quando a informação do item sustenta a resposta e recusar questões fora do contexto disponível. A avaliação considera a correção e fidelidade das respostas, a capacidade de recusa, o desempenho e a utilidade percebida pelos utilizadores. A abordagem segue a metodologia \emph{Design Science Research}.
+
+% TODO: completar com os resultados e conclusões principais no fim do trabalho.
+
+\end{abstract}
+
+\begin{abstractotherlanguage}
+% Abstract in English (the work is written in Portuguese), about 200 words.
+
+
+At Adhara QBank, each multiple-choice question is associated with structured information beyond the explanation shown to students while they answer an exam. This difference may leave questions unresolved even when relevant data are available in the item's database record. Developed in collaboration with Adhara, this dissertation designs, implements and evaluates a conversational assistant that answers questions about the current item using that information.
+
+
+The assistant is designed to interact in multiple languages, answer only when the item's information supports a response, and refuse questions outside the available context. The evaluation considers answer correctness and faithfulness, refusal capability, performance and perceived usefulness. The approach follows the Design Science Research methodology.
+
+% TODO: complete with the main results and conclusions at the end of the work.
+
+\end{abstractotherlanguage}
+
+%----------------------------------------------------------------------------------------
+%	ACKNOWLEDGEMENTS (optional)
+%----------------------------------------------------------------------------------------
+
+\begin{acknowledgements}
+
+% TODO: agradecimentos (opcional): orientador, supervisor na Adhara, família, amigos.
+
+\end{acknowledgements}
+
+%----------------------------------------------------------------------------------------
+%	LIST OF CONTENTS/FIGURES/TABLES PAGES
+%----------------------------------------------------------------------------------------
+
+\tableofcontents % Prints the main table of contents
+
+\listoffigures % Prints the list of figures
+
+\listoftables % Prints the list of tables
+
+% Descomentar quando existirem algoritmos / listagens de código no documento:
+%\iflanguage{portuguese}{
+%\renewcommand{\listalgorithmname}{Lista de Algor\'itmos}
+%}
+%\listofalgorithms % Prints the list of algorithms
+%\addchaptertocentry{\listalgorithmname}
+%
+%\renewcommand{\lstlistlistingname}{List of Source Code}
+%\iflanguage{portuguese}{
+%\renewcommand{\lstlistlistingname}{Lista de C\'odigo}
+%}
+%\lstlistoflistings % Prints the list of listings (programming language source code)
+%\addchaptertocentry{\lstlistlistingname}
+
+
+%----------------------------------------------------------------------------------------
+%	ACRONYMS
+%----------------------------------------------------------------------------------------
+
+\newcommand{\listacronymname}{List of Acronyms}
+\iflanguage{portuguese}{
+\renewcommand{\listacronymname}{Lista de Acr\'onimos}
+}
+
+%Use GLS
+\glsresetall
+\printglossary[title=\listacronymname,type=\acronymtype,style=long]
+
+%----------------------------------------------------------------------------------------
+%	DONE
+%----------------------------------------------------------------------------------------
+
+\mainmatter % Begin numeric (1,2,3...) page numbering
+\pagestyle{thesis} % Return the page headers back to the "thesis" style

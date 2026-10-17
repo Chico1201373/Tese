@@ -1,0 +1,336 @@
+\glsdefs@newdocentry{LLM}%
+{%
+name={\acronymfont {\glsentryshort {LLM}}},%
+sort={LLM},%
+type={acronym},%
+first={LLM},%
+firstplural={LLMs},%
+text={LLM},%
+plural={LLMs},%
+description={\emph {Large Language Model}},%
+descriptionplural={\emph {Large Language Model}},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={\protect \emph  {Large Language Model}},%
+longplural={\protect \emph  {Large Language Model}s},%
+short={LLM},%
+shortplural={LLMs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{MCQ}%
+{%
+name={\acronymfont {\glsentryshort {MCQ}}},%
+sort={MCQ},%
+type={acronym},%
+first={MCQ},%
+firstplural={MCQs},%
+text={MCQ},%
+plural={MCQs},%
+description={\emph {Multiple-Choice Question}},%
+descriptionplural={\emph {Multiple-Choice Question}},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={\protect \emph  {Multiple-Choice Question}},%
+longplural={\protect \emph  {Multiple-Choice Question}s},%
+short={MCQ},%
+shortplural={MCQs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{RAG}%
+{%
+name={\acronymfont {\glsentryshort {RAG}}},%
+sort={RAG},%
+type={acronym},%
+first={RAG},%
+firstplural={RAGs},%
+text={RAG},%
+plural={RAGs},%
+description={\emph {Retrieval-Augmented Generation}},%
+descriptionplural={\emph {Retrieval-Augmented Generation}},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={\protect \emph  {Retrieval-Augmented Generation}},%
+longplural={\protect \emph  {Retrieval-Augmented Generation}s},%
+short={RAG},%
+shortplural={RAGs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{DSR}%
+{%
+name={\acronymfont {\glsentryshort {DSR}}},%
+sort={DSR},%
+type={acronym},%
+first={DSR},%
+firstplural={DSRs},%
+text={DSR},%
+plural={DSRs},%
+description={\emph {Design Science Research}},%
+descriptionplural={\emph {Design Science Research}},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={\protect \emph  {Design Science Research}},%
+longplural={\protect \emph  {Design Science Research}s},%
+short={DSR},%
+shortplural={DSRs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{SLR}%
+{%
+name={\acronymfont {\glsentryshort {SLR}}},%
+sort={SLR},%
+type={acronym},%
+first={SLR},%
+firstplural={SLRs},%
+text={SLR},%
+plural={SLRs},%
+description={\emph {Systematic Literature Review}},%
+descriptionplural={\emph {Systematic Literature Review}},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={\protect \emph  {Systematic Literature Review}},%
+longplural={\protect \emph  {Systematic Literature Review}s},%
+short={SLR},%
+shortplural={SLRs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{API}%
+{%
+name={\acronymfont {\glsentryshort {API}}},%
+sort={API},%
+type={acronym},%
+first={API},%
+firstplural={APIs},%
+text={API},%
+plural={APIs},%
+description={\emph {Application Programming Interface}},%
+descriptionplural={\emph {Application Programming Interface}},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={\protect \emph  {Application Programming Interface}},%
+longplural={\protect \emph  {Application Programming Interface}s},%
+short={API},%
+shortplural={APIs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{GPU}%
+{%
+name={\acronymfont {\glsentryshort {GPU}}},%
+sort={GPU},%
+type={acronym},%
+first={GPU},%
+firstplural={GPUs},%
+text={GPU},%
+plural={GPUs},%
+description={\emph {Graphics Processing Unit}},%
+descriptionplural={\emph {Graphics Processing Unit}},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={\protect \emph  {Graphics Processing Unit}},%
+longplural={\protect \emph  {Graphics Processing Unit}s},%
+short={GPU},%
+shortplural={GPUs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{CPU}%
+{%
+name={\acronymfont {\glsentryshort {CPU}}},%
+sort={CPU},%
+type={acronym},%
+first={CPU},%
+firstplural={CPUs},%
+text={CPU},%
+plural={CPUs},%
+description={\emph {Central Processing Unit}},%
+descriptionplural={\emph {Central Processing Unit}},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={\protect \emph  {Central Processing Unit}},%
+longplural={\protect \emph  {Central Processing Unit}s},%
+short={CPU},%
+shortplural={CPUs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{VRAM}%
+{%
+name={\acronymfont {\glsentryshort {VRAM}}},%
+sort={VRAM},%
+type={acronym},%
+first={VRAM},%
+firstplural={VRAMs},%
+text={VRAM},%
+plural={VRAMs},%
+description={\emph {Video Random Access Memory}},%
+descriptionplural={\emph {Video Random Access Memory}},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={\protect \emph  {Video Random Access Memory}},%
+longplural={\protect \emph  {Video Random Access Memory}s},%
+short={VRAM},%
+shortplural={VRAMs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{TTFT}%
+{%
+name={\acronymfont {\glsentryshort {TTFT}}},%
+sort={TTFT},%
+type={acronym},%
+first={TTFT},%
+firstplural={TTFTs},%
+text={TTFT},%
+plural={TTFTs},%
+description={\emph {Time To First Token}},%
+descriptionplural={\emph {Time To First Token}},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={\protect \emph  {Time To First Token}},%
+longplural={\protect \emph  {Time To First Token}s},%
+short={TTFT},%
+shortplural={TTFTs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{JSON}%
+{%
+name={\acronymfont {\glsentryshort {JSON}}},%
+sort={JSON},%
+type={acronym},%
+first={JSON},%
+firstplural={JSONs},%
+text={JSON},%
+plural={JSONs},%
+description={\emph {JavaScript Object Notation}},%
+descriptionplural={\emph {JavaScript Object Notation}},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={\protect \emph  {JavaScript Object Notation}},%
+longplural={\protect \emph  {JavaScript Object Notation}s},%
+short={JSON},%
+shortplural={JSONs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{RGPD}%
+{%
+name={\acronymfont {\glsentryshort {RGPD}}},%
+sort={RGPD},%
+type={acronym},%
+first={RGPD},%
+firstplural={RGPDs},%
+text={RGPD},%
+plural={RGPDs},%
+description={Regulamento Geral sobre a Proteção de Dados},%
+descriptionplural={Regulamento Geral sobre a Proteção de Dados},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Regulamento Geral sobre a Proteção de Dados},%
+longplural={Regulamento Geral sobre a Proteção de Dadoss},%
+short={RGPD},%
+shortplural={RGPDs},%
+counter={page},%
+parent={},%
+%
+}%
+

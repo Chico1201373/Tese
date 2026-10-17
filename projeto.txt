@@ -1,0 +1,106 @@
+FORMALIZAÇÃO PREPD - TEXTO PARA COLAR NO PORTAL (PROJETOS@ISEP)
+================================================================
+
+----------------------------------------------------------------
+PROBLEMA
+----------------------------------------------------------------
+
+O Adhara QBank é uma plataforma de estudo da Adhara com um banco de dezenas de milhares de perguntas de escolha múltipla na área da saúde, em várias línguas, usada por estudantes, médicos e enfermeiros. O utilizador resolve exames de 40 perguntas em três modos (Teste, Estudo e Simulado), e cada pergunta tem informação validada pela equipa científica: vinheta clínica, opções de resposta, informação-chave, dicas, resposta correta, explicação, catalogação e informação complementar.
+
+Ao estudar com o QBank, o utilizador pode ficar com dúvidas que a explicação estática de cada pergunta não resolve, e não tem forma de as esclarecer, no momento, dentro da plataforma. Os assistentes conversacionais baseados em modelos de linguagem (LLM) têm sido propostos como apoio ao estudo em educação médica [1], [2], com benefícios reportados num ensaio controlado com estudantes [3]. No entanto, recorrer a fontes externas ou a assistentes genéricos é arriscado em contexto médico: os LLM podem gerar respostas plausíveis mas incorretas ou infiéis ao contexto fornecido [4], e essas respostas podem não coincidir com o conteúdo validado pela equipa científica da Adhara. Fundamentar a resposta em informação fornecida ao modelo pode reduzir este risco [5], [6], mas não o elimina [4]. Além disso, as instruções que limitam o assistente podem ser contornadas por manipulação do prompt [7], [8], o que, num exame, pode comprometer a integridade da avaliação.
+
+O problema é, assim, conceber um assistente conversacional baseado em LLM que responda apenas com a informação já guardada na base de dados para cada pergunta (vinheta, opções, catalogação, resposta correta, explicação, dicas e informação complementar), sem recorrer a conhecimento externo, e que se mantenha fiel a esse contexto. O assistente não deve responder a questões fora do âmbito da pergunta nem comprometer a integridade da avaliação.
+
+
+----------------------------------------------------------------
+CARACTERÍSTICAS DO PROBLEMA
+----------------------------------------------------------------
+
+1. Envolve questões técnicas amplas ou de difícil harmonização?
+   Resposta: Sim
+   Justificação:
+O assistente conversacional baseado em LLM deve ser capaz de harmonizar as suas capacidades conversacionais genéricas com restrições a eliciar e sistematizar, nomeadamente de fidelidade ao contexto da conversa, qualidade da resposta, custo e latência, e a necessidade de integrar tal sistema na arquitetura do QBank.
+
+2. Tem uma solução óbvia?
+   Resposta: Não
+   Justificação:
+Mesmo com o contexto fornecido, um LLM pode acrescentar informação não presente nos dados ou ignorá-la [4]. É preciso estudar, aplicar e validar estratégias que garantam as restrições definidas (e a eliciar e sistematizar).
+
+3. Aborda problemas não abrangidos pelas normas e códigos atuais?
+   Resposta: Sim
+   Justificação:
+A literatura aponta a necessidade urgente de diretrizes para a aplicação da IA em educação médica [9], o que justifica estudar mecanismos próprios para garantir respostas fiéis a conteúdo validado.
+
+4. Envolve diversos grupos de partes interessadas (stakeholders)?
+   Resposta: Sim
+   Justificação:
+Utilizadores (nomeadamente estudantes, médicos, enfermeiros) e Adhara.
+
+5. Inclui muitas partes componentes ou subproblemas, envolvendo múltiplas disciplinas?
+   Resposta: Sim
+   Justificação:
+Combina engenharia de software, IA/NLP, UX dos modos do QBank e proteção de dados.
+
+6. Tem consequências significativas numa variedade de contextos?
+   Resposta: Sim
+   Justificação:
+Uma resposta fora do conteúdo validado pode induzir erros de aprendizagem e afetar a credibilidade da plataforma, a privacidade dos utilizadores e os custos [1], [4].
+
+
+----------------------------------------------------------------
+OBJETIVOS
+----------------------------------------------------------------
+
+Conceber, implementar e avaliar um assistente conversacional integrado no Adhara QBank que esclareça dúvidas sobre cada pergunta de escolha múltipla, usando exclusivamente a informação da base de dados dessa pergunta.
+
+
+----------------------------------------------------------------
+OUTCOMES ATINGÍVEIS
+----------------------------------------------------------------
+
+Interpretação do problema a resolver - Haverá? Sim
+Se sim, como?
+Levantamento de requisitos com a Adhara e análise do fluxo de estudo nos modos do QBank.
+
+Sistematização do conhecimento existente - Haverá? Sim
+Se sim, como?
+Revisão da literatura sobre LLMs em educação médica, tutores inteligentes e geração fundamentada em contexto.
+
+Avaliação de diferentes abordagens - Haverá? Sim
+Se sim, como?
+Comparação de estratégias (e.g. de prompting) e restrições de contexto (e de modelos) segundo fidelidade ao contexto, correção, latência e custo.
+
+Conceção de uma solução - Haverá? Sim
+Se sim, como?
+Desenho da arquitetura do assistente e da sua integração no QBank, incluindo as regras por modo.
+
+Construção de uma solução - Haverá? Sim
+Se sim, como?
+Implementação full-stack do chat integrado no QBank, em colaboração com a Adhara.
+
+Avaliação da solução - Haverá? Sim
+Se sim, como?
+Avaliação das restrições definidas (e a eliciar e sistematizar), nomeadamente de fidelidade ao contexto e da correção das respostas por especialistas da Adhara, e da utilidade e usabilidade junto de utilizadores (questionário).
+
+
+----------------------------------------------------------------
+REFERÊNCIAS BIBLIOGRÁFICAS
+----------------------------------------------------------------
+
+[1] Abd-alrazaq, A., AlSaad, R., Alhuwail, D., et al. (2023). Large language models in medical education: Opportunities, challenges, and future directions. JMIR Medical Education, 9, e48291. https://doi.org/10.2196/48291
+
+[2] Kasneci, E., Sessler, K., Küchemann, S., et al. (2023). ChatGPT for good? On opportunities and challenges of large language models for education. Learning and Individual Differences, 103, 102274. https://doi.org/10.1016/j.lindif.2023.102274
+
+[3] Gan, W., Ouyang, J., Li, H., et al. (2024). Integrating ChatGPT in orthopedic education for medical undergraduates: Randomized controlled trial. Journal of Medical Internet Research, 26, e57037. https://doi.org/10.2196/57037
+
+[4] Huang, L., Yu, W., Ma, W., et al. (2024). A survey on hallucination in large language models: Principles, taxonomy, challenges, and open questions. ACM Transactions on Information Systems. https://doi.org/10.1145/3703155
+
+[5] Lewis, P., Perez, E., Piktus, A., et al. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. Advances in Neural Information Processing Systems, 33, 9459-9474.
+
+[6] Jang, D., et al. (2025). MedTutor: A retrieval-augmented LLM system for case-based medical education. Proceedings of EMNLP 2025: System Demonstrations, 319-353. https://doi.org/10.18653/v1/2025.emnlp-demos.24
+
+[7] Greshake, K., Abdelnabi, S., Mishra, S., et al. (2023). Not what you've signed up for: Compromising real-world LLM-integrated applications with indirect prompt injection. Proceedings of the 16th ACM Workshop on Artificial Intelligence and Security (AISec '23), 79-90. https://doi.org/10.48550/arXiv.2302.12173
+
+[8] Geng, T., Xu, Z., Qu, Y., & Wong, W. E. (2026). Prompt injection attacks on large language models: A survey of attack methods, root causes, and defense strategies. Computers, Materials & Continua, 87(1), 4. https://doi.org/10.32604/cmc.2025.074081
+
+[9] Gordon, M., Daniel, M., Ajiboye, A., et al. (2024). A scoping review of artificial intelligence in medical education: BEME Guide No. 84. Medical Teacher, 46(4), 446-470. https://doi.org/10.1080/0142159X.2024.2314198

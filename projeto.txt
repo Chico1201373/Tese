@@ -87,20 +87,18 @@ Avaliação das restrições definidas (e a eliciar e sistematizar), nomeadament
 REFERÊNCIAS BIBLIOGRÁFICAS
 ----------------------------------------------------------------
 
-[1] Abd-alrazaq, A., AlSaad, R., Alhuwail, D., et al. (2023). Large language models in medical education: Opportunities, challenges, and future directions. JMIR Medical Education, 9, e48291. https://doi.org/10.2196/48291
+[1] Abd-alrazaq, A., AlSaad, R., Alhuwail, D., et al. (2023). Large language models in medical education: Opportunities, challenges, and future directions. JMIR Medical Education, 9, e48291. https://mededu.jmir.org/2023/1/e48291
 
-[2] Kasneci, E., Sessler, K., Küchemann, S., et al. (2023). ChatGPT for good? On opportunities and challenges of large language models for education. Learning and Individual Differences, 103, 102274. https://doi.org/10.1016/j.lindif.2023.102274
+[2] Kasneci, E., Sessler, K., Küchemann, S., et al. (2023). ChatGPT for good? On opportunities and challenges of large language models for education. Learning and Individual Differences, 103, 102274. https://linkinghub.elsevier.com/retrieve/pii/S1041608023000195
 
-[3] Gan, W., Ouyang, J., Li, H., et al. (2024). Integrating ChatGPT in orthopedic education for medical undergraduates: Randomized controlled trial. Journal of Medical Internet Research, 26, e57037. https://doi.org/10.2196/57037
+[3] Gan, W., Ouyang, J., Li, H., et al. (2024). Integrating ChatGPT in orthopedic education for medical undergraduates: Randomized controlled trial. Journal of Medical Internet Research, 26, e57037. https://www.jmir.org/2024/1/e57037
 
-[4] Huang, L., Yu, W., Ma, W., et al. (2024). A survey on hallucination in large language models: Principles, taxonomy, challenges, and open questions. ACM Transactions on Information Systems. https://doi.org/10.1145/3703155
+[4] Huang, L., Yu, W., Ma, W., et al. (2024). A survey on hallucination in large language models: Principles, taxonomy, challenges, and open questions. ACM Transactions on Information Systems. https://dl.acm.org/doi/10.1145/3703155
 
-[5] Lewis, P., Perez, E., Piktus, A., et al. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. Advances in Neural Information Processing Systems, 33, 9459-9474.
+[5] Jang, D., et al. (2025). MedTutor: A retrieval-augmented LLM system for case-based medical education. Proceedings of EMNLP 2025: System Demonstrations, 319-353. https://aclanthology.org/2025.emnlp-demos.24/
 
-[6] Jang, D., et al. (2025). MedTutor: A retrieval-augmented LLM system for case-based medical education. Proceedings of EMNLP 2025: System Demonstrations, 319-353. https://doi.org/10.18653/v1/2025.emnlp-demos.24
+[6] Greshake, K., Abdelnabi, S., Mishra, S., et al. (2023). Not what you've signed up for: Compromising real-world LLM-integrated applications with indirect prompt injection. Proceedings of the 16th ACM Workshop on Artificial Intelligence and Security (AISec '23), 79-90. https://arxiv.org/abs/2302.12173
 
-[7] Greshake, K., Abdelnabi, S., Mishra, S., et al. (2023). Not what you've signed up for: Compromising real-world LLM-integrated applications with indirect prompt injection. Proceedings of the 16th ACM Workshop on Artificial Intelligence and Security (AISec '23), 79-90. https://doi.org/10.48550/arXiv.2302.12173
+[7] Geng, T., Xu, Z., Qu, Y., & Wong, W. E. (2026). Prompt injection attacks on large language models: A survey of attack methods, root causes, and defense strategies. Computers, Materials & Continua, 87(1), 4. https://www.techscience.com/cmc/v87n1/66084
 
-[8] Geng, T., Xu, Z., Qu, Y., & Wong, W. E. (2026). Prompt injection attacks on large language models: A survey of attack methods, root causes, and defense strategies. Computers, Materials & Continua, 87(1), 4. https://doi.org/10.32604/cmc.2025.074081
-
-[9] Gordon, M., Daniel, M., Ajiboye, A., et al. (2024). A scoping review of artificial intelligence in medical education: BEME Guide No. 84. Medical Teacher, 46(4), 446-470. https://doi.org/10.1080/0142159X.2024.2314198
+[8] Gordon, M., Daniel, M., Ajiboye, A., et al. (2024). A scoping review of artificial intelligence in medical education: BEME Guide No. 84. Medical Teacher, 46(4), 446-470. https://www.tandfonline.com/doi/full/10.1080/0142159X.2024.2314198

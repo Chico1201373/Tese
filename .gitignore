@@ -1,0 +1,9 @@
+# Python cache
+__pycache__/
+
+# Browser profiles used by papers.py
+browser_profile/
+papers_brower_profile/
+papers_browser_profile/
+papers_firefox_app_profile/
+papers_firefox_profile/

@@ -1,0 +1,5 @@
+Considerações éticas e profissionais
+
+Esta dissertação segue o Software Engineering Code of Ethics and Professional Practice, elaborado pela ACM e pela IEEE Computer Society, considerando os seus princípios relativos ao interesse público, à qualidade do produto, à integridade do julgamento profissional e à responsabilidade dos engenheiros de software. No desenvolvimento do assistente conversacional, estes princípios são aplicados através da limitação das respostas ao contexto autorizado, da avaliação da sua correção e fidelidade, e da documentação das limitações conhecidas do sistema.  
+
+O trabalho observa também o Código de Boas Práticas e de Conduta do P.PORTO, nomeadamente no que respeita à integridade científica, à referenciação das fontes e à proteção da confidencialidade. Caso sejam recolhidos ou tratados dados pessoais durante a avaliação, o plano de recolha, utilização, conservação e eliminação desses dados deverá ser definido de acordo com as regras aplicáveis e com as orientações do ISEP. A utilização de ferramentas de inteligência artificial no protótipo e no processo de desenvolvimento será descrita de forma transparente.

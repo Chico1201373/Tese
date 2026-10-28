@@ -1,8 +1,8 @@
-PWD /Users/franciscoreis/Desktop/tmdei-dissertation-template-main
+PWD /Users/franciscoreis/Desktop/teseDoc/Tese/tmdei-dissertation-template-main
 INPUT /usr/local/texlive/2025/texmf.cnf
 INPUT /usr/local/texlive/2025/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /Users/franciscoreis/Desktop/tmdei-dissertation-template-main/main.tex
+INPUT /Users/franciscoreis/Desktop/teseDoc/Tese/tmdei-dissertation-template-main/main.tex
 OUTPUT main.log
 INPUT ./tmdei-style.cls
 INPUT tmdei-style.cls

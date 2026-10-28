@@ -3,16 +3,14 @@
 \chapter{Estado da Arte} % Main chapter title
 \label{chap:Chapter2} % For referencing the chapter elsewhere, use \ref{chap:Chapter2}
 
-% NOTA: este capítulo segue o protocolo de uma revisão sistematizada (Kitchenham \& Charters; PRISMA 2020).
-% Todos os números (registos, estudos incluídos) são PLACEHOLDERS e só devem ser preenchidos
-% com os valores reais da pesquisa. Documenta sempre as queries, datas e filtros.
-% O gap só deve ser escrito depois da síntese crítica, a partir da evidência.
+% NOTA: capítulo em desenvolvimento. Não inserir resultados, contagens ou lacunas
+% antes de concluir a pesquisa, a seleção e a síntese dos estudos.
 
 %----------------------------------------------------------------------------------------
 \section{Introdução}
 \label{sec:chap2_intro}
 
-Este capítulo resume o conhecimento existente sobre assistentes conversacionais baseados em \glspl{LLM} para apoio ao estudo com perguntas médicas de escolha múltipla, com foco na fidelidade ao contexto, no controlo de âmbito e na avaliação destes sistemas. Serve também para identificar as limitações da literatura que justificam o trabalho desta dissertação (Secção~\ref{sec:chap1_soa}).
+Este capítulo apresenta uma revisão da literatura sobre sistemas conversacionais baseados em \glspl{LLM} que geram respostas condicionadas por um contexto definido. A revisão organiza-se em três dimensões: abordagens técnicas para restringir e fundamentar respostas; métodos de avaliação da fidelidade, factualidade, correção e adesão ao âmbito; e limitações operacionais relativas à fiabilidade, segurança, latência, custo e integração. A síntese será relacionada com o caso de estudo desta dissertação: um assistente para esclarecer dúvidas sobre a pergunta em curso no Adhara QBank.
 
 %----------------------------------------------------------------------------------------
 \section{Protocolo da Revisão}
@@ -21,33 +19,59 @@ Este capítulo resume o conhecimento existente sobre assistentes conversacionais
 \subsection{Questões da Revisão}
 
 \begin{description}
-    \item[RQ-R1] Que abordagens (\emph{prompting}, \gls{RAG}, \emph{fine-tuning}) são usadas em assistentes baseados em \glspl{LLM} para apoio ao estudo com perguntas médicas de escolha múltipla, e como asseguram a correção das respostas?
-    \item[RQ-R2] Como é avaliada a qualidade destes assistentes (correção, fidelidade ao contexto, impacto na aprendizagem, usabilidade) e com que participantes?
-    \item[RQ-R3] Que limitações e lacunas são reportadas?
+    \item[RQ-R1] Que abordagens técnicas são utilizadas para restringir sistemas conversacionais baseados em \glspl{LLM} a um contexto predefinido, e como procuram prevenir ou gerir respostas sem suporte?
+    \item[RQ-R2] Como são avaliadas a fidelidade, a factualidade, a correção e a adesão ao âmbito das respostas geradas?
+    \item[RQ-R3] Que limitações e compromissos operacionais são reportados relativamente à fiabilidade, segurança, latência, custo e integração?
 \end{description}
 
 \subsection{Fontes e Estratégia de Pesquisa}
 
-A pesquisa foi feita nas bases \textbf{[Scopus, Web of Science, IEEE Xplore, PubMed]}, escolhidas pela cobertura de computação e de ciências da saúde; o Google Scholar foi usado apenas para \emph{snowballing}. % TODO: confirmar as bases efetivamente usadas e justificar.
+As fontes de pesquisa previstas são Scopus, IEEE Xplore e ACM Digital Library, para cobrir literatura de computação e engenharia de software. A pesquisa exploratória já iniciada serve para refinar as expressões; a pesquisa final, as datas, os filtros e os números de resultados serão registados separadamente para cada fonte. O \emph{snowballing}, se utilizado, será documentado como método complementar e não misturado com os resultados das bases.
 
-A \emph{string} de pesquisa, organizada em blocos de conceitos (versão inicial, a refinar numa pesquisa piloto), foi:
+As expressões abaixo são versões de trabalho para pesquisa por dimensão. Não utilizam truncagem com \texttt{*}; cada expressão deve ser adaptada à sintaxe específica da fonte e a versão executada deve ser guardada literalmente. O limite de conectores booleanos por campo é respeitado.
 
+\paragraph{RQ-R1 — restrição ao contexto e fundamentação}
 \begin{verbatim}
-("large language model*" OR LLM* OR chatbot* OR "conversational agent*"
-   OR "AI tutor*" OR "intelligent tutoring")
-AND ("medical education" OR "multiple-choice question*" OR MCQ*
-   OR "question bank*" OR "exam preparation" OR "medical student*")
-AND ("grounded generation" OR "context-grounded" OR faithfulness
-   OR hallucination* OR "retrieval-augmented generation"
-   OR "closed-domain question answering")
+TITLE-ABS-KEY(("large language model" OR LLM)
+AND (grounding OR "retrieval-augmented generation" OR "context-aware")
+AND (chatbot OR "conversational system"))
 \end{verbatim}
 
-% TODO: registar, para cada base, a query exata executada, a data e o número de resultados (Tabela).
+\paragraph{RQ-R2 — qualidade, fidelidade e avaliação}
+\begin{verbatim}
+TITLE-ABS-KEY(("large language model" OR LLM)
+AND (faithfulness OR factuality OR groundedness OR correctness)
+AND (evaluation OR assessment OR metric))
+\end{verbatim}
+\begin{verbatim}
+TITLE-ABS-KEY(("large language model" OR LLM)
+AND ("scope adherence" OR abstention OR "out-of-scope")
+AND (evaluation OR benchmark))
+\end{verbatim}
+\begin{verbatim}
+TITLE-ABS-KEY(("large language model" OR LLM)
+AND (faithfulness OR factuality OR correctness OR hallucination)
+AND (benchmark OR "human evaluation" OR rubric))
+\end{verbatim}
+
+\paragraph{RQ-R3 — limitações e compromissos operacionais}
+\begin{verbatim}
+TITLE-ABS-KEY(("large language model" OR LLM)
+AND (reliability OR robustness OR security OR "prompt injection")
+AND (application OR chatbot OR "conversational system"))
+\end{verbatim}
+\begin{verbatim}
+TITLE-ABS-KEY(("large language model" OR LLM)
+AND (latency OR cost OR efficiency)
+AND (integration OR deployment OR architecture))
+\end{verbatim}
+
+As pesquisas exploratórias já realizadas não equivalem à pesquisa final: devem ser repetidas ou confirmadas com filtros consistentes e registadas numa tabela com fonte, expressão exata, data, intervalo temporal, idioma e total apresentado pela fonte.
 
 \subsection{Critérios de Inclusão e Exclusão}
 
 \begin{table}
-\caption{Critérios de inclusão e exclusão (versão inicial).}
+\caption{Critérios de inclusão e exclusão da revisão.}
 \label{tab:criteria}
 \centering
 \small
@@ -55,24 +79,23 @@ AND ("grounded generation" OR "context-grounded" OR faithfulness
 \toprule
 \tabhead{Inclusão} & \tabhead{Exclusão} \\
 \midrule
-Publicação com revisão por pares, 2020--2026 (a justificar) & Duplicados \\
-Língua inglesa & Editoriais, apenas \emph{abstract}, revisões \\
-\gls{LLM} ou assistente conversacional em contexto de estudo ou exame em saúde & Sem componente conversacional (por exemplo, apenas geração de perguntas) \\
-Avaliação empírica e texto completo acessível & Fora do domínio médico/educativo ou sem detalhe metodológico \\
+Publicação entre 27-10-2021 e 27-10-2026, inclusive & Duplicados \\
+Língua inglesa ou portuguesa & Editoriais, opiniões e registos sem informação metodológica suficiente \\
+Estudo primário sobre sistema conversacional baseado em \gls{LLM}, com contexto definido ou avaliação/operação de respostas contextualizadas & Estudos sem relação com respostas fundamentadas em contexto nem com a avaliação/operação destes sistemas \\
+Método, sistema ou avaliação descritos com detalhe suficiente para extrair dados & Revisões excluídas da síntese principal; podem apoiar o enquadramento e o \emph{snowballing} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \subsection{Seleção e Extração de Dados}
 
-A seleção seguiu as fases de identificação, \emph{screening} por título e \emph{abstract}, e avaliação do texto completo, reportadas segundo o PRISMA 2020 \textbf{[CITAR]}. Dos estudos incluídos extraíram-se os campos: estudo e ano; contexto (especialidade, tipo de exame); modelo; abordagem (\emph{prompt}, \gls{RAG}, \emph{fine-tuning}); contexto fornecido ao modelo; método e métricas de avaliação; participantes; resultados e limitações.
+A seleção será conduzida em três etapas: identificação dos registos; triagem de títulos e resumos; e avaliação dos textos integrais. O processo e as exclusões em texto integral serão documentados de acordo com o PRISMA 2020 \textbf{[CITAR]}. Para cada estudo incluído serão extraídos: referência e ano; domínio e aplicação; modelo; abordagem técnica; contexto disponibilizado; mecanismo de controlo ou recusa; método e métricas de avaliação; participantes, quando aplicável; resultados; limitações; e informação sobre latência, custo, segurança e integração, quando reportada.
 
 %----------------------------------------------------------------------------------------
 \section{Resultados da Pesquisa}
 \label{sec:chap2_results}
 
-% TODO: substituir pelos números reais e incluir o diagrama PRISMA (figura em TikZ ou imagem em ch2/assets).
-Foram identificados [N] registos, dos quais [N] após remoção de duplicados; [N] passaram à avaliação do texto completo e [N] estudos foram incluídos na síntese (Figura~\ref{fig:prisma}).
+A pesquisa e a seleção dos estudos ainda estão em curso. Por esse motivo, este capítulo não apresenta contagens nem um diagrama de fluxo como resultados finais. Após a execução final das pesquisas, serão registados os resultados por fonte, a remoção de duplicados, as decisões de seleção por título e resumo, a avaliação do texto integral e os estudos incluídos. O diagrama PRISMA será inserido depois de estes valores serem confirmados.
 
 % \begin{figure}[t]
 % \centering

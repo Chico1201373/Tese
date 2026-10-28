@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.11.5)  12 OCT 2026 14:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.11.5)  28 OCT 2026 11:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/Users/franciscoreis/Desktop/tmdei-dissertation-template-main/main.tex
-(/Users/franciscoreis/Desktop/tmdei-dissertation-template-main/main.tex
+**/Users/franciscoreis/Desktop/teseDoc/Tese/tmdei-dissertation-template-main/main.tex
+(/Users/franciscoreis/Desktop/teseDoc/Tese/tmdei-dissertation-template-main/main.tex
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
 (./tmdei-style.cls
@@ -1499,62 +1499,62 @@ LaTeX Warning: Reference `chap:Chapter5' on page 3 undefined on input line 89.
 
 ]
 Cap\'{\i }tulo 2.
-LaTeX Font Info:    Trying to load font information for T1+cmtl on input line 35.
+LaTeX Font Info:    Trying to load font information for T1+cmtl on input line 31.
 (/usr/local/texlive/2025/texmf-dist/tex/latex/cmbright/t1cmtl.fd
 File: t1cmtl.fd 2005/04/13 v8.1 (WaS)
 )
 
-LaTeX Font Warning: Font shape `T1/cmbr/m/sc' undefined
-(Font)              using `T1/cmbr/m/n' instead on input line 50.
-
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 54.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 54.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 54.
-LaTeX Font Info:    Font shape `T1/cmbr/b/n' in size <10> not available
-(Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 56.
-LaTeX Font Info:    Font shape `T1/cmbr/m/it' in size <10> not available
-(Font)              Font shape `T1/cmbr/m/sl' tried instead on input line 59.
-
-
 [5]
 
-LaTeX Warning: Reference `fig:prisma' on page 6 undefined on input line 75.
+LaTeX Font Warning: Font shape `T1/cmbr/m/sc' undefined
+(Font)              using `T1/cmbr/m/n' instead on input line 74.
 
-) (./ch3/chapter3.tex
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 78.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 78.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 78.
+LaTeX Font Info:    Font shape `T1/cmbr/b/n' in size <10> not available
+(Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 80.
+LaTeX Font Info:    Font shape `T1/cmbr/m/it' in size <10> not available
+(Font)              Font shape `T1/cmbr/m/sl' tried instead on input line 85.
 
-[6]
+
+[6]) (./ch3/chapter3.tex
+
+[7]
+
+[8
+
+]
 Cap\'{\i }tulo 3.
 
 
-[7
-
-]
+[9]
 
 LaTeX Font Warning: Font shape `T1/cmbr/b/it' undefined
 (Font)              using `T1/cmbr/b/n' instead on input line 75.
 
 
-LaTeX Warning: Reference `chap:Chapter4' on page 8 undefined on input line 103.
+LaTeX Warning: Reference `chap:Chapter4' on page 10 undefined on input line 103.
 
 )
 
-[8]
+[10]
 
 LaTeX Warning: Empty bibliography on input line 131.
 
 (./appendices/appendixA.tex
 
-[9]
+[11]
 
-[10
+[12
 
 ]
 Ap\^endice A.
 
-LaTeX Warning: Reference `chap:Chapter4' on page 11 undefined on input line 7.
+LaTeX Warning: Reference `chap:Chapter4' on page 13 undefined on input line 7.
 
 LaTeX Font Info:    Font shape `TS1/cmbr/b/n' in size <10> not available
 (Font)              Font shape `TS1/cmbr/bx/n' tried instead on input line 16.
@@ -1565,9 +1565,9 @@ Underfull \hbox (badness 1448) in paragraph at lines 19--20
 
 )
 
-[11]
+[13]
 
-[12] (./main.aux)
+[14] (./main.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2020/03/25>
@@ -1580,24 +1580,24 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: E5F53855633E623AE8D94325AB0E5917;6098.
+(rerunfilecheck)             Checksum: 04296566EE448E70B3E9A29FD431FA22;6098.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 58870 strings out of 473190
- 1392032 string characters out of 5715800
- 2356253 words of memory out of 5000000
- 81248 multiletter control sequences out of 15000+600000
+ 58874 strings out of 473190
+ 1392106 string characters out of 5715800
+ 2356247 words of memory out of 5000000
+ 81247 multiletter control sequences out of 15000+600000
  577302 words of font info for 74 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 101i,20n,131p,2413b,2790s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 101i,20n,131p,2426b,2790s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbbx10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbmo10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbtl10.pfb>
-Output written on main.pdf (30 pages, 126702 bytes).
+Output written on main.pdf (32 pages, 129975 bytes).
 PDF statistics:
- 401 PDF objects out of 1000 (max. 8388607)
- 353 compressed objects within 4 object streams
- 87 named destinations out of 1000 (max. 500000)
+ 414 PDF objects out of 1000 (max. 8388607)
+ 364 compressed objects within 4 object streams
+ 92 named destinations out of 1000 (max. 500000)
  306 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -8,7 +8,7 @@
 \contentsline {section}{\numberline {1.3}Objetivos}{2}{section.15}%
 \contentsline {section}{\numberline {1.4}Questões de Investigação e Metodologia}{2}{section.21}%
 \contentsline {section}{\numberline {1.5}Estado da Arte e Enquadramento do Trabalho}{2}{section.22}%
-\contentsline {paragraph}{IA como apoio à aprendizagem.}{2}{section*.23}%
+\contentsline {paragraph}{IA como apoio à aprendizagem.}{3}{section*.23}%
 \contentsline {paragraph}{Fiabilidade e validação.}{3}{section*.24}%
 \contentsline {paragraph}{Enquadramento.}{3}{section*.25}%
 \contentsline {section}{\numberline {1.6}Contribuições}{3}{section.26}%
@@ -18,23 +18,26 @@
 \contentsline {section}{\numberline {2.2}Protocolo da Revisão}{5}{section.30}%
 \contentsline {subsection}{\numberline {2.2.1}Questões da Revisão}{5}{subsection.31}%
 \contentsline {subsection}{\numberline {2.2.2}Fontes e Estratégia de Pesquisa}{5}{subsection.32}%
-\contentsline {subsection}{\numberline {2.2.3}Critérios de Inclusão e Exclusão}{6}{subsection.33}%
-\contentsline {subsection}{\numberline {2.2.4}Seleção e Extração de Dados}{6}{subsection.35}%
-\contentsline {section}{\numberline {2.3}Resultados da Pesquisa}{6}{section.36}%
-\contentsline {section}{\numberline {2.4}Síntese Crítica}{6}{section.37}%
-\contentsline {subsection}{\numberline {2.4.1}Abordagens}{6}{subsection.38}%
-\contentsline {subsection}{\numberline {2.4.2}Avaliação}{6}{subsection.39}%
-\contentsline {subsection}{\numberline {2.4.3}Controlo de Âmbito e Segurança}{6}{subsection.40}%
-\contentsline {subsection}{\numberline {2.4.4}Limitações Reportadas}{6}{subsection.41}%
-\contentsline {section}{\numberline {2.5}Lacuna de Investigação}{6}{section.42}%
-\contentsline {section}{\numberline {2.6}Conclusões do Capítulo}{6}{section.43}%
-\contentsline {chapter}{\numberline {3}Desenho da Solução}{7}{chapter.44}%
-\contentsline {section}{\numberline {3.1}Requisitos}{7}{section.45}%
-\contentsline {subsection}{\numberline {3.1.1}Requisitos Funcionais}{7}{subsection.46}%
-\contentsline {subsection}{\numberline {3.1.2}Requisitos Não Funcionais}{7}{subsection.47}%
-\contentsline {section}{\numberline {3.2}Contexto de Cada Pergunta}{8}{section.48}%
-\contentsline {section}{\numberline {3.3}Arquitetura}{8}{section.49}%
-\contentsline {section}{\numberline {3.4}Estratégias de \emph {Prompting} e Restrições}{8}{section.51}%
-\contentsline {section}{\numberline {3.5}Verificações Fora do Modelo}{8}{section.52}%
-\contentsline {section}{\numberline {3.6}Escolha do Modelo}{9}{section.53}%
-\contentsline {chapter}{Ap\^endice \numberline {A}Conjunto de Testes do Assistente}{11}{appendix.54}%
+\contentsline {paragraph}{RQ-R1 — restrição ao contexto e fundamentação}{6}{section*.33}%
+\contentsline {paragraph}{RQ-R2 — qualidade, fidelidade e avaliação}{6}{section*.34}%
+\contentsline {paragraph}{RQ-R3 — limitações e compromissos operacionais}{6}{section*.35}%
+\contentsline {subsection}{\numberline {2.2.3}Critérios de Inclusão e Exclusão}{7}{subsection.36}%
+\contentsline {subsection}{\numberline {2.2.4}Seleção e Extração de Dados}{7}{subsection.38}%
+\contentsline {section}{\numberline {2.3}Resultados da Pesquisa}{7}{section.39}%
+\contentsline {section}{\numberline {2.4}Síntese Crítica}{7}{section.40}%
+\contentsline {subsection}{\numberline {2.4.1}Abordagens}{7}{subsection.41}%
+\contentsline {subsection}{\numberline {2.4.2}Avaliação}{7}{subsection.42}%
+\contentsline {subsection}{\numberline {2.4.3}Controlo de Âmbito e Segurança}{7}{subsection.43}%
+\contentsline {subsection}{\numberline {2.4.4}Limitações Reportadas}{7}{subsection.44}%
+\contentsline {section}{\numberline {2.5}Lacuna de Investigação}{7}{section.45}%
+\contentsline {section}{\numberline {2.6}Conclusões do Capítulo}{7}{section.46}%
+\contentsline {chapter}{\numberline {3}Desenho da Solução}{9}{chapter.47}%
+\contentsline {section}{\numberline {3.1}Requisitos}{9}{section.48}%
+\contentsline {subsection}{\numberline {3.1.1}Requisitos Funcionais}{9}{subsection.49}%
+\contentsline {subsection}{\numberline {3.1.2}Requisitos Não Funcionais}{9}{subsection.50}%
+\contentsline {section}{\numberline {3.2}Contexto de Cada Pergunta}{10}{section.51}%
+\contentsline {section}{\numberline {3.3}Arquitetura}{10}{section.52}%
+\contentsline {section}{\numberline {3.4}Estratégias de \emph {Prompting} e Restrições}{10}{section.54}%
+\contentsline {section}{\numberline {3.5}Verificações Fora do Modelo}{10}{section.55}%
+\contentsline {section}{\numberline {3.6}Escolha do Modelo}{11}{section.56}%
+\contentsline {chapter}{Ap\^endice \numberline {A}Conjunto de Testes do Assistente}{13}{appendix.57}%

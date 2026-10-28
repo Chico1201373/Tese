@@ -24,7 +24,7 @@ Na base de dados do QBank, cada pergunta pode incluir, além do enunciado e da r
 
 Durante a resolução de uma pergunta no Adhara QBank, o estudante pode precisar de esclarecer aspetos que não são cobertos pela explicação apresentada no ecrã, por exemplo, porque uma determinada opção de resposta está errada. Embora a base de dados contenha informação adicional associada à pergunta, o estudante não dispõe de uma forma integrada de a consultar através de perguntas em linguagem natural. Recorrer a fontes externas ou a assistentes genéricos pode produzir respostas que não correspondem ao conteúdo validado do item ou que introduzem informação alheia ao contexto.
 
-O problema abordado nesta dissertação é, assim, a dificuldade de obter esclarecimentos adicionais, relevantes e fiáveis sobre uma pergunta durante a sua resolução, apesar de existir informação estruturada sobre essa pergunta na base de dados do QBank. Este problema é agravado pela necessidade de apoiar perguntas em várias línguas e de evitar respostas a questões que não possam ser sustentadas pelo conteúdo associado ao item.
+O problema abordado nesta dissertação é, assim, a dificuldade de obter esclarecimentos adicionais, relevantes e fiáveis sobre uma pergunta durante a sua resolução, apesar de existir informação estruturada sobre essa pergunta na base de dados do QBank. Este problema é agravado pela necessidade de apoiar perguntas em várias línguas e de evitar respostas a questões que não possam ser sustentadas pelo conteúdo associado ao item. O âmbito funcional definido para a solução abrange os modos Teste e Estudo; o assistente não estará disponível no modo Simulado. A resposta também deverá respeitar as regras do modo e o estado de revelação da resposta correta.
 
 
 %-------------------------------------------------------------------------------
@@ -49,12 +49,12 @@ Para o atingir, definem-se os seguintes objetivos específicos:
 
 Este trabalho procura responder às seguintes questões de investigação (\emph{Research Questions}, RQ):
 \begin{description}
-    \item[RQ1] Que estratégias permitem gerar respostas fiéis à informação associada a uma pergunta do QBank, em várias línguas?
-    \item[RQ2] Como pode o assistente identificar questões sem suporte no contexto da pergunta e evitar responder para além da informação disponível?
-    \item[RQ3] Qual é a correção, a utilidade percebida e o desempenho do assistente durante a resolução de perguntas?
+    \item[RQ1] Que abordagens técnicas permitem restringir sistemas conversacionais baseados em \glspl{LLM} a um contexto predefinido e reduzir respostas sem suporte?
+    \item[RQ2] Como são avaliadas a fidelidade, a factualidade, a correção e a adesão ao âmbito das respostas geradas por estes sistemas?
+    \item[RQ3] Que limitações e compromissos operacionais são reportados quanto à fiabilidade, segurança, latência, custo e integração destes sistemas?
 \end{description}
 
-A metodologia seguida é a \gls{DSR} \textbf{[CITAR]}, organizada em levantamento de requisitos, revisão do estado da arte, desenho da abordagem, implementação e avaliação. A avaliação técnica usará perguntas respondíveis e não respondíveis a partir dos dados de cada item, em várias línguas, e analisará a correção, a fidelidade ao contexto e a recusa. A utilidade do assistente será também avaliada com utilizadores e, quando aplicável, especialistas da Adhara.
+O desenvolvimento da solução segue a metodologia \gls{DSR} \textbf{[CITAR]}, organizada em identificação do problema, definição de objetivos, desenho e desenvolvimento do artefacto, demonstração e avaliação. O estado da arte é conduzido segundo o protocolo de revisão descrito no Capítulo~\ref{chap:Chapter2}. A avaliação técnica deverá incluir perguntas respondíveis e não respondíveis com base nos dados de cada item, em várias línguas, analisando correção, fidelidade ao contexto e recusa. A avaliação com utilizadores e/ou especialistas dependerá do protocolo acordado com a Adhara e das aprovações institucionais aplicáveis.
 
 
 %-------------------------------------------------------------------------------

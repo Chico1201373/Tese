@@ -55,7 +55,7 @@ OpenAlex pode ser usado para descoberta complementar e pesquisa de citações, s
 
 Cada expressão abaixo tem no máximo oito operadores booleanos. As pesquisas temáticas são separadas para manter a consulta legível e reduzir a perda de estudos por uma combinação demasiado restritiva.
 
-### RQ1 — Mecanismos de contextualização
+### RQ1 — Contextualização e compromissos operacionais
 
 **RQ1a — Contexto, grounding e sistemas conversacionais (8 operadores)**
 
@@ -67,6 +67,18 @@ Cada expressão abaixo tem no máximo oito operadores booleanos. As pesquisas te
 
 ```text
 ("large language model" OR LLM) AND ("database retrieval" OR "context injection" OR "knowledge base") AND (chatbot OR "question answering")
+```
+
+**RQ1c — Fiabilidade e segurança (7 operadores)**
+
+```text
+("large language model" OR LLM) AND (reliability OR robustness OR security OR "prompt injection") AND (chatbot OR "conversational system")
+```
+
+**RQ1d — Desempenho, custos e integração (7 operadores)**
+
+```text
+("large language model" OR LLM) AND (latency OR cost OR efficiency) AND (integration OR deployment OR architecture)
 ```
 
 ### RQ2 — Avaliação de respostas
@@ -83,19 +95,7 @@ Cada expressão abaixo tem no máximo oito operadores booleanos. As pesquisas te
 ("large language model" OR LLM) AND ("out-of-scope" OR abstention) AND (evaluation OR benchmark)
 ```
 
-### RQ1 — Limitações e compromissos operacionais
-
-**RQ1c — Fiabilidade e segurança (7 operadores)**
-
-```text
-("large language model" OR LLM) AND (reliability OR robustness OR security OR "prompt injection") AND (chatbot OR "conversational system")
-```
-
-**RQ1d — Desempenho, custos e integração (7 operadores)**
-
-```text
-("large language model" OR LLM) AND (latency OR cost OR efficiency) AND (integration OR deployment OR architecture)
-```
+As pesquisas exploratórias anteriores usaram outra estrutura (RQ1/RQ2/RQ3). Os seus totais não devem ser reutilizados como resultados finais; é necessário executar estas seis expressões nas três fontes e registar os novos números.
 
 ### Adaptação da sintaxe por fonte
 

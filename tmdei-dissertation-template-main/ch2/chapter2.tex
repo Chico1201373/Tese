@@ -19,9 +19,8 @@ Este capítulo apresenta uma revisão da literatura sobre sistemas conversaciona
 \subsection{Questões da Revisão}
 
 \begin{description}
-    \item[RQ-R1] Que abordagens técnicas são utilizadas para restringir sistemas conversacionais baseados em \glspl{LLM} a um contexto predefinido, e como procuram prevenir ou gerir respostas sem suporte?
-    \item[RQ-R2] Como são avaliadas a fidelidade, a factualidade, a correção e a adesão ao âmbito das respostas geradas?
-    \item[RQ-R3] Que limitações e compromissos operacionais são reportados relativamente à fiabilidade, segurança, latência, custo e integração?
+    \item[RQ-R1] Como utilizam os sistemas conversacionais baseados em \glspl{LLM} um contexto específico da aplicação para limitar as respostas, e que compromissos operacionais são reportados para essas abordagens?
+    \item[RQ-R2] Como são avaliadas, nestes sistemas, a correção factual, a fidelidade ao contexto fornecido e a adesão ao âmbito definido?
 \end{description}
 
 \subsection{Fontes e Estratégia de Pesquisa}
@@ -30,40 +29,46 @@ As fontes de pesquisa previstas são Scopus, IEEE Xplore e ACM Digital Library, 
 
 As expressões abaixo são versões de trabalho para pesquisa por dimensão. Não utilizam truncagem com \texttt{*}; cada expressão deve ser adaptada à sintaxe específica da fonte e a versão executada deve ser guardada literalmente. O limite de conectores booleanos por campo é respeitado.
 
-\paragraph{RQ-R1 — restrição ao contexto e fundamentação}
+\paragraph{RQ-R1a — contexto e sistemas conversacionais}
 \begin{verbatim}
 TITLE-ABS-KEY(("large language model" OR LLM)
-AND (grounding OR "retrieval-augmented generation" OR "context-aware")
-AND (chatbot OR "conversational system"))
+AND (grounding OR "prompt context" OR "retrieval-augmented generation" OR "context-aware")
+AND (chatbot OR "conversational system" OR "question answering"))
 \end{verbatim}
 
-\paragraph{RQ-R2 — qualidade, fidelidade e avaliação}
+\paragraph{RQ-R1b — recuperação de bases de dados e knowledge bases}
 \begin{verbatim}
 TITLE-ABS-KEY(("large language model" OR LLM)
-AND (faithfulness OR factuality OR groundedness OR correctness)
-AND (evaluation OR assessment OR metric))
-\end{verbatim}
-\begin{verbatim}
-TITLE-ABS-KEY(("large language model" OR LLM)
-AND ("scope adherence" OR abstention OR "out-of-scope")
-AND (evaluation OR benchmark))
-\end{verbatim}
-\begin{verbatim}
-TITLE-ABS-KEY(("large language model" OR LLM)
-AND (faithfulness OR factuality OR correctness OR hallucination)
-AND (benchmark OR "human evaluation" OR rubric))
+AND ("database retrieval" OR "context injection" OR "knowledge base")
+AND (chatbot OR "question answering"))
 \end{verbatim}
 
-\paragraph{RQ-R3 — limitações e compromissos operacionais}
+\paragraph{RQ-R1c — fiabilidade e segurança}
 \begin{verbatim}
 TITLE-ABS-KEY(("large language model" OR LLM)
 AND (reliability OR robustness OR security OR "prompt injection")
-AND (application OR chatbot OR "conversational system"))
+AND (chatbot OR "conversational system"))
 \end{verbatim}
+
+\paragraph{RQ-R1d — desempenho, custos e integração}
 \begin{verbatim}
 TITLE-ABS-KEY(("large language model" OR LLM)
 AND (latency OR cost OR efficiency)
 AND (integration OR deployment OR architecture))
+\end{verbatim}
+
+\paragraph{RQ-R2a — correção e fidelidade}
+\begin{verbatim}
+TITLE-ABS-KEY(("large language model" OR LLM)
+AND (faithfulness OR factuality OR correctness OR "scope adherence")
+AND (evaluation OR benchmark))
+\end{verbatim}
+
+\paragraph{RQ-R2b — abstenção e perguntas fora do âmbito}
+\begin{verbatim}
+TITLE-ABS-KEY(("large language model" OR LLM)
+AND ("out-of-scope" OR abstention)
+AND (evaluation OR benchmark))
 \end{verbatim}
 
 As pesquisas exploratórias já realizadas não equivalem à pesquisa final: devem ser repetidas ou confirmadas com filtros consistentes e registadas numa tabela com fonte, expressão exata, data, intervalo temporal, idioma e total apresentado pela fonte.

@@ -51,20 +51,35 @@ QUERIES = {
         "q": '("large language model" OR LLM) AND ("intelligent tutoring system" OR "educational question answering" '
              'OR "medical education" OR "learning platform")',
     },
-    "RQ1": {
-        "title": "Abordagens para restringir as respostas ao contexto",
-        "q": '("large language model" OR LLM) AND (grounding OR "retrieval-augmented generation" OR "context-aware") '
+    "RQ1a": {
+        "title": "Contexto, grounding e sistemas conversacionais",
+        "q": '("large language model" OR LLM) AND (grounding OR "prompt context" OR "retrieval-augmented generation" OR "context-aware") '
+             'AND (chatbot OR "conversational system" OR "question answering")',
+    },
+    "RQ1b": {
+        "title": "Recuperação de bases de dados e knowledge bases",
+        "q": '("large language model" OR LLM) AND ("database retrieval" OR "context injection" OR "knowledge base") '
+             'AND (chatbot OR "question answering")',
+    },
+    "RQ1c": {
+        "title": "Fiabilidade e segurança",
+        "q": '("large language model" OR LLM) AND (reliability OR robustness OR security OR "prompt injection") '
              'AND (chatbot OR "conversational system")',
     },
-    "RQ2": {
-        "title": "Fidelidade, correção e respostas fora do âmbito",
-        "q": '("large language model" OR LLM) AND (faithfulness OR factuality OR correctness OR "scope adherence" '
-             'OR abstention) AND (evaluation OR benchmark)',
+    "RQ1d": {
+        "title": "Desempenho, custos e integração",
+        "q": '("large language model" OR LLM) AND (latency OR cost OR efficiency) '
+             'AND (integration OR deployment OR architecture)',
     },
-    "RQ3": {
-        "title": "Limitações e compromissos operacionais",
-        "q": '("large language model" OR LLM) AND (reliability OR robustness OR security OR "prompt injection" '
-             'OR latency OR cost OR integration)',
+    "RQ2a": {
+        "title": "Correção factual e fidelidade ao contexto",
+        "q": '("large language model" OR LLM) AND (faithfulness OR factuality OR correctness OR "scope adherence") '
+             'AND (evaluation OR benchmark)',
+    },
+    "RQ2b": {
+        "title": "Abstenção e perguntas fora do âmbito",
+        "q": '("large language model" OR LLM) AND ("out-of-scope" OR abstention) '
+             'AND (evaluation OR benchmark)',
     },
 }
 
@@ -630,7 +645,8 @@ def main():
     ap.add_argument("--mode", choices=["openalex", "browser", "none"], default="browser",
                     help="browser = pesquisa nativa (padrão); openalex = API por prefixo DOI; none = só usa --import")
     ap.add_argument("--sites", default="sciencedirect,ieee,acm")
-    ap.add_argument("--queries", default="RQ1,RQ2,RQ3", help="ex.: CTX,RQ1,RQ2,RQ3")
+    ap.add_argument("--queries", default="RQ1a,RQ1b,RQ1c,RQ1d,RQ2a,RQ2b",
+                    help="ex.: RQ1a,RQ1b,RQ1c,RQ1d,RQ2a,RQ2b (CTX é exploratória)")
     ap.add_argument("--queries-file", help="JSON {chave: {title, q}} para substituir/acrescentar queries")
     ap.add_argument("--from-date", default="2021-10-27", help="AAAA-MM-DD (critério registado)")
     ap.add_argument("--to-date", default="2026-10-27", help="AAAA-MM-DD")

@@ -1,0 +1,18 @@
+# Registo do piloto de pesquisa
+
+**Objetivo:** validar as seis expressões antes da pesquisa final. Este registo é apenas do piloto; não é o registo PRISMA final.
+**Intervalo previsto:** 2021–2026 na interface; confirmar manualmente que os artigos respeitam 27-10-2021 a 27-10-2026.
+**Fonte deste piloto:** ScienceDirect, usando a interface/URL que já estavas a utilizar. Na tentativa em Chromium de 29-10-2026, a pesquisa RQ1a devolveu HTTP 403; não houve resultados nem contagem válidos. Interrompi as restantes para não registar zeros falsos. A tentativa com o perfil Firefox ainda não foi feita: o Firefox está ativo e o perfil normal está bloqueado para uso simultâneo. O script foi preparado para usar esse perfil quando o Firefox estiver totalmente fechado.
+
+| ID | RQ | Pesquisa na interface | Total indicado | Relevantes nos primeiros 20–30 | Ruído/termos em falta |
+|---|---|---|---:|---|---|
+| RQ1a | RQ1 | [Abrir pesquisa](https://www.sciencedirect.com/search?qs=TITLE-ABS-KEY%28%28%22large%20language%20model%22%20OR%20LLM%29%20AND%20%28grounding%20OR%20%22prompt%20context%22%20OR%20%22retrieval-augmented%20generation%22%20OR%20%22context-aware%22%29%20AND%20%28chatbot%20OR%20%22conversational%20system%22%20OR%20%22question%20answering%22%29%29&years=2021%2C2022%2C2023%2C2024%2C2025%2C2026&show=100&offset=0) | HTTP 403 — não obtido | não inspecionado | bloqueio de acesso |
+| RQ1b | RQ1 | [Abrir pesquisa](https://www.sciencedirect.com/search?qs=TITLE-ABS-KEY%28%28%22large%20language%20model%22%20OR%20LLM%29%20AND%20%28%22database%20retrieval%22%20OR%20%22context%20injection%22%20OR%20%22knowledge%20base%22%29%20AND%20%28chatbot%20OR%20%22question%20answering%22%29%29&years=2021%2C2022%2C2023%2C2024%2C2025%2C2026&show=100&offset=0) | a preencher | a preencher | a preencher |
+| RQ1c | RQ1 | [Abrir pesquisa](https://www.sciencedirect.com/search?qs=TITLE-ABS-KEY%28%28%22large%20language%20model%22%20OR%20LLM%29%20AND%20%28reliability%20OR%20robustness%20OR%20security%20OR%20%22prompt%20injection%22%29%20AND%20%28chatbot%20OR%20%22conversational%20system%22%29%29&years=2021%2C2022%2C2023%2C2024%2C2025%2C2026&show=100&offset=0) | a preencher | a preencher | a preencher |
+| RQ1d | RQ1 | [Abrir pesquisa](https://www.sciencedirect.com/search?qs=TITLE-ABS-KEY%28%28%22large%20language%20model%22%20OR%20LLM%29%20AND%20%28latency%20OR%20cost%20OR%20efficiency%29%20AND%20%28integration%20OR%20deployment%20OR%20architecture%29%29&years=2021%2C2022%2C2023%2C2024%2C2025%2C2026&show=100&offset=0) | a preencher | a preencher | a preencher |
+| RQ2a | RQ2 | [Abrir pesquisa](https://www.sciencedirect.com/search?qs=TITLE-ABS-KEY%28%28%22large%20language%20model%22%20OR%20LLM%29%20AND%20%28faithfulness%20OR%20factuality%20OR%20correctness%20OR%20%22scope%20adherence%22%29%20AND%20%28evaluation%20OR%20benchmark%29%29&years=2021%2C2022%2C2023%2C2024%2C2025%2C2026&show=100&offset=0) | a preencher | a preencher | a preencher |
+| RQ2b | RQ2 | [Abrir pesquisa](https://www.sciencedirect.com/search?qs=TITLE-ABS-KEY%28%28%22large%20language%20model%22%20OR%20LLM%29%20AND%20%28%22out-of-scope%22%20OR%20abstention%29%20AND%20%28evaluation%20OR%20benchmark%29%29&years=2021%2C2022%2C2023%2C2024%2C2025%2C2026&show=100&offset=0) | a preencher | a preencher | a preencher |
+
+## Nota de execução
+
+Para cada ligação, registar a contagem apresentada pela fonte e inspecionar 20–30 títulos/resumos. Guardar a data, os filtros efetivamente aplicados e os registos relevantes e irrelevantes. Não usar estes números como contagens finais do PRISMA até validar as expressões e executar a pesquisa final.

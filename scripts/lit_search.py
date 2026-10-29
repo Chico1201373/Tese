@@ -18,6 +18,7 @@ USO
   pip install requests playwright
   playwright install chromium
   python lit_search.py --mode browser --csv --pages 20 --max 1000
+  python lit_search.py --mode browser --browser firefox --csv --pages 1 --max 30
   # Abre as pesquisas nativas; pode ser necessário iniciar sessão em cada site.
   # Recolhe títulos e totais visíveis; não recolhe resumos nem substitui a exportação RIS.
   python lit_search.py --mode openalex --max 1000 --csv  # API OpenAlex, não pesquisa nativa
@@ -25,6 +26,7 @@ USO
 """
 import argparse
 import csv
+import configparser
 import html
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import json
@@ -32,6 +34,7 @@ import os
 import random
 import re
 import sys
+import subprocess
 import time
 import unicodedata
 import urllib.parse
@@ -417,8 +420,44 @@ RESULT_SELECTORS = {
 }
 HOMES = {"sciencedirect": "https://www.sciencedirect.com/", "ieee": "https://ieeexplore.ieee.org/",
          "acm": "https://dl.acm.org/"}
-BLOCK_HINTS = ("just a moment", "access denied", "captcha", "unusual traffic", "verify you are human",
+BLOCK_HINTS = ("just a moment", "captcha", "unusual traffic", "verify you are human",
                "are you a robot", "request blocked")
+ACCESS_ERROR_HINTS = ("there was a problem providing the content you requested", "access denied", "403 forbidden")
+
+
+def firefox_default_profile():
+    """Resolve o perfil normal selecionado pela instalação Firefox no macOS."""
+    root = Path.home() / "Library/Application Support/Firefox"
+    ini = root / "profiles.ini"
+    if not ini.exists():
+        raise RuntimeError(f"Não encontrei os perfis Firefox em {ini}")
+    config = configparser.ConfigParser()
+    config.read(ini)
+    for section in config.sections():
+        if section.startswith("Install") and config.has_option(section, "Default"):
+            candidate = root / config.get(section, "Default")
+            if candidate.is_dir():
+                return candidate
+    for section in config.sections():
+        if section.startswith("Profile") and config.get(section, "Default", fallback="0") == "1":
+            value = config.get(section, "Path")
+            candidate = root / value if config.get(section, "IsRelative", fallback="1") == "1" else Path(value)
+            if candidate.is_dir():
+                return candidate
+    raise RuntimeError("Não consegui identificar o perfil normal do Firefox.")
+
+
+def unlock_stale_firefox_profile(profile):
+    """Só remove lock antigo depois de confirmar que o Firefox não está a usar o perfil."""
+    proc_list = subprocess.run(["ps", "-axo", "command"], capture_output=True, text=True, check=True).stdout
+    active = any(line.startswith("/Applications/Firefox.app/Contents/MacOS/firefox")
+                 for line in proc_list.splitlines())
+    if active:
+        raise RuntimeError("O Firefox está aberto com este perfil. Fecha-o pelo menu Firefox > Sair e tenta de novo.")
+    for lock_name in (".parentlock", "parent.lock"):
+        lock = profile / lock_name
+        if lock.exists() or lock.is_symlink():
+            lock.unlink()
 
 
 def build_url(site, query, page_no, y0, y1):
@@ -468,42 +507,92 @@ def extract_result_total(text):
 
 
 def run_browser(args, queries, sites, d0, d1):
-    try:
-        from playwright.sync_api import sync_playwright
-    except ImportError:
-        sys.exit("Falta o Playwright: pip install playwright && playwright install chromium")
     y0, y1 = int(d0[:4]), int(d1[:4])
     limit = HARD_CAP if args.max == 0 else min(args.max, HARD_CAP)
     collected = []
-    with sync_playwright() as p:
-        ctx = p.chromium.launch_persistent_context(str(Path(args.profile).resolve()), headless=False,
-                                                   viewport={"width": 1280, "height": 900})
-        page = ctx.pages[0] if ctx.pages else ctx.new_page()
+    firefox = args.browser == "firefox"
+    ctx = page = driver = playwright_manager = None
+    leave_firefox_open = False
+    by = None
+    try:
+        if firefox:
+            try:
+                from selenium import webdriver
+                from selenium.webdriver.common.by import By
+                from selenium.webdriver.firefox.options import Options
+                profile = Path(args.profile).expanduser().resolve() if args.profile else firefox_default_profile()
+                unlock_stale_firefox_profile(profile)
+                options = Options()
+                options.binary_location = "/Applications/Firefox.app/Contents/MacOS/firefox"
+                options.add_argument("-no-remote")
+                options.add_argument("-profile")
+                options.add_argument(str(profile))
+                driver = webdriver.Firefox(options=options)
+                by = By
+            except ImportError as exc:
+                sys.exit(f"Falta o Selenium para Firefox: {exc}")
+            except Exception as exc:
+                sys.exit(f"Não foi possível abrir o perfil normal do Firefox: {exc}")
+        else:
+            try:
+                from playwright.sync_api import sync_playwright
+                playwright_manager = sync_playwright()
+                p = playwright_manager.start()
+                profile = args.profile or "browser_profile"
+                ctx = p.chromium.launch_persistent_context(str(Path(profile).resolve()), headless=False,
+                                                           viewport={"width": 1280, "height": 900})
+                page = ctx.pages[0] if ctx.pages else ctx.new_page()
+            except ImportError:
+                sys.exit("Falta o Playwright: pip install playwright && playwright install chromium")
+
         for s in sites:
-            page.goto(HOMES[s], wait_until="domcontentloaded")
-            input(f"\n[{SITES[s]['label']}] Faz login (se necessário), aceita cookies e prime Enter... ")
+            if firefox:
+                driver.get(HOMES[s])
+            else:
+                page.goto(HOMES[s], wait_until="domcontentloaded")
+            input(f"\n[{SITES[s]['label']}] Confirma que o Firefox está pronto e prime Enter... ")
             for rq in queries:
                 print(f"== {SITES[s]['label']} / {rq}")
                 seen, records, total = {}, [], None
                 for n in range(1, args.pages + 1):
                     if len(records) >= limit:
                         break
-                    response = page.goto(build_url(s, queries[rq]["q"], n, y0, y1),
-                                         wait_until="domcontentloaded")
-                    try:
-                        page.wait_for_selector(RESULT_SELECTORS[s], timeout=15000)
-                    except Exception:
-                        pass
-                    page.wait_for_timeout(1500)
-                    body = page.inner_text("body") if page.query_selector("body") else ""
-                    head = page.title() + " " + body[:1200]
-                    status = response.status if response else None
+                    url = build_url(s, queries[rq]["q"], n, y0, y1)
+                    if firefox:
+                        driver.get(url)
+                        time.sleep(2)
+                        body = driver.find_element(by.TAG_NAME, "body").text
+                        title, current_url, status = driver.title, driver.current_url, None
+                        pairs = [(a.get_attribute("href"), a.text) for a in driver.find_elements(by.CSS_SELECTOR, "a[href]")]
+                    else:
+                        response = page.goto(url, wait_until="domcontentloaded")
+                        try:
+                            page.wait_for_selector(RESULT_SELECTORS[s], timeout=15000)
+                        except Exception:
+                            pass
+                        page.wait_for_timeout(1500)
+                        body = page.inner_text("body") if page.query_selector("body") else ""
+                        title, current_url = page.title(), page.url
+                        status = response.status if response else None
+                        pairs = page.eval_on_selector_all(
+                            "a[href]", "els => els.map(e => [e.href, (e.innerText || e.textContent || '').trim()])")
+                    head = title + " " + body[:1200]
+                    if status in (401, 403) or any(h in head.lower() for h in ACCESS_ERROR_HINTS):
+                        sys.exit(f"   A fonte devolveu HTTP {status or 'erro/bloqueio'}. Sem resultados ou contagem válidos.")
                     if total is None:
                         total = extract_result_total(body)
                     if any(h in head.lower() for h in BLOCK_HINTS):
-                        input("   Possível captcha/bloqueio. Resolve no browser e prime Enter (Ctrl+C para parar)... ")
-                    pairs = page.eval_on_selector_all(
-                        "a[href]", "els => els.map(e => [e.href, (e.innerText || e.textContent || '').trim())]")
+                        if not firefox:
+                            input("   Verificação humana detetada. Completa-a manualmente no browser e prime Enter (Ctrl+C para parar)... ")
+                            body = page.inner_text("body") if page.query_selector("body") else ""
+                            head = page.title() + " " + body[:1200]
+                            pairs = page.eval_on_selector_all(
+                                "a[href]", "els => els.map(e => [e.href, (e.innerText || e.textContent || '').trim()])")
+                        else:
+                            leave_firefox_open = True
+                            sys.exit("   Verificação humana visível no Firefox. Interrompi sem a resolver; deixei a janela aberta para a completares manualmente.")
+                        if any(h in head.lower() for h in BLOCK_HINTS):
+                            sys.exit("   A verificação continua visível; sem a completar não vou continuar a pesquisa.")
                     new = [(h, t) for h, t in extract_links(pairs, s) if h not in seen]
                     for h, t in new:
                         seen[h] = t
@@ -513,13 +602,19 @@ def run_browser(args, queries, sites, d0, d1):
                     if not new:
                         snippet = " ".join(body.split())[:350]
                         print(f"   Sem títulos extraídos. HTTP {status if status is not None else 'n/d'}; "
-                              f"página: {page.title()}; URL: {page.url}")
+                              f"página: {title}; URL: {current_url}")
                         if snippet:
                             print(f"   Conteúdo visível: {snippet}")
                         break
                     time.sleep(random.uniform(args.delay_min, args.delay_max))
                 collected.append({"site": s, "rq": rq, "total": total, "records": records, "origin": "browser"})
-        ctx.close()
+    finally:
+        if ctx:
+            ctx.close()
+        if driver and not leave_firefox_open:
+            driver.quit()
+        if playwright_manager:
+            playwright_manager.stop()
     return collected
 
 # ----------------------------------------------------------------------------
@@ -660,7 +755,9 @@ def main():
     ap.add_argument("--pages", type=int, default=20, help="browser: máximo de páginas por (site, query); limitado também por --max")
     ap.add_argument("--delay-min", type=float, default=5.0)
     ap.add_argument("--delay-max", type=float, default=9.0)
-    ap.add_argument("--profile", default="browser_profile")
+    ap.add_argument("--browser", choices=["firefox", "chromium"], default="chromium",
+                    help="firefox = perfil normal do Firefox; chromium = perfil Playwright")
+    ap.add_argument("--profile", default=None, help="perfil explícito; Firefox usa o perfil normal se omitido")
     ap.add_argument("--out")
     ap.add_argument("--resolve-file", help="resolve os DOI de um .md/.csv existente e grava *_editor")
     ap.add_argument("--resolve-dois", action="store_true",

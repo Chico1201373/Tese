@@ -31,11 +31,13 @@ As duas expressões foram estreitadas para exigir sistemas conversacionais/QA e 
 
 | Fonte | RQ1d v0.1 → v0.2 | RQ2a v0.1 → v0.2 | Resultado v0.2 |
 |---|---:|---:|---|
-| ScienceDirect | 649 → bloqueada | 447 → não executada | A página devolveu erro/bloqueio; sem contagem válida da variante |
+| ScienceDirect | 649 → 278 | 447 → 138 | 25 títulos recolhidos por query; 40 registos únicos após deduplicação |
 | IEEE Xplore | 4.006 → 1.513 | 641 → 60 | 60 títulos recuperados, 60 únicos |
 | ACM Digital Library | 26.832 → 9.407 | 22.885 → 4.047 | 60 títulos recuperados, 57 únicos |
 
-Nos títulos v0.2, RQ1d mostrou mais QA, chatbots e RAG em IEEE e ACM; RQ2a trouxe avaliação de diálogo, chatbots e respostas fundamentadas, embora ainda haja ruído interdisciplinar. Por estes sinais, as expressões v0.2 foram adotadas provisoriamente no protocolo e no script. A validação em ScienceDirect continua pendente; não tratar estes totais como finais. As expressões exatas estão em `scripts/queries_pilot_v2.json`.
+Na execução ScienceDirect de 29-10-2026, o portal indicou 278 resultados para RQ1d e 138 para RQ2a; o piloto recolheu os primeiros 25 títulos de cada query. A deduplicação entre as duas listas deixou 40 títulos únicos (10 duplicados). Todos permanecem em triagem manual, porque o modo browser recolheu apenas títulos. Os resultados estão em `scripts/piloto_sciencedirect_v2.md` e `scripts/piloto_sciencedirect_v2.csv`.
+
+Nos títulos v0.2, RQ1d mostrou mais QA, chatbots e RAG em IEEE e ACM; RQ2a trouxe avaliação de diálogo, chatbots e respostas fundamentadas, embora ainda haja ruído interdisciplinar. Por estes sinais, as expressões v0.2 foram adotadas provisoriamente no protocolo e no script. A validação da query no ScienceDirect foi concluída, mas esta execução usou os URLs fornecidos sem filtros de data; confirma o intervalo 27-10-2021 a 27-10-2026 e não uses estes números como contagens finais do PRISMA. As expressões exatas e os URLs estão em `scripts/queries_pilot_v2.json`.
 
 ## Nota de execução
 

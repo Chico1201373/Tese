@@ -475,6 +475,25 @@ def build_url(site, query, page_no, y0, y1):
         quote_via=urllib.parse.quote)
 
 
+def query_url(site, query_config, page_no, y0, y1):
+    """Usa um URL de pesquisa fornecido para um piloto; caso contrário, constrói-o como antes."""
+    supplied = query_config.get("url")
+    if not supplied:
+        return build_url(site, query_config["q"], page_no, y0, y1)
+    if page_no == 1:
+        return supplied
+    parts = urllib.parse.urlsplit(supplied)
+    params = urllib.parse.parse_qs(parts.query, keep_blank_values=True)
+    if site == "sciencedirect":
+        params["offset"] = [str((page_no - 1) * 100)]
+    elif site == "ieee":
+        params["pageNumber"] = [str(page_no)]
+    elif site == "acm":
+        params["startPage"] = [str(page_no - 1)]
+    query = urllib.parse.urlencode(params, doseq=True, quote_via=urllib.parse.quote)
+    return urllib.parse.urlunsplit((parts.scheme, parts.netloc, parts.path, query, parts.fragment))
+
+
 def extract_links(pairs, site):
     found = {}
     for href, text in pairs:
@@ -532,7 +551,7 @@ def run_browser(args, queries, sites, d0, d1):
     limit = HARD_CAP if args.max == 0 else min(args.max, HARD_CAP)
     collected = []
     firefox = args.browser == "firefox"
-    ctx = page = driver = playwright_manager = None
+    ctx = page = driver = playwright_manager = playwright = None
     leave_firefox_open = False
     by = None
     try:
@@ -558,10 +577,10 @@ def run_browser(args, queries, sites, d0, d1):
             try:
                 from playwright.sync_api import sync_playwright
                 playwright_manager = sync_playwright()
-                p = playwright_manager.start()
+                playwright = playwright_manager.start()
                 profile = args.profile or "browser_profile"
-                ctx = p.chromium.launch_persistent_context(str(Path(profile).resolve()), headless=False,
-                                                           viewport={"width": 1280, "height": 900})
+                ctx = playwright.chromium.launch_persistent_context(str(Path(profile).resolve()), headless=False,
+                                                                    viewport={"width": 1280, "height": 900})
                 page = ctx.pages[0] if ctx.pages else ctx.new_page()
             except ImportError:
                 sys.exit("Falta o Playwright: pip install playwright && playwright install chromium")
@@ -571,14 +590,14 @@ def run_browser(args, queries, sites, d0, d1):
                 driver.get(HOMES[s])
             else:
                 page.goto(HOMES[s], wait_until="domcontentloaded")
-            input(f"\n[{SITES[s]['label']}] Confirma que o Firefox está pronto e prime Enter... ")
+            input(f"\n[{SITES[s]['label']}] Confirma que a página inicial está pronta e prime Enter... ")
             for rq in queries:
                 print(f"== {SITES[s]['label']} / {rq}")
                 seen, records, total = {}, [], None
                 for n in range(1, args.pages + 1):
                     if len(records) >= limit:
                         break
-                    url = build_url(s, queries[rq]["q"], n, y0, y1)
+                    url = query_url(s, queries[rq], n, y0, y1)
                     if firefox:
                         driver.get(url)
                         body, pairs = wait_firefox_results(driver, by, s)
@@ -638,8 +657,8 @@ def run_browser(args, queries, sites, d0, d1):
             ctx.close()
         if driver and not leave_firefox_open:
             driver.quit()
-        if playwright_manager:
-            playwright_manager.stop()
+        if playwright:
+            playwright.stop()
     return collected
 
 # ----------------------------------------------------------------------------
@@ -702,6 +721,9 @@ def write_markdown(path, args, queries, sites, unique, funnel, d0, d1):
         L.append("  - `export`: exportação (RIS) feita pelo utilizador na pesquisa nativa do site.")
     if "browser" in origins:
         L.append("  - `browser`: pesquisa nativa percorrida no browser (só títulos; sem ano nem resumo).")
+    if any(v.get("url") for v in queries.values()):
+        L.append("- **Nota do piloto:** foram usados URLs explícitos. O script não acrescenta filtros de data a esses URLs; "
+                 "confirma o período no portal antes de usar contagens no PRISMA.")
     L += ["- **Pré-triagem automática:** heurística por palavras-chave no título e resumo. Serve para ordenar e "
           "separar; a inclusão/exclusão final é manual. Revisões e trabalhos fora do domínio não são apagados, "
           "ficam listados à parte com o motivo.", "", "### Queries", ""]

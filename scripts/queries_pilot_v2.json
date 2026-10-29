@@ -1,10 +1,12 @@
 {
   "RQ1d": {
     "title": "Desempenho, custos e integração em sistemas conversacionais",
-    "q": "(\"large language model\" OR LLM) AND (latency OR cost OR efficiency OR integration) AND (chatbot OR \"conversational system\" OR \"question answering\")"
+    "q": "(\"large language model\" OR LLM) AND (latency OR cost OR efficiency OR integration) AND (chatbot OR \"conversational system\" OR \"question answering\")",
+    "url": "https://www.sciencedirect.com/search?qs=TITLE-ABS-KEY%28%28%22large+language+model%22+OR+LLM%29+AND+%28latency+OR+cost+OR+efficiency+OR+integration%29+AND+%28chatbot+OR+%22conversational+system%22+OR+%22question+answering%22%29%29"
   },
   "RQ2a": {
     "title": "Avaliação de fidelidade e correção em sistemas conversacionais",
-    "q": "(\"large language model\" OR LLM) AND (faithfulness OR factuality OR correctness) AND (chatbot OR \"conversational system\") AND (evaluation OR benchmark)"
+    "q": "(\"large language model\" OR LLM) AND (faithfulness OR factuality OR correctness) AND (chatbot OR \"conversational system\") AND (evaluation OR benchmark)",
+    "url": "https://www.sciencedirect.com/search?qs=TITLE-ABS-KEY%28%28%22large+language+model%22+OR+LLM%29+AND+%28faithfulness+OR+factuality+OR+correctness%29+AND+%28chatbot+OR+%22conversational+system%22%29+AND+%28evaluation+OR+benchmark%29%29"
   }
 }

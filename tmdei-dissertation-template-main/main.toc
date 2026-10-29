@@ -17,30 +17,34 @@
 \contentsline {section}{\numberline {2.1}Introdução}{5}{section.29}%
 \contentsline {section}{\numberline {2.2}Protocolo da Revisão}{5}{section.30}%
 \contentsline {subsection}{\numberline {2.2.1}Questões da Revisão}{5}{subsection.31}%
-\contentsline {subsection}{\numberline {2.2.2}Fontes e Estratégia de Pesquisa}{5}{subsection.32}%
-\contentsline {paragraph}{RQ-R1a — contexto e sistemas conversacionais}{5}{section*.33}%
-\contentsline {paragraph}{RQ-R1b — recuperação de bases de dados e knowledge bases}{6}{section*.34}%
-\contentsline {paragraph}{RQ-R1c — fiabilidade e segurança}{6}{section*.35}%
-\contentsline {paragraph}{RQ-R1d — desempenho, custos e integração em sistemas conversacionais}{6}{section*.36}%
-\contentsline {paragraph}{RQ-R2a — avaliação de fidelidade e correção em sistemas conversacionais}{6}{section*.37}%
-\contentsline {paragraph}{RQ-R2b — abstenção e perguntas fora do âmbito}{6}{section*.38}%
-\contentsline {subsection}{\numberline {2.2.3}Critérios de Inclusão e Exclusão}{6}{subsection.39}%
-\contentsline {subsection}{\numberline {2.2.4}Seleção e Extração de Dados}{6}{subsection.41}%
-\contentsline {section}{\numberline {2.3}Resultados da Pesquisa}{7}{section.42}%
-\contentsline {section}{\numberline {2.4}Síntese Crítica}{7}{section.43}%
-\contentsline {subsection}{\numberline {2.4.1}Abordagens}{7}{subsection.44}%
-\contentsline {subsection}{\numberline {2.4.2}Avaliação}{7}{subsection.45}%
-\contentsline {subsection}{\numberline {2.4.3}Controlo de Âmbito e Segurança}{7}{subsection.46}%
-\contentsline {subsection}{\numberline {2.4.4}Limitações Reportadas}{7}{subsection.47}%
-\contentsline {section}{\numberline {2.5}Lacuna de Investigação}{7}{section.48}%
-\contentsline {section}{\numberline {2.6}Conclusões do Capítulo}{7}{section.49}%
-\contentsline {chapter}{\numberline {3}Desenho da Solução}{9}{chapter.50}%
-\contentsline {section}{\numberline {3.1}Requisitos}{9}{section.51}%
-\contentsline {subsection}{\numberline {3.1.1}Requisitos Funcionais}{9}{subsection.52}%
-\contentsline {subsection}{\numberline {3.1.2}Requisitos Não Funcionais}{9}{subsection.53}%
-\contentsline {section}{\numberline {3.2}Contexto de Cada Pergunta}{10}{section.54}%
-\contentsline {section}{\numberline {3.3}Arquitetura}{10}{section.55}%
-\contentsline {section}{\numberline {3.4}Estratégias de \emph {Prompting} e Restrições}{10}{section.57}%
-\contentsline {section}{\numberline {3.5}Verificações Fora do Modelo}{10}{section.58}%
-\contentsline {section}{\numberline {3.6}Escolha do Modelo}{11}{section.59}%
-\contentsline {chapter}{Ap\^endice \numberline {A}Conjunto de Testes do Assistente}{13}{appendix.60}%
+\contentsline {subsection}{\numberline {2.2.2}Fontes e Estratégia de Pesquisa}{6}{subsection.32}%
+\contentsline {paragraph}{Pesquisa piloto.}{6}{section*.33}%
+\contentsline {paragraph}{Expressões de pesquisa.}{6}{section*.34}%
+\contentsline {paragraph}{Q1 --- contexto e sistemas conversacionais (RQ-R1).}{6}{section*.35}%
+\contentsline {paragraph}{Q2 --- fidelidade, correção e recusa fora do âmbito (RQ-R2).}{6}{section*.36}%
+\contentsline {paragraph}{Q3 --- segurança do âmbito (RQ-R1).}{6}{section*.37}%
+\contentsline {paragraph}{Regra de paragem e registo.}{6}{section*.39}%
+\contentsline {subsection}{\numberline {2.2.3}Critérios de Inclusão e Exclusão}{7}{subsection.40}%
+\contentsline {subsection}{\numberline {2.2.4}Seleção dos Estudos}{7}{subsection.42}%
+\contentsline {subsection}{\numberline {2.2.5}Avaliação da Qualidade}{7}{subsection.43}%
+\contentsline {subsection}{\numberline {2.2.6}Extração de Dados}{8}{subsection.44}%
+\contentsline {subsection}{\numberline {2.2.7}Ameaças à Validade}{8}{subsection.46}%
+\contentsline {section}{\numberline {2.3}Resultados da Pesquisa}{8}{section.47}%
+\contentsline {section}{\numberline {2.4}Síntese Crítica}{9}{section.48}%
+\contentsline {subsection}{\numberline {2.4.1}Abordagens}{9}{subsection.49}%
+\contentsline {subsection}{\numberline {2.4.2}Avaliação}{9}{subsection.50}%
+\contentsline {subsection}{\numberline {2.4.3}Controlo de Âmbito e Segurança}{9}{subsection.51}%
+\contentsline {subsection}{\numberline {2.4.4}Compromissos Operacionais}{9}{subsection.52}%
+\contentsline {subsection}{\numberline {2.4.5}Limitações Reportadas}{9}{subsection.53}%
+\contentsline {section}{\numberline {2.5}Lacuna de Investigação}{9}{section.54}%
+\contentsline {section}{\numberline {2.6}Conclusões do Capítulo}{9}{section.55}%
+\contentsline {chapter}{\numberline {3}Desenho da Solução}{11}{chapter.56}%
+\contentsline {section}{\numberline {3.1}Requisitos}{11}{section.57}%
+\contentsline {subsection}{\numberline {3.1.1}Requisitos Funcionais}{11}{subsection.58}%
+\contentsline {subsection}{\numberline {3.1.2}Requisitos Não Funcionais}{11}{subsection.59}%
+\contentsline {section}{\numberline {3.2}Contexto de Cada Pergunta}{12}{section.60}%
+\contentsline {section}{\numberline {3.3}Arquitetura}{12}{section.61}%
+\contentsline {section}{\numberline {3.4}Estratégias de \emph {Prompting} e Restrições}{12}{section.63}%
+\contentsline {section}{\numberline {3.5}Verificações Fora do Modelo}{12}{section.64}%
+\contentsline {section}{\numberline {3.6}Escolha do Modelo}{13}{section.65}%
+\contentsline {chapter}{Ap\^endice \numberline {A}Conjunto de Testes do Assistente}{15}{appendix.66}%

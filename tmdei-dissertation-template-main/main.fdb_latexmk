@@ -1,16 +1,16 @@
 # Fdb version 4
-["biber main"] 1791805751.4734 "main.bcf" "main.bbl" "main" 1793285899.40926 0
-  "main.bcf" 1793285899.30552 108553 9c52258832736b8c08ddcd5e51eed0fb "pdflatex"
+["biber main"] 1791805751.4734 "main.bcf" "main.bbl" "main" 1793300401.60112 0
+  "main.bcf" 1793300401.48941 108553 9c52258832736b8c08ddcd5e51eed0fb "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["cusdep acn acr main"] 1793285896.96081 "main.acn" "main.acr" "main" 1793285899.40954 0
-  "main.acn" 1793285899.30627 977 21c01306e71cca0f1cd9fa9e49333a95 "pdflatex"
+["cusdep acn acr main"] 1793300398.90518 "main.acn" "main.acr" "main" 1793300401.60142 0
+  "main.acn" 1793300401.49034 1141 2db3110202024f0e352079bc6de08059 "pdflatex"
   (generated)
   "main.acr"
   (rewritten before read)
-["pdflatex"] 1793285897.11425 "/Users/franciscoreis/Desktop/teseDoc/Tese/tmdei-dissertation-template-main/main.tex" "main.pdf" "main" 1793285899.40959 0
+["pdflatex"] 1793300399.07235 "/Users/franciscoreis/Desktop/teseDoc/Tese/tmdei-dissertation-template-main/main.tex" "main.pdf" "main" 1793300401.60147 0
   "/Users/franciscoreis/Desktop/teseDoc/Tese/tmdei-dissertation-template-main/main.tex" 1791811963.43115 8159 e0b118ce1fcf84164078461aee3d4c92 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
@@ -287,20 +287,20 @@
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
   "appendices/appendixA.tex" 1791805668.8951 1712 6667a36650691cf5472721d72fffc91f ""
   "ch1/chapter1.tex" 1793214264.67561 8352 ea43c083179e2a63341afad67429b16c ""
-  "ch2/chapter2.tex" 1793285894.07253 7940 8a350b5a7dce84e4dd28eda9496b4649 ""
+  "ch2/chapter2.tex" 1793300395.80913 15011 60bc26866a81016f5aed0b143063a38d ""
   "ch3/chapter3.tex" 1791805696.15484 6212 7cd96e4d29a855dedf4c878bbb9b87b7 ""
   "frontmatter/frontmatter.tex" 1793136618.3525 5789 2508dd23913407bc356e7336fe281aa7 ""
   "frontmatter/glossary.tex" 1791805722.86719 806 7993374776a628f96bf918e564476bad ""
-  "main.acr" 1793285897.11 1067 ab66d3727fcecd3cc305c10ff161d733 "cusdep acn acr main"
-  "main.aux" 1793285899.3009 9231 20d3780cc7a9b02ca620d6735e8627fb "pdflatex"
+  "main.acr" 1793300399.06812 1078 909832572180888b7f50f9279b3bbd40 "cusdep acn acr main"
+  "main.aux" 1793300401.48433 10697 84741a7bd0024fa4294e546776a01fa0 "pdflatex"
   "main.bbl" 1791805752.9172 466 76d65a242ec496c9b4361af646ff12cb "biber main"
-  "main.glsdefs" 1793285899.29532 6884 f9c6b572e91defe4140ff53c6d333e34 "pdflatex"
-  "main.lof" 1793285899.30631 220 40b34764752a8fe8ab53be474beed2eb "pdflatex"
-  "main.lot" 1793285899.30633 353 9f751282d7fe57107834f710041dcf23 "pdflatex"
-  "main.out" 1793285899.30282 6098 dc25915bd86fda54b5f2e9e19abebdae "pdflatex"
-  "main.run.xml" 1793285899.30621 2364 fd5016b83ee669c9a41fec1f7cb597cb "pdflatex"
+  "main.glsdefs" 1793300401.47843 6884 f9c6b572e91defe4140ff53c6d333e34 "pdflatex"
+  "main.lof" 1793300401.49038 220 5de54ff5f99c806a6e1756d1f47c05a4 "pdflatex"
+  "main.lot" 1793300401.4904 575 963da74681a853325a7cce1d76e198b5 "pdflatex"
+  "main.out" 1793300401.4864 6727 7c27b0d34efc041e882b8c345ccbe124 "pdflatex"
+  "main.run.xml" 1793300401.49026 2364 fd5016b83ee669c9a41fec1f7cb597cb "pdflatex"
   "main.tex" 1791811963.43115 8159 e0b118ce1fcf84164078461aee3d4c92 ""
-  "main.toc" 1793285899.30629 3825 2df28cf1d27bb4227e01d57cfd2b7967 "pdflatex"
+  "main.toc" 1793300401.49036 4053 765771a2d70b87c33444e022fb7dba8f "pdflatex"
   "tmdei-style.cls" 1791812033.02075 25474 84633b2b45f5b9507e49cb0214cbad4c ""
   (generated)
   "main.acn"

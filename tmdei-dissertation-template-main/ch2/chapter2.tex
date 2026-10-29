@@ -5,97 +5,166 @@
 
 % NOTA: capítulo em desenvolvimento. Não inserir resultados, contagens ou lacunas
 % antes de concluir a pesquisa, a seleção e a síntese dos estudos.
+%
+% A CONFIRMAR ANTES DE ENTREGAR (procura por "TODO"):
+%  - As RQ-R1 e RQ-R2 abaixo têm de ser iguais às RQ1 e RQ2 do Capítulo 1.
+%  - Fonte Scopus: ainda não foi pesquisada (decidir Scopus vs. ScienceDirect).
+%  - Q3 (segurança) ainda não foi testada no piloto.
+%  - Número de revisores na triagem.
+%  - Cada [CITAR] precisa de uma referência verificada.
 
 %----------------------------------------------------------------------------------------
 \section{Introdução}
 \label{sec:chap2_intro}
 
-Este capítulo apresenta uma revisão da literatura sobre sistemas conversacionais baseados em \glspl{LLM} que geram respostas condicionadas por um contexto definido. A revisão organiza-se em três dimensões: abordagens técnicas para restringir e fundamentar respostas; métodos de avaliação da fidelidade, factualidade, correção e adesão ao âmbito; e limitações operacionais relativas à fiabilidade, segurança, latência, custo e integração. A síntese será relacionada com o caso de estudo desta dissertação: um assistente para esclarecer dúvidas sobre a pergunta em curso no Adhara QBank.
+Este capítulo apresenta uma revisão sistemática da literatura sobre sistemas conversacionais baseados em \glspl{LLM} cujas respostas dependem de um contexto definido pela aplicação. A revisão organiza-se em três dimensões: as abordagens técnicas para fornecer esse contexto ao modelo e restringir as respostas; os métodos de avaliação da fidelidade ao contexto, da correção factual e da recusa de perguntas fora do âmbito; e os compromissos operacionais reportados, nomeadamente fiabilidade, segurança, latência, custo e integração.
+
+No caso de estudo desta dissertação, o contexto associado à pergunta em curso no Adhara QBank é fornecido diretamente ao modelo, sem uma etapa de recuperação de informação. A literatura sobre \emph{retrieval-augmented generation} (RAG) é, por isso, considerada como termo de comparação e como principal fonte de métodos de avaliação, e não como solução assumida. A síntese será relacionada com esse caso de estudo: um assistente para esclarecer dúvidas sobre a pergunta em curso.
+
+O capítulo apresenta o protocolo da revisão (Secção~\ref{sec:chap2_protocol}), os resultados da pesquisa e da seleção (Secção~\ref{sec:chap2_results}), a síntese crítica dos estudos (Secção~\ref{sec:chap2_synthesis}) e a lacuna de investigação que daí resulta (Secção~\ref{sec:chap2_gap}).
 
 %----------------------------------------------------------------------------------------
 \section{Protocolo da Revisão}
 \label{sec:chap2_protocol}
 
+A revisão segue o PRISMA 2020 \textbf{[CITAR]}. O protocolo foi definido antes da pesquisa final: questões, fontes, expressões de pesquisa, critérios de seleção, avaliação da qualidade e campos de extração. As alterações feitas depois da pesquisa piloto estão justificadas na Secção~\ref{sec:chap2_search}.
+
 \subsection{Questões da Revisão}
+\label{sec:chap2_rqs}
 
 \begin{description}
-    \item[RQ-R1] Como utilizam os sistemas conversacionais baseados em \glspl{LLM} um contexto específico da aplicação para limitar as respostas, e que compromissos operacionais são reportados para essas abordagens?
-    \item[RQ-R2] Como são avaliadas, nestes sistemas, a correção factual, a fidelidade ao contexto fornecido e a adesão ao âmbito definido?
+    \item[RQ-R1] Que abordagens utilizam os sistemas conversacionais baseados em \glspl{LLM} para limitar as respostas a um contexto específico da aplicação?
+    \item[RQ-R2] Como são avaliadas, nestes sistemas, a fidelidade ao contexto fornecido, a correção factual e a recusa de perguntas fora do âmbito?
 \end{description}
 
+% TODO: copiar estas RQ para o Capítulo 1 (secção Questões de Investigação).
+
+Os compromissos operacionais (latência, custo, segurança e integração) não constituem uma questão autónoma: são extraídos de cada estudo, quando reportados, e discutidos na síntese (Secção~\ref{sec:chap2_synthesis}).
+
 \subsection{Fontes e Estratégia de Pesquisa}
+\label{sec:chap2_search}
 
-As fontes de pesquisa previstas são Scopus, IEEE Xplore e ACM Digital Library, para cobrir literatura de computação e engenharia de software. A pesquisa exploratória já iniciada serve para refinar as expressões; a pesquisa final, as datas, os filtros e os números de resultados serão registados separadamente para cada fonte. O \emph{snowballing}, se utilizado, será documentado como método complementar e não misturado com os resultados das bases.
+As fontes são Scopus, IEEE Xplore e ACM Digital Library. O Scopus é uma base multidisciplinar que indexa vários editores; o IEEE Xplore e a ACM Digital Library cobrem a literatura de computação e engenharia de software. Foram escolhidas antes da pesquisa final. O \emph{snowballing}, se utilizado, será documentado como método complementar e não misturado com os resultados das bases. % TODO: confirmar Scopus (ver nota no topo).
 
-As expressões abaixo são versões de trabalho para pesquisa por dimensão. Não utilizam truncagem com \texttt{*}; cada expressão deve ser adaptada à sintaxe específica da fonte e a versão executada deve ser guardada literalmente. O limite de conectores booleanos por campo é respeitado.
+\paragraph{Pesquisa piloto.}
+Antes de fixar as expressões, foi feita uma pesquisa piloto em IEEE Xplore, ACM Digital Library e ScienceDirect, limitada aos primeiros 30 títulos de cada pesquisa e sem acesso aos resumos. O piloto serviu apenas para ajustar as expressões e não entra nas contagens finais. Levou a três decisões: (i) estreitar as expressões a sistemas conversacionais e de resposta a perguntas, porque as versões gerais devolviam sobretudo \emph{hardware} de inferência, geração de código e recomendação; (ii) retirar latência e custo dos blocos de pesquisa e tratá-los como campos de extração, pelo mesmo motivo; (iii) tratar as revisões e os \emph{surveys}, muito frequentes nos resultados, pelo critério de exclusão E4.
 
-\paragraph{RQ-R1a — contexto e sistemas conversacionais}
+\paragraph{Expressões de pesquisa.}
+Cada expressão combina blocos de conceitos: os sinónimos de um bloco são ligados por \texttt{OR} e os blocos por \texttt{AND}. Não utilizam truncagem com \texttt{*} e respeitam o limite de conectores booleanos por campo. Pesquisam-se o título, o resumo e as palavras-chave, na sintaxe de cada fonte (no Scopus, \texttt{TITLE-ABS-KEY(...)}). A versão executada em cada fonte é guardada literalmente.
+
+\paragraph{Q1 --- contexto e sistemas conversacionais (RQ-R1).}
 \begin{verbatim}
-TITLE-ABS-KEY(("large language model" OR LLM)
-AND (grounding OR "prompt context" OR "retrieval-augmented generation" OR "context-aware")
-AND (chatbot OR "conversational system" OR "question answering"))
+("large language model" OR LLM)
+AND (grounding OR "context injection" OR "prompt context"
+     OR "retrieval-augmented generation")
+AND (chatbot OR "conversational system" OR "question answering")
 \end{verbatim}
 
-\paragraph{RQ-R1b — recuperação de bases de dados e knowledge bases}
+\paragraph{Q2 --- fidelidade, correção e recusa fora do âmbito (RQ-R2).}
 \begin{verbatim}
-TITLE-ABS-KEY(("large language model" OR LLM)
-AND ("database retrieval" OR "context injection" OR "knowledge base")
-AND (chatbot OR "question answering"))
-\end{verbatim}
-
-\paragraph{RQ-R1c — fiabilidade e segurança}
-\begin{verbatim}
-TITLE-ABS-KEY(("large language model" OR LLM)
-AND (reliability OR robustness OR security OR "prompt injection")
-AND (chatbot OR "conversational system"))
-\end{verbatim}
-
-\paragraph{RQ-R1d — desempenho, custos e integração em sistemas conversacionais}
-\begin{verbatim}
-TITLE-ABS-KEY(("large language model" OR LLM)
-AND (latency OR cost OR efficiency OR integration)
-AND (chatbot OR "conversational system" OR "question answering"))
-\end{verbatim}
-
-\paragraph{RQ-R2a — avaliação de fidelidade e correção em sistemas conversacionais}
-\begin{verbatim}
-TITLE-ABS-KEY(("large language model" OR LLM)
-AND (faithfulness OR factuality OR correctness)
+("large language model" OR LLM)
+AND (faithfulness OR factuality OR "out-of-scope")
 AND (chatbot OR "conversational system")
-AND (evaluation OR benchmark))
+AND (evaluation OR benchmark)
 \end{verbatim}
 
-\paragraph{RQ-R2b — abstenção e perguntas fora do âmbito}
+\paragraph{Q3 --- segurança do âmbito (RQ-R1).}
 \begin{verbatim}
-TITLE-ABS-KEY(("large language model" OR LLM)
-AND ("out-of-scope" OR abstention)
-AND (evaluation OR benchmark))
+("large language model" OR LLM)
+AND ("prompt injection" OR "prompt leakage" OR jailbreak)
+AND (chatbot OR "conversational system")
 \end{verbatim}
+% TODO: Q3 ainda não foi testada no piloto; ajustar ou retirar conforme o resultado.
 
-As pesquisas exploratórias já realizadas não equivalem à pesquisa final: devem ser repetidas ou confirmadas com filtros consistentes e registadas numa tabela com fonte, expressão exata, data, intervalo temporal, idioma e total apresentado pela fonte.
+\begin{table}
+\caption{Pesquisas e questões da revisão.}
+\label{tab:queries}
+\centering
+\small
+\begin{tabular}{p{1.4cm} p{3cm} p{8.6cm}}
+\toprule
+\tabhead{Pesquisa} & \tabhead{Questão} & \tabhead{Objetivo} \\
+\midrule
+Q1 & RQ-R1 & Abordagens que fornecem contexto ao modelo e limitam as respostas \\
+Q2 & RQ-R2 & Avaliação de fidelidade, correção e recusa fora do âmbito \\
+Q3 & RQ-R1 & Mecanismos de segurança que protegem o âmbito (injeção e fuga de instruções) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Regra de paragem e registo.}
+Em cada fonte e para cada pesquisa são analisados os primeiros 30 resultados, ordenados por relevância; este limite é a regra de paragem. Para cada par (fonte, pesquisa) regista-se a expressão exata, a data de execução, o intervalo temporal, a língua, o total apresentado pela fonte e o número de registos analisados, numa tabela de registo das pesquisas. Os registos são exportados com resumo e importados no Rayyan \textbf{[CITAR]}.
 
 \subsection{Critérios de Inclusão e Exclusão}
+\label{sec:chap2_criteria}
 
 \begin{table}
 \caption{Critérios de inclusão e exclusão da revisão.}
 \label{tab:criteria}
 \centering
 \small
-\begin{tabular}{p{6.5cm} p{6.5cm}}
+\begin{tabular}{p{1cm} p{5.8cm} p{1cm} p{5.8cm}}
 \toprule
-\tabhead{Inclusão} & \tabhead{Exclusão} \\
+\tabhead{} & \tabhead{Inclusão} & \tabhead{} & \tabhead{Exclusão} \\
 \midrule
-Publicação entre 27-10-2021 e 27-10-2026, inclusive & Duplicados \\
-Língua inglesa ou portuguesa & Editoriais, opiniões e registos sem informação metodológica suficiente \\
-Estudo primário sobre sistema conversacional baseado em \gls{LLM}, com contexto definido ou avaliação/operação de respostas contextualizadas & Estudos sem relação com respostas fundamentadas em contexto nem com a avaliação/operação destes sistemas \\
-Método, sistema ou avaliação descritos com detalhe suficiente para extrair dados & Revisões excluídas da síntese principal; podem apoiar o enquadramento e o \emph{snowballing} \\
+I1 & Publicação entre 27-10-2021 e 27-10-2026, inclusive & E1 & Duplicados \\
+I2 & Língua inglesa ou portuguesa & E2 & Editoriais, opiniões, livros e registos sem informação metodológica suficiente \\
+I3 & Estudo primário sobre sistema conversacional ou de resposta a perguntas baseado em \gls{LLM}, cujas respostas dependem de um contexto definido (RAG, injeção no \emph{prompt} ou base de conhecimento) & E3 & Sem \gls{LLM}, sem sistema conversacional ou de resposta a perguntas, ou sem relação com respostas contextualizadas nem com a sua avaliação \\
+I4 & Método, sistema ou avaliação descritos com detalhe suficiente para extrair dados & E4 & Revisões e \emph{surveys}, excluídos da síntese principal; podem apoiar o enquadramento e o \emph{snowballing} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Seleção e Extração de Dados}
+O critério I3 não exige recuperação de informação: um estudo em que o contexto é fornecido diretamente ao modelo cumpre-o tal como um estudo com RAG.
 
-A seleção será conduzida em três etapas: identificação dos registos; triagem de títulos e resumos; e avaliação dos textos integrais. O processo e as exclusões em texto integral serão documentados de acordo com o PRISMA 2020 \textbf{[CITAR]}. Para cada estudo incluído serão extraídos: referência e ano; domínio e aplicação; modelo; abordagem técnica; contexto disponibilizado; mecanismo de controlo ou recusa; método e métricas de avaliação; participantes, quando aplicável; resultados; limitações; e informação sobre latência, custo, segurança e integração, quando reportada.
+\subsection{Seleção dos Estudos}
+\label{sec:chap2_selection}
+
+A seleção tem três etapas: identificação e remoção de duplicados; triagem de títulos e resumos; e avaliação dos textos integrais. A triagem é feita no Rayyan \textbf{[CITAR]}, com as decisões e os motivos de exclusão registados. Na avaliação dos textos integrais, cada exclusão é associada a um dos critérios E1 a E4. O processo é documentado num diagrama PRISMA \textbf{[CITAR]}, que indica os registos por fonte, os duplicados removidos, os excluídos em cada etapa e os estudos incluídos. % TODO: indicar o número de revisores (por exemplo, segunda triagem pelo orientador).
+
+\subsection{Avaliação da Qualidade}
+\label{sec:chap2_quality}
+
+A elegibilidade (critérios de seleção) é distinta da qualidade. Os estudos incluídos são avaliados com cinco critérios, cada um classificado como \emph{sim} (1), \emph{parcial} (0,5) ou \emph{não} (0):
+\begin{enumerate}
+    \item[QA1] O método ou sistema está descrito com clareza suficiente para ser compreendido.
+    \item[QA2] O contexto fornecido ao modelo e a sua origem estão descritos.
+    \item[QA3] A avaliação usa dados, métricas ou comparações explícitos.
+    \item[QA4] Os resultados são apresentados de forma verificável (dados, dimensão da amostra, avaliadores).
+    \item[QA5] São discutidas limitações ou ameaças à validade.
+\end{enumerate}
+A pontuação não exclui estudos: serve para ponderar a evidência na síntese.
+
+\subsection{Extração de Dados}
+\label{sec:chap2_extraction}
+
+Para cada estudo incluído são extraídos os campos da Tabela~\ref{tab:extraction}. A matriz completa fica em apêndice; no texto apresenta-se apenas uma tabela de classificação.
+
+\begin{table}
+\caption{Campos de extração de dados.}
+\label{tab:extraction}
+\centering
+\small
+\begin{tabular}{p{0.6cm} p{3.4cm} p{7.2cm} p{1.6cm}}
+\toprule
+\tabhead{\#} & \tabhead{Campo} & \tabhead{Descrição} & \tabhead{Questão} \\
+\midrule
+1 & Referência e ano & Autores, ano e tipo de publicação & --- \\
+2 & Domínio e aplicação & Educação, saúde, apoio ao cliente, entre outros & RQ-R1 \\
+3 & Modelo e abordagem & Modelo de linguagem; \emph{prompting}, RAG, \emph{fine-tuning} ou combinação & RQ-R1 \\
+4 & Chegada do contexto & Como o contexto chega ao modelo: RAG, injeção direta no \emph{prompt}, base de conhecimento ou outro & RQ-R1 \\
+5 & Controlo e recusa & Mecanismos para limitar as respostas e recusar perguntas fora do âmbito & RQ-R1, RQ-R2 \\
+6 & Avaliação & Método (automática, \emph{LLM-as-a-judge}, humana), dados, métricas e participantes & RQ-R2 \\
+7 & Resultados e limitações & Principais resultados e limitações indicadas pelos autores & RQ-R2 \\
+8 & Aspetos operacionais & Latência, custo, segurança e integração, quando reportados & RQ-R1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Ameaças à Validade}
+\label{sec:chap2_threats}
+
+Esta revisão tem limitações conhecidas. O limite de 30 resultados por fonte e pesquisa, ordenados por relevância, pode deixar de fora estudos relevantes que a fonte classifica mais abaixo; por isso o total apresentado por cada fonte é registado. A restrição ao inglês e ao português e às três fontes escolhidas limita a cobertura. A literatura sobre \glspl{LLM} evolui depressa e a janela temporal termina em 27-10-2026. % TODO: acrescentar o número de revisores quando definido.
 
 %----------------------------------------------------------------------------------------
 \section{Resultados da Pesquisa}
@@ -110,20 +179,40 @@ A pesquisa e a seleção dos estudos ainda estão em curso. Por esse motivo, est
 % \label{fig:prisma}
 % \end{figure}
 
+% Tabela de classificação dos estudos (preencher só depois da extração):
+% \begin{table}
+% \caption{Classificação dos estudos incluídos.}
+% \label{tab:classification}
+% \centering
+% \small
+% \begin{tabular}{p{3cm} p{2.5cm} p{3cm} p{2.5cm} p{2cm}}
+% \toprule
+% \tabhead{Estudo} & \tabhead{Domínio} & \tabhead{Abordagem} & \tabhead{Contexto} & \tabhead{Avaliação} \\
+% \midrule
+% \bottomrule
+% \end{tabular}
+% \end{table}
+
+% Tabela de registo das pesquisas (uma linha por fonte e pesquisa):
+% fonte | pesquisa | expressão executada | data | filtros | total na fonte | analisados
+
 %----------------------------------------------------------------------------------------
 \section{Síntese Crítica}
 \label{sec:chap2_synthesis}
 
-A síntese deve agrupar, comparar, explicar e criticar os estudos, e não resumi-los um a um.
+A síntese deve agrupar, comparar, explicar e criticar os estudos, e não resumi-los um a um. A frequência de uma técnica descreve a sua utilização, não prova que seja a mais eficaz.
 
 \subsection{Abordagens}
-% TODO: agrupar por abordagem (prompting, RAG, fine-tuning, restrições de contexto) e comparar.
+% TODO: agrupar por como o contexto chega ao modelo (RAG, injeção direta, base de conhecimento) e por técnica (prompting, fine-tuning); comparar. Verificar quantos estudos usam injeção direta, sem recuperação.
 
 \subsection{Avaliação}
-% TODO: como é avaliada a fidelidade, a correção e o impacto na aprendizagem; que participantes e métricas.
+% TODO: como são avaliadas a fidelidade, a correção e a recusa; métodos, métricas e participantes; evidência de impacto na aprendizagem, se existir.
 
 \subsection{Controlo de Âmbito e Segurança}
 % TODO: injeção de instruções, fuga do prompt, recusa fora de âmbito.
+
+\subsection{Compromissos Operacionais}
+% TODO: latência, custo e integração reportados; como se relacionam com a abordagem usada.
 
 \subsection{Limitações Reportadas}
 % TODO: limitações recorrentes e contradições na evidência.
@@ -134,6 +223,9 @@ A síntese deve agrupar, comparar, explicar e criticar os estudos, e não resumi
 
 % TODO: escrever só depois da síntese, seguindo a cadeia
 % Evidência -> Limitação -> Lacuna -> Questão de investigação -> Contribuição.
+% Hipótese de trabalho a verificar (NÃO escrever como resultado): a literatura de respostas
+% fundamentadas em contexto concentra-se em RAG; pode haver pouca evidência sobre contexto
+% fechado por item, injetado diretamente, com avaliação de fidelidade e de recusa.
 
 %----------------------------------------------------------------------------------------
 \section{Conclusões do Capítulo}

@@ -1,0 +1,10 @@
+{
+  "RQ1d": {
+    "title": "Desempenho, custos e integração em sistemas conversacionais",
+    "q": "(\"large language model\" OR LLM) AND (latency OR cost OR efficiency OR integration) AND (chatbot OR \"conversational system\" OR \"question answering\")"
+  },
+  "RQ2a": {
+    "title": "Avaliação de fidelidade e correção em sistemas conversacionais",
+    "q": "(\"large language model\" OR LLM) AND (faithfulness OR factuality OR correctness) AND (chatbot OR \"conversational system\") AND (evaluation OR benchmark)"
+  }
+}

@@ -70,14 +70,14 @@ QUERIES = {
              'AND (chatbot OR "conversational system")',
     },
     "RQ1d": {
-        "title": "Desempenho, custos e integração",
-        "q": '("large language model" OR LLM) AND (latency OR cost OR efficiency) '
-             'AND (integration OR deployment OR architecture)',
+        "title": "Desempenho, custos e integração em sistemas conversacionais",
+        "q": '("large language model" OR LLM) AND (latency OR cost OR efficiency OR integration) '
+             'AND (chatbot OR "conversational system" OR "question answering")',
     },
     "RQ2a": {
-        "title": "Correção factual e fidelidade ao contexto",
-        "q": '("large language model" OR LLM) AND (faithfulness OR factuality OR correctness OR "scope adherence") '
-             'AND (evaluation OR benchmark)',
+        "title": "Avaliação de fidelidade e correção em sistemas conversacionais",
+        "q": '("large language model" OR LLM) AND (faithfulness OR factuality OR correctness) '
+             'AND (chatbot OR "conversational system") AND (evaluation OR benchmark)',
     },
     "RQ2b": {
         "title": "Abstenção e perguntas fora do âmbito",
@@ -506,6 +506,27 @@ def extract_result_total(text):
     return None
 
 
+def wait_firefox_results(driver, by, site, timeout=20):
+    """Espera pelos resultados dinâmicos; devolve cedo se houver banner de cookies ou mensagem vazia."""
+    started = time.monotonic()
+    deadline = started + timeout
+    body = ""
+    pairs = []
+    while time.monotonic() < deadline:
+        body = driver.find_element(by.TAG_NAME, "body").text
+        pairs = [(a.get_attribute("href"), a.text) for a in driver.find_elements(by.CSS_SELECTOR, "a[href]")]
+        lower = body.lower()
+        result_links = extract_links(pairs, site)
+        if result_links or "you may close this banner to continue" in lower:
+            break
+        if any(term in lower for term in ("no results", "no documents found", "no records found")):
+            break
+        if "getting results" not in lower and time.monotonic() - started >= 4:
+            break
+        time.sleep(0.5)
+    return body, pairs
+
+
 def run_browser(args, queries, sites, d0, d1):
     y0, y1 = int(d0[:4]), int(d1[:4])
     limit = HARD_CAP if args.max == 0 else min(args.max, HARD_CAP)
@@ -560,10 +581,12 @@ def run_browser(args, queries, sites, d0, d1):
                     url = build_url(s, queries[rq]["q"], n, y0, y1)
                     if firefox:
                         driver.get(url)
-                        time.sleep(2)
-                        body = driver.find_element(by.TAG_NAME, "body").text
+                        body, pairs = wait_firefox_results(driver, by, s)
+                        if "you may close this banner to continue" in body.lower():
+                            input("   Banner de cookies visível. Fecha-o mantendo apenas cookies essenciais e prime Enter... ")
+                            driver.get(url)
+                            body, pairs = wait_firefox_results(driver, by, s)
                         title, current_url, status = driver.title, driver.current_url, None
-                        pairs = [(a.get_attribute("href"), a.text) for a in driver.find_elements(by.CSS_SELECTOR, "a[href]")]
                     else:
                         response = page.goto(url, wait_until="domcontentloaded")
                         try:
@@ -594,6 +617,8 @@ def run_browser(args, queries, sites, d0, d1):
                         if any(h in head.lower() for h in BLOCK_HINTS):
                             sys.exit("   A verificação continua visível; sem a completar não vou continuar a pesquisa.")
                     new = [(h, t) for h, t in extract_links(pairs, s) if h not in seen]
+                    remaining = max(0, limit - len(records))
+                    new = new[:remaining]
                     for h, t in new:
                         seen[h] = t
                         records.append({"title": t, "year": None, "venue": "", "cited": None, "doi": "", "url": h,
@@ -807,7 +832,8 @@ def main():
     for s in sites:
         f = funnel[s]
         print(f"{SITES[s]['label']}: {f['retrieved']} recuperados -> {f['unique']} únicos | revisões {f['revisao']} | "
-              f"fora do domínio {f['fora_dominio']} | candidatos A/B {f['candidato_A']}/{f['candidato_B']}")
+              f"fora do domínio {f['fora_dominio']} | candidatos A/B {f['candidato_A']}/{f['candidato_B']} | "
+              f"triagem manual {f['triagem_manual']}")
 
 
 if __name__ == "__main__":

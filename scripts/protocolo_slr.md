@@ -1,7 +1,7 @@
 # Protocolo de revisão sistemática da literatura
 
-**Versão:** rascunho de trabalho 0.1  
-**Data:** 2026-10-28  
+**Versão:** rascunho de trabalho 0.2  
+**Data:** 2026-10-29  
 **Janela temporal prevista:** 2021-10-27 a 2026-10-27  
 **Fontes principais propostas:** Scopus, IEEE Xplore e ACM Digital Library
 
@@ -75,18 +75,18 @@ Cada expressão abaixo tem no máximo oito operadores booleanos. As pesquisas te
 ("large language model" OR LLM) AND (reliability OR robustness OR security OR "prompt injection") AND (chatbot OR "conversational system")
 ```
 
-**RQ1d — Desempenho, custos e integração (7 operadores)**
+**RQ1d — Desempenho, custos e integração em sistemas conversacionais (8 operadores)**
 
 ```text
-("large language model" OR LLM) AND (latency OR cost OR efficiency) AND (integration OR deployment OR architecture)
+("large language model" OR LLM) AND (latency OR cost OR efficiency OR integration) AND (chatbot OR "conversational system" OR "question answering")
 ```
 
 ### RQ2 — Avaliação de respostas
 
-**RQ2a — Correção e fidelidade (7 operadores)**
+**RQ2a — Avaliação de fidelidade e correção em sistemas conversacionais (8 operadores)**
 
 ```text
-("large language model" OR LLM) AND (faithfulness OR factuality OR correctness OR "scope adherence") AND (evaluation OR benchmark)
+("large language model" OR LLM) AND (faithfulness OR factuality OR correctness) AND (chatbot OR "conversational system") AND (evaluation OR benchmark)
 ```
 
 **RQ2b — Abstenção e perguntas fora do âmbito (5 operadores)**
@@ -169,6 +169,8 @@ Derivar o gap com a cadeia **evidência → limitação observada → gap susten
 
 ## 12. Estado atual
 
-- As duas RQs e queries acima são uma proposta de protocolo para pilotagem.
+- As duas RQs mantêm-se. RQ1d e RQ2a foram estreitadas após o piloto para exigir termos de sistema conversacional/QA; as variantes foram comparadas em IEEE Xplore e ACM Digital Library.
+- A variante v0.2 reduziu os totais indicados e trouxe títulos mais próximos do âmbito em IEEE e ACM. A repetição da variante v0.2 em ScienceDirect foi bloqueada, pelo que a respetiva validação ainda está pendente.
+- Os totais e os 30 títulos por query do piloto são apenas diagnósticos; não são contagens finais do PRISMA.
 - `resultados_20261028_1426_editor.md` contém resultados OpenAlex e triagem automática; o próprio ficheiro identifica essa origem.
 - A pesquisa nativa final, a deduplicação dos exports, a triagem manual, a avaliação de qualidade, a extração e os números finais do PRISMA ainda têm de ser feitos.

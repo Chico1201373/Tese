@@ -1,0 +1,18 @@
+{
+  "Q1": {
+    "title": "Contexto e sistemas conversacionais (RQ-R1)",
+    "q": "(\"large language model\" OR LLM) AND (grounding OR \"context injection\" OR \"prompt context\" OR \"retrieval-augmented generation\") AND (chatbot OR \"conversational system\" OR \"question answering\")"
+  },
+  "Q2": {
+    "title": "Fidelidade e correção (RQ-R2)",
+    "q": "(\"large language model\" OR LLM) AND (faithfulness OR factuality OR correctness) AND (chatbot OR \"conversational system\") AND (evaluation OR benchmark)"
+  },
+  "Q3": {
+    "title": "Segurança do âmbito (RQ-R1)",
+    "q": "(\"large language model\" OR LLM) AND (\"prompt injection\" OR \"prompt leakage\" OR jailbreak OR guardrails) AND (chatbot OR \"conversational system\")"
+  },
+  "Q4": {
+    "title": "Recusa fora do âmbito (RQ-R2)",
+    "q": "(\"large language model\" OR LLM) AND (\"out-of-scope\" OR abstention) AND (evaluation OR benchmark)"
+  }
+}

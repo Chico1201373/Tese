@@ -4,47 +4,68 @@
 \contentsline {chapter}{Lista de Acr\'onimos}{xvii}{section*.10}%
 \contentsline {chapter}{\numberline {1}Introdução}{1}{chapter.12}%
 \contentsline {section}{\numberline {1.1}Contexto e Motivação}{1}{section.13}%
-\contentsline {section}{\numberline {1.2}Definição do Problema}{1}{section.14}%
-\contentsline {section}{\numberline {1.3}Objetivos}{2}{section.15}%
-\contentsline {section}{\numberline {1.4}Questões de Investigação e Metodologia}{2}{section.21}%
-\contentsline {section}{\numberline {1.5}Estado da Arte e Enquadramento do Trabalho}{2}{section.22}%
-\contentsline {paragraph}{IA como apoio à aprendizagem.}{2}{section*.23}%
-\contentsline {paragraph}{Fiabilidade e validação.}{3}{section*.24}%
-\contentsline {paragraph}{Enquadramento.}{3}{section*.25}%
-\contentsline {section}{\numberline {1.6}Contribuições}{3}{section.26}%
-\contentsline {section}{\numberline {1.7}Estrutura do Documento}{3}{section.27}%
-\contentsline {chapter}{\numberline {2}Estado da Arte}{5}{chapter.28}%
-\contentsline {section}{\numberline {2.1}Introdução}{5}{section.29}%
-\contentsline {section}{\numberline {2.2}Protocolo da Revisão}{5}{section.30}%
-\contentsline {subsection}{\numberline {2.2.1}Questões da Revisão}{5}{subsection.31}%
-\contentsline {subsection}{\numberline {2.2.2}Fontes e Estratégia de Pesquisa}{6}{subsection.32}%
-\contentsline {paragraph}{Pesquisa piloto.}{6}{section*.33}%
-\contentsline {paragraph}{Expressões de pesquisa.}{6}{section*.34}%
-\contentsline {paragraph}{Q1 --- contexto e sistemas conversacionais (RQ-R1).}{6}{section*.35}%
-\contentsline {paragraph}{Q2 --- fidelidade, correção e recusa fora do âmbito (RQ-R2).}{6}{section*.36}%
-\contentsline {paragraph}{Q3 --- segurança do âmbito (RQ-R1).}{6}{section*.37}%
-\contentsline {paragraph}{Regra de paragem e registo.}{6}{section*.39}%
-\contentsline {subsection}{\numberline {2.2.3}Critérios de Inclusão e Exclusão}{7}{subsection.40}%
-\contentsline {subsection}{\numberline {2.2.4}Seleção dos Estudos}{7}{subsection.42}%
-\contentsline {subsection}{\numberline {2.2.5}Avaliação da Qualidade}{7}{subsection.43}%
-\contentsline {subsection}{\numberline {2.2.6}Extração de Dados}{8}{subsection.44}%
-\contentsline {subsection}{\numberline {2.2.7}Ameaças à Validade}{8}{subsection.46}%
-\contentsline {section}{\numberline {2.3}Resultados da Pesquisa}{8}{section.47}%
-\contentsline {section}{\numberline {2.4}Síntese Crítica}{9}{section.48}%
-\contentsline {subsection}{\numberline {2.4.1}Abordagens}{9}{subsection.49}%
-\contentsline {subsection}{\numberline {2.4.2}Avaliação}{9}{subsection.50}%
-\contentsline {subsection}{\numberline {2.4.3}Controlo de Âmbito e Segurança}{9}{subsection.51}%
-\contentsline {subsection}{\numberline {2.4.4}Compromissos Operacionais}{9}{subsection.52}%
-\contentsline {subsection}{\numberline {2.4.5}Limitações Reportadas}{9}{subsection.53}%
-\contentsline {section}{\numberline {2.5}Lacuna de Investigação}{9}{section.54}%
-\contentsline {section}{\numberline {2.6}Conclusões do Capítulo}{9}{section.55}%
-\contentsline {chapter}{\numberline {3}Desenho da Solução}{11}{chapter.56}%
-\contentsline {section}{\numberline {3.1}Requisitos}{11}{section.57}%
-\contentsline {subsection}{\numberline {3.1.1}Requisitos Funcionais}{11}{subsection.58}%
-\contentsline {subsection}{\numberline {3.1.2}Requisitos Não Funcionais}{11}{subsection.59}%
-\contentsline {section}{\numberline {3.2}Contexto de Cada Pergunta}{12}{section.60}%
-\contentsline {section}{\numberline {3.3}Arquitetura}{12}{section.61}%
-\contentsline {section}{\numberline {3.4}Estratégias de \emph {Prompting} e Restrições}{12}{section.63}%
-\contentsline {section}{\numberline {3.5}Verificações Fora do Modelo}{12}{section.64}%
-\contentsline {section}{\numberline {3.6}Escolha do Modelo}{13}{section.65}%
-\contentsline {chapter}{Ap\^endice \numberline {A}Conjunto de Testes do Assistente}{15}{appendix.66}%
+\contentsline {section}{\numberline {1.2}A Organização e o Adhara QBank}{1}{section.14}%
+\contentsline {section}{\numberline {1.3}Definição do Problema}{2}{section.16}%
+\contentsline {section}{\numberline {1.4}Objetivos}{3}{section.17}%
+\contentsline {section}{\numberline {1.5}Questões de Investigação}{4}{section.24}%
+\contentsline {section}{\numberline {1.6}Abordagem Metodológica}{4}{section.25}%
+\contentsline {section}{\numberline {1.7}Gestão de Riscos}{5}{section.32}%
+\contentsline {section}{\numberline {1.8}Contribuições Esperadas}{5}{section.34}%
+\contentsline {section}{\numberline {1.9}Considerações Éticas e Profissionais}{6}{section.35}%
+\contentsline {paragraph}{Utilização de um modelo através de uma API externa.}{6}{section*.36}%
+\contentsline {paragraph}{Registo das perguntas para fins estatísticos.}{6}{section*.37}%
+\contentsline {section}{\numberline {1.10}Estrutura do Documento}{7}{section.38}%
+\contentsline {chapter}{\numberline {2}Estado da Arte}{9}{chapter.39}%
+\contentsline {section}{\numberline {2.1}Fundamentos Teóricos}{9}{section.40}%
+\contentsline {subsection}{\numberline {2.1.1}Aprendizagem com Perguntas e \emph {Feedback}}{9}{subsection.41}%
+\contentsline {subsection}{\numberline {2.1.2}Assistentes Conversacionais}{10}{subsection.42}%
+\contentsline {subsection}{\numberline {2.1.3}Modelos de Linguagem de Grande Dimensão}{10}{subsection.43}%
+\contentsline {subsection}{\numberline {2.1.4}Formas de Fornecer Contexto ao Modelo}{10}{subsection.44}%
+\contentsline {subsection}{\numberline {2.1.5}Alucinação, Fidelidade e Recusa}{11}{subsection.46}%
+\contentsline {subsection}{\numberline {2.1.6}Controlo do Âmbito e Segurança}{11}{subsection.47}%
+\contentsline {subsection}{\numberline {2.1.7}Avaliação de Respostas}{12}{subsection.48}%
+\contentsline {section}{\numberline {2.2}Protocolo da Revisão}{12}{section.49}%
+\contentsline {subsection}{\numberline {2.2.1}Questões da Revisão}{12}{subsection.50}%
+\contentsline {subsection}{\numberline {2.2.2}Fontes e Estratégia de Pesquisa}{13}{subsection.52}%
+\contentsline {paragraph}{Fontes.}{13}{section*.53}%
+\contentsline {paragraph}{Pesquisa piloto.}{13}{section*.54}%
+\contentsline {paragraph}{Expressões de pesquisa.}{13}{section*.55}%
+\contentsline {paragraph}{Campos pesquisados.}{13}{section*.57}%
+\contentsline {paragraph}{Execução e registo.}{14}{section*.58}%
+\contentsline {subsection}{\numberline {2.2.3}Critérios de Inclusão e Exclusão}{14}{subsection.59}%
+\contentsline {subsection}{\numberline {2.2.4}Seleção dos Estudos}{14}{subsection.61}%
+\contentsline {subsection}{\numberline {2.2.5}Avaliação da Qualidade e Extração de Dados}{15}{subsection.66}%
+\contentsline {section}{\numberline {2.3}Resultados da Pesquisa e da Seleção}{16}{section.68}%
+\contentsline {section}{\numberline {2.4}Síntese Crítica}{17}{section.72}%
+\contentsline {subsection}{\numberline {2.4.1}Como o Contexto Chega ao Modelo (RQ1)}{18}{subsection.73}%
+\contentsline {paragraph}{Predomínio do RAG.}{18}{section*.74}%
+\contentsline {paragraph}{O contexto ajuda, mas também pode prejudicar.}{18}{section*.75}%
+\contentsline {paragraph}{Contexto fechado e fornecido diretamente.}{18}{section*.76}%
+\contentsline {paragraph}{Perguntas de escolha múltipla e de exame.}{18}{section*.77}%
+\contentsline {subsection}{\numberline {2.4.2}Controlo do Âmbito e Segurança (RQ1)}{19}{subsection.78}%
+\contentsline {paragraph}{Instruções no \emph {prompt} não chegam.}{19}{section*.79}%
+\contentsline {paragraph}{Recusa fora do âmbito.}{19}{section*.80}%
+\contentsline {paragraph}{Defesas contra injeção de instruções.}{19}{section*.81}%
+\contentsline {subsection}{\numberline {2.4.3}Compromissos Operacionais (RQ1)}{19}{subsection.82}%
+\contentsline {paragraph}{Várias línguas.}{19}{section*.83}%
+\contentsline {subsection}{\numberline {2.4.4}Avaliação da Correção, da Fidelidade e do Âmbito (RQ2)}{20}{subsection.84}%
+\contentsline {paragraph}{Métricas heterogéneas.}{20}{section*.85}%
+\contentsline {paragraph}{LLM como juiz, especialistas e utilizadores.}{20}{section*.86}%
+\contentsline {paragraph}{Fidelidade ao contexto versus conhecimento do modelo.}{20}{section*.87}%
+\contentsline {paragraph}{Avaliação da recusa.}{20}{section*.88}%
+\contentsline {paragraph}{Dimensão das avaliações.}{20}{section*.89}%
+\contentsline {subsection}{\numberline {2.4.5}Limitações Recorrentes}{21}{subsection.90}%
+\contentsline {section}{\numberline {2.5}Lacuna de Investigação}{21}{section.91}%
+\contentsline {section}{\numberline {2.6}Ameaças à Validade}{22}{section.93}%
+\contentsline {section}{\numberline {2.7}Conclusões do Capítulo}{22}{section.94}%
+\contentsline {chapter}{\numberline {3}Desenho da Solução}{23}{chapter.95}%
+\contentsline {section}{\numberline {3.1}Requisitos}{23}{section.96}%
+\contentsline {subsection}{\numberline {3.1.1}Requisitos Funcionais}{23}{subsection.97}%
+\contentsline {subsection}{\numberline {3.1.2}Requisitos Não Funcionais}{23}{subsection.98}%
+\contentsline {section}{\numberline {3.2}Contexto de Cada Pergunta}{24}{section.99}%
+\contentsline {section}{\numberline {3.3}Arquitetura}{24}{section.100}%
+\contentsline {section}{\numberline {3.4}Estratégias de \emph {Prompting} e Restrições}{24}{section.102}%
+\contentsline {section}{\numberline {3.5}Verificações Fora do Modelo}{24}{section.103}%
+\contentsline {section}{\numberline {3.6}Escolha do Modelo}{25}{section.104}%
+\contentsline {chapter}{Bibliografia}{27}{chapter*.105}%
+\contentsline {chapter}{Ap\^endice \numberline {A}Estudos Prioritários da Revisão}{35}{appendix.106}%

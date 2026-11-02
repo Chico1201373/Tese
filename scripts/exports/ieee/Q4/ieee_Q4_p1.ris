@@ -1,0 +1,1066 @@
+TY  - CONF
+TI  - POKG: Process-Oriented Knowledge Graph Recovery from Heterogeneous Industrial Assembly Documents with Conservative Abstention
+T2  - 2026 International Annual Conference on Complex Systems and Intelligent Science (CSIS-IAC)
+SP  - 837
+EP  - 842
+AU  - X. Liu
+AU  - F. Wu
+AU  - J. Cheng
+PY  - 2026
+KW  - Materials
+KW  - Maintenance engineering
+KW  - Assembly
+KW  - Pipelines
+KW  - Printing
+KW  - Modeling
+KW  - Knowledge graphs
+KW  - Construction
+KW  - Large language models
+KW  - Routing
+KW  - knowledge graph construction
+KW  - industrial assembly
+KW  - conservative abstention
+KW  - process-family routing
+KW  - process-oriented core knowledge graph
+KW  - large language model extraction pipeline
+DO  - 10.1109/CSIS-IAC70275.2026.11584985
+JO  - 2026 International Annual Conference on Complex Systems and Intelligent Science (CSIS-IAC)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 International Annual Conference on Complex Systems and Intelligent Science (CSIS-IAC)
+Y1  - 15-17 May 2026
+AB  - Industrial assembly documents—operator Standard Operating Procedures (SOPs) from Manufacturing Execution Systems and material specifications from Product Lifecycle Management / Enterprise Resource Planning (PLM/ERP) systems—contain the key parameters needed for downstream execution, yet no existing method recovers a process-oriented core knowledge graph (hereafter core execution graph) from such heterogeneous sources while systematically abstaining on non-target inputs. We present POKG, a framework that reformulates document-to-KG construction under a dual-constraint mechanism: core execution graph recovery on target press-fit assembly documents and conservative abstention (returning an empty graph) on non-target, cross-domain, or evidence-sparse documents. We construct a 20-bundle evaluation corpus whose target bundles mirror the document packaging conventions of real industrial production sites and whose non-target bundles include cross-domain, near-miss, and corrupted inputs. The pipeline integrates process-family routing, multi-source extraction with type-specific prompts, evidence-gated candidate adjudication, and topology guards. A dual-agent review-and-repair extension addresses the omission-dominant error profile through structure–evidence disentangled auditing with bounded recovery. On the 20-bundle corpus (10 target, 10 non-target), the base pipeline achieves target node F1 = 0.95 and target edge F1 = 0.60; the dual-agent extension raises edge F1 to 0.83 (mean ± 0.03 over 5 runs); 9 of 10 non-target bundles correctly produce empty graphs (degradation accuracy = 0.90).
+ER  - 
+
+TY  - CONF
+TI  - Abstention-Aware Personalized Object Rearrangement via Uncertainty-Guided LLM Assistance
+T2  - 2026 IEEE 35th International Conference on Robot and Human Interactive Communication (RO-MAN)
+SP  - 2433
+EP  - 2440
+AU  - S. Collin
+AU  - A. Ayub
+PY  - 2026
+KW  - Modeling
+KW  - Surfaces
+KW  - Large language models
+KW  - Context
+KW  - Printing
+KW  - Robots
+KW  - Equations
+KW  - Conferences
+KW  - Learning (artificial intelligence)
+KW  - Timing
+DO  - 10.1109/RO-MAN72286.2026.11714618
+JO  - 2026 IEEE 35th International Conference on Robot and Human Interactive Communication (RO-MAN)
+IS  - 
+SN  - 1944-9437
+VO  - 
+VL  - 
+JA  - 2026 IEEE 35th International Conference on Robot and Human Interactive Communication (RO-MAN)
+Y1  - 24-28 Aug. 2026
+AB  - Robotic assistance in household environments requires not only predicting where objects should be placed, but also reasoning about when objects should not be placed at all. Existing approaches to personalized object rearrangement primarily focus on placement decisions under the assumption of clean observations and complete actionability, limiting their applicability in realistic, cluttered, and partially erroneous settings. In this paper, we introduce APOLLO, a hybrid framework for abstention-aware personalized object rearrangement that combines a lightweight, personalized embedding model (PEM) with selective large language model (LLM) assistance. PEM is trained for each user-environment pair using a small number of demonstrations, operates entirely on CPU, and produces uncertainty estimates, which are used to selectively invoke LLM-based reasoning only for ambiguous decisions, balancing efficiency, privacy, and reasoning capability. To evaluate this formulation beyond existing benchmarks, we introduce APOR, a synthetic, LLM-generated dataset that captures room-level, multi-furniture environments, diverse organizational profiles, explicit abstention behavior, and noisy partial scene context. Extensive experiments on both PARSEC and APOR provide initial evidence that APOLLO improves over prior LLM-based baselines in controlled benchmark settings while substantially reducing LLM usage. Code is available at https://github.com/PaInt-Lab/APOLLO.
+ER  - 
+
+TY  - CONF
+TI  - Discovering and Repairing Blind Spots in LLM-as-a-Judge Evaluation of Multi-Turn AI Systems
+T2  - 2026 International Conference on Intelligent and Sustainable AI Systems (ICOSAAS)
+SP  - 1611
+EP  - 1618
+AU  - V. Gummadavelli
+AU  - U. Imtiaz
+AU  - P. A
+AU  - S. H. Kolla
+AU  - N. S. Bavirisetty
+AU  - S. R. Kondapalli
+PY  - 2026
+KW  - Large language models
+KW  - Modeling
+KW  - Equations
+KW  - Annotations
+KW  - Turning
+KW  - Tagging
+KW  - Calibration
+KW  - Labeling
+KW  - Printing
+KW  - Maintenance engineering
+KW  - LLM evaluation
+KW  - human-in-the-loop
+KW  - rubric learning
+KW  - multi-turn dialogue systems
+KW  - judge calibration
+KW  - AI alignment
+DO  - 10.1109/ICOSAAS68663.2026.11648543
+JO  - 2026 International Conference on Intelligent and Sustainable AI Systems (ICOSAAS)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 International Conference on Intelligent and Sustainable AI Systems (ICOSAAS)
+Y1  - 20-22 July 2026
+AB  - The widespread use of Large Language Models (LLMs) as automated evaluators for multi-turn conversational AI systems is due to their scalability and adaptability. Nonetheless, LLM-as-a-judge systems often have systemic blind spots, leading to the neglect of certain flaws because to insufficient, inflexible, or biased assessment standards. This project investigates if disparities between human annotations and LLM evaluations might function as a diagnostic instrument to identify missing evaluation criteria and improve rubric design. By developing a rubric, we provide a systematic framework that may identify indications of disagreement, categorize them to uncover concealed defect patterns, and initiate new aspects of evaluation. The proposed improvements to the rubric are assessed using previously inspected datasets to verify its universality and reliability. We provide a confidence-aware abstention mechanism that detects doubtful predictions and refers them to human assessors to enhance safety and dependability. Experimental results demonstrate that the proposed technique improves defect memory, optimizes the calibration of confidence and accuracy in defect prediction, decreases false alarms, and lowers total annotation costs. Our findings suggest that human disagreement should be regarded not just as noise, but as a crucial signal that might enhance LLM-based assessment systems over time.
+ER  - 
+
+TY  - CONF
+TI  - Abstention-Aware Deepfake Screening with Multi-Model Ensembles: An Atomic Evaluation Framework
+T2  - 2026 International Conference on Intelligent Digitization of Systems and Services (IDSS)
+SP  - 47
+EP  - 54
+AU  - C. Bernardino
+AU  - C. Costa
+AU  - J. Aparício
+PY  - 2026
+KW  - Modeling
+KW  - Deepfakes
+KW  - Design methodology
+KW  - Safety
+KW  - Artificial intelligence
+KW  - Large language models
+KW  - Printing
+KW  - Signal detection
+KW  - Generative Pre-trained transformer
+KW  - Forensics
+KW  - Deepfake Screening
+KW  - Multi-Model Verification
+KW  - Cognitive Security
+KW  - Design Science Research
+KW  - AI Quality Assurance
+KW  - Information Warfare
+KW  - Human-AI Collaboration
+KW  - Signal Detection Theory
+DO  - 10.1109/IDSS69894.2026.11691473
+JO  - 2026 International Conference on Intelligent Digitization of Systems and Services (IDSS)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 International Conference on Intelligent Digitization of Systems and Services (IDSS)
+Y1  - 12-15 May 2026
+AB  - The proliferation of AI-generated deepfakes poses major risks to information integrity, democratic processes, and national security. In operational settings, deepfake screening must handle both classification and model abstentions/refusals. In our experiments, a tested commercial vision-language model (VLM) exhibited safety-driven abstention behavior that can collapse automated recall under common REAL-by-default mappings. This paper presents an Atomic Evaluation Framework (AEF), developed using Design Science Research Methodology (DSRM), for abstention-aware, multi-model (LLM/VLM) ensemble screening with structured rationale outputs and auditability.We report four empirical findings: (1) self-judgment bias on own generations across five rhetorical profiles (N=100) shows +15.3% average overrating (t=18.07, p < 0.01), with independent cross-model evaluation indicating a "Safety-Induced Blind Spot"; (2) pilot results consistent with a "Safety–Security Paradox" in which a commercial VLM exhibits 100% abstention on a Face-Forensics++ subset (N=20), yielding 0% recall under REAL-by-default mapping; (3) an abstention-aware fusion policy combined with an open-source VLM achieves 57.1% effective recall on the same subset, while a supervised baseline (XceptionNet) reaches 100% recall; and (4) a pilot user study with OSINT analysts (N=15) shows 55% trust improvement and 83% faster decision-making with explainable outputs.This paper contributes to the literature with: (1) empirical quantification of LLM self-judgment bias with cross-model validation; (2) an abstention-aware formulation and measurement of safety-induced screening failures in commercial VLMs; (3) an atomic, multi-model screening architecture that supports human triage and auditability; and (4) an open, sovereignty-enabling implementation supporting on-premise deployment.
+ER  - 
+
+TY  - CONF
+TI  - Guardrailed Financial Decision Support with LLMs: A Practical Architecture and Pilot Evaluation on Public U.S. Regulatory Data
+T2  - 2026 2nd International Conference on Advanced Machine Learning and Data Science (AMLDS)
+SP  - 68
+EP  - 71
+AU  - V. Pandey
+PY  - 2026
+KW  - Modeling
+KW  - Large language models
+KW  - Electronic mail
+KW  - Prototypes
+KW  - Artificial intelligence
+KW  - Manuals
+KW  - Planing
+KW  - Financial technology
+KW  - LLM guardrails
+KW  - secure systems
+KW  - prompt injection
+KW  - data leakage prevention
+KW  - hallucination resistance
+KW  - retrieval-augmented generation
+KW  - cybersecurity
+DO  - 10.1109/AMLDS69611.2026.11723810
+JO  - 2026 2nd International Conference on Advanced Machine Learning and Data Science (AMLDS)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 2nd International Conference on Advanced Machine Learning and Data Science (AMLDS)
+Y1  - 21-23 July 2026
+AB  - Large language models are attractive in financial services because they can turn dense policy text, complaint narratives, and public filings into faster answers for analysts. The problem is that the same systems can also be manipulated, leak sensitive content, or sound confident when they are wrong. This paper presents a practical guardrail architecture for LLM-assisted financial decision support and evaluates it in a small but reproducible pilot built on public U.S. regulatory and consumer-finance sources. The prototype uses role-aware retrieval, prompt-injection screening, output redaction, evidence checks, and safe abstention. To keep the evaluation reproducible across institutions, the experiment isolates the guardrail plane with a local retrieval-and-policy harness over public financial text derived from CFPB, SEC, FinCEN, FFIEC, NIST, PCI DSS, and NYDFS materials. On an evaluation set of 18 in scope questions, 20 prompt-injection attacks, 20 leakage probes, and 12 out-of-scope prompts, the guarded system preserved in scope grounded accuracy at 94.4%, reduced prompt-injection success from 100% to 0%, reduced leakage from 100% to 0%, and lowered unsupported answers on out-of-scope prompts from 100% to 16.7%. The results are from a pilot prototype rather than a production bank deployment, but they show that useful financial AI systems become far more trustworthy when the control plane is engineered as seriously as the model itself.
+ER  - 
+
+TY  - CONF
+TI  - A Multi-Agent Graph RAG Framework with ReAct and A2A Protocol
+T2  - 2026 IEEE 1st International Conference on Instrumentation (INSTCon)
+SP  - 1
+EP  - 6
+AU  - N. Taneja
+AU  - T. Sharma
+PY  - 2026
+KW  - Turning
+KW  - Printing
+KW  - Large language models
+KW  - Modeling
+KW  - Aluminum
+KW  - Context
+KW  - Knowledge graphs
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Retrieval augmented generation
+KW  - Indian Penal Code
+KW  - Graph RAG
+KW  - Multi-Agent Systems
+KW  - ReAct
+KW  - A2A Protocol
+KW  - TF-IDF
+KW  - Knowledge Graph
+KW  - Legal Question Answering
+KW  - BNS Context Drift
+KW  - Memory Degradation
+KW  - LLM Evaluation
+DO  - 10.1109/INSTCon69741.2026.11691713
+JO  - 2026 IEEE 1st International Conference on Instrumentation (INSTCon)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 IEEE 1st International Conference on Instrumentation (INSTCon)
+Y1  - 24-25 July 2026
+AB  - Legal question answering over the Indian Penal Code 1860 (IPC) demands precision, structured reasoning, and source verifiability. This work identifies two failure modes in LLM-based IPC retrieval. First, multi-turn context degradation: LLM accuracy declines substantially across extended dialogue as earlier legal context is progressively displaced within the context window. Second, corpus context drift: all four evaluated LLMs spontaneously cite Bharatiya Nyaya Sanhita 2023 (BNS) section numbers when answering IPC-targeted queries despite explicit IPC-only instructions—an out-of-scope hallucination caused by LLMs mapping to the current statutory code.We propose a Multi-Agent Graph RAG Framework comprising: (i) a typed Knowledge Graph of 598 nodes and 15,430 relational edges from 575 IPC sections; (ii) TF-IDF sparse retrieval for jargon-precise section identification; and (iii) a ReAct-driven Agent-to-Agent (A2A) protocol with three parallel specialised agents (Researcher, Prosecutor, Defense).Evaluation on 30 LLM baseline queries finds Full Section Accuracy of 63.3–98.3%, with every LLM producing BNS citations for 10 queries. An ablation study over 100 queries (10 turns × 10 queries per turn) shows the Knowledge Graph contributes +8.0 pp Hit@5 (p=0.013) and EXCEPTION_OF edges +7.0 pp (p=0.023). The Multi-Agent A2A protocol contributes 0 pp to retrieval coverage but improves qualitative answer structure. The framework achieves 94% overall multi-turn accuracy, 100% T10 retention, and zero BNS corpus drift across 100 queries.
+ER  - 
+
+TY  - CONF
+TI  - Large Language Models for Radiology QA: Benchmarking and Error Taxonomy on RadQA
+T2  - 2026 IEEE 14th International Conference on Healthcare Informatics (ICHI)
+SP  - 184
+EP  - 193
+AU  - A. Hamidi
+AU  - K. Roberts
+PY  - 2026
+KW  - Modeling
+KW  - Tuning
+KW  - Radiology
+KW  - Taxonomy
+KW  - Gold
+KW  - Printing
+KW  - Poles and zeros
+KW  - Equations
+KW  - Measurement
+KW  - Natural language processing
+KW  - large language model
+KW  - question answering
+KW  - radiology
+KW  - EHR
+KW  - error taxonomy
+DO  - 10.1109/ICHI69079.2026.00034
+JO  - 2026 IEEE 14th International Conference on Healthcare Informatics (ICHI)
+IS  - 
+SN  - 2575-2634
+VO  - 
+VL  - 
+JA  - 2026 IEEE 14th International Conference on Healthcare Informatics (ICHI)
+Y1  - 1-3 June 2026
+AB  - Radiology reports are a critical source of clinical information but are often lengthy, variable in structure, and difficult for non-radiologists to navigate. Question answering (QA) systems can help clinicians rapidly retrieve relevant findings, yet existing evaluations of extractive QA on radiology reports rely heavily on aggregate metrics such as exact match (EM) and F1, which obscure important failure modes. In this work, we benchmark modern open large language models (LLMs), such as LLaMA 3.1-8B, LLaMA 3.2-3B, and Mistral-Small-22B, on the RadQA dataset under zero-shot, few-shot, and fine-tuned settings. We report performance using EM, F1, and a sentence-level measure (SM), and introduce a structured error taxonomy that disaggregates incorrect predictions into eight categories, including hallucination, superset, subset, and abstention errors. Our results show that fine-tuning substantially outperforms in-context prompting, with LLaMA 3.1-8B achieving 61% EM, 77% F1, and 85% SM, surpassing previously reported baselines on RadQA. The taxonomy reveals that fine-tuning not only raises accuracy but also eliminates hallucinations and reduces false positive and false negative abstentions, concentrating residual errors in boundary-level categories such as superset and subset. These findings demonstrate the value of combining standard metrics with taxonomy-driven analysis to better understand model behavior and highlight future directions, including reasoning-oriented LLMs and hybrid extractive–generative approaches, for building reliable clinical QA systems.
+ER  - 
+
+TY  - CONF
+TI  - Hint Based Query Optimization with LLM Agent and Plan Similarity
+T2  - 2025 IEEE XVII International Scientific and Technical Conference on Actual Problems of Electronic Instrument Engineering (APEIE)
+SP  - 1
+EP  - 4
+AU  - N. Vasilenko
+AU  - A. Demin
+AU  - V. Burlakov
+PY  - 2025
+KW  - Training
+KW  - Structured Query Language
+KW  - Costs
+KW  - Databases
+KW  - Query processing
+KW  - Search problems
+KW  - Vectors
+KW  - Engines
+KW  - Standards
+KW  - Testing
+KW  - databases
+KW  - query optimization
+KW  - language models
+KW  - embeddings
+KW  - agent guided search
+DO  - 10.1109/APEIE66761.2025.11289347
+JO  - 2025 IEEE XVII International Scientific and Technical Conference on Actual Problems of Electronic Instrument Engineering (APEIE)
+IS  - 
+SN  - 2473-8573
+VO  - 
+VL  - 
+JA  - 2025 IEEE XVII International Scientific and Technical Conference on Actual Problems of Electronic Instrument Engineering (APEIE)
+Y1  - 14-16 Nov. 2025
+AB  - Cost based SQL optimizers remain brittle under real world data and engine diversity; small errors in cardinality or cost estimates can cascade into poor plans. We propose a conceptual architecture for hint based query optimization and describe two modules in detail: a fast module which encodes physical plans as text, embeds with a pretrained language model, retrieves nearest neighbors, and produces a compact binary hint vector with a safety check against the default plan; and an agent guided module powered by a fine tuned Large Language Model, which refines hints through iterative search with database feedback under a strict evaluation budget. We specify interfaces, data flow, and decision policies for both modules, and outline integration through standard hint mechanisms without engine changes. Preliminary module level results on JOB CEB indicate roughly twenty percent average runtime reduction for the fast module and fewer trial executions than a greedy baseline for the agent guided module. The paper focuses on architecture and module behavior rather than a single end to end deployment, so system wide testing is intentionally out of scope.
+ER  - 
+
+TY  - CONF
+TI  - Self-Verifying and Abstaining Agentic RAG System for Turkish Question Answering
+T2  - 2026 11th International Conference on Computer Science and Engineering (UBMK)
+SP  - 698
+EP  - 703
+AU  - K. Tohma
+AU  - P. Güneş
+AU  - H. Benli
+PY  - 2026
+KW  - large language models
+KW  - retrieval-augmented generation
+KW  - agentic AI
+KW  - hallucination control
+KW  - abstention
+KW  - Turkish NLP
+KW  - semantic search
+DO  - 10.1109/UBMK71847.2026.11745320
+JO  - 2026 11th International Conference on Computer Science and Engineering (UBMK)
+IS  - 
+SN  - 2521-1641
+VO  - 
+VL  - 
+JA  - 2026 11th International Conference on Computer Science and Engineering (UBMK)
+Y1  - 16-20 Sept. 2026
+AB  - Although Large Language Models (LLMs) demonstrate impressive success in open-ended text generation, their propensity for hallucination limits their utility in knowledge-intensive and high-reliability applications. This study proposes a self-contained, agentic, and self-verifying Retrieval-Augmented Generation (RAG) system designed for Turkish knowledge-based question-answering. The developed architecture comprises a five-stage pipeline: dynamic routing, multi-query generation, content relevance filtering, citation-based response generation, and groundedness verification. The primary contribution of this work is an abstention mechanism that integrates thresholding with LLM-based sufficiency evaluation to prevent the system from generating erroneous information when sources are insufficient or irrelevant. Experimental evaluation conducted on a Turkish knowledge base consisting of 118 documents in the artificial intelligence domain and a 45-question test suite demonstrates a 100% routing accuracy, an MRR of 0.90 in retrieval performance, and a 100% groundedness rate, while achieving 100% correct abstention and 0% hallucination risk on out-of-domain questions. These findings indicate that the proposed self-verified and agentic RAG approach offers a reliable and verifiable information retrieval framework for the Turkish language.
+ER  - 
+
+TY  - CONF
+TI  - LAVENDER: Lightweight Abstention-Aware Verification for Behavioural and Factual Hallucination Detection in Large Language Models
+T2  - 2026 IEEE Guwahati Subsection Conference (GCON)
+SP  - 1
+EP  - 6
+AU  - P. Kumar
+AU  - A. Deepankar
+AU  - S. Kumar
+AU  - V. K. Bohat
+PY  - 2026
+KW  - Modeling
+KW  - Large language models
+KW  - Accuracy
+KW  - Signal detection
+KW  - Printing
+KW  - Measurement
+KW  - Uncertainty
+KW  - Retrieval augmented generation
+KW  - Equations
+KW  - Indexes
+KW  - Large Language Models
+KW  - Hallucination Detection
+KW  - Verification-Aware Evaluation
+KW  - UMWP Dataset
+KW  - Model Reliability
+DO  - 10.1109/GCON69192.2026.11648944
+JO  - 2026 IEEE Guwahati Subsection Conference (GCON)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 IEEE Guwahati Subsection Conference (GCON)
+Y1  - 3-5 June 2026
+AB  - Large Language Models (LLMs) have displayed strong performance across a vast set of reasoning and language tasks, yet they often generate confident responses even in the absence of sufficient information, a phenomenon commonly known as hallucination. Conventional evaluation metrics such as accuracy fail to adequately detect this behaviour, as they focus only on correctness in answerable cases while not prioritising unjustified confidence in unanswerable cases. In this paper, we propose a lightweight and model-agnostic framework for detecting hallucination behaviour in LLM responses through verification-aware evaluation. We evaluate four contemporary LLMs under identical zero-shot conditions. Behavioural hallucination is identified by whether models abstain on unanswerable questions, while semantic similarity techniques are used to assess unsupported or fabricated responses. Experimental results reveal that although all evaluated models achieve high accuracy on answerable instances, they frequently exhibit systematic hallucination behaviour by generating answers for unanswerable problems. These findings demonstrate that high accuracy does not necessarily imply trustworthy model behaviour. Our proposed framework offers an efficient and practical solution for hallucination detection without requiring model retraining or additional infrastructure.
+ER  - 
+
+TY  - CONF
+TI  - DCWF-QA: A Domain Benchmark for Retrieval-Augmented Question Answering on Direct-Coupled Waveguide Filters
+T2  - 2026 IEEE International Conference on Radio Frequency and Antenna Technologies (RFAT)
+SP  - 183
+EP  - 187
+AU  - Y. Hu
+AU  - W. Zhang
+AU  - F. Feng
+AU  - K. Liu
+PY  - 2026
+KW  - Modeling
+KW  - Grounding
+KW  - Retrieval augmented generation
+KW  - Radio frequency
+KW  - Tuning
+KW  - Topology
+KW  - Printing
+KW  - Design methodology
+KW  - Large language models
+KW  - Filtering
+KW  - retrieval-augmented generation
+KW  - microwave filters
+KW  - waveguide filters
+DO  - 10.1109/RFAT69041.2026.11634074
+JO  - 2026 IEEE International Conference on Radio Frequency and Antenna Technologies (RFAT)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 IEEE International Conference on Radio Frequency and Antenna Technologies (RFAT)
+Y1  - 15-18 May 2026
+AB  - Large language models (LLMs) are increasingly used for technical assistance, yet their reliability on highly specialized RF/microwave engineering queries is not well quantified. We introduce DCWF-QA, a focused benchmark for direct-coupled waveguide filters (DCWF) built from 214 peer-reviewed papers. We define six question types to cover the core information needs and typical failure modes in this domain: numeric specifications, structural/topology reasoning, transmission-zero analysis, tuning/manufacturing considerations, design-process workflows, and refusal/abstention for evidence-insufficient cases. Starting from 25680 LLM-synthesized candidates, expert screening yields 3107 curated questions with traceable paper identifiers. We evaluate representative LLMs under no-retrieval and article-level RAG settings using end-to-end answer accuracy (QA-Acc) and retrieval evidence recall (Hit@5). Results show that DCWF-QA is challenging for LLMs without retrieval, while RAG effectively improves answer correctness and achieves strong evidence coverage. Nevertheless, the overall performance of current models remains unsatisfactory with substantial room for improvement. This demonstrates that grounding is both measurable and beneficial for specialized engineering QA, and highlights the significance of DCWF-QA as a targeted evaluation framework to advance model capability in this niche domain.
+ER  - 
+
+TY  - JOUR
+TI  - Cognition-Aware LLM Assistance for Light and Full Post-Editing: Cognitive Load Profiling and Adaptive Intervention From Keystroke Dynamics
+T2  - IEEE Access
+SP  - 162708
+EP  - 162734
+AU  - R. Du
+AU  - R. Lu
+PY  - 2026
+KW  - Modeling
+KW  - Timing
+KW  - Large language models
+KW  - Calibration
+KW  - Translation
+KW  - Windows
+KW  - Labeling
+KW  - Machining
+KW  - NASA
+KW  - Cognition
+KW  - Cognition-aware LLM assistance
+KW  - machine translation post-editing
+KW  - cognitive load estimation
+KW  - keystroke dynamics
+KW  - adaptive human–AI collaboration
+DO  - 10.1109/ACCESS.2026.3745280
+JO  - IEEE Access
+IS  - 
+SN  - 2169-3536
+VO  - 14
+VL  - 14
+JA  - IEEE Access
+Y1  - 2026
+AB  - Large language models (LLMs) can improve machine-translation post-editing, but always-on assistance ignores whether support is needed at a given moment and can introduce unnecessary interruption or over-reliance. This problem is amplified by light post-editing (LPE) and full post-editing (FPE), which impose different quality targets and revision demands. We propose a cognition-aware LLM assistance framework that uses non-intrusive keystroke dynamics to connect trial-level workload grounding with selective adaptive intervention. The framework learns task-conditioned hierarchical representations that separate translator-level behavioral profiles from a latent within-trial workload-evidence trajectory, using post-task NASA-TLX only as training-time weak supervision. It then performs profile-calibrated online estimation with explicit uncertainty and abstention and applies a cognition-gated policy that selects the minimum useful assistance level. Evaluation combines a controlled English–Chinese LPE/FPE study with 64 translators and 1,536 sessions (CALPE-64) with three public translation-process resources. On CALPE-64, the proposed estimator achieves a session-level Macro-F1 of 0.781 and an ECE of 0.041. In the held-out human–LLM comparison, aggregate COMET reaches 0.837/0.872 for LPE/FPE while observed editing time and post-task NASA-TLX are lower than in the principal static and always-on conditions. Participant-level mixed-effects models, using translator and source as repeated-observation structure, confirm the primary time and workload contrasts after multiplicity correction. A separate temporally aligned validation check shows moderate within-participant convergence between the latent evidence trajectory and sparse short-horizon mental-effort probes, while matched-budget random-timing and text/QE timing controls are evaluated as offline mechanism diagnostics rather than counterfactual human outcomes. The local trajectory, behavioral recovery time, and unnecessary-intervention rate are therefore interpreted as model-derived operational evidence, not independent moment-to-moment cognitive ground truth. These results support conservative, minimum-necessary assistance while bounding stronger claims about the unique causal role of cognition-aware timing.
+ER  - 
+
+TY  - JOUR
+TI  - Navigating the Certainty Gap: The Hydraulic Effect of Evidence-Constrained LLMs in Professional Decision-Making
+T2  - IEEE Access
+SP  - 126075
+EP  - 126103
+AU  - F. Gundidza
+AU  - M. Kikuchi
+AU  - T. Ozono
+PY  - 2026
+KW  - Modeling
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Large language models
+KW  - Uncertainty
+KW  - Costing
+KW  - Costs
+KW  - Decision making
+KW  - Labeling
+KW  - Filtering
+KW  - Abstention
+KW  - cross-domain analysis
+KW  - evidence-constrained framework
+KW  - false confirmation rate
+KW  - hydraulic effect
+KW  - large language models
+KW  - modality filter
+KW  - normalcy rule
+KW  - semantic reliability
+KW  - trustworthy AI
+DO  - 10.1109/ACCESS.2026.3723798
+JO  - IEEE Access
+IS  - 
+SN  - 2169-3536
+VO  - 14
+VL  - 14
+JA  - IEEE Access
+Y1  - 2026
+AB  - Large Language Models (LLMs) are increasingly deployed in high-stakes environments, including infrastructure auditing, medical assessment, legal analysis, and peer review. However, these failures arise less from knowledge limitations than from systematic misinterpretation of modality (fact vs. possibility) and unstable decision commitment, leading to two opposing failure modes: false confirmations (over-commitment) and over-abstention (excessive conservatism). To address this, we propose the Evidence–Constrained (EC) Framework, a structured paradigm for regulating LLM decision boundaries through two complementary mechanisms: a Modality Filter (“the Brake”), which enforces strict separation between factual and conditional evidence, and a Normalcy Rule (“the Accelerator”), which enables inference of non-events from routine reporting structures. These terms are used as analytical metaphors describing opposing influences on commitment behavior rather than literal computational operators. We evaluate the framework through a cross-domain experimental study spanning construction, medical, legal, and peer-review tasks, compared against domain-informed human evaluation. Results reveal a systematic trade-off phenomenon, termed “Hydraulic Effect”, where reducing false confirmations increases abstention, reaching up to 35%. We further identify recurring cross-domain failure patterns, including temporal-modality confusion, lexical overheating, and the Condition Precedent Gap. Rather than yielding a single configuration that is uniformly optimal across the evaluated benchmark, the EC framework exposes a persistent trade-off between decision safety and coverage, suggesting that reliable LLM deployment may require explicit calibration of commitment thresholds under uncertainty. These findings provide exploratory guidance for the design of uncertainty-aware LLM workflows. The reported results should be interpreted as evidence from controlled behavioral experiments on carefully selected ambiguity-sensitive benchmark cases rather than as estimates of real-world deployment performance.
+ER  - 
+
+TY  - JOUR
+TI  - CLARITY: An End-to-End Retrieval-Augmented Generation Pipeline for Ontology-Aligned Industrial Device Auto-Configuration
+T2  - IEEE Internet of Things Journal
+SP  - 1
+EP  - 1
+AU  - A. G. Ganie
+AU  - S. Ezzini
+AU  - M. Nouioua
+PY  - 2026
+KW  - Modeling
+KW  - Radio access networks
+KW  - Regional area networks
+KW  - Ontologies
+KW  - Generators
+KW  - Back
+KW  - Registers
+KW  - Protocols
+KW  - Pipelines
+KW  - Writing
+KW  - Retrieval-augmented generation
+KW  - large language models
+KW  - industrial automation
+KW  - device commissioning
+KW  - fieldbus
+KW  - OPC UA
+KW  - ontology
+KW  - SHACL
+KW  - JSON-LD
+KW  - abstention
+KW  - hallucination
+KW  - Industry 4.0
+DO  - 10.1109/JIOT.2026.3743453
+JO  - IEEE Internet of Things Journal
+IS  - 
+SN  - 2327-4662
+VO  - 
+VL  - 
+JA  - IEEE Internet of Things Journal
+Y1  - 
+AB  - Commissioning an industrial field device still requires an automation engineer to locate the correct manual, extract dozens of protocol-specific parameters (register maps, node identifiers, station addresses, baud rates), and transcribe them into a supervisory system, a workflow that is slow, expensive, and vulnerable to transcription errors whose consequences range from silent data loss to unsafe actuator behavior. This paper presents CLARITY (Context-aware LLM-Assisted Retrieval and Intelligent Auto-configuraTion sYstem), a fully on-premises pipeline that automates this workflow for Modbus, OPC UA, Profibus DP, and CANopen devices. CLARITY chunks device manuals into a hybrid knowledge base combining 1024-dimensional BGE-M3 dense embeddings, BM25 sparse retrieval, and an ontology-graph term boost fused by Reciprocal Rank Fusion; reranks candidates with a sigmoid-normalized cross-encoder; guards a local llama3.1:8b generator with a two-stage abstention gate (rerank-score threshold and IRI resolution ratio); validates generated JSON-LD configurations against protocol-specific SHACL shapes; and deploys through protocol adapters with post-deployment read-back verification. We contribute a component-wise evaluation methodology with evidence-grounded relevance labels and release the full harness. On a 71-chunk corpus with 28 field-level queries, hybrid retrieval with reranking reaches HitRate@10 of 0.964 and MRR@10 of 0.625; rerank scores of documented and undocumented queries separate by a factor of 8.6 with no overlap, so a wide threshold band yields perfect abstention decisions. The generator attains micro field-level F1 = 0.867 with a systematic failure isolated to the OPC UA schema, a defect that component-wise evaluation localizes to the generator and its validation shape rather than retrieval, and that read-back verification catches in every run. Across 15 end-to-end runs on an H100 GPU (a deliberately small benchmark, whose success rates we therefore report with 95% Wilson confidence intervals), documented devices are commissioned in 2.6 to 6.6 seconds with no unsafe writes (0/15; upper 95% bound 0.20) and every failing run terminating in an explicit, machine-readable failure signal (7/7 detected). Modbus and OPC UA are exercised over live network I/O with read-back, whereas Profibus DP and CANopen are validated structurally without bus I/O; all generation uses a single local open-weights model (llama3.1:8b); holding retrieval and validation fixed and swapping only the generator, four open on-premises models all attain field-level F1 between 0.83 and 0.97, indicating the accuracy is a property of the pipeline rather than of one model. A case study then applies the pipeline to a Universal Robots UR5e collaborative robot, with the vendor’s published manuals as the only corpus and a physics-simulated UR5e behind the vendor’s documented Modbus register map as a live deployment target: all three commissioning runs deploy the correct four-register configuration with field-level F1 = 1.0 and pass sentinel, read-back, physical-consistency, and liveness checks, while retrieval quality drops sharply on the vendor’s table-heavy documents and the benchmark-calibrated abstention threshold does not transfer, requiring recalibration from the measured score separation of the new corpus. We argue that this defense-in-depth safety profile, correct behavior of the whole despite an imperfect generator, is the property industrial adoption actually requires, and we characterize its cost, latency, and limits.
+ER  - 
+
+TY  - CONF
+TI  - An Empirical Evaluation of Open-Source LLMs for Philippine Labor Law Question Answering Using Retrieval-Augmented Generation
+T2  - 2026 22nd IEEE International Colloquium on Signal Processing & Its Applications (CSPA)
+SP  - 478
+EP  - 483
+AU  - C. I. D. Bautista
+AU  - A. N. Domingo
+AU  - J. P. B. R. Monteon
+AU  - L. V. Comia
+PY  - 2026
+KW  - Modeling
+KW  - Retrieval augmented generation
+KW  - Large language models
+KW  - Pipelines
+KW  - Printing
+KW  - Grounding
+KW  - Accuracy
+KW  - Codes
+KW  - Measurement
+KW  - Context
+KW  - large language models (LLM)
+KW  - philippine labor code
+KW  - retrieval-augmented generation (rag)
+KW  - semantic similarity
+KW  - sparse retrieval
+DO  - 10.1109/CSPA68262.2026.11517829
+JO  - 2026 22nd IEEE International Colloquium on Signal Processing & Its Applications (CSPA)
+IS  - 
+SN  - 2836-4090
+VO  - 
+VL  - 
+JA  - 2026 22nd IEEE International Colloquium on Signal Processing & Its Applications (CSPA)
+Y1  - 1-2 May 2026
+AB  - This study evaluates the effectiveness of opensource large language models (LLMs) for answering questions about the Philippine Labor Code using a Retrieval-Augmented Generation (RAG) framework. Three instruction-tuned models-LLaMA 3.1 8B, Qwen2.5 7B, and Gemma 2 9B-were deployed within an identical hybrid retrieval pipeline combining BM25, dense embeddings, reciprocal rank fusion, and cross-encoder reranking. Evaluation was conducted on 30 benchmark queries (27 in-scope and 3 out-of-scope) using metrics including semantic similarity, faithfulness, answer relevancy, citation accuracy, LLM-as-a-Judge scoring, and response latency. Retrieval performance was identical across models (Recall $\approx 0.99$; Precision $\approx 0.31$), while differences emerged in generation quality. Gemma 29 B achieved the highest semantic similarity (0.859), citation accuracy (0.935), and judge score (0.733), indicating stronger legal grounding. Qwen2.5 7B showed the fastest responses (8.89 s) and highest faithfulness, while LLaMA 3.1 8B achieved slightly higher answer relevancy. All models correctly refused 100% of out-ofscope queries. The results demonstrate that RAG-enhanced open-source LLMs can provide reliable and accessible legal information systems for Philippine labor law assistance.
+ER  - 
+
+TY  - CONF
+TI  - Evaluation of Retrieval-Augmented Reasoning for Robotic Manipulation
+T2  - 2026 IEEE Canadian Conference on Electrical and Computer Engineering (CCECE)
+SP  - 660
+EP  - 664
+AU  - M. A. Rahman Bhuiyan
+AU  - S. Mozaffari
+AU  - S. Alirezaee
+PY  - 2026
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Retrieval augmented generation
+KW  - Modeling
+KW  - Large language models
+KW  - Planning
+KW  - Robots
+KW  - Testing
+KW  - YOLO
+KW  - Modules (abstract algebra)
+KW  - Robotic manipulation
+KW  - large language models
+KW  - retrieval-augmented generation
+KW  - execution-level evaluation
+KW  - task planning
+DO  - 10.1109/CCECE68150.2026.11610530
+JO  - 2026 IEEE Canadian Conference on Electrical and Computer Engineering (CCECE)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 IEEE Canadian Conference on Electrical and Computer Engineering (CCECE)
+Y1  - 18-20 May 2026
+AB  - This paper presents a controlled evaluation of three reasoning strategies for vision-guided robotic manipulation: YOLO-only rule-based heuristics, Large Language Model (LLM) symbolic planning, and a Retrieval-Augmented Generation (RAG) planner. All methods use the same perception and control pipeline, with YOLO for object detection and a Franka Panda robot for execution. This setup isolates the impact of reasoning. We evaluate the planners on fifteen structured test scenarios covering phrasing variation, constraint following, ambiguity, abstention, recovery, and edge cases, for 150 episodes per planner and 450 total execution episodes. The RAG-enhanced planner achieves 98 percent task success, full policy compliance, zero unsafe actions, and a 92 percent reduction in retries compared to the baseline. All planners produce identical symbolic policies, showing that performance gains come from more robust execution rather than changes in plan generation. These results demonstrate that retrieval-augmented reasoning improves the reliability of language-driven robotic manipulation.
+ER  - 
+
+TY  - CONF
+TI  - Quorum-Inspired Multi-Agent Consensus for Detecting Reasoning Hallucinations in Retrieval-Augmented Generation: A Cautionary Study
+T2  - 2026 7th International Conference On Computational Vision and Bio Inspired Computing (ICCVBIC)
+SP  - 21
+EP  - 28
+AU  - A. Chaulagain
+AU  - D. Acharya
+AU  - L. Shrestha
+AU  - N. Sherpa
+AU  - J. Mansur
+PY  - 2026
+KW  - Modeling
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Retrieval augmented generation
+KW  - Labeling
+KW  - Large language models
+KW  - Voting
+KW  - Printing
+KW  - Signal detection
+KW  - Spread spectrum communication
+KW  - retrieval-augmented generation
+KW  - hallucination detection
+KW  - multi-agent systems
+KW  - large language models
+KW  - quorum sensing
+KW  - bio-inspired computing
+KW  - faithfulness evaluation
+DO  - 10.1109/ICCVBIC71195.2026.11688311
+JO  - 2026 7th International Conference On Computational Vision and Bio Inspired Computing (ICCVBIC)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 7th International Conference On Computational Vision and Bio Inspired Computing (ICCVBIC)
+Y1  - 6-8 Aug. 2026
+AB  - Collective decision-making in nature, such as bacterial quorum sensing and swarm consensus, has inspired the intuition that a panel of large language model (LLM) verifiers can outperform a single model through aggregated voting. In this work, we rigorously evaluate this hypothesis for detecting reasoning hallucinations defined as fabricated, ungrounded, or self-contradictory steps in multi-hop reasoning chains within retrieval-augmented generation (RAG) systems. We conduct experiments on HotpotQA using a fixed openweight generator and evaluate a heterogeneous three-agent quorum (Logic, Evidence, Critic) against single-judge and homogeneous ensemble baselines across two verifier-capability regimes: strong (24-32B parameters) and weak (7-8B parameters). Evaluation is performed on both a controlled injection benchmark with precise labels and a human-validated set of naturally generated responses. Our results show a consistent negative finding: the heterogeneous quorum does not outperform a single LLM judge in either regime (McNemar p $=\mathbf{0. 4 5}$ in the strong setting and $\mathbf{p}=\mathbf{1. 0 0}$ in the weak setting). Moreover, increasing model diversity does not improve performance over homogeneous ensembles, and scaling the number of agents does not materially change outcomes. These findings also replicate on two additional multi-hop datasets, 2WikiMultiHopQA and MuSiQue. Even on the more challenging MuSiQue benchmark $(\mathbf{F} \mathbf{1}=\mathbf{0. 8 8})$, neither larger quorums nor a learned aggregator outperform the single judge. We observe that the quorum provides only limited benefits, including improved ranking under soft agreement scoring in the weak regime (AUROC 0.92 vs. 0.86) and a tunable precision-abstention trade-off. We further identify a capability threshold at which sub-4B model fails to produce reliable verdicts, indicating a hard lower bound for effective verification. Additionally, we demonstrate that answer correctness is an imperfect proxy for reasoning faithfulness, showing only moderate agreement with human judgment $(\kappa$ = 0.54, 80% raw agreement on HotpotQA; $\kappa=0.59$ on 2WikiMultiHopQA and $\kappa=0.61$ on MuSiQue), with approximately 19% of sampled chains judged genuinely unfaithful. This highlights important limitations in current evaluation practices for hallucination detection. We release all code, prompts, and datasets to support reproducibility. Overall, our findings caution that increasing the number of agents does not inherently improve LLM-based verification and clarify the conditions under which multi-agent quorum systems provide benefits.
+ER  - 
+
+TY  - CONF
+TI  - SECUIR: Design and Implementation of an Efficient, Secure, and Access-Controlled Smart Information Retrieval System
+T2  - 2026 IEEE International Conference on Intelligence and Security Informatics (ISI)
+SP  - 7
+EP  - 12
+AU  - C. N. Sekharan
+AU  - M. R. Detroja
+PY  - 2026
+KW  - Security
+KW  - Indexing
+KW  - Indexes
+KW  - Grounding
+KW  - Retrieval augmented generation
+KW  - Large language models
+KW  - Modeling
+KW  - Printing
+KW  - Artificial intelligence
+KW  - Organizations
+KW  - Factual grounding
+KW  - Access Control
+KW  - MultiTenant Security
+KW  - Input Validation
+KW  - Semantic Caching
+KW  - Responsible AI
+KW  - Organizational Chatbot
+KW  - LLM Security
+KW  - RetrievalAugmented Generation
+DO  - 10.1109/ISI69914.2026.11685844
+JO  - 2026 IEEE International Conference on Intelligence and Security Informatics (ISI)
+IS  - 
+SN  - 2837-6617
+VO  - 
+VL  - 
+JA  - 2026 IEEE International Conference on Intelligence and Security Informatics (ISI)
+Y1  - 12-14 Aug. 2026
+AB  - Deploying large language model (LLM)-based information retrieval systems in any organizational setting introduces critical challenges in security, access control, and providing factual information. We present SECUIR (Secure Information Retrieval), a secure, access-controlled information retrieval framework designed for multi-tenant organizational use and deployment. SECUIR addresses three practical security and reliability concerns: (1) multi-tenant data isolation via per-organization vector datastores with URI-prefix enforcement, preventing cross-organizational data leakage; (2) inputscope enforcement via a dual-gate embedding-based topic filter that rejects out-of-scope and adversarially crafted queries quickly with zero API cost, preventing vocabulary-overlap bypass attacks; and (3) incorrect-answer suppression via factual grounding, reducing false or unsupported claims in outputs. Our system is proposed as a hardened model by removing six vulnerabilities, including Cross-Site Request Forgery (CSRF), LLM prompt injection via history manipulation, cross-org corpus leakage, and topic index sampling bias. A 100-question institutional benchmark (judge: Claude Sonnet 4, with human review; Cohen’s $\kappa=0.763$) shows SECUIR achieves 91.9% F1 versus $\mathbf{6 1 . 5 \%}$ for direct LLM generation (+30.4 pp), with a 40.5 pp recall advantage. The system was experimented to host reliably across five organizations (504-20,003 documents) with $\mathcal{O}(\Delta)$ incremental indexing enabling deployment in under 10 minutes.
+ER  - 
+
+TY  - CONF
+TI  - Evaluating the Reliability and Utility of GPT-4o as a Medical Expert Across Different Interaction Modes
+T2  - 2025 IEEE International Conference on Bioinformatics and Biomedicine (BIBM)
+SP  - 7617
+EP  - 7624
+AU  - U. -B. Menderes
+AU  - D. Morár
+AU  - N. T. Vu
+PY  - 2025
+KW  - Shape
+KW  - Generative AI
+KW  - Large language models
+KW  - Biological system modeling
+KW  - Retrieval augmented generation
+KW  - Focusing
+KW  - Medical services
+KW  - Reliability
+KW  - Usability
+KW  - Bioinformatics
+KW  - Reliability
+KW  - Utility
+KW  - Generative AI
+KW  - LLM
+KW  - Evaluation
+KW  - Medical Expert
+DO  - 10.1109/BIBM66473.2025.11356967
+JO  - 2025 IEEE International Conference on Bioinformatics and Biomedicine (BIBM)
+IS  - 
+SN  - 2156-1133
+VO  - 
+VL  - 
+JA  - 2025 IEEE International Conference on Bioinformatics and Biomedicine (BIBM)
+Y1  - 15-18 Dec. 2025
+AB  - Generative Large Language Models (LLMs) such as GPT-4o are increasingly explored for use in clinical decision support, yet their real-world reliability and utility remain underexplored, especially in domains where factual accuracy is critical. This paper presents an empirical evaluation of GPT-40 in a medical expert role, focusing on its ability to provide clinically useful and reliable responses across varying degrees of external control. We evaluate three interaction strategies: Default Interaction, Hard Prompting, and Retrieval-augmented Generation (RAG), using a curated dataset of 70 authentic medical queries authored by practicing physicians. The practicing medical professionals evaluate the generated responses along two key dimensions: factual reliability and clinical utility. Our findings reveal critical trade-offs across the control spectrum: while RAG and hard prompting offer more constrained and verifiable responses, the default interaction approach achieved the highest combined ratings for reliability and clinical utility, showing the lowest abstention rate among the evaluated strategies. This study contributes a practical evaluation framework for assessing the potential of LLMs as medical experts and offers actionable insights for their deployment in healthcare contexts where factual precision, usability, and trust are paramount.
+ER  - 
+
+TY  - CONF
+TI  - Machine Learning for Modern Cybersecurity: Trend-Driven Architectures, Threat Models, and Quantitative Evaluation
+T2  - 2026 Technology and Innovation Conference (TIC)
+SP  - 1
+EP  - 12
+AU  - N. S. Vummaneni
+AU  - I. Kumar
+AU  - A. Mittal
+AU  - S. Bharadwaj
+AU  - H. Varshney
+PY  - 2026
+KW  - Modeling
+KW  - Security
+KW  - Labeling
+KW  - Sequences
+KW  - Sequential analysis
+KW  - Signal detection
+KW  - Retrieval augmented generation
+KW  - Toxicology
+KW  - Training
+KW  - Transformers
+KW  - Cybersecurity
+KW  - machine learning
+KW  - adversarial ML
+KW  - intrusion detection
+KW  - malware detection
+KW  - prompt injection
+KW  - retrieval poisoning
+KW  - robust learning
+KW  - transformer models
+DO  - 10.1109/TIC68483.2026.11703014
+JO  - 2026 Technology and Innovation Conference (TIC)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 Technology and Innovation Conference (TIC)
+Y1  - 5-6 June 2026
+AB  - Machine learning (ML) has become a default substrate for contemporary cybersecurity—from network intrusion detection and malware classification to phishing defense and security analytics over cloud telemetry. At the same time, cybersecurity is now a first-class stress test for ML: adversaries actively manipulate inputs, labels, data pipelines, and even model supply chains. Recent trends amplify both promise and risk: transformer backbones that learn directly from raw traffic or byte streams; self-supervised pretraining over petabyte-scale logs; federated and privacy-preserving learning at the network edge; and agentic large language model (LLM) copilots that triage incidents and generate remediation steps. This paper presents a complete, quantitative research study of ML-for-cybersecurity under these trends. We propose a threat-aware end-to-end pipeline, GuardML, that integrates (i) representation learning for heterogeneous security signals, (ii) robustness layers against evasion/poisoning/extraction, and (iii) operational guardrails for deployment (calibration, abstention, provenance-aware retrieval for RAG). We develop reproducible experimental methodology and stage-wise energy/latency models, then evaluate on a curated multi-domain benchmark protocol (TRISHIELD) spanning network intrusion, malware, and phishing. Across tasks, a trendaligned transformer stack achieves macro-F1 scores of 0.91 for NIDS, 0.94 for malware, and 0.95 for phishing, representing improvements of 4–11 points over gradient-boosted decision tree baselines. Under adversarial evasion, our guardrail-enhanced models maintain true positive rates of 0.91 at 0.1% false positive rate for NIDS compared to 0.71 for undefended baselines. We show that lightweight, composable guardrails reduce attack success rates by 32–61% with only 7–9% latency overhead, and we derive five actionable design rules linking model choice, feature exposure, and security posture.
+ER  - 
+
+TY  - CONF
+TI  - On the Reliability of Targeted Unlearning in 4-Bit Quantized LLMs
+T2  - 2026 56th Annual IEEE International Conference on Dependable Systems and Networks Workshops (DSN-W)
+SP  - 86
+EP  - 90
+AU  - S. A. Ali
+PY  - 2026
+KW  - Modeling
+KW  - Privacy
+KW  - Quantization (signal)
+KW  - Seeds (agriculture)
+KW  - Large language models
+KW  - Electronics packaging
+KW  - Training
+KW  - Printing
+KW  - Tuning
+KW  - Equations
+KW  - Machine Unlearning
+KW  - Large Language Models
+KW  - Quantized LLMs
+KW  - TOFU Benchmark
+KW  - Membership Inference Attack
+KW  - Privacy-Utility Trade-off
+KW  - AI Security
+DO  - 10.1109/DSN-W70714.2026.00034
+JO  - 2026 56th Annual IEEE International Conference on Dependable Systems and Networks Workshops (DSN-W)
+IS  - 
+SN  - 2325-6664
+VO  - 
+VL  - 
+JA  - 2026 56th Annual IEEE International Conference on Dependable Systems and Networks Workshops (DSN-W)
+Y1  - 22-25 June 2026
+AB  - Large language model unlearning is typically evaluated in high-resource settings, while real-world deployments increasingly rely on memory-efficient pipelines such as 4-bit quantization and parameter-efficient fine-tuning (PEFT). This raises a key question: whether targeted unlearning remains reliable, secure, and privacy-preserving under such deployment constraints. This paper evaluates the dependability of targeted unlearning under a 4-bit quantized LLaMA-3 pipeline using TOFU and membership inference analysis across three random seeds.Three practical strategies are studied: Pure Gradient Ascent (PGA), retention-regularized Gradient Ascent (GAFT), and IDK-based supervised refusal tuning. The multi-seed results show that different unlearning strategies induce substantially different privacy-utility trade-offs. GAFT provides the most reliable balance across forgetting and privacy signals, while IDK achieves stronger direct suppression of memorized knowledge and the lowest MIA scores. However, a post hoc audit of 1,200 IDK forget-set generations shows that these gains are usually realized through hallucinated substitute answers rather than clean abstentions, and PGA exhibits comparatively unstable behavior under the same quantized setup.These findings suggest that unlearning effectiveness observed in idealized settings may not directly translate to dependable deployment scenarios, motivating system-level evaluation of unlearning in deployed ML systems.
+ER  - 
+
+TY  - CONF
+TI  - ReGAIN: Retrieval-Grounded AI Framework for Network Traffic Analysis
+T2  - 2026 International Conference on Computing, Networking and Communications (ICNC)
+SP  - 578
+EP  - 584
+AU  - S. Shajarian
+AU  - K. Marsh
+AU  - J. Benson
+AU  - S. Khorsandroo
+AU  - M. Abdelsalam
+PY  - 2026
+KW  - Accuracy
+KW  - Limiting
+KW  - Large language models
+KW  - Retrieval augmented generation
+KW  - Pipelines
+KW  - Telecommunication traffic
+KW  - Network security
+KW  - Cognition
+KW  - Vectors
+KW  - Floods
+KW  - Network Traffic Analysis
+KW  - Large Language Models (LLMs)
+KW  - Retrieval-Augmented Generation (RAG)
+KW  - Intelligent Networks
+KW  - Network Security
+DO  - 10.1109/ICNC68183.2026.11416826
+JO  - 2026 International Conference on Computing, Networking and Communications (ICNC)
+IS  - 
+SN  - 2473-7585
+VO  - 
+VL  - 
+JA  - 2026 International Conference on Computing, Networking and Communications (ICNC)
+Y1  - 16-19 Feb. 2026
+AB  - Modern networks generate vast, heterogeneous traffic that must be continuously analyzed for security and performance. Traditional network traffic analysis systems, whether rule-based or machine learning-driven, often suffer from high false positives and lack interpretability, limiting analyst trust. In this paper, we present ReGAIN, a multi-stage framework that combines traffic summarization, retrieval-augmented generation (RAG), and Large Language Model (LLM) reasoning for transparent and accurate network traffic analysis. ReGAIN creates natural-language summaries from network traffic, embeds them into a multi-collection vector database, and utilizes a hierarchical retrieval pipeline to ground LLM responses with evidence citations. The pipeline features metadata-based filtering, MMR sampling, a two-stage cross-encoder reranking mechanism, and an abstention mechanism to reduce hallucinations and ensure grounded reasoning. Evaluated on ICMP ping flood and TCP SYN flood traces from the real-world traffic dataset, it demonstrates robust performance, achieving accuracy between 95.95% and 98.82% across different attack types and evaluation benchmarks. These results are validated against two complementary sources: dataset ground truth and human expert assessments. ReGAIN also outperforms rule-based, classical ML, and deep learning baselines while providing unique explainability through trustworthy, verifiable responses.
+ER  - 
+
+TY  - JOUR
+TI  - STraVEns: Sentence Transformer Voting Ensemble for Intent Classification-Based Chatbot Model
+T2  - IEEE Access
+SP  - 197187
+EP  - 197200
+AU  - A. A. Pravitasari
+AU  - M. Hamid Asnawi
+AU  - A. Helen
+AU  - B. Handoko
+AU  - D. Amor Kusuma
+AU  - T. Herawan
+AU  - T. Hendrawati
+PY  - 2024
+KW  - Chatbots
+KW  - Intent recognition
+KW  - Transformers
+KW  - Accuracy
+KW  - Ensemble learning
+KW  - Atmospheric modeling
+KW  - Robustness
+KW  - Training
+KW  - Oral communication
+KW  - Business
+KW  - Chatbot
+KW  - ensemble learning
+KW  - intent classification
+KW  - machine learning
+KW  - natural language processing
+KW  - sentence transformer
+KW  - voting classifier
+DO  - 10.1109/ACCESS.2024.3519223
+JO  - IEEE Access
+IS  - 
+SN  - 2169-3536
+VO  - 12
+VL  - 12
+JA  - IEEE Access
+Y1  - 2024
+AB  - Natural Language Processing has experienced significant advancements in recent years, leading to the widespread adoption of Large Language Model-based chatbots. These chatbots are popular due to their ability to engage in context-aware conversations. However, deploying LLM-based chatbots can be resource-intensive, making them less suitable for smaller applications or focused tasks. To address this issue, we propose a robust and flexible approach to intent classification for chatbots using STraVEns (Sentence Transformer Voting Ensemble), which includes both hard voting and soft voting ensembles of sentence transformers. Our proposed method aims to improve accuracy and versatility in intent-based chatbots model. We use five sentence transformer models for this ensemble framework: RoBERTa, DistilRoBERTa, MPNet, MiniLM L6, and MiniLM L12, and evaluated our approach by training and testing using four distinct datasets: ATIS, IDE, Small Talk, and CLINC150 which cover a range of scenarios from general conversation to specific tasks and out-of-scope intent classification. The results demonstrate that the STraVEns approach is a promising solution for intent classification-based chatbot model. Results show that our ensemble models outperformed previous benchmarks, achieving the highest accuracy and F1-scores across all datasets. The soft voting method provided flexibility and robustness, while hard voting ensured stability in specific contexts. Overall, our study suggests that ensemble-based approaches can enhance the performance of intent classification chatbots model, providing a scalable solution for various applications.
+ER  - 
+
+TY  - CONF
+TI  - SAGE: Student-Focused Adaptive Guidance Engine for Intelligent Tutoring with Regulated Learning
+T2  - 2026 IEEE International Conference on Human-Machine Systems (ICHMS)
+SP  - 594
+EP  - 601
+AU  - M. H. Rayhan
+AU  - G. R. Edwards
+AU  - A. Pandey
+AU  - V. Seth
+AU  - N. Salvi
+AU  - N. Glaser
+AU  - M. Chrysochoou
+AU  - P. Calyam
+PY  - 2026
+KW  - Learning (artificial intelligence)
+KW  - Modeling
+KW  - Security
+KW  - Large language models
+KW  - Printing
+KW  - Access control
+KW  - Safety
+KW  - Retrieval augmented generation
+KW  - Equations
+KW  - Artificial intelligence
+KW  - Human-AI Teaming
+KW  - Intelligent Tutoring
+KW  - Knowledge Graphs
+KW  - Cognitive Scaffolding
+KW  - Access Control
+DO  - 10.1109/ICHMS69701.2026.11602253
+JO  - 2026 IEEE International Conference on Human-Machine Systems (ICHMS)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 IEEE International Conference on Human-Machine Systems (ICHMS)
+Y1  - 1-3 July 2026
+AB  - Public Large Language Models (LLMs) are being increasingly explored for aiding students to learn difficult concepts in STEM education. However, public LLM-based chatbots do not provide course-regulated answers that are important in a tutoring context, where instructors do not want students to work with chatbots on out-of-scope material, seek answers that hinder learning, or to bypass curricular sequencing. In this paper, we present “SAGE” (Student-focused Adaptive Guidance Engine) as part of an intelligent tutoring framework that can enforce instructor-regulated learning through goal-oriented and learning state based content access controls to ensure scaffolded, curricular sequencing and step-by-step guidance of students. SAGE access control features a three-layer gatekeeper mechanism that combines role-based, attribute-based, and cognitive state-based controls built on top of a knowledge graph of learner state and related course content. We evaluate SAGE in an exemplar programming course scenario and compare its performance against state-of-the-art LLM baselines using a custom educational benchmark. Experimental results on the benchmark show that promptbased tutors $(42 \%)$ perform similar to SAGE $(44 \%)$ on metrics of helpfulness owing to prompt engineering. However, they frequently violate instructor policy boundaries, with SAGE providing 90% security for curriculum access control policies compared to $\mathbf{3 0 \%}$ for prompt-based tutors.
+ER  - 
+
+TY  - CONF
+TI  - Mitigating Bias and Hallucinations in LLMs Through Prompt Engineering and Knowledge-Grounded Approaches in Healthcare Domain
+T2  - 2026 6th International Conference on Advanced Research in Computing (ICARC)
+SP  - 1
+EP  - 6
+AU  - A. P. D. Ishadya
+AU  - A. Withanaarachchi
+AU  - S. Jayalal
+PY  - 2026
+KW  - Grounding
+KW  - Prevention and mitigation
+KW  - Large language models
+KW  - Retrieval augmented generation
+KW  - Pipelines
+KW  - Semantics
+KW  - Medical services
+KW  - Safety
+KW  - Prompt engineering
+KW  - Context modeling
+KW  - Bias and Hallucination Mitigation
+KW  - Healthcare AI
+KW  - Knowledge-Grounded Approaches
+KW  - Large Language Models
+KW  - Prompt Engineering
+DO  - 10.1109/ICARC68737.2026.11453821
+JO  - 2026 6th International Conference on Advanced Research in Computing (ICARC)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 6th International Conference on Advanced Research in Computing (ICARC)
+Y1  - 18-19 Feb. 2026
+AB  - Large language models (LLMs) are increasingly applied in healthcare for clinical question answering and information support, yet their deployment is constrained by risks of hallucinated content and embedded bias that can compromise patient safety. This study proposes an integrated mitigation framework that combines advanced prompt engineering with knowledge-grounded approaches, specifically Retrieval Augmented Generation (RAG) and the Model Context Protocol (MCP), without modifying underlying model parameters. Using a mixed-methods design, parallel RAG and MCP pipelines were implemented with shared retrieval and prompting logic and evaluated on NIH-derived MedQuAD subsets (CancerQA and NIDDKQA). Structured prompting strategies including role-based prompts, chain-of-thought, and chain-of-verification were applied consistently across both pipelines. Quantitative evaluation using accuracy, semantic similarity, evidence-backed rate, abstention, recall, and demographic drift metrics shows that MCP consistently outperforms or matches conventional RAG, achieving higher F1 and ROUGE-L scores, stronger evidence grounding, and lower abstention while maintaining minimal demographic drift. Expert review further confirmed improved clinical relevance and reduced unsupported claims. These findings demonstrate that coupling structured prompting with knowledge grounding produces more reliable, safer, and fairer healthcare LLM outputs, offering a practical and scalable pathway for trustworthy AI deployment in high-stakes clinical settings.
+ER  - 
+
+TY  - CONF
+TI  - Adaptive Claim Level Hallucination Detection and Mitigation for BlackBox LLMs on Amazon Bedrock
+T2  - 2026 IEEE 5th World Conference on Applied Intelligence and Computing (AIC)
+SP  - 23
+EP  - 30
+AU  - M. R. Katta
+PY  - 2026
+KW  - Modeling
+KW  - Retrieval augmented generation
+KW  - Grounding
+KW  - Costing
+KW  - Costs
+KW  - Heart rate
+KW  - Printing
+KW  - Large language models
+KW  - Color
+KW  - Pipelines
+KW  - large language models
+KW  - hallucination mitigation
+KW  - claim-level verification
+KW  - adaptive RAG
+KW  - Amazon Bedrock
+KW  - cloud-hosted AI
+KW  - factuality
+KW  - black-box deployment
+DO  - 10.1109/AIC70896.2026.11717234
+JO  - 2026 IEEE 5th World Conference on Applied Intelligence and Computing (AIC)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 IEEE 5th World Conference on Applied Intelligence and Computing (AIC)
+Y1  - 29-30 Aug. 2026
+AB  - Large language models (LLMs) deployed through managed cloud APIs are increasingly relied upon in settings where incorrect output carries real cost enterprise search, healthcare triage, financial advisory, and legal question answering among them. Hallucination mitigation in these black-box environments is hard for two reasons: strong detection methods typically depend on model internals that hosted APIs do not expose, and current mitigation pipelines apply retrieval and verification uniformly, adding latency and cost even when a response is already well-grounded. This article describes Claim Guard, a cloud-native pipeline that breaks each LLM response into atomic factual claims, retrieves targeted evidence for each claim, estimates a calibrated per-claim risk score from three signal sources retrieval support, verifier disagreement, and Amazon Bedrock Guardrail feedback and selects the cheapest mitigation action whose expected cost does not exceed the risk. Actions range from accepting the original answer to RAG regeneration, chain-of-verification, selective claim rewriting, and abstention. Built on Amazon Bedrock, Kendra, Lambda, S3, DynamoDB, and Bedrock Guardrails, ClaimGuard treats factuality, latency, and per-query cost as joint objectives. A dynamic evaluation protocol pairs standard benchmarks TruthfulQA, FEVER, HotpotQA, HaluEval, RAGTruth with adversarial evidence perturbation and temporal drift stress tests. Across all benchmarks ClaimGuard achieves a mean hallucination rate of 11.9%, against 37.1% for unmitigated generation and 18.0% for always on RAG, at a mean end to end latency of 1.02 s well below the 2.87 s of always on RAG.
+ER  - 
+
+TY  - CONF
+TI  - RAGSec: Retrieval-Augmented Generation for Cybersecurity Threat Intelligence in Enterprise Networks
+T2  - 2026 IEEE 5th International Conference on AI in Cybersecurity (ICAIC)
+SP  - 1
+EP  - 6
+AU  - S. Bussari
+AU  - P. Punj
+AU  - G. Balakumar
+PY  - 2026
+KW  - Measurement
+KW  - Productivity
+KW  - Grounding
+KW  - Large language models
+KW  - Retrieval augmented generation
+KW  - Pipelines
+KW  - Prototypes
+KW  - Malware
+KW  - Computer security
+KW  - Monitoring
+KW  - Cybersecurity
+KW  - Threat Intelligence
+KW  - Retrieval-Augmented Generation
+KW  - Large Language Models
+KW  - Enterprise Networks
+KW  - SOC Automation
+DO  - 10.1109/ICAIC67076.2026.11395762
+JO  - 2026 IEEE 5th International Conference on AI in Cybersecurity (ICAIC)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 IEEE 5th International Conference on AI in Cybersecurity (ICAIC)
+Y1  - 18-20 Feb. 2026
+AB  - Security operations centers (SOCs) are inundated with high-volume, high-velocity threat intelligence originating from SIEM platforms, IDS/IPS alerts, vendor advisories, malware reports, and dark-web monitoring tools [6], [7]. While recent studies explore retrieval-augmented generation (RAG) for cybersecurity, existing approaches (e.g., RAGRecon [1], CyKG-RAG [2], MoRSE [3]) are primarily research prototypes and rarely address enterprise deployment constraints such as incident-severity governance, policy-aligned hallucination control, or SOC-driven evaluation metrics [5]. Large Language Models (LLMs) offer promising summarization and reasoning capabilities, but when applied directly they hallucinate indicators, lack grounding in enterprise context [7], and provide limited auditability for regulated environments [6].This paper introduces RAGSec, a RAG-based threat intelligence framework that operationalizes retrieval-augmented generation specifically for enterprise networks. Unlike prior work, RAGSec integrates (i) sensitivity-scoped ingestion pipelines for heterogeneous security sources, (ii) retrieval-confidence thresholds tied to incident severity levels, (iii) abstention and evidence-citation templates aligned to SOC governance policies, and (iv) an SOC Productivity Score (SPS) for measuring analyst impact beyond factuality metrics [6]. Using a blend of public reports and synthetic enterprise incidents, RAGSec is evaluated against LLM-only and search-assisted baselines across factuality, relevance, completeness, and analyst workload [6].Results show that RAGSec improves factual accuracy by up to 32% and reduces unsupported statements by 41% compared to LLM-only baselines [7], while reducing incident triage time by 27%. These findings indicate that domain-governed RAG pipelines can meaningfully augment analyst decision-making without compromising control or auditability [5]. We conclude with limitations, ethical considerations, and recommendations for deploying retrieval-enhanced GenAI within live SOC environments.
+ER  - 
+
+TY  - CONF
+TI  - Domain-Specific Fine-Tuning of LLMs for Multilingual Student Advisory in Higher Education
+T2  - 2025 2nd International Conference on Advanced Computing and Emerging Technologies (ACET)
+SP  - 1
+EP  - 7
+AU  - M. Abrar
+AU  - A. S. M. Mohammed
+AU  - S. A. N. A. hasani
+AU  - Y. N. A. Husaini
+AU  - R. Abdulkhaliq
+AU  - W. Alkishri
+PY  - 2025
+KW  - Measurement
+KW  - Comets
+KW  - Adaptation models
+KW  - Accuracy
+KW  - Large language models
+KW  - Education
+KW  - Coherence
+KW  - Multilingual
+KW  - Reliability
+KW  - Standards
+KW  - Large Language Models
+KW  - Fine-Tuning
+KW  - TyDi QA
+KW  - MASSIVE
+KW  - Multilingual
+KW  - Higher Education
+KW  - Student Support
+DO  - 10.1109/ACET67282.2025.11430234
+JO  - 2025 2nd International Conference on Advanced Computing and Emerging Technologies (ACET)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 2nd International Conference on Advanced Computing and Emerging Technologies (ACET)
+Y1  - 21-22 Nov. 2025
+AB  - Colleges are experiencing an increased need to have smart, multi-lingual support systems that can respond to various questions posed by the students. Although large language models (LLMs) have strong general capabilities, they are often inaccurate, culturally insensitive, and unsafe in low-resource and domain-specific settings. The paper introduces a two-stage fine-tuning model for developing a multilingual student services assistant specializing in English, Modern Standard Arabic (MSA), Franco Arabic, and Omani Arabic. Its purpose is to improve the factual accuracy, dialogue coherence, and refusal accuracy in the sensitive institutional environment. In Phase I, factual memorization was performed by fine-tuning the TyDi QA and MASSIVE datasets with LoRA adapters to enhance multilingual understanding. Phase II used behavioral alignment, including institutional data and the presence of refusal-inducing prompts, to improve the safe management of out-of-scope queries. The evaluation metrics were factual accuracy, BLEU, COMET, refusal precision, and multi-turn coherence, with performance evaluated against GPT-4, Aya-Base, and Vicuna. The suggested model was more successful in refusal accuracy (0.86 vs. GPT-4 at 0.82) and competitive accuracy (0.78 vs. GPT-4 at 0.81). It is noteworthy that the dialectal performance was enhanced, especially in the Omani Arabic. Domain-specific finetuning can be used to create safer and more inclusive multilingual LLM assistants in higher education and find the balance between accuracy and reliability between underrepresented languages.
+ER  - 
+
+TY  - CONF
+TI  - Blockchain Integration for Trust and Consent Management in MCP-Enabled FHIR Systems
+T2  - 2025 IEEE International Conference on Distributed Ledger Technologies (ICDLT)
+SP  - 1
+EP  - 10
+AU  - J. C. Ferreira
+AU  - R. Correia
+AU  - L. Rosário
+AU  - A. Vila
+PY  - 2025
+KW  - Payloads
+KW  - Radio broadcasting
+KW  - Frequency modulation
+KW  - Internet of Things
+KW  - Interoperability
+KW  - Protocols
+KW  - Smart contracts
+KW  - Communication systems
+KW  - Zero knowledge proof
+KW  - Internet
+KW  - Model Context Protocol (MCP)
+KW  - FHIR
+KW  - Blockchain
+KW  - Verifiable Credentials (VCs)
+KW  - Decentralized Identifiers (DIDs)
+KW  - Consent Management
+KW  - Data Provenance
+KW  - Immutable Audit Logs
+KW  - Healthcare Interoperability
+KW  - Smart Contracts
+KW  - Zero-Knowledge Proofs (ZKPs)
+KW  - Patient-centric Data Access
+DO  - 10.1109/ICDLT66400.2025.11466653
+JO  - 2025 IEEE International Conference on Distributed Ledger Technologies (ICDLT)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 IEEE International Conference on Distributed Ledger Technologies (ICDLT)
+Y1  - 5-7 Nov. 2025
+AB  - The Model Context Protocol (MCP) enables LLMmediated querying and synthesis across distributed FHIR servers but lacks builtin guarantees for provenance, tamperproof auditing, and granular patient consent. We present a trust layer that integrates permissioned blockchain smart contracts, verifiable credentials (VCs), and decentralized identifiers (DIDs) with MCPenabled FHIR workflows. Our architecture immutably logs MCP queries and hashes of returned FHIR bundles, enforces patientcentric consent via onchain policies, and returnsss verifiable audit trails alongside narrative summaries. We detail contract interfaces, threat model, and deployment options (L2/sidechains; ZK attestations). Using Synthea derived cohorts, we benchmark endtoend latency, throughput, consentrevocation latency, and audit verifiability against three baselines (OAuth2/UMA, PKI audit logs, and TEE attestations). Results show comparable latency (p95<250 ms added), deterministic audit recovery (100 %), and materially faster consent revocation propagation (p501.8 s) with modest cost ($< 1$ per 1k queries on L2). We discuss risks from LLM indeterminism and introduce grounding, constrained decoding, and abstention policies. The approach advances interoperable, patientcontrolled AI summarization with verifiable trust and practical deployment pathways.
+ER  - 
+
+

@@ -1,0 +1,384 @@
+﻿id,decisao,criterio,motivo,tema,prioridade
+R0003,Incluir,I3,cumpre I1-I4,educação,normal
+R0007,Incluir,I3,cumpre I1-I4,educação,normal
+R0014,Incluir,I3,cumpre I1-I4,educação,normal
+R0022,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0027,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0030,Incluir,I3,cumpre I1-I4,saúde,normal
+R0031,Incluir,I3,cumpre I1-I4,educação,normal
+R0034,Incluir,I3,cumpre I1-I4,saúde,normal
+R0038,Incluir,I3,cumpre I1-I4,saúde,normal
+R0042,Incluir,I3,cumpre I1-I4,QA médico,alta (a)
+R0044,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0048,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0052,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0053,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0055,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0056,Incluir,I3,cumpre I1-I4,saúde,normal
+R0060,Incluir,I3,cumpre I1-I4,educação,normal
+R0067,Incluir,I3,cumpre I1-I4,saúde,normal
+R0068,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0071,Incluir,I3,cumpre I1-I4,saúde,alta (b)
+R0072,Excluir,E3,"chatbot de rastreio cognitivo, não responde a perguntas",,
+R0073,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0074,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0078,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0084,Incluir,I3,cumpre I1-I4,saúde,normal
+R0087,Incluir,I3,cumpre I1-I4,saúde,normal
+R0091,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0092,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0093,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0096,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0097,Incluir,I3,cumpre I1-I4,educação,normal
+R0100,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0102,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0105,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0106,Incluir,I3,cumpre I1-I4,saúde,normal
+R0109,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0113,Incluir,I3,cumpre I1-I4,educação,alta (a)
+R0115,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0117,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0118,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0119,Incluir,I3,cumpre I1-I4,saúde,normal
+R0120,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0122,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0125,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0127,Incluir,I3,cumpre I1-I4,saúde,normal
+R0132,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0135,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0137,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0140,Incluir,I3,cumpre I1-I4,educação,normal
+R0142,Incluir,I3,cumpre I1-I4,saúde,normal
+R0143,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0144,Incluir,I3,cumpre I1-I4,educação,normal
+R0145,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0151,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0153,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0156,Incluir,I3,cumpre I1-I4,educação,normal
+R0157,Incluir,I3,cumpre I1-I4,saúde,"alta (b,d)"
+R0159,Incluir,I3,cumpre I1-I4,educação,normal
+R0162,Incluir,I3,cumpre I1-I4,saúde,alta (b)
+R0165,Incluir,I3,cumpre I1-I4,educação,"alta (a,d)"
+R0166,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0167,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0169,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0172,Incluir,I3,cumpre I1-I4,educação,normal
+R0177,Incluir,I3,cumpre I1-I4,saúde,normal
+R0178,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0180,Incluir,I3,cumpre I1-I4,saúde,normal
+R0181,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0186,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0190,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0191,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0192,Incluir,I3,cumpre I1-I4,saúde,normal
+R0193,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0196,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0197,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0201,Incluir,I3,cumpre I1-I4,saúde,normal
+R0208,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0211,Incluir,I3,cumpre I1-I4,saúde,normal
+R0217,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0221,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0222,Incluir,I3,cumpre I1-I4,saúde,normal
+R0226,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0228,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0229,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0234,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0235,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0237,Incluir,I3,cumpre I1-I4,segurança e guardrails,alta (c)
+R0238,Incluir,I3,cumpre I1-I4,educação,normal
+R0240,Excluir,E3,"apoio técnico de TI, não educação",,
+R0244,Incluir,I3,cumpre I1-I4,saúde,normal
+R0246,Incluir,I3,cumpre I1-I4,educação,normal
+R0248,Incluir,I3,cumpre I1-I4,segurança e guardrails,normal
+R0250,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0255,Incluir,I3,cumpre I1-I4,saúde,normal
+R0256,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0265,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0270,Excluir,E3,geração de relatórios de ECG,,
+R0275,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0278,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0281,Incluir,I3,cumpre I1-I4,saúde,alta (b)
+R0285,Incluir,I3,cumpre I1-I4,saúde,normal
+R0287,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0288,Incluir,I3,cumpre I1-I4,saúde,normal
+R0289,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0291,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0294,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0295,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0297,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0301,Incluir,I3,cumpre I1-I4,QA médico,alta (a)
+R0305,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0306,Excluir,E3,deteção de perguntas duplicadas,,
+R0307,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0308,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0309,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0322,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0324,Excluir,E3,interpretação de imagem médica,,
+R0325,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0328,Incluir,I3,cumpre I1-I4,saúde,normal
+R0330,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0337,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0345,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0349,Incluir,I3,cumpre I1-I4,saúde,normal
+R0353,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0355,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0358,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0360,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0363,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0368,Incluir,I3,cumpre I1-I4,saúde,normal
+R0369,Incluir,I3,cumpre I1-I4,saúde,normal
+R0375,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0385,Incluir,I3,cumpre I1-I4,saúde,normal
+R0387,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0391,Excluir,E3,interpretação de imagem médica,,
+R0392,Incluir,I3,cumpre I1-I4,saúde,normal
+R0393,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0399,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0401,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0406,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0411,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0413,Incluir,I3,cumpre I1-I4,saúde,normal
+R0414,Incluir,I3,cumpre I1-I4,QA médico,alta (b)
+R0415,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0424,Incluir,I3,cumpre I1-I4,saúde,normal
+R0425,Incluir,I3,cumpre I1-I4,saúde,normal
+R0426,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0432,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0437,Incluir,I3,cumpre I1-I4,educação,"alta (a,c)"
+R0443,Incluir,I3,cumpre I1-I4,educação,alta (d)
+R0446,Incluir,I3,cumpre I1-I4,educação,"alta (a,c)"
+R0448,Excluir,E3,sumarização de reuniões,,
+R0452,Incluir,I3,cumpre I1-I4,educação,"alta (a,b)"
+R0455,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0459,Excluir,E3,VQA sobre imagens médicas,,
+R0460,Incluir,I3,cumpre I1-I4,educação,normal
+R0461,Incluir,I3,cumpre I1-I4,saúde,normal
+R0462,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0463,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0464,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0465,Excluir,E3,geração de relatórios médicos,,
+R0467,Incluir,I3,cumpre I1-I4,saúde,normal
+R0469,Incluir,I3,cumpre I1-I4,educação,alta (a)
+R0475,Incluir,I3,cumpre I1-I4,educação,normal
+R0476,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0477,Incluir,I3,cumpre I1-I4,saúde,normal
+R0478,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0482,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0490,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0494,Incluir,I3,cumpre I1-I4,saúde,normal
+R0495,Incluir,I3,cumpre I1-I4,saúde,normal
+R0500,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0501,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0504,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0511,Incluir,I3,cumpre I1-I4,educação,normal
+R0514,Incluir,I3,cumpre I1-I4,saúde,alta (b)
+R0520,Excluir,E4,taxonomia baseada em revisão,,
+R0523,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0527,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0530,Incluir,I3,cumpre I1-I4,saúde,normal
+R0531,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0535,Incluir,I3,cumpre I1-I4,educação,normal
+R0538,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0544,Incluir,I3,cumpre I1-I4,saúde,normal
+R0547,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0550,Excluir,E3,grounding em imagem médica,,
+R0555,Incluir,I3,cumpre I1-I4,saúde,alta (d)
+R0558,Incluir,I3,cumpre I1-I4,saúde,"alta (b,c)"
+R0559,Incluir,I3,técnica transferível: contexto injetado no prompt em escolha múltipla,contexto no prompt (transferível),alta (a)
+R0560,Excluir,E3,QA sobre imagens de patologia,,
+R0561,Incluir,I3,cumpre I1-I4,saúde,alta (b)
+R0566,Excluir,E4,revisão ou survey,,
+R0567,Incluir,I3,cumpre I1-I4,saúde,normal
+R0569,Incluir,I3,cumpre I1-I4,saúde,normal
+R0571,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0581,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0591,Excluir,E3,"raciocínio clínico sobre dados do doente, não QA",,
+R0596,Incluir,I3,cumpre I1-I4,educação,normal
+R0601,Incluir,I3,cumpre I1-I4,saúde,normal
+R0603,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0604,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0607,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0611,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0615,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0616,Incluir,I3,cumpre I1-I4,educação,"alta (a,b)"
+R0617,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0619,Incluir,I3,técnica transferível: contexto injetado no prompt em escolha múltipla,contexto no prompt (transferível),alta (a)
+R0620,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0630,Excluir,E3,segurança de RAG sem aplicação em educação ou saúde,,
+R0633,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0642,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0646,Incluir,I3,cumpre I1-I4,educação,normal
+R0648,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0649,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0650,Incluir,I3,cumpre I1-I4,educação,normal
+R0670,Incluir,I3,cumpre I1-I4,saúde,normal
+R0672,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0676,Excluir,E3,estudo de perceção de utilizadores,,
+R0680,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0681,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0686,Incluir,I3,cumpre I1-I4,QA médico,alta (b)
+R0703,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0705,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0709,Incluir,I3,cumpre I1-I4,segurança e guardrails,alta (c)
+R0714,Incluir,I3,cumpre I1-I4,saúde,normal
+R0727,Incluir,I3,cumpre I1-I4,educação,normal
+R0728,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0729,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0731,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0736,Incluir,I3,cumpre I1-I4,educação,normal
+R0747,Incluir,I3,cumpre I1-I4,educação,normal
+R0748,Excluir,E3,sem contexto definido (LLM avaliado sem contexto),,
+R0752,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0753,Incluir,I3,cumpre I1-I4,educação (institucional),alta (b)
+R0754,Excluir,E3,sem contexto definido (LLM avaliado sem contexto),,
+R0755,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0756,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0758,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0759,Incluir,I3,cumpre I1-I4,saúde,normal
+R0760,Excluir,E3,conjunto de dados de injeção sem aplicação em educação ou saúde,,
+R0762,Incluir,I3,cumpre I1-I4,âmbito e recusa,alta (c)
+R0763,Incluir,I3,cumpre I1-I4,segurança e guardrails,alta (c)
+R0765,Incluir,I3,cumpre I1-I4,segurança e guardrails,alta (c)
+R0766,Incluir,I3,cumpre I1-I4,segurança e guardrails,normal
+R0768,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0771,Incluir,I3,cumpre I1-I4,segurança e guardrails,alta (c)
+R0776,Excluir,E3,"inquérito de utilização, sem sistema avaliado",,
+R0783,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0786,Incluir,I3,cumpre I1-I4,saúde,normal
+R0794,Incluir,I3,cumpre I1-I4,QA médico,"alta (a,b)"
+R0807,Incluir,I3,cumpre I1-I4,âmbito e recusa,"alta (a,c)"
+R0809,Incluir,I3,cumpre I1-I4,âmbito e recusa,"alta (c,d)"
+R0812,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0817,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0821,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0826,Incluir,I3,cumpre I1-I4,educação,"alta (a,b)"
+R0837,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0842,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0847,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0848,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0849,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0851,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0856,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0859,Incluir,I3,cumpre I1-I4,educação,alta (a)
+R0861,Incluir,I3,cumpre I1-I4,saúde,normal
+R0863,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0867,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0869,Incluir,I3,cumpre I1-I4,saúde,normal
+R0871,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0875,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0876,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0878,Incluir,I3,cumpre I1-I4,QA médico,"alta (a,b)"
+R0883,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0884,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0885,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0888,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0889,Incluir,I3,cumpre I1-I4,educação,normal
+R0895,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0897,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0903,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0908,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0910,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0912,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0913,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0914,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0921,Excluir,E3,fora do foco (nem educação nem saúde),,
+R0923,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0929,Incluir,I3,cumpre I1-I4,segurança e guardrails,normal
+R0933,Incluir,I3,cumpre I1-I4,educação,normal
+R0934,Incluir,I3,cumpre I1-I4,educação,alta (a)
+R0936,Excluir,E3,análise de vídeo de sala de aula,,
+R0938,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0943,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0944,Incluir,I3,cumpre I1-I4,educação,normal
+R0946,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0948,Incluir,I3,cumpre I1-I4,educação,normal
+R0952,Incluir,I3,cumpre I1-I4,educação,normal
+R0955,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0956,Incluir,I3,cumpre I1-I4,educação,normal
+R0965,Incluir,I3,cumpre I1-I4,educação,"alta (a,b)"
+R0968,Incluir,I3,cumpre I1-I4,saúde,normal
+R0969,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0971,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0973,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R0976,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R0978,Excluir,E2,descrição de workshop,,
+R0980,Incluir,I3,cumpre I1-I4,QA médico,normal
+R0991,Incluir,I3,cumpre I1-I4,educação,"alta (a,b)"
+R0995,Incluir,I3,"técnica transferível: compara fine-tuning, RAG e contexto no prompt (ICL)",contexto no prompt (transferível),alta (a)
+R0997,Incluir,I3,cumpre I1-I4,saúde,normal
+R1000,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R1001,Incluir,I3,cumpre I1-I4,educação,alta (a)
+R1006,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R1007,Excluir,E3,fora do foco (nem educação nem saúde),,
+R1009,Excluir,E3,"raciocínio clínico de agentes, não QA com contexto",,
+R1011,Excluir,E3,fora do foco (nem educação nem saúde),,
+R1013,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R1014,Excluir,E3,fora do foco (nem educação nem saúde),,
+R1015,Incluir,I3,cumpre I1-I4,educação,normal
+R1016,Incluir,I3,cumpre I1-I4,educação,normal
+R1017,Incluir,I3,cumpre I1-I4,saúde,normal
+R1018,Incluir,I3,cumpre I1-I4,QA médico,normal
+R1019,Incluir,I3,cumpre I1-I4,educação,alta (a)
+R1021,Excluir,E3,recomendação de tratamento,,
+R1022,Incluir,I3,cumpre I1-I4,educação (institucional),alta (b)
+R1023,Excluir,E3,previsão de doença a partir de sintomas,,
+R1028,Excluir,E3,fora do foco (nem educação nem saúde),,
+R1030,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R1031,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R1034,Excluir,E2,resumo de projeto de doutoramento,,
+R1036,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R1041,Incluir,I3,cumpre I1-I4,QA médico,normal
+R1042,Excluir,E2,tutorial,,
+R1046,Excluir,E3,fora do foco (nem educação nem saúde),,
+R1049,Incluir,I3,cumpre I1-I4,educação (institucional),normal
+R1053,Incluir,I3,cumpre I1-I4,saúde,normal
+R1054,Excluir,E2,tutorial,,
+R1056,Incluir,I3,cumpre I1-I4,educação,alta (a)
+R1058,Excluir,E3,fora do foco (nem educação nem saúde),,
+R1060,Incluir,I3,cumpre I1-I4,educação,"alta (a,c)"
+R1063,Excluir,E3,fora do foco (nem educação nem saúde),,
+R1064,Incluir,I3,cumpre I1-I4,educação,normal
+R1065,Excluir,E2,discussão sem avaliação,,
+R1069,Incluir,I3,cumpre I1-I4,saúde,normal
+R1070,Incluir,I3,possível versão alargada de R0425 (EmoBot); confirmar no texto integral,saúde,normal
+R1076,Incluir,I3,cumpre I1-I4,saúde,normal
+R1080,Excluir,E3,fora do foco (nem educação nem saúde),,
+R1081,Excluir,E3,VQA sobre ressonância magnética,,
+R1083,Excluir,E4,visão geral / tutorial,,
+R1089,Excluir,E3,fora do foco (nem educação nem saúde),,
+R1092,Excluir,E3,fora do foco (nem educação nem saúde),,
+R1093,Incluir,I3,cumpre I1-I4,educação,normal
+R1095,Excluir,E3,benchmark de decisão clínica,,
+R1096,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R1100,Excluir,E3,"explicações de provas matemáticas, não chatbot",,
+R1102,Excluir,E3,treino cognitivo,,
+R1103,Incluir,I3,cumpre I1-I4,saúde,normal
+R1109,Incluir,I3,cumpre I1-I4,educação,normal
+R1110,Incluir,I3,cumpre I1-I4,educação,"alta (a,b)"
+R1111,Excluir,E3,estudo de necessidades de cuidadores,,
+R1120,Incluir,I3,cumpre I1-I4,QA médico,"alta (a,b)"
+R1123,Excluir,E3,fora do foco (nem educação nem saúde),,
+R1126,Incluir,I3,cumpre I1-I4,educação,normal
+R1128,Excluir,E3,avaliação de literacia informacional,,
+R1131,Excluir,E3,análise de publicações em redes sociais,,
+R1136,Incluir,I3,cumpre I1-I4,saúde,normal
+R1140,Excluir,E2,relatório de workshop,,
+R1150,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R1155,Excluir,E3,sem contexto definido (LLM avaliado sem contexto),,
+R1156,Excluir,E3,sem contexto definido (LLM avaliado sem contexto),,
+R1158,Excluir,E3,fora do foco (nem educação nem saúde),,
+R1159,Excluir,E3,simulação em VR,,
+R1160,Incluir,I3,cumpre I1-I4,saúde,normal
+R1166,Excluir,E3,fora do foco (nem educação nem saúde),,
+R1176,Excluir,E3,rastreio de conhecimento em diálogos,,
+R1177,Excluir,E3,fora do foco (nem educação nem saúde),,
+R1179,Excluir,E3,"método RAG/QA genérico, sem aplicação em educação ou saúde",,
+R1183,Incluir,I3,cumpre I1-I4,âmbito e recusa,alta (c)
+R1186,Excluir,E2,sem método ou avaliação descritos no resumo,,
+R1187,Incluir,I3,cumpre I1-I4,educação,alta (c)
+R1197,Excluir,E3,diagnóstico sobre imagens de ECG,,
+R1216,Excluir,E3,fora do foco (nem educação nem saúde),,
+R1218,Excluir,E2,artigo de opinião,,
+R1245,Incluir,I3,cumpre I1-I4,QA médico,normal
+R1363,Excluir,E3,fora do foco (nem educação nem saúde),,

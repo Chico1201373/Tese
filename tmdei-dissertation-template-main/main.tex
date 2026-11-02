@@ -52,7 +52,7 @@ headsepline, % Uncomment to get a line under the header
 %
 % Citation style: authoryear-comp (Harvard-like), as recommended by the template
 %
-\usepackage[style=authoryear-comp,backend=biber]{biblatex} % Bibtex backend with the authoryear-comp citation style (authoryear citations, bibliography ordered alphabetically)
+\usepackage[style=authoryear-comp,backend=biber,maxcitenames=2,uniquename=false,uniquelist=false]{biblatex} % Bibtex backend with the authoryear-comp citation style (authoryear citations, bibliography ordered alphabetically)
 
 \addbibresource{mainbibliography.bib} % The filename of the bibliography
 
@@ -78,7 +78,7 @@ headsepline, % Uncomment to get a line under the header
 
 %\coadvisor{Dr. Jack \textsc{Smith}} % Your co-advisors's name, this is used in the title page, print it elsewhere with \coadvname (comment, if no co-advisor)
 
-\supervisor{[Nome do Supervisor na Adhara]} % Your supervisor's (company, hosting institution mentor) name, this is used in the title page, print it elsewhere with \supname (comment, if no supervisor, or same as advisor)
+\supervisor{Bruno Guimarães} % Your supervisor's (company, hosting institution mentor) name, this is used in the title page, print it elsewhere with \supname (comment, if no supervisor, or same as advisor)
 
 %\supervisors{Dr. James \textsc{Smith} and Jace Smith} % In case you have multiple supervisors and/or do not want to distinguish between supervisor and co-supervisor use \supervisors; if defined, will override \advisor
 
@@ -137,8 +137,8 @@ headsepline, % Uncomment to get a line under the header
 % Uncomment the lines as you write the Appendices
 \begin{appendices}
 
-\input{appendices/appendixA}
-%\input{appendices/appendixB}
+%\input{appendices/appendixA} % retirado: testes de outro trabalho
+\input{appendices/appendixB}
 %\input{appendices/appendixC}
 
 \end{appendices}

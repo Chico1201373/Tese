@@ -1,0 +1,876 @@
+TY  - CONF
+TI  - Large Language Model Chatbot with Retrievalaugmented Generation and Function Calling for Indonesian Article 21 Withholding Tax Support
+T2  - 2026 International Conference on Current Research in Artificial Intelligence and Data Science (ICCRAIDS)
+SP  - 1
+EP  - 7
+AU  - V. A. Saputra
+AU  - M. S. Devi
+AU  - E. S. Metta
+AU  - R. Sutoyo
+AU  - M. Karina
+PY  - 2026
+KW  - Modeling
+KW  - Finance
+KW  - Retrieval augmented generation
+KW  - Large language models
+KW  - Context
+KW  - Printing
+KW  - Accuracy
+KW  - Vectors
+KW  - Regulation
+KW  - Indexes
+KW  - function calling
+KW  - Indonesia's income tax chatbot
+KW  - Large Language Model
+KW  - Retrieval-Augmented Generation
+KW  - taxation
+DO  - 10.1109/ICCRAIDS67816.2026.11519713
+JO  - 2026 International Conference on Current Research in Artificial Intelligence and Data Science (ICCRAIDS)
+IS  - 
+SN  - 
+VO  - 1
+VL  - 1
+JA  - 2026 International Conference on Current Research in Artificial Intelligence and Data Science (ICCRAIDS)
+Y1  - 10-11 April 2026
+AB  - Large Language Model (LLM) plays a crucial role in the taxation domain, in spite of their occasional tendency to provide unreliable answers. As the Indonesian income tax system is highly complicated, this study introduces BeeTax, an Indonesian Withholding Tax Article 21 (WHT Article 21) chatbot that leverages Retrieval-Augmented Generation (RAG) to support users in understanding theoretical taxation concepts, and function calling to automate tax calculations. While prior studies have shown that RAG and function calling each improve the accuracy and reliability of LLMs, they have mainly been examined separately. BeeTax bridges this gap by integrating both mechanisms within a unified architecture, demonstrating their mutual benefit in a domain-specific application. The chatbot achieved Retrieval Augmented Generation Assessment (RAGAs) scores of 0.71 (faithfulness), 0.81 (answer relevancy), 0.61 (answer correctness), and 0.79 (context precision and recall), indicating reliable retrieval and high generation accuracy in a technical tax domain. The function-calling mechanism achieved 91 % accuracy, confirming its high consistency in performing tax computations. The qualitative evaluations through experts' User Acceptance Testing (UAT) yielded pass rates of 85.71 % and 95.24 %, while a user survey assessing four usability aspects reported satisfaction scores of at least 4.57 out of 5. Overall, the results confirm that combining RAG and function calling improves the user experience, making BeeTax a practical and accessible Artificial Intelligence (AI) solution for WHT Article 21 assistance.
+ER  - 
+
+TY  - CONF
+TI  - Sanity-LLM: Enhancing Mental Health Chatbots with Retrieval-Augmented Generation (RAG)
+T2  - 2025 International Conference on Informatics, Multimedia, Cyber and Information System (ICIMCIS)
+SP  - 1020
+EP  - 1025
+AU  - J. Christiawan
+AU  - D. A. Setiawan
+AU  - J. A. P. Oroh
+AU  - Hidayaturrahman
+PY  - 2025
+KW  - Measurement
+KW  - Accuracy
+KW  - Grounding
+KW  - Retrieval augmented generation
+KW  - Knowledge based systems
+KW  - Mental health
+KW  - Reinforcement learning
+KW  - Chatbots
+KW  - Hybrid power systems
+KW  - Safety
+KW  - Advanced RAG
+KW  - Mental Health Chatbot
+KW  - Hybrid Search
+KW  - FAISS
+KW  - Large Language Model
+DO  - 10.1109/ICIMCIS68501.2025.11327020
+JO  - 2025 International Conference on Informatics, Multimedia, Cyber and Information System (ICIMCIS)
+IS  - 
+SN  - 2837-5203
+VO  - 
+VL  - 
+JA  - 2025 International Conference on Informatics, Multimedia, Cyber and Information System (ICIMCIS)
+Y1  - 3-4 Dec. 2025
+AB  - This study introduces Sanity-LLM, an advanced Retrieval-Augmented Generation (RAG) framework for mental health chatbots that aims to produce responses that are accurate, empathetic, and safe. The proposed architecture integrates hybrid semantic–keyword search, step-back questioning, and a reranking mechanism to improve the relevance and grounding of generated responses. The knowledge base was built from publicly available mental health dialogues and Q&A data, embedded and indexed using FAISS. Evaluation using RAGAS metrics demonstrates notable performance improvements, achieving 0.9391 context precision, 0.7077 context recall, 0.8754 faithfulness, and 0.6297 answer correctness, surpassing naïve RAG baselines. Ablation results further confirm that each module: hybrid retrieval, step-back prompting, and reranking contributes significantly to the overall system effectiveness. While not a substitute for professional care, Sanity-LLM offers a scalable and accessible first-line support tool for encouraging help-seeking behavior. Future work will focus on broadening verified knowledge sources and validating effectiveness through expert and user-based evaluation.
+ER  - 
+
+TY  - CONF
+TI  - Design and Evaluation of a Fully on-Premises RAG-Based Enterprise Chatbot for Technical Support
+T2  - 2026 IEEE 16th Symposium on Computer Applications & Industrial Electronics (ISCAIE)
+SP  - 1
+EP  - 6
+AU  - S. Li
+AU  - K. Hung
+AU  - R. Ho
+AU  - G. M. -T. Man
+PY  - 2026
+KW  - Modeling
+KW  - Large language models
+KW  - Retrieval augmented generation
+KW  - Vectors
+KW  - Accuracy
+KW  - Pipelines
+KW  - Error analysis
+KW  - Manuals
+KW  - Printing
+KW  - Measurement
+KW  - Retrieval-Augmented Generation (RAG)
+KW  - OnPremises LLM Chatbot
+KW  - Technical Customer Support
+KW  - Hallucination Control
+DO  - 10.1109/ISCAIE68866.2026.11576406
+JO  - 2026 IEEE 16th Symposium on Computer Applications & Industrial Electronics (ISCAIE)
+IS  - 
+SN  - 2836-4317
+VO  - 
+VL  - 
+JA  - 2026 IEEE 16th Symposium on Computer Applications & Industrial Electronics (ISCAIE)
+Y1  - 25-26 April 2026
+AB  - Enterprise customer and technical support is rapidly shifting toward large language model (LLM)-based assistants and agentic workflows to improve response quality, consistency, and operating efficiency. However, cloud-hosted LLM services raise concerns about data privacy, regulatory compliance, and long-term running costs. This paper presents the design and evaluation of a modular, fully on-premises RetrievalAugmented Generation (RAG) chatbot system for enterprise technical support. The system integrates an n8n workflow platform, locally hosted LLMs via Ollama, and a Qdrant vector database to enable privacy-preserving deployment without external API dependency. A multi-pipeline ingestion framework processes manuals and structured enterprise data into semantically indexed knowledge units. To improve reliability, the chatbot uses strict prompt constraints with standardized fallback behavior and an automated LLM-as-a-Judge benchmark pipeline to evaluate correctness, rejection behavior, and latency. Experiments on 260 benchmark queries achieve 89.2% overall accuracy, 100% correct rejection on out-of-domain queries, and an average end-to-end latency of 2.46 s. The results suggest that medium-scale open-source LLMs, when combined with local retrieval and workflow control, can provide a practical and privacy-preserving support solution. However, performance remains constrained by model capacity, possible evaluation bias, and deployment-scale limitations.
+ER  - 
+
+TY  - CONF
+TI  - Network Packet Security Analysis Chatbot using SQL-RAG Approach and Cybersecurity-Tuned LLM
+T2  - 2025 International Conference on Electrical, Communication and Computer Engineering (ICECCE)
+SP  - 1
+EP  - 6
+AU  - O. Briliyant
+AU  - A. Javed
+AU  - Y. Cherdantseva
+PY  - 2025
+KW  - Training
+KW  - Structured Query Language
+KW  - Translation
+KW  - Large language models
+KW  - Retrieval augmented generation
+KW  - Pipelines
+KW  - Network analyzers
+KW  - Chatbots
+KW  - Data models
+KW  - Computer crime
+KW  - network analysis
+KW  - Large Language Model
+KW  - Structured Query Language
+KW  - Retrieval Augmented Generation
+KW  - RAGAS
+KW  - IoT security
+DO  - 10.1109/ICECCE67514.2025.11258026
+JO  - 2025 International Conference on Electrical, Communication and Computer Engineering (ICECCE)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 International Conference on Electrical, Communication and Computer Engineering (ICECCE)
+Y1  - 27-28 Aug. 2025
+AB  - Cybersecurity analysis faces significant challenges in examining massive volumes of network data generated by increasingly connected systems. Data science and machine learning models help to detect anomalies and classify attacks, but for indepth analysis needed in a security audit or forensic analysis, most still rely on manual search. This create an analytical bottleneck that could bring substantial risks for organizations. Delayed security analyses can result in failed compliance audits, leading to financial penalties and loss of business opportunities. This study presents a novel framework for automating network traffic analysis using a large language model (LLM), structured data query (SQL) and retrieval-augmented generation (RAG) to translate human queries into actionable insights, enabling faster in-depth analysis on large network data, even with less expertise. Evaluation of framework performance conducted using RAGAS (RAG Assessment Suite) demonstrates significant performance differences between specialized and general-purpose LLMs. The Lily-Cybersecurity-7B model demonstrated strong context precision (0.7667) due to its cybersecurity-focused training, effectively identifying relevant security data. However, it struggled with faithfulness (0.0528) and answer correctness (0.2300), primarily due to difficulties translating natural language queries into accurate SQL commands. In contrast, the Mistral-7B model, despite lacking cybersecurity-specific training, achieved superior answer correctness (0.5336) and faithfulness (0.1389), demonstrating better general-domain capabilities. These findings highlight the synergy between SQL generation and AI-driven retrieval for automated network analysis.
+ER  - 
+
+TY  - CONF
+TI  - Localized Open-Source LLM Aware Retrieval Augmented Generation of Legal Documents: A Case Study on Indian Constitution and Penal Code
+T2  - 2024 International BIT Conference (BITCON)
+SP  - 1
+EP  - 6
+AU  - P. Phukon
+AU  - Y. Lokhar
+AU  - P. P. Ray
+PY  - 2024
+KW  - Codes
+KW  - Accuracy
+KW  - Law
+KW  - Large language models
+KW  - Retrieval augmented generation
+KW  - Training data
+KW  - Documentation
+KW  - Chatbots
+KW  - IEEE Constitution
+KW  - Large Language Model
+KW  - Retrieval-Augmented Generation
+KW  - Localized Interface
+KW  - Question-Answer Visualizer
+KW  - Legal Documents
+DO  - 10.1109/BITCON63716.2024.10985396
+JO  - 2024 International BIT Conference (BITCON)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2024 International BIT Conference (BITCON)
+Y1  - 7-8 Dec. 2024
+AB  - Large Language Models (LLMs) are advanced artificial intelligence systems which are designed to generate human-like language based on their training data. Retrieval- Augmented Generation (RAG) is a framework that enhances the response of LLM by incorporating external information sources, leading to more accurate, context-relevant responses. However, LLMs commonly struggle with contextual relevance, especially in particular fields such as legal documentation, where specific local laws are crucial. Furthermore, there is limited research on the use of RAG technology in the legal area, particularly for producing and analyzing legal documents. This study develops a chatbot using RAG to answer questions on the Indian Constitution (IC) and the Indian Penal Code (IPC), with a Streamlit-based interface to display legal queries and their generated responses. This study analyzes the evaluation of various LLMs integrated with RAG including (including (i) Llama3 8b, (ii) Mistral 7b, (iii) Gemma2 7b, (iv) Phi3 3.8b, and (v) Qwen2 7b and it evaluates their performance in terms of relevance, faithfulness, context recall, and context precision.
+ER  - 
+
+TY  - CONF
+TI  - Retrieval-Augmented Large Language Models for a Chronic Kidney Disease Patient Education Chatbot
+T2  - 2025 International Conference on Computer, Control, Informatics and its Applications (IC3INA)
+SP  - 196
+EP  - 201
+AU  - E. Nurfadhilah
+AU  - A. Santosa
+AU  - P. K. Putra
+PY  - 2025
+KW  - Measurement
+KW  - Grounding
+KW  - Large language models
+KW  - Education
+KW  - Retrieval augmented generation
+KW  - Medical services
+KW  - Chatbots
+KW  - Chronic kidney disease
+KW  - Meteors
+KW  - Guidelines
+KW  - Chatbot
+KW  - Chronic Kidney Disease
+KW  - Hemodialysis
+KW  - Large Language Models
+KW  - Retrieval-Augmented Generation
+DO  - 10.1109/IC3INA68387.2025.11325127
+JO  - 2025 International Conference on Computer, Control, Informatics and its Applications (IC3INA)
+IS  - 
+SN  - 2994-5925
+VO  - 
+VL  - 
+JA  - 2025 International Conference on Computer, Control, Informatics and its Applications (IC3INA)
+Y1  - 15-16 Oct. 2025
+AB  - Chronic Kidney Disease (CKD) is rising globally, underscoring the need for scalable and accurate patient education. This paper presents the design and evaluation of a CKD education chatbot specifically for hemodialysis cases in Indonesia that runs on-premises and employs a Retrieval-Augmented Generation (RAG) framework. We conducted a comparative study of a general-purpose LLM (Llama 3.1) and a language adapted LLM (Sahabat AI). Both models were used in identical RAG pipelines and paired with several retrieval embeddings. Using 70 unique questions evaluated across 10 runs per configuration (n = 700), we assessed semantic similarity (METEOR), factual correctness, and RAG-specific metrics (faithfulness, answer relevancy, context precision) with a Gemini 2.0 Flash evaluator. RAG consistently improved performance over non-RAG baselines, with statistically significant gains across metrics. Sahabat AI outperformed Llama 3.1, posting the highest METEOR (0.4116, mContriever) and correctness (4.0293 with BGE-M3). It also exhibits higher, more stable faithfulness (∼0.95), indicating closer adherence to the source evidence. These findings suggest that, for healthcare education, localized LLMs combined with carefully chosen embeddings can yield more effective and trustworthy systems.
+ER  - 
+
+TY  - CONF
+TI  - Development of a Retrieval-Augmented Generation-Based Information Service Chatbot for Hallucination Mitigation in Critical Industrial Environments
+T2  - 2026 5th International Conference on Electronics Representation and Algorithm (ICERA)
+SP  - 650
+EP  - 655
+AU  - Z. F. N. Mahmud
+AU  - Bryan
+AU  - I. A. Dadas
+AU  - I. Kristiana
+PY  - 2026
+KW  - Modeling
+KW  - Retrieval augmented generation
+KW  - Large language models
+KW  - Manuals
+KW  - Context
+KW  - Printing
+KW  - Chemicals
+KW  - Design methodology
+KW  - Measurement
+KW  - Safety
+KW  - Chatbot
+KW  - Retrieval-Augmented Generation
+KW  - Hallucination Mitigation
+KW  - Industrial Safety
+KW  - LLM Evaluation
+DO  - 10.1109/ICERA72709.2026.11666711
+JO  - 2026 5th International Conference on Electronics Representation and Algorithm (ICERA)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 5th International Conference on Electronics Representation and Algorithm (ICERA)
+Y1  - 25-25 July 2026
+AB  - The integration of Large Language Models (LLMs) into enterprise information systems offers advanced capabilities; however, their deployment in safety-critical industrial environments is severely impeded by the operational risks of AI hallucinations. In domains like hazardous chemical handling, which operate on a zero-tolerance paradigm for factual inaccuracies, relying on manual document parsing from unstructured Material Safety Data Sheets (MSDS) is highly inefficient and prone to human error. This study aims to resolve this issue by developing a Retrieval-Augmented Generation (RAG)-based information service chatbot for chemical hazard identification. The methodology integrates layout-aware parsing via Docling, vector storage, cross-encoder re-ranking using FlashRank, and the nomic-embed-text embedding model. This architecture leverages the Llama 3.2 Vision model, integrated through a Telegram Bot API. Evaluation was conducted on 50 Golden Datasets through a manual binary audit performed independently by the researchers against ground-truth documents. The empirical results demonstrated a Faithfulness score of 0.98, Context Precision of 0.86, and Answer Relevance of 0.76. An in-depth failure analysis identified two primary bottlenecks: semantic gaps during the retrieval phase, and LLM synthesis failures (accounting for 30% of the validation tests) where the local model failed to construct coherent answers despite retrieving the correct documents. Operationally, the chatbot successfully reduced information access time from a 5 to 10-minute manual search to a median latency of 4.7 seconds.
+ER  - 
+
+TY  - CONF
+TI  - Chatbots on a Mid-Scale Knowledge Base: Using an R2 University as an Example
+T2  - 2024 5th International Conference on Big Data, Artificial Intelligence and Internet of Things Engineering (ICBAIE)
+SP  - 463
+EP  - 469
+AU  - R. Fu
+AU  - X. Wang
+AU  - A. V. Roblero
+AU  - Y. Song
+PY  - 2024
+KW  - Large language models
+KW  - Knowledge based systems
+KW  - Education
+KW  - Big Data
+KW  - Chatbots
+KW  - Search problems
+KW  - Real-time systems
+KW  - Internet of Things
+KW  - Testing
+KW  - chatbot
+KW  - large language models (LLMs)
+KW  - knowledge base
+KW  - LLM evaluation framework
+DO  - 10.1109/ICBAIE63306.2024.11116920
+JO  - 2024 5th International Conference on Big Data, Artificial Intelligence and Internet of Things Engineering (ICBAIE)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2024 5th International Conference on Big Data, Artificial Intelligence and Internet of Things Engineering (ICBAIE)
+Y1  - 25-27 Oct. 2024
+AB  - While LLMs like ChatGPT, Claude, and Gemini have proven effective at handling common, everyday tasks, they often lack the domain-specific expertise necessary for more specialized consultations. This limitation makes it essential to integrate a targeted knowledge base when developing chatbots for specific domains. In this study, we investigated the performance of chatbots utilizing large language models (LLMs) within the context of a mid-scale knowledge base for a regional R2 university in the U.S. Using a web-crawled knowledge base, we created chatbots across multiple platforms, testing them against a set of predefined questions to evaluate correctness and comprehensiveness. Our findings indicate that while ChatGPT models, particularly those augmented with both a knowledge base and real-time search capabilities, provide the most balanced responses on objective questions, hallucinations remain an issue. In the subjective testing questions, no single chatbot emerged as the best performer, with different models excelling in various areas based on the personas and questions. The study suggests that while LLMs are valuable tools in education, careful consideration of their limitations is necessary for improving their application in domain-specific consulting.
+ER  - 
+
+TY  - CONF
+TI  - Towards Efficient Educational Chatbots: Benchmarking RAG Frameworks
+T2  - 2025 International Conference on Emerging Technologies in Computing and Communication (ETCC)
+SP  - 1
+EP  - 6
+AU  - U. A. Khan
+AU  - F. Khan
+AU  - E. Khan
+AU  - M. A. Hasnain
+AU  - A. A. Moinuddin
+PY  - 2025
+KW  - Accuracy
+KW  - Computational modeling
+KW  - Scalability
+KW  - Retrieval augmented generation
+KW  - Logic gates
+KW  - Benchmark testing
+KW  - Chatbots
+KW  - Reliability engineering
+KW  - User experience
+KW  - Usability
+KW  - Retrieval Augmented Generation
+KW  - Information systems
+KW  - Generative AI
+KW  - Evaluation
+DO  - 10.1109/ETCC65847.2025.11108323
+JO  - 2025 International Conference on Emerging Technologies in Computing and Communication (ETCC)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 International Conference on Emerging Technologies in Computing and Communication (ETCC)
+Y1  - 26-27 June 2025
+AB  - Large Language Models (LLMs) have proven immensely beneficial in education by capturing vast amounts of literature-based information, allowing them to generate context without relying on external sources. In this paper, we propose a generative AI-powered GATE question-answering framework (GATE stands for Graduate Aptitude Test in Engineering) that leverages LLMs to explain GATE solutions and support students in their exam preparation. We conducted extensive benchmarking to select the optimal embedding model and LLM, evaluating our framework based on criteria such as latency, faithfulness, and relevance, with additional validation through human evaluation. Our chatbot integrates state-of-the-art embedding models and LLMs to deliver accurate, context-aware responses. Through rigorous experimentation, we identified configurations that balance performance and computational efficiency, ensuring a reliable chatbot to serve students' needs. Additionally, we discuss the challenges faced in data processing and modelling and the implemented solutions. Our research investigates the implementation of Retrieval-Augmented Generation (RAG) for GATE Q/A explanation tasks, and our findings demonstrate significant improvements in retrieval accuracy and response quality. This research offers practical insights for developing effective AI -driven educational tools while highlighting areas for future enhancement in usability and scalability.
+ER  - 
+
+TY  - CONF
+TI  - CancerBot: A Retrieval-Augmented Generation based Cancer Chatbot Using Large Language Models
+T2  - 2024 18th International Conference on Open Source Systems and Technologies (ICOSST)
+SP  - 1
+EP  - 6
+AU  - A. Azam
+AU  - Z. Naz
+AU  - M. U. G. Khan
+PY  - 2024
+KW  - Databases
+KW  - Large language models
+KW  - Retrieval augmented generation
+KW  - Medical services
+KW  - Chatbots
+KW  - Reliability engineering
+KW  - Vectors
+KW  - Standards
+KW  - Cancer
+KW  - Testing
+KW  - Cancer
+KW  - Chatbot
+KW  - Llama2
+KW  - LLM
+KW  - RAG
+KW  - Vector Databases
+DO  - 10.1109/ICOSST64562.2024.10871155
+JO  - 2024 18th International Conference on Open Source Systems and Technologies (ICOSST)
+IS  - 
+SN  - 2770-8225
+VO  - 
+VL  - 
+JA  - 2024 18th International Conference on Open Source Systems and Technologies (ICOSST)
+Y1  - 26-27 Dec. 2024
+AB  - Cancer is the second leading cause of death globally, highlighting the urgent need for innovative solutions to support patients and healthcare providers. Remote and digital cancer care interventions, such as chatbots, are more relevant than ever, offering timely information and personalized assistance. With the rise of conversational AI, chatbots have emerged as a potential solution to bridge this gap, offering 24/7 assistance and personalized responses. This paper introduces CancerBot, a Retrieval-Augmented Generation (RAG) system designed to address the need for reliable, contextually relevant cancer-related information. Built on top of a large language model LLaMA-2, and integrated with a vector database, CancerBot retrieves relevant medical literature to generate accurate responses, minimizing the risk of hallucinations. Through synthetic testing and evaluation using metrics such as faithfulness, context relevancy, and response relevancy, our results demonstrate that the RAG-based CancerBot significantly outperforms the standard LLaMA-2 model in addressing cancer-specific queries. This advancement showcases the potential of RAG systems to improve patient care by providing reliable, context-driven information that enhances patient engagement and healthcare decision-making.
+ER  - 
+
+TY  - CONF
+TI  - Retrieval-Augmented LLMs with Indonesian Clinical Trials Guidelines: A Comparative Study
+T2  - 2025 8th International Seminar on Research of Information Technology and Intelligent Systems (ISRITI)
+SP  - 459
+EP  - 464
+AU  - E. Raputri
+AU  - A. J. Teguh
+AU  - S. N. Hidayah
+AU  - A. K. Anom
+AU  - F. Setiawan
+AU  - N. N. Qomariyah
+PY  - 2025
+KW  - Measurement
+KW  - Industries
+KW  - Large language models
+KW  - Retrieval augmented generation
+KW  - Clinical trials
+KW  - Chatbots
+KW  - Medical diagnostic imaging
+KW  - Guidelines
+KW  - Diseases
+KW  - Context modeling
+KW  - Large Language Model (LLM)
+KW  - diagnosing diseases
+KW  - RAG (Retrieval-Augmented Generation)
+KW  - context-related metrics
+DO  - 10.1109/ISRITI68345.2025.11393253
+JO  - 2025 8th International Seminar on Research of Information Technology and Intelligent Systems (ISRITI)
+IS  - 
+SN  - 2832-1456
+VO  - 
+VL  - 
+JA  - 2025 8th International Seminar on Research of Information Technology and Intelligent Systems (ISRITI)
+Y1  - 11-11 Dec. 2025
+AB  - Artificial Intelligence (AI), especially Large Language Model (LLM) powered chatbots, has emerged as a significant tool in our daily lives. Many industries, including the healthcare industry, nowadays use AI chatbots for their operational tasks. One of such tasks is for diagnosing diseases based on the patient’s symptoms. However, in practice, LLM tends to generate incorrect information, so they need to be provided with more specific medical-related knowledge. Therefore, this study aims to enhance LLM diagnostic correctness by integrating Indonesian Clinical Trials Guidelines using RAG (Retrieval-Augmented Generation) to give the LLMs more context on medical cases. After that, we compare the diagnostic ability of three different RAG-enhanced popular LLMs (GPT, Deepseek, and Qwen). As a contrast, we also compare Deepseek model with and without RAG to test whether RAG leads to significant improvement for diagnosis correctness. Our research utilizes context-related metrics with ground truth from a general medical practitioner for evaluation. The result reveals that RAG significantly improves model performance and model type does not affect diagnosis correctness. However, from the mean alone, GPT has the highest performance with all metrics greater than 0.65, followed by Deepseek with RAG, Qwen, and Deepseek without RAG, but these differences were found to be not statistically significant. These findings further suggest that integrating local clinical guidelines with RAG can enhance medical reasoning in LLM, regardless of the underlying models, indicating that, as long as a reliable medical context is given, model type has a more limited impact on performance.
+ER  - 
+
+TY  - CONF
+TI  - A Systematic Review of Retrieval-Augmented Generation Techniques for Mitigating Hallucinations in Chatbot Systems
+T2  - 2026 7th International Conference on Artificial Intelligence and Data Sciences (AiDAS)
+SP  - 383
+EP  - 388
+AU  - S. M. Hatim
+AU  - A. A. K. Nizam
+AU  - N. Shamsudin
+AU  - N. A. M. Zamani
+AU  - Z. Ahmad
+PY  - 2026
+KW  - Retrieval augmented generation
+KW  - Modeling
+KW  - Printing
+KW  - Reviews
+KW  - Conferences
+KW  - Grounding
+KW  - Large language models
+KW  - Architecture
+KW  - Computer architecture
+KW  - Context
+KW  - Retrieval-Augmented Generation
+KW  - hallucination mitigation
+KW  - large language models
+KW  - chatbot systems
+KW  - systematic literature review
+KW  - information retrieval
+DO  - 10.1109/AiDAS71914.2026.11712729
+JO  - 2026 7th International Conference on Artificial Intelligence and Data Sciences (AiDAS)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 7th International Conference on Artificial Intelligence and Data Sciences (AiDAS)
+Y1  - 2-3 Sept. 2026
+AB  - Large language model (LLM) chatbots are increasingly deployed in education, health care, and decision-support settings, yet their reliability is limited by hallucination: fluent responses that are factually incorrect, weakly grounded, or inconsistent with supplied evidence. Retrieval-Augmented Generation (RAG) addresses this limitation by conditioning generation on external knowledge retrieved at inference time. This paper presents a systematic review of RAG techniques for hallucination mitigation in chatbot systems. Following the PRISMA 2020 process, studies published from 2020 to 2026 were searched in Scopus, IEEE Xplore, and Google Scholar. After duplicate removal, screening, and full-text eligibility assessment, 23 studies were synthesized qualitatively. The review analyzes RAG architectures, retrieval strategies, evidence-integration mechanisms, and evaluation practices. Findings show that advanced and modular RAG architectures generally improve factuality and faithfulness over purely parametric LLMs, especially when retrieval is paired with re-ranking, evidence filtering, verification, or citation-aware generation. However, mitigation remains constrained by retrieval noise, latency, limited benchmark standardization, and weak integration between hallucination detection and correction. The paper concludes with research directions for trustworthy, efficient, and explainable RAG-based chatbot systems.
+ER  - 
+
+TY  - JOUR
+TI  - Expert Multi-Agent Conversational System Using Retrieval-Augmented Generation and Dynamic Text-to-SQL for Government Transparency
+T2  - IEEE Access
+SP  - 198178
+EP  - 198200
+AU  - N. Flores
+AU  - C. Ramirez
+AU  - D. Mauricio
+PY  - 2025
+KW  - Government
+KW  - Procurement
+KW  - Optical character recognition
+KW  - Open data
+KW  - Accuracy
+KW  - Transforms
+KW  - Multi-agent systems
+KW  - Microservice architectures
+KW  - Large language models
+KW  - YOLO
+KW  - Large language models (LLM)
+KW  - natural language processing (NLP)
+KW  - artificial intelligence
+KW  - data integration
+KW  - multi-agent systems
+KW  - optical character recognition (OCR)
+DO  - 10.1109/ACCESS.2025.3635530
+JO  - IEEE Access
+IS  - 
+SN  - 2169-3536
+VO  - 13
+VL  - 13
+JA  - IEEE Access
+Y1  - 2025
+AB  - Access to structured and actionable public information remains a major challenge for government transparency in Peru, where official data are often fragmented, inconsistently published, and presented in low-quality formats. This study introduces a multi-agent conversational system designed under the Design Science Research paradigm, which is instantiated through three artifacts. First artifact is a data processing system that integrates procurement and legislative records through classification, region detection, and OCR. A second artifact is a set of specialized agents, combining Retrieval-Augmented Generation for attendance and voting with a Text-to-SQL agent for procurement. The third artifact is a multi-agent orchestration system that unifies these components within a microservices architecture. Together, they transform raw governmental records into structured, auditable, and citizen-accessible responses. The pipeline achieved strong results: classifiers reached accuracies up to 0.989, YOLOv11 obtained mAP@50–95 of 0.965 for attendance and 0.886 for voting, and Tesseract delivered a character error rate of 0.031 and word error rate of 0.078. The RAG agents achieved MAP of 0.950 for attendance and 0.926 for voting, confirming robust retrieval even under noisy conditions. For procurement queries, the Text-to-SQL agent outperformed baselines with FLEX of 0.909 and EX of 0.801. End-to-end evaluation confirmed reliability with Faithfulness of 0.942, Answer Relevancy of 0.907, Answer Similarity of 0.984, and Answer Correctness of 0.891, complemented by BERTScore, BLEU, and ROUGE metrics. These results validate the feasibility of large language models and microservice-based architectures to enhance transparency and accountability in low-data-quality environments.
+ER  - 
+
+TY  - CONF
+TI  - ChatAcadien: A RAG-LLM-Based Chatbot for Exploring Acadian Genealogy
+T2  - 2025 IEEE International Conference on Collaborative Advances in Software and COmputiNg (CASCON)
+SP  - 62
+EP  - 67
+AU  - R. Ghali
+AU  - S. A. Selouani
+PY  - 2025
+KW  - Measurement
+KW  - Accuracy
+KW  - Large language models
+KW  - Knowledge based systems
+KW  - Natural languages
+KW  - Retrieval augmented generation
+KW  - Refining
+KW  - Computer architecture
+KW  - Chatbots
+KW  - Software
+KW  - Retrieval-Augmented Generation (RAG)
+KW  - Acadian Genealogy
+KW  - LLMs
+DO  - 10.1109/CASCON66301.2025.00026
+JO  - 2025 IEEE International Conference on Collaborative Advances in Software and COmputiNg (CASCON)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 IEEE International Conference on Collaborative Advances in Software and COmputiNg (CASCON)
+Y1  - 10-13 Nov. 2025
+AB  - This paper introduces ChatAcadien, a RetrievalAugmented Generation (RAG) chatbot making Acadian genealogical archives more accessible. ChatAcadien connects users to the Centre d'Études Acadiennes Anselme-Chiasson (CEAAC) knowledge base through a Large Language Model (LLM), enabling natural language queries while mitigating hallucinations through document-grounded generation. To effectively process genealogical data, ChatAcadien's architecture manages context length through tailored segmentation techniques that preserve family relationships. Advanced segmentation and retrieval mechanisms, incorporating hypothetical document embeddings (HyDE), and rerankers to enhance search precision. Evaluations using key metrics, including Faithfulness, Context Precision and Recall, demonstrate improved accuracy and contextual relevance. ChatAcadien represents a practical solution for democratizing access to Acadian heritage while maintaining factual accuracy in genealogical research assistance.
+ER  - 
+
+TY  - CONF
+TI  - AI-Supported Remote Laboratories for Measurement Education: A Preliminary Evaluation of LLM for Oscilloscope-based Training
+T2  - 2026 IEEE International Workshop on Metrology for Industry 4.0 & IoT (MetroInd4.0 & IoT)
+SP  - 662
+EP  - 667
+AU  - F. Picariello
+AU  - P. Daponte
+AU  - L. De Vito
+AU  - I. Tudosa
+PY  - 2026
+KW  - Measurement
+KW  - Modeling
+KW  - Chatbots
+KW  - Laboratories
+KW  - Oscilloscopes
+KW  - Remote laboratories
+KW  - Instruments
+KW  - Internet of Things
+KW  - Artificial intelligence
+KW  - Printing
+KW  - Education 5.0
+KW  - Instrumentation
+KW  - Artificial Intelligence
+KW  - Remote laboratory
+KW  - Chatbot
+DO  - 10.1109/MetroInd4.0IoT69397.2026.11653169
+JO  - 2026 IEEE International Workshop on Metrology for Industry 4.0 & IoT (MetroInd4.0 & IoT)
+IS  - 
+SN  - 2837-0872
+VO  - 
+VL  - 
+JA  - 2026 IEEE International Workshop on Metrology for Industry 4.0 & IoT (MetroInd4.0 & IoT)
+Y1  - 10-12 June 2026
+AB  - This work presents a preliminary evaluation of two available Large Language Models (LLMs), specifically Google Gemini 3 and ChatGPT-5.3 (i.e., as a chatbot), used as Artificial Intelligence (AI)-based assistants to support students during remote laboratory activities involving oscilloscope-based operation. The study focuses on the use of conversational AI to guide students in configuring a remotely accessible oscilloscope and performing manual measurements of signal amplitude and frequency using cursor-based techniques. The chatbots’ performance is evaluated by comparing the generated procedural instructions with a reference laboratory procedure for manual instrument configuration and measurement execution. Multiple interaction sequences are analyzed to assess consistency, completeness, and operational usability of the generated guidance in realistic asynchronous learning conditions. Preliminary results show that the quality and correctness of the generated procedures significantly improve when prompts explicitly include interface-level interaction details and remote operation constraints. A comparison across independent test sessions reveals that while Gemini provides fairly consistent and similar responses, ChatGPT tends to generate different and increasingly detailed outputs when presented with the same task in new prompts. However, in both cases, when visual support is requested, the generated images are often generic and, in some cases, not directly relevant to the specific instrument interface, thereby reducing the effectiveness of the instructions during instrument configuration.
+ER  - 
+
+TY  - CONF
+TI  - Self-Enhancement of Domain-Specific Chatbots via Low-Rank Adaptation (LoRA) and Prompt Fine-Tuning
+T2  - 2026 9th International Conference on Electronics, Materials Engineering & Nano-Technology (IEMENTech)
+SP  - 1
+EP  - 6
+AU  - A. De
+AU  - S. Roy
+AU  - A. Mondal
+PY  - 2026
+KW  - Training
+KW  - Measurement
+KW  - Adaptation models
+KW  - Prevention and mitigation
+KW  - Concept drift
+KW  - Chatbots
+KW  - Real-time systems
+KW  - Scattering parameters
+KW  - Standards
+KW  - Testing
+KW  - self-enhancement
+KW  - domain-specific chatbots
+KW  - LoRA
+KW  - Flan-T5
+KW  - continuous learning
+KW  - parameter-efficient finetuning
+KW  - concept drift mitigation
+DO  - 10.1109/IEMENTech202669403.2026.11433996
+JO  - 2026 9th International Conference on Electronics, Materials Engineering & Nano-Technology (IEMENTech)
+IS  - 
+SN  - 2767-9934
+VO  - 9
+VL  - 9
+JA  - 2026 9th International Conference on Electronics, Materials Engineering & Nano-Technology (IEMENTech)
+Y1  - 6-8 Feb. 2026
+AB  - This research presents a novel solution for the challenges associated with the conventional static training processes adopted by domain-specific chatbots (DSCs) through the development of a self-improvement system using the low-rank adaptation approach on the Flan-T5 large language model. Typically, the training processes adopted by DSCs involve the usage of updated data sets, which is not feasible on a regular basis. However, the self-enhancement approach presented in this research utilizes the capabilities of the continuous learning processes with the support of real-time users. This solution is developed through the identification of the need for the improvement of user queries and the usage of the low-rank adaptation approach for the highly efficient updating of the model with only 0.1% parameters updated. The results presented through the evaluation of the solution indicate a significant improvement in the correctness of the chatbot responses by up to 28% during the dynamic query testing and a user satisfaction rate of 92%, marking a significant improvement in the field of chatbots and establishing a new standard for the operation of a highly adaptable, context-sensitive, and proficient domain-specific chatbots.
+ER  - 
+
+TY  - CONF
+TI  - LLM - Based Code Generation for Querying Temporal Tabular Financial Data
+T2  - 2024 IEEE Symposium on Computational Intelligence for Financial Engineering and Economics (CIFEr)
+SP  - 1
+EP  - 8
+AU  - M. Lashuel
+AU  - G. Kurdistan
+AU  - A. Green
+AU  - J. S. Erickson
+AU  - O. Seneviratne
+AU  - K. P. Bennett
+PY  - 2024
+KW  - Economics
+KW  - Structured Query Language
+KW  - Codes
+KW  - Statistical analysis
+KW  - Large language models
+KW  - Natural languages
+KW  - Benchmark testing
+KW  - Filling
+KW  - Data models
+KW  - Next generation networking
+KW  - large language models
+KW  - code generation
+KW  - gpt-4
+KW  - llama3
+KW  - financial data
+KW  - tabular data
+KW  - benchmarking
+KW  - financial industry
+KW  - automation
+DO  - 10.1109/CIFEr62890.2024.10772804
+JO  - 2024 IEEE Symposium on Computational Intelligence for Financial Engineering and Economics (CIFEr)
+IS  - 
+SN  - 2640-7701
+VO  - 
+VL  - 
+JA  - 2024 IEEE Symposium on Computational Intelligence for Financial Engineering and Economics (CIFEr)
+Y1  - 22-23 Oct. 2024
+AB  - We examine the question of “how well large language models (LLMs) can answer questions using temporal tabular financial data by generating code?”. Leveraging advanced language models, specifically GPT-4 and Llama 3, we aim to scrutinize and compare their abilities to generate coherent and effective code for Python, R, and SQL based on natural language prompts. We design an experiment to assess the performance of LLMs on natural language prompts on a large temporal financial dataset. We created a set of queries with hand-crafted R code answers. To investigate the strengths and weaknesses of LLMs, each query was created with different factors that characterize the financial meaning of the queries and their complexity. We demonstrate how to create specific zero-shot prompts to generate code to answer natural language queries about temporal financial tabular data. We develop specific system prompts for each language to ensure they correctly answer time-oriented questions. We execute this experiment on two LLMs (GPT-4 and Llama 3), assess if the outputs produced are executable and correct, and assess the efficiency of the produced code for Python, SQL, and R. We find that while LLMs have promising performance, their performance varies greatly across the languages, models, and experimental factors. GPT-4 performs best on Python (95.2% correctness) but has significantly weaker performance on SQL (87.6% correctness) and R (79.0% correctness). Llama 3 is less successful at generating code overall, but it achieves its best results in R (71.4% correctness). A multi-factor statistical analysis of the results with respect to the defined experimental factors provides further insights into the specific areas of challenge in code generation for each LLM. Our preliminary results on this modest benchmark demonstrate a framework for developing larger, comprehensive, unique benchmarks for both temporal financial tabular data and R code generation. While Python and SQL already have benchmarks, we are filling in the gaps for R. Powerful AI agents for text-to-code generation, as demonstrated in this work, provide a critical capability required for the next-generation AI-based natural language financial intelligence systems and chatbots, directly addressing the complex challenges presented by querying temporal tabular financial data.
+ER  - 
+
+TY  - CONF
+TI  - Career Guidance Chatbot using RetrievalAugmented Generation (RAG) Architecture
+T2  - 2025 International Conference on Computational Innovations and Sustainable Technologies (ICCIST)
+SP  - 1
+EP  - 6
+AU  - A. Nagalkar
+AU  - A. Yemul
+AU  - A. Mohagaonkar
+AU  - A. Solanke
+AU  - A. Yenkikar
+AU  - N. Sable
+PY  - 2025
+KW  - Adaptation models
+KW  - Engineering profession
+KW  - Semantic search
+KW  - Scalability
+KW  - Retrieval augmented generation
+KW  - Predictive models
+KW  - Chatbots
+KW  - Vectors
+KW  - Real-time systems
+KW  - Remuneration
+KW  - Chatbot
+KW  - embeddings
+KW  - Retrieval-Augmented Generation (RAG)
+KW  - career counselling
+KW  - vector database
+KW  - Random Forest
+KW  - Prediction
+KW  - Datasets
+KW  - Semantic Search
+DO  - 10.1109/ICCIST67338.2025.11438771
+JO  - 2025 International Conference on Computational Innovations and Sustainable Technologies (ICCIST)
+IS  - 
+SN  - 
+VO  - 1
+VL  - 1
+JA  - 2025 International Conference on Computational Innovations and Sustainable Technologies (ICCIST)
+Y1  - 18-19 Dec. 2025
+AB  - With the advent of a changing employment scenario and growing demand for customized advice, traditional systems of career guidance are inadequate considering their contextual awareness limitation and fixed advice generation. In this paper, we present a new AI-driven chatbot with a Retrieval-Augmented Generation (RAG) model to provide intelligent, contextual, and adaptive career recommendations customized to individual users. The goal is to improve career guidance quality and availability by combining natural language generation, semantic search, and predictive analytics into one system that can scale. Three main components constitute the chatbot: a semantic search layer upon Sentence Transformers (all-mpnet-base-v2) to map the queries to vectors and output similar documents against an in-memory vector database of high-quality content; a StableLM-Zephyr-3B(LLM) model to generate crisp and natural-language responses; and a Random Forest Regression model that forecasts salary ranges based on user inputs such as occupation, industry, education level, experience, and location. Experimental evaluation verifies that the system described is better than traditional retrieval-only and generation-only methods in response appropriateness, factuality, and system performance. The salary prediction model effectively mimics real labor market trends, and quantized model usage enables high-speed, low-resource operation without compromising output quality. This RAG-based approach offers a solid foundation for scalable, AI-enabled career guidance systems. It fills the gap between passive provision of information and adaptive career consciousness, and has potential applications in educational guidance, labor market analysis, and workforce planning.
+ER  - 
+
+TY  - CONF
+TI  - A Curriculum-Grounded AI Tutoring System
+T2  - 2026 30th International Conference on Information Technology (IT)
+SP  - 1
+EP  - 6
+AU  - S. Đurović
+AU  - S. Kovačević
+AU  - M. Lasica
+AU  - B. Uskoković
+AU  - A. Softić
+AU  - A. Džuho
+AU  - A. Badnjević
+PY  - 2026
+KW  - Electronic learning
+KW  - Accuracy
+KW  - Terminology
+KW  - Reviews
+KW  - Knowledge based systems
+KW  - Manuals
+KW  - Transforms
+KW  - Chatbots
+KW  - Biology
+KW  - Question answering (information retrieval)
+KW  - e-learning
+KW  - artificial intelligence
+KW  - large language model (LLM)
+KW  - natural language processing (NLP)
+KW  - personalized learning
+DO  - 10.1109/IT67293.2026.11435715
+JO  - 2026 30th International Conference on Information Technology (IT)
+IS  - 
+SN  - 2836-3744
+VO  - 
+VL  - 
+JA  - 2026 30th International Conference on Information Technology (IT)
+Y1  - 24-28 Feb. 2026
+AB  - This paper presents TutorMe, an AI-assisted elearning chatbot platform designed to support students with lesson explanations, question answering, quiz generation, and learning-material navigation using curriculum-aligned, digitized resources. TutorMe is implemented as a modular web application integrated with a domain-restricted knowledge base built from structured PDF learning materials. The contribution is engineering-focused: we describe a reproducible design for a knowledge-base-grounded tutoring assistant, document key configuration choices (prompting strategy, retrieval behavior, and platform settings), and report a pilot offline evaluation using a rubric for manual assessment of correctness and groundedness. In an internal test set of 120 questions spanning biology, chemistry, physics, and mathematics at three difficulty levels, manual review showed that 80.0 % of answers were fully correct. Biology exhibited the lowest accuracy (60%) due to terminology imprecisions, while mathematics achieved 93.3%. We discuss limitations including hallucination risk, curriculum drift, privacy, and the need for teacher oversight, and outline steps toward deployment-grade validation.
+ER  - 
+
+TY  - CONF
+TI  - An Explainable Retrieval-Augmented Clinical Decision Support Chatbot for Mental Disorder Assessment Using DeepSeek R1 Distill-Llama-8B
+T2  - 2026 22nd IEEE International Colloquium on Signal Processing & Its Applications (CSPA)
+SP  - 454
+EP  - 459
+AU  - F. J. G. Libres
+AU  - H. I. B. Silva
+AU  - K. M. P. Sobrepena
+AU  - L. V. Comia
+PY  - 2026
+KW  - Modeling
+KW  - Grounding
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Printing
+KW  - Artificial intelligence
+KW  - Retrieval augmented generation
+KW  - Large language models
+KW  - Context
+KW  - Measurement
+KW  - deepseek-r1 distill-llama-8b
+KW  - large language models (LLM)
+KW  - mental health assessment
+KW  - retrieval-augmented generation (RAG)
+KW  - semantic embeddings
+DO  - 10.1109/CSPA68262.2026.11517686
+JO  - 2026 22nd IEEE International Colloquium on Signal Processing & Its Applications (CSPA)
+IS  - 
+SN  - 2836-4090
+VO  - 
+VL  - 
+JA  - 2026 22nd IEEE International Colloquium on Signal Processing & Its Applications (CSPA)
+Y1  - 1-2 May 2026
+AB  - This study presents a retrieval-augmented clinical decision support chatbot designed to assist mental health assessment through knowledge-grounded conversational reasoning. The system integrates document chunking, semantic embeddings, and vector-based retrieval with the DeepSeek-R1 Distill-Llama-8B model to generate diagnostically relevant responses grounded in structured psychiatric knowledge. Diagnostic text was processed into semantic chunks, embedded using the all-MiniLM-L6-v2 model, and indexed in a ChromaDB vector database to enable efficient context retrieval. Evaluation across multiple simulated clinical scenarios demonstrated strong performance, achieving perfect relevance (1.00), high faithfulness (0.95), and mean cosine similarity of 0.76 between generated responses and reference diagnostic descriptions. The retrieval module also achieved robust results with recall of 1.0, precision of 0.79, and an F1-score of 0.88. These findings demonstrate that retrieval-augmented large language models can provide transparent, contextually grounded, and explainable support for conversational mental health decision systems.
+ER  - 
+
+TY  - CONF
+TI  - Generative AI Powered Chatbot for Energy Consumption Optimization Using Retrieval-Augmented Generation
+T2  - 2026 2nd International Conference on Intelligent Systems and Computational Networks (ICISCN)
+SP  - 1
+EP  - 6
+AU  - M. Harish
+AU  - S. Suganth
+AU  - S. Sritharan
+AU  - R. Nithiavathy
+PY  - 2026
+KW  - Energy
+KW  - Modeling
+KW  - Retrieval augmented generation
+KW  - Printing
+KW  - Large language models
+KW  - Optimization
+KW  - Architecture
+KW  - Computer architecture
+KW  - Context
+KW  - Vectors
+KW  - Energy Optimization
+KW  - Generative Artificial Intelligence
+KW  - Retrieval-Augmented Generation
+KW  - Natural Language Processing
+KW  - Smart Energy Management
+KW  - LLM Hallucinations
+KW  - Semantic Search
+DO  - 10.1109/ICISCN67954.2026.11566088
+JO  - 2026 2nd International Conference on Intelligent Systems and Computational Networks (ICISCN)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 2nd International Conference on Intelligent Systems and Computational Networks (ICISCN)
+Y1  - 24-25 April 2026
+AB  - Rising global energy demand and the inaccessibility of conventional management tools highlight the urgent need for intelligent, user-friendly advisory systems. Standalone Large Language Models (LLMs) are prone to domain-specific hallucinations, limiting their reliability in energy applications. This work proposes a Retrieval-Augmented Generation (RAG) powered chatbot that couples a React-Flask conversational interface with a FAISS vector database, grounding responses in verified sources including the UK-DALE and UCI Smart Meter datasets. User queries are encoded into 384-dimensional dense vectors via all-MiniLM-L6-v2 and matched against curated energy knowledge before generation. Evaluation across 100 domain-specific queries yields a factual faithfulness score of 94.2% and a hallucination rate of 3.5%, outperforming standalone LLMs by 25.8 and 18.6 percentage points respectively. These results confirm that retrieval-grounded generation is essential for trustworthy conversational energy management.
+ER  - 
+
+TY  - CONF
+TI  - Uncertain about ChatGPT: enabling the uncertainty evaluation of large language models
+T2  - 2023 26th International Conference on Information Fusion (FUSION)
+SP  - 1
+EP  - 8
+AU  - A. -L. Jousselme
+AU  - J. P. de Villiers
+AU  - A. de Freitas
+AU  - E. Blasch
+AU  - V. Dragos
+AU  - G. Pavlin
+AU  - P. C. Costa
+AU  - K. B. Laskey
+AU  - C. Laudy
+PY  - 2023
+KW  - Uncertainty
+KW  - Ontologies
+KW  - Media
+KW  - Chatbots
+KW  - Cognition
+KW  - Reliability
+KW  - Disruptive technologies
+KW  - Uncertainty evaluation
+KW  - Ontology
+KW  - Information quality
+KW  - Source quality
+KW  - Large Language Models
+KW  - NLP
+DO  - 10.23919/FUSION52260.2023.10224086
+JO  - 2023 26th International Conference on Information Fusion (FUSION)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2023 26th International Conference on Information Fusion (FUSION)
+Y1  - 27-30 June 2023
+AB  - ChatGPT, OpenAI’s chatbot, has gained consider-able attention since its launch in November 2022, owing to its ability to formulate articulated responses to text queries and comments relating to seemingly any conceivable subject. As impressive as the majority of interactions with ChatGPT are, this large language model has a number of acknowledged shortcomings, which in several cases, may be directly related to how ChatGPT handles uncertainty. The objective of this paper is to pave the way to formal analysis of ChatGPT uncertainty handling. To this end, the ability of the Uncertainty Representation and Reasoning Framework (URREF) ontology is assessed, to support such analysis. Elements of structured experiments for reproducible results are identified. The dataset built varies Information Criteria of Correctness, Non-specificity, Self-confidence, Relevance and Inconsistency, and the Source Criteria of Reliability, Competency and Type. ChatGPT’s answers are analyzed along Information Criteria of Correctness, Non-specificity and Self-confidence. Both generic and singular information are sequentially provided. The outcome of this preliminary study is twofold: Firstly, we validate that the experimental setup is efficient in capturing aspects of ChatGPT uncertainty handling. Secondly, we identify possible modifications to the URREF ontology that will be discussed and eventually implemented in URREF ontology Version 4.0 under development.
+ER  - 
+
+TY  - CONF
+TI  - EICopilot: Search and Explore Enterprise Information Over Large-Scale Knowledge Graphs with LLM-Driven Agents
+T2  - 2025 IEEE International Conference on Big Data (BigData)
+SP  - 2689
+EP  - 2696
+AU  - Y. Yun
+AU  - H. Ye
+AU  - J. Deng
+AU  - R. Li
+AU  - X. Li
+AU  - L. Li
+AU  - H. Xiong
+PY  - 2025
+KW  - Technological innovation
+KW  - Accuracy
+KW  - Databases
+KW  - Intent recognition
+KW  - Pipelines
+KW  - Natural languages
+KW  - Knowledge graphs
+KW  - Manuals
+KW  - Syntactics
+KW  - Vectors
+KW  - Analysis
+KW  - In-Context Learning
+KW  - Retrieval-Augmented
+DO  - 10.1109/BigData66926.2025.11402349
+JO  - 2025 IEEE International Conference on Big Data (BigData)
+IS  - 
+SN  - 2573-2978
+VO  - 
+VL  - 
+JA  - 2025 IEEE International Conference on Big Data (BigData)
+Y1  - 8-11 Dec. 2025
+AB  - The paper introduces EICopilot, an novel agentbased solution enhancing search and exploration of enterprise registration data within extensive online knowledge graphs like those detailing legal entities, registered capital, and major shareholders. Traditional methods necessitate text-based queries and manual subgraph explorations, often resulting in time-consuming processes. EICopilot, deployed as a chatbot via an enterprise search platform, improves this landscape by utilizing Large Language Models (LLMs) to interpret natural language queries. This solution automatically generates and executes Gremlin scripts, providing efficient summaries of complex enterprise relationships. Distinct feature a data pre-processing pipeline that compiles and annotates representative queries into a vector database of examples for In-context learning (ICL), a comprehensive reasoning pipeline combining Chain-of-Thought with ICL to enhance Gremlin script generation for knowledge graph search and exploration, and a novel query masking strategy that improves intent recognition for heightened script accuracy. Empirical evaluations demonstrate the superior performance of EICopilot, including speed and accuracy, over baseline methods, with the Full Mask variant achieving a syntax error rate reduction to as low as 10.00% and an execution correctness of up to 82.14%. These components collectively contribute to superior querying capabilities and summarization of intricate datasets, positioning EICopilot as a groundbreaking tool in the exploration and exploitation of large-scale knowledge graphs for enterprise information search.
+ER  - 
+
+TY  - CONF
+TI  - ThriveBuddy: Towards Student Well-being Through AI-Powered Digital Mentorship
+T2  - 2024 17th International Congress on Advanced Applied Informatics (IIAI-AAI-Winter)
+SP  - 75
+EP  - 80
+AU  - S. Palahan
+PY  - 2024
+KW  - Productivity
+KW  - Accuracy
+KW  - Video on demand
+KW  - Semantics
+KW  - Generators
+KW  - Web sites
+KW  - Usability
+KW  - Interviews
+KW  - Stress
+KW  - Videos
+KW  - Q&A Systems
+KW  - Large Language Models (LLMs)
+KW  - Educational Technology
+DO  - 10.1109/IIAI-AAI-Winter65925.2024.00023
+JO  - 2024 17th International Congress on Advanced Applied Informatics (IIAI-AAI-Winter)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2024 17th International Congress on Advanced Applied Informatics (IIAI-AAI-Winter)
+Y1  - 16-18 Dec. 2024
+AB  - This paper presents ThriveBuddy, a work-in-progress Q&A system and LLM-based chatbot designed to enhance student well-being and academic success by offering research-backed, practical advice for life improvement. The system uses interviews from credible YouTube sources as its external data corpus, providing students with evidence-based tips on topics such as stress management, productivity, and personal development. Initial evaluations highlight the effectiveness of MiniLM as the retrieval model, achieving the highest precision (0.2515), recall (0.7544), and F1-score (0.3772) for accurate document retrieval. For response generation, BART emerged as the optimal model, delivering the highest Answer Correctness (0.5255) along with strong scores in Answer Relevancy (0.7792) and Faithfulness (0.4080). These results underscore ThriveBuddy's potential as an accessible, supportive tool for students, with further refinements planned through a pilot study at a university in Thailand to enhance its accuracy, usability, and impact.
+ER  - 
+
+

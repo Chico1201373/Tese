@@ -1,13 +1,811 @@
-% Bibliografia da dissertação (biblatex + biber).
-% Adiciona aqui apenas referências que confirmaste (exporta do Zotero/Mendeley em BibTeX).
-% Depois cita no texto com \parencite{chave}, \textcite{chave} ou \autocite{chave}
-% e procura por "CITAR" nos capítulos para ver onde falta referência.
-%
-% Exemplo de formato (apaga ou substitui por uma referência real):
-% @article{chave2024,
-%   author  = {Apelido, Nome},
-%   title   = {Título do artigo},
-%   journal = {Nome da revista},
-%   year    = {2024},
-%   doi     = {10.xxxx/xxxxx}
-% }
+% ----------------------------------------------------------------------------
+% Metodologia
+% ----------------------------------------------------------------------------
+@techreport{kitchenham2007guidelines,
+  author = {Barbara Kitchenham and Stuart Charters},
+  title = {Guidelines for Performing Systematic Literature Reviews in Software Engineering},
+  institution = {Keele University and Durham University},
+  number = {EBSE-2007-01},
+  year = {2007},
+}
+
+@article{page2021prisma,
+  author = {Matthew J. Page and Joanne E. McKenzie and Patrick M. Bossuyt and Isabelle Boutron and Tammy C. Hoffmann and Cynthia D. Mulrow and others},
+  title = {The {PRISMA} 2020 statement: an updated guideline for reporting systematic reviews},
+  journal = {BMJ},
+  volume = {372},
+  pages = {n71},
+  year = {2021},
+  doi = {10.1136/bmj.n71},
+}
+
+@inproceedings{wohlin2014snowballing,
+  author = {Claes Wohlin},
+  title = {Guidelines for Snowballing in Systematic Literature Studies and a Replication in Software Engineering},
+  booktitle = {Proceedings of the 18th International Conference on Evaluation and Assessment in Software Engineering (EASE)},
+  year = {2014},
+  doi = {10.1145/2601248.2601268},
+}
+
+@article{petersen2015mapping,
+  author = {Kai Petersen and Sairam Vakkalanka and Ludwik Kuzniarz},
+  title = {Guidelines for conducting systematic mapping studies in software engineering: An update},
+  journal = {Information and Software Technology},
+  volume = {64},
+  pages = {1--18},
+  year = {2015},
+  doi = {10.1016/j.infsof.2015.03.007},
+}
+
+@article{snyder2019literature,
+  author = {Hannah Snyder},
+  title = {Literature review as a research methodology: An overview and guidelines},
+  journal = {Journal of Business Research},
+  volume = {104},
+  pages = {333--339},
+  year = {2019},
+  doi = {10.1016/j.jbusres.2019.07.039},
+}
+
+@article{webster2002analyzing,
+  author = {Jane Webster and Richard T. Watson},
+  title = {Analyzing the Past to Prepare for the Future: Writing a Literature Review},
+  journal = {MIS Quarterly},
+  volume = {26},
+  number = {2},
+  pages = {xiii--xxiii},
+  year = {2002},
+}
+
+@article{hevner2004design,
+  author = {Alan R. Hevner and Salvatore T. March and Jinsoo Park and Sudha Ram},
+  title = {Design Science in Information Systems Research},
+  journal = {MIS Quarterly},
+  volume = {28},
+  number = {1},
+  pages = {75--105},
+  year = {2004},
+}
+
+@article{peffers2007design,
+  author = {Ken Peffers and Tuure Tuunanen and Marcus A. Rothenberger and Samir Chatterjee},
+  title = {A Design Science Research Methodology for Information Systems Research},
+  journal = {Journal of Management Information Systems},
+  volume = {24},
+  number = {3},
+  pages = {45--77},
+  year = {2007},
+  doi = {10.2753/MIS0742-1222240302},
+}
+
+% ----------------------------------------------------------------------------
+% Enquadramento (LLM, RAG, alucinação, avaliação, segurança)
+% ----------------------------------------------------------------------------
+@inproceedings{lewis2020rag,
+  author = {Patrick Lewis and Ethan Perez and Aleksandra Piktus and Fabio Petroni and Vladimir Karpukhin and Naman Goyal and others},
+  title = {Retrieval-Augmented Generation for Knowledge-Intensive {NLP} Tasks},
+  booktitle = {Advances in Neural Information Processing Systems 33 (NeurIPS 2020)},
+  pages = {9459--9474},
+  year = {2020},
+}
+
+@article{huang2025hallucination,
+  author = {Lei Huang and Weijiang Yu and Weitao Ma and Weihong Zhong and Zhangyin Feng and Haotian Wang and others},
+  title = {A Survey on Hallucination in Large Language Models: Principles, Taxonomy, Challenges, and Open Questions},
+  journal = {ACM Transactions on Information Systems},
+  volume = {43},
+  number = {2},
+  year = {2025},
+  doi = {10.1145/3703155},
+}
+
+@inproceedings{es2024ragas,
+  author = {Shahul Es and Jithin James and Luis Espinosa-Anke and Steven Schockaert},
+  title = {{RAGAS}: Automated Evaluation of Retrieval Augmented Generation},
+  booktitle = {Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics: System Demonstrations},
+  pages = {150--158},
+  year = {2024},
+  doi = {10.18653/v1/2024.eacl-demo.16},
+}
+
+@inproceedings{zheng2023judging,
+  author = {Lianmin Zheng and Wei-Lin Chiang and Ying Sheng and Siyuan Zhuang and Zhanghao Wu and Yonghao Zhuang and others},
+  title = {Judging {LLM}-as-a-Judge with {MT-Bench} and Chatbot Arena},
+  booktitle = {Advances in Neural Information Processing Systems 36 (NeurIPS 2023), Datasets and Benchmarks Track},
+  year = {2023},
+}
+
+@inproceedings{greshake2023indirect,
+  author = {Kai Greshake and Sahar Abdelnabi and Shailesh Mishra and Christoph Endres and Thorsten Holz and Mario Fritz},
+  title = {Not What You've Signed Up For: Compromising Real-World {LLM}-Integrated Applications with Indirect Prompt Injection},
+  booktitle = {Proceedings of the 16th ACM Workshop on Artificial Intelligence and Security (AISec '23)},
+  pages = {79--90},
+  year = {2023},
+  doi = {10.1145/3605764.3623985},
+}
+
+% ----------------------------------------------------------------------------
+% Referências do projeto (Projetos@ISEP)
+% ----------------------------------------------------------------------------
+@article{abdalrazaq2023llm,
+  author = {Alaa Abd-alrazaq and Rawan AlSaad and Dari Alhuwail and others},
+  title = {Large Language Models in Medical Education: Opportunities, Challenges, and Future Directions},
+  journal = {JMIR Medical Education},
+  volume = {9},
+  pages = {e48291},
+  year = {2023},
+  doi = {10.2196/48291},
+}
+
+@article{kasneci2023chatgpt,
+  author = {Enkelejda Kasneci and Kathrin Sessler and Stefan Küchemann and others},
+  title = {{ChatGPT} for good? On opportunities and challenges of large language models for education},
+  journal = {Learning and Individual Differences},
+  volume = {103},
+  pages = {102274},
+  year = {2023},
+  doi = {10.1016/j.lindif.2023.102274},
+}
+
+@article{gan2024orthopedic,
+  author = {Wenyi Gan and Jianfeng Ouyang and Hua Li and others},
+  title = {Integrating {ChatGPT} in Orthopedic Education for Medical Undergraduates: Randomized Controlled Trial},
+  journal = {Journal of Medical Internet Research},
+  volume = {26},
+  pages = {e57037},
+  year = {2024},
+  doi = {10.2196/57037},
+}
+
+@inproceedings{jang2025medtutor,
+  author = {Jang, D. and others},
+  title = {{MedTutor}: A Retrieval-Augmented {LLM} System for Case-Based Medical Education},
+  booktitle = {Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing: System Demonstrations},
+  pages = {319--353},
+  year = {2025},
+  url = {https://aclanthology.org/2025.emnlp-demos.24/},
+}
+
+@article{geng2026prompt,
+  author = {Geng, T. and Xu, Z. and Qu, Y. and Wong, W. E.},
+  title = {Prompt Injection Attacks on Large Language Models: A Survey of Attack Methods, Root Causes, and Defense Strategies},
+  journal = {Computers, Materials \& Continua},
+  volume = {87},
+  number = {1},
+  year = {2026},
+  url = {https://www.techscience.com/cmc/v87n1/66084},
+}
+
+@article{gordon2024scoping,
+  author = {Morris Gordon and Michelle Daniel and Aderonke Ajiboye and others},
+  title = {A scoping review of artificial intelligence in medical education: {BEME} Guide No. 84},
+  journal = {Medical Teacher},
+  volume = {46},
+  number = {4},
+  pages = {446--470},
+  year = {2024},
+  doi = {10.1080/0142159X.2024.2314198},
+}
+
+% ----------------------------------------------------------------------------
+% Ética, normas e regulamentação
+% ----------------------------------------------------------------------------
+@misc{acmieee1999secode,
+  author = {{ACM/IEEE-CS Joint Task Force on Software Engineering Ethics and Professional Practices}},
+  title = {Software Engineering Code of Ethics and Professional Practice (Version 5.2)},
+  year = {1999},
+  url = {https://www.acm.org/code-of-ethics/software-engineering-code},
+}
+
+@misc{eu2016gdpr,
+  author = {{Parlamento Europeu e Conselho da União Europeia}},
+  title = {Regulamento (UE) 2016/679 relativo à proteção das pessoas singulares no que diz respeito ao tratamento de dados pessoais (Regulamento Geral sobre a Proteção de Dados)},
+  year = {2016},
+  url = {https://eur-lex.europa.eu/eli/reg/2016/679/oj},
+}
+
+@misc{eu2024aiact,
+  author = {{Parlamento Europeu e Conselho da União Europeia}},
+  title = {Regulamento (UE) 2024/1689 que cria regras harmonizadas em matéria de inteligência artificial (Regulamento da Inteligência Artificial)},
+  year = {2024},
+  url = {https://eur-lex.europa.eu/eli/reg/2024/1689/oj},
+}
+
+% TODO: confirmar título exato e ano do código do P.PORTO no portal institucional.
+@misc{pporto2020codigo,
+  author = {{Politécnico do Porto}},
+  title = {Código de Ética e de Conduta do Politécnico do Porto},
+  year = {2020},
+  url = {https://www.ipp.pt},
+}
+
+@inproceedings{zhang2025meditrir,
+  author = {H. Zhang and M. O. Shafiq},
+  title = {{MediTriR: A Triple-Driven Approach to Retrieval-Augmented Generation for Medical Question Answering Tasks}},
+  booktitle = {2025 19th International Conference on Semantic Computing (ICSC)},
+  year = {2025},
+  doi = {10.1109/ICSC64641.2025.00032},
+  note = {Estudo R0042 da revisão},
+}
+
+@inproceedings{christiawan2025sanity,
+  author = {J. Christiawan and D. A. Setiawan and J. A. P. Oroh and Hidayaturrahman},
+  title = {{Sanity-LLM: Enhancing Mental Health Chatbots with Retrieval-Augmented Generation (RAG)}},
+  booktitle = {2025 International Conference on Informatics, Multimedia, Cyber and Information System (ICIMCIS)},
+  year = {2025},
+  doi = {10.1109/ICIMCIS68501.2025.11327020},
+  note = {Estudo R0071 da revisão},
+}
+
+@inproceedings{trang2025customized,
+  author = {T. N. A. Trang and P. Tran and T. M. Le and L. Le and G. Maheshwari and N. Do and S. V. T. Dao},
+  title = {{A Customized AI Chatbot for Educational Environments: Integrating Retrieval-Augmented Generation with Curriculum-Aligned Responses}},
+  booktitle = {2025 RIVF International Conference on Computing and Communication Technologies (RIVF)},
+  year = {2025},
+  doi = {10.1109/RIVF68649.2025.11365126},
+  note = {Estudo R0113 da revisão},
+}
+
+@inproceedings{nurfadhilah2025retrieval,
+  author = {E. Nurfadhilah and A. Santosa and P. K. Putra},
+  title = {{Retrieval-Augmented Large Language Models for a Chronic Kidney Disease Patient Education Chatbot}},
+  booktitle = {2025 International Conference on Computer, Control, Informatics and its Applications (IC3INA)},
+  year = {2025},
+  doi = {10.1109/IC3INA68387.2025.11325127},
+  note = {Estudo R0157 da revisão},
+}
+
+@inproceedings{azam2024cancerbot,
+  author = {A. Azam and Z. Naz and M. U. G. Khan},
+  title = {{CancerBot: A Retrieval-Augmented Generation based Cancer Chatbot Using Large Language Models}},
+  booktitle = {2024 18th International Conference on Open Source Systems and Technologies (ICOSST)},
+  year = {2024},
+  doi = {10.1109/ICOSST64562.2024.10871155},
+  note = {Estudo R0162 da revisão},
+}
+
+@inproceedings{sbai2025advanced,
+  author = {A. Sbai and I. Guessous and E. H. Nfaoui},
+  title = {{Advanced Trilingual RAG Framework: Progressive Architectures for Robust Educational Question Answering}},
+  booktitle = {2025 4th International Conference on Embedded Systems and Artificial Intelligence (ESAI)},
+  year = {2025},
+  doi = {10.1109/ESAI67033.2025.11438335},
+  note = {Estudo R0165 da revisão},
+}
+
+@inproceedings{kavitha2026securecontext,
+  author = {G. Kavitha and H. A. M and P. R},
+  title = {{SecureContext EDU: An Open Source University Assistant using Dual - LLM Architecture}},
+  booktitle = {2026 4th International Conference on Sustainable Computing and Smart Systems (ICSCSS)},
+  year = {2026},
+  doi = {10.1109/ICSCSS69635.2026.11645927},
+  note = {Estudo R0237 da revisão},
+}
+
+@inproceedings{raputri2025retrieval,
+  author = {E. Raputri and A. J. Teguh and S. N. Hidayah and A. K. Anom and F. Setiawan and N. N. Qomariyah},
+  title = {{Retrieval-Augmented LLMs with Indonesian Clinical Trials Guidelines: A Comparative Study}},
+  booktitle = {2025 8th International Seminar on Research of Information Technology and Intelligent Systems (ISRITI)},
+  year = {2025},
+  doi = {10.1109/ISRITI68345.2025.11393253},
+  note = {Estudo R0281 da revisão},
+}
+
+@inproceedings{liu2026quality,
+  author = {T. Liu and M. Zhu and S. P. Zhai},
+  title = {{Quality Outweighs Quantity: Advancing Medical Question Answering with RAG-MCP Muti-Agent LLM Framework and Curated Knowledge Databases}},
+  booktitle = {2026 IEEE 16th Annual Computing and Communication Workshop and Conference (CCWC)},
+  year = {2026},
+  doi = {10.1109/CCWC67433.2026.11393764},
+  note = {Estudo R0301 da revisão},
+}
+
+@inproceedings{rahat2026noise,
+  author = {M. T. I. Rahat and R. Safowan and M. Abir and R. M. Rahman},
+  title = {{Noise, Distraction, and Mitigation: An Analysis of RAG Failure Modes in Medical Question Answering}},
+  booktitle = {2026 International Conference on Artificial Intelligence in Information and Communication (ICAIIC)},
+  year = {2026},
+  doi = {10.1109/ICAIIC68212.2026.11454362},
+  note = {Estudo R0414 da revisão},
+}
+
+@inproceedings{wei2026cloud,
+  author = {H. Wei and Y. Chai and S. You and Y. Jia and W. Lu and M. Sok},
+  title = {{Cloud-Edge Retrieval-Augmented Agent Tutor for Trustworthy Personalized Learning in Resource-Constrained Higher Education}},
+  booktitle = {2026 5th International Conference on Artificial Intelligence, Internet of Things and Cloud Computing Technology (AIoTC)},
+  year = {2026},
+  doi = {10.1109/AIoTC71250.2026.11689071},
+  note = {Estudo R0437 da revisão},
+}
+
+@inproceedings{tawfik2025mufakkir,
+  author = {M. K. Tawfik and M. O. Ali and S. K. Mohamed and F. S. Ezz Elregal and P. E. Edward and M. Elsawaf and D. Khattab},
+  title = {{Mufakkir: RAG-Based Arabic Educational Chatbot for University Students}},
+  booktitle = {2025 Twelfth International Conference on Intelligent Computing and Information Systems (ICICIS)},
+  year = {2025},
+  doi = {10.1109/ICICIS66182.2025.11313212},
+  note = {Estudo R0443 da revisão},
+}
+
+@inproceedings{elnozahy2026governed,
+  author = {W. A. Elnozahy and G. A. El Khayat and E. I. Aboulsafa},
+  title = {{A Governed Closed-Domain Question Answering System for Decision Assistance in Education}},
+  booktitle = {2026 IEEE International Conference on Smart Sustainable Systems for Computer and Engineering Applications (3SCEA)},
+  year = {2026},
+  doi = {10.1109/3SCEA68071.2026.11603208},
+  note = {Estudo R0446 da revisão},
+}
+
+@inproceedings{khan2025towards,
+  author = {U. A. Khan and F. Khan and E. Khan and M. A. Hasnain and A. A. Moinuddin},
+  title = {{Towards Efficient Educational Chatbots: Benchmarking RAG Frameworks}},
+  booktitle = {2025 International Conference on Emerging Technologies in Computing and Communication (ETCC)},
+  year = {2025},
+  doi = {10.1109/ETCC65847.2025.11108323},
+  note = {Estudo R0452 da revisão},
+}
+
+@inproceedings{sayeed2026tutor,
+  author = {M. S. Sayeed and S. Wajiha and R. Ghosh and M. A. S. Siddique and S. Bhandari},
+  title = {{ATU-Tutor: A RAG-Based Socratic Tutoring System with Agentic AI Adaptive Assessment}},
+  booktitle = {2026 IEEE World AI IoT Congress (AIIoT)},
+  year = {2026},
+  doi = {10.1109/AIIoT68874.2026.11569566},
+  note = {Estudo R0469 da revisão},
+}
+
+@inproceedings{bengmah2025driven,
+  author = {A. BENGMAH and A. KHAOUITI and M. E. HAMLAOUI and R. FAIZI and B. BOUNABAT},
+  title = {{AI-Driven Diabetes Management: A Retrieval-Augmented Conversational Approach*}},
+  booktitle = {2025 12th International Conference on Wireless Networks and Mobile Communications (WINCOM)},
+  year = {2025},
+  doi = {10.1109/WINCOM65874.2025.11313355},
+  note = {Estudo R0514 da revisão},
+}
+
+@inproceedings{ruga2025conversational,
+  author = {T. Ruga and L. Caroprese and E. Vocaturo and E. Zumpano},
+  title = {{A Conversational Agent for Rare Eye Disease Knowledge Support in Local Italian Healthcare Contexts: The ELENA Framework}},
+  booktitle = {2025 IEEE International Conference on Big Data (BigData)},
+  year = {2025},
+  doi = {10.1109/BigData66926.2025.11402191},
+  note = {Estudo R0555 da revisão},
+}
+
+@inproceedings{ishadya2026mitigating,
+  author = {A. P. D. Ishadya and A. Withanaarachchi and S. Jayalal},
+  title = {{Mitigating Bias and Hallucinations in LLMs Through Prompt Engineering and Knowledge-Grounded Approaches in Healthcare Domain}},
+  booktitle = {2026 6th International Conference on Advanced Research in Computing (ICARC)},
+  year = {2026},
+  doi = {10.1109/ICARC68737.2026.11453821},
+  note = {Estudo R0558 da revisão},
+}
+
+@inproceedings{ghanbari2025evaluating,
+  author = {M. Ghanbari and R. Dividino},
+  title = {{Evaluating Knowledge Graph-Enhanced Context for Multiple-Choice Question Answering}},
+  booktitle = {2025 IEEE International Conference on Knowledge Graph (ICKG)},
+  year = {2025},
+  doi = {10.1109/ICKG66886.2025.00020},
+  note = {Estudo R0559 da revisão},
+}
+
+@inproceedings{bellard2025development,
+  author = {B. Bellard and X. C. Liu and R. Lohani and S. Raza and P. E. Velmovitksy and Q. Pham and S. Saha},
+  title = {{Development and Evaluation of an Agentic RAG with Embedded LLM-as-a Judge for Heart Failure Management: A Pilot Study}},
+  booktitle = {2025 IEEE International Conference on Big Data (BigData)},
+  year = {2025},
+  doi = {10.1109/BigData66926.2025.11402164},
+  note = {Estudo R0561 da revisão},
+}
+
+@inproceedings{jain2025aligning,
+  author = {A. Jain and L. Cui and S. Chen},
+  title = {{Aligning LLMs for the Classroom with Knowledge-Based Retrieval: A Comparative RAG Study}},
+  booktitle = {2025 IEEE International Conference on Teaching, Assessment, and Learning for Engineering (TALE)},
+  year = {2025},
+  doi = {10.1109/TALE66047.2025.11346682},
+  note = {Estudo R0616 da revisão},
+}
+
+@inproceedings{ghanbari2025quantifying,
+  author = {M. Ghanbari and R. Dividino},
+  title = {{Quantifying Informativeness in Knowledge Graph-Augmented In-Context Learning for Multiple Choice Query Answering}},
+  booktitle = {2025 IEEE International Conference on Knowledge Graph (ICKG)},
+  year = {2025},
+  doi = {10.1109/ICKG66886.2025.00021},
+  note = {Estudo R0619 da revisão},
+}
+
+@article{oh2026automedic,
+  author = {G. Oh and S. Park and B. -H. Kim},
+  title = {{AutoMedic: An Automated Evaluation Framework for Clinical Conversational Agents with Medical Dataset Grounding}},
+  journal = {IEEE Journal of Biomedical and Health Informatics},
+  year = {2026},
+  doi = {10.1109/JBHI.2026.3703097},
+  note = {Estudo R0686 da revisão},
+}
+
+@inproceedings{shah2026enhancing,
+  author = {A. Shah and D. Shetty and P. Patil and P. Ambre and S. Chaure and D. Rajadhyax},
+  title = {{Enhancing medical data processing with RAG-augmented fine-tuned LLMs and guardrails}},
+  booktitle = {International Conference on Advancing Technology in Engineering and Science (ICATES 2025)},
+  year = {2026},
+  doi = {10.1049/icp.2025.4700},
+  note = {Estudo R0709 da revisão},
+}
+
+@inproceedings{fu2024chatbots,
+  author = {R. Fu and X. Wang and A. V. Roblero and Y. Song},
+  title = {{Chatbots on a Mid-Scale Knowledge Base: Using an R2 University as an Example}},
+  booktitle = {2024 5th International Conference on Big Data, Artificial Intelligence and Internet of Things Engineering (ICBAIE)},
+  year = {2024},
+  doi = {10.1109/ICBAIE63306.2024.11116920},
+  note = {Estudo R0753 da revisão},
+}
+
+@inproceedings{walczak2026comparative,
+  author = {J. Walczak and B. Sawicki},
+  title = {{Comparative Evaluation of Llama Guard 3 and GPT OSS Safeguard as LLM Guardrails for a University Administrative Chatbot}},
+  booktitle = {2026 Progress in Applied Electrical Engineering (PAEE)},
+  year = {2026},
+  doi = {10.1109/PAEE71887.2026.11660667},
+  note = {Estudo R0762 da revisão},
+}
+
+@inproceedings{tien2024optimizing,
+  author = {L. A. Tien and P. Van Huong},
+  title = {{Optimizing Transformer Models for Prompt Jailbreak Attack Detection in AI Assistant Systems}},
+  booktitle = {2024 1st International Conference On Cryptography And Information Security (VCRIS)},
+  year = {2024},
+  doi = {10.1109/VCRIS63677.2024.10813380},
+  note = {Estudo R0763 da revisão},
+}
+
+@article{emekci2025securing,
+  author = {H. Emekci and G. Budakoglu},
+  title = {{Securing With Dual-LLM Architecture: ChatTEDU an Open Access Chatbot’s Defense}},
+  journal = {IEEE Access},
+  year = {2025},
+  doi = {10.1109/ACCESS.2025.3623268},
+  note = {Estudo R0765 da revisão},
+}
+
+@inproceedings{mathew2026privacy,
+  author = {A. K. Mathew and D. Rajeev and A. Ravi},
+  title = {{Privacy-Preserving Federated Transformer Framework for Detecting Adversarial Prompts in Healthcare Chatbots}},
+  booktitle = {2026 International Conference on Innovations in Computational Intelligence (ICICI)},
+  year = {2026},
+  doi = {10.1109/ICICI68867.2026.11564888},
+  note = {Estudo R0771 da revisão},
+}
+
+@inproceedings{hamidi2026large,
+  author = {A. Hamidi and K. Roberts},
+  title = {{Large Language Models for Radiology QA: Benchmarking and Error Taxonomy on RadQA}},
+  booktitle = {2026 IEEE 14th International Conference on Healthcare Informatics (ICHI)},
+  year = {2026},
+  doi = {10.1109/ICHI69079.2026.00034},
+  note = {Estudo R0794 da revisão},
+}
+
+@inproceedings{rayhan2026sage,
+  author = {M. H. Rayhan and G. R. Edwards and A. Pandey and V. Seth and N. Salvi and N. Glaser and M. Chrysochoou and P. Calyam},
+  title = {{SAGE: Student-Focused Adaptive Guidance Engine for Intelligent Tutoring with Regulated Learning}},
+  booktitle = {2026 IEEE International Conference on Human-Machine Systems (ICHMS)},
+  year = {2026},
+  doi = {10.1109/ICHMS69701.2026.11602253},
+  note = {Estudo R0807 da revisão},
+}
+
+@inproceedings{abrar2025domain,
+  author = {M. Abrar and A. S. M. Mohammed and S. A. N. A. hasani and Y. N. A. Husaini and R. Abdulkhaliq and W. Alkishri},
+  title = {{Domain-Specific Fine-Tuning of LLMs for Multilingual Student Advisory in Higher Education}},
+  booktitle = {2025 2nd International Conference on Advanced Computing and Emerging Technologies (ACET)},
+  year = {2025},
+  doi = {10.1109/ACET67282.2025.11430234},
+  note = {Estudo R0809 da revisão},
+}
+
+@inproceedings{zhao2025cyberbot,
+  author = {Zhao, Chengshuai and De Maria, Riccardo and Kumarage, Tharindu and Chaudhary, Kumar Satvik and Agrawal, Garima and Li, Yiwen and Park, Jongchan and Chen, Ying-Chih and Deng, Yuli and Liu, Huan},
+  title = {{CyberBOT: Ontology-Grounded Retrieval Augmented Generation for Reliable Cybersecurity Education}},
+  booktitle = {Proceedings of the 34th ACM International Conference on Information and Knowledge Management},
+  year = {2025},
+  doi = {10.1145/3746252.3761478},
+  note = {Estudo R0826 da revisão},
+}
+
+@inproceedings{yan2026question,
+  author = {Yan, Jiameng and Shi, Jingzhuo},
+  title = {{Question-Answering Agent Based on Prompt Engineering and RAG}},
+  booktitle = {Proceedings of the 2026 International Conference on Artificial Intelligence, Digital Media and Education},
+  year = {2026},
+  doi = {10.1145/3839592.3839607},
+  note = {Estudo R0859 da revisão},
+}
+
+@inproceedings{xie2026when,
+  author = {Xie, Weidong and Fang, Yushan and Zheng, Xinxin and Liu, Dongjun and Li, Zihan},
+  title = {{When Retrieval Hurts: A Critical Analysis of RAG in Medical Question Answering}},
+  booktitle = {Proceedings of the 2025 3rd International Conference on Artificial Intelligence, Systems and Network Security},
+  year = {2026},
+  doi = {10.1145/3797161.3797211},
+  note = {Estudo R0878 da revisão},
+}
+
+@inproceedings{liu2026asknow,
+  author = {Liu, Ziqi and Wang, Yuankun and Ho, Hui-Ru and Wu, Yuheng and Zhao, Yuhang and Mutlu, Bilge},
+  title = {{AskNow: An LLM-powered Interactive System for Real-Time Question Answering in Large-Scale Classrooms}},
+  booktitle = {Proceedings of the 2026 CHI Conference on Human Factors in Computing Systems},
+  year = {2026},
+  doi = {10.1145/3772318.3790328},
+  note = {Estudo R0934 da revisão},
+}
+
+@inproceedings{han2026textbook,
+  author = {Han, Yuanrong and Emara, Salma},
+  title = {{Textbook-Embedded Virtual Teaching Assistant That Answers CS1 Questions With Verifiable Citations}},
+  booktitle = {Proceedings of the 2026 IEEE/ACM 48th International Conference on Software Engineering},
+  year = {2026},
+  note = {Estudo R0965 da revisão},
+}
+
+@inproceedings{miroyan2025analyzing,
+  author = {Miroyan, Mihran and Mitra, Chancharik and Jain, Rishi and Ranade, Gireeja and Norouzi, Narges},
+  title = {{Analyzing Pedagogical Quality and Efficiency of LLM Responses with TA Feedback to Live Student Questions}},
+  booktitle = {Proceedings of the 56th ACM Technical Symposium on Computer Science Education V. 1},
+  year = {2025},
+  doi = {10.1145/3641554.3701965},
+  note = {Estudo R0991 da revisão},
+}
+
+@inproceedings{zheng2026comparative,
+  author = {Zheng, Mingkai and Linghu, Fangru and Li, Sikan and Kandes, Marty Charles and Gaffney, Niall and Foster, Ian and Zhang, Zhao},
+  title = {{A Comparative Study on LLM-enabled HPC User Support}},
+  booktitle = {Proceedings of the Practice and Experience in Advanced Research Computing 2026: Resilient Roots + Empowered Communities},
+  year = {2026},
+  note = {Estudo R0995 da revisão},
+}
+
+@inproceedings{seshadri2026alan,
+  author = {Seshadri, Vaibhav and Berrachid, Yassine and Hugh, Ethan and Madan, Abhishek and Emara, Salma},
+  title = {{Alan: A Classroom Deployment of An Educational Chatbot That Cites Resources}},
+  booktitle = {Proceedings of the 57th ACM Technical Symposium on Computer Science Education V.2},
+  year = {2026},
+  doi = {10.1145/3770761.3777344},
+  note = {Estudo R1001 da revisão},
+}
+
+@inproceedings{barzanji2026buddy,
+  author = {Barzanji, Chrakhan and Rosteck, Niclas and Eberl, Sebastian and Rottmann, Sebastian and Loitsch, Claudia},
+  title = {{ST-Buddy: Designing and Evaluating a Course-Grounded LLM Chatbot for Academic and Administrative Support}},
+  booktitle = {Proceedings of the Extended Abstracts of the 2026 CHI Conference on Human Factors in Computing Systems},
+  year = {2026},
+  doi = {10.1145/3772363.3798558},
+  note = {Estudo R1019 da revisão},
+}
+
+@inproceedings{buti2026evaluating,
+  author = {Buti, Ronit and Mohamed, Abdallah},
+  title = {{Evaluating RAG-Based Course Advising Chatbots Using LLM-as-a-Judge Methodology}},
+  booktitle = {Proceedings of the 28th Western Canadian Conference on Computing Education},
+  year = {2026},
+  doi = {10.1145/3828792.3828802},
+  note = {Estudo R1022 da revisão},
+}
+
+@inproceedings{xu2026echomind,
+  author = {Xu, Haiyang and Song, Yunhui and Sun, Black and Elmqvist, Niklas},
+  title = {{EchoMind: Augmenting Recorded Presentations with Context-Grounded Conversational Agents and Collective Viewer Signals}},
+  booktitle = {Proceedings of the 14th Nordic Conference on Human-Computer Interaction},
+  year = {2026},
+  note = {Estudo R1056 da revisão},
+}
+
+@inproceedings{feng2024courseassist,
+  author = {Feng, Ty and Liu, Sa and Ghosal, Dipak},
+  title = {{CourseAssist: Pedagogically Appropriate AI Tutor for Computer Science Education}},
+  booktitle = {Proceedings of the 2024 on ACM Virtual Global Computing Education Conference V. 2},
+  year = {2024},
+  doi = {10.1145/3649409.3691094},
+  note = {Estudo R1060 da revisão},
+}
+
+@inproceedings{bui2025formal,
+  author = {Bui, Tuan and Nguyen, An and Thai, Phat and Hua, Minh and Pham L.N., Ngan and Pham T.B., Ngan and Le, Dung and Nguyen, Long and Tran, Thanh-Tung and Bui, Thang and Quan, Tho},
+  title = {{Formal Reasoning for Intelligent QA Systems: A Case Study in the Educational Domain}},
+  booktitle = {Proceedings of the 2nd ACM Workshop in AI-Powered Question \& Answering Systems},
+  year = {2025},
+  doi = {10.1145/3746274.3760392},
+  note = {Estudo R1110 da revisão},
+}
+
+@inproceedings{liao2026heal,
+  author = {Liao, Yiming and Franco, Zeno and Lizarraga Mazaba, Jose Eduardo and Chen, Keke},
+  title = {{Med-HEAL: Analyzing and Mitigating Hallucinations in Medical LLMs with Hallucination-Aware In-Context Learning}},
+  booktitle = {Proceedings of the 17th ACM International Conference on Bioinformatics, Computational Biology and Health Informatics},
+  year = {2026},
+  note = {Estudo R1120 da revisão},
+}
+
+@inproceedings{li2026responsible,
+  author = {Li, Boquan and Lou, Chenzhe and Ren, Zhe and Zhang, Peixin and Fu, Zirui and Sun, Jun and Zheng, Yaowen},
+  title = {{Be Responsible in Your Answers! Monitoring Out-of-Domain Behaviors in Domain-Specific LLMs}},
+  booktitle = {Proceedings of the ACM Web Conference 2026},
+  year = {2026},
+  doi = {10.1145/3774904.3792621},
+  note = {Estudo R1183 da revisão},
+}
+
+@inproceedings{liu2024teaching,
+  author = {Liu, Rongxin and Zenke, Carter and Liu, Charlie and Holmes, Andrew and Thornton, Patrick and Malan, David J.},
+  title = {{Teaching CS50 with AI: Leveraging Generative Artificial Intelligence in Computer Science Education}},
+  booktitle = {Proceedings of the 55th ACM Technical Symposium on Computer Science Education V. 2},
+  year = {2024},
+  doi = {10.1145/3626253.3635427},
+  note = {Estudo R1187 da revisão},
+}
+
+@book{allea2023code,
+  author = {{ALLEA}},
+  title = {The European Code of Conduct for Research Integrity -- Revised Edition 2023},
+  publisher = {ALLEA -- All European Academies},
+  address = {Berlin},
+  year = {2023},
+  doi = {10.26356/ECOC},
+}
+
+@article{weizenbaum1966eliza,
+  author = {Joseph Weizenbaum},
+  title = {{ELIZA} -- A Computer Program for the Study of Natural Language Communication between Man and Machine},
+  journal = {Communications of the ACM},
+  volume = {9},
+  number = {1},
+  pages = {36--45},
+  year = {1966},
+  doi = {10.1145/365153.365168},
+}
+
+@article{adamopoulou2020chatbots,
+  author = {Eleni Adamopoulou and Lefteris Moussiades},
+  title = {Chatbots: History, Technology, and Applications},
+  journal = {Machine Learning with Applications},
+  volume = {2},
+  pages = {100006},
+  year = {2020},
+  doi = {10.1016/j.mlwa.2020.100006},
+}
+
+@article{roediger2006test,
+  author = {Henry L. Roediger and Jeffrey D. Karpicke},
+  title = {Test-Enhanced Learning: Taking Memory Tests Improves Long-Term Retention},
+  journal = {Psychological Science},
+  volume = {17},
+  number = {3},
+  pages = {249--255},
+  year = {2006},
+  doi = {10.1111/j.1467-9280.2006.01693.x},
+}
+
+@article{larsen2008test,
+  author = {Douglas P. Larsen and Andrew C. Butler and Henry L. Roediger},
+  title = {Test-Enhanced Learning in Medical Education},
+  journal = {Medical Education},
+  volume = {42},
+  number = {10},
+  pages = {959--966},
+  year = {2008},
+  doi = {10.1111/j.1365-2923.2008.03124.x},
+}
+
+@article{hattie2007power,
+  author = {John Hattie and Helen Timperley},
+  title = {The Power of Feedback},
+  journal = {Review of Educational Research},
+  volume = {77},
+  number = {1},
+  pages = {81--112},
+  year = {2007},
+  doi = {10.3102/003465430298487},
+}
+
+@article{shute2008focus,
+  author = {Valerie J. Shute},
+  title = {Focus on Formative Feedback},
+  journal = {Review of Educational Research},
+  volume = {78},
+  number = {1},
+  pages = {153--189},
+  year = {2008},
+  doi = {10.3102/0034654307313795},
+}
+
+@article{bloom1984sigma,
+  author = {Benjamin S. Bloom},
+  title = {The 2 Sigma Problem: The Search for Methods of Group Instruction as Effective as One-to-One Tutoring},
+  journal = {Educational Researcher},
+  volume = {13},
+  number = {6},
+  pages = {4--16},
+  year = {1984},
+  doi = {10.3102/0013189X013006004},
+}
+
+@inproceedings{vaswani2017attention,
+  author = {Ashish Vaswani and Noam Shazeer and Niki Parmar and Jakob Uszkoreit and Llion Jones and Aidan N. Gomez and {\L}ukasz Kaiser and Illia Polosukhin},
+  title = {Attention Is All You Need},
+  booktitle = {Advances in Neural Information Processing Systems 30 (NeurIPS 2017)},
+  pages = {5998--6008},
+  year = {2017},
+}
+
+@inproceedings{brown2020language,
+  author = {Tom B. Brown and others},
+  title = {Language Models are Few-Shot Learners},
+  booktitle = {Advances in Neural Information Processing Systems 33 (NeurIPS 2020)},
+  pages = {1877--1901},
+  year = {2020},
+}
+
+@inproceedings{ouyang2022training,
+  author = {Long Ouyang and others},
+  title = {Training Language Models to Follow Instructions with Human Feedback},
+  booktitle = {Advances in Neural Information Processing Systems 35 (NeurIPS 2022)},
+  pages = {27730--27744},
+  year = {2022},
+}
+
+@article{liu2024lost,
+  author = {Nelson F. Liu and Kevin Lin and John Hewitt and Ashwin Paranjape and Michele Bevilacqua and Fabio Petroni and Percy Liang},
+  title = {Lost in the Middle: How Language Models Use Long Contexts},
+  journal = {Transactions of the Association for Computational Linguistics},
+  volume = {12},
+  pages = {157--173},
+  year = {2024},
+  doi = {10.1162/tacl_a_00638},
+}
+
+@inproceedings{ahuja2023mega,
+  author = {Kabir Ahuja and others},
+  title = {{MEGA}: Multilingual Evaluation of Generative {AI}},
+  booktitle = {Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
+  pages = {4232--4267},
+  year = {2023},
+  doi = {10.18653/v1/2023.emnlp-main.258},
+}
+
+@misc{kadavath2022know,
+  author = {Saurav Kadavath and others},
+  title = {Language Models (Mostly) Know What They Know},
+  year = {2022},
+  eprint = {2207.05221},
+  eprinttype = {arXiv},
+}
+
+@misc{perez2022ignore,
+  author = {F{\'a}bio Perez and Ian Ribeiro},
+  title = {Ignore Previous Prompt: Attack Techniques for Language Models},
+  howpublished = {NeurIPS ML Safety Workshop},
+  year = {2022},
+  eprint = {2211.09527},
+  eprinttype = {arXiv},
+}
+
+@misc{owasp2025llm,
+  author = {{OWASP Foundation}},
+  title = {{OWASP} Top 10 for {LLM} Applications 2025},
+  year = {2024},
+  url = {https://genai.owasp.org/llm-top-10/},
+}
+
+@incollection{brooke1996sus,
+  author = {John Brooke},
+  title = {{SUS}: A ``Quick and Dirty'' Usability Scale},
+  booktitle = {Usability Evaluation in Industry},
+  editor = {Patrick W. Jordan and Bruce Thomas and Bernard A. Weerdmeester and Ian L. McClelland},
+  publisher = {Taylor \& Francis},
+  address = {London},
+  pages = {189--194},
+  year = {1996},
+}

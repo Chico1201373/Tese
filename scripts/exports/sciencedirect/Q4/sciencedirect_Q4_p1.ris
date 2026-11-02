@@ -1,0 +1,782 @@
+TY  - JOUR
+T1  - Requirements-driven database evolution: A systematic literature review
+AU  - Litavská, Hana
+AU  - Suchánek, Marek
+AU  - Kroha, Petr
+JO  - Information and Software Technology
+VL  - 199
+SP  - 108276
+PY  - 2026
+DA  - 2026/11/01/
+SN  - 0950-5849
+DO  - https://doi.org/10.1016/j.infsof.2026.108276
+UR  - https://www.sciencedirect.com/science/article/pii/S095058492600265X
+KW  - Database evolution
+KW  - Database management
+KW  - Systematic review
+KW  - Evolution management
+AB  - Context:
+Database evolution and management are often complex and error-prone processes, largely driven by the need to adapt to changing requirements.
+Objective:
+This study aimed to collect information on current research in database design and evolution, examine the approaches used, categorize the environments that existing solutions target, along with their inputs, and evaluate whether the existing methods are reversible. In addition, the study aimed to develop a taxonomy for systematically classifying and comparing the identified approaches.
+Method:
+The systematic literature review was conducted following established guidelines, employing both backward and forward snowballing techniques. The literature search was performed across four databases. After filtering and snowballing, 76 relevant papers published between 2020 and 2025 were identified, with one additional key study included manually, resulting in a final set of 77 papers. The studies were grouped into classification units and classified using an inductively developed taxonomy covering problem scope, target environment, solution input, workload dependency, transformation strategy, and reversibility support.
+Results:
+We categorized existing research using a six-dimensional taxonomy, enabling a structured comparison of the existing approaches. Most solutions primarily focused on NoSQL databases. Conceptual models were predominantly used as input. We compared various approaches identified in the literature and highlighted their lack of reversibility. The approaches differed significantly between solutions for relational databases. In NoSQL databases, model-driven and workload-driven strategies were prevalent. In multi-model database solutions, concepts from category theory were widely employed, and several approaches also addressed polystore systems.
+Conclusion:
+Our findings indicate a significant gap in the recent literature regarding the reversibility of evolution as a means to enhance testability and robustness. In terms of input specifications, although the use of textual instructions is increasing, there is a notable lack of solutions based on textual requirements. In contrast, solutions that employ conceptual models are much more common.
+ER  - 
+
+TY  - JOUR
+T1  - Accuracy paradox: Addressing epistemic, manipulative, and societal risks of hallucination in AI governance
+AU  - Li, Zihao
+AU  - Yi, Weiwei
+AU  - Chen, Jiahong
+JO  - Computer Law & Security Review
+VL  - 61
+SP  - 106311
+PY  - 2026
+DA  - 2026/07/01/
+SN  - 2212-473X
+DO  - https://doi.org/10.1016/j.clsr.2026.106311
+UR  - https://www.sciencedirect.com/science/article/pii/S2212473X26000520
+KW  - Accuracy Paradox
+KW  - Hallucination
+KW  - Artificial Intelligence
+KW  - Large Language Models
+KW  - AI Regulation
+KW  - Data Protection
+KW  - AI Governance
+AB  - The rise of generative AI has intensified concerns around AI hallucination, which involves outputs that are fabricated, misleading, oversimplified or untrustworthy. While many technical and policy responses treat hallucination as a failure of factual accuracy, this paper argues that such a narrow lens underestimates the complexity of the problem. AI hallucination is not merely a matter of truth or falsehood, but a multifaceted phenomenon with cognitive, communicative, and societal implications. Overreliance on accuracy has counterproductive effect: the accuracy paradox. We propose a taxonomy and theoretical framework for understanding hallucination risks across three dimensions: epistemic reliability, Human-AI interactive influence, and social impact. Through regulatory analysis, we show that accuracy-driven approaches often overlook harms such as illusion of consensus, subtly persuasive misinformation, and diminished social progression. Current legal regulation, including the EU AI Act, GDPR, and DSA, struggle to address these subtler forms of distortion. We call for regulatory strategies that go beyond static verification, embracing pluralistic, context-aware, and manipulation-resilient approaches to AI trustworthy governance.
+ER  - 
+
+TY  - JOUR
+T1  - Are cutting-edge technologies transforming classical approaches in automated hiring systems ? A systematic literature review
+AU  - Aminou, Loubna
+AU  - Daaif, Abdelaziz
+AU  - Soulami, Maha
+AU  - Chalfaouat, Abderrahim
+AU  - Youssfi, Mohamed
+JO  - Systems and Soft Computing
+VL  - 7
+SP  - 200421
+PY  - 2025
+DA  - 2025/12/01/
+SN  - 2772-9419
+DO  - https://doi.org/10.1016/j.sasc.2025.200421
+UR  - https://www.sciencedirect.com/science/article/pii/S2772941925002406
+KW  - Artificial Intelligence
+KW  - Personnel selection
+KW  - Systematic literature review
+KW  - Cutting-edge technologies
+KW  - Algorithmic decision-making
+AB  - Automated hiring systems have increasingly incorporated intelligent models to support candidate evaluation and decision-making. Yet, integrating state-of-the-art models into real hiring workflows remains limited, constraining both potential business gains and ethical alignment, and so significant uncertainty addresses whether cutting-edge technologies have actually displaced classical approaches in practice. To examine this question, we conducted a systematic literature review of 40 peer-reviewed studies (2017-2024), following the PRISMA methodology across six academic databases. Quantitative analysis shows that machine learning models still dominate (≃45 %), followed by MCDM methods, while LLMs and hybrid systems represent less than 20% of practical implementations. Despite rapid technological advances, implementing state-of-the-art models into real-world applications remains limited, often constrained by data accessibility, ethical accountability, and cost of deployment. Overall, the review highlights a technological expectation gap between research innovation and industry application, underlining the need for empirical validation, standardized evaluation protocols, and socio-technical governance to ensure reliable, equitable, and interpretable intelligent hiring systems.
+ER  - 
+
+TY  - JOUR
+T1  - What artificial intelligence can do for high-performance computing systems?
+AU  - Pochelu, Pierrick
+AU  - Cartiaux, Hyacinthe
+AU  - Schleich, Julien
+JO  - Engineering Applications of Artificial Intelligence
+VL  - 164
+SP  - 113248
+PY  - 2026
+DA  - 2026/01/15/
+SN  - 0952-1976
+DO  - https://doi.org/10.1016/j.engappai.2025.113248
+UR  - https://www.sciencedirect.com/science/article/pii/S0952197625032798
+KW  - Artificial intelligence
+KW  - High-performance computing
+KW  - Software performance
+AB  - High-performance computing (HPC) centers consume substantial power, incurring environmental and operational costs. This review assesses how artificial intelligence (AI), including machine learning (ML) and optimization, improves the efficiency of operational HPC systems. Approximately 1,800 publications from 2019 to 2025 were manually screened using predefined inclusion/exclusion criteria; 74 “AI for HPC” papers were retained and grouped into six application areas: performance estimation, performance optimization, scheduling, surrogate modeling, fault detection, and language-model-based automation. Scheduling is the most active area, spanning research-oriented reinforcement-learning schedulers to production-friendly hybrids that combine ML with heuristics. Supervised performance estimation is foundational for both scheduling and optimization. Graph neural networks and time-series models strengthen anomaly detection by capturing spatio-temporal dependencies in production telemetry. Domain-specialized language models for HPC can outperform general-purpose LLMs on targeted coding and automation tasks. Together, these findings highlight integration opportunities such as LLM-based operating-system concepts and underscore the need for advances in MLOps, standardization of AI components, and benchmarking methodology.
+ER  - 
+
+TY  - JOUR
+T1  - When LLM agents act on-chain: A systematic cross-layer security analysis across reasoning, identity, and execution
+AU  - Kim, Namryeong
+AU  - Kim, Seo-Yi
+AU  - Im, Nara
+AU  - Park, So-Hyun
+AU  - Lee, Il-Gu
+JO  - ICT Express
+PY  - 2026
+DA  - 2026/09/23/
+SN  - 2405-9595
+DO  - https://doi.org/10.1016/j.icte.2026.09.014
+UR  - https://www.sciencedirect.com/science/article/pii/S2405959526001700
+KW  - Agentic AI
+KW  - LLM-based AI agent
+KW  - Cross-layer security
+KW  - Decentralized identifier
+KW  - Verifiable credential
+KW  - Smart account (ERC-4337/ERC-7579)
+KW  - Authentication–behavior gap
+KW  - Decentralized finance
+AB  - Large language model (LLM)-based agents are beginning to act directly on-chain, autonomously generating and executing transactions through Smart Accounts while decentralized identifier and verifiable credential (DID/VC) frameworks verify the identities and authorities of these non-human principals—a shift most visible today in decentralized finance (DeFi). This transition exposes an authentication–behavior gap: DID/VC mechanisms verify identity at authentication time but cannot ensure behavioral intent at execution time, enabling cross-layer threats in DID-integrated autonomous on-chain execution. We propose a tri-layer reference architecture comprising the Agent, Trust, and Infrastructure Layers — spanning agent reasoning, credential-based identity, and on-chain execution — and through a structured literature review combined with empirical analysis of a frozen public v1.0 dataset of 735 DeFi incidents with a versioned codebook and row-level provenance, we construct a tri-layer vulnerability taxonomy and derive six composite attack patterns that traverse layer boundaries. Under uniform C/P/Pj criteria, CP-2 and CP-4 are Plausible and the other four are Projected. Failure-mode and coverage-matrix analyses indicate that the two most frequent vulnerability classes, Business Logic Flaw and Price Manipulation, together account for just over half of the 696 single-cause records. However, no surveyed technique family demonstrates variant-complete coverage of either, and existing defenses, being largely layer-isolated, do not span the composite cross-layer paths. From these findings, we formulate four Smart-Account-oriented design principles as prioritized research directions and map each to a candidate ERC-4337/draft ERC-7579 realization pathway with its trade-off.
+ER  - 
+
+TY  - JOUR
+T1  - Bridging Cognitive Digital Twins and Cognitive User Interfaces: A Systematic Literature Review
+AU  - Cardamone, Martina
+AU  - Elbasheer, Mohaiad
+AU  - Facchini, Francesco
+AU  - Mirabelli, Giovanni
+AU  - Padovano, Antonio
+AU  - Sammarco, Chiara
+AU  - Vitti, Micaela
+JO  - Procedia Computer Science
+VL  - 274
+SP  - 1186
+EP  - 1195
+PY  - 2025
+DA  - 2025/01/01/
+T2  - 22nd International Multidisciplinary Modeling & Simulation Multiconference (I3M 2025)
+SN  - 1877-0509
+DO  - https://doi.org/10.1016/j.procs.2025.12.116
+UR  - https://www.sciencedirect.com/science/article/pii/S1877050925038384
+KW  - Cognitive Interaction Technology
+KW  - Human-Computer Interaction
+KW  - Industry 5.0
+AB  - Industry 5.0 emphasizes human-centered design in smart manufacturing environments, where Cognitive Digital Twins (CDTs) and Cognitive User Interfaces (CUIs) emerge as critical technologies for enhanced decision-making and system interaction. Despite sharing similar cognitive characteristics, CDTs and CUIs have been studied in isolation, which resulted in a fragmented landscape, limiting their integration into intelligent human-computer collaboration. This systematic literature review, guided by the PRISMA framework, investigates the integration opportunities between CDTs and CUIs to bridge this disciplinary gap. A comprehensive search in Scopus identified 227 papers, which were systematically filtered to 49 relevant studies for content analysis The review synthesizes a set of requirements essential for designing integrated CDT–CUI systems. Findings highlight that while CDTs rely on static interfaces, CUIs demonstrate advanced adaptability capabilities, including dynamic user interface adaptation through User Mentality Models and multimodal interaction support, significantly enhancing current rudimentary CDT interaction approaches.
+ER  - 
+
+TY  - JOUR
+T1  - Jagged competencies: Measuring the reliability of generative AI in academic research
+AU  - Thomas, Llewellyn D.W.
+AU  - Romasanta, Angelo Kenneth G.
+AU  - Pujol Priego, Laia
+JO  - Journal of Business Research
+VL  - 203
+SP  - 115804
+PY  - 2026
+DA  - 2026/01/01/
+SN  - 0148-2963
+DO  - https://doi.org/10.1016/j.jbusres.2025.115804
+UR  - https://www.sciencedirect.com/science/article/pii/S0148296325006277
+KW  - Generative AI
+KW  - LLM
+KW  - Replication
+KW  - Reproducibility
+KW  - Consistency
+KW  - Accuracy
+AB  - Large Language Models (LLMs) are increasingly viewed as a valuable tool for academic research. While LLMs have some benefits, a ‘crisis of replicability’ in management scholarship mitigates against unrestrained use. In this paper we investigate the reproducibility of LLM analyses. We analyze three LLMs—ChatGPT, Claude and Mistral—over fifteen weeks, testing the consistency, accuracy and their interaction using the same prompts on the same data corpus. While our results demonstrate significant variations in reliability and consistency across the three LLMs, we also show that LLMs can exhibit deterministic and reliable behavior under specific, well-defined constraints. We argue that replicable LLM-based research will rely on understanding and validating the task-specific operational boundaries of the LLM. To ensure the responsible integration of LLMs into management research, we highlight a need for robust frameworks, transparency, ethical guidelines, and ongoing evaluation. We conclude with actionable guidance for management researchers.
+ER  - 
+
+TY  - JOUR
+T1  - Beyond the fracture surface: A critical synthesis of failure analysis methodologies — from classical fractography to AI-augmented diagnostics, with the integrated failure analysis framework for industrial translation
+AU  - Karimi, Hassan
+JO  - Next Research
+VL  - 13
+SP  - 102474
+PY  - 2026
+DA  - 2026/11/01/
+SN  - 3050-4759
+DO  - https://doi.org/10.1016/j.nexres.2026.102474
+UR  - https://www.sciencedirect.com/science/article/pii/S3050475926011632
+KW  - Failure analysis
+KW  - Fractography
+KW  - Fracture mechanics
+KW  - Root cause analysis
+KW  - Vision transformers
+KW  - Physics-informed neural networks
+KW  - Digital Twin
+KW  - Explainable AI
+KW  - Bayesian updating
+AB  - Failure analysis occupies a unique epistemic position at the intersection of materials science, mechanical engineering, and organizational decision-making: simultaneously a retrospective diagnostic practice that decodes the history written on a fracture surface, and a prospective source of design knowledge that prevents recurrence. Yet the canonical workflow has not been systematically re-evaluated in light of three transformative developments: the emergence of deep learning architectures—particularly Vision Transformers (ViT) and Physics-Informed Neural Networks (PINNs)—that transcend the limitations of conventional convolutional approaches; the proliferation of metal additive manufacturing with its characteristic defect populations; and the increasing availability of in-situ nondestructive evaluation data streams that feed into digital twin frameworks for real-time structural health assessment. This critical review addresses that lacuna through a critical synthesis of literature spanning 1970 to 2026. We examine the fracture mechanics framework connecting applied stress, crack size, and material toughness, demonstrating how quantitative fractographic measurements constrain the failure sequence when integrated with the Paris law. The principal fracture modes—ductile microvoid coalescence, transgranular cleavage, intergranular separation, fatigue, creep, and environmentally assisted cracking—are reviewed as signatures of governing micromechanisms rather than as a taxonomic checklist. We introduce the Integrated Failure Analysis Framework (IFAF), a coherent synthesis of seven interconnected analytical pillars: (i) a Multi-Layer Analysis Architecture; (ii) a hybrid Vision Transformer-Physics-Informed Neural Network-Large Language Model architecture; (iii) Fracture Metabolomics; (iv) Temporal Fractography; (v) Digital Twin integration; (vi) Epistemological Gap Analysis with Pre-Mortem techniques; and (vii) Living Standards using Bayesian updating. The framework is demonstrated—not prospectively validated—through ten industrial case studies spanning fatigue, brittle fracture, stress corrosion cracking, hydrogen embrittlement, creep, composite delamination, ceramic fracture, and aerospace engine failure. The Failure Complexity-Consequence Matrix is extended with stakeholder weighting factors and a quantitative Failure Complexity Analysis Index (FCAI). A Fracture Metabolomics Database provides chemo-morphological signatures for sixteen common alloy-mechanism combinations. Ten evidence-based recommendations complete the work, including a call for establishing community-standard benchmarking datasets for AI-based fractography.
+ER  - 
+
+TY  - JOUR
+T1  - Understanding the role and adoption of artificial intelligence techniques in rheumatology research: An in-depth review of the literature
+AU  - Madrid-García, Alfredo
+AU  - Merino-Barbancho, Beatriz
+AU  - Rodríguez-González, Alejandro
+AU  - Fernández-Gutiérrez, Benjamín
+AU  - Rodríguez-Rodríguez, Luis
+AU  - Menasalvas-Ruiz, Ernestina
+JO  - Seminars in Arthritis and Rheumatism
+VL  - 61
+SP  - 152213
+PY  - 2023
+DA  - 2023/08/01/
+SN  - 0049-0172
+DO  - https://doi.org/10.1016/j.semarthrit.2023.152213
+UR  - https://www.sciencedirect.com/science/article/pii/S0049017223000550
+KW  - Artificial intelligence
+KW  - Machine learning
+KW  - Real-world data
+KW  - Rheumatology
+KW  - Rheumatic and musculoskeletal diseases
+KW  - Electronic health record
+AB  - The major and upward trend in the number of published research related to rheumatic and musculoskeletal diseases, in which artificial intelligence plays a key role, has exhibited the interest of rheumatology researchers in using these techniques to answer their research questions. In this review, we analyse the original research articles that combine both worlds in a five- year period (2017–2021). In contrast to other published papers on the same topic, we first studied the review and recommendation articles that were published during that period, including up to October 2022, as well as the publication trends. Secondly, we review the published research articles and classify them into one of the following categories: disease identification and prediction, disease classification, patient stratification and disease subtype identification, disease progression and activity, treatment response, and predictors of outcomes. Thirdly, we provide a table with illustrative studies in which artificial intelligence techniques have played a central role in more than twenty rheumatic and musculoskeletal diseases. Finally, the findings of the research articles, in terms of disease and/or data science techniques employed, are highlighted in a discussion. Therefore, the present review aims to characterise how researchers are applying data science techniques in the rheumatology medical field. The most immediate conclusions that can be drawn from this work are: multiple and novel data science techniques have been used in a wide range of rheumatic and musculoskeletal diseases including rare diseases; the sample size and the data type used are heterogeneous, and new technical approaches are expected to arrive in the short-middle term.
+ER  - 
+
+TY  - JOUR
+T1  - Artificial intelligence (AI) powered marketing strategy: a systematic literature review and future research direction
+AU  - Sujood, 
+AU  - Kumar, Amit
+AU  - Singh, Shuchita
+AU  - Srivastava, Nidhi
+AU  - Srivastava, Arpita
+AU  - Jain, Amrita
+AU  - Ayaz, Mohd
+AU  - Solomon, Priya
+AU  - Kumar, Atul
+JO  - International Journal of Quality and Service Sciences
+VL  - 18
+IS  - 3
+SP  - 521
+EP  - 550
+PY  - 2026
+DA  - 2026/08/20/
+SN  - 1756-669X
+DO  - https://doi.org/10.1108/IJQSS-08-2025-0220
+UR  - https://www.sciencedirect.com/science/article/pii/S1756669X26000025
+KW  - Artificial intelligence
+KW  - Marketing strategy
+KW  - AI-powered marketing
+KW  - Strategic marketing
+KW  - Marketing automation
+KW  - AI ethics
+AB  - 
+Purpose The purpose of this study is to systematically review the extant literature on the intersection of artificial intelligence (AI) and marketing strategy, with a focus on identifying prevailing themes, research gaps and future research directions. This review aims to provide a comprehensive understanding of how AI technologies are shaping strategic marketing decisions and their implications for businesses.
+
+Design/methodology/approach A systematic literature review methodology was adopted, leveraging a rigorous search strategy using the Scopus database. The Preferred Reporting Items for Systematic Reviews and Meta-Analysis approach was followed for the screening and extraction process. The inclusion criteria focused on peer-reviewed journal articles published in English, ensuring relevance and quality.
+
+Findings The findings of the study reveal key emerging themes. The result demonstrates how AI is actively shaping strategic marketing decisions and introducing new ethical challenges for businesses. Furthermore, this study proposes the AI Marketing Intelligence Pyramid (AIMIP) Framework, illustrating the structured and progressive development of AI integration within marketing strategies and directly addressing the main research questions.
+
+Research limitations/implications This study is restricted to articles published in English and indexed in Scopus, which may exclude relevant contributions in other languages or platforms. This study offers actionable recommendations for integrating AI into marketing strategies, supporting business innovation and competitive differentiation. The insights also guide policymakers and industry leaders in shaping standards and ethical frameworks in AI-driven marketing.
+
+Originality/value This study offers a pioneering synthesis of the existing literature on AI and marketing strategy, bridging theoretical insights with practical applications. It identifies critical gaps and underexplored areas in current research, providing actionable directions for future scholarly inquiry. To the best of the authors’ knowledge, notably, this study introduces the first-ever AIMIP Framework, offering a novel, structured approach to understanding the progressive integration of AI in marketing strategy. This contribution adds a new dimension to the evolving discourse on AI-driven marketing transformation.
+ER  - 
+
+TY  - JOUR
+T1  - Machine Learning Applications for Resistance Spot Welding in Manufacturing
+AU  - Harper, Austin
+AU  - Islam, Md.Rokibul
+AU  - Valdivia, Sebastian
+AU  - Farahani, Mojtaba
+AU  - Bremer, Anne
+AU  - Schwab, Jannik
+AU  - Huber, Marco F.
+AU  - Wuest, Thorsten
+JO  - Manufacturing Letters
+VL  - 49
+SP  - 1411
+EP  - 1423
+PY  - 2026
+DA  - 2026/10/01/
+T2  - 54th SME North American Manufacturing Research Conference
+SN  - 2213-8463
+DO  - https://doi.org/10.1016/j.mfglet.2026.08.047
+UR  - https://www.sciencedirect.com/science/article/pii/S2213846326002075
+KW  - Resistance Spot Welding
+KW  - Data-Driven Models
+KW  - Smart Manufacturing
+KW  - Artificial Intelligence
+KW  - Machine Learning
+AB  - Resistance Spot Welding (RSW) is a common joining technique in various industries, including automotive assembly, home appliances, and ship building. With the introduction of Industry 4.0 and the digitalization of production processes, data-driven modeling via Artificial Intelligence (AI) and Machine Learning (ML) has been deployed throughout manufacturing. As a widely used joining technology, RSW has leveraged AI and ML on the shop floor. However, to date there is no overview of industries, tools, shop-floor applications, and publicly available datasets available depicting the current state of the art. This literature review aims to systematically survey the current state of the art for data-driven modeling applications in smart manufacturing. By using the PRISMA process and a bibliometric analysis this study garners a holistic view of the research domain. The final study included 42 papers from the Web of Science and Scopus databases, with authors from 21 different countries contributing to the body of knowledge. Through this review it was found that most publications are from the automotive industry with applications targeting defect detection, classification, and weld nugget property predictions. The most common data-driven modeling tools are Convolutional Neural Networks (CNN) due to their robust ability to process both image and signal data quickly and accurately, among other advantages. Across the reviewed publications, two datasets are publicly available, with only one from a real-world production process. This study identified three main research gaps: i) more case studies in industries outside of automotive assembly, ii) a need for open-source RSW manufacturing datasets, and iii) a need more experimentation of new model architectures outside of CNN. This systematic literature review surveyed the current state of the art for RSW data-driven modeling applications and found answers to questions that had previously been undefined in the field.
+ER  - 
+
+TY  - JOUR
+T1  - Knowledge graphs for operational decision-making in industrial maintenance: A systematic review
+AU  - Kang, Rui
+AU  - Zhu, Junxiang
+AU  - Green, Stephen
+AU  - Brilakis, Ioannis
+JO  - Expert Systems with Applications
+VL  - 299
+SP  - 130172
+PY  - 2026
+DA  - 2026/03/01/
+SN  - 0957-4174
+DO  - https://doi.org/10.1016/j.eswa.2025.130172
+UR  - https://www.sciencedirect.com/science/article/pii/S095741742503787X
+KW  - Knowledge graph
+KW  - Decision-making
+KW  - Industrial maintenance
+KW  - Knowledge management
+AB  - Operational-level maintenance is essential to ensuring the normal functions of systems and equipment in the industry. The current practice for decision-making for operational maintenance is still expert-led and heavily relies on experts’ implicit knowledge from their experience. This leads to the urgent need for better knowledge management, which can facilitate more efficient and effective operational maintenance. To fulfill this need, knowledge graphs (KGs) have been proposed by previous studies, due to their ability to digitize knowledge and their structural and semantic features to facilitate various decision-making approaches. Although multiple KG-based methods have been proposed and implemented, several questions about maintenance-related knowledge graphs remain unclear, including 1) What methods are employed to exploit the capabilities of KGs in maintenance decision-making, 2) In which scenarios KGs are applied, and how they are utilized, and 3) What are the challenges and opportunities of implementing KGs in practice. To address these questions, this study made a comprehensive systematic review. A total of 270 papers were retrieved from Scopus, and 76 papers were closely examined. The review finds that 1) KG-based querying, reasoning, and enhancement of other algorithms are common methods in decision-making problems; 2) most KGs are applied in fault diagnosis, but KGs also contribute to maintenance action identification and organization; and 3) most applications of KGs in industrial maintenance decision-making are limited to simple tasks and more exploration of efficiently using and sharing KGs is needed. This study summarizes the state-of-the-art works in knowledge graphs for operational maintenance, which can facilitate further research.
+ER  - 
+
+TY  - JOUR
+T1  - Transforming Surgical Training With AI Techniques for Training, Assessment, and Evaluation: Scoping Review
+AU  - Escobar-Castillejos, David
+AU  - Barrera-Animas, Ari Y
+AU  - Noguez, Julieta
+AU  - Magana, Alejandra J
+AU  - Benes, Bedrich
+JO  - Journal of Medical Internet Research
+VL  - 27
+PY  - 2025
+DA  - 2025/01/01/
+SN  - 1438-8871
+DO  - https://doi.org/10.2196/58966
+UR  - https://www.sciencedirect.com/science/article/pii/S1438887125014931
+KW  - artificial intelligence
+KW  - technology-enhanced learning
+KW  - simulation-based training
+KW  - performance assessment
+KW  - medical training
+KW  - surgery
+KW  - higher education
+KW  - educational innovation
+AB  - Background
+Artificial intelligence (AI) has introduced novel opportunities for assessment and evaluation in surgical training, offering potential improvements that could surpass traditional educational methods.
+Objective
+This scoping review examines the integration of AI in surgical training, assessment, and evaluation, aiming to determine how AI technologies can enhance trainees’ learning paths and performance by incorporating data-driven insights and predictive analytics. In addition, this review examines the current state and applications of AI algorithms in this field, identifying potential areas for future research.
+Methods
+Following the PRISMA-ScR (Preferred Reporting Items for Systematic Reviews and Meta-Analyses extension for Scoping Reviews) guidelines, the PubMed, Scopus, and Web of Science were searched for studies published between January 2020 and March 18, 2024. Eligibility criteria included English-language full-text articles that investigated the application of AI in surgical training, assessment, or evaluation; non-English texts, reviews, preprints, and studies not addressing AI in surgical education were excluded. After duplicate removal and screening, 56 studies were included in the analysis. Data were structured by categorizing studies according to surgical procedure, AI technique, and training setup. Results were synthesized narratively and summarized in frequency tables.
+Results
+From 1400 initial records, 56 studies met the inclusion criteria. Most were journal articles (84%, 47/56), with the remainder being conference papers (16%, 9/56). AI was most frequently applied in minimally invasive surgery (27%, 15/56), neurosurgery (20%, 11/56), and laparoscopy (16%, 9/56). Common techniques included machine learning (20%, 11/56), clustering (14%, 8/56), deep learning (11%, 6/56), convolutional neural networks (11%, 6/56), and support vector machines (11%, 6/56). Training setups were dominated by simulation platforms (33%, 19/56) and box trainers (24%, 13/56), followed by surgical video analysis (16%, 9/56), and robotic systems such as the da Vinci platform (13%, 7/56). Across studies, AI-enhanced training environments provided automated skill assessment, personalized feedback, and adaptive learning trajectories, with several reporting improvements in trainees’ learning curves and technical proficiency. However, heterogeneity in study design and outcome measures limited comparability, and algorithmic transparency was often lacking.
+Conclusions
+The application of AI in surgical training demonstrates the potential to enhance skill acquisition and support more efficient, personalized, and adaptive learning pathways. Despite encouraging findings, several limitations exist, including small sample sizes, the lack of standardized evaluation metrics, and insufficient external validation of AI models. Future studies should aim to clarify AI methodologies, improve reproducibility, and develop scalable, simulation-based solutions aligned with global education goals.
+ER  - 
+
+TY  - JOUR
+T1  - Graph Neural Networks and Graph Autoencoders for intrusion detection systems: A systematic review, taxonomy and comparative analysis
+AU  - Yagmur, Ebru
+AU  - Kocak, Cemal
+AU  - Keles, Ayse
+JO  - Computer Networks
+VL  - 288
+SP  - 112598
+PY  - 2026
+DA  - 2026/10/01/
+SN  - 1389-1286
+DO  - https://doi.org/10.1016/j.comnet.2026.112598
+UR  - https://www.sciencedirect.com/science/article/pii/S1389128626006109
+KW  - Anomaly detection
+KW  - Cybersecurity
+KW  - Deep learning
+KW  - Graph Autoencoders
+KW  - Graph Neural Networks
+KW  - Network intrusion detection systems
+AB  - As the volume and complexity of network-based attacks escalate, traditional Intrusion Detection Systems (IDS) encounter significant challenges, including data imbalance, limited availability of labeled datasets, and the detection of zero-day threats. In this context, Graph Neural Networks (GNNs), capable of modeling the topological structure and relational dependencies of network traffic, have emerged as a pivotal research domain. However, the role of Graph Autoencoders (GAEs), characterized by their unsupervised learning capabilities, remains relatively underexplored in the IDS literature. This study provides a systematic and PRISMA-based evaluation of GNN and GAE-based approaches in IDS. In contrast to existing surveys, this study provides a structured categorization of the literature across three primary dimensions: (i) Architectural Approaches, (ii) Application Domains, with a particular emphasis on IoT/IIoT environments, and (iii) System Objectives. Each dimension is systematically analyzed with respect to graph construction methods, learning paradigms, model components, datasets, evaluation metrics, and comparative performance results. Our findings indicate that while supervised GNN models excel in learning known attack patterns, GAE-based frameworks significantly enhance anomaly detection through label-independent structures. Furthermore, hybrid GNN-GAE architectures demonstrate superior generalizability by integrating representation learning with robust decision-making. Consequently, this review establishes a multidimensional perspective on hybrid methodologies, highlights performance trade-offs across different model categories, and defines a strategic research roadmap to address open challenges, including scalability, explainability (XAI), and real-time processing.
+ER  - 
+
+TY  - JOUR
+T1  - A Review on Defect Detection and Classification in Powder-Based Additive Manufacturing of Metals Using Machine Learning: Challenges, Methods and Future Directions
+AU  - Altıparmak, Sadettin Cem
+AU  - Secchi, Paolo
+AU  - Balint, Daniel S.
+AU  - Ugues, Daniele
+JO  - Materials Today Communications
+SP  - 116552
+PY  - 2026
+DA  - 2026/10/31/
+SN  - 2352-4928
+DO  - https://doi.org/10.1016/j.mtcomm.2026.116552
+UR  - https://www.sciencedirect.com/science/article/pii/S2352492826019410
+KW  - Defect detection
+KW  - Defect classification
+KW  - Machine learning
+KW  - Artificial intelligence
+KW  - Additive manufacturing
+AB  - Powder-based additive manufacturing (AM) of metals, principally including powder bed fusion (PBF), directed energy deposition (DED), and binder jetting (BJ), has revolutionised modern manufacturing by offering ultimate design freedom, material efficiency and part customisation. However, metallurgical defects remain a major barrier to the broader adoption of this technology, particularly in safety-critical industries. Conventional non-destructive testing and in-situ monitoring approaches provide partial solutions while often facing high costs, limited scalability, and difficulties in detecting subsurface or process-induced defects particularly in complex geometries. Within the last decade, machine learning (ML) models have emerged as alternatives, offering automated feature extraction, pattern recognition, and real-time defect classification. This comprehensive narrative review synthesises state-of-the-art ML approaches and analyses their applications in detecting, classifying, and mitigating defects in the powder-based AM of metals. The synthesis also yields a cross-process finding: ML-defect evidence is concentrated in powder bed fusion (PBF), while DED and BJ remain sparsely studied. In parallel, recent advances in real-time and in-situ monitoring techniques, including vibration, acoustic, thermal, optical, and multi-sensor frameworks, are explored with a focus on the integration of these techniques with ML to enable closed-loop process control. Several key challenges, particularly relating to data scarcity, sensor limitations, predictive uncertainty and confidence calibration, and the interpretability of complex models, remain to be addressed and are the focus of highlighted future research directions. A four-stage roadmap is also proposed, progressing from offline defect detection through in-situ monitoring and closed-loop correction to industrial qualification and certifiable zero-defect manufacturing.
+ER  - 
+
+TY  - JOUR
+T1  - Harnessing AI-driven large language models (LLMs) for enhanced forecasting and optimisation of wind and solar energy generation and load demand profiles
+AU  - Aleassa, Omar
+AU  - Bekhit, Mahmoud
+AU  - Hussain, Walayat
+AU  - Fattah, I.M.R.
+JO  - Renewable and Sustainable Energy Reviews
+VL  - 239
+SP  - 117171
+PY  - 2026
+DA  - 2026/10/01/
+SN  - 1364-0321
+DO  - https://doi.org/10.1016/j.rser.2026.117171
+UR  - https://www.sciencedirect.com/science/article/pii/S1364032126004703
+KW  - Large language models
+KW  - Renewable energy forecasting
+KW  - Wind power
+KW  - Solar power
+KW  - Load demand forecasting
+AB  - The accelerated transition to renewable energy requires reliable forecasting and optimisation to support stable, efficient grid operations. In recent years, foundation models, including large language models (LLMs) and time-series foundation models, have been investigated for renewable energy forecasting tasks that integrate diverse inputs, such as sensor telemetry, maintenance logs, weather narratives, and geospatial descriptors. This paper presents a structured review of recent studies published from 2020 to 2025 on the application of language-focused foundation models and related transformer-based foundations to wind, solar, and load demand forecasting. Instead of asserting universal performance advantages, we synthesise evidence showing where studies report improvements compared with conventional machine learning (ML) baselines, most often in contexts involving multimodal fusion, longer forecasting horizons, or text-enriched decision support. We also highlight situations in which the reported benefits are limited or strongly influenced by the dataset and evaluation protocol. In addition, we examined practical constraints affecting deployment, including integration with Supervisory Control and Data Acquisition (SCADA) and Internet of Things (IoT) systems, latency, reliability, and governance. We summarise available interpretability approaches, including Shapley Additive Explanations (SHAP), attention visualisation, and post hoc explanations, and identify key open challenges such as computational cost, hallucination risk, and uncertainty quantification in safety-critical forecasting.
+ER  - 
+
+TY  - JOUR
+T1  - Artificial intelligence-enabled foodomics: integrating multi-omics, personalized drug discovery, nutrition, and sustainable food systems
+AU  - Fareed, Muhammad Mazhar
+AU  - Shityakov, Sergey
+JO  - In Silico Research in Biomedicine
+VL  - 2
+SP  - 100378
+PY  - 2026
+DA  - 2026/01/01/
+SN  - 3050-7871
+DO  - https://doi.org/10.1016/j.insi.2026.100378
+UR  - https://www.sciencedirect.com/science/article/pii/S3050787126002076
+KW  - Artificial Intelligence
+KW  - Foodomics
+KW  - Multiomics integration
+KW  - Personalized drug discovery nutrition
+KW  - Nutrigenomics
+KW  - Federated learning
+KW  - Privacy-preserving analytics
+KW  - Food safety
+KW  - Sustainable food manufacturing
+KW  - Ethical AI
+AB  - Artificial intelligence (AI) is reshaping pharmaceuticals, nutrition science, and food manufacturing by enabling the integration of multiomics technologies genomics, transcriptomics, proteomics, metabolomics, lipidomics, and glycomics into coherent, data-driven frameworks. This review synthesizes evidence from 173 peer-reviewed studies and authoritative reports identified through a PRISMA-aligned search (guidelines) of six major databases (PubMed, Scopus, Web of Science, IEEE Xplore, ScienceDirect, SpringerLink) spanning 2009–2025, covering AI-driven multiomics (n=48), personalised nutrition (n = 35), federated learning (FL) and privacy-preserving analytics (n=40), food safety and manufacturing (n=28), and ethical and regulatory frameworks (n=22). In drug discovery, AI accelerates molecular modelling, target identification, and drug repurposing while improving the precision of clinical trial design. In nutrition, foodomics links dietary components to molecular mechanisms, enabling personalised nutrition, identification of dietary biomarkers, improved food safety, robust quality control, and sustainable production practices. AI-powered personalised nutrition integrates nutrigenomics, wearable biosensors, and hybrid recommender systems to deliver adaptive interventions, with FL, blockchain, and privacy-preserving analytics safeguarding sensitive health data. In food manufacturing, AI optimizes quality control, predictive maintenance, supply chain traceability, and waste reduction while supporting regulatory compliance. Ethical deployment requires addressing algorithmic bias, ensuring transparency, and promoting environmental sustainability through interdisciplinary collaboration among researchers, clinicians, industry stakeholders, and policymakers. By uniting AI, foodomics, and privacy-focused technologies, this convergence advances precision health, strengthens public nutrition strategies, and fosters environmentally responsible food systems.
+ER  - 
+
+TY  - JOUR
+T1  - Network intrusion datasets: A survey, limitations, and recommendations
+AU  - Goldschmidt, Patrik
+AU  - Chudá, Daniela
+JO  - Computers & Security
+VL  - 156
+SP  - 104510
+PY  - 2025
+DA  - 2025/09/01/
+SN  - 0167-4048
+DO  - https://doi.org/10.1016/j.cose.2025.104510
+UR  - https://www.sciencedirect.com/science/article/pii/S0167404825001993
+KW  - Network intrusion detection
+KW  - NIDS
+KW  - Machine learning for intrusion detection
+KW  - Cybersecurity datasets
+KW  - NIDS best practices
+KW  - Comparative dataset analysis
+AB  - Data-driven cyberthreat detection has become a crucial defense technique in modern cybersecurity. Network defense, supported by Network Intrusion Detection Systems (NIDSs), has also increasingly adopted data-driven approaches, leading to greater reliance on data. Despite the importance of data, its scarcity has long been recognized as a major obstacle in NIDS research. In response, the community has published many new datasets recently. However, many of them remain largely unknown and unanalyzed, leaving researchers uncertain about their suitability for specific use cases. In this paper, we aim to address this knowledge gap by performing a systematic literature review (SLR) of 89 public datasets for NIDS research. Each dataset is comparatively analyzed across 13 key properties, and its potential applications are outlined. Beyond the review, we also discuss domain-specific challenges and common data limitations to facilitate a critical view on data quality. To aid in data selection, we conduct a dataset popularity analysis in contemporary state-of-the-art NIDS research. Furthermore, the paper presents best practices for dataset selection, generation, and usage. By providing a comprehensive overview of the domain and its data, this work aims to guide future research toward improving data quality and the robustness of NIDS solutions.
+ER  - 
+
+TY  - JOUR
+T1  - Applications of artificial intelligence in emotion recognition in pediatrics health care: Scoping review
+AU  - Figueiredo, Ana Rita
+AU  - Pereira, António
+AU  - Frias, Francisca
+AU  - Rodrigues, Luíza Moura Dias
+AU  - Diogo, Paula
+JO  - Journal of Pediatric Nursing
+VL  - 85
+SP  - 593
+EP  - 606
+PY  - 2025
+DA  - 2025/11/01/
+SN  - 0882-5963
+DO  - https://doi.org/10.1016/j.pedn.2025.09.017
+UR  - https://www.sciencedirect.com/science/article/pii/S0882596325003318
+KW  - Artificial intelligence
+KW  - Emotion recognition
+KW  - Pediatrics
+KW  - Health
+KW  - Clinical applications
+AB  - Background
+The use of artificial intelligence in healthcare is growing rapidly. In pediatrics, artificial intelligence technologies have been applied to early diagnosis, treatment, increased precision in care, and recognition of emotions. This will provide new opportunities to overcome the difficulties that may have developed in children's ability to express emotions due to cognitive, physical, or emotional reasons.
+Aim
+To review the existing literature on the application of artificial intelligence to emotion recognition in children and adolescents, and to evaluate its applicability in clinical settings.
+Methods
+A scoping review was conducted using the Joanna Briggs Institute methodology. Searches were conducted in PubMed, Scopus, CINAHL Ultimate, MEDLINE Ultimate, IEEE Xplore and Wiley Online Library. A total of 136 records were initially identified, and 23 studies met the inclusion criteria. Data were analyzed and summarized narratively.
+Results
+The studies varied in methodology and scope, and included the use of artificial intelligence for facial, voice, and drawing-based emotion recognition, with applications in various domains. Artificial intelligence-based tools showed promising levels of accuracy, particularly in improving emotion identification, supporting early diagnosis, and informing clinical decision-making.
+Conclusion
+Artificial intelligence has the potential to transform pediatric healthcare by improving the identification and management of emotional states, particularly in vulnerable populations. Despite challenges, integrating technology into clinical practice is a promising strategy to promote personalized and emotional care.
+Implications
+By recognizing and responding to emotional needs, artificial intelligence in pediatric nursing practice can enhance the personalization of care and create therapeutic environments that are emotionally sensitive, promoting the humanization and effectiveness of interventions. Scoping review registration: doi:10.17605/OSF.IO/NXMH7.
+ER  - 
+
+TY  - JOUR
+T1  - Large language models for sustainability reporting: A systematic review and research agenda
+AU  - Mousavian Anaraki, Seyed Alireza
+AU  - Croce, Danilo
+AU  - Basili, Roberto
+JO  - Sustainable Futures
+VL  - 10
+SP  - 101494
+PY  - 2025
+DA  - 2025/12/01/
+SN  - 2666-1888
+DO  - https://doi.org/10.1016/j.sftr.2025.101494
+UR  - https://www.sciencedirect.com/science/article/pii/S266618882501055X
+KW  - Sustainability reporting
+KW  - Information extraction
+KW  - Greenwashing
+KW  - Large language models
+KW  - Meta-synthesis
+KW  - Scientometric
+AB  - Sustainability reporting refers to the activities by which large companies describe their efforts to maximize the benefits on universal criteria about economic, social, and environmental impacts. This promotes transparency among stakeholders and is considered essential in supporting governance and compliance with international regulations by improving today’s business landscape. Among other problems, inaccurate company disclosures, known as Greenwashing, can affect the quality of reports and their unstructured nature poses serious limitations to economic analysts during company evaluation. Efficiently gathering and aligning available reports and other complementary data for a unified framework is an important perspective on modern sustainability analysis. Recent advances in Natural Language Processing (NLP), particularly the rise of transformer-based Large Language Models (LLMs), have enabled new capabilities in semantic information extraction, automated classification, and the detection of misleading claims within unstructured corporate sustainability disclosures. This survey provides a systematic review of NLP and LLM-based approaches in sustainability reporting, with particular attention to methodological trends and unresolved challenges. Adopting a structured review methodology that integrates scientometric mapping and meta-synthesis, we offer an evidence-based taxonomy and a synthesis of current practices, highlighting key gaps and future research directions. The findings highlight past explorations and future directions, demonstrating that LLMs offer remarkable accuracy and innovative solutions for challenges related to traditional sustainability reporting current practices.
+ER  - 
+
+TY  - JOUR
+T1  - Digital engineering for quantum communication networks: A systematic review of models, simulators, and testbeds
+AU  - Elsokary, Amal
+AU  - Ishida, Hayato
+AU  - White, Catherine
+AU  - Powley, Stephen
+AU  - Aslam, Maria
+AU  - de C. Henshaw, Michael J.
+AU  - Ji, Siyuan
+JO  - Digital Engineering
+SP  - 100149
+PY  - 2026
+DA  - 2026/10/31/
+SN  - 2950-550X
+DO  - https://doi.org/10.1016/j.dte.2026.100149
+UR  - https://www.sciencedirect.com/science/article/pii/S2950550X26000610
+KW  - Quantum communication network
+KW  - Quantum key distribution (QKD)
+KW  - Quantum network simulators
+KW  - Testbeds
+KW  - Digital engineering
+AB  - Research on quantum communication networks has grown rapidly in recent years, driven by progress in quantum devices, simulators, and experimental testbeds. As these systems become more complex, there is increasing interest in digital methods that can support analysis, prediction, and performance assessment without relying exclusively on physical experimentation. Surveying articles from 1984 to 2025, this systematic literature review examines the current state of digitalisation in quantum communication networks. It evaluates how existing tools and studies contribute to the longer-term goal of creating digital twin technologies for quantum systems. Using PRISMA, a structured and transparent review process, the literature is grouped into three categories that reflect different levels of digital representation: digital models, digital shadows, and attempts that resemble early digital twin practices. The findings show that the community has developed sophisticated simulation platforms and a range of modelling approaches, and that several experimental testbeds already support partial data-driven integration. However, the review also shows that true digital twins, with continuous synchronisation between physical quantum networks and their digital counterparts, remain undeveloped. Existing studies realise only subsets of the required digital twin capabilities and remain fragmented across specific protocols, technologies, and operational scenarios, with limited adoption of engineering approaches that support adaptability, reusability, interoperability, and coherent integration across the physical and digital domains. The study outlines research directions that could guide the development of future digital frameworks capable of supporting prediction, optimisation, and system-level evaluation across the full lifecycle of quantum communication networks.
+ER  - 
+
+TY  - JOUR
+T1  - 2026 Arthur E. Weyman Young Investigator’s Award Competition Finalists
+JO  - Journal of the American Society of Echocardiography
+VL  - 39
+IS  - 8
+SP  - e1
+EP  - e127
+PY  - 2026
+DA  - 2026/08/01/
+SN  - 0894-7317
+DO  - https://doi.org/10.1016/j.echo.2026.05.035
+UR  - https://www.sciencedirect.com/science/article/pii/S089473172600249X
+ER  - 
+
+TY  - JOUR
+T1  - A systematic literature review of spatio-temporal graph neural network models for time series forecasting and classification
+AU  - Corradini, Flavio
+AU  - Gerosa, Flavio
+AU  - Gori, Marco
+AU  - Lucheroni, Carlo
+AU  - Piangerelli, Marco
+AU  - Zannotti, Martina
+JO  - Neural Networks
+VL  - 195
+SP  - 108269
+PY  - 2026
+DA  - 2026/03/01/
+SN  - 0893-6080
+DO  - https://doi.org/10.1016/j.neunet.2025.108269
+UR  - https://www.sciencedirect.com/science/article/pii/S0893608025011505
+KW  - Graph neural networks
+KW  - Spatio-temporal graphs
+KW  - Time series modeling
+AB  - In recent years, spatio-temporal graph neural networks (GNNs) have attracted considerable interest in the field of time series analysis, due to their ability to capture, at once, dependencies among variables and across time points. The objective of this systematic literature review is hence to provide a comprehensive overview of the various modeling approaches and application domains of GNNs for time series classification and forecasting. A database search was conducted, and 366 papers were selected for a detailed examination of the current state-of-the-art in the field. This examination is intended to offer to the reader a comprehensive review of proposed models, links to related source code, available datasets, benchmark models, and fitting results. All this information is hoped to assist researchers in their studies. To the best of our knowledge, this is the first and broadest systematic literature review presenting a detailed comparison of results from current spatio-temporal GNN models applied to different domains. In its final part, this review discusses current limitations and challenges in the application of spatio-temporal GNNs, such as comparability, reproducibility, explainability, poor information capacity, and scalability. This paper is complemented by a GitHub repository at https://github.com/FlaGer99/SLR-Spatio-Temporal-GNN.git providing additional interactive tools to further explore the presented findings.
+ER  - 
+
+TY  - JOUR
+T1  - Codes across (life)sciences
+AU  - Prinz, Robert
+AU  - Bucher, Philipp
+AU  - Kun, Ádám
+AU  - Paredes, Omar
+AU  - Aragno, Anna
+AU  - Shelby, Candice
+AU  - Gumbel, Markus
+AU  - Fimmel, Elena
+AU  - Strüngmann, Lutz
+JO  - BioSystems
+VL  - 254
+SP  - 105515
+PY  - 2025
+DA  - 2025/08/01/
+SN  - 0303-2647
+DO  - https://doi.org/10.1016/j.biosystems.2025.105515
+UR  - https://www.sciencedirect.com/science/article/pii/S030326472500125X
+KW  - Code biology
+KW  - Mathematics
+KW  - Computer science
+KW  - Synthetic biology
+KW  - Ecological codes
+KW  - Psychology
+KW  - Psychoanalysis
+KW  - Cultural codes
+KW  - Cyborgism
+KW  - Transhumanism
+AB  - The concept of “code” connotes different meanings, intentions, and formalizations. From mathematics and computer sciences to psychology and culture, the term becomes less formal, more diverse, and sometimes appears ambiguous. In biology a growing number of codes ignite a debate about their role in evolution, biocomplexity, and agency, to name just a few. Here, a transdisciplinary group of code scientists attempts to capture the big picture of code research across their fields of interest. In this cross-sectional overview commonalities emerge that may pave the way towards a unified theory of life-based-on-codes. Codes underly cellular processes, perception, cognition, and communication. From ecosystems to human language, codes influence how individuals behave in groups, memorize, learn, and take part in cultural practices. Emotions like aggression, fear, anger, frustration, are important motivators of behaviour modulating mutual communication and sculpting individual experience. The inheritance of experience in form of innate release mechanisms, stereotyped behaviour, or archetypes may have phylogenetic and ontogenetic roots that rely on codes and impact our conscious decision making. Unconsciously, even our dreams draw on codes. In the future, conflation of different coding systems, e.g., from synthetic biology and generative artificial intelligence, will merge biological codes with machine logic and computer language to promote next-level transhumanism. Codes emerge as a currency converter between systems of life and between different scientific disciplines.
+ER  - 
+
+TY  - JOUR
+T1  - Full issue PDF
+JO  - JACC: Heart Failure
+VL  - 14
+IS  - 5
+SP  - 103070
+PY  - 2026
+DA  - 2026/05/01/
+SN  - 2213-1779
+DO  - https://doi.org/10.1016/S2213-1779(26)00169-1
+UR  - https://www.sciencedirect.com/science/article/pii/S2213177926001691
+ER  - 
+
+TY  - JOUR
+T1  - Artificial intelligence in doctoral training: Bridging gaps, easing burdens
+AU  - Rodríguez, Gerardo Alfredo
+AU  - Chiappe, Andres
+AU  - Durand, Julio
+JO  - Social Sciences & Humanities Open
+VL  - 13
+SP  - 102744
+PY  - 2026
+DA  - 2026/06/01/
+SN  - 2590-2911
+DO  - https://doi.org/10.1016/j.ssaho.2026.102744
+UR  - https://www.sciencedirect.com/science/article/pii/S2590291126003098
+KW  - Doctoral education
+KW  - Artificial intelligence
+KW  - Academic barriers
+KW  - Research support systems
+AB  - In an era when artificial intelligence is reshaping knowledge, doctoral education faces structural and institutional pressures that jeopardise retention. This systematic review, complemented by a reflective thematic synthesis, identifies early-stage researchers' main barriers and examines how AI's promises might address them. Following PRISMA, we analysed 92 articles using thematic synthesis alongside descriptive frequency mapping. Five major barrier categories emerged: mental health and well-being; academic supervision; personal factors (including work–life balance, financial constraints, and motivation); academic skills; and institutional factors (including work organisation). Findings indicate AI offers support through personalised learning, intelligent assistance, and task automation. The study informs educational leaders, supervisors, and researchers pursuing hybrid supervision, evidencing AI's transformative potential in advanced academic training.
+ER  - 
+
+TY  - JOUR
+T1  - A systematic mapping review of explainable machine and deep learning approaches for road traffic crash severity prediction: A decade-long review (2014-2024)
+AU  - Sattar, Karim Asif
+AU  - Ishak, Iskandar
+AU  - Suriani, Lilly
+AU  - Rum, Siti Nurulain Mohd
+AU  - Masiur Rahman, Syed
+JO  - Heliyon
+VL  - 12
+IS  - 15
+SP  - e45513
+PY  - 2026
+DA  - 2026/10/01/
+SN  - 2405-8440
+DO  - https://doi.org/10.1016/j.heliyon.2026.e45513
+UR  - https://www.sciencedirect.com/science/article/pii/S2405844026010285
+KW  - Systematic literature review
+KW  - Road crash severity
+KW  - Explainability
+KW  - Ablation study
+KW  - Explainable artificial intelligence
+KW  - Feature selection
+KW  - Model-agnostic techniques
+KW  - Model-specific techniques
+AB  - Identifying the severity of road accidents is critical for effective traffic management and emergency response. Machine learning has been increasingly applied to predict crash severity, but the lack of transparency in many black-box models poses a significant challenge, especially when human lives are at stake. Governments worldwide are now mandating explainable artificial intelligence in critical applications, emphasizing the need for transparent decision-making processes. In our review paper, we address this issue by consolidating and categorizing the various machine and deep learning techniques used in road traffic crash severity prediction. We systematically analyzed 237 articles published between 2014 and 2024 in the SCOPUS and Web of Science databases using a combination of specific keywords, categorizing them based on their use of explainable techniques, including model-agnostic, model-specific, or feature-importance, and ablation techniques. Among the 237 studies, 51% used only ML models, 16% used only DL models, and 33% compared both ML and DL approaches. Our analysis revealed that approximately 64% of the reviewed studies employed ablation methods for feature selection. Random Forest emerged as the most frequently adopted machine learning model, whereas feature-importance mechanisms, particularly in tree-based ensemble models, remained the dominant explainability approach. Additionally, researchers employed model-agnostic methods to explain deep learning-based models. SHAP emerged as the most widely adopted model-agnostic explainability technique and exhibited a clear increase in adoption over recent years. A small number of studies delve into model-specific explanations. Overall, model-agnostic techniques were found to be more widely adopted than model-specific explainability approaches for interpreting complex predictive models. The integration of explainable crash prediction models with emergency response systems shows promise for this application. This taxonomy provides a structured resource for researchers and offers insights for policymakers, transportation experts, and emergency response professionals, thereby supporting efforts to improve road safety and the quality of emergency services.
+ER  - 
+
+TY  - JOUR
+T1  - Physics-informed artificial intelligence for underground hydrogen storage: A PRISMA-based systematic review of validation, uncertainty, and decision readiness
+AU  - Aleassa, Omar
+AU  - Fattah, I.M. Rizwanul
+AU  - Bekhit, Mahmoud
+AU  - Silitonga, Arridina Susan
+AU  - Kalam, Md Abul
+AU  - Afzal, Abdul Aziz
+AU  - Reza, M.S.
+AU  - Wang, Junkai
+JO  - Journal of Energy Storage
+VL  - 182
+SP  - 125124
+PY  - 2026
+DA  - 2026/12/30/
+SN  - 2352-152X
+DO  - https://doi.org/10.1016/j.est.2026.125124
+UR  - https://www.sciencedirect.com/science/article/pii/S2352152X26047882
+KW  - Underground hydrogen storage
+KW  - Physics-informed machine learning
+KW  - Uncertainty quantification
+KW  - Surrogate modelling
+KW  - Digital twin
+KW  - Model generalisation
+AB  - Underground hydrogen storage is increasingly positioned as a long-duration flexibility option for renewable-dominated energy systems. Dependable deployment, however, is constrained by coupled uncertainties spanning multiphase flow, pore-scale interfacial physics, reactive transport, and potential microbiological effects. To improve the applicability and generalisability of physics-informed artificial intelligence for underground hydrogen storage, we conducted a PRISMA 2020 systematic literature review of studies published from 2020 to 2026. The Scopus and Google Scholar searches retrieved 1071 records. After deduplication, 872 unique records remained, and 676 full texts were assessed for eligibility. From these, 51 primary studies relevant to PI-AI for UHS were retained for synthesis after an evidence-quality appraisal gate, comprising 49 UHS-explicit studies and 2 methodologically adjacent studies, retained for transferable PI-AI insights. We examined the complexity of applying physics-informed learning across pore-to-field scales and how this complexity contributes to barriers to transferability, reproducibility, and decision readiness. Specifically, we synthesised evidence across five themes: pore-scale interfacial physics; reactive transport, sorption, and biogeochemistry; reservoir-scale surrogate architectures; uncertainty and data assimilation readiness; and multi-objective design and operational optimisation. Each study was also coded by task, model family, uncertainty practice, and validation strength. Only 9 of the 51 included studies (17.6%) reported predictive intervals or distributions consistent with quantified predictive uncertainty (UQ-A), and just one of these reported fully calibrated empirical-coverage checks, identifying uncertainty quantification as the most consequential evidence gap in the reviewed corpus.
+ER  - 
+
+TY  - JOUR
+T1  - Vulnerabilities in autonomous execution: A survey of security threats and defenses in LLM-driven agentic and multi-agent systems
+AU  - Sammartino, Vincenzo
+JO  - Knowledge-Based Systems
+VL  - 352
+SP  - 117001
+PY  - 2026
+DA  - 2026/10/25/
+SN  - 0950-7051
+DO  - https://doi.org/10.1016/j.knosys.2026.117001
+UR  - https://www.sciencedirect.com/science/article/pii/S0950705126017272
+KW  - LLM agents
+KW  - Multi-agent systems
+KW  - Prompt injection
+KW  - AI security
+KW  - Information-flow control
+KW  - systematic literature review
+AB  - Large language models (LLMs) are no longer confined to producing text. Equipped with tools and composed into multi-agent systems, they now act on the world with limited human oversight. This shift from generation to autonomous execution transforms the security landscape. While prompt injection against a chatbot yields, at worst, an embarrassing sentence, the same injection against a tool-using agent can result in an exfiltrated database, a fraudulent transaction, or a poisoned message propagating to peer agents. The vulnerability class is not new, but the blast radius is. This article surveys the security of LLM-driven agentic and multi-agent systems from 2023 through early 2026, following a pre-specified, PRISMA-informed review protocol that we report in full so that the corpus can be reproduced and extended. We contribute a threat taxonomy classifying attacks by entry point, propagation path, and target asset, together with an explicit statement of the conditional dependencies among these three dimensions. Using this, we organise four threat families – indirect prompt injection, malicious tool use, inter-agent infection, and memory poisoning – consolidating 44 attack papers into a unified comparison, annotated with reported attack success rate, paired task utility, and peer-review status. We review the defensive landscape across five categories (detection, structural separation, execution isolation, information-flow control, and alignment-side hardening) and map defenses to threats under an operationally defined coverage criterion, assessing each family for adaptive-attack resistance, deployment cost, and residual risk, to expose coverage gaps. Two findings recur. First, no purely prompt-level defense in the reviewed literature is reported to withstand adaptive attackers; effective security requires constraining what the system around the model is permitted to do, rather than relying on model robustness. Second, multi-agent propagation – the mechanism making agentic compromise qualitatively worse than single-model compromise – is the least defended part of the stack in the corpus we assembled, with almost no deployed frameworks enforcing trust boundaries between cooperating agents. We conclude with a research agenda and a minimal security-reporting standard for agent frameworks.
+ER  - 
+
+TY  - JOUR
+T1  - Digital Twin and user interaction – A systematic review
+AU  - Mahmood, Minhal
+AU  - Roy, Rajkumar
+AU  - Bruecker, Christoph
+AU  - Hide, Paul
+AU  - Xiao, Xiangyu
+JO  - Journal of Computer Languages
+VL  - 89
+SP  - 101423
+PY  - 2026
+DA  - 2026/12/01/
+SN  - 2590-1184
+DO  - https://doi.org/10.1016/j.cola.2026.101423
+UR  - https://www.sciencedirect.com/science/article/pii/S2590118426000390
+KW  - Digital twin
+KW  - Human computer interaction
+KW  - User interaction
+KW  - User exchange
+KW  - Human machine interaction
+KW  - User interface
+AB  - Digital Twins (DTs) have transformed industries by enabling virtual representations of physical systems, yet user interaction with these systems remains a critical and under-examined challenge. This paper reports a systematic review, conducted under PRISMA 2020 guidelines, of 55 peer-reviewed studies published between 2019 and 2024 at the intersection of Digital Twins and user interaction. The corpus spans manufacturing, urban infrastructure, healthcare, energy, agriculture, construction and smart-home applications, and covers conceptual frameworks, technical architectures, prototypes and user-evaluation studies. The synthesis characterises included studies by application domain, DT type in the Kritzinger et al. (2018) model–shadow–twin taxonomy, interaction modality, and reported user-evaluation approach. Across the corpus we find that: (i) only a minority of studies report any form of user involvement in requirements elicitation, participatory design, or post-deployment evaluation; (ii) validated usability instruments (SUS, UEQ, NASA-TLX) are used only sporadically; (iii) immersive AR/VR interaction is the most frequently reported modality but is dominated by technical demonstrations rather than controlled user studies; and (iv) recurring, cross-domain obstacles are data overload, interoperability across heterogeneous data sources, simulation sickness, and the absence of standardised interaction and evaluation frameworks. The review proposes a research roadmap (Section 5.4) that ties each direction to a specific evidence gap: user-centric and participatory design methodologies, standardised interaction and evaluation frameworks, cross-domain research on data visualisation and interoperability, and validated advances in AR/VR to support end-user decision-making. Limitations of the review itself — including its single-primary-reviewer coding, English-language and Scopus-dominant sourcing, and narrative rather than quantitative synthesis — are discussed in Section 5.5.
+ER  - 
+
+TY  - JOUR
+T1  - Automatic simulation models generation in industrial systems: A systematic literature review and outlook towards simulation technology in the Industry 5.0
+AU  - Cimino, Antonio
+AU  - Elbasheer, Mohaiad
+AU  - Longo, Francesco
+AU  - Mirabelli, Giovanni
+AU  - Solina, Vittorio
+AU  - Veltri, Pierpaolo
+JO  - Journal of Manufacturing Systems
+VL  - 80
+SP  - 859
+EP  - 882
+PY  - 2025
+DA  - 2025/06/01/
+SN  - 0278-6125
+DO  - https://doi.org/10.1016/j.jmsy.2025.03.027
+UR  - https://www.sciencedirect.com/science/article/pii/S0278612525000895
+KW  - Simulation
+KW  - Automatic generation
+KW  - Smart manufacturing
+KW  - Digital twin
+KW  - Industry 5.0
+AB  - Simulation models are a crucial enabling technology for decision support in the ongoing industrial digitalization hype. Within Industry 4.0, simulations are extensively utilized, providing insights into industrial behavior and responses. As we progress towards Industry 5.0, simulation models continue to play a pivotal role in achieving sustainable, resilient, and human-oriented industrial systems. However, a persistent challenge within Industry 4.0/5.0 is the substantial dynamism of industrial environments. This dynamic and complex landscape necessitates the development of adaptive solutions capable of swiftly responding to the volatile process requirements of modern industrial systems. To this end, Automatic Simulation Model Generation (ASMG) offers an innovative methodological framework to address this practical challenge in the development of industrial simulation models. Employing the Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA) methodology, this research systematically reviews the current state-of-the-art in ASMG. Complemented by a bibliometric and content analysis of 61 articles spanning more than two decades (from 2000 to 2023), the paper evaluates ASMG’s progression and application in manufacturing through four research questions focusing on ASMG development strategies, objectives, essential data, and developing environments. Ultimately, this article provides valuable insights into ASMG perspective for industrial simulation specialists and offers guidelines for future developments in the era of Industry 5.0.
+ER  - 
+
+TY  - JOUR
+T1  - Entity-aware pathology workflow informatics: Structured evidence mapping and a reference architecture for governed orchestration
+AU  - Li, Ao
+AU  - O'Loughlin, Peter
+AU  - Yue, Lin
+AU  - Zhang, Wei Emma
+AU  - Swart, Bernadette
+AU  - Chen, Weitong
+JO  - Journal of Pathology Informatics
+VL  - 23
+SP  - 100720
+PY  - 2026
+DA  - 2026/11/01/
+SN  - 2153-3539
+DO  - https://doi.org/10.1016/j.jpi.2026.100720
+UR  - https://www.sciencedirect.com/science/article/pii/S2153353926001823
+KW  - Pathology informatics
+KW  - Workflow orchestration
+KW  - Lab information systems
+KW  - Object-centric process mining
+KW  - Digital twin
+KW  - Clinical governance
+AB  - Objective
+To map evidence relevant to representing and governing pathology workflows spanning cases, specimens, blocks, slides, scans, and reports, and to derive a reference architecture.
+Methods
+We performed structured evidence mapping with purposive horizon scanning. Searches of Scopus, PubMed, and IEEE Xplore yielded 74 primary database records; Google Scholar and citation tracking contributed 24 supplementary records. Each record contributed one tuple across data acquisition, control-flow reconfiguration, execution autonomy, and validation environment (D1–D4), an author-developed operational taxonomy. Unretained historical search details are reported as a reproducibility constraint, not reconstructed as original methods.
+Results
+The 98-record evidence base spans 1993–2026. Within the 74-record primary corpus, 47 records had dashboard-level execution; validation was split between real-world deployment (26) and conceptual evidence (25). Under study-defined filters, 8/74 records met all 4 minimum capability conditions, 2/74 also showed closed-loop physical actuation, and 1/74 combined full autonomy with real-world deployment. These study-defined filters derive from the original single-reviewer D1–D4 coding. An independent blinded 50-record verification yielded 81.6% inclusion agreement (κ = 0.627) and 80.0% exact D1–D4 field agreement, but did not constitute full-corpus independent reproduction. Supplementary records informed emerging automation requirements. The mapped gaps informed an architecture comprising semantic perception, entity-aware process state, bounded orchestration, pre-action command governance, governed actuation, and conditional local execution support; a safety-and-constraints sandbox is one candidate realization of the governance function.
+Conclusion
+The architecture is an evidence-derived design target, not a deployed or validated system. Evaluation should test event provenance, case-to-slide relationships, robustness to missing or shifted inputs, command constraints, human override, and staged operational performance before autonomy claims.
+ER  - 

@@ -1,0 +1,23 @@
+% Figura conceptual: RAG vs contexto fornecido diretamente por item
+\begin{tikzpicture}[
+  b/.style={draw, rectangle, rounded corners=2pt, align=center, text width=2.05cm, minimum height=1.25cm, font=\scriptsize, inner sep=3pt},
+  hl/.style={b, fill=black!8},
+  arr/.style={-{Stealth[length=2mm]}},
+  lab/.style={font=\scriptsize\bfseries, anchor=west}]
+% (a) RAG
+\node[lab] at (0,0.95) {(a) Geração aumentada por recuperação (RAG)};
+\node[b] (a1) at (1.2,0) {Pergunta do utilizador};
+\node[hl, right=0.45cm of a1] (a2) {Pesquisa no corpus (semelhança)};
+\node[b, right=0.45cm of a2] (a3) {\emph{Prompt}: instruções + $k$ excertos + pergunta};
+\node[b, right=0.45cm of a3] (a4) {\gls{LLM}};
+\node[b, right=0.45cm of a4] (a5) {Resposta};
+\draw[arr] (a1) -- (a2); \draw[arr] (a2) -- (a3); \draw[arr] (a3) -- (a4); \draw[arr] (a4) -- (a5);
+% (b) contexto por item
+\node[lab] at (0,-1.35) {(b) Contexto fornecido diretamente (caso do QBank)};
+\node[b] (b1) at (1.2,-2.3) {Pergunta do utilizador + ID do item em curso};
+\node[hl, right=0.45cm of b1] (b2) {Leitura do registo do item na base de dados};
+\node[b, right=0.45cm of b2] (b3) {\emph{Prompt}: instruções + regras do modo + dados do item + pergunta};
+\node[b, right=0.45cm of b3] (b4) {\gls{LLM}};
+\node[b, right=0.45cm of b4] (b5) {Resposta na língua do QBank};
+\draw[arr] (b1) -- (b2); \draw[arr] (b2) -- (b3); \draw[arr] (b3) -- (b4); \draw[arr] (b4) -- (b5);
+\end{tikzpicture}

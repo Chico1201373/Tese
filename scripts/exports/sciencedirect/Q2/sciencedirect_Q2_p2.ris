@@ -1,0 +1,772 @@
+TY  - JOUR
+T1  - Integrating advanced technologies for sustainable Smart Campus development: A comprehensive survey of recent studies
+AU  - Haggag, Menatalla
+AU  - Oulefki, Adel
+AU  - Amira, Abbes
+AU  - Kurugollu, Fatih
+AU  - Mushtaha, Emad S.
+AU  - Soudan, Bassel
+AU  - Hamad, Khaled
+AU  - Foufou, Sebti
+JO  - Advanced Engineering Informatics
+VL  - 66
+SP  - 103412
+PY  - 2025
+DA  - 2025/07/01/
+SN  - 1474-0346
+DO  - https://doi.org/10.1016/j.aei.2025.103412
+UR  - https://www.sciencedirect.com/science/article/pii/S1474034625003052
+KW  - Smart Campus
+KW  - Advanced technologies
+KW  - Smart living
+KW  - Mobility
+KW  - Sustainability
+AB  - The integration of advanced technologies in higher education has revolutionized the concept of Smart Campus (SC), making it a dynamic hub of sustainability and technological innovation. Despite their potential, the comprehensive integration of these technologies presents significant challenges, especially in achieving optimal utilization without compromising privacy and security. This survey investigates how various advanced technologies, such as Artificial Intelligence (AI), Internet of Things (IoT), and Digital Twin (DT), contribute to the evolution of SCs. It aims to address the critical gaps in technology implementation and assesses the barriers to effective integration. The methodology employs a structured literature analysis, focusing on recent studies to identify gaps in current research and evaluate the effectiveness of different technologies through both theoretical and practical lenses. Various data analysis techniques, including bibliometric analysis and taxonomy-based assessments, are used to map the scientific landscape and quantify the influence of studies across the field. The findings reveal that the strategic application of these technologies significantly enhances operational efficiencies, actively promotes sustainability practices, and fosters adaptive and responsive educational environments. However, challenges such as integration complexity, privacy concerns, and substantial initial investments remain prominent. Continuous efforts are necessary to overcome these challenges, with future research focusing on creating more resilient and adaptable integration frameworks that align technological advancements with educational needs, supporting the continuous growth and relevance of SCs in a rapidly changing digital era. This review serves as a fundamental reference for stakeholders aiming to understand and leverage the advancements in technology for educational innovations on SCs.
+ER  - 
+
+TY  - JOUR
+T1  - INFORMATICS
+JO  - Laboratory Investigation
+VL  - 104
+IS  - 3, Supplement 
+SP  - 101595
+PY  - 2024
+DA  - 2024/03/01/
+T2  - USCAP 113th Annual Meeting: Bringing Education to Life
+SN  - 0023-6837
+DO  - https://doi.org/10.1016/j.labinv.2024.101595
+UR  - https://www.sciencedirect.com/science/article/pii/S002368372401273X
+ER  - 
+
+TY  - JOUR
+T1  - Challenges of implementing ChatGPT on education: Systematic literature review
+AU  - García-López, Iván Miguel
+AU  - González González, Carina Soledad
+AU  - Ramírez-Montoya, María-Soledad
+AU  - Molina-Espinosa, José-Martín
+JO  - International Journal of Educational Research Open
+VL  - 8
+SP  - 100401
+PY  - 2025
+DA  - 2025/06/01/
+SN  - 2666-3740
+DO  - https://doi.org/10.1016/j.ijedro.2024.100401
+UR  - https://www.sciencedirect.com/science/article/pii/S2666374024000839
+KW  - Higher education
+KW  - Educational innovation
+KW  - Chatgpt
+KW  - Generative artificial intelligence
+KW  - Education 4.0
+AB  - Since its launch in 2022, ChatGPT has sparked considerable interest in higher education, raising debates about its benefits, challenges, and ethical implications. This systematic literature review, spanning January 2019 to January 2024, analyzes 42 articles from Web of Science and Scopus to identify key opportunities and challenges in its academic integration. Four core issues emerge: (a) technological integration and obsolescence, emphasizing the need for scalable, modular infrastructures; (b) personalization and equity, focusing on the balance between individualized learning and avoiding algorithmic bias; (c) data quality and security, highlighting the importance of transparent data management and robust encryption to protect sensitive information; and (d) ethics and human-AI collaboration, stressing the importance of institutional policies and continuous teacher intervention to ensure responsible and effective use. This study advances the discourse by recommending sustainable strategies for AI adoption, including professional development and fairness audits, while underscoring the critical role of human oversight in maximizing ChatGPT's educational impact. Ultimately, it offers actionable insights for institutions to align AI use with ethical principles and long-term educational goals.
+ER  - 
+
+TY  - JOUR
+T1  - 2025 Poster Abstracts Part 1
+JO  - Research and Practice in Thrombosis and Haemostasis
+VL  - 9
+SP  - 102923
+PY  - 2025
+DA  - 2025/06/01/
+T2  - Abstracts from the 2025 Congress of the International Society of Thrombosis and Haemostasis, June 21-25 2025.
+SN  - 2475-0379
+DO  - https://doi.org/10.1016/j.rpth.2025.102923
+UR  - https://www.sciencedirect.com/science/article/pii/S247503792500247X
+ER  - 
+
+TY  - JOUR
+T1  - The European Society for Vascular Surgery 39th Annual Meeting 2025 Selected Abstracts
+JO  - European Journal of Vascular and Endovascular Surgery
+VL  - 70
+IS  - 5
+SP  - e68
+EP  - e297
+PY  - 2025
+DA  - 2025/11/01/
+SN  - 1078-5884
+DO  - https://doi.org/10.1016/j.ejvs.2025.09.037
+UR  - https://www.sciencedirect.com/science/article/pii/S1078588425009244
+ER  - 
+
+TY  - JOUR
+T1  - Technology-Assisted Motivational Interviewing: Developing a Scalable Framework for Promoting Engagement with Tobacco Cessation Using NLP and Machine Learning
+AU  - Saiyed, Ahson
+AU  - Layton, John
+AU  - Borsari, Brian
+AU  - Cheng, Jing
+AU  - Kanzaveli, Tatyana
+AU  - Tsvetovat, Maksim
+AU  - Satterfield, Jason
+JO  - Procedia Computer Science
+VL  - 206
+SP  - 121
+EP  - 131
+PY  - 2022
+DA  - 2022/01/01/
+T2  - International Society for Research on Internet Interventions 11th Scientific Meeting
+SN  - 1877-0509
+DO  - https://doi.org/10.1016/j.procs.2022.09.091
+UR  - https://www.sciencedirect.com/science/article/pii/S1877050922009644
+KW  - smoking cessation
+KW  - motivational interviewing
+KW  - digital health
+KW  - chatbot
+KW  - machine learning models
+AB  - Motivational interviewing (MI) improves readiness for smoking cessation but can be time-intensive, require substantial expertise, and patients must still be linked with evidence-based cessation programs sensitive to local resources and patient preferences. Technology-assisted MI may provide a more efficient way to promote readiness and facilitate behavior change. This study developed the Technology Assisted Motivational Interviewing Coach (TAMI), a digital conversational agent that incorporates machine learning models to deliver MI for tobacco cessation and create tailored quit plans. This manuscript describes and evaluates the architecture and nested machine learning models within TAMI leveraged during the pilot clinical trial.
+ER  - 
+
+TY  - JOUR
+T1  - Machine Learning for the Analysis of Healthy Lifestyle Data: Scoping Review and Guidelines
+AU  - Estrella, Tony
+AU  - Capdevila, Lluis
+AU  - Alfonso, Carla
+AU  - Losilla, Josep-Maria
+JO  - JMIR Human Factors
+VL  - 13
+PY  - 2026
+DA  - 2026/01/01/
+SN  - 2292-9495
+DO  - https://doi.org/10.2196/78648
+UR  - https://www.sciencedirect.com/science/article/pii/S2292949526000519
+KW  - machine learning
+KW  - artificial intelligence
+KW  - healthy lifestyle
+KW  - physical activity
+KW  - diet
+KW  - sleep
+KW  - stress
+KW  - review
+KW  - data analysis
+KW  - XAI
+KW  - explainable artificial intelligence
+AB  - Background
+Advances in data science and technology have transformed lifestyle research by enabling the integration of multimodal information and the generation of large-scale datasets. Despite the growing interest in machine learning (ML) within health behavior research, significant methodological gaps remain.
+Objective
+The study aims to systematically review the applications of supervised ML algorithms in the analysis of healthy lifestyle data, with a particular focus on the methodological approaches used. The specific objectives are to explore the types and sources of data used for health outcomes, examine the ML processes used, including explainable artificial intelligence (XAI) methods, and review the software tools used. Additionally, this review aims to provide practical guidelines to enhance the quality and transparency of future ML research in health.
+Methods
+Following the PRISMA-ScR (Preferred Reporting Items for Systematic Reviews and Meta-Analyses extension for Scoping Reviews) recommendations, the search was conducted across PubMed, PsycINFO, and Web of Science, yielding 65 studies that met the inclusion criteria.
+Results
+Most studies (48/65, 74%) integrated multidomain data from physical activity, diet, sleep, and stress. Data sources were split between self-acquired data (33/65, 51%) and health repositories (32/65, 49%). Single-item measurements were common, particularly for physical activity, diet, and sleep. Although 40 of 65 studies used a multimodel approach, random forest was the most frequently applied algorithm. To improve explainability, 22 of 65 (33.84%) studies incorporated specific XAI methods, with 21 using Shapley Additive Explanation values and 1 using local interpretable model-agnostic explanations. R (R Core Team) and Python (Python Software Foundation) were the most widely used software tools, with variation in the libraries used.
+Conclusions
+This review highlights methodological gaps in the application of supervised ML to healthy lifestyle data. The ML workflow should span from data acquisition to explainability, using iterative steps to improve methodological rigor. Although multidomain data collection enhances the understanding of health issues related to lifestyle, representativeness remains limited due to methodological shortcomings in data acquisition. While random forest was the most commonly used algorithm, a multimodel approach is recommended for a comprehensive comparison. Lifestyle components consistently ranked among the top features in studies integrating XAI. Incorporating XAI methods into the ML pipeline can support personalized interventions, provided data collection is accurate. The R metapackage (tidymodels; Max Kuhn and Hadley Wickham) facilitates process evaluation through unified syntax, improving replicability. Methodological and reporting guidelines and a checklist are provided to enhance transparency and replicability in multidisciplinary ML research.
+International Registered Report Identifier (IRRID)
+RR2-10.37766/inplasy2023.3.0065
+ER  - 
+
+TY  - JOUR
+T1  - Machine Learning Methods to Personalize Persuasive Strategies in mHealth Interventions That Promote Physical Activity: Scoping Review and Categorization Overview
+AU  - Brons, Annette
+AU  - Wang, Shihan
+AU  - Visser, Bart
+AU  - Kröse, Ben
+AU  - Bakkes, Sander
+AU  - Veltkamp, Remco
+JO  - Journal of Medical Internet Research
+VL  - 26
+PY  - 2024
+DA  - 2024/01/01/
+SN  - 1438-8871
+DO  - https://doi.org/10.2196/47774
+UR  - https://www.sciencedirect.com/science/article/pii/S1438887124007969
+KW  - artificial intelligence
+KW  - exercise
+KW  - mobile app
+KW  - adaptive
+KW  - tailoring
+KW  - supervised learning
+KW  - reinforcement learning
+KW  - recommender system
+AB  - Background
+Although physical activity (PA) has positive effects on health and well-being, physical inactivity is a worldwide problem. Mobile health interventions have been shown to be effective in promoting PA. Personalizing persuasive strategies improves intervention success and can be conducted using machine learning (ML). For PA, several studies have addressed personalized persuasive strategies without ML, whereas others have included personalization using ML without focusing on persuasive strategies. An overview of studies discussing ML to personalize persuasive strategies in PA-promoting interventions and corresponding categorizations could be helpful for such interventions to be designed in the future but is still missing.
+Objective
+First, we aimed to provide an overview of implemented ML techniques to personalize persuasive strategies in mobile health interventions promoting PA. Moreover, we aimed to present a categorization overview as a starting point for applying ML techniques in this field.
+Methods
+A scoping review was conducted based on the framework by Arksey and O’Malley and the PRISMA-ScR (Preferred Reporting Items for Systematic Reviews and Meta-Analyses extension for Scoping Reviews) criteria. Scopus, Web of Science, and PubMed were searched for studies that included ML to personalize persuasive strategies in interventions promoting PA. Papers were screened using the ASReview software. From the included papers, categorized by the research project they belonged to, we extracted data regarding general study information, target group, PA intervention, implemented technology, and study details. On the basis of the analysis of these data, a categorization overview was given.
+Results
+In total, 40 papers belonging to 27 different projects were included. These papers could be categorized in 4 groups based on their dimension of personalization. Then, for each dimension, 1 or 2 persuasive strategy categories were found together with a type of ML. The overview resulted in a categorization consisting of 3 levels: dimension of personalization, persuasive strategy, and type of ML. When personalizing the timing of the messages, most projects implemented reinforcement learning to personalize the timing of reminders and supervised learning (SL) to personalize the timing of feedback, monitoring, and goal-setting messages. Regarding the content of the messages, most projects implemented SL to personalize PA suggestions and feedback or educational messages. For personalizing PA suggestions, SL can be implemented either alone or combined with a recommender system. Finally, reinforcement learning was mostly used to personalize the type of feedback messages.
+Conclusions
+The overview of all implemented persuasive strategies and their corresponding ML methods is insightful for this interdisciplinary field. Moreover, it led to a categorization overview that provides insights into the design and development of personalized persuasive strategies to promote PA. In future papers, the categorization overview might be expanded with additional layers to specify ML methods or additional dimensions of personalization and persuasive strategies.
+ER  - 
+
+TY  - JOUR
+T1  - Unleashing human potential: An artificial intelligence competency framework for K–12 education
+AU  - Kong, Siu Cheung
+AU  - Hu, Wenxi
+JO  - Computers and Education: Artificial Intelligence
+VL  - 10
+SP  - 100556
+PY  - 2026
+DA  - 2026/06/01/
+SN  - 2666-920X
+DO  - https://doi.org/10.1016/j.caeai.2026.100556
+UR  - https://www.sciencedirect.com/science/article/pii/S2666920X26000172
+KW  - AI competency
+KW  - Ethical awareness
+KW  - Human values
+KW  - K–12 education
+KW  - Scoping review
+AB  - This study explores strategic approaches for integrating artificial intelligence (AI) into K–12 education to prepare learners for the AI era. It addresses two critical questions: 1) What are the key components of AI competency frameworks identified in current research? 2) What framework can guide the effective, responsible integration of AI in K–12 while prioritising human values? We conducted a scoping review of 54 studies, identifying three core student competencies: foundational AI knowledge, practical and cognitive skills of using AI, and ethical awareness. However, existing frameworks place limited emphasis on developing human values. Consequently, we propose a three-component developmental framework—Understanding, Using, and Unleashing—to guide AI integration. The ‘Understanding’ component cultivates a conceptual understanding of AI, while ‘Using’ emphasizes practical and cognitive skills of using AI to enhance learning. Finally, ‘Unleashing’ highlights AI's potential to empower personal growth, and fostering a spiritual self capable of making value-based decisions and do good. This framework aims to prepare learners to contribute meaningfully to future society. Schools must teach students to use AI for empowerment and good, avoiding mere reliance or shortcuts. Through practical activities, education should guide learners to unleash their potential and harness technology for spiritual self-development.
+ER  - 
+
+TY  - JOUR
+T1  - Full Issue PDF
+JO  - JACC: Advances
+VL  - 3
+IS  - 9, Part 2
+SP  - 101309
+PY  - 2024
+DA  - 2024/09/01/
+T2  - AI in Cardiology: Improving Outcomes for All Focus Issue
+SN  - 2772-963X
+DO  - https://doi.org/10.1016/j.jacadv.2024.101309
+UR  - https://www.sciencedirect.com/science/article/pii/S2772963X24005878
+ER  - 
+
+TY  - JOUR
+T1  - Research Insights on the Ethical Aspects of AI-Based Smart Learning Environments: Review on the Confluence of Academic Enterprises and AI
+AU  - Pulari, Sini Raj
+AU  - Jacob, Shomona Gracia
+JO  - Procedia Computer Science
+VL  - 256
+SP  - 284
+EP  - 291
+PY  - 2025
+DA  - 2025/01/01/
+T2  - CENTERIS - International Conference on ENTERprise Information Systems / ProjMAN - International Conference on Project MANagement / HCist - International Conference on Health and Social Care Information Systems and Technologies
+SN  - 1877-0509
+DO  - https://doi.org/10.1016/j.procs.2025.02.122
+UR  - https://www.sciencedirect.com/science/article/pii/S187705092500479X
+KW  - Ethical AI
+KW  - Smart Learning Environments
+KW  - Intelligent tutoring systems
+KW  - Automated Grading systems
+AB  - Dramatic progress in the use of AI for the design of smart learning systems has undoubtedly enhanced the professional competence of students across the globe. However, the sudden access to unlimited autonomy has posed unprecedented risks to moral and ethical practices in educational standards that far outweigh the rewards. In this research, the authors attempt to present a succinct review on the ethical implications of employing artificial intelligence in classroom education both from the educator and the student’s perspective. Summarizing the loopholes in establishing strong ethical practices by virtue of AI leverage, especially in the realm of education is of utmost importance. The findings of this study revealed two main spheres of educational transformation that need to be addressed in smart academic enterprises: (a) automated review generation based on student and evaluator scores (b)infallible system to ensure adherence to ethical practices during assessments.
+ER  - 
+
+TY  - JOUR
+T1  - Full Issue PDF
+JO  - JACC: Advances
+VL  - 2
+IS  - 7
+SP  - 100639
+PY  - 2023
+DA  - 2023/09/01/
+SN  - 2772-963X
+DO  - https://doi.org/10.1016/S2772-963X(23)00615-4
+UR  - https://www.sciencedirect.com/science/article/pii/S2772963X23006154
+ER  - 
+
+TY  - JOUR
+T1  - Full Issue PDF
+JO  - JACC
+VL  - 87
+IS  - 18
+SP  - e913
+EP  - e1133
+PY  - 2026
+DA  - 2026/05/12/
+T2  - Focus Issue: Hypertension
+SN  - 0735-1097
+DO  - https://doi.org/10.1016/S0735-1097(26)06239-X
+UR  - https://www.sciencedirect.com/science/article/pii/S073510972606239X
+ER  - 
+
+TY  - JOUR
+T1  - Systematic review on the current state of computer-supported argumentation learning systems
+AU  - Sinikallio, Laura
+AU  - Aunimo, Lili
+AU  - Männistö, Tomi
+JO  - Information and Software Technology
+VL  - 178
+SP  - 107598
+PY  - 2025
+DA  - 2025/02/01/
+SN  - 0950-5849
+DO  - https://doi.org/10.1016/j.infsof.2024.107598
+UR  - https://www.sciencedirect.com/science/article/pii/S0950584924002039
+KW  - Computer-supported argumentation
+KW  - Argumentation learning
+KW  - Online learning
+KW  - Intelligent tutoring systems
+AB  - Context:
+Argumentation is a fundamental part of learning, communication and problem-solving not only in software engineering but all education. Teaching argumentation is a long-standing practice, and with the advance of digital learning, it, too, has been transitioning to an online format.
+Objective:
+As computer-supported argumentation learning progresses, other learning domains have much to learn from it on how to enable argumentation and reasoning in automated and scalable online learning solutions.
+Methods:
+To review the current state of the field, we conducted a systematic literature review on the last decade of academic research and design on computer-supported argumentation learning systems. We reviewed and summarised the central aspects and approaches of reported systems.
+Results:
+We reviewed 34 different argumentation learning tools. The review showed that approaches to computer-supported argumentation vary significantly in many aspects, e.g., argumentation theory, learning task types and collaboration status. However, the use of argumentation graphs is quite common. Most modern tools seem to embrace the role of feedback in learning.
+Conclusions:
+The role of individual learning has risen in computer-supported argumentation learning. This is in opposition to previous predictions and statements on the role of collaborative learning of argumentation. Automated feedback has, on the other hand, become commonplace in collaborative and individual-use argumentation learning tools. The modern generation of argumentation teaching tools is Web-based but recently we have also seen the emergence of mobile-based solutions.
+ER  - 
+
+TY  - JOUR
+T1  - PDF of Full Issue
+JO  - Annals of Emergency Medicine
+VL  - 86
+IS  - 3, Supplement 1
+SP  - e1
+EP  - e277
+PY  - 2025
+DA  - 2025/09/01/
+T2  - ACEP Research Forum 2025
+SN  - 0196-0644
+DO  - https://doi.org/10.1016/S0196-0644(25)01074-1
+UR  - https://www.sciencedirect.com/science/article/pii/S0196064425010741
+ER  - 
+
+TY  - JOUR
+T1  - A Review of Next-Generation Smart Manufacturing Enabled by Engineering Systems, Materials Modeling, and High-Performance Computing: A System-Oriented Perspective for Semiconductor Manufacturing
+AU  - Han, Hsiao-Chun
+AU  - Huang, Der-Chen
+AU  - Chen, Chin-Ling
+JO  - Computers, Materials and Continua
+VL  - 89
+IS  - 1
+PY  - 2026
+DA  - 2026/01/01/
+SN  - 1546-2218
+DO  - https://doi.org/10.32604/cmc.2026.084216
+UR  - https://www.sciencedirect.com/science/article/pii/S1546221826007617
+KW  - Engineering system analysis
+KW  - material modeling
+KW  - high performance computation
+KW  - digital twin
+KW  - smart manufacturing
+KW  - semiconductor
+KW  - TSMC
+KW  - automatic control systems
+KW  - robotic manipulators
+KW  - automated guided vehicles
+AB  - Semiconductors represent the most complex production activities and stand at the forefront of smart manufacturing. In particular, the yield of advanced processes is strongly influenced by coupling among engineering systems, material behavior, and computational infrastructure. Consequently, the integration of deep learning (DL) and digital twins has become essential for driving the next-generation transformation of smart manufacturing. However, existing reviews predominantly organize literature through algorithm-oriented taxonomies, while isolated AI paradigms alone remain insufficient to effectively capture system-level interactions and industry-driven technological evolution. Therefore, this study proposes a system-oriented and industry-driven review framework, termed the System-under-Industry Guided Literature Review (SIGLR), to reorganize existing literature. Specifically, 103 survey papers and the 13,377 studies they reference are systematically analyzed. In addition, a triadic ESA–MM–HPC framework is introduced as a system-oriented conceptual representation for analyzing next-generation semiconductor smart manufacturing systems, capturing the coupling among engineering system analysis (ESA), material modeling (MM), and high-performance computing (HPC) in complex manufacturing environments. Furthermore, a conceptual modeling perspective is proposed for predictive digital twin (DT) analysis. Overall, this study uses the semiconductor industry as a representative domain to extend existing smart manufacturing research from algorithm-centered approaches toward more system- and structure-oriented perspectives. The perspectives provide a unified, scalable foundation for AI-driven industrial systems research, advancing manufacturing technologies and discussing challenges associated with globally distributed semiconductor manufacturing and industrial reshoring.
+ER  - 
+
+TY  - JOUR
+T1  - DLA Piper EU update
+JO  - Computer Law & Security Review
+VL  - 52
+SP  - 105859
+PY  - 2024
+DA  - 2024/04/01/
+SN  - 2212-473X
+DO  - https://doi.org/10.1016/j.clsr.2023.105859
+UR  - https://www.sciencedirect.com/science/article/pii/S0267364923000699
+ER  - 
+
+TY  - JOUR
+T1  - PDF of the Full Issue
+JO  - Annals of Emergency Medicine
+VL  - 84
+IS  - 4, Supplement 1
+SP  - e1
+EP  - e251
+PY  - 2024
+DA  - 2024/10/01/
+T2  - ACEP Research Forum 2024
+SN  - 0196-0644
+DO  - https://doi.org/10.1016/S0196-0644(24)01011-4
+UR  - https://www.sciencedirect.com/science/article/pii/S0196064424010114
+ER  - 
+
+TY  - JOUR
+T1  - “Real impact”: Challenges and opportunities in bridging the gap between research and practice – Making a difference in industry, policy, and society
+AU  - Dwivedi, Yogesh K.
+AU  - Jeyaraj, Anand
+AU  - Hughes, Laurie
+AU  - Davies, Gareth H.
+AU  - Ahuja, Manju
+AU  - Albashrawi, Mousa Ahmed
+AU  - Al-Busaidi, Adil S.
+AU  - Al-Sharhan, Salah
+AU  - Al-Sulaiti, Khalid Ibrahim
+AU  - Altinay, Levent
+AU  - Amalaya, Shem
+AU  - Archak, Sunil
+AU  - Ballestar, María Teresa
+AU  - Bhagwat, Shonil A.
+AU  - Bharadwaj, Anandhi
+AU  - Bhushan, Amit
+AU  - Bose, Indranil
+AU  - Budhwar, Pawan
+AU  - Bunker, Deborah
+AU  - Capatina, Alexandru
+AU  - Carter, Lemuria
+AU  - Constantiou, Ioanna
+AU  - Coombs, Crispin
+AU  - Crick, Tom
+AU  - Csáki, Csaba
+AU  - Darnige, Yves
+AU  - Dé, Rahul
+AU  - Delbridge, Rick
+AU  - Dubey, Rameshwar
+AU  - Gauld, Robin
+AU  - Gutti, Ravi Kumar
+AU  - Hattingh, Marié
+AU  - Haug, Arve
+AU  - Hendricks, Leeya
+AU  - Hino, Airo
+AU  - Hsu, Cathy H.C.
+AU  - Iivari, Netta
+AU  - Janssen, Marijn
+AU  - Jebabli, Ikram
+AU  - Jones, Paul
+AU  - Junglas, Iris
+AU  - Kaushik, Abhishek
+AU  - Khazanchi, Deepak
+AU  - Kodama, Mitsuru
+AU  - Kraus, Sascha
+AU  - Kumar, Vikram
+AU  - Maier, Christian
+AU  - Malik, Tegwen
+AU  - Matthee, Machdel
+AU  - McCarthy, Ian P.
+AU  - Meier, Marco
+AU  - Metri, Bhimaraya
+AU  - Micu, Adrian
+AU  - Micu, Angela-Eliza
+AU  - Misra, Santosh K.
+AU  - Mishra, Anubhav
+AU  - Molin-Juustila, Tonja
+AU  - Oppermann, Leif
+AU  - O’Regan, Nicholas
+AU  - Pal, Abhipsa
+AU  - Pandey, Neeraj
+AU  - Pappas, Ilias O.
+AU  - Parker, Andrew
+AU  - Pathak, Kavita
+AU  - Pienta, Daniel
+AU  - Polyviou, Ariana
+AU  - Raman, Ramakrishnan
+AU  - Ribeiro-Navarrete, Samuel
+AU  - Ritala, Paavo
+AU  - Rosemann, Michael
+AU  - Sarker, Suprateek
+AU  - Saxena, Pallavi
+AU  - Schlagwein, Daniel
+AU  - Schultze, Hergen
+AU  - Sharma, Chitra
+AU  - Sharma, Sujeet Kumar
+AU  - Simintiras, Antonis
+AU  - Singh, Vinay Kumar
+AU  - Smuts, Hanlie
+AU  - Soldatos, John
+AU  - Tiwari, Manoj Kumar
+AU  - Thatcher, Jason Bennett
+AU  - Vanberghen, Cristina
+AU  - Varga, Ákos
+AU  - Vassilakopoulou, Polyxeni
+AU  - Venkatesh, Viswanath
+AU  - Viglia, Giampaolo
+AU  - Vorley, Tim
+AU  - Wade, Michael
+AU  - Walton, Paul
+JO  - International Journal of Information Management
+VL  - 78
+SP  - 102750
+PY  - 2024
+DA  - 2024/10/01/
+SN  - 0268-4012
+DO  - https://doi.org/10.1016/j.ijinfomgt.2023.102750
+UR  - https://www.sciencedirect.com/science/article/pii/S0268401223001317
+KW  - Academic impact
+KW  - Implications for practice
+KW  - Relevance
+KW  - Research benefits
+KW  - Research contribution
+KW  - Research impact
+AB  - Achieving impact from academic research is a challenging, complex, multifaceted, and interconnected topic with a number of competing priorities and key performance indicators driving the extent and reach of meaningful and measurable benefits from research. Academic researchers are incentivised to publish their research in high-ranking journals and academic conferences but also to demonstrate the impact of their outputs through metrics such as citation counts, altmetrics, policy and practice impacts, and demonstrable institutional decision-making influence. However, academic research has been criticized for: its theoretical emphasis, high degree of complexity, jargon-heavy language, disconnect from industry and societal needs, overly complex and lengthy publishing timeframe, and misalignment between academic and industry objectives. Initiatives such as collaborative research projects and technology transfer offices have attempted to deliver meaningful impact, but significant barriers remain in the identification and evaluation of tangible impact from academic research. This editorial focusses on these aspects to deliver a multi-expert perspective on impact by developing an agenda to deliver more meaningful and demonstrable change to how “impact” can be conceptualized and measured to better align with the aims of academia, industry, and wider society. We present the 4D model - Design, Deliver, Disseminate, and Demonstrate - to provide a structured approach for academia to better align research endeavors with practice and deliver meaningful, tangible benefits to stakeholders.
+ER  - 
+
+TY  - JOUR
+T1  - Deciphering technological advancements for efficient disaster management and community resilience
+AU  - Kordi, Mehrdad
+AU  - Ertz, Myriam
+JO  - Technology in Society
+VL  - 84
+SP  - 103057
+PY  - 2026
+DA  - 2026/03/01/
+SN  - 0160-791X
+DO  - https://doi.org/10.1016/j.techsoc.2025.103057
+UR  - https://www.sciencedirect.com/science/article/pii/S0160791X25002477
+KW  - Disaster management
+KW  - Resilience
+KW  - Internet of things
+KW  - Big data
+KW  - Artificial intelligence
+KW  - Sustainable development goals
+AB  - Disaster management is typically conducted to prevent and respond to disasters. Technological innovations certainly contribute to both, but it remains unclear how. With the rapid technological advancements over the past decade, a comprehensive understanding of the latest technological advancements and their integrated applications in detecting and mitigating the destructive impacts of disasters has emerged as a critical concern for more effective disaster management. This systematic literature review focuses on three primary phases: pre-disaster, during the disaster, and post-disaster. It examines advanced monitoring technologies and sophisticated data analyses to facilitate immediate interventions. The comprehensive disaster management framework proposed in this study evaluates various regions based on their historical disaster occurrences and assigns a specific risk index to each region, thereby enabling the assessment of the preparedness of disaster response systems according to each region's potential. Furthermore, Big Data obtained through surveillance systems and the Internet of Things (IoT) communication sensors are processed using artificial intelligence (AI) and machine learning (ML) algorithms, enhancing computational awareness and sensitivity to changes in detection and notification patterns. By accurately delineating the input and output pathways, this framework aims to optimize supply chain management during emergencies, thereby contributing to achieving the United Nations (UN) Sustainable Development Goals (SDGs) by 2030. Through a systematic review of 135 journal articles, this study highlights the latest technological advancements for expedited disaster detection and response and proposes a structured framework to optimize disaster management and enhance societal resilience.
+ER  - 
+
+TY  - JOUR
+T1  - Getting there is half the journey: An exploration of high schoolers' individual differences and navigation strategies during internet-based digital reading
+AU  - Norberg, Kole A.
+AU  - Han, Hyeju
+AU  - Cho, Byeong-Young
+AU  - Fraundorf, Scott H.
+JO  - Learning and Individual Differences
+VL  - 120
+SP  - 102676
+PY  - 2025
+DA  - 2025/05/01/
+SN  - 1041-6080
+DO  - https://doi.org/10.1016/j.lindif.2025.102676
+UR  - https://www.sciencedirect.com/science/article/pii/S1041608025000524
+KW  - Digital literacy
+KW  - Reading
+KW  - Metacognition
+KW  - Internet navigation
+AB  - We examined how individual differences in epistemic beliefs, metacognition, and academic aptitude predicted successful navigation behaviors during internet-based digital reading. To do this, we first quantified internet navigation behaviors of 257 adolescents and used a random forest to identify which behaviors best explained variance in learning of an ill-structured topic. We found that search term generation, even controlling for sites accessed, was the dominant predictor of learning (i.e., knowledge gain and critical questioning). We argue these navigation behaviors reflect cognitive flexibility and task-centered navigation. Mediation analysis revealed that metacognitive awareness was a driving predictor behind students' successful implementation of these behaviors. Further, cognitive flexibility in navigation was particularly useful for students with less academic proficiency. We conclude that the metacognitive processes that lead adolescent readers to a website may be critical for success in unconstrained, internet-based environments.
+Educational relevance statement
+Digital reading is crucial for 21st century students to acquire, but it is unclear what specific skills or behaviors are most important to teach. In an analysis of high school students' digital reading, we found that the navigation behavior that best predicted learning and comprehension–even more than finding topic-specific sites–was creating topic-specific search queries that go beyond broad relevance to include a tight alignment to the topic. Students' engagement in this type of querying activity was predicted by individual differences in metacognition, suggesting that monitoring comprehension of the topic plays a role in the behavior. Individual differences in students' beliefs in the importance of digital literacy as a skill also predicted learning gains. These results suggest that educators may be able to improve digital reading by encouraging students to reflect on their search queries, specifically advising students to consider the scope of the context for learning and how the information they are looking up serves the purpose of the task. Finally, educators may be able to improve student performance in this domain by focusing not just on what is important for digital literacy, but also on why it is important and needs to be honed as its own skill.
+ER  - 
+
+TY  - JOUR
+T1  - Transforming education with AI: A systematic review of ChatGPT's role in learning, academic practices, and institutional adoption
+AU  - Salih, Sayeed
+AU  - Husain, Omayma
+AU  - Hamdan, Mosab
+AU  - Abdelsalam, Samah
+AU  - Elshafie, Hashim
+AU  - Motwakel, Abdelwahed
+JO  - Results in Engineering
+VL  - 25
+SP  - 103837
+PY  - 2025
+DA  - 2025/03/01/
+SN  - 2590-1230
+DO  - https://doi.org/10.1016/j.rineng.2024.103837
+UR  - https://www.sciencedirect.com/science/article/pii/S2590123024020802
+KW  - ChatGPT
+KW  - Generative AI
+KW  - Ai-supported education
+KW  - Academic writing
+KW  - Teaching preparation
+KW  - Institutional policies
+KW  - Prompt engineering
+KW  - Traditional teaching methods
+AB  - The integration of AI tools like ChatGPT into education has generated significant interest due to their potential to transform learning environments by providing personalized learning, automating tasks, and improving student engagement. However, gaps remain in the literature, particularly in comparing AI-supported education methods with traditional approaches and understanding ChatGPT's specific role in academic writing, literature reviews, and teacher development. This study addresses these gaps through a systematic literature review (SLR), evaluating the effectiveness of AI tools versus traditional teaching approaches. It focuses on ChatGPT's application in areas such as academic writing, lesson planning, student assessment, and the professional development of educators. Additionally, the study explores institutional strategies for balancing the benefits of AI with the need to maintain academic integrity and educational quality. The methodology involved a systematic search across academic databases with a structured analysis of key studies in AI-supported education. The main contributions include identifying the comparative advantages and limitations of AI in enhancing student learning, offering best practices for incorporating AI tools into teaching, and examining prompt engineering as a crucial factor in optimizing AI usage. The study reveals that ChatGPT and other AI tools significantly enhance educational efficiency and engagement, but they require careful management to prevent over-reliance. The study advocates for a balanced approach, integrating both AI and traditional methods to achieve optimal educational outcomes while maintaining academic integrity.
+ER  - 
+
+TY  - JOUR
+T1  - AAE24 Abstracts of Research
+JO  - Journal of Endodontics
+VL  - 50
+IS  - 5
+SP  - e1
+EP  - e45
+PY  - 2024
+DA  - 2024/05/01/
+SN  - 0099-2399
+DO  - https://doi.org/10.1016/S0099-2399(24)00237-1
+UR  - https://www.sciencedirect.com/science/article/pii/S0099239924002371
+ER  - 
+
+TY  - JOUR
+T1  - Integrating AI-based and conventional cybersecurity measures into online higher education settings: Challenges, opportunities, and prospects
+AU  - Parambil, Medha Mohan Ambali
+AU  - Rustamov, Jaloliddin
+AU  - Ahmed, Soha Galalaldin
+AU  - Rustamov, Zahiriddin
+AU  - Awad, Ali Ismail
+AU  - Zaki, Nazar
+AU  - Alnajjar, Fady
+JO  - Computers and Education: Artificial Intelligence
+VL  - 7
+SP  - 100327
+PY  - 2024
+DA  - 2024/12/01/
+SN  - 2666-920X
+DO  - https://doi.org/10.1016/j.caeai.2024.100327
+UR  - https://www.sciencedirect.com/science/article/pii/S2666920X24001309
+KW  - Higher education
+KW  - Online education systems
+KW  - E-learning systems
+KW  - Cybersecurity
+KW  - Artificial intelligence
+KW  - Ethics and privacy
+AB  - The rapid adoption of online learning in higher education has resulted in significant cybersecurity challenges. As educational institutions increasingly rely on digital platforms, they are facing cyber threats that can compromise sensitive data and disrupt operations. This systematic literature review explores the integration of artificial intelligence (AI) into traditional methods to address cybersecurity risks in online higher education. The review integrates a qualitative synthesis of relevant literature and a quantitative meta-analysis using PRISMA guidelines, ensuring comprehensive insights into the integration process. The most prevalent cybersecurity threats are examined, and the effectiveness of AI-based and conventional approaches in mitigating these challenges is compared. Additionally, the most effective AI techniques in cybersecurity solutions are analyzed, and their performance is compared across different contexts. Furthermore, the review considers the key ethical and technical considerations associated with integrating AI into traditional cybersecurity methods. The findings reveal that while AI-based techniques offer promising solutions for threat detection, authentication, and privacy preservation, their successful implementation requires careful consideration of data privacy, fairness, transparency, and robustness. The importance of interdisciplinary collaboration, continuous monitoring of AI models—by automated systems and humans—and the need for comprehensive guidelines to ensure responsible and ethical use of AI in cybersecurity are highlighted. The findings of this review provide actionable insights for educational institutions, educators, and students, helping to facilitate the development of secure and resilient online learning environments. The identified ethical and technical considerations can serve as a foundation for the responsible integration of AI into cybersecurity within the online higher-education sector.
+ER  - 
+
+TY  - JOUR
+T1  - Open innovation in AI marketing: A communication architecture for participatory co-creation
+AU  - Pum, Wachiranun
+AU  - Sukma, Narongsak
+AU  - Leelasantitham, Adisorn
+JO  - Journal of Open Innovation: Technology, Market, and Complexity
+VL  - 12
+IS  - 3
+SP  - 100861
+PY  - 2026
+DA  - 2026/09/01/
+SN  - 2199-8531
+DO  - https://doi.org/10.1016/j.joitmc.2026.100861
+UR  - https://www.sciencedirect.com/science/article/pii/S2199853126001472
+KW  - Open innovation
+KW  - AI-driven marketing
+KW  - Participatory communication
+KW  - Co-creation
+KW  - Communicative capital
+KW  - Dialogic marketing
+KW  - Transmission-dialogue paradox
+KW  - FAIR governance
+AB  - The accelerating deployment of artificial intelligence in marketing has deepened a structural paradox: organizations that have gained unprecedented technical capacity to reach and convert audiences remain largely incapable of enabling genuine communicative participation. Bibliometric mapping of 467 peer-reviewed publications (2015–2026) confirms that communication-specific outcome constructs: dialogue quality (5.9%), message co-authorship (3.9%), and audience agency (3.2%) are structurally absent from a field dominated by efficiency and reach metrics. This paper proposes the Communication-Centered Dynamic Participatory Co-creation (CC-DPC) framework as an open innovation architecture that addresses this paradox by theorizing how AI-driven marketing systems can generate communicative participation, not merely transmission throughput. The framework integrates service-dominant logic, dynamic capabilities theory, stakeholder theory, and dialogic communication science into four sequential layers: strategic communication alignment, AI-mediated infrastructure, participation message co-creation, and Ethical Communication Governance—supported by the three interlocking mechanisms of participation, execution, and adaptation of the Dynamic Participatory Co-creation model (DPC). The CC-DPC framework introduces communicative capital as a theoretically bounded construct distinct from social capital and brand equity and formalizes five propositions guiding an empirical research agenda. Based on the core argument of open innovation theory that sustainable competitive advantage is derived from structured access to external knowledge, the framework demonstrates why transmission-optimizing AI systems cannot replicate the inimitable communicative capital generated through participatory co-creation architectures.
+ER  - 
+
+TY  - JOUR
+T1  - Applications of AI and Blockchain in Origin Traceability and Forensics: A Review of ICs, Pharmaceuticals, EVs, UAVs, and Robotics
+AU  - Han, Hsiao-Chun
+AU  - Huang, Der-Chen
+AU  - Chen, Chin-Ling
+JO  - CMES - Computer Modeling in Engineering and Sciences
+VL  - 145
+IS  - 1
+SP  - 67
+EP  - 126
+PY  - 2025
+DA  - 2025/10/30/
+SN  - 1526-1492
+DO  - https://doi.org/10.32604/cmes.2025.070944
+UR  - https://www.sciencedirect.com/science/article/pii/S1526149225003509
+KW  - AI
+KW  - blockchain
+KW  - preparation
+KW  - ICs
+KW  - pharmaceuticals
+KW  - EVs
+KW  - drones
+KW  - robotics
+AB  - This study presents a systematic review of applications of artificial intelligence (abbreviated as AI) and blockchain in supply chain provenance traceability and legal forensics cover five sectors: integrated circuits (abbreviated as ICs), pharmaceuticals, electric vehicles (abbreviated as EVs), drones (abbreviated as UAVs), and robotics—in response to rising trade tensions and geopolitical conflicts, which have heightened concerns over product origin fraud and information security. While previous literature often focuses on single-industry contexts or isolated technologies, this review comprehensively surveys these sectors and categorizes 116 peer-reviewed studies by application domain, technical architecture, and functional objective. Special attention is given to traceability control mechanisms, data integrity, and the use of forensic technologies to detect origin fraud. The study further evaluates real-world implementations, including blockchain-enabled drug tracking systems, EV battery raw material traceability, and UAV authentication frameworks, demonstrating the practical value of these technologies. By identifying technological challenges and policy implications, this research provides a comprehensive foundation for future academic inquiry, industrial adoption, and regulatory development aimed at enhancing transparency, resilience, and trust in global supply chains.
+ER  - 
+
+TY  - JOUR
+T1  - Role of artificial intelligence in data-centric additive manufacturing processes for biomedical applications
+AU  - Mohammadnabi, Saman
+AU  - Moslemy, Nima
+AU  - Taghvaei, Hadi
+AU  - Zia, Abdul Wasy
+AU  - Askarinejad, Sina
+AU  - Shalchy, Faezeh
+JO  - Journal of the Mechanical Behavior of Biomedical Materials
+VL  - 166
+SP  - 106949
+PY  - 2025
+DA  - 2025/06/01/
+SN  - 1751-6161
+DO  - https://doi.org/10.1016/j.jmbbm.2025.106949
+UR  - https://www.sciencedirect.com/science/article/pii/S1751616125000657
+KW  - Additive manufacturing
+KW  - Artificial intelligence
+KW  - Data-driven
+KW  - Design
+KW  - Process
+KW  - Control
+AB  - The role of additive manufacturing (AM) for healthcare applications is growing, particularly in the aspiration to meet subject-specific requirements. This article reviews the application of artificial intelligence (AI) to enhance pre-, during-, and post-AM processes to meet a wider range of subject-specific requirements of healthcare interventions. This article introduces common AM processes and AI tools, such as supervised learning, unsupervised learning, deep learning, and reinforcement learning. The role of AI in pre-processing is described in the core dimensions like structural design and image reconstruction, material design and formulations, and processing parameters. The role of AI in a printing process is described based on hardware specifications, printing configurations, and core operational parameters such as temperature. Likewise, the post-processing describes the role of AI for surface finishing, dimensional accuracy, curing processes, and a relationship between AM processes and bioactivity. The later sections provide detailed scientometric studies, thematic evaluation of the subject topic, and also reflect on AI ethics in AM for biomedical applications. This review article perceives AI as a robust and powerful tool for AM of biomedical products. From tissue engineering (TE) to prosthesis, lab-on-chip to organs-on-a-chip, and additive biofabrication for range of products; AI holds a high potential to screen desired process-property-performance relationships for resource-efficient pre- to post-AM cycle to develop high-quality healthcare products with enhanced subject-specific compliance specification.
+ER  - 
+
+TY  - JOUR
+T1  - Generative AI, copyright and the AI Act
+AU  - Quintais, João Pedro
+JO  - Computer Law & Security Review
+VL  - 56
+SP  - 106107
+PY  - 2025
+DA  - 2025/04/01/
+SN  - 2212-473X
+DO  - https://doi.org/10.1016/j.clsr.2025.106107
+UR  - https://www.sciencedirect.com/science/article/pii/S0267364925000020
+KW  - Generative AI
+KW  - AI Act
+KW  - AI
+KW  - Copyright
+KW  - Text and data mining
+KW  - Transparency
+KW  - Remuneration
+AB  - This paper provides a critical analysis of the Artificial Intelligence (AI) Act's implications for the European Union (EU) copyright acquis, aiming to clarify the complex relationship between AI regulation and copyright law while identifying areas of legal ambiguity and gaps that may influence future policymaking. The discussion begins with an overview of fundamental copyright concerns related to generative AI, focusing on issues that arise during the input, model, and output stages, and how these concerns intersect with the text and data mining (TDM) exceptions under the Copyright in the Digital Single Market Directive (CDSMD). The paper then explores the AI Act's structure and key definitions relevant to copyright law. The core analysis addresses the AI Act's impact on copyright, including the role of TDM in AI model training, the copyright obligations imposed by the Act, requirements for respecting copyright law—particularly TDM opt-outs—and the extraterritorial implications of these provisions. It also examines transparency obligations, compliance mechanisms, and the enforcement framework. The paper further critiques the current regime's inadequacies, particularly concerning the fair remuneration of creators, and evaluates potential improvements such as collective licensing and bargaining. It also assesses legislative reform proposals, such as statutory licensing and AI output levies, and concludes with reflections on future directions for integrating AI governance with copyright protection.
+ER  - 
+
+TY  - JOUR
+T1  - Computer audition for healthcare: A survey on speech analysis
+AU  - Qian, Kun
+AU  - Zhao, Zhonghao
+AU  - Tan, Yang
+AU  - Zhang, Weijia
+AU  - Cho, MinKi
+AU  - Zhu, Cuiping
+AU  - Tian, Fuze
+AU  - Hu, Bin
+AU  - Yamamoto, Yoshiharu
+AU  - Schuller, Björn W.
+JO  - AI Open
+VL  - 6
+SP  - 244
+EP  - 275
+PY  - 2025
+DA  - 2025/01/01/
+SN  - 2666-6510
+DO  - https://doi.org/10.1016/j.aiopen.2025.10.001
+UR  - https://www.sciencedirect.com/science/article/pii/S2666651025000166
+KW  - Computer audition
+KW  - Speech
+KW  - Intelligent speech analysis
+KW  - Machine learning
+KW  - Deep learning
+KW  - Intelligent medicine
+KW  - Non-invasive healthcare
+AB  - Intelligent speech analysis (ISA) constitutes a significant component within the realm of computer audition (CA) technology. Speech, as a fundamental tool for human communication, not only conveys rich semantic information but also holds significant potential for various healthcare applications. Computational paralinguistics methods can be used to analyse alterations in the acoustic characteristics of speech signals induced by medical conditions, providing valuable insights into shifts in an individual’s health status. More importantly, compared to other physiological monitoring devices, speech acquisition devices are non-invasive and user-friendly, making them accessible for a wide range of individuals. However, despite its promise, ISA in healthcare currently faces a range of notable challenges that hinder its widespread adoption. In this survey, we present an overview of the development and current research in speech analysis technologies within the healthcare domain. First, we summarise the methodologies employed in ISA-based healthcare. Next, we provide an overview of applications in evaluating physical diseases, mental health conditions, and neurological disorders. Additionally, we discuss key limitations and shortcomings in the current state of the field. Finally, we conclude with a summary of the discussed works and offer insights into future research directions aimed at addressing these limitations to advance the practical implementation of ISA in clinical settings. This survey aims to serve as a valuable resource for researchers in speech analysis, biomedicine, and related fields. We hope to inspire greater interest in this promising area within the scientific community and provide guidance for future studies in this evolving field.
+ER  - 
+
+TY  - JOUR
+T1  - Philosophical leadership in education: Rethinking pedagogy in an AI-driven world
+AU  - Socorro Márquez, Félix Oscar
+AU  - Reyes Ortiz, Giovanni Efraín
+AU  - Torrez Meruvia, Harold
+JO  - Social Sciences & Humanities Open
+VL  - 13
+SP  - 102699
+PY  - 2026
+DA  - 2026/06/01/
+SN  - 2590-2911
+DO  - https://doi.org/10.1016/j.ssaho.2026.102699
+UR  - https://www.sciencedirect.com/science/article/pii/S2590291126002640
+KW  - Artificial intelligence
+KW  - Education
+KW  - Philosophical leadership
+KW  - Ethics
+KW  - Systematic review
+AB  - Background
+The increasing integration of Artificial Intelligence (AI) and automation into education poses significant ethical and pedagogical challenges. Educators must manage technological adoption and assume the role of philosophical leaders to guide students in critical interactions with AI.
+Objective
+This review synthesises theoretical, empirical, and policy contributions on the ethical integration of AI, focusing on philosophical leadership as a framework for teachers’ roles.
+Methods
+A Conceptual Integrative Review design, employing a configurative qualitative evidence synthesis as its primary analytical technique, was applied to a refined corpus, following the comprehensive eligibility assessment of 160 full-text articles. The final synthesis systematically coded and integrated findings from 137 included sources, spanning randomized controlled trials and theoretical papers. This embedded approach allowed for the interpretation of quantitative data within a philosophical framework, strictly excluding sources lacking methodological transparency or relevance to the study's scope.
+Results
+The analysis identifies three converging dimensions of philosophical leadership: (i) ethical judgment regarding the risks and benefits of AI; (ii) pedagogical guidance that fosters critical thinking and learner empowerment; and (iii) policy translation, which fundamentally enables educators to seamlessly align daily classroom practices with high-level international governance frameworks.
+Conclusions
+Evidence confirms that AI should enhance, not replace, human educators. Philosophical leadership, strengthened through mentoring and coaching, emerges as a key framework for ethically integrating AI while promoting equity and transparency. Education systems embracing these approaches are better positioned to balance innovation with human-centred values.
+ER  - 
+
+TY  - JOUR
+T1  - Generative artificial intelligence and the built environment: An analysis of sentiments and socioeconomic implications
+AU  - Larbi, Joshua Amo
+AU  - Tang, Llewellyn, C.M.
+AU  - Mankata, Lawrence Martin
+AU  - Debrah, Caleb
+AU  - Ababio, Benjamin Kwaku
+AU  - Ghansah, Frank Ato
+AU  - Addy, Michael Nii
+JO  - Technological Forecasting and Social Change
+VL  - 228
+SP  - 124689
+PY  - 2026
+DA  - 2026/07/01/
+SN  - 0040-1625
+DO  - https://doi.org/10.1016/j.techfore.2026.124689
+UR  - https://www.sciencedirect.com/science/article/pii/S0040162526001666
+KW  - Generative artificial intelligence
+KW  - Built environment
+KW  - Socioeconomic implication
+KW  - Sentiment analysis
+KW  - Generative models
+KW  - Construction industry
+AB  - Generative artificial intelligence (GenAI) wields enormous potential to transform the built environment. The creative cognitive ability of GenAI to generate realistic content promises to provide a disruptive alternative solution to boost innovation, productivity and efficiency in the built environment. However, the industry is shrouded with uncertainties about the prospects and socioeconomic implications of GenAI. Hence, to unshroud these uncertainties, this study adopted a three-phase approach. Firstly, the study presented a state-of-the-art analysis of current applications and use case scenarios of GenAI models in the built environment. Secondly, the study employed multiple python libraries to analyse the sentiments of built environment professionals about the adoption of GenAI in the built environment. Thirdly, the study conducted a focus group study to determine the contextual layers behind the sentiments analyzed. The study evaluated 10 GenAI models and identified four to be mature for use in the built environment. The sentiment analysis revealed that 76% of professionals expressed positive sentiments about the adoption of GenAI, 8.5% were negative and 15.5% were neutral. The focus study identified ‘potential to save time and reduce’, ‘innovation and dynamism in built environment output’, ‘broader diversity of job creation in the built environment’, ‘opportunities for partnerships and collaborations’, and ‘enhanced company reputation’ as the contextual layers behind the positive sentiments of the professionals analyzed. These constituted the positive socioeconomic implications. Furthermore, the study identified ‘perception of potential white collar job losses’ among mid to top level management workers as the biggest threat to the adoption of GenAI in the built environment. This study makes a significant contribution to the body of knowledge by being the foremost study in built environment research to analyse the sentiments of built environment professionals about the adoption of GenAI. Findings from this study provide comprehensive depth of understanding into the current state-of-the-art of GenAI and its potential to augment the capabilities of professionals in the built environment. For policy and corporate decision-making, findings of the socioeconomic implications of GenAI would be valuable for informed policy drafting and corporate evaluations of GenAI adoption. Lastly, the study proposes a viable strategy for the adoption of GenAI in the built environment which serves as a guide for further deliberation on GenAI adoption and diffusion in the built environment.
+ER  - 

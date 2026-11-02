@@ -1,0 +1,359 @@
+TY  - JOUR
+T1  - GenAI-Supported Virtual Patients in Health Care Education: Systematic Review
+AU  - Jiang, Juming
+AU  - Ye, Megan Zichen
+AU  - Kwok, Tyrone Tai-On
+AU  - Wong, Janet Yuen Ha
+JO  - Journal of Medical Internet Research
+VL  - 28
+PY  - 2026
+DA  - 2026/01/01/
+SN  - 1438-8871
+DO  - https://doi.org/10.2196/82756
+UR  - https://www.sciencedirect.com/science/article/pii/S1438887126004553
+KW  - systematic review
+KW  - generative AI
+KW  - virtual patient
+KW  - health care education
+KW  - PRISMA
+KW  - generative artificial intelligence
+KW  - Preferred Reporting Items for Systematic Reviews and Meta-Analyses
+AB  - 
+Background Generative artificial intelligence (GenAI) is enhancing virtual patient simulations in health care education by enabling dynamic, adaptive interactions, reshaping how clinical skills are taught. A synthesis of the current evidence is needed to guide implementation and future research, given the pace of technological advancement.
+
+Objective This systematic review aims to synthesize empirical research on the design, implementation, and educational impact of GenAI-supported virtual patients in health care education.
+
+Methods A systematic search was conducted across 5 databases (CINAHL, Medline, Embase, Scopus, and Web of Science) from their inception to March 19, 2026. Reference lists of included studies and relevant systematic reviews were also screened. Peer-reviewed studies in English that evaluated GenAI-supported virtual patients using quantitative or mixed methods were included. Two reviewers independently screened studies and extracted data. Study quality and risk of bias were assessed critically using JBI (Joanna Briggs Institute) checklists, with disagreements resolved by consensus.
+
+Results A total of 15 studies met the inclusion criteria (total participants N=645), spanning health care disciplines, including nursing, medicine, pharmacy, radiography, and medical first-responder training. The virtual patients varied in design; input modalities included text (9 studies), voice (5 studies), or hybrid (1 study); output was text (9 studies), speech (5 studies), or both (1 study); 6 studies used 3D-embodied avatars, while 9 used nonembodied interfaces. A total of 13 studies used OpenAI GPT models (eg, ChatGPT), 1 used a fine-tuned model from a different provider, and 1 evaluated multiple model families (Claude, GPT, and open-source). Further, 6 studies used controlled experimental designs, including 3 randomized controlled trials (RCTs); the remainder were cross-sectional or prepost evaluations. Primary outcomes included user perceptions (14 studies), communication skills (4 studies), clinical reasoning (3 studies), and performance (7 studies). In controlled comparisons, GenAI-supported virtual patients consistently improved outcomes relative to control conditions: for example, enhanced clinical decision-making (RCT, n=21), ophthalmology history-taking skills (RCT, n=26), and medical history-taking performance (crossover RCT, n=20). The evidence base is characterized by brief intervention durations, a predominant reliance on single-session interactions, and a general lack of underpinning educational theory. No meta-analysis was performed due to the limited number of studies and significant heterogeneity in designs, interventions, and outcome measures.
+
+Conclusions The evidence supports the feasibility and acceptability of GenAI-supported virtual patients, with positive learner perceptions and promising outcomes for skills development. However, critical limitations remain in emotional-behavioral complexity, simulation adaptability, and research design rigor (eg, limited use of control groups and validated instruments). The review offers educators, instructional designers, and policymakers actionable insights for integrating dynamic, artificial intelligence–driven simulations while identifying crucial gaps—such as the need for theoretical grounding, longitudinal studies, and standardized design protocols—that must be addressed for safe and effective implementation.
+
+Trial Registration Open Science Framework (OSF) q8b5n; https://osf.io/q8b5n/files/mysz3
+ER  - 
+
+TY  - JOUR
+T1  - A scoping review of hybrid intelligence systems for human-centred AI in education
+AU  - Oyelere, Solomon Sunday
+JO  - Computers in Human Behavior: Artificial Humans
+VL  - 7
+SP  - 100273
+PY  - 2026
+DA  - 2026/03/01/
+SN  - 2949-8821
+DO  - https://doi.org/10.1016/j.chbah.2026.100273
+UR  - https://www.sciencedirect.com/science/article/pii/S2949882126000241
+KW  - Hybrid intelligence
+KW  - Human-centred artificial intelligence
+KW  - Human-in-the-loop systems
+KW  - Learning systems
+KW  - Explainable artificial intelligence
+KW  - Human–AI collaboration
+AB  - This scoping review explores the emergence and application of Hybrid Intelligence systems in education, integrative human-AI ecosystems designed to enhance learning outcomes through collaboration, co-evolution, and contextual adaptability. Drawing on 42 peer-reviewed and scholarly sources published between 2015 and 2025, this review examines the conceptual foundations, implementation frameworks, educational outcomes, and ethical implications of hybrid intelligence. Guided by Arksey and O'Malley's framework and PRISMA-ScR guidelines, the study employed a systematic search across six databases, followed by rigorous screening and thematic synthesis. The review identifies three core components of hybrid intelligence, collectivity, superior outcomes, and continuous learning, together with two cross-cutting design priorities: adaptivity and ethics. Evidence from included studies demonstrates that hybrid intelligence systems support cognitive gains, metacognitive awareness, self-regulated learning, and social-emotional development. Case studies highlight innovative use cases, from AI-supported writing tools and embodied learning environments to AI-augmented collaborative learning platforms. However, ethical and equity considerations remain underdeveloped. Issues such as algorithmic bias, data privacy, and the digital divide require urgent attention. The review underscores the need for participatory design, transparency, and educator agency in hybrid intelligence system development. By advancing a co-evolutionary perspective, where humans and AI adapt reciprocally, hybrid intelligence offers a transformative vision for future education. This review provides a conceptual framework, maps current knowledge, and outlines research gaps to inform future interdisciplinary inquiry and the responsible integration of hybrid intelligence in diverse educational settings.
+ER  - 
+
+TY  - JOUR
+T1  - The imaginary of informed consent: Rethinking approaches to data use for AI in healthcare
+AU  - Sengupta, Amrita
+AU  - Mohandas, Shweta
+JO  - Computer Law & Security Review
+VL  - 61
+SP  - 106309
+PY  - 2026
+DA  - 2026/07/01/
+SN  - 2212-473X
+DO  - https://doi.org/10.1016/j.clsr.2026.106309
+UR  - https://www.sciencedirect.com/science/article/pii/S2212473X26000507
+KW  - Data protection
+KW  - Informed consent
+KW  - Artificial intelligence
+KW  - Healthcare
+KW  - Governance
+AB  - The rapid integration of artificial intelligence in healthcare settings raises questions about the adequacy of existing data protection frameworks, particularly the reliance on informed consent as the primary mechanism for legitimatising the collection and use of health data for AI model training. This paper examines whether informed consent, as operationalized under India's Digital Personal Data Protection Act (DPDPA) 2023, can serve as a satisfactory legal and ethical basis for using health data in AI development. Drawing on the historical evolution of consent from medical research contexts to contemporary digital data protection regimes, this paper demonstrates that consent-based frameworks face structural limitations when applied to AI systems. The analysis reveals a trifecta of consent challenges: patients must consent to medical procedures, to digital health record creation, and implicitly to future AI model training, often without comprehending the scope, purpose, or risks of data reuse. This paper advances three broad analyses: first, the limitations of informed consent in data protection and operationalisation challenges in healthcare, the dilution of patient consent and autonomy in AI model training, and the role of anonymisation for use of data for AI. Recognizing these limitations, the paper proposes alternative governance frameworks that complement individual consent.
+ER  - 
+
+TY  - JOUR
+T1  - Large language models in smart construction: a systematic review of implementation strategies, applications and future directions
+AU  - Gao, Yu
+AU  - Yiu, Tak Wing
+AU  - Shen, Xuesong
+AU  - Tam, Vivian W.Y.
+JO  - Engineering, Construction and Architectural Management
+VL  - 33
+IS  - 15
+SP  - 159
+EP  - 181
+PY  - 2026
+DA  - 2026/12/14/
+SN  - 0969-9988
+DO  - https://doi.org/10.1108/ECAM-10-2025-1668
+UR  - https://www.sciencedirect.com/science/article/pii/S0969998826000056
+KW  - Large language models (LLMs)
+KW  - Smart construction
+KW  - Construction management
+KW  - Systematic review
+AB  - 
+Purpose With accelerating advances in artificial intelligence (AI) and digital transformation, the construction domain is rapidly adopting large language models (LLMs) to improve efficiency, safety and sustainability. However, a comprehensive understanding of their applications, adaptation strategies and evaluation practices in this domain remains limited. This paper provides a systematic landscape of LLM research and applications in construction, clarifying their roles, integration pathways and associated challenges.
+
+Design/methodology/approach A systematic review was conducted following the Preferred Reporting Items for Systematic Reviews and Meta-Analyses guideline, combining bibliometric and content analysis of publications from 2020 to 2025. The review examines the evolution, implementation strategies and performance characteristics of LLMs in construction domains.
+
+Findings LLMs have been increasingly implemented across diverse construction tasks. Most studies utilize pretrained models, adapted through fine-tuning, retrieval-augmented generation or prompt engineering. While LLMs demonstrate strong reasoning and semantic understanding capabilities, challenges persist in domain adaptation, hallucination control, data privacy and lifecycle integration.
+
+Practical implications The results provide insights for researchers and practitioners on how LLMs can be effectively implemented throughout the construction domain. The paper highlights the need for developing domain-specific evaluation standards, establishing governance frameworks and aligning LLM applications with existing digital ecosystems such as building information modeling and digital twins.
+
+Originality/value This paper presents a comprehensive systematic review focused on LLM applications in construction. By mapping the technological landscape and summarizing key implementation strategies, it establishes a theoretical and practical foundation for advancing intelligent, data-driven and human-centered construction in the era of generative AI.
+ER  - 
+
+TY  - JOUR
+T1  - A systematic literature review of large language models in phishing attack generation and detection
+AU  - Sivaneswaran, Dinushan
+AU  - Hewage, Chaminda T.E.R.
+AU  - Herath, H.M.K.K.M.B.
+AU  - Rathore, Rajkumar Singh
+AU  - Singh, Vishal Krishna
+AU  - Jiang, Weiwei
+JO  - Array
+VL  - 30
+SP  - 100775
+PY  - 2026
+DA  - 2026/07/01/
+SN  - 2590-0056
+DO  - https://doi.org/10.1016/j.array.2026.100775
+UR  - https://www.sciencedirect.com/science/article/pii/S2590005626000986
+KW  - Cybersecurity
+KW  - Generative AI
+KW  - Large language models
+KW  - Phishing attacks
+KW  - Phishing detection
+KW  - Social engineering
+KW  - Threat intelligence
+AB  - Phishing attacks continue to grow in scale and sophistication, causing substantial financial losses and privacy breaches worldwide. Recent advances in large language models (LLMs) have brought significant changes to the generation and detection of phishing content. This study systematically investigates the dual role of LLMs in facilitating phishing attacks and strengthening countermeasures. Using the PRISMA methodology, authors screened 142 records published between January 2023 and April 2025 and identified 36 eligible studies from major academic databases, including IEEE Xplore, ScienceDirect, ACM Digital Library, Web of Science, and Scopus. A comprehensive and rigorous analysis was conducted of research trends/themes over time, dataset characteristics, and the LLM architectures/models employed. The findings reveal that most studies relied on manually generated datasets rather than publicly available benchmark datasets, and that GPT-based models received considerably more attention than other LLM architectures. The review demonstrates that LLMs substantially enhance the generation of phishing content by producing coherent, contextually relevant, and persuasive email and website content. This capability lowers the technical barrier for attackers and potentially increases attack effectiveness. Conversely, LLMs also strengthen defensive strategies by enabling more effective analysis of textual and visual content for phishing detection. In many cases, LLM-based approaches outperform traditional machine learning and deep learning methods and, in certain contexts, approach or match human-level performance. Overall, the findings suggest that LLMs have accelerated and automated phishing-related processes, simultaneously intensifying the threat landscape and advancing defensive capabilities.
+ER  - 
+
+TY  - JOUR
+T1  - What artificial intelligence can do for high-performance computing systems?
+AU  - Pochelu, Pierrick
+AU  - Cartiaux, Hyacinthe
+AU  - Schleich, Julien
+JO  - Engineering Applications of Artificial Intelligence
+VL  - 164
+SP  - 113248
+PY  - 2026
+DA  - 2026/01/15/
+SN  - 0952-1976
+DO  - https://doi.org/10.1016/j.engappai.2025.113248
+UR  - https://www.sciencedirect.com/science/article/pii/S0952197625032798
+KW  - Artificial intelligence
+KW  - High-performance computing
+KW  - Software performance
+AB  - High-performance computing (HPC) centers consume substantial power, incurring environmental and operational costs. This review assesses how artificial intelligence (AI), including machine learning (ML) and optimization, improves the efficiency of operational HPC systems. Approximately 1,800 publications from 2019 to 2025 were manually screened using predefined inclusion/exclusion criteria; 74 “AI for HPC” papers were retained and grouped into six application areas: performance estimation, performance optimization, scheduling, surrogate modeling, fault detection, and language-model-based automation. Scheduling is the most active area, spanning research-oriented reinforcement-learning schedulers to production-friendly hybrids that combine ML with heuristics. Supervised performance estimation is foundational for both scheduling and optimization. Graph neural networks and time-series models strengthen anomaly detection by capturing spatio-temporal dependencies in production telemetry. Domain-specialized language models for HPC can outperform general-purpose LLMs on targeted coding and automation tasks. Together, these findings highlight integration opportunities such as LLM-based operating-system concepts and underscore the need for advances in MLOps, standardization of AI components, and benchmarking methodology.
+ER  - 
+
+TY  - JOUR
+T1  - Mental health care with artificial intelligence: early detection, precision intervention, population-level prevention, and equitable real-world implementation
+AU  - Omigbodun, Francis T.
+JO  - Journal of Medicine, Surgery, and Public Health
+VL  - 10
+SP  - 100258
+PY  - 2026
+DA  - 2026/12/01/
+SN  - 2949-916X
+DO  - https://doi.org/10.1016/j.glmedi.2026.100258
+UR  - https://www.sciencedirect.com/science/article/pii/S2949916X26000344
+KW  - Artificial intelligence
+KW  - Mental health
+KW  - Generative AI
+KW  - Public mental health
+KW  - Health equity
+KW  - Implementation science
+AB  - Artificial intelligence (AI) is increasingly applied across mental health care, including risk detection, digital phenotyping, treatment personalisation, conversational interventions and population-level surveillance. This critical review synthesises evidence across the mental-health pathway, from early detection and precision intervention to prevention, service planning and equitable real-world implementation. AI models have shown potential to identify patterns associated with depression, psychosis, suicide risk, relapse and treatment response using electronic health records, language, smartphones, wearables and multimodal data. Conversational agents and AI-supported decision systems may expand access, support clinical decision-making and improve service efficiency, while population-level analytics may strengthen surveillance, demand forecasting and resource allocation. However, evidence remains considerably stronger for prediction and model development than for improved clinical outcomes. External validation, prospective multicentre evaluation, comparison with usual care and health-economic analysis remain limited. Poor calibration, unrepresentative datasets, algorithmic and linguistic bias, privacy risks, digital exclusion, automation bias and generative-AI hallucinations may further compromise safe and equitable implementation. Evidence from culturally diverse, underserved and resource-constrained populations is particularly limited. The central challenge is therefore not whether AI can generate accurate predictions, but whether its use produces meaningful, affordable and equitable improvements in care. Translation into practice requires clinical validity, demonstrated clinical utility, safety and equity, effective human integration and lifecycle governance. AI should augment rather than replace professional judgement, patient choice and therapeutic relationships. Its value should ultimately be assessed through real-world outcomes, including safer care, improved health, expanded access and reduced mental-health inequalities.
+ER  - 
+
+TY  - JOUR
+T1  - Open innovation in AI marketing: A communication architecture for participatory co-creation
+AU  - Pum, Wachiranun
+AU  - Sukma, Narongsak
+AU  - Leelasantitham, Adisorn
+JO  - Journal of Open Innovation: Technology, Market, and Complexity
+VL  - 12
+IS  - 3
+SP  - 100861
+PY  - 2026
+DA  - 2026/09/01/
+SN  - 2199-8531
+DO  - https://doi.org/10.1016/j.joitmc.2026.100861
+UR  - https://www.sciencedirect.com/science/article/pii/S2199853126001472
+KW  - Open innovation
+KW  - AI-driven marketing
+KW  - Participatory communication
+KW  - Co-creation
+KW  - Communicative capital
+KW  - Dialogic marketing
+KW  - Transmission-dialogue paradox
+KW  - FAIR governance
+AB  - The accelerating deployment of artificial intelligence in marketing has deepened a structural paradox: organizations that have gained unprecedented technical capacity to reach and convert audiences remain largely incapable of enabling genuine communicative participation. Bibliometric mapping of 467 peer-reviewed publications (2015–2026) confirms that communication-specific outcome constructs: dialogue quality (5.9%), message co-authorship (3.9%), and audience agency (3.2%) are structurally absent from a field dominated by efficiency and reach metrics. This paper proposes the Communication-Centered Dynamic Participatory Co-creation (CC-DPC) framework as an open innovation architecture that addresses this paradox by theorizing how AI-driven marketing systems can generate communicative participation, not merely transmission throughput. The framework integrates service-dominant logic, dynamic capabilities theory, stakeholder theory, and dialogic communication science into four sequential layers: strategic communication alignment, AI-mediated infrastructure, participation message co-creation, and Ethical Communication Governance—supported by the three interlocking mechanisms of participation, execution, and adaptation of the Dynamic Participatory Co-creation model (DPC). The CC-DPC framework introduces communicative capital as a theoretically bounded construct distinct from social capital and brand equity and formalizes five propositions guiding an empirical research agenda. Based on the core argument of open innovation theory that sustainable competitive advantage is derived from structured access to external knowledge, the framework demonstrates why transmission-optimizing AI systems cannot replicate the inimitable communicative capital generated through participatory co-creation architectures.
+ER  - 
+
+TY  - JOUR
+T1  - Design Principles for Integrating Generative Artificial Intelligence in Knowledge Management
+AU  - Rüth, Marina
+AU  - Sullmann, Michael
+AU  - Hussain, Abid
+JO  - Procedia Computer Science
+VL  - 278
+SP  - 149
+EP  - 158
+PY  - 2026
+DA  - 2026/01/01/
+T2  - CENTERIS - International Conference on ENTERprise Information Systems / ProjMAN - International Conference on Project MANagement / HCist - International Conference on Health and Social Care Information Systems and Technologies
+SN  - 1877-0509
+DO  - https://doi.org/10.1016/j.procs.2026.02.449
+UR  - https://www.sciencedirect.com/science/article/pii/S1877050926005703
+KW  - Generative AI (GenAI)
+KW  - Retrieval Augmented Generation (RAG)
+KW  - Large Language Models (LLM)
+KW  - Knowledge Management (KM)
+AB  - Recent advancements in Generative Artificial Intelligence (GenAI), particularly Large Language Models (LLMs), have garnered significant interest for their potential to enhance Knowledge Management (KM). Despite increasing adoption by organizations to improve the utilization of internal knowledge, a holistic framework for integrating this new technology remains absent. Through an Action Design Research (ADR) approach in collaboration with a public university, an LLM-powered chatbot was developed and evaluated for KM-related use cases, leading to the derivation of seven design principles: Data Privacy and Security by Design (1), emphasizing secure deployment environments and strict access controls; Scalable integration with Retrieval Augmented Generation (2), enabling efficient connection to organizational knowledge; Trust and Transparency by Design (3), incorporating source references and acknowledging system limitations; Data Quality by Design (4), ensuring up-to-date and well-structured knowledge bases; User-Centricity by Design (5), supporting effective prompting and feedback mechanisms; User Experience by Design (6), focusing on interface design and customizability; and Use-Case-Specificity by Design (7), tailoring systems to organizational context. This research provides actionable guidelines for integrating GenAI into KM processes.
+ER  - 
+
+TY  - JOUR
+T1  - Guiding the future: developing an ethical framework for generative AI use in education
+AU  - Ofosu-Asare, Yaw
+JO  - International Journal of Information and Learning Technology
+VL  - 43
+IS  - 1
+SP  - 26
+EP  - 44
+PY  - 2026
+DA  - 2026/03/09/
+SN  - 2056-4880
+DO  - https://doi.org/10.1108/IJILT-06-2024-0113
+UR  - https://www.sciencedirect.com/science/article/pii/S205648802500023X
+KW  - Generative AI
+KW  - Ethical AI
+KW  - Education technology
+KW  - AI ethics
+KW  - Privacy
+KW  - Bias
+KW  - Academic integrity
+KW  - Digital citizenship
+KW  - Social exchange
+KW  - Social learning
+AB  - 
+Purpose This study develops a comprehensive ethical framework for the responsible use of generative artificial intelligence (AI) in education with particular attention to secondary schooling, informed by analysis across K-12 and higher education contexts. It addresses critical gaps in current ethical guidelines, particularly concerning privacy, bias and transparency issues in educational settings.
+
+Design/methodology/approach A systematic literature review was conducted using major databases like Scopus and Web of Science to identify the ethical implications of AI use in education. The research synthesised findings from diverse sources to propose a refined ethical framework tailored for secondary education and informed by practices across the wider education sector.
+
+Findings The study highlights significant gaps in existing ethical frameworks concerning AI applications in secondary education. These include inadequate measures to address privacy concerns, persistent biases in AI algorithms, weak mechanisms for accountability and a lack of transparency in AI decision-making processes within educational contexts, alongside limited attention to academic integrity.
+
+Research limitations/implications The research is constrained by the availability and scope of existing studies on AI ethics in education and by its reliance on secondary data. Further empirical work in school settings is needed to test the framework’s effectiveness, adapt it to diverse contexts and refine its components based on real-world application.
+
+Practical implications The proposed ethical framework provides educators and policymakers with practical guidelines for integrating AI technologies responsibly in secondary education. It emphasises safeguarding student privacy, ensuring fairness in AI applications, supporting academic integrity and enhancing transparency.
+
+Social implications Implementing the framework can support social equity in education by reducing the risk that AI technologies perpetuate existing biases and by promoting inclusive educational practices that respect student rights, diversity and the particular vulnerabilities of children and young people.
+
+Originality/value This study contributes original insights by synthesizing existing research into a coherent framework specifically designed for secondary education. It fills a notable gap in literature by focusing on the ethical challenges and needs at this educational level, which are often overlooked in broader AI ethics discussions.
+ER  - 
+
+TY  - JOUR
+T1  - Multimodal data integration for early autism detection and LLM-driven personalized intervention: A review
+AU  - Adouni, Olfa
+AU  - Bessadok, Alaa
+AU  - Hamroun, Mohamed
+AU  - Ejbali, Ridha
+AU  - Sakli, Hedi
+JO  - Computerized Medical Imaging and Graphics
+VL  - 130
+SP  - 102743
+PY  - 2026
+DA  - 2026/04/01/
+SN  - 0895-6111
+DO  - https://doi.org/10.1016/j.compmedimag.2026.102743
+UR  - https://www.sciencedirect.com/science/article/pii/S0895611126000467
+KW  - Autism early detection
+KW  - Magnetic resonance imaging
+KW  - LLM
+KW  - Generative AI
+KW  - Multimodal integration
+AB  - Autism Spectrum Disorder (ASD) is a complex neurodevelopmental condition that poses significant challenges for early detection and intervention. AI is playing an increasingly important role in advancing healthcare research, particularly in ASD detection. Leveraging AI to integrate multimodal data and support intervention planning is essential, as it enables a more comprehensive and accurate understanding of autistic behaviors while facilitating the development of timely, personalized treatment strategies. However, despite the advancements and ongoing efforts, current AI applications often struggle to effectively integrate multimodal data for early autism detection and optimize intervention planning. Addressing these concerns, we first examine the emerging role of AI in integrating diverse data modalities (e.g. image, audio, video...), to provide a more comprehensive understanding of autism. Then, we discuss the application of generative models such as Large Language Models (LLMs) in early intervention planning, this involves the generation of medical reports that outline personalized treatment plans for autistic children. By integrating these research topics, we aim to provide a holistic view of current advancements and future directions in autism early detection.
+ER  - 
+
+TY  - JOUR
+T1  - Vulnerabilities in autonomous execution: A survey of security threats and defenses in LLM-driven agentic and multi-agent systems
+AU  - Sammartino, Vincenzo
+JO  - Knowledge-Based Systems
+VL  - 352
+SP  - 117001
+PY  - 2026
+DA  - 2026/10/25/
+SN  - 0950-7051
+DO  - https://doi.org/10.1016/j.knosys.2026.117001
+UR  - https://www.sciencedirect.com/science/article/pii/S0950705126017272
+KW  - LLM agents
+KW  - Multi-agent systems
+KW  - Prompt injection
+KW  - AI security
+KW  - Information-flow control
+KW  - systematic literature review
+AB  - Large language models (LLMs) are no longer confined to producing text. Equipped with tools and composed into multi-agent systems, they now act on the world with limited human oversight. This shift from generation to autonomous execution transforms the security landscape. While prompt injection against a chatbot yields, at worst, an embarrassing sentence, the same injection against a tool-using agent can result in an exfiltrated database, a fraudulent transaction, or a poisoned message propagating to peer agents. The vulnerability class is not new, but the blast radius is. This article surveys the security of LLM-driven agentic and multi-agent systems from 2023 through early 2026, following a pre-specified, PRISMA-informed review protocol that we report in full so that the corpus can be reproduced and extended. We contribute a threat taxonomy classifying attacks by entry point, propagation path, and target asset, together with an explicit statement of the conditional dependencies among these three dimensions. Using this, we organise four threat families – indirect prompt injection, malicious tool use, inter-agent infection, and memory poisoning – consolidating 44 attack papers into a unified comparison, annotated with reported attack success rate, paired task utility, and peer-review status. We review the defensive landscape across five categories (detection, structural separation, execution isolation, information-flow control, and alignment-side hardening) and map defenses to threats under an operationally defined coverage criterion, assessing each family for adaptive-attack resistance, deployment cost, and residual risk, to expose coverage gaps. Two findings recur. First, no purely prompt-level defense in the reviewed literature is reported to withstand adaptive attackers; effective security requires constraining what the system around the model is permitted to do, rather than relying on model robustness. Second, multi-agent propagation – the mechanism making agentic compromise qualitatively worse than single-model compromise – is the least defended part of the stack in the corpus we assembled, with almost no deployed frameworks enforcing trust boundaries between cooperating agents. We conclude with a research agenda and a minimal security-reporting standard for agent frameworks.
+ER  - 
+
+TY  - JOUR
+T1  - AI ethics and regulatory readiness in southeast asian nursing: a scopus-based bibliometric analysis (2001–2025)
+AU  - Borromeo, Alex S.
+JO  - Health Policy and Technology
+VL  - 15
+IS  - 6
+SP  - 101238
+PY  - 2026
+DA  - 2026/07/01/
+SN  - 2211-8837
+DO  - https://doi.org/10.1016/j.hlpt.2026.101238
+UR  - https://www.sciencedirect.com/science/article/pii/S2211883726000869
+KW  - Artificial intelligence
+KW  - Nursing ethics
+KW  - Southeast Asia
+KW  - Nursing regulation
+KW  - Licensure
+KW  - Governance
+AB  - Objectives
+To map the intellectual structure and thematic evolution of AI ethics in nursing, to quantify Southeast Asia’s (SEA) contribution and positioning within this broader literature, and to interpret the findings across three linked domains: nursing education, clinical nursing practice, and regulatory/licensure processes.
+Methods
+We performed a Scopus-based bibliometric analysis of 1863 journal articles published from 2001 to 2025 (partial to 9 September 2025). The corpus was treated as a broader bibliometric literature set, within which SEA contribution was explicitly quantified using two indicators: SEA author affiliation and explicit SEA geographic context in titles, abstracts, or keywords. Descriptive indicators were generated using Bibliometrix/Biblioshiny (v5.0), and science mapping was conducted in VOSviewer (v1.6.20) using co-citation and co-word networks with predefined thresholds and normalization settings.
+Results
+Publication growth accelerated after 2019, with marked expansion during and after the COVID-19 period. Co-citation analysis identified five knowledge clusters: AI-ready nursing education/practice/governance; operational integration and evaluation; ethical governance for generative AI; algorithmic foundations for nursing analytics; and adoption/trust models. Co-word analysis identified four thematic domains, with strong SEA representation in applied risk-informed decision support, ethics-centered generative AI in education and care, behavioral adoption studies, and pandemic-era aged-care applications. Across clusters, SEA contributions were more visible in applied implementation themes than in concept-defining foundational literature.
+Conclusions
+The evidence base is expanding rapidly but remains conceptually anchored in globally developed frameworks. Findings from this broader corpus, interpreted through an explicitly quantified SEA lens, suggest three SEA-relevant policy considerations: (1) AI literacy and academic integrity safeguards in nursing education, (2) fairness checks, human oversight, and post-deployment monitoring in practice, and (3) licensure-linked guidance on AI-assisted documentation, accountability, and incident reporting.
+Public Interest Summary
+AI tools are increasingly used in nursing education and patient care, but rules for safe and ethical use are still developing in many Southeast Asian countries. This study analyzed published research from 2001 to 2025 to identify what is known and what is missing. We found rapid growth in studies, especially on practical uses such as risk prediction, education support, and care during COVID-19. However, much of the guiding theory still comes from outside the region. The findings suggest that nursing regulators and schools in Southeast Asia may wish to consider three recurring areas of emphasis: teaching nurses how to critically use AI, requiring safety checks and human oversight when AI is used in care, and clarifying accountability when AI supports clinical decisions or documentation. These steps can help protect patients and support responsible innovation.
+ER  - 
+
+TY  - JOUR
+T1  - Originality and the future of copyright in an age of generative AI
+AU  - Fenwick, Mark
+AU  - Jurcys, Paulius
+JO  - Computer Law & Security Review
+VL  - 51
+SP  - 105892
+PY  - 2023
+DA  - 2023/11/01/
+SN  - 2212-473X
+DO  - https://doi.org/10.1016/j.clsr.2023.105892
+UR  - https://www.sciencedirect.com/science/article/pii/S0267364923001024
+KW  - AI
+KW  - Generative AI
+KW  - Copyright
+KW  - Creativity
+KW  - Originality
+KW  - Artificial intelligence
+KW  - Data
+KW  - Feist
+KW  - David Guetta
+KW  - ChatGPT
+KW  - Input
+KW  - Output
+KW  - Machine Learning
+KW  - Authorship
+KW  - Intellectual Property
+AB  - This paper takes the occasion of French DJ David Guetta's use of generative AI tools to create lyrics and a voice in the style of Eminem, which he then used in one of his concerts, as the basis for an exploration of the shifting meaning of creativity and originality in the age of generative AI. Our main contention is that the Guetta form of creativity with generative AI tools differs in certain important respects from what has come before. The paper describes an iterative, dynamic process of conception, prompting, generation, refining, and deployment to characterise creativity in this context. Nevertheless, we contend that copyright – specifically the concept of originality as articulated in US federal law – is a sufficiently durable legal mechanism that can manage these new cultural forms, and that the two basic requirements of modern copyright law (a tangible medium of expression and a modest degree of creativity) remain relevant in identifying the scope of legal protection. The paper argues that the David Guetta story reveals something more general about creativity in a digital age, namely that while hybrid-networked (i.e., human – corporate – machine) creators have always created hybrid-networked cultural forms (i.e., creations that blend human and technology-constituted elements), such hybridity becomes increasingly visible and complex in the context of a new world of generative AI. At the very least, earlier – and influential – models of creativity as human-driven involving creation ex nihilo become harder to sustain in a new age of generative AI. But this does not mean copyright or notions of originality are redundant or that copyright law cannot accommodate Guetta and other cases. Such an account seems important as it challenges the hegemonic and reductive view that AI “generates” artistic works autonomously and avoids reducing the copyright issues raised by such creative works to the related but distinct question of whether learning models rely on copyrighted data. As such, copyright law should remain an important mechanism to facilitate genuine creators who are using AI systems in innovative and unique ways to push the boundaries of their creativity.
+ER  - 

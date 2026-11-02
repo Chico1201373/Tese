@@ -1,0 +1,1765 @@
+TY  - CONF
+TI  - Securing Applications of Large Language Models: A Shift-Left Approach
+T2  - 2024 IEEE International Conference on Electro Information Technology (eIT)
+SP  - 1
+EP  - 2
+AU  - Q. Lan
+AU  - A. Kaul
+AU  - N. K. Das Pattanaik
+AU  - P. Pattanayak
+AU  - V. Pandurangan
+PY  - 2024
+KW  - Privacy
+KW  - Ethics
+KW  - Toxicology
+KW  - Large language models
+KW  - Transformers
+KW  - Particle measurements
+KW  - Robustness
+KW  - Security Integration
+KW  - LLMs
+KW  - Security Shift-Left
+DO  - 10.1109/eIT60633.2024.10609922
+JO  - 2024 IEEE International Conference on Electro Information Technology (eIT)
+IS  - 
+SN  - 2154-0373
+VO  - 
+VL  - 
+JA  - 2024 IEEE International Conference on Electro Information Technology (eIT)
+Y1  - 30 May-1 June 2024
+AB  - The emergence of large language models (LLMs) has brought forth remarkable capabilities in various domains, yet it also poses inherent risks to trustfulness, encompassing concerns such as toxicity, stereotype bias, adversarial robustness, ethics, privacy, and fairness. Particularly in sensitive applications like customer support chatbots, AI assistants, and digital information automation, which handle privacy-sensitive data, the adoption of generative pre-trained transformer (GPT) models is pervasive. However, ensuring robust security measures to mitigate potential security vulnerabilities is imperative. This paper advocates for a proactive approach termed "security shift-left," which emphasizes integrating security measures early in the development lifecycle to bolster the security posture of LLM-based applications. Our proposed method leverages basic machine learning (ML) techniques and retrieval-augmented generation (RAG) to effectively address security concerns. We present empirical evidence validating the efficacy of our approach with one LLM-based security application designed for the detection of malicious intent, utilizing both open-source datasets and synthesized datasets. By adopting this security shift-left methodology, developers can confidently develop LLM-based applications with robust security protection, safeguarding against potential threats and vulnerabilities.
+ER  - 
+
+TY  - CONF
+TI  - Augmented Knowledge Graph Querying leveraging LLMs
+T2  - 2025 International Joint Conference on Neural Networks (IJCNN)
+SP  - 1
+EP  - 8
+AU  - M. Arazzi
+AU  - D. Ligari
+AU  - S. Nicolazzo
+AU  - A. Nocera
+PY  - 2025
+KW  - Accuracy
+KW  - Large language models
+KW  - Semantics
+KW  - Retrieval augmented generation
+KW  - Pipelines
+KW  - Government
+KW  - Data visualization
+KW  - Knowledge graphs
+KW  - Question answering (information retrieval)
+KW  - Data models
+KW  - Knowledge Graph
+KW  - Question Answering
+KW  - NLP
+KW  - SPARQL Query Generation
+KW  - Ontology-Driven Data Modeling
+DO  - 10.1109/IJCNN64981.2025.11229060
+JO  - 2025 International Joint Conference on Neural Networks (IJCNN)
+IS  - 
+SN  - 2161-4407
+VO  - 
+VL  - 
+JA  - 2025 International Joint Conference on Neural Networks (IJCNN)
+Y1  - 30 June-5 July 2025
+AB  - Adopting Knowledge Graphs (KGs) as a structured, semantic-oriented, data representation model has significantly improved data integration, reasoning, and querying capabilities across different domains. This is especially true in modern scenarios such as Industry 5.0, where the integration of data from humans, smart devices, and production processes is crucial, not only for industrial innovation, but also for supporting the digital transition of government administrations and organizations. However, the management, retrieval, and visualization of data from a KG using formal query languages can be difficult for non-expert users due to their technical complexity, thus limiting their usage inside industrial environments. For this reason, we introduce SparqLLM, a framework that utilizes a Retrieval-Augmented Generation (RAG) solution, to enhance the querying of Knowledge Graphs (KGs). SparqLLM executes the Extract, Transform, and Load (ETL) pipeline to construct KGs from raw data. It also features a natural language interface powered by Large Language Models (LLMs) to enable automatic SPARQL query generation. By integrating template-based methods as retrieved-context for the LLM, SparqLLM enhances query reliability and reduces semantic errors, ensuring more accurate and efficient KG interactions. Moreover, to improve usability, the system incorporates a dynamic visualization dashboard that adapts to the structure of the retrieved data, presenting the query results in an intuitive format. Rigorous experimental evaluations demonstrate that SparqLLM achieves high query accuracy, improved robustness, and user-friendly interaction with KGs, establishing it as a scalable solution to access semantic data.
+ER  - 
+
+TY  - CONF
+TI  - OpenClaw-Bench: Reproducible Evaluation of Multi-Agent Harnesses for Multi-Step Tool-Use Tasks
+T2  - 2026 International Conference on Computer Science, Machine Learning and Agents (CSMLA)
+SP  - 152
+EP  - 155
+AU  - S. Zhang
+PY  - 2026
+KW  - Tools
+KW  - Modeling
+KW  - Printing
+KW  - Memory
+KW  - Protocols
+KW  - Reviews
+KW  - Large language models
+KW  - Design methodology
+KW  - Conferences
+KW  - Planning
+KW  - large language models
+KW  - intelligent agents
+KW  - multiagent systems
+KW  - tool use
+KW  - agent harness
+KW  - evaluation
+KW  - OpenClaw
+DO  - 10.1109/CSMLA70906.2026.11724415
+JO  - 2026 International Conference on Computer Science, Machine Learning and Agents (CSMLA)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 International Conference on Computer Science, Machine Learning and Agents (CSMLA)
+Y1  - 7-9 Aug. 2026
+AB  - Large language model (LLM) agents are increasingly expected to operate external tools, browse information, edit files, execute code, and deliver task artifacts. However, many practical tasks are not single-turn question-answering problems; they require multi-step planning, tool invocation, intermediate-state management, failure recovery, and result verification. This paper presents OpenClaw-Bench, a reproducible experimental protocol for evaluating governed multi-agent harnesses on multi-step tool-use tasks. The protocol is motivated by OpenClaw, a Supervisor-Worker runtime designed to make long-horizon tool use more governable without repeating implementation details in the abstract. We define a benchmark covering five task families: file and data processing, code repair, evidence-grounded web research, document generation, and cross-tool workflows. The proposed evaluation compares a single-agent tool user, a naive multi-agent baseline, the full OpenClaw harness, and five ablated variants. Metrics combine automated checks, LLM-as-a-judge scoring, human calibration, execution-cost accounting, tool-use correctness, collaboration quality, and error recovery. By formalizing task cards, system variants, scoring dimensions, and statistical procedures, OpenClaw-Bench provides an implementation-ready protocol for studying reliability in long-horizon tool-use tasks.
+ER  - 
+
+TY  - CONF
+TI  - Scene Graph Generation with Large Vision-Language Model and Its Applications
+T2  - 2025 IEEE International Conference on Multimedia and Expo (ICME)
+SP  - 1
+EP  - 6
+AU  - W. -X. Chen
+AU  - Y. -Y. Chen
+AU  - S. -C. Kan
+PY  - 2025
+KW  - Visualization
+KW  - Grounding
+KW  - Large language models
+KW  - Face recognition
+KW  - Benchmark testing
+KW  - Question answering (information retrieval)
+KW  - Cognition
+KW  - Complexity theory
+KW  - Scene Graph Generation
+KW  - Large Vision-Language Model
+KW  - Chain of Thought
+DO  - 10.1109/ICME59968.2025.11210017
+JO  - 2025 IEEE International Conference on Multimedia and Expo (ICME)
+IS  - 
+SN  - 1945-788X
+VO  - 
+VL  - 
+JA  - 2025 IEEE International Conference on Multimedia and Expo (ICME)
+Y1  - 30 June-4 July 2025
+AB  - Scene graph generation (SGG) is pivotal for acquiring valuable knowledge in visual scene understanding, making it crucial for tasks such as visual question answering and visual reasoning. In recent times, multimodal large language models (MLLMs) have demonstrated remarkable proficiency in object grounding and recognition. Nevertheless, constructing the scene graph directly poses a challenging task for MLLMs due to the intricate nature of predicting relationships between objects and the action states of objects. Simultaneously, reliance solely on the large language model (LLM) for achieving region understanding in complex scenes makes MLLMs susceptible to hallucinations, leading to potential errors in determining the coordinates of objects. To tackle these challenges, we introduce a large vision-language model (LVLM) within the Shikra framework for scene graph generation. Our approach involves the creation of an instruction-following SGG dataset for the fine-tuning of the LVLM. After SGG, we recognize that the scene graph generated by the LVLM can assist the LLM in answering visual questions. Thus, we evaluate LVLM-based question-and-answering models by leveraging the scene graph as a rationale, introducing a concept termed Scene Graph Chain of Thought (SGCoT). The proposed SGG method is rigorously evaluated through both quantitative and qualitative experiments on closed-set and open-set SGG tasks, affirming its effectiveness. Moreover, using the scene graph generated by fine-tuning LVLM as a rationale in the chain of thoughts results in a competitive performance on several vision-language compositional benchmarks.
+ER  - 
+
+TY  - CONF
+TI  - Enhancing Communication and Data Transmission Security in RAG Using Large Language Models
+T2  - 2024 4th International Conference on Sustainable Expert Systems (ICSES)
+SP  - 612
+EP  - 617
+AU  - V. Gummadi
+AU  - P. Udayaraju
+AU  - V. R. Sarabu
+AU  - C. Ravulu
+AU  - D. R. Seelam
+AU  - S. Venkataramana
+PY  - 2024
+KW  - Training
+KW  - Accuracy
+KW  - Filtering
+KW  - Large language models
+KW  - Data models
+KW  - Vectors
+KW  - Robustness
+KW  - Safety
+KW  - Security
+KW  - Resilience
+KW  - RAG
+KW  - LLM
+KW  - Query Analysis
+KW  - Security Enhancement
+KW  - Data Privacy
+DO  - 10.1109/ICSES63445.2024.10763024
+JO  - 2024 4th International Conference on Sustainable Expert Systems (ICSES)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2024 4th International Conference on Sustainable Expert Systems (ICSES)
+Y1  - 15-17 Oct. 2024
+AB  - Retrieval-augmented generation (RAG) enhances large language models (LLMs) by integrating external knowledge sources, enabling more useful information and generating accurate responses. This paper explores RAG's architecture and applications, combining generator and retriever models to access and utilize vast external data repositories. While RAG holds significant promise for various Natural Language Processing (NLP) processes like dialogue generation, summarization, and question answering, it also presents unique security challenges that must be addressed to ensure system integrity and reliability. RAG systems face several security threats, including data poisoning, model manipulation, privacy leakage, biased information retrieval, and harmful outputs generation. Generally, in the traditional RAG application, security threat is one of the major concerns. To tighten the security system and enhance the efficiency of the model on processing more complex data this paper outlines key strategies for securing RAG-based applications to mitigate these risks paper outlines key strategies for securing RAG-based applications to mitigate these risks. Ensuring data security through filtering, sanitization, and provenance tracking can prevent data poisoning and enhance the quality of external knowledge sources. Strengthening model security via adversarial training, input validation, and anomaly detection improves resilience against manipulative attacks. Implementing output monitoring and filtering techniques, such as factual verification, language moderation, and bias detection, ensures the accuracy and safety of generated responses. Additionally, robust infrastructure and access control measures, including secure data storage, secure APIs, and regulated model access, protect against unauthorized access and manipulation. Moreover, this study analyzes various use cases for LLMs enhanced by RAG, including personalized recommendations, customer support automation, content creation, and advanced search functionalities. The role of vector databases in optimizing RAG-driven generative AI is also discussed, highlighting their ability to efficiently manage and retrieve large-scale data for improved response generation. By adhering to these security measures and leveraging best practices from leading industry sources such as Databricks, AWS, and Milvus, developers can ensure the robustness and trustworthiness of RAG-based systems across diverse applications.
+ER  - 
+
+TY  - CONF
+TI  - A2RAG: Adaptive Agentic Graph Retrieval for Cost-Aware and Reliable Reasoning
+T2  - 2026 IEEE 42nd International Conference on Data Engineering Workshops (ICDEW)
+SP  - 187
+EP  - 196
+AU  - J. Liu
+AU  - Z. Chen
+AU  - S. Qiao
+AU  - M. Ju
+AU  - D. Zhang
+AU  - B. Han
+AU  - S. Yu
+AU  - X. Shu
+AU  - J. Wu
+AU  - D. Wen
+AU  - X. Cao
+AU  - G. Liu
+AU  - Z. Yang
+PY  - 2026
+KW  - Modeling
+KW  - Spread spectrum communication
+KW  - Printing
+KW  - Retrieval augmented generation
+KW  - Bridges
+KW  - Back
+KW  - Large language models
+KW  - Seeds (agriculture)
+KW  - Cognition
+KW  - Cognitive systems
+KW  - etrieval Augmented Generation
+KW  - RAG
+KW  - GraphRAG
+KW  - LLM Agents
+KW  - Multi-hop Reasoning
+KW  - Knowledge Graphs
+DO  - 10.1109/ICDEW71238.2026.00024
+JO  - 2026 IEEE 42nd International Conference on Data Engineering Workshops (ICDEW)
+IS  - 
+SN  - 2473-3490
+VO  - 
+VL  - 
+JA  - 2026 IEEE 42nd International Conference on Data Engineering Workshops (ICDEW)
+Y1  - 4-8 May 2026
+AB  - Graph Retrieval-Augmented Generation (Graph-RAG) enhances multihop question answering by organizing corpora into knowledge graphs and routing evidence through relational structure. However, practical deployments face two persistent bottlenecks: (i) mixed-difficulty workloads where one-size-fits-all retrieval either wastes cost on easy queries or fails on hard multihop cases, and (ii) extraction loss, where graph abstraction omits fine-grained qualifiers that remain only in source text. We present A2RAG, an adaptive-and-agentic GraphRAG framework for cost-aware and reliable reasoning. A2RAG couples an adaptive controller that verifies evidence sufficiency and triggers targeted refinement only when necessary, with an agentic retriever that progressively escalates retrieval effort and maps graph signals back to provenance text to remain robust under extraction loss and incomplete graphs. Experiments on HotpotQA and 2WikiMultiHopQA demonstrate that A2RAG achieves +9.9/+11.8 absolute gains in Recall@2, while cutting token consumption and end-to-end latency by about 50% relative to iterative multihop baselines.
+ER  - 
+
+TY  - CONF
+TI  - The Impact of Ontology Structure in the Performance of RAG Systems: a Medical Use Case
+T2  - 2026 IEEE Conference on Artificial Intelligence (CAI)
+SP  - 674
+EP  - 680
+AU  - D. Lin
+AU  - A. Riquelme-García
+AU  - J. T. Fernández-Breis
+AU  - P. E. Anderson
+PY  - 2026
+KW  - Ontologies
+KW  - Retrieval augmented generation
+KW  - Context
+KW  - Large language models
+KW  - Modeling
+KW  - Question answering (information retrieval)
+KW  - Grounding
+KW  - Spinal cord injury
+KW  - Back
+KW  - Manuals
+KW  - Ontology
+KW  - RAG
+KW  - LLM
+KW  - Spinal Cord Injury
+KW  - Chronic Lower Back Pain
+DO  - 10.1109/CAI68641.2026.11536252
+JO  - 2026 IEEE Conference on Artificial Intelligence (CAI)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 IEEE Conference on Artificial Intelligence (CAI)
+Y1  - 8-10 May 2026
+AB  - Retrieval-Augmented Generation (RAG) is a widely used framework for circumventing the knowledge constraints of LLMs. General-purpose RAG systems are naive to domain-specific terminology and structure. As a result, prior work such as OG-RAG leverages ontologies to bake expert knowledge and domain understanding into RAG systems. However, the feasibility, effectiveness, and accuracy of OG-RAG is completely dependent on the ontology. In order to build new ontologies and modify existing ontologies for OG-RAG, it is critical to understand how structural aspects of an ontology impact performance. In this study, we systematically evaluate how the structure of an ontology determines performance across two key tasks: document-to-ontology mapping, and question-answering. To measure its performance, we applied OG-RAG across two specialized domains: chronic lower back pain and spinal cord injury rehabilitation. We measured how the specificity of the ontology classes can impact the performance of OG-RAG, finding that an ontology containing more general classes can reduce the risk of hallucinations during document-to-ontology mapping, while using specific instance-level classes can hinder accuracy. Furthermore, we investigate the impact of adding class descriptions on OG-RAG behavior, revealing an increase in performance when providing the additional context. Our results identify potential best practices when building ontologies for OG-RAG, enabling its application across domains.
+ER  - 
+
+TY  - CONF
+TI  - SimpleVQA: Multimodal Factuality Evaluation for Multimodal Large Language Models
+T2  - 2025 IEEE/CVF International Conference on Computer Vision (ICCV)
+SP  - 4637
+EP  - 4646
+AU  - X. Cheng
+AU  - W. Zhang
+AU  - S. Zhang
+AU  - J. Yang
+AU  - X. Guan
+AU  - X. Wu
+AU  - X. Li
+AU  - G. Zhang
+AU  - J. Liu
+AU  - Y. Mai
+AU  - Y. Zeng
+AU  - Z. Wen
+AU  - K. Jin
+AU  - B. Wang
+AU  - W. Zhou
+AU  - Y. Lu
+AU  - H. Ji
+AU  - T. Li
+AU  - W. Huang
+AU  - Z. Li
+PY  - 2025
+KW  - Motion pictures
+KW  - Broadcasting
+KW  - Filtering
+KW  - Filters
+KW  - Filtering theory
+KW  - MIMICs
+KW  - Millimeter wave integrated circuits
+KW  - Monolithic integrated circuits
+KW  - Circuits and systems
+KW  - Image filtering
+KW  - visual question answering
+KW  - factuality evaluation
+KW  - multimodal large language models
+DO  - 10.1109/ICCV51701.2025.00441
+JO  - 2025 IEEE/CVF International Conference on Computer Vision (ICCV)
+IS  - 
+SN  - 2380-7504
+VO  - 
+VL  - 
+JA  - 2025 IEEE/CVF International Conference on Computer Vision (ICCV)
+Y1  - 19-25 Oct. 2025
+AB  - The increasing application of multi-modal large language models (MLLMs) across various sectors has spotlighted the essence of their output reliability and accuracy, particularly their ability to produce content grounded in factual information (e.g. common and domain-specific knowledge). In this work, we introduce SimpleVQA, the first comprehensive multi-modal benchmark to evaluate the factuality ability of MLLMs to answer natural language short questions. SimpleVQA is characterized by 7 key features: it is based on bilingual, it covers multiple tasks and multiple scenarios, ensures high quality and challenging queries, maintains static and timeless reference answers, and is straightforward to evaluate. Our approach involves categorizing visual question-answering items into 9 different tasks around objective events or common knowledge and situating these within 9 scenario domains. Rigorous quality control processes are implemented to guarantee high-quality, concise, and clear answers, facilitating evaluation with minimal variance via an LLM-as-a-judge scoring system. Using SimpleVQA, we perform a comprehensive assessment of leading 18 MLLMs and 8 text-only LLMs, delving into their image comprehension and text generation abilities by identifying and analyzing error cases.
+ER  - 
+
+TY  - CONF
+TI  - An Intelligent Multi-Module Financial Assistant for Personalized Budgeting, Risk Alerts, and Adaptive Investment Advisory
+T2  - 2025 9th International Conference on Computational System and Information Technology for Sustainable Solutions (CSITSS)
+SP  - 1
+EP  - 6
+AU  - P. Ganta
+AU  - G. Agarwal
+AU  - R. Jha
+AU  - K. Nagaraj
+PY  - 2025
+KW  - Accuracy
+KW  - Fintech
+KW  - Pipelines
+KW  - Finance
+KW  - Chatbots
+KW  - Credit cards
+KW  - Market research
+KW  - Fraud
+KW  - Usability
+KW  - Recommender systems
+KW  - Personal Finance Management
+KW  - Fraud Detection
+KW  - Recommendation Systems
+KW  - Document-Aware Chatbots
+KW  - Financial Risk Alerts
+DO  - 10.1109/CSITSS67709.2025.11294369
+JO  - 2025 9th International Conference on Computational System and Information Technology for Sustainable Solutions (CSITSS)
+IS  - 
+SN  - 2767-1097
+VO  - 
+VL  - 
+JA  - 2025 9th International Conference on Computational System and Information Technology for Sustainable Solutions (CSITSS)
+Y1  - 20-22 Nov. 2025
+AB  - Managing personal finances in today's fragmented fintech landscape presents significant challenges due to the absence of integrated, user-aware systems. This work proposes a unified, intelligent finance management framework that automates budgeting, credit recommendation, risk detection, and interactive advisory services. The system combines modular components-namely, a fraud detection engine using XGBoost, a personalized credit card ranker powered by learning-to-rank models, and a finance chatbot built on LLM with intent and context detection pipelines. Key innovations include categoryaware document embeddings, semantic user profiling, and rulebased behavior mapping for spending trends. Evaluation results demonstrate effective fraud classification, accurate credit matching, and scalable document-grounded advisory generation. The platform is designed for young professionals, freelancers, and digital users, and emphasizes scalability, explainability, and contextual intelligence across financial tasks.
+ER  - 
+
+TY  - CONF
+TI  - Structured Interfaces for Automated Reasoning with 3D Scene Graphs
+T2  - 2026 IEEE International Conference on Robotics and Automation (ICRA)
+SP  - 18418
+EP  - 18425
+AU  - A. Ray
+AU  - J. Arkin
+AU  - H. Biggie
+AU  - C. Fan
+AU  - L. Carlone
+AU  - N. Roy
+PY  - 2026
+KW  - Ciphers
+KW  - Large language models
+KW  - Modeling
+KW  - Robots
+KW  - Grounding
+KW  - Natural languages
+KW  - Printing
+KW  - Context
+KW  - Databases
+KW  - Generative Pre-trained transformer
+DO  - 10.1109/ICRA57385.2026.11695762
+JO  - 2026 IEEE International Conference on Robotics and Automation (ICRA)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 IEEE International Conference on Robotics and Automation (ICRA)
+Y1  - 1-5 June 2026
+AB  - In order to provide a robot with the ability to understand and react to a user’s natural language inputs, the natural language must be connected to the robot’s underlying representations of the world. Recently, large language models (LLMs) and 3D scene graphs (3DSGs) have become a popular choice for grounding natural language and representing the world. In this work, we address the challenge of using LLMs with 3DSGs to ground natural language. Existing methods encode the scene graph as serialized text within the LLM’s context window, but this encoding does not scale to large or rich 3DSGs. Instead, we propose to use a form of Retrieval Augmented Generation to select a subset of the 3DSG relevant to the task. We encode a 3DSG in a graph database and provide a query language interface (Cypher) as a tool to the LLM with which it can retrieve relevant data for language grounding. We evaluate our approach on instruction following and scene question-answering tasks and compare against baseline context window and code generation methods. Our results show that using Cypher as an interface to 3D scene graphs scales significantly better to large, rich graphs on both local and cloud-based models. This leads to large performance improvements in grounded language tasks while also substantially reducing the token count of the scene graph content.
+ER  - 
+
+TY  - CONF
+TI  - Improving IoT Cyber Threat Response with Multi-Agent LLMs and Semantic Retrieval
+T2  - 2025 IEEE International Conference on Smart Internet of Things (SmartIoT)
+SP  - 416
+EP  - 421
+AU  - J. A. Williams
+AU  - S. Gyawali
+AU  - Y. Jiang
+AU  - J. Huang
+PY  - 2025
+KW  - Accuracy
+KW  - Taxonomy
+KW  - Semantics
+KW  - Retrieval augmented generation
+KW  - Transformers
+KW  - Cognition
+KW  - Threat assessment
+KW  - Robustness
+KW  - Real-time systems
+KW  - Computer security
+KW  - threat response
+KW  - multi-agent llm
+KW  - iot security
+DO  - 10.1109/SmartIoT66867.2025.00067
+JO  - 2025 IEEE International Conference on Smart Internet of Things (SmartIoT)
+IS  - 
+SN  - 2770-2677
+VO  - 
+VL  - 
+JA  - 2025 IEEE International Conference on Smart Internet of Things (SmartIoT)
+Y1  - 17-20 Nov. 2025
+AB  - The increasing complexity of IoT cybersecurity challenges demands intelligent systems capable of integrating structured domain knowledge with advanced reasoning to deliver accurate and context-aware responses. Traditional LLM-based question-answering systems often produce hallucinated or outdated answers, posing significant risks in IoT environments where vulnerabilities span heterogeneous devices and protocols. To mitigate this, we propose a novel multi-agent framework specifically designed for IoT security applications. This architecture decomposes complex security queries, retrieves evidence from structured repositories such as MITRE ATT&CK for ICS and IoT-specific threat taxonomies, and synthesizes final answers through coordinated reasoning agents. Our demonstration employs a lightweight LLaMA 3.2 model for tasks like intent classification and query parsing, while leveraging Mistral-7B for in-depth reasoning and response generation. These components are integrated with dense-vector and transformer-based retrieval techniques. The framework incorporates iterative feedback loops among agents, allowing for query refinement, evidence validation, and contradiction resolution, ultimately enabling trustworthy and grounded responses for IoT cyber threat detection and mitigation.
+ER  - 
+
+TY  - CONF
+TI  - Edge-AdaptiveKG: Resource-Efficient Knowledge Graph Construction for RAG on Edge Devices
+T2  - 2026 IEEE 32nd International Conference on Embedded and Real-Time Computing Systems and Applications (RTCSA)
+SP  - 190
+EP  - 200
+AU  - Y. Du
+AU  - J. Niu
+AU  - C. J. Xue
+AU  - N. Guan
+PY  - 2026
+KW  - Large language models
+KW  - Modeling
+KW  - Construction
+KW  - Printing
+KW  - Triples (Data structure)
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Accuracy
+KW  - Retrieval augmented generation
+KW  - Dictionaries
+KW  - n/a
+DO  - 10.1109/RTCSA71153.2026.00031
+JO  - 2026 IEEE 32nd International Conference on Embedded and Real-Time Computing Systems and Applications (RTCSA)
+IS  - 
+SN  - 2325-1301
+VO  - 
+VL  - 
+JA  - 2026 IEEE 32nd International Conference on Embedded and Real-Time Computing Systems and Applications (RTCSA)
+Y1  - 11-13 Aug. 2026
+AB  - Integrating Knowledge Graphs (KGs) into Retrieval-Augmented Generation (RAG) can substantially improve LLM performance on complex question answering (QA) by reducing hallucinations and supplying structured context. However, building high-quality KGs over large corpora for edge scenarios is challenging: cloud-based processing introduces latency and dependency on remote services, while exhaustive on-device construction with LLMs is often computationally infeasible under limited hardware budgets. We observe that traditional non-LLM methods can efficiently capture explicit knowledge, and that real-world queries typically touch only a small, highly concentrated portion of the graph. As a result, static and exhaustive KG construction is redundant and inefficient. We propose Edge-AdaptiveKG, a resource-aware framework that combines an offline Seed KG (S-KG) with an online Query-driven KG (Q-KG). Lightweight non-LLM methods build the S-KG, while the LLM is invoked on demand during question answering to incrementally expand the Q-KG only when complex relations are needed. Experiments show that Edge-AdaptiveKG reduces computational overhead and inference latency, enabling KG-enhanced RAG on resource-constrained devices while maintaining competitive QA accuracy.
+ER  - 
+
+TY  - CONF
+TI  - Enhancing medical data processing with RAG-augmented fine-tuned LLMs and guardrails
+T2  - International Conference on Advancing Technology in Engineering and Science (ICATES 2025)
+SP  - 65
+EP  - 72
+AU  - A. Shah
+AU  - D. Shetty
+AU  - P. Patil
+AU  - P. Ambre
+AU  - S. Chaure
+AU  - D. Rajadhyax
+PY  - 2026
+DO  - 10.1049/icp.2025.4700
+JO  - International Conference on Advancing Technology in Engineering and Science (ICATES 2025)
+IS  - 
+SN  - 
+VO  - 2025
+VL  - 2025
+JA  - International Conference on Advancing Technology in Engineering and Science (ICATES 2025)
+Y1  - 4-5 Oct. 2025
+AB  - As the requirement grows in finding more and more reliable and trustworthy medical query processing chatbots that are based on LLM should be well-designed to ensure accuracy of responses as well as their ethicality. Our approach considers a lightweight fine-tuning model based on Quantized Low-Rank Adaptation (QLoRA) to speedup the adaptation of the model on domain-specific medical data on scarce computational resources. NeMo-Guardrails are also part of the system to ensure the ethical compliance and safety which ensure one to respond to the content getting hallucination free. We choose to use a parameter model which is fine-tuned using domain specific data, gemmaq1.1-7B, which give clinically relevant and context aware outputs. The use of Retrieval-Augmented Generation (RAG) is used to bring the external medical context dynamically. Embeddings called query embeddings are created by the pubmedbert-base-embeddings model which is built on the BioBERT architecture and trained on medical text. The embeddings are stored in a Qdrant vector data base and searched using cosine similarity, best results are added to the prompt to increase the accuracy and factual basis. The metrics of NLP like BLEU, ROUGE-L, BERTscore and QAG were used for the evaluation of the method suggested. The study helps to develop safe, grounded and clinically robust LLM based medical chatbot which can be utilized in the real health care settings.
+ER  - 
+
+TY  - CONF
+TI  - AzureIQ-RAG: Hybrid RAG System for Automated Information Retrieval and Semantic Query Answering Using Azure AI
+T2  - 2025 12th International Conference on Information Technology (ICIT)
+SP  - 577
+EP  - 583
+AU  - I. Mahmood
+AU  - M. Mastan
+AU  - Z. Naveed
+AU  - H. Iftikhar
+AU  - W. Ahmad
+AU  - S. M. Adnan
+PY  - 2025
+KW  - Accuracy
+KW  - Text analysis
+KW  - Semantic search
+KW  - Retrieval augmented generation
+KW  - Feature extraction
+KW  - Information retrieval
+KW  - Portable document format
+KW  - Transformers
+KW  - User experience
+KW  - Artificial intelligence
+KW  - AI
+KW  - Information Retrieval
+KW  - Document Analysis
+KW  - Semantic Search
+KW  - Azure OpenAI Embeddings
+KW  - Azure Cognitive Search
+KW  - Automated Text Extraction
+KW  - Multiformat Document Processing
+DO  - 10.1109/ICIT64950.2025.11049144
+JO  - 2025 12th International Conference on Information Technology (ICIT)
+IS  - 
+SN  - 2831-3399
+VO  - 
+VL  - 
+JA  - 2025 12th International Conference on Information Technology (ICIT)
+Y1  - 27-30 May 2025
+AB  - Extracting relevant information from documents and websites is a time-consuming task that becomes increasingly complex as document length grows and websites expand. Manually retrieving precise information to meet user requirements from large documents and extensive websites is challenging and inefficient. In this context, Artificial Intelligence (AI) has emerged as a transformative technology, offering unparalleled capabilities for automating systems. AI has been widely utilized to streamline various processes, demonstrating its potential to simplify complex tasks, enhance accuracy, and reduce human effort. This research paper introduces "AzureIQ-RAG" Azure powered Intelligent Query and Hybrid Retrieval Augmented Generation (RAG) system with two primary features: (1) extracting and retrieving information from diverse document formats, including PDF, TXT, DOCX, etc. and enabling question-answering based on the provided document(s), (2) extracting content from website and enabling question-answering regarding the content of the website. The system automates the extraction process from both documents and websites. The extracted content is segmented, embedded using Azure OpenAI Embeddings, and indexed in Azure Cognitive Search for efficient retrieval and then a reranking mechanism is applied to improve precision and accuracy further. Then the final response is generated by passing the relevant content and user query to the Large Language Model (LLM) GPT -4 omni. Additionally, the system maintains separate session memory for both document and website searches, ensuring context retention for improved query handling and user experience. The document processing feature of the system has been tested on a dataset of over 950+ documents of various formats and achieved an accuracy of 94.77 %, and the website feature of the system is tested on 50+ different websites, achieving an accuracy of 75.22%.
+ER  - 
+
+TY  - JOUR
+TI  - VizGenie: Toward Self-Refining, Domain-Aware Workflows for Next-Generation Scientific Visualization
+T2  - IEEE Transactions on Visualization and Computer Graphics
+SP  - 1021
+EP  - 1031
+AU  - A. Biswas
+AU  - T. L. Turton
+AU  - N. R. Ranasinghe
+AU  - S. Jones
+AU  - B. Love
+AU  - W. Jones
+AU  - A. Hagberg
+AU  - H. -W. Shen
+AU  - N. DeBardeleben
+AU  - E. Lawrence
+PY  - 2026
+KW  - Data visualization
+KW  - Natural languages
+KW  - Iterative methods
+KW  - Reproducibility of results
+KW  - Codes
+KW  - Question answering (information retrieval)
+KW  - Large language models
+KW  - Visual analytics
+KW  - Three-dimensional displays
+KW  - Robustness
+KW  - Scientific data
+KW  - Large language models
+KW  - Agentic workflows
+KW  - Natural language
+KW  - Feature-based visualization
+DO  - 10.1109/TVCG.2025.3634655
+JO  - IEEE Transactions on Visualization and Computer Graphics
+IS  - 1
+SN  - 1941-0506
+VO  - 32
+VL  - 32
+JA  - IEEE Transactions on Visualization and Computer Graphics
+Y1  - Jan. 2026
+AB  - We present VizGenie, a self-improving, agentic framework that advances scientific visualization through large language model (LLM) by orchestrating of a collection of domain-specific and dynamically generated modules. Users initially access core functionalities—such as threshold-based filtering, slice extraction, and statistical analysis—through pre-existing tools. For tasks beyond this baseline, VizGenie autonomously employs LLMs to generate new visualization scripts (e.g., VTK Python code), expanding its capabilities on-demand. Each generated script undergoes automated backend validation and is seamlessly integrated upon successful testing, continuously enhancing the system's adaptability and robustness. A distinctive feature of VizGenie is its intuitive natural language interface, allowing users to issue high-level feature-based queries (e.g., “visualize the skull” or “highlight tissue boundaries”). The system leverages image-based analysis and visual question answering (VQA) via fine-tuned vision models to interpret these queries precisely, bridging domain expertise and technical implementation. Additionally, users can interactively query generated visualizations through VQA, facilitating deeper exploration. Reliability and reproducibility are further strengthened by Retrieval-Augmented Generation (RAG), providing context-driven responses while maintaining comprehensive provenance records. Evaluations on complex volumetric datasets demonstrate significant reductions in cognitive overhead for iterative visualization tasks. By integrating curated domain-specific tools with LLM-driven flexibility, VizGenie not only accelerates insight generation but also establishes a sustainable, continuously evolving visualization practice. The resulting platform dynamically learns from user interactions, consistently enhancing support for feature-centric exploration and reproducible research in scientific visualization.
+ER  - 
+
+TY  - CONF
+TI  - Blended RAG: Improving RAG (Retriever-Augmented Generation) Accuracy with Semantic Search and Hybrid Query-Based Retrievers
+T2  - 2024 IEEE 7th International Conference on Multimedia Information Processing and Retrieval (MIPR)
+SP  - 155
+EP  - 161
+AU  - K. Sawarkar
+AU  - A. Mangal
+AU  - S. R. Solanki
+PY  - 2024
+KW  - Leadership
+KW  - Accuracy
+KW  - Semantic search
+KW  - Ecosystems
+KW  - Pipelines
+KW  - Refining
+KW  - Benchmark testing
+KW  - Vectors
+KW  - Indexes
+KW  - Prompt engineering
+KW  - RAG
+KW  - Retrievers
+KW  - Semantic Search
+KW  - Dense Index
+KW  - Vector Search
+DO  - 10.1109/MIPR62202.2024.00031
+JO  - 2024 IEEE 7th International Conference on Multimedia Information Processing and Retrieval (MIPR)
+IS  - 
+SN  - 2770-4319
+VO  - 
+VL  - 
+JA  - 2024 IEEE 7th International Conference on Multimedia Information Processing and Retrieval (MIPR)
+Y1  - 7-9 Aug. 2024
+AB  - Retrieval-Augmented Generation (RAG) is a prevalent approach to infuse a private knowledge base of documents with Large Language Models (LLM) to build Generative Q&A (Question-Answering) systems. However, RAG accuracy becomes increasingly challenging as the corpus of documents scales up, with Retrievers playing an outsized role in the overall RAG accuracy by extracting the most relevant document from the corpus to provide context to the LLM. In this paper, we propose the ‘Blended RAG’ method of leveraging semantic search techniques, such as Dense Vector indexes and Sparse Encoder indexes, blended with hybrid query strategies. Our study achieves better retrieval results and sets new benchmarks for IR (Information Retrieval) datasets like NQ and TREC-COVID datasets. We further extend such a ‘Blended Retriever’ to the RAG system to demonstrate far superior results on Generative Q&A datasets like SQUAD, even surpassing fine-tuning performance.
+ER  - 
+
+TY  - CONF
+TI  - Agentic RAG for Structure Aware Long Document Reasoning
+T2  - 2026 11th International Conference on Applying New Technology in Green Buildings (ATiGB)
+SP  - 1189
+EP  - 1192
+AU  - D. Q. Lam
+AU  - G. H. Tran
+AU  - T. -D. Do
+PY  - 2026
+KW  - Retrieval augmented generation
+KW  - Context
+KW  - Indexes
+KW  - Indexing
+KW  - Modeling
+KW  - Spread spectrum communication
+KW  - Pipelines
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Large language models
+KW  - Agentic RAG
+KW  - multimodal retrieval
+KW  - structureaware reasoning
+KW  - long-document understanding
+KW  - vision-language models
+DO  - 10.1109/ATiGB70203.2026.11628415
+JO  - 2026 11th International Conference on Applying New Technology in Green Buildings (ATiGB)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 11th International Conference on Applying New Technology in Green Buildings (ATiGB)
+Y1  - 10-11 July 2026
+AB  - Graph-based and multimodal retrieval frameworks provide a strong foundation for long-document question answering, but single-pass retrieval can remain brittle when queries are ambiguous, multi-step, or misaligned with the indexed evidence. We present Agentic-RAG, a structure-aware retrieval-augmented generation framework that combines a MinerU-LightRAG-based document processing and graph retrieval pipeline with an LLM-based agentic query-control layer. The base pipeline supports structure-aware parsing and VLM-based captioning for textual, visual, and tabular evidence, while the agentic layer performs query planning, LLM-based evidence reranking, answer generation, groundedness checking, relevance checking, and query reformulation. The framework does not modify the underlying graph construction or indexing mechanism; instead, it improves retrieval control by guiding the base retriever toward evidence that better matches the user's information need. Experiments on HotpotQA and ASQA show that Agentic-RAG improves context precision on HotpotQA from 0.1682 to 0.2462 and substantially improves context precision and context recall on ASQA from 0.5045/0.2783 to 0.6522/0.4783. The results indicate that agentic query control is especially useful for ambiguity-heavy long-form reasoning, while sparse multi-hop evidence chaining remains a bottleneck for future work.
+ER  - 
+
+TY  - CONF
+TI  - Emotion-Aware Digital Therapy Assistant Using LLMs and Agentic Workflows
+T2  - 2026 IEEE 1st International Conference on Intelligent Technologies for a Sustainable and Inclusive Future (ICITSIF)
+SP  - 321
+EP  - 326
+AU  - P. Patel
+AU  - K. Kumar
+AU  - H. Verma
+AU  - H. R. Chaubey
+AU  - R. Kandari
+PY  - 2026
+KW  - Modeling
+KW  - Mental health
+KW  - Printing
+KW  - Safety
+KW  - Signal detection
+KW  - Large language models
+KW  - Emotion recognition
+KW  - Medical treatment
+KW  - Indexes
+KW  - Indexing
+KW  - Mental-health chatbots
+KW  - emotion recognition
+KW  - large language models
+KW  - multimodal AI
+KW  - agentic workflows
+KW  - digital therapy
+KW  - crisis detection
+KW  - ethical AI
+DO  - 10.1109/ICITSIF69060.2026.11608458
+JO  - 2026 IEEE 1st International Conference on Intelligent Technologies for a Sustainable and Inclusive Future (ICITSIF)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 IEEE 1st International Conference on Intelligent Technologies for a Sustainable and Inclusive Future (ICITSIF)
+Y1  - 29-30 May 2026
+AB  - Digital mental-health systems are increasingly deployed as first-line support for stress, anxiety, and mood disorders, yet many conversational agents still lack reliable emotionawareness, safety mechanisms, and clinically grounded escalation paths. This paper presents an Emotion-Aware Digital Therapy Assistant that combines large language models (LLMs), multimodal emotion detection, and agentic workflows to deliver context-sensitive and safety-conscious mental-wellness support. The assistant first estimates the user’s affective state from text and conversational context, then evaluates psychological risk using a healthcare-tuned LLM and rule-based safety graph, and finally chooses between therapeutic conversation, coping exercises, or escalation to emergency workflows (e.g., crisis alerts, human clinicians). We design a realistic benchmark—EMOThera—comprising 8,500 annotated utterances across seven emotion categories and three risk levels and report results on emotion classification, crisis detection, latency, and user experience. The proposed system achieves 89.7% macro accuracy and 0.88 macro F1 for emotion recognition, 0.91 AUC for high-risk detection, and a median end-to-end latency of 430ms per turn on commodity hardware, while 81.3% of participants in a small pilot (n = 32) report feeling "emotionally understood". These findings suggest that combining LLMs with structured safety workflows and lightweight multimodal modeling can yield an accessible, low-friction, and safer pathway between self-help tools and professional mental-health care.
+ER  - 
+
+TY  - CHAP
+TI  - 4 Understanding Natural Language Processing
+T2  - Mastering Prompt Engineering: A Guide to Crafting Effective Prompts
+SP  - 45
+EP  - 58
+AU  - Akshay Bhuvaneswari Ramakrishnan
+AU  - P. Padmakumari
+AU  - R. Manikandan
+AU  - S. Vidivelli
+AU  - S. Magesh
+AU  - Harish Garg
+PY  - 2026
+DO  - 
+PB  - River Publishers
+SN  - 9788743813675
+UR  - http://ieeexplore.ieee.org/document/11614353
+AB  - This book explains the principles, structure, and real-world practice of prompt engineering in a way that anyone working with large language models can understand and apply. Rather than treating prompting as a collection of hacks, it walks the reader through how to think about role, context, task, constraints, and examples so that LLMs produce reliable, domain-appropriate outputs. Starting from the basics of &#x201C;what is a prompt,&#x201D; the book then connects prompting to how generative AI models actually work, introduces core and advanced prompting patterns (prompt chaining, dynamic templates, tool-augmented prompting), and shows how to evaluate and refine model responses. Designed for students, educators, and practitioners, each chapter includes learning objectives and hands-on exercises that can be tried directly in tools like ChatGPT. Later chapters move from theory to application, demonstrating how to build LLM-powered chatbots and retrieval-augmented generation (RAG) systems, and how to incorporate ethics, safety, and bias awareness into prompt design. By the end, readers will have a reusable toolkit for crafting effective prompts across education, research, business, and technical use cases.
+ER  - 
+
+TY  - CHAP
+TI  - Mastering Prompt Engineering: A Guide to Crafting Effective Prompts
+T2  - Mastering Prompt Engineering: A Guide to Crafting Effective Prompts
+SP  - i
+EP  - xxii
+AU  - Akshay Bhuvaneswari Ramakrishnan
+AU  - P. Padmakumari
+AU  - R. Manikandan
+AU  - S. Vidivelli
+AU  - S. Magesh
+AU  - Harish Garg
+PY  - 2026
+DO  - 
+PB  - River Publishers
+SN  - 9788743813675
+UR  - http://ieeexplore.ieee.org/document/11614284
+AB  - This book explains the principles, structure, and real-world practice of prompt engineering in a way that anyone working with large language models can understand and apply. Rather than treating prompting as a collection of hacks, it walks the reader through how to think about role, context, task, constraints, and examples so that LLMs produce reliable, domain-appropriate outputs. Starting from the basics of &#x201C;what is a prompt,&#x201D; the book then connects prompting to how generative AI models actually work, introduces core and advanced prompting patterns (prompt chaining, dynamic templates, tool-augmented prompting), and shows how to evaluate and refine model responses. Designed for students, educators, and practitioners, each chapter includes learning objectives and hands-on exercises that can be tried directly in tools like ChatGPT. Later chapters move from theory to application, demonstrating how to build LLM-powered chatbots and retrieval-augmented generation (RAG) systems, and how to incorporate ethics, safety, and bias awareness into prompt design. By the end, readers will have a reusable toolkit for crafting effective prompts across education, research, business, and technical use cases.
+ER  - 
+
+TY  - CHAP
+TI  - 6 Advanced Prompting, Evaluation, and Validation of Prompt-driven Models
+T2  - Mastering Prompt Engineering: A Guide to Crafting Effective Prompts
+SP  - 69
+EP  - 84
+AU  - Akshay Bhuvaneswari Ramakrishnan
+AU  - P. Padmakumari
+AU  - R. Manikandan
+AU  - S. Vidivelli
+AU  - S. Magesh
+AU  - Harish Garg
+PY  - 2026
+DO  - 
+PB  - River Publishers
+SN  - 9788743813675
+UR  - http://ieeexplore.ieee.org/document/11614286
+AB  - This book explains the principles, structure, and real-world practice of prompt engineering in a way that anyone working with large language models can understand and apply. Rather than treating prompting as a collection of hacks, it walks the reader through how to think about role, context, task, constraints, and examples so that LLMs produce reliable, domain-appropriate outputs. Starting from the basics of &#x201C;what is a prompt,&#x201D; the book then connects prompting to how generative AI models actually work, introduces core and advanced prompting patterns (prompt chaining, dynamic templates, tool-augmented prompting), and shows how to evaluate and refine model responses. Designed for students, educators, and practitioners, each chapter includes learning objectives and hands-on exercises that can be tried directly in tools like ChatGPT. Later chapters move from theory to application, demonstrating how to build LLM-powered chatbots and retrieval-augmented generation (RAG) systems, and how to incorporate ethics, safety, and bias awareness into prompt design. By the end, readers will have a reusable toolkit for crafting effective prompts across education, research, business, and technical use cases.
+ER  - 
+
+TY  - CHAP
+TI  - 2 Understanding Generative AI
+T2  - Mastering Prompt Engineering: A Guide to Crafting Effective Prompts
+SP  - 17
+EP  - 28
+AU  - Akshay Bhuvaneswari Ramakrishnan
+AU  - P. Padmakumari
+AU  - R. Manikandan
+AU  - S. Vidivelli
+AU  - S. Magesh
+AU  - Harish Garg
+PY  - 2026
+DO  - 
+PB  - River Publishers
+SN  - 9788743813675
+UR  - http://ieeexplore.ieee.org/document/11614338
+AB  - This book explains the principles, structure, and real-world practice of prompt engineering in a way that anyone working with large language models can understand and apply. Rather than treating prompting as a collection of hacks, it walks the reader through how to think about role, context, task, constraints, and examples so that LLMs produce reliable, domain-appropriate outputs. Starting from the basics of &#x201C;what is a prompt,&#x201D; the book then connects prompting to how generative AI models actually work, introduces core and advanced prompting patterns (prompt chaining, dynamic templates, tool-augmented prompting), and shows how to evaluate and refine model responses. Designed for students, educators, and practitioners, each chapter includes learning objectives and hands-on exercises that can be tried directly in tools like ChatGPT. Later chapters move from theory to application, demonstrating how to build LLM-powered chatbots and retrieval-augmented generation (RAG) systems, and how to incorporate ethics, safety, and bias awareness into prompt design. By the end, readers will have a reusable toolkit for crafting effective prompts across education, research, business, and technical use cases.
+ER  - 
+
+TY  - CHAP
+TI  - 1 Introduction to Prompt Engineering
+T2  - Mastering Prompt Engineering: A Guide to Crafting Effective Prompts
+SP  - 1
+EP  - 16
+AU  - Akshay Bhuvaneswari Ramakrishnan
+AU  - P. Padmakumari
+AU  - R. Manikandan
+AU  - S. Vidivelli
+AU  - S. Magesh
+AU  - Harish Garg
+PY  - 2026
+DO  - 
+PB  - River Publishers
+SN  - 9788743813675
+UR  - http://ieeexplore.ieee.org/document/11614342
+AB  - This book explains the principles, structure, and real-world practice of prompt engineering in a way that anyone working with large language models can understand and apply. Rather than treating prompting as a collection of hacks, it walks the reader through how to think about role, context, task, constraints, and examples so that LLMs produce reliable, domain-appropriate outputs. Starting from the basics of &#x201C;what is a prompt,&#x201D; the book then connects prompting to how generative AI models actually work, introduces core and advanced prompting patterns (prompt chaining, dynamic templates, tool-augmented prompting), and shows how to evaluate and refine model responses. Designed for students, educators, and practitioners, each chapter includes learning objectives and hands-on exercises that can be tried directly in tools like ChatGPT. Later chapters move from theory to application, demonstrating how to build LLM-powered chatbots and retrieval-augmented generation (RAG) systems, and how to incorporate ethics, safety, and bias awareness into prompt design. By the end, readers will have a reusable toolkit for crafting effective prompts across education, research, business, and technical use cases.
+ER  - 
+
+TY  - CHAP
+TI  - About the Authors
+T2  - Mastering Prompt Engineering: A Guide to Crafting Effective Prompts
+SP  - 161
+EP  - 164
+AU  - Akshay Bhuvaneswari Ramakrishnan
+AU  - P. Padmakumari
+AU  - R. Manikandan
+AU  - S. Vidivelli
+AU  - S. Magesh
+AU  - Harish Garg
+PY  - 2026
+DO  - 
+PB  - River Publishers
+SN  - 9788743813675
+UR  - http://ieeexplore.ieee.org/document/11614311
+AB  - This book explains the principles, structure, and real-world practice of prompt engineering in a way that anyone working with large language models can understand and apply. Rather than treating prompting as a collection of hacks, it walks the reader through how to think about role, context, task, constraints, and examples so that LLMs produce reliable, domain-appropriate outputs. Starting from the basics of &#x201C;what is a prompt,&#x201D; the book then connects prompting to how generative AI models actually work, introduces core and advanced prompting patterns (prompt chaining, dynamic templates, tool-augmented prompting), and shows how to evaluate and refine model responses. Designed for students, educators, and practitioners, each chapter includes learning objectives and hands-on exercises that can be tried directly in tools like ChatGPT. Later chapters move from theory to application, demonstrating how to build LLM-powered chatbots and retrieval-augmented generation (RAG) systems, and how to incorporate ethics, safety, and bias awareness into prompt design. By the end, readers will have a reusable toolkit for crafting effective prompts across education, research, business, and technical use cases.
+ER  - 
+
+TY  - CHAP
+TI  - Index
+T2  - Mastering Prompt Engineering: A Guide to Crafting Effective Prompts
+SP  - 159
+EP  - 160
+AU  - Akshay Bhuvaneswari Ramakrishnan
+AU  - P. Padmakumari
+AU  - R. Manikandan
+AU  - S. Vidivelli
+AU  - S. Magesh
+AU  - Harish Garg
+PY  - 2026
+DO  - 
+PB  - River Publishers
+SN  - 9788743813675
+UR  - http://ieeexplore.ieee.org/document/11614354
+AB  - This book explains the principles, structure, and real-world practice of prompt engineering in a way that anyone working with large language models can understand and apply. Rather than treating prompting as a collection of hacks, it walks the reader through how to think about role, context, task, constraints, and examples so that LLMs produce reliable, domain-appropriate outputs. Starting from the basics of &#x201C;what is a prompt,&#x201D; the book then connects prompting to how generative AI models actually work, introduces core and advanced prompting patterns (prompt chaining, dynamic templates, tool-augmented prompting), and shows how to evaluate and refine model responses. Designed for students, educators, and practitioners, each chapter includes learning objectives and hands-on exercises that can be tried directly in tools like ChatGPT. Later chapters move from theory to application, demonstrating how to build LLM-powered chatbots and retrieval-augmented generation (RAG) systems, and how to incorporate ethics, safety, and bias awareness into prompt design. By the end, readers will have a reusable toolkit for crafting effective prompts across education, research, business, and technical use cases.
+ER  - 
+
+TY  - CHAP
+TI  - 3 The Basics of Prompt Design
+T2  - Mastering Prompt Engineering: A Guide to Crafting Effective Prompts
+SP  - 29
+EP  - 44
+AU  - Akshay Bhuvaneswari Ramakrishnan
+AU  - P. Padmakumari
+AU  - R. Manikandan
+AU  - S. Vidivelli
+AU  - S. Magesh
+AU  - Harish Garg
+PY  - 2026
+DO  - 
+PB  - River Publishers
+SN  - 9788743813675
+UR  - http://ieeexplore.ieee.org/document/11614333
+AB  - This book explains the principles, structure, and real-world practice of prompt engineering in a way that anyone working with large language models can understand and apply. Rather than treating prompting as a collection of hacks, it walks the reader through how to think about role, context, task, constraints, and examples so that LLMs produce reliable, domain-appropriate outputs. Starting from the basics of &#x201C;what is a prompt,&#x201D; the book then connects prompting to how generative AI models actually work, introduces core and advanced prompting patterns (prompt chaining, dynamic templates, tool-augmented prompting), and shows how to evaluate and refine model responses. Designed for students, educators, and practitioners, each chapter includes learning objectives and hands-on exercises that can be tried directly in tools like ChatGPT. Later chapters move from theory to application, demonstrating how to build LLM-powered chatbots and retrieval-augmented generation (RAG) systems, and how to incorporate ethics, safety, and bias awareness into prompt design. By the end, readers will have a reusable toolkit for crafting effective prompts across education, research, business, and technical use cases.
+ER  - 
+
+TY  - CHAP
+TI  - 5 Language and Communication in Prompt Design
+T2  - Mastering Prompt Engineering: A Guide to Crafting Effective Prompts
+SP  - 59
+EP  - 68
+AU  - Akshay Bhuvaneswari Ramakrishnan
+AU  - P. Padmakumari
+AU  - R. Manikandan
+AU  - S. Vidivelli
+AU  - S. Magesh
+AU  - Harish Garg
+PY  - 2026
+DO  - 
+PB  - River Publishers
+SN  - 9788743813675
+UR  - http://ieeexplore.ieee.org/document/11614343
+AB  - This book explains the principles, structure, and real-world practice of prompt engineering in a way that anyone working with large language models can understand and apply. Rather than treating prompting as a collection of hacks, it walks the reader through how to think about role, context, task, constraints, and examples so that LLMs produce reliable, domain-appropriate outputs. Starting from the basics of &#x201C;what is a prompt,&#x201D; the book then connects prompting to how generative AI models actually work, introduces core and advanced prompting patterns (prompt chaining, dynamic templates, tool-augmented prompting), and shows how to evaluate and refine model responses. Designed for students, educators, and practitioners, each chapter includes learning objectives and hands-on exercises that can be tried directly in tools like ChatGPT. Later chapters move from theory to application, demonstrating how to build LLM-powered chatbots and retrieval-augmented generation (RAG) systems, and how to incorporate ethics, safety, and bias awareness into prompt design. By the end, readers will have a reusable toolkit for crafting effective prompts across education, research, business, and technical use cases.
+ER  - 
+
+TY  - CONF
+TI  - Evaluation of End-to-End RAG Performance in Turkish Legal Texts
+T2  - 2026 34th Signal Processing and Communications Applications Conference (SIU)
+SP  - 1
+EP  - 4
+AU  - O. Büyük
+AU  - M. Erden
+PY  - 2026
+KW  - Modeling
+KW  - large language models
+KW  - automatic question-answer generation
+KW  - RAG
+KW  - embedding model fine-tune
+DO  - 10.1109/SIU71813.2026.11636805
+JO  - 2026 34th Signal Processing and Communications Applications Conference (SIU)
+IS  - 
+SN  - 2165-0608
+VO  - 
+VL  - 
+JA  - 2026 34th Signal Processing and Communications Applications Conference (SIU)
+Y1  - 7-10 July 2026
+AB  - Abstract-Recently, large language models (LLMs) have enabled significant advances across a wide range of domains. However, the training, adaptation, and evaluation of LLMs with a large number of parameters incur substantial computational and financial costs. This limits the ability of researchers with constrained resources to effectively leverage LLM-based approaches. In this study, we examine the performance of relatively small-scale LLMs for question answering and retrieval-augmented generation (RAG) on Turkish legal texts under limited computational resources. We investigate several factors affecting Turkish RAG performance and adapt embedding models to the target domain using automatically generated question-context pairs. The findings indicate that relatively small, domain-adapted models can achieve performance levels close to those of larger-scale or commercial models on the target dataset.
+ER  - 
+
+TY  - CONF
+TI  - A Multi-Stage Agentic Approach to Factuality-Aware Long and Multi-Document Text Summarization
+T2  - 2026 International Conference on Innovations in Communication, Geoscience and Robotics (ICICGR)
+SP  - 1
+EP  - 6
+AU  - P. V. Khandar
+AU  - D. K. Mohanty
+AU  - S. K. Baliarsingh
+PY  - 2026
+KW  - Modeling
+KW  - Printing
+KW  - Convolutional neural networks
+KW  - Measurement
+KW  - Flexible AC transmission systems
+KW  - Planning
+KW  - Question answering (information retrieval)
+KW  - Equations
+KW  - Multi-Agent Framework
+KW  - Role-based agents
+KW  - LLM
+KW  - Factual Consistency
+KW  - Long-Document summarization
+KW  - Multi-Document summarization
+DO  - 10.1109/ICICGR68236.2026.11600371
+JO  - 2026 International Conference on Innovations in Communication, Geoscience and Robotics (ICICGR)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 International Conference on Innovations in Communication, Geoscience and Robotics (ICICGR)
+Y1  - 24-25 April 2026
+AB  - Abstractive summarization methods can produce fluent, readable summaries, but they do not always remain fully grounded in the source document. Previous work in this domain has repeatedly highlighted these factual inconsistencies and explored various ways to mitigate them. It includes reinforcement learning, contrastive objectives, and semantic modelling approaches. Despite these efforts, maintaining factual accuracy remains difficult, especially with long and information-rich inputs. To address this challenge, we introduce an agentic generation framework that divides the summarization process into four stages: planning, constrained generation, verification, and iterative refinement. This framework functions through a modular pipeline. First it identifies key factual units from the source. Then it generates structured summaries and evaluates their consistency using entailment-and question–answering-based signals. Finally, it refines the output to correct any detected inconsistencies. We assess our proposed model on standard benchmarks, including CNN/Daily Mail, Multi-News, WikiSum and DUC, using both ROUGE and factuality-focused evaluation metrics. The experimental results indicate consistent improvements in factual accuracy with ROUGE scores of R1 (45.5), R2 (22.8) and RL (42.6) achieved on CNN/Daily Mail, as well as average FactCC (0.86) and average QA-based score (0.84). Ablation analysis further demonstrates that each stage plays a significant role in the overall performance. These findings suggest that agentic summarization offers an effective approach to enhance the reliability of real-world summarization systems.
+ER  - 
+
+TY  - CONF
+TI  - SAVE: Sparse Autoencoder-Driven Visual Information Enhancement for Mitigating Object Hallucination
+T2  - 2026 IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)
+SP  - 7935
+EP  - 7944
+AU  - S. Park
+AU  - S. Yoo
+AU  - J. Mok
+AU  - S. Yoon
+PY  - 2026
+KW  - Low earth orbit satellites
+KW  - Circuits
+KW  - Circuits and systems
+KW  - Communications technology
+KW  - Information and communication technology
+KW  - Product development
+KW  - Protocols
+KW  - HTTP
+KW  - Amplitude shift keying
+KW  - Graphical user interfaces
+KW  - hallucination mitigation
+KW  - multimodal llm
+KW  - sparse autoencoder
+DO  - 10.1109/WACV61042.2026.00766
+JO  - 2026 IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)
+IS  - 
+SN  - 2642-9381
+VO  - 
+VL  - 
+JA  - 2026 IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)
+Y1  - 6-10 March 2026
+AB  - Although Multimodal Large Language Models (MLLMs) have advanced substantially, they remain vulnerable to object hallucination caused by language priors and visual information loss. To address this, we propose SAVE (Sparse Autoencoder-Driven Visual Information Enhancement), a framework that mitigates hallucination by steering the model along Sparse Autoencoder (SAE) latent features. A binary object-presence question-answering probe identifies the SAE features most indicative of the model’s visual information processing, referred to as visual understanding features. Steering the model along these identified features reinforces grounded visual understanding and effectively reduces hallucination. With its simple design, SAVE outperforms state-of-the-art training-free methods on standard benchmarks, achieving a 10%p improvement in CHAIRS and consistent gains on POPE and MMHal-Bench. Extensive evaluations across multiple models and layers confirm the robustness and generalizability of our approach. Further analysis reveals that steering along visual understanding features suppresses the generation of uncertain object tokens and increases attention to image tokens, mitigating hallucination. Code is released at https://github.com/wiarae/SAVE.
+ER  - 
+
+TY  - CONF
+TI  - NexaLearn: A Generative AI-Based Multimodal Framework for Interactive Video Learning Assistance
+T2  - 2026 IEEE Madhya Pradesh Section Conference (MPCON)
+SP  - 1232
+EP  - 1237
+AU  - H. Srivastava
+AU  - D. Srivastava
+AU  - J. Agrahari
+AU  - A. P. Singh
+AU  - A. Singh
+PY  - 2026
+KW  - Videos
+KW  - Modeling
+KW  - Learning (artificial intelligence)
+KW  - Printing
+KW  - Retrieval augmented generation
+KW  - Indexing
+KW  - Indexes
+KW  - Optical character recognition
+KW  - Automatic speech recognition
+KW  - Timing
+KW  - Generative Artificial Intelligence
+KW  - Multimodal Learning Systems
+KW  - RAG
+KW  - LLMs
+KW  - Video-Based Educational Systems
+KW  - ASR
+KW  - OCR
+KW  - Intelligent Tutoring Systems
+DO  - 10.1109/MPCON69668.2026.11508574
+JO  - 2026 IEEE Madhya Pradesh Section Conference (MPCON)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 IEEE Madhya Pradesh Section Conference (MPCON)
+Y1  - 14-15 March 2026
+AB  - The meteoric increase in popularity of video-based e-learning platforms has made learning more accessible; nevertheless, due chiefly to their passive nature, these platforms fail to foster interactivity between learners themselves, actual contextualization of information, and retention. In this paper, we present a multimodal generative AI learning assistant based on interactivity and personalized learning from videos. The working framework comprises automatic speech recognition for extracting transcripts aligned with video over time, transformer models for embedding-based semantic representation, and FAISS-based retrieval from an indexed corpus of dense vector representations supporting retrieval-augmented generation (RAG). Multimodal content understanding gets realized by the application of optical character recognition and computer vision for extracting textual and visual information from lecture slides and diagrams. An interactive chatbot built using a large language model provides context-aware question answering using retrieved video segments tied to the exact timestamps. The system was built on scalable web architecture, with React.js as a front-end technology, Python Flask/FastAPI service as a back end for processing, and a cloud-hosted vector database for efficient indexing and retrieval. Experimental evaluation based on retrieval relevance and response accuracy metrics proves reduced information access time and increased learning efficiency. The proposed system converts the passive consumption of videos into an active intelligent and learner-centered educational experience.
+ER  - 
+
+TY  - CONF
+TI  - MSKGCF: A Framework for Multimodal Scientific Knowledge Graph Construction and Fusion
+T2  - 2026 29th International Conference on Computer Supported Cooperative Work in Design (CSCWD)
+SP  - 3545
+EP  - 3550
+AU  - A. Maoliniyazi
+AU  - C. Ma
+AU  - X. Meng
+PY  - 2026
+KW  - Modeling
+KW  - Knowledge graphs
+KW  - Large language models
+KW  - Printing
+KW  - Uncertainty
+KW  - Visualization
+KW  - Construction
+KW  - Retrieval augmented generation
+KW  - Active learning
+KW  - Design methodology
+KW  - Scientific Knowledge Graph
+KW  - Knowledge Graph Construction
+KW  - Large Language Models
+DO  - 10.1109/CSCWD68734.2026.11581529
+JO  - 2026 29th International Conference on Computer Supported Cooperative Work in Design (CSCWD)
+IS  - 
+SN  - 2768-1904
+VO  - 
+VL  - 
+JA  - 2026 29th International Conference on Computer Supported Cooperative Work in Design (CSCWD)
+Y1  - 13-15 May 2026
+AB  - Scientific Knowledge Graphs (SKGs) are foundational for automated discovery and reasoning. However, their construction faces critical hurdles due to the heterogeneity of scientific literature, where essential information is fragmented across complex text and unstructured visual modalities like figures and tables. Furthermore, the rapid growth of publications makes continuous updates necessary, as rebuilding from scratch is costly. To address this, we propose MSKGCF, a novel framework for Multimodal Scientific Knowledge Graph Construction and Fusion. MSKGCF adopts a two-stage extraction strategy, first entity recognition, then relation classification, driven by a general-purpose Teacher LLM (GPT-4o) to capture information across text and visual modalities. A fine-tuned multimodal Student LLM (Qwen3VL) is then trained online via an uncertainty-driven active learning loop, which uses model entropy to identify low-confidence samples ("hard" examples) and prioritizes them as in-context references for few-shot learning. Furthermore, we introduce a logic-based fusion mechanism to integrate disparate sub-graphs via LLM-based conflict resolution, ensuring scalability. Experiments show that MSKGCF outperforms existing methods in extraction accuracy. A downstream case study on Retrieval-Augmented Generation (RAG) confirms that the resulting knowledge graph improves scientific question answering.
+ER  - 
+
+TY  - CONF
+TI  - A Unified Framework for Structured Document Analysis, Visualization and Interactive Querying
+T2  - 2026 IEEE 15th International Conference on Communication Systems and Network Technologies (CSNT)
+SP  - 1388
+EP  - 1393
+AU  - R. Pandey
+AU  - A. Tyagi
+AU  - P. Sharma
+AU  - A. Srivastava
+PY  - 2026
+KW  - Filtering
+KW  - Filters
+KW  - Circuits and systems
+KW  - Communication systems
+KW  - Protocols
+KW  - Communication networks
+KW  - HTTP
+KW  - Amplitude shift keying
+KW  - Instant messaging
+KW  - Spread spectrum communication
+KW  - Document Analysis
+KW  - Structured Data Extraction
+KW  - OCR
+KW  - Data Visualization
+KW  - Document Interaction
+KW  - Large Language Models
+KW  - Conversational Querying
+KW  - Natural Language Processing
+DO  - 10.1109/CSNT69054.2026.11502092
+JO  - 2026 IEEE 15th International Conference on Communication Systems and Network Technologies (CSNT)
+IS  - 
+SN  - 2473-5655
+VO  - 
+VL  - 
+JA  - 2026 IEEE 15th International Conference on Communication Systems and Network Technologies (CSNT)
+Y1  - 7-9 April 2026
+AB  - The massive increase in digital documents like research papers, reports, contracts, and scanned records has rendered the process of analyzing documents manually to be more and more time-consuming and inefficient. Traditional document readers are mainly associated with searching using keywords and provide little assistance in the knowledge of document organization, numerical information, or semantic context. Despite the recent developments of Large Language Models (LLM), that allow engaging with documents through dialogue, a significant number of systems do not provide reliable support of the structured extraction, visualization and scanned document processing. In this paper, we introduce InsightScan, a single document analysis and interaction system that allows us to understand documents in a structured way, perform automated visualization and document-grounded question answering with a single system. The proposed method converts unstructured and semi-structured documents into a structured intermediate form, which is always re-purposed to provide analysis visualization and conversational queries. Such disintersection of extraction and reasoning enhances reliability, interpretability and consistency of data. InsightScan is a combination of text extraction via OCR, structured normalization, automatic charting and a natural language interaction web-based interface. Financial records are taken as representative evaluation examples because of their complexity in terms of structure and numerical aspects. Through experimentation, it has been found that the system yields correct structured outputs, viable visualizations and grounded conversational reactions without any numerical hallucination. InsightScan allows users to go through documents visually and through a conversational system, thus eliminating the manual work and enhancing efficiency of analysis. The suggested framework illustrates the viability of the general-purpose, single-document interaction system that may be applicable to research, scholarly education, and data-driven decision-making processes.
+ER  - 
+
+TY  - BOOK
+TI  - AI Agents in Practice: Design, implement, and scale autonomous AI systems for production
+SP  - 1
+EP  - 
+AU  - Valentina Alto
+PY  - 2025
+DO  - 
+PB  - Packt Publishing
+SN  - 9781805801344
+UR  - http://ieeexplore.ieee.org/document/11244365
+AB  - Master the art of building AI agents with this hands-on guide to orchestration, multi-agent systems, real-world case studies, and ethical insights to drive immediate business impactKey FeaturesBuild production-ready AI agents with hands-on tutorials for diverse industry applicationsExplore multi-agent system architectures with practical frameworks for orchestrator comparisonFuture-proof your AI development with ethical implementation strategies and security patternsPurchase of the print or Kindle book includes a free PDF eBookBook DescriptionAs AI agents evolve to take on complex tasks and operate autonomously, you need to learn how to build these next-generation systems. Author Valentina Alto brings practical, industry-grounded expertise in AI Agents in Practice to help you go beyond simple chatbots and create AI agents that plan, reason, collaborate, and solve real-world problems using large language models (LLMs) and the latest open-source frameworks. In this book, you'll get a comparative tour of leading AI agent frameworks such as LangChain and LangGraph, covering each tool's strengths, ideal use cases, and how to apply them in real-world projects. Through step-by-step examples, you’ll learn how to construct single-agent and multi-agent architectures using proven design patterns to orchestrate AI agents working together. Case studies across industries will show you how AI agents drive value in real-world scenarios, while guidance on responsible AI will help you implement ethical guardrails from day one. The chapters also set the stage with a brief history of AI agents, from early rule-based systems to today's LLM-driven autonomous agents, so you understand how we got here and where the field is headed. By the end of this book, you'll have the practical skills, design insights, and ethical foresight to build and deploy AI agents that truly make an impact.What you will learnBuild core agent components such as LLMs, memory systems, tool integration, and context managementDevelop production-ready AI agents using frameworks such as LangChain with codeCreate effective multi-agent systems using orchestration patterns for problem-solvingImplement industry-specific agents for e-commerce, customer support, and moreDesign robust memory architectures for agents with short- and long-term recallApply responsible AI practices with monitoring, guardrails, and human oversightOptimize AI agent performance and cost for production environmentsWho this book is forThis book is ideal for AI engineers and data scientists looking to move beyond basic LLM implementations to build sophisticated autonomous agents. Software developers and system architects will find practical guidelines for integrating agents into existing tech stacks. Product managers and technical entrepreneurs will gain strategic insights into how AI agents can solve business problems across industries. A basic understanding of machine learning concepts and working knowledge of Python are required to make the most of this book and implement production-ready AI agent systems.
+ER  - 
+
+TY  - CONF
+TI  - A Unified Framework for AR Indoor Navigation and Conversational Information Retrieval in Smart Campus Environments
+T2  - 2025 Twelfth International Conference on Intelligent Computing and Information Systems (ICICIS)
+SP  - 757
+EP  - 763
+AU  - A. Magdy
+AU  - A. Mohamed
+AU  - A. A. Boghdady
+AU  - B. Achraf
+AU  - H. Mohamed
+AU  - Z. Abd-El-Hamid
+AU  - S. Ali
+AU  - I. Hegazy
+PY  - 2025
+KW  - Visualization
+KW  - Accuracy
+KW  - Simultaneous localization and mapping
+KW  - Tracking
+KW  - Indoor navigation
+KW  - Retrieval augmented generation
+KW  - Computer architecture
+KW  - Information retrieval
+KW  - Vectors
+KW  - Standards
+KW  - Augmented Reality
+KW  - Indoor Navigation
+KW  - Information Retrieval
+DO  - 10.1109/ICICIS66182.2025.11313163
+JO  - 2025 Twelfth International Conference on Intelligent Computing and Information Systems (ICICIS)
+IS  - 
+SN  - 2831-5952
+VO  - 
+VL  - 
+JA  - 2025 Twelfth International Conference on Intelligent Computing and Information Systems (ICICIS)
+Y1  - 25-27 Nov. 2025
+AB  - Navigating complex indoor environments like university campuses poses a significant challenge, compounded by the difficulty of accessing specific institutional information. While vision-based Simultaneous Localization and Mapping (SLAM) offers continuous tracking, it suffers from cumulative drift. Sim- ilarly, standard Retrieval-Augmented Generation (RAG) systems for question-answering are prone to context collision. This paper presents a unified mobile application that integrates a robust AR indoor navigation module with an intelligent conversational assistant to address both challenges simultaneously. The pro- posed navigation system fuses the continuous motion tracking of SLAM with high-precision QR code markers for drift correction, providing accurate, real-time visual guidance. For information retrieval, a novel RAG architecture is proposed featuring an LLM-powered router that intelligently directs user queries to one of several specialized vector stores, effectively eliminating con- text collision and improving contextual accuracy. Experimental results confirm that the navigation module provides robust and accurate visual guidance in real-world scenarios. Furthermore, the chatbot's router-based architecture demonstrates a marked improvement in retrieval accuracy, consistently identifying more relevant information than a standard RAG system. The proposed system demonstrates the feasibility of synergistically combining spatial computing with advanced conversational AI to create a comprehensive smart campus assistant, enhancing the student experience by providing seamless access to both physical and digital resources.
+ER  - 
+
+TY  - CONF
+TI  - Large Language Models in Modern Forensic Investigations: Harnessing the Power of Generative Artificial Intelligence in Crime Resolution and Suspect Identification
+T2  - 2024 5th International Conference in Electronic Engineering, Information Technology & Education (EEITE)
+SP  - 1
+EP  - 5
+AU  - A. Nikolakopoulos
+AU  - S. Evangelatos
+AU  - E. Veroni
+AU  - K. Chasapas
+AU  - N. Gousetis
+AU  - A. Apostolaras
+AU  - C. D. Nikolopoulos
+AU  - T. Korakis
+PY  - 2024
+KW  - Law enforcement
+KW  - Forensics
+KW  - Large language models
+KW  - Education
+KW  - Natural languages
+KW  - Medical services
+KW  - Performance analysis
+KW  - Generative Artificial Intelligence
+KW  - Large Language Models
+KW  - Security
+KW  - Forensics
+KW  - Law Enforcement Agencies
+KW  - Forensic Data Analysis
+KW  - Biometric Data
+DO  - 10.1109/EEITE61750.2024.10654427
+JO  - 2024 5th International Conference in Electronic Engineering, Information Technology & Education (EEITE)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2024 5th International Conference in Electronic Engineering, Information Technology & Education (EEITE)
+Y1  - 29-31 May 2024
+AB  - Large Language Models (LLMs) have recently captured the attention of the scientific c ommunity. S ince t he global launch of LLM-based chatbots in late 2022, the field h as witnessed a rapid increase in interest from researchers, technology providers and citizens alike. With its wide-ranging applicability, Generative Artificial I ntelligence (GenAI) h as t he p otential to impact various aspects of society, from improving communication and accessibility to transforming industries such as healthcare, education and security. More specifically, in the field of Forensic Science, LLMs could offer significant b enefits as sisting Law Enforcement Agencies (LEAs) and Forensic Practitioners in crime investigations. This paper proposes the implementation of a Retrieval Augmented Generation (RAG) LLM, trained with criminology data, to provide swift and actionable insights into specific incidents, thereby enhancing Forensic Data Analysis and facilitating the daily operations of LEAs.
+ER  - 
+
+TY  - CONF
+TI  - EagleCare: Augmenting ICU Monitoring with LLMs and Knowledge Graph Reasoning
+T2  - 2025 IEEE International Conference on Knowledge Graph (ICKG)
+SP  - 130
+EP  - 137
+AU  - J. Guo
+AU  - Y. Gao
+AU  - Z. Liu
+AU  - Y. Rao
+AU  - J. Hu
+AU  - H. Wang
+PY  - 2025
+KW  - Decision support systems
+KW  - Representation learning
+KW  - Grounding
+KW  - Large language models
+KW  - Knowledge graphs
+KW  - Cognition
+KW  - Real-time systems
+KW  - Question answering (information retrieval)
+KW  - Reliability
+KW  - Monitoring
+KW  - RAG
+KW  - Intensive Care
+KW  - Graph Reasoning
+DO  - 10.1109/ICKG66886.2025.00024
+JO  - 2025 IEEE International Conference on Knowledge Graph (ICKG)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 IEEE International Conference on Knowledge Graph (ICKG)
+Y1  - 13-14 Nov. 2025
+AB  - Recent advances in medical artificial intelligence have highlighted the potential of large language models (LLMs) in performing general clinical tasks such as medical report generation and question answering. However, their performance in intensive care units (ICUs) remains limited due to the sophisticated nature of the knowledge involved and the interactions among multiple organs. To address these issues, we propose EagleCare, a novel LLM-based Clinical Decision Support System that integrates knowledge graph reasoning to enhance multi-organ assessment and clinical inference in the ICU. EagleCare constructs an ICU-specific knowledge graph (ICU-KG) aligned with patient electronic health records (EHRs), from which our system retrieves clinically relevant reasoning paths. These reasoning paths are then synthesized with patient-specific data through retrieval-augmented generation(RAG) and LLM-based inference to support interpretable and context-aware decisions. This combination of symbolic medical knowledge and neural representation learning improves the reliability and transparency of the decision process. Experimental results on a real-world ICU dataset and two medical QA datasets demonstrate the superiority of our framework, achieving an average improvement of 5.3% compared to baselines with SOTA LLMs. Furthermore, EagleCare assessment outputs exhibit strong alignment with expert clinical reports, indicating its practical utility in high-stakes ICU environments.
+ER  - 
+
+TY  - CONF
+TI  - Clue-RAG: Towards Accurate and Cost-Efficient Graph-Based RAG Via Multi-Partite Graph-Based Index
+T2  - 2026 IEEE 42nd International Conference on Data Engineering (ICDE)
+SP  - 2390
+EP  - 2404
+AU  - Y. Su
+AU  - Y. Fang
+AU  - Y. Zhou
+AU  - C. Yang
+PY  - 2026
+KW  - Large language models
+KW  - Measurement units
+KW  - Modeling
+KW  - Printing
+KW  - Retrieval augmented generation
+KW  - Indexes
+KW  - Indexing
+KW  - Algorithms
+KW  - Costing
+KW  - Costs
+KW  - Graph-based RAG
+KW  - Multi-Partite Graph
+KW  - Query-Driven Iterative Retrieval
+DO  - 10.1109/ICDE65706.2026.00179
+JO  - 2026 IEEE 42nd International Conference on Data Engineering (ICDE)
+IS  - 
+SN  - 2375-026X
+VO  - 
+VL  - 
+JA  - 2026 IEEE 42nd International Conference on Data Engineering (ICDE)
+Y1  - 4-8 May 2026
+AB  - Despite the remarkable progress of Large Language Models (LLMs), their performance in question answering (QA) remains limited by the lack of domain-specific and up-to-date knowledge. Retrieval-Augmented Generation (RAG) addresses this limitation by incorporating external information, often from graph-structured data. However, existing graph-based RAG methods suffer from poor graph quality due to incomplete extraction and insufficient utilization of query information during retrieval. To overcome these limitations, we propose Clue-RAG, a novel approach that introduces (1) a multi-partite graph index that incorporates text Chunk, knowledge unit, and entity to capture semantic content at multiple levels of granularity, coupled with a hybrid extraction strategy that reduces LLM token usage while still producing accurate and disambiguated knowledge units, and (2) Q-Iter, a query-driven iterative retrieval strategy that enhances relevance through semantic search and constrained graph traversal. Experiments on three QA benchmarks show that Clue-RAG significantly outperforms state-of-the-art baselines, achieving 32.55%/12.42% higher average F1 score/Accuracy while delivering $2.2 \times-2.4 \times$ faster offline indexing and $2.7 \times-3.9\times$ lower online query latency compared to strong baseline HippoRAG2. Remarkably, Clue-RAG matches or outperforms baselines even without using an LLM for indexing. These results demonstrate the effectiveness and cost-efficiency of Clue-RAG in advancing graph-based RAG systems. The source code is available in https://github.com/Feesuu/ClueRAG.
+ER  - 
+
+TY  - JOUR
+TI  - View-Based Knowledge-Augmented Multimodal Semantic Understanding for Optical Remote Sensing Images
+T2  - IEEE Transactions on Geoscience and Remote Sensing
+SP  - 1
+EP  - 33
+AU  - L. Zhu
+AU  - X. Su
+AU  - J. Tang
+AU  - Y. Hu
+AU  - Y. Wang
+PY  - 2025
+KW  - Urban areas
+KW  - Optical sensors
+KW  - Optical imaging
+KW  - Lakes
+KW  - Semantics
+KW  - Bridges
+KW  - Roads
+KW  - Rivers
+KW  - Satellites
+KW  - Buildings
+KW  - Fine-grained semantics and relationships
+KW  - multimodal contrastive network
+KW  - multiview knowledge graph
+KW  - optical remote sensing (RS) images
+KW  - semantic-augmented approach
+DO  - 10.1109/TGRS.2025.3532349
+JO  - IEEE Transactions on Geoscience and Remote Sensing
+IS  - 
+SN  - 1558-0644
+VO  - 63
+VL  - 63
+JA  - IEEE Transactions on Geoscience and Remote Sensing
+Y1  - 2025
+AB  - Optical remote sensing (RS) images serve as a pivotal source of geographic information. Due to the continuous development of deep learning technology, the evolving demands for multisource optical RS of the public shifted from recognition and acquisition of explicit features to comprehension and application of the fine-grained semantics and relationships implied in images. To address this challenge, we propose a semantic-augmented approach integrated multiview knowledge graph for a comprehensive understanding of optical RS images (RSMVKF). The RSMVKF delves into the structured representations of external knowledge from different human-like cognitive views and further explores the discovery ability of high-level features on the basis of multiple modalities and granularities. Specifically, the RSMVKF consists of two stages. First, we guide a large language model (LLM) to condense relevant knowledge from lengthy external knowledge passages and generate a view-level knowledge graph (RS-VKG). Then, an asymmetric multimodal contrastive network model (RS-M2CL) is designed to investigate efficient semantic augmentation. In this way, two types of contrastive loss functions, cross-modal and cross-granularity, are adopted to improve the understanding of implicit knowledge. The experimental results demonstrate that the RSMVKF greatly improves several perception tasks and reasoning tasks with rich features in optical RS imagery. In particular, in perception tasks such as fine-grained object detection and k-nearest neighbor (KNN) retrieval, the RSMVKF yields enhancements of 6.7% and 8.1%, respectively. In addition, in knowledge-driven reasoning tasks such as RS image captioning (RSCP), RS visual grounding (RSVG), and RS visual question answering (RSVQA), the RSMVKF demonstrates superior performance with margins of 8.9%, 5.3%, and 11.4%, respectively.
+ER  - 
+
+TY  - CONF
+TI  - Enhancing Intelligent Tutoring Systems with Large Language Models: Architecture and Implementation
+T2  - 2025 10th International Conference on ICT & Accessibility (ICTA) co-located with 2025 2nd International Conference and Forum on Assistive Technologies for Special Needs (ATSN)
+SP  - 1
+EP  - 4
+AU  - R. Abaab
+AU  - M. A. Khenissi
+PY  - 2025
+KW  - Adaptation models
+KW  - Grounding
+KW  - Large language models
+KW  - Scalability
+KW  - Pipelines
+KW  - Systems architecture
+KW  - Chatbots
+KW  - Reliability
+KW  - Engines
+KW  - Next generation networking
+KW  - Large Language Models
+KW  - Intelligent Tutoring Systems
+KW  - E-Learning Platforms
+KW  - Adaptive Learning
+KW  - System Architecture
+KW  - Personalization
+DO  - 10.1109/ICTA-ATSN68371.2025.11398318
+JO  - 2025 10th International Conference on ICT & Accessibility (ICTA) co-located with 2025 2nd International Conference and Forum on Assistive Technologies for Special Needs (ATSN)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 10th International Conference on ICT & Accessibility (ICTA) co-located with 2025 2nd International Conference and Forum on Assistive Technologies for Special Needs (ATSN)
+Y1  - 7-10 Dec. 2025
+AB  - Intelligent Tutoring Systems (ITSs) have proven effective in delivering adaptive and personalized instruction, yet their scalability remains limited by the high cost of authoring and maintaining instructional content. Recent advances in Large Language Models (LLMs) offer new opportunities to enrich ITSs with natural dialogue, dynamic explanations, and personalized feedback. However, challenges such as factual accuracy, reliability, and pedagogical alignment hinder their direct use in education. This paper presents a case study and technical implementation of a successful integration of LLMs within an ITS framework. The proposed architecture combines a recommendation engine with an LLM-powered chatbot, supported by grounding, scaffolding, and verification mechanisms to ensure pedagogical soundness. In this paper, we describe the layered system design, core integration components, and interaction pipeline that enable seamless learner engagement. Our contribution demonstrates how LLMs can complement ITSs in practice, reducing authoring effort, improving adaptability, and enhancing learner interaction through a reliable hybrid approach.
+ER  - 
+
+TY  - CHAP
+TI  - 7 Ethical Considerations in Prompt Engineering
+T2  - Mastering Prompt Engineering: A Guide to Crafting Effective Prompts
+SP  - 85
+EP  - 104
+AU  - Akshay Bhuvaneswari Ramakrishnan
+AU  - P. Padmakumari
+AU  - R. Manikandan
+AU  - S. Vidivelli
+AU  - S. Magesh
+AU  - Harish Garg
+PY  - 2026
+DO  - 
+PB  - River Publishers
+SN  - 9788743813675
+UR  - http://ieeexplore.ieee.org/document/11614351
+AB  - This book explains the principles, structure, and real-world practice of prompt engineering in a way that anyone working with large language models can understand and apply. Rather than treating prompting as a collection of hacks, it walks the reader through how to think about role, context, task, constraints, and examples so that LLMs produce reliable, domain-appropriate outputs. Starting from the basics of &#x201C;what is a prompt,&#x201D; the book then connects prompting to how generative AI models actually work, introduces core and advanced prompting patterns (prompt chaining, dynamic templates, tool-augmented prompting), and shows how to evaluate and refine model responses. Designed for students, educators, and practitioners, each chapter includes learning objectives and hands-on exercises that can be tried directly in tools like ChatGPT. Later chapters move from theory to application, demonstrating how to build LLM-powered chatbots and retrieval-augmented generation (RAG) systems, and how to incorporate ethics, safety, and bias awareness into prompt design. By the end, readers will have a reusable toolkit for crafting effective prompts across education, research, business, and technical use cases.
+ER  - 
+
+TY  - BOOK
+TI  - Unlocking Data with Generative AI and RAG: Enhance generative AI systems by integrating internal data with large language models using RAG
+SP  - 1
+EP  - 
+AU  - Keith Bourne
+AU  - Shahul Es
+PY  - 2024
+DO  - 
+PB  - Packt Publishing
+SN  - 9781835887912
+UR  - http://ieeexplore.ieee.org/document/10769240
+AB  - Leverage cutting-edge generative AI techniques such as RAG to realize the potential of your data and drive innovation as well as gain strategic advantageKey FeaturesOptimize data retrieval and generation using vector databasesBoost decision-making and automate workflows with AI agentsOvercome common challenges in implementing real-world RAG systemsPurchase of the print or Kindle book includes a free PDF eBookBook DescriptionGenerative AI is helping organizations tap into their data in new ways, with retrieval-augmented generation (RAG) combining the strengths of large language models (LLMs) with internal data for more intelligent and relevant AI applications. The author harnesses his decade of ML experience in this book to equip you with the strategic insights and technical expertise needed when using RAG to drive transformative outcomes. The book explores RAG’s role in enhancing organizational operations by blending theoretical foundations with practical techniques. You’ll work with detailed coding examples using tools such as LangChain and Chroma’s vector database to gain hands-on experience in integrating RAG into AI systems. The chapters contain real-world case studies and sample applications that highlight RAG’s diverse use cases, from search engines to chatbots. You’ll learn proven methods for managing vector databases, optimizing data retrieval, effective prompt engineering, and quantitatively evaluating performance. The book also takes you through advanced integrations of RAG with cutting-edge AI agents and emerging non-LLM technologies. By the end of this book, you’ll be able to successfully deploy RAG in business settings, address common challenges, and push the boundaries of what’s possible with this revolutionary AI technique.What you will learnUnderstand RAG principles and their significance in generative AIIntegrate LLMs with internal data for enhanced operationsMaster vectorization, vector databases, and vector search techniquesDevelop skills in prompt engineering specific to RAG and design for precise AI responsesFamiliarize yourself with AI agents' roles in facilitating sophisticated RAG applicationsOvercome scalability, data quality, and integration issuesDiscover strategies for optimizing data retrieval and AI interpretabilityWho this book is forThis book is for AI researchers, data scientists, software developers, and business analysts looking to leverage RAG and generative AI to enhance data retrieval, improve AI accuracy, and drive innovation. It is particularly suited for anyone with a foundational understanding of AI who seeks practical, hands-on learning. The book offers real-world coding examples and strategies for implementing RAG effectively, making it accessible to both technical and non-technical audiences. A basic understanding of Python and Jupyter Notebooks is required.
+ER  - 
+
+TY  - CHAP
+TI  - 9 Exploring Prompts with ChatGPT
+T2  - Mastering Prompt Engineering: A Guide to Crafting Effective Prompts
+SP  - 125
+EP  - 140
+AU  - Akshay Bhuvaneswari Ramakrishnan
+AU  - P. Padmakumari
+AU  - R. Manikandan
+AU  - S. Vidivelli
+AU  - S. Magesh
+AU  - Harish Garg
+PY  - 2026
+DO  - 
+PB  - River Publishers
+SN  - 9788743813675
+UR  - http://ieeexplore.ieee.org/document/11614344
+AB  - This book explains the principles, structure, and real-world practice of prompt engineering in a way that anyone working with large language models can understand and apply. Rather than treating prompting as a collection of hacks, it walks the reader through how to think about role, context, task, constraints, and examples so that LLMs produce reliable, domain-appropriate outputs. Starting from the basics of &#x201C;what is a prompt,&#x201D; the book then connects prompting to how generative AI models actually work, introduces core and advanced prompting patterns (prompt chaining, dynamic templates, tool-augmented prompting), and shows how to evaluate and refine model responses. Designed for students, educators, and practitioners, each chapter includes learning objectives and hands-on exercises that can be tried directly in tools like ChatGPT. Later chapters move from theory to application, demonstrating how to build LLM-powered chatbots and retrieval-augmented generation (RAG) systems, and how to incorporate ethics, safety, and bias awareness into prompt design. By the end, readers will have a reusable toolkit for crafting effective prompts across education, research, business, and technical use cases.
+ER  - 
+
+TY  - CHAP
+TI  - 10 Future Trends in Prompt Engineering
+T2  - Mastering Prompt Engineering: A Guide to Crafting Effective Prompts
+SP  - 141
+EP  - 158
+AU  - Akshay Bhuvaneswari Ramakrishnan
+AU  - P. Padmakumari
+AU  - R. Manikandan
+AU  - S. Vidivelli
+AU  - S. Magesh
+AU  - Harish Garg
+PY  - 2026
+DO  - 
+PB  - River Publishers
+SN  - 9788743813675
+UR  - http://ieeexplore.ieee.org/document/11614309
+AB  - This book explains the principles, structure, and real-world practice of prompt engineering in a way that anyone working with large language models can understand and apply. Rather than treating prompting as a collection of hacks, it walks the reader through how to think about role, context, task, constraints, and examples so that LLMs produce reliable, domain-appropriate outputs. Starting from the basics of &#x201C;what is a prompt,&#x201D; the book then connects prompting to how generative AI models actually work, introduces core and advanced prompting patterns (prompt chaining, dynamic templates, tool-augmented prompting), and shows how to evaluate and refine model responses. Designed for students, educators, and practitioners, each chapter includes learning objectives and hands-on exercises that can be tried directly in tools like ChatGPT. Later chapters move from theory to application, demonstrating how to build LLM-powered chatbots and retrieval-augmented generation (RAG) systems, and how to incorporate ethics, safety, and bias awareness into prompt design. By the end, readers will have a reusable toolkit for crafting effective prompts across education, research, business, and technical use cases.
+ER  - 
+
+TY  - CONF
+TI  - Tether: A Personalized Support Assistant for Software Engineers with ADHD
+T2  - 2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)
+SP  - 3917
+EP  - 3921
+AU  - A. Shah
+AU  - C. Magalhaes
+AU  - K. Gama
+AU  - R. de Souza Santos
+PY  - 2025
+KW  - Accuracy
+KW  - Operating systems
+KW  - Retrieval augmented generation
+KW  - Prototypes
+KW  - Chatbots
+KW  - Software
+KW  - Real-time systems
+KW  - Iterative methods
+KW  - Monitoring
+KW  - Software engineering
+KW  - ADHD
+KW  - Assistive Tools
+KW  - LLMs
+DO  - 10.1109/ASE63991.2025.00342
+JO  - 2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)
+IS  - 
+SN  - 2643-1572
+VO  - 
+VL  - 
+JA  - 2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)
+Y1  - 16-20 Nov. 2025
+AB  - Equity, diversity, and inclusion in software engineering often overlook neurodiversity, particularly the experiences of developers with Attention Deficit Hyperactivity Disorder (ADHD). Despite the growing awareness about that population in SE, few tools are designed to support their cognitive challenges (e.g., sustained attention, task initiation, self-regulation) within development workflows. We present Tether, an LLM-powered desktop application designed to support software engineers with ADHD by delivering adaptive, context-aware assistance. Drawing from engineering research methodology, Tether combines local activity monitoring, retrieval-augmented generation (RAG), and gamification to offer real-time focus support and personalized dialogue. The system integrates operating system level system tracking to prompt engagement and its chatbot leverages ADHD-specific resources to offer relevant responses. Preliminary validation through self-use revealed improved contextual accuracy following iterative prompt refinements and RAG enhancements. Tether differentiates itself from generic tools by being adaptable and aligned with software-specific workflows and ADHD-related challenges. While not yet evaluated by target users, this work lays the foundation for future neurodiversity-aware tools in SE and highlights the potential of LLMs as personalized support systems for underrepresented cognitive needs.
+ER  - 
+
+TY  - CONF
+TI  - Learning by Ranking: Data-Efficient Knowledge Distillation from Black-Box LLMs for Information Retrieval
+T2  - 2025 International Joint Conference on Neural Networks (IJCNN)
+SP  - 1
+EP  - 10
+AU  - Z. Li
+AU  - H. Zhang
+AU  - J. Zhang
+PY  - 2025
+KW  - Training
+KW  - Knowledge engineering
+KW  - Biological system modeling
+KW  - Large language models
+KW  - Retrieval augmented generation
+KW  - Pipelines
+KW  - Neural networks
+KW  - Closed box
+KW  - Information retrieval
+KW  - knowledge distillation
+KW  - information retrieval
+KW  - retrieval-augmented models
+KW  - data-efficient training.
+DO  - 10.1109/IJCNN64981.2025.11228011
+JO  - 2025 International Joint Conference on Neural Networks (IJCNN)
+IS  - 
+SN  - 2161-4407
+VO  - 
+VL  - 
+JA  - 2025 International Joint Conference on Neural Networks (IJCNN)
+Y1  - 30 June-5 July 2025
+AB  - Recent research has explored distilling knowledge from large language models (LLMs) to optimize retriever models, particularly within the retrieval-augmented generation (RAG) framework. However, most existing training methods rely on extracting supervision signals from LLMs’ weights or output probabilities, which is not only resource-intensive but also incompatible with black-box LLMs. In this paper, we introduce Intermediate Distillation, a data-efficient knowledge distillation training scheme that treats LLMs as black boxes and distills their knowledge through an innovative LLM-ranker-retriever pipeline, using only the LLMs’ ranking generation as the supervision signal. Extensive experiments demonstrate that our proposed method can significantly improve the performance of retriever models with just 1,000 training instances. Moreover, our distilled retriever model greatly enhances performance in question-answering tasks within the RAG framework, demonstrating the potential of LLMs to train smaller models economically and effectively.
+ER  - 
+
+TY  - CONF
+TI  - QMOS: Enhancing LLMs for Telecommunication with Question Masked loss and Option Shuffling
+T2  - 2024 IEEE Globecom Workshops (GC Wkshps)
+SP  - 1
+EP  - 6
+AU  - B. Guda
+AU  - G. Z. Ashungafac
+AU  - L. Francis
+AU  - C. Joe-Wong
+PY  - 2024
+KW  - Vocabulary
+KW  - Accuracy
+KW  - Computational modeling
+KW  - Large language models
+KW  - Conferences
+KW  - Retrieval augmented generation
+KW  - Pipelines
+KW  - Question answering (information retrieval)
+KW  - Telecommunications
+KW  - Prompt engineering
+KW  - Large Language Models
+KW  - Telecommunication
+KW  - RAG
+KW  - Question Masked Loss
+KW  - Option Batch-Shuffle Trick
+DO  - 10.1109/GCWkshp64532.2024.11100592
+JO  - 2024 IEEE Globecom Workshops (GC Wkshps)
+IS  - 
+SN  - 2166-0077
+VO  - 
+VL  - 
+JA  - 2024 IEEE Globecom Workshops (GC Wkshps)
+Y1  - 8-12 Dec. 2024
+AB  - Large Language models (LLMs) have brought about substantial advancements in the field of Question Answering (QA) systems. These models do remarkably well in addressing intricate inquiries in a variety of disciplines. However, because of domain-specific vocabulary, complex technological concepts, and the requirement for exact responses, applying LLMs to specialized sectors like telecommunications presents additional obstacles. GPT-3.5 has been used in recent work, to obtain noteworthy accuracy for telecom-related questions in a Retrieval Augmented Generation (RAG) framework. Notwithstanding these developments, the practical use of models such as GPT-3.5 is restricted by their proprietary nature and high computing demands. This paper introduces QMOS, an innovative approach which uses a Question-Masked loss and Option Shuffling trick to enhance the performance of LLMs in answering Multiple-Choice Questions in the telecommunications domain. Our focus was on using open-source, smaller language models (Phi-2 and Falcon-7B) within an enhanced RAG framework. Our multi-faceted approach involves several enhancements to the whole LLM-RAG pipeline of finetuning, retrieval, prompt engineering and inference. Our approaches significantly outperform existing results, achieving accuracy improvements from baselines of 24.70% to 49.30% with Falcon-7B and from 42.07% to 84.65% with Phi-2.
+ER  - 
+
+TY  - CONF
+TI  - Exploring an Endless Learning Paradigm Supported by Large Model Services and Educational Agents
+T2  - 2026 IEEE International Conference on Software Services Engineering (SSE)
+SP  - 347
+EP  - 354
+AU  - W. Ouyang
+AU  - G. Mei
+AU  - L. Pan
+AU  - S. Khan
+PY  - 2026
+KW  - Learning (artificial intelligence)
+KW  - Modeling
+KW  - Packaging
+KW  - Knowledge graphs
+KW  - Large language models
+KW  - Mobility as a service
+KW  - Printing
+KW  - Grounding
+KW  - Design methodology
+KW  - Software engineering
+KW  - large language models
+KW  - software engineering education
+KW  - endless learning
+KW  - Model-as-a-Service
+KW  - educational agents
+DO  - 10.1109/SSE72781.2026.00046
+JO  - 2026 IEEE International Conference on Software Services Engineering (SSE)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 IEEE International Conference on Software Services Engineering (SSE)
+Y1  - 13-18 July 2026
+AB  - Traditional one-shot question-answering paradigms are insufficient for supporting continuous, structured, and interdisciplinary learning in software engineering education. This paper proposes an endless learning framework driven by Model-as-a-Service (MaaS) and Educational Agents, aiming to transform a learner’s query into a sustainable learning process. The framework introduces the Learning Task Package as a core unit, integrating knowledge graphs, evidence retrieval, large language model generation, learning assessment, and adaptive recommendation to support concept explanation, evidence grounding, task generation, feedback, and learning path extension. A prototype system is implemented using Yi-learning as an interdisciplinary case to validate the feasibility of the proposed approach. Classroom comparison experiments and component-level evaluations are designed to assess learning continuity, effectiveness, content reliability, and interdisciplinary value. The results demonstrate that the proposed framework provides a service-oriented paradigm for AI-supported continuous learning and offers practical insights for intelligent education system design.
+ER  - 
+
+TY  - CONF
+TI  - Natural Language Rationales with Sub-QAE Prompting: World Knowledge Discovery through Self-Questioning Architecture
+T2  - 2025 IEEE International Conference on Systems, Man, and Cybernetics (SMC)
+SP  - 622
+EP  - 628
+AU  - H. Wang
+AU  - X. Wei
+AU  - J. Hu
+PY  - 2025
+KW  - Visualization
+KW  - Large language models
+KW  - Natural languages
+KW  - Benchmark testing
+KW  - Knowledge discovery
+KW  - Cognition
+KW  - Question generation
+KW  - Question answering (information retrieval)
+KW  - Cybernetics
+KW  - Context modeling
+DO  - 10.1109/SMC58881.2025.11343595
+JO  - 2025 IEEE International Conference on Systems, Man, and Cybernetics (SMC)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 IEEE International Conference on Systems, Man, and Cybernetics (SMC)
+Y1  - 5-8 Oct. 2025
+AB  - Visual Question Answering with Natural Language Explanations (VQA-NLE) requires models to provide logically grounded explanations while generating accurate answer. Existing methods struggle with complex questions that demand comprehensive logical reasoning and world knowledge integration. We propose that decomposing the target image and question into question-answer-explanation triples containing visual cues, world knowledge, and object relationships can enhance image understanding, question comprehension, and knowledge retrieval for final answer reasoning. We call the proposed method Sub-QAE Prompting that includes three key steps. We train a visual question generation (VQG) model using instruction-aligned question contexts which subsequently utilized to generate the sub-questions from image. Then generate image-based and text-based sub-questions via the VQG model and frozen large language model respectively. Last we construct question-answer-explanation triples by deriving corresponding answers and explanation for generated subquestions, and encode question-answer-explanation triples into visual-aware prompting module for MLLM to generate the final answer and explanation. Experimental results on the two challenge benchmark VQA-X and A-OKVQA demonstrate that our method achieves state-of-the-art performance compared to existing VQA-NLE approaches.
+ER  - 
+
+TY  - CONF
+TI  - Beyond Perception: A Survey and Future Directions of VLM-based Autonomous Driving Datasets
+T2  - 2026 IEEE Intelligent Vehicles Symposium (IV)
+SP  - 642
+EP  - 649
+AU  - C. Wei
+AU  - H. Cheng
+AU  - Z. Zhang
+AU  - G. Wu
+AU  - Z. Wang
+AU  - M. J. Barth
+PY  - 2026
+KW  - Modeling
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Autonomous driving
+KW  - Printing
+KW  - Annotations
+KW  - Visualization
+KW  - Large language models
+KW  - Conferences
+KW  - Labeling
+DO  - 10.1109/IV66570.2026.11624064
+JO  - 2026 IEEE Intelligent Vehicles Symposium (IV)
+IS  - 
+SN  - 2642-7214
+VO  - 
+VL  - 
+JA  - 2026 IEEE Intelligent Vehicles Symposium (IV)
+Y1  - 22-25 June 2026
+AB  - Vision-Language Models (VLMs) have emerged as a transformative paradigm for autonomous driving, enabling semantic understanding, interpretable decision-making, and natural human-vehicle interaction beyond traditional perception-centric approaches. However, the scarcity of comprehensive datasets that integrate visual perception with linguistic annotations has become a critical bottleneck for advancing VLM-based autonomous driving research. This survey presents the first systematic review of VLM-based autonomous driving datasets, establishing a multi-dimensional taxonomy based on modality composition (image/video/multi-sensor-text), task coverage (perception/prediction/planning/reasoning), and annotation methodology (human/LLM/hybrid). We provide detailed analyses of 14 representative datasets, revealing their design choices, capabilities, and limitations across diverse applications, including visual question answering, instruction following, scene reasoning, and interactive dialogue. Furthermore, we discuss fundamental challenges facing this emerging field, including language ambiguity and visual grounding, cross-modal temporal alignment, annotation scalability, domain generalization, evaluation standardization, and ethical considerations. Finally, we outline four promising future directions: human-in-the-loop dataset construction, multi-sensor VLM integration, explainable decision reasoning, and unified evaluation frameworks. This survey aims to provide researchers with a comprehensive reference for understanding current progress and guide future developments toward semantically grounded, interpretable, and human-aligned autonomous driving systems.
+ER  - 
+
+TY  - CONF
+TI  - AI-Powered Framework for developing Virtual labs in Higher Education
+T2  - 2026 IEEE Global Engineering Education Conference (EDUCON)
+SP  - 1
+EP  - 10
+AU  - M. J. Almasri
+AU  - A. S. Imran
+AU  - A. Mavroudi
+AU  - A. Soylu
+PY  - 2026
+KW  - Artificial intelligence
+KW  - Learning (artificial intelligence)
+KW  - Design methodology
+KW  - Modeling
+KW  - Printing
+KW  - Simulation
+KW  - Authoring systems
+KW  - Feedback
+KW  - Retrieval augmented generation
+KW  - Timing
+KW  - Virtual labs
+KW  - Generative Artificial Intelligence
+KW  - Learning Analytics
+KW  - Instructional Design Framework
+DO  - 10.1109/EDUCON67543.2026.11574439
+JO  - 2026 IEEE Global Engineering Education Conference (EDUCON)
+IS  - 
+SN  - 2165-9567
+VO  - 
+VL  - 
+JA  - 2026 IEEE Global Engineering Education Conference (EDUCON)
+Y1  - 27-30 April 2026
+AB  - The digitization of higher education has intensified the need for scalable, pedagogically grounded solutions to deliver hands-on, lab-based learning in online environments. This paper presents a five-layer framework for designing AI-powered virtual labs with authoring tools that integrate constructivism, Bloom’s Taxonomy, the Watch-Try-Do instructional model, AI-driven tutoring via LLM/RAG, xAPI-enabled learning analytics, and scalability and data ethics into a coherent implementation roadmap. The framework is instantiated through an Excel lesson on formulas that operationalizes all layers using a Watch-Try-Do sequence, an embedded GPT-4o-mini chatbot, and xAPI tracking to a Learning Record Store. A formative mixed-methods evaluation with ten staff at the University College of Applied Sciences in Gaza examined implementation outcomes (Acceptability, Appropriateness, Feasibility, Concerns) and adoption conditions. Reliability was satisfactory to excellent across constructs, and descriptive statistics with one-sample Wilcoxon tests showed Appropriateness and Feasibility to be above a neutral benchmark, while Acceptability was positive but sensitive to conservative inference and Concerns were heterogeneous rather than uniformly high. Thematic analysis of open-ended responses surfaced key benefits, barriers, enablers, and needs for institutional adoption. Triangulated mixed-method findings position the framework as pilot-ready under phased implementation and identify critical enabling conditions required to sustainably scale AI-powered Vlabs in higher education. The study contributes to a transferable model, an instantiated use case, and initial empirical evidence to guide the design and rollout of AI-powered virtual labs in higher education.
+ER  - 
+
+TY  - JOUR
+TI  - Benchmarking Large Language Models in Evidence-Based Medicine
+T2  - IEEE Journal of Biomedical and Health Informatics
+SP  - 6143
+EP  - 6156
+AU  - J. Li
+AU  - Y. Deng
+AU  - Q. Sun
+AU  - J. Zhu
+AU  - Y. Tian
+AU  - J. Li
+AU  - T. Zhu
+PY  - 2025
+KW  - Medical services
+KW  - Sleep
+KW  - Question answering (information retrieval)
+KW  - Prompt engineering
+KW  - Large language models
+KW  - Bioinformatics
+KW  - Diseases
+KW  - Cognition
+KW  - Biological system modeling
+KW  - Benchmark testing
+KW  - Large language models
+KW  - evidence-based medicine
+KW  - clinical NLP
+KW  - Prompt engineering
+DO  - 10.1109/JBHI.2024.3483816
+JO  - IEEE Journal of Biomedical and Health Informatics
+IS  - 9
+SN  - 2168-2208
+VO  - 29
+VL  - 29
+JA  - IEEE Journal of Biomedical and Health Informatics
+Y1  - Sept. 2025
+AB  - Evidence-based medicine (EBM) represents a paradigm of providing patient care grounded in the most current and rigorously evaluated research. Recent advances in large language models (LLMs) offer a potential solution to transform EBM by automating labor-intensive tasks and thereby improving the efficiency of clinical decision-making. This study explores integrating LLMs into the key stages in EBM, evaluating their ability across evidence retrieval (PICO extraction, biomedical question answering), synthesis (summarizing randomized controlled trials), and dissemination (medical text simplification). We conducted a comparative analysis of seven LLMs, including both proprietary and open-source models, as well as those fine-tuned on medical corpora. Specifically, we benchmarked the performance of various LLMs on each EBM task under zero-shot settings as baselines, and employed prompting techniques, including in-context learning, chain-of-thought reasoning, and knowledge-guided prompting to enhance their capabilities. Our extensive experiments revealed the strengths of LLMs, such as remarkable understanding capabilities even in zero-shot settings, strong summarization skills, and effective knowledge transfer via prompting. Promoting strategies such as knowledge-guided prompting proved highly effective (e.g., improving the performance of GPT-4 by 13.10% over zero-shot in PICO extraction). However, the experiments also showed limitations, with LLM performance falling well below state-of-the-art baselines like PubMedBERT in handling named entity recognition tasks. Moreover, human evaluation revealed persisting challenges with factual inconsistencies and domain inaccuracies, underscoring the need for rigorous quality control before clinical application. This study provides insights into enhancing EBM using LLMs while highlighting critical areas for further research.
+ER  - 
+
+TY  - CONF
+TI  - VRBench: A Benchmark for Multi-Step Reasoning in Long Narrative Videos
+T2  - 2025 IEEE/CVF International Conference on Computer Vision (ICCV)
+SP  - 21655
+EP  - 21666
+AU  - J. Yu
+AU  - Y. Wu
+AU  - M. Chu
+AU  - Z. Ren
+AU  - Z. Huang
+AU  - P. Chu
+AU  - R. Zhang
+AU  - Y. He
+AU  - Q. Li
+AU  - S. Li
+AU  - Z. Li
+AU  - Z. Tu
+AU  - C. He
+AU  - Y. Qiao
+AU  - Y. Wang
+AU  - Y. Wang
+AU  - L. Wang
+PY  - 2025
+KW  - Motion pictures
+KW  - Broadcasting
+KW  - Broadcast technology
+KW  - Filtering
+KW  - Filters
+KW  - Circuits and systems
+KW  - Protocols
+KW  - Videos
+KW  - Communication systems
+KW  - MIMO
+KW  - video reasoning
+KW  - benchmark
+KW  - multi-step reasoning
+KW  - video understanding
+KW  - long videos
+KW  - narrative videos
+DO  - 10.1109/ICCV51701.2025.02011
+JO  - 2025 IEEE/CVF International Conference on Computer Vision (ICCV)
+IS  - 
+SN  - 2380-7504
+VO  - 
+VL  - 
+JA  - 2025 IEEE/CVF International Conference on Computer Vision (ICCV)
+Y1  - 19-25 Oct. 2025
+AB  - We present VRBench, the first long narrative video benchmark crafted for evaluating large models' multi-step reasoning capabilities, addressing limitations in existing evaluations that overlook temporal reasoning and procedural validity. It comprises 960 long videos (with an average duration of 1.6 hours), along with 8,243 human-labeled multi-step question-answering pairs and 25,106 reasoning steps with timestamps. These videos are curated via a multistage filtering process including expert inter-rater reviewing to prioritize plot coherence. We develop a human-AI collaborative framework that generates coherent reasoning chains, each requiring multiple temporally grounded steps, spanning seven types (e.g., event attribution, implicit inference). VRBench designs a multi-phase evaluation pipeline that assesses models at both the outcome and process levels. Apart from the MCQs for the final results, we propose a progress-level LLM-guided scoring metric to evaluate the quality of the reasoning chain from multiple dimensions comprehensively. Through extensive evaluations of 12 LLMs and 19 VLMs on VRBench, we undertake a thorough analysis and provide valuable insights that advance the field of multi-step reasoning.
+ER  - 
+
+TY  - CONF
+TI  - Understanding Museum Exhibits using Vision-Language Reasoning
+T2  - 2025 IEEE/CVF International Conference on Computer Vision (ICCV)
+SP  - 2227
+EP  - 2238
+AU  - A. -A. Balauca
+AU  - S. Garai
+AU  - S. Balauca
+AU  - R. U. Shetty
+AU  - N. Agrawal
+AU  - D. S. Shah
+AU  - Y. Fu
+AU  - X. Wang
+AU  - K. Toutanova
+AU  - D. P. Paudel
+AU  - L. Van Gool
+PY  - 2025
+KW  - Weapons of mass destruction
+KW  - Weapons
+KW  - Filtering
+KW  - Filters
+KW  - MIMICs
+KW  - Millimeter wave integrated circuits
+KW  - Monolithic integrated circuits
+KW  - Circuits and systems
+KW  - Amplitude shift keying
+KW  - Internet
+DO  - 10.1109/ICCV51701.2025.00215
+JO  - 2025 IEEE/CVF International Conference on Computer Vision (ICCV)
+IS  - 
+SN  - 2380-7504
+VO  - 
+VL  - 
+JA  - 2025 IEEE/CVF International Conference on Computer Vision (ICCV)
+Y1  - 19-25 Oct. 2025
+AB  - Museums serve as repositories of cultural heritage and historical artifacts from diverse epochs, civilizations, and regions, preserving well-documented collections that encapsulate vast knowledge, which, when systematically structured into large-scale datasets, can train specialized models. Visitors engage with exhibits through curiosity and questions, making expert domain-specific models essential for interactive query resolution and gaining historical insights. Understanding exhibits from images requires analyzing visual features and linking them to historical knowledge to derive meaningful correlations. We facilitate such reasoning by (a) collecting and curating a large-scale dataset of 65 M images and 200 M question-answer pairs for exhibits from all around the world; (b) training large vision-language models (VLMs) on the collected dataset; (c) benchmarking their ability on five visual question answering tasks, specifically designed to reflect real-world inquiries and challenges observed in museum settings. The complete dataset is labeled by museum experts, ensuring the quality and the practical significance of the labels. We train two VLMs from different categories: BLIP [41] with visionlanguage aligned embeddings, but lacking the expressive power of large language models, and the LLaVA [46] model, a powerful instruction-tuned LLM enriched with vision-language reasoning capabilities. Through extensive experiments, we find that while both model types effectively answer visually grounded questions, large vision-language models excel in queries requiring deeper historical context and reasoning. We further demonstrate the necessity of finetuning models on large-scale domain-specific datasets by showing that our fine-tuned models significantly outperform current SOTA VLMs in answering questions related to specific attributes, highlighting their limitations in handling complex, nuanced queries. Our dataset, benchmarks, and source code are available at: insait-institute/Museum-65.
+ER  - 
+
+TY  - CONF
+TI  - VADER: Towards Causal Video Anomaly Understanding with Relation-Aware Large Language Models
+T2  - 2026 IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)
+SP  - 7301
+EP  - 7311
+AU  - Y. Cheng
+AU  - Y. -H. Lin
+AU  - M. -H. Chen
+AU  - F. -E. Yang
+AU  - S. -H. Lai
+PY  - 2026
+KW  - Feeds
+KW  - Filtering
+KW  - Circuits and systems
+KW  - Filters
+KW  - Videos
+KW  - Protocols
+KW  - Video equipment
+KW  - Location awareness
+KW  - Event detection
+KW  - LoRa
+DO  - 10.1109/WACV61042.2026.00705
+JO  - 2026 IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)
+IS  - 
+SN  - 2642-9381
+VO  - 
+VL  - 
+JA  - 2026 IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)
+Y1  - 6-10 March 2026
+AB  - Video anomaly understanding (VAU) aims to provide detailed interpretation and semantic comprehension of anomalous events within videos, addressing limitations of traditional methods that focus solely on detecting and localizing anomalies. However, existing approaches often neglect the deeper causal relationships and interactions between objects, which are critical for understanding anomalous behaviors. In this paper, we propose VADER, an LLM-driven framework for Video Anomaly unDErstanding, which integrates keyframe object Relation features with visual cues to enhance anomaly comprehension from video. Specifically, VADER first applies an Anomaly Scorer to assign per-frame anomaly scores, followed by a Context-AwarE Sampling (CAES) strategy to capture the causal context of each anomalous event. A Relation Feature Extractor and a COntrastive Relation Encoder (CORE) jointly model dynamic object interactions, producing compact relational representations for downstream reasoning. These visual and relational cues are integrated with LLMs to generate detailed, causally grounded descriptions and support robust anomaly-related question answering. Experiments on multiple real-world VAU benchmarks demonstrate that VADER achieves strong results across anomaly description, explanation, and causal reasoning tasks, advancing the frontier of explainable video anomaly analysis. Project page is available at https://vader-vau.github.io/.
+ER  - 
+
+TY  - CONF
+TI  - Adaptive Claim Level Hallucination Detection and Mitigation for BlackBox LLMs on Amazon Bedrock
+T2  - 2026 IEEE 5th World Conference on Applied Intelligence and Computing (AIC)
+SP  - 23
+EP  - 30
+AU  - M. R. Katta
+PY  - 2026
+KW  - Modeling
+KW  - Retrieval augmented generation
+KW  - Grounding
+KW  - Costing
+KW  - Costs
+KW  - Heart rate
+KW  - Printing
+KW  - Large language models
+KW  - Color
+KW  - Pipelines
+KW  - large language models
+KW  - hallucination mitigation
+KW  - claim-level verification
+KW  - adaptive RAG
+KW  - Amazon Bedrock
+KW  - cloud-hosted AI
+KW  - factuality
+KW  - black-box deployment
+DO  - 10.1109/AIC70896.2026.11717234
+JO  - 2026 IEEE 5th World Conference on Applied Intelligence and Computing (AIC)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 IEEE 5th World Conference on Applied Intelligence and Computing (AIC)
+Y1  - 29-30 Aug. 2026
+AB  - Large language models (LLMs) deployed through managed cloud APIs are increasingly relied upon in settings where incorrect output carries real cost enterprise search, healthcare triage, financial advisory, and legal question answering among them. Hallucination mitigation in these black-box environments is hard for two reasons: strong detection methods typically depend on model internals that hosted APIs do not expose, and current mitigation pipelines apply retrieval and verification uniformly, adding latency and cost even when a response is already well-grounded. This article describes Claim Guard, a cloud-native pipeline that breaks each LLM response into atomic factual claims, retrieves targeted evidence for each claim, estimates a calibrated per-claim risk score from three signal sources retrieval support, verifier disagreement, and Amazon Bedrock Guardrail feedback and selects the cheapest mitigation action whose expected cost does not exceed the risk. Actions range from accepting the original answer to RAG regeneration, chain-of-verification, selective claim rewriting, and abstention. Built on Amazon Bedrock, Kendra, Lambda, S3, DynamoDB, and Bedrock Guardrails, ClaimGuard treats factuality, latency, and per-query cost as joint objectives. A dynamic evaluation protocol pairs standard benchmarks TruthfulQA, FEVER, HotpotQA, HaluEval, RAGTruth with adversarial evidence perturbation and temporal drift stress tests. Across all benchmarks ClaimGuard achieves a mean hallucination rate of 11.9%, against 37.1% for unmitigated generation and 18.0% for always on RAG, at a mean end to end latency of 1.02 s well below the 2.87 s of always on RAG.
+ER  - 
+
+

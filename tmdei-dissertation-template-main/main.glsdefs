@@ -334,3 +334,227 @@ parent={},%
 %
 }%
 
+\glsdefs@newdocentry{IA}%
+{%
+name={\acronymfont {\glsentryshort {IA}}},%
+sort={IA},%
+type={acronym},%
+first={IA},%
+firstplural={IAs},%
+text={IA},%
+plural={IAs},%
+description={Inteligência Artificial},%
+descriptionplural={Inteligência Artificial},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Inteligência Artificial},%
+longplural={Inteligência Artificials},%
+short={IA},%
+shortplural={IAs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{QA}%
+{%
+name={\acronymfont {\glsentryshort {QA}}},%
+sort={QA},%
+type={acronym},%
+first={QA},%
+firstplural={QAs},%
+text={QA},%
+plural={QAs},%
+description={\emph {Question Answering}},%
+descriptionplural={\emph {Question Answering}},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={\protect \emph  {Question Answering}},%
+longplural={\protect \emph  {Question Answering}s},%
+short={QA},%
+shortplural={QAs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{ICL}%
+{%
+name={\acronymfont {\glsentryshort {ICL}}},%
+sort={ICL},%
+type={acronym},%
+first={ICL},%
+firstplural={ICLs},%
+text={ICL},%
+plural={ICLs},%
+description={\emph {In-Context Learning}},%
+descriptionplural={\emph {In-Context Learning}},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={\protect \emph  {In-Context Learning}},%
+longplural={\protect \emph  {In-Context Learning}s},%
+short={ICL},%
+shortplural={ICLs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{PRISMA}%
+{%
+name={\acronymfont {\glsentryshort {PRISMA}}},%
+sort={PRISMA},%
+type={acronym},%
+first={PRISMA},%
+firstplural={PRISMAs},%
+text={PRISMA},%
+plural={PRISMAs},%
+description={\emph {Preferred Reporting Items for Systematic Reviews and Meta-Analyses}},%
+descriptionplural={\emph {Preferred Reporting Items for Systematic Reviews and Meta-Analyses}},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={\protect \emph  {Preferred Reporting Items for Systematic Reviews and Meta-Analyses}},%
+longplural={\protect \emph  {Preferred Reporting Items for Systematic Reviews and Meta-Analyses}s},%
+short={PRISMA},%
+shortplural={PRISMAs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{PICOC}%
+{%
+name={\acronymfont {\glsentryshort {PICOC}}},%
+sort={PICOC},%
+type={acronym},%
+first={PICOC},%
+firstplural={PICOCs},%
+text={PICOC},%
+plural={PICOCs},%
+description={\emph {Population, Intervention, Comparison, Outcomes, Context}},%
+descriptionplural={\emph {Population, Intervention, Comparison, Outcomes, Context}},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={\protect \emph  {Population, Intervention, Comparison, Outcomes, Context}},%
+longplural={\protect \emph  {Population, Intervention, Comparison, Outcomes, Context}s},%
+short={PICOC},%
+shortplural={PICOCs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{RQ}%
+{%
+name={\acronymfont {\glsentryshort {RQ}}},%
+sort={RQ},%
+type={acronym},%
+first={RQ},%
+firstplural={RQs},%
+text={RQ},%
+plural={RQs},%
+description={\emph {Research Question}},%
+descriptionplural={\emph {Research Question}},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={\protect \emph  {Research Question}},%
+longplural={\protect \emph  {Research Question}s},%
+short={RQ},%
+shortplural={RQs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{SUS}%
+{%
+name={\acronymfont {\glsentryshort {SUS}}},%
+sort={SUS},%
+type={acronym},%
+first={SUS},%
+firstplural={SUSs},%
+text={SUS},%
+plural={SUSs},%
+description={\emph {System Usability Scale}},%
+descriptionplural={\emph {System Usability Scale}},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={\protect \emph  {System Usability Scale}},%
+longplural={\protect \emph  {System Usability Scale}s},%
+short={SUS},%
+shortplural={SUSs},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{RAGAS}%
+{%
+name={\acronymfont {\glsentryshort {RAGAS}}},%
+sort={RAGAS},%
+type={acronym},%
+first={RAGAS},%
+firstplural={RAGASs},%
+text={RAGAS},%
+plural={RAGASs},%
+description={\emph {Retrieval Augmented Generation Assessment}},%
+descriptionplural={\emph {Retrieval Augmented Generation Assessment}},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={\protect \emph  {Retrieval Augmented Generation Assessment}},%
+longplural={\protect \emph  {Retrieval Augmented Generation Assessment}s},%
+short={RAGAS},%
+shortplural={RAGASs},%
+counter={page},%
+parent={},%
+%
+}%
+

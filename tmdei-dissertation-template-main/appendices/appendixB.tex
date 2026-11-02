@@ -1,0 +1,70 @@
+% Appendix B -- gerado a partir de scripts/selecionados.csv (estudos prioritários)
+
+\chapter{Estudos Prioritários da Revisão}
+\label{AppendixB}
+
+Este apêndice classifica os 48 estudos prioritários da revisão sistemática (Capítulo~\ref{chap:Chapter2}). A classificação foi feita a partir dos títulos e resumos e será confirmada na leitura do texto integral. A coluna Q indica a pesquisa de onde o estudo veio.
+
+{\scriptsize
+\begin{longtable}{p{2.6cm} p{0.95cm} p{2.4cm} p{3.3cm} p{3.4cm}}
+\caption{Classificação dos estudos prioritários.}\label{tab:priority}\\
+\toprule
+\tabhead{Estudo} & \tabhead{Q} & \tabhead{Domínio} & \tabhead{Contexto e controlo} & \tabhead{Avaliação} \\
+\midrule
+\endfirsthead
+\toprule
+\tabhead{Estudo} & \tabhead{Q} & \tabhead{Domínio} & \tabhead{Contexto e controlo} & \tabhead{Avaliação} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\textcite{zhang2025meditrir} & Q1 & QA médico (MCQ) & RAG com triplos de grafo & Exatidão em MedMCQA e Medical QA \\
+\textcite{christiawan2025sanity} & Q1,Q2 & Saúde mental & RAG híbrido com reordenação & RAGAS: fidelidade 0,875 \\
+\textcite{trang2025customized} & Q1 & Educação escolar & RAG e regras sobre planos de aula & Descrição do sistema; execução local \\
+\textcite{nurfadhilah2025retrieval} & Q1,Q2 & Educação de doentes & RAG; LLM adaptado à língua & 700 respostas; fidelidade e correção (LLM avaliador) \\
+\textcite{azam2024cancerbot} & Q1,Q2 & Oncologia & RAG sobre literatura & Fidelidade e relevância vs. LLM base \\
+\textcite{sbai2025advanced} & Q1 & Educação (trilingue) & RAG com embeddings multilingues & Correção e fidelidade por língua \\
+\textcite{kavitha2026securecontext} & Q1,Q3 & Universidade & Dois LLM: filtro e RAG controlado & Deteção de ameaças (90\%) \\
+\textcite{raputri2025retrieval} & Q1,Q2 & Diagnóstico clínico & RAG sobre diretrizes locais & Comparação com e sem RAG; médico \\
+\textcite{liu2026quality} & Q1 & QA médico (MCQ) & RAG multiagente; base curada & Exatidão em MedMCQA e MedQA \\
+\textcite{rahat2026noise} & Q1 & QA médico & RAG sobre PubMed & Exatidão; análise de 165 erros \\
+\textcite{wei2026cloud} & Q1 & Ensino superior & RAG local com verificação de políticas & Dados públicos; auditoria de casos \\
+\textcite{tawfik2025mufakkir} & Q1 & Ensino superior (árabe) & RAG híbrido & Exatidão e semelhança da resposta \\
+\textcite{elnozahy2026governed} & Q1 & Ensino superior & QA de domínio fechado com encaminhamento & Proposta de arquitetura \\
+\textcite{khan2025towards} & Q1,Q2 & Exame de acesso (GATE) & RAG sobre soluções de exame & Fidelidade, relevância, latência; avaliação humana \\
+\textcite{sayeed2026tutor} & Q1 & Ensino superior & RAG sobre manuais abertos & 14 perguntas; LLM e heurísticas \\
+\textcite{bengmah2025driven} & Q1 & Diabetes & Prompt vs. fine-tuning vs. RAG & Comparação das três abordagens \\
+\textcite{ruga2025conversational} & Q1 & Oftalmologia (italiano) & RAG com tradução & Viabilidade técnica \\
+\textcite{ishadya2026mitigating} & Q1,Q4 & Saúde & Prompting estruturado + RAG/MCP & Exatidão, abstenção, evidência; especialistas \\
+\textcite{ghanbari2025evaluating} & Q1 & Transferível (MCQ) & Grafo de conhecimento no prompt & Exatidão vs. sem contexto \\
+\textcite{bellard2025development} & Q1 & Insuficiência cardíaca & RAG com LLM juiz & 25 pares; latência e custo \\
+\textcite{jain2025aligning} & Q1 & Sala de aula & RAG vetorial vs. grafo & 3176 perguntas; manuais alterados \\
+\textcite{ghanbari2025quantifying} & Q1 & Transferível (MCQ) & Subgrafos no prompt & Efeito da relevância do contexto \\
+\textcite{oh2026automedic} & Q1 & Clínica & Pacientes virtuais de datasets & Métrica CARE; validação por especialistas \\
+\textcite{shah2026enhancing} & Q1,Q3 & Saúde & RAG, fine-tuning e guardrails & BLEU, ROUGE-L, BERTScore \\
+\textcite{zhao2025cyberbot} & Q1 & Cibersegurança (curso) & RAG validado por ontologia & Implementado num curso \\
+\textcite{yan2026question} & Q1 & Eletrónica (curso) & RAG e engenharia de prompts & Exatidão e estabilidade \\
+\textcite{xie2026when} & Q1 & QA médico (MCQ) & Três variantes de RAG & Exatidão no MedQA; efeito do RAG \\
+\textcite{liu2026asknow} & Q1 & Sala de aula & Contexto da aula em curso & 117 estudantes; docentes avaliam correção \\
+\textcite{han2026textbook} & Q1 & Programação (CS1) & RAG sobre o manual, com citações & Citações corretas; inquérito \\
+\textcite{miroyan2025analyzing} & Q1 & Programação & RAG (GPT-4) & Avaliação e edição por TAs \\
+\textcite{zheng2026comparative} & Q1 & Transferível (apoio técnico) & Fine-tuning vs. RAG vs. ICL & Correção; humanos e LLM juiz \\
+\textcite{seshadri2026alan} & Q1 & Programação & RAG sobre materiais, com citações & 250 estudantes; inquérito \\
+\textcite{barzanji2026buddy} & Q1 & Engenharia de software & Materiais do curso & 32 estudantes; SUS 77,8 \\
+\textcite{buti2026evaluating} & Q1,Q2 & Aconselhamento académico & RAG & 55 perguntas; LLM juiz \\
+\textcite{xu2026echomind} & Q1 & Vídeo-aulas & Materiais da apresentação & Estudo com 75 participantes \\
+\textcite{feng2024courseassist} & Q1 & Programação & RAG, intenção e decomposição & 50 pares vs. GPT-4; entrevistas \\
+\textcite{bui2025formal} & Q1 & Procedimentos académicos & LLM com verificação formal & Benchmark EduMC-QA \\
+\textcite{liao2026heal} & Q1 & Clínica (EHR) & Autocrítica e ICL com exemplos & LLM juiz e estudantes de medicina \\
+\textcite{fu2024chatbots} & Q2 & Universidade & Base de conhecimento web & Correção e completude; alucinações \\
+\textcite{walczak2026comparative} & Q3 & Universidade & Guardrails com restrição de tema & Precisão, recall, latência \\
+\textcite{tien2024optimizing} & Q3 & Universidade & Classificador de jailbreak & Exatidão da deteção \\
+\textcite{emekci2025securing} & Q3 & Universidade & Dois LLM: filtro e geração & 4501 interações reais; 0,28\% falsos positivos \\
+\textcite{mathew2026privacy} & Q3 & Saúde & Deteção federada de injeção & Exatidão e F1 \\
+\textcite{li2026responsible} & Q3 & Vários domínios & Monitorização de estados internos & Taxa de rejeição fora do domínio \\
+\textcite{liu2024teaching} & Q3 & Programação (CS50) & Guardrails pedagógicos & Demonstração; experiência de uso \\
+\textcite{hamidi2026large} & Q4 & Radiologia & QA sobre um relatório & EM, F1; taxonomia com abstenção \\
+\textcite{rayhan2026sage} & Q4 & Programação & Controlo de acesso por grafo & Políticas: 90\% vs. 30\% (prompt) \\
+\textcite{abrar2025domain} & Q4 & Universidade (multilingue) & Fine-tuning com exemplos de recusa & Precisão da recusa 0,86 \\
+\end{longtable}
+}

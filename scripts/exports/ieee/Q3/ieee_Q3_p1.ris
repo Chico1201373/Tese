@@ -1,0 +1,1335 @@
+TY  - CONF
+TI  - MalPID: Malicious Prompt Injection Detection Dataset for Large Language Model based Applications
+T2  - 2024 IEEE Eleventh International Conference on Communications and Networking (ComNet)
+SP  - 1
+EP  - 5
+AU  - S. Omri
+AU  - M. Abdelkader
+AU  - M. Hamdi
+PY  - 2024
+KW  - Ethics
+KW  - Systematics
+KW  - Large language models
+KW  - Prevention and mitigation
+KW  - Machine learning
+KW  - Benchmark testing
+KW  - Chatbots
+KW  - Data models
+KW  - chatbot
+KW  - prompt injection
+KW  - classification
+KW  - LLM
+KW  - conversational AI
+KW  - dataset
+KW  - AI application
+DO  - 10.1109/ComNet64071.2024.10987374
+JO  - 2024 IEEE Eleventh International Conference on Communications and Networking (ComNet)
+IS  - 
+SN  - 2473-7585
+VO  - 
+VL  - 
+JA  - 2024 IEEE Eleventh International Conference on Communications and Networking (ComNet)
+Y1  - 5-7 Nov. 2024
+AB  - Despite the significant transformation made by large language model (LLM)-based chatbots in the field of conversational artificial intelligence (AI), these systems are vulnerable to the attack known as prompt injection by malicious users to make them ignore their guardrails and generate objectionable content. However, few previous works have been addressing this issue using complex and costly mechanisms and there is a lack of large dataset that deal with prompt injection examples. In this work, we introduce MalPID, a novel dataset for malicious prompt injection detection. This benchmark contains various malicious and legitimate prompts collected from different sources and labelled manually. Our systematic evaluation of models trained on our dataset has shown impressive results in detecting prompt injection data. In the future, MalPID could be a valuable resource for advancing the creation of safe conversational AI systems.
+ER  - 
+
+TY  - JOUR
+TI  - Comprehensive Analysis of LLM Guardrails Approaches Preventing Harmful Content and Jailbreak Attacks
+T2  - IEEE Access
+SP  - 70863
+EP  - 70879
+AU  - P. Majewski
+AU  - K. Marczak
+AU  - N. Dubicka
+AU  - J. Podolak
+AU  - B. Sochaj
+AU  - J. Siłka
+AU  - M. Kowal
+PY  - 2026
+KW  - Weapons
+KW  - Filtering
+KW  - Filters
+KW  - Circuits and systems
+KW  - Information filters
+KW  - Blocklists
+KW  - Communication systems
+KW  - Protocols
+KW  - Radio access networks
+KW  - Regional area networks
+KW  - Chatbot
+KW  - guardrails
+KW  - harmful
+KW  - jailbreak
+KW  - LLM
+DO  - 10.1109/ACCESS.2026.3690365
+JO  - IEEE Access
+IS  - 
+SN  - 2169-3536
+VO  - 14
+VL  - 14
+JA  - IEEE Access
+Y1  - 2026
+AB  - LLMs (Large Language Models) have become increasingly important, with chatbots being widely used in commercial settings to assist employees and answer customer questions. To protect a company’s reputation and ensure compliance, it’s crucial that chatbots do not generate harmful content, even in the face of deliberate jailbreak attacks. Researchers propose various methods to secure LLMs, known as guardrails, to prevent harmful content generation and jailbreak attacks. This article aims to comprehensively analyze existing guardrail solutions and provide guidelines for selecting the optimal solution for specific scenarios. The study compared six different guardrail methods across three versions of LLMs (Mistral Large 24.02, Meta Llama 3-8B Instruct, Anthropic Claude 3.5 Sonnet), including two baseline approaches, two cloud-based solutions (AWS Guardrails, Azure AI Content Safety), and two other popular non-cloud solutions (NeMo by Nvidia and Llama Guard by Meta). Thirteen datasets were used for evaluation: ten representing harmful questions in jailbreak attacks and three with neutral prompts similar to harmful questions to check for excessive blocking. The best results were achieved by AWS Guardrails (averaged accuracy across models 96.8%) and NeMo (93.9%) The results clearly showed that using guardrails is essential when building commercial applications based on LLMs due to advancements in effective jailbreak attacks.
+ER  - 
+
+TY  - CONF
+TI  - Comparative Evaluation of Llama Guard 3 and GPT OSS Safeguard as LLM Guardrails for a University Administrative Chatbot
+T2  - 2026 Progress in Applied Electrical Engineering (PAEE)
+SP  - 1
+EP  - 4
+AU  - J. Walczak
+AU  - B. Sawicki
+PY  - 2026
+KW  - Modeling
+KW  - Generative Pre-trained transformer
+KW  - Safety
+KW  - Large language models
+KW  - Labeling
+KW  - Printing
+KW  - Context
+KW  - Grounding
+KW  - Training
+KW  - Testing
+KW  - Large Language Models
+KW  - Guardrails
+KW  - Chatbot Safety
+KW  - Educational Technology
+KW  - Content Moderation
+KW  - Llama Guard
+KW  - User Study
+DO  - 10.1109/PAEE71887.2026.11660667
+JO  - 2026 Progress in Applied Electrical Engineering (PAEE)
+IS  - 
+SN  - 2837-8326
+VO  - 
+VL  - 
+JA  - 2026 Progress in Applied Electrical Engineering (PAEE)
+Y1  - 22-26 June 2026
+AB  - Integrating large language models (LLMs) into academic infrastructure requires rigorous safety mechanisms. This paper presents a comparative evaluation of two guard models, Llama Guard 3 (with a Low-Rank Adaptation (LoRA) adapter) and GPT OSS Safeguard, in the context of securing an administrative chatbot at Warsaw University of Technology (WUT), incorporating a custom Topic Restriction category that enforces domain boundaries. Results reveal a fundamental tradeoff: Llama Guard 3 exhibits high recall and low classification latency, but at the cost of numerous false positives. GPT OSS Safeguard achieves higher precision and better threat categorization, yet its response time precludes synchronous deployment. The study also revealed a significant discrepancy between expert labels and user perception, underscoring the inherent subjectivity of safety classification.
+ER  - 
+
+TY  - CONF
+TI  - Enhancing RAG Pipelines with Agent-Based Hallucination Detection and Guardrails Mechanisms
+T2  - 2025 5th International Conference on Electrical, Computer and Energy Technologies (ICECET)
+SP  - 1
+EP  - 6
+AU  - V. Mishra
+AU  - V. Sharma
+AU  - A. Seth
+AU  - P. Selvakumar
+PY  - 2025
+KW  - Feeds
+KW  - Filtering
+KW  - Filters
+KW  - Circuits and systems
+KW  - LoRa
+KW  - Protocols
+KW  - HTTP
+KW  - Data communication
+KW  - Web services
+KW  - Internet
+KW  - Agents
+KW  - Large Language Model (LLM)
+KW  - Hallucination
+KW  - guardrails
+KW  - Retrieval Augmented Generation (RAG)
+KW  - Finetuning
+KW  - Knowledge Graphs
+DO  - 10.1109/ICECET63943.2025.11471909
+JO  - 2025 5th International Conference on Electrical, Computer and Energy Technologies (ICECET)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 5th International Conference on Electrical, Computer and Energy Technologies (ICECET)
+Y1  - 3-6 July 2025
+AB  - Large Language Models (LLMs) have become increasingly more powerful and capable with time. By generating human-like text and understanding complex language patterns, they assist with tasks ranging from chatbots to content creation, revolutionizing how we interact with information. While they are very capable, they also face a significant challenge: hallucination. Hallucination refers to situations where LLMs generate factually inaccurate or misleading responses, veering off-the-rails from the truth. This research paper presents a comprehensive framework to address this issue, ensuring LLMs provide reliable and accurate information.The solution is twofold: implementing guardrails to keep LLMs on track and developing effective methods for hallucination detection. Two approaches are developed for the guard railing process and two more approaches are explored for the hallucination detection task. Each module will be explored in this research paper.By combining the above methods, the framework ensures that responses are factually correct and thoroughly vetted through hallucination detection checks. Making it unique, robust, and novel, increasing the reliability of LLM-powered applications.
+ER  - 
+
+TY  - CONF
+TI  - Optimizing Transformer Models for Prompt Jailbreak Attack Detection in AI Assistant Systems
+T2  - 2024 1st International Conference On Cryptography And Information Security (VCRIS)
+SP  - 1
+EP  - 4
+AU  - L. A. Tien
+AU  - P. Van Huong
+PY  - 2024
+KW  - Training
+KW  - Virtual assistants
+KW  - Large language models
+KW  - Refining
+KW  - Information security
+KW  - Transformers
+KW  - Chatbots
+KW  - Reliability engineering
+KW  - Safety
+KW  - Faces
+KW  - chatbot
+KW  - prompt engineering
+KW  - prompt injection attack
+KW  - transformer
+KW  - LLM
+DO  - 10.1109/VCRIS63677.2024.10813380
+JO  - 2024 1st International Conference On Cryptography And Information Security (VCRIS)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2024 1st International Conference On Cryptography And Information Security (VCRIS)
+Y1  - 3-4 Dec. 2024
+AB  - Integrating AI-powered assistants in different areas has changed how people retrieve information. Users can now get quick responses, use the service whenever needed, and handle inquiries well. However, relying on these systems has increasingly raised worries about their safety and reliability, especially when facing threats like prompt injection or jailbreak attacks. These attacks take advantage of the weaknesses of large language models (LLMs) by changing input prompts to create harmful, biased, or misleading results. This paper examines prompt jailbreak attacks in ChatGPT-based assistant chatbots, especially in education. It examines the weaknesses in these systems and suggests ways to detect these attacks by fine-tuning various Transformer models. The research also includes adding prompt jailbreak attack detection in a virtual assistant application for university use. This aims to ensure teachers and students can interact safely and rely on the system. Through rigorous experimentation and evaluation, we demonstrate the practicality and effectiveness of our detection methods, providing reassurance and confidence in the face of AI security challenges. Our studies emphasize the need for robust AI chatbots and offer practical solutions to preserve the integrity of AI-driven tools.
+ER  - 
+
+TY  - CONF
+TI  - AI Prompt Injection Attack Tester
+T2  - 2026 International Conference on Emerging Smart Computing and Informatics (ESCI)
+SP  - 1
+EP  - 6
+AU  - L. R
+AU  - D. D C
+AU  - L. H R
+AU  - Preeti
+PY  - 2026
+KW  - Feedback
+KW  - Filtering
+KW  - Circuits
+KW  - Filters
+KW  - Graphical user interfaces
+KW  - Product development
+KW  - Internet
+KW  - Bot (Internet)
+KW  - Protocols
+KW  - Communication systems
+KW  - Prompt Injection
+KW  - LLM Security
+KW  - OCR
+KW  - AI Safety
+KW  - Streamlit
+KW  - Multi-Modal Detection
+DO  - 10.1109/ESCI68015.2026.11493291
+JO  - 2026 International Conference on Emerging Smart Computing and Informatics (ESCI)
+IS  - 
+SN  - 2996-1815
+VO  - 
+VL  - 
+JA  - 2026 International Conference on Emerging Smart Computing and Informatics (ESCI)
+Y1  - 11-13 March 2026
+AB  - Large Language Models are widely integrated into chatbots, enterprise applications, and automation systems. However, these systems are vulnerable to prompt injection attacks - malicious instructions embedded in text, files, images, or translated content, attempting to override system rules. This paper presents the design and implementation of the AI Prompt Injection Attack Tester: a multi-modal system for detecting and mitigating Prompt Injection attempts against Large Language Models. While the ubiquitous deployment of LLMs has introduced a critical security vulnerability, where untrusted user input hijacks the model’s policy and system prompt, we introduce the following concept: a Heuristic-Based Prompt Injection Detection Engine integrated into a pre-processing guardrail layer. The PIDE applies a specialized ruleset, which includes instruction-overriding pattern matching and sensitive keyword identification, to incoming data for a risk score. Importantly, the system normalizes and scans inputs from four different modalities: direct text, embedded code comments/literals, image text via OCR, and text that has been processed through a mock translation service. On detection, a Mitigation Pipeline applies sequential steps of sanitization, instruction stripping, and policy-based blocking prior to any input reaching the LLM. As confirmed within a safe, mock environment for LLMs, experimental results validate that this approach provides both successful detection and neutralization of malicious instructions across all types of input tested in this work. This paper confirms that a robust, multi-modal pre-processing policy layer is required as an integral component of a broad defense-in-depth strategy against sophisticated Prompt Injection attacks.
+ER  - 
+
+TY  - CONF
+TI  - When AI Meets the Web: Prompt Injection Risks in Third-Party AI Chatbot Plugins
+T2  - 2026 IEEE Symposium on Security and Privacy (SP)
+SP  - 4223
+EP  - 4242
+AU  - Y. Kaya
+AU  - A. Landerer
+AU  - S. Pletinckx
+AU  - M. Zimmermann
+AU  - C. Kruegel
+AU  - G. Vigna
+PY  - 2026
+KW  - Chatbots
+KW  - Large language models
+KW  - Modeling
+KW  - Printing
+KW  - Tools
+KW  - Security
+KW  - Application programming interfaces
+KW  - Conferences
+KW  - Retrieval augmented generation
+KW  - Context
+KW  - large language models
+KW  - prompt injection
+KW  - chatbot security
+DO  - 10.1109/SP63933.2026.00062
+JO  - 2026 IEEE Symposium on Security and Privacy (SP)
+IS  - 
+SN  - 2375-1207
+VO  - 
+VL  - 
+JA  - 2026 IEEE Symposium on Security and Privacy (SP)
+Y1  - 18-21 May 2026
+AB  - Prompt injection attacks pose a critical threat to large language models (LLMs), with prior work focusing on cutting-edge LLM applications like personal copilots. In contrast, simpler LLM applications, such as customer service chatbots, are widespread on the web, yet their security posture and exposure to such attacks remain poorly understood. These applications often rely on third-party chatbot plugins that act as intermediaries to commercial LLM APIs, offering non-expert website builders intuitive ways to customize chatbot behaviors. To bridge this gap, we present the first large-scale study of 17 third-party chatbot plugins used by over $\mathbf{1 0, 0 0 0}$ public websites, uncovering previously unknown prompt injection risks in practice. First, 8 of these plugins (used by 8,000 websites) fail to enforce the integrity of the conversation history transmitted in network requests between the website visitor and the chatbot. This oversight amplifies the impact of direct prompt injection attacks by allowing adversaries to forge conversation histories (including fake system messages), boosting their ability to elicit unintended behavior (e.g., code generation) by $\mathbf{3}-\mathbf{8} \times$. Second, 15 plugins offer tools, such as web-scraping, to enrich the chatbot's context with website-specific content. However, these tools do not distinguish the website's trusted content (e.g., product descriptions) from untrusted, third-party content (e.g., customer reviews), introducing a risk of indirect prompt injection. Notably, we found that $\sim \mathbf{1 3 \%}$ of e-commerce websites have already exposed their chatbots to third-party content. We systematically evaluate both vulnerabilities through controlled experiments grounded in real-world observations, focusing on factors such as system prompt design and the underlying LLM. Our findings show that many plugins adopt insecure practices that undermine the built-in LLM safeguards.
+ER  - 
+
+TY  - CONF
+TI  - Zero Trust Framework for Detecting and Preventing Prompt Injection Attacks in Enterprise AI Chatbots
+T2  - 2026 International Conference on Science Technology Engineering and Management (ICSTEM)
+SP  - 1
+EP  - 8
+AU  - G. Anbazhagan
+AU  - P. S
+AU  - D. J. S
+PY  - 2026
+KW  - Security
+KW  - Modeling
+KW  - Artificial intelligence
+KW  - Poles and zeros
+KW  - Zero Trust
+KW  - Context
+KW  - Printing
+KW  - Large language models
+KW  - Signal detection
+KW  - Engines
+KW  - Zero Trust Framework
+KW  - Enterprise AI Security
+KW  - Prompt Injection Attacks
+KW  - Indirect Prompt Injection
+KW  - Large Language Models
+KW  - Secure AI Chatbots
+KW  - Retrieval Augmented Generation Security
+KW  - Context Isolation
+KW  - Continuous Verification
+KW  - Trust Management
+DO  - 10.1109/ICSTEM68144.2026.11735682
+JO  - 2026 International Conference on Science Technology Engineering and Management (ICSTEM)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 International Conference on Science Technology Engineering and Management (ICSTEM)
+Y1  - 21-22 Aug. 2026
+AB  - Large Language Models (LLMs) are increasingly integrated into enterprise applications but remain vulnerable to direct and indirect prompt injection attacks. Existing defense mechanisms often rely on static filtering and lack continuous verification. This paper proposes AdaptiveTrustGuard, a Zero Trust framework that integrates prompt validation, semantic similarity detection, retrieval verification, context isolation, adaptive trust scoring, temporal attack analysis, and policy enforcement, continuously verifying each interaction before it reaches the LLM. Initial evaluation on a manually labelled set achieved 60% recall, but testing on the independent deepset/prompt-injections benchmark exposed poor generalization (8.3% recall). Replacing fixed thresholds with a classifier trained on prompt embeddings and calibrated via a validation split recovered strong performance (78.3% recall, 92.2% precision, ROC-AUC 0.943 on deepset), exceeding an external baseline detector, while achieving 61.7% recall on the larger, more realistic PromptShield benchmark. These findings demonstrate the applicability of Zero Trust principles to LLM security while highlighting the necessity of multi-benchmark validation
+ER  - 
+
+TY  - CONF
+TI  - SiJesi: Large Language Model Chatbot with Augmented Retrieval Approach Generation and Prompt Engineering
+T2  - 2024 International Conference on Computer Engineering, Network, and Intelligent Multimedia (CENIM)
+SP  - 1
+EP  - 6
+AU  - H. S. Rosari
+AU  - Girinoto
+AU  - R. Novita Yasa
+AU  - N. Qomariasih
+AU  - R. Anindya Wijayanti
+PY  - 2024
+KW  - Surveys
+KW  - Large language models
+KW  - Retrieval augmented generation
+KW  - Chatbots
+KW  - Transformers
+KW  - Portable document format
+KW  - Prompt engineering
+KW  - Reliability
+KW  - Computer security
+KW  - Testing
+KW  - Large Language Model
+KW  - Retrieval Augmented Generation
+KW  - Generative Pre-training Transformer
+KW  - Prompt Engineering
+DO  - 10.1109/CENIM64038.2024.10882696
+JO  - 2024 International Conference on Computer Engineering, Network, and Intelligent Multimedia (CENIM)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2024 International Conference on Computer Engineering, Network, and Intelligent Multimedia (CENIM)
+Y1  - 19-20 Nov. 2024
+AB  - This research designs a chatbot based on Large Language Models (LLM) for cyber incident consultation, utilizing the Retrieval Augmented Generation (RAG) approach, integrated with GPT and prompt engineering techniques. The goal is to improve public cybersecurity awareness, especially in areas with low awareness, by enhancing community consultation services through automation. The chatbot addresses security concerns by examining measures against prompt injection attacks to ensure reliability. The research follows the Waterfall System Development Life Cycle methodology. Results show that LLM chatbots using RAG and prompt engineering generate more accurate responses compared to human-based answers and GPT 3.5, achieving a top score of 35.26% in A/B testing. Additionally, the chatbot received a high satisfaction score of 86.47% in User Acceptance Testing. These findings are expected to contribute to increased cybersecurity awareness and the development of innovative, secure chatbot technology for public services.
+ER  - 
+
+TY  - JOUR
+TI  - Securing With Dual-LLM Architecture: ChatTEDU an Open Access Chatbot’s Defense
+T2  - IEEE Access
+SP  - 183156
+EP  - 183170
+AU  - H. Emekci
+AU  - G. Budakoglu
+PY  - 2025
+KW  - Security
+KW  - Chatbots
+KW  - Microservice architectures
+KW  - Vectors
+KW  - Retrieval augmented generation
+KW  - Protection
+KW  - Prevention and mitigation
+KW  - Open Access
+KW  - Large language models
+KW  - Databases
+KW  - Adversarial attacks
+KW  - artificial intelligence security
+KW  - open access chatbot security
+KW  - large language models
+KW  - prompt injection
+DO  - 10.1109/ACCESS.2025.3623268
+JO  - IEEE Access
+IS  - 
+SN  - 2169-3536
+VO  - 13
+VL  - 13
+JA  - IEEE Access
+Y1  - 2025
+AB  - Open access chatbots face escalating cybersecurity risks due to adversarial exploitation. This paper presents the case of ChatTEDU, a dual-LLM architecture designed to protect open-access AI systems from sophisticated adversarial attacks while maintaining the user experience quality. During a two-month deployment at TED University, we analyzed 4501 unique real-world interactions, including 180 malicious attempts targeting the system through prompt injection, jailbreaking, and content manipulation attacks. Our dual-layer security approach separates content moderation from response generation by using two specialized language models. The first model (LLM-1) acts as a security filter, analyzing incoming queries for threats, whereas the second model (LLM-2) generates educational responses only after validation. This architecture successfully blocked 100% of the identified attacks, with only 0.28% false positives, demonstrating robust protection without compromising legitimate educational interactions. The system handles over 100 concurrent users during peak registration periods without security breaches or performance degradation. Attack analysis of the case revealed that 77.8% of the threats used technical exploitation rather than content-based manipulation, with multilingual attacks comprising 15% of the attempts. The dual-LLM approach introduced only 18% latency overhead, while providing comprehensive protection against prompt injection, jailbreaking, spam insertion, and denial-of-service attacks. This study provides practical guidance for implementing robust security measures in public-faced AI deployments worldwide.
+ER  - 
+
+TY  - CONF
+TI  - Ethical Prompt Optimization for Mental Health Chatbots Using Mixture-of-Experts (MoE) and Guardrail LLMs
+T2  - 2026 International Conference on Innovations in Communication, Geoscience and Robotics (ICICGR)
+SP  - 1
+EP  - 6
+AU  - S. C. VR
+AU  - G. Senthilvel P
+PY  - 2026
+KW  - Modeling
+KW  - Safety
+KW  - Mental health
+KW  - Equations
+KW  - Large language models
+KW  - Printing
+KW  - Ethics
+KW  - Employee welfare
+KW  - Training
+KW  - Architecture
+KW  - Mental Health Chatbots
+KW  - Mixture-of-Experts
+KW  - Guardrail LLMs
+KW  - Ethical Prompt Optimisation
+KW  - RLHF
+KW  - Safety Alignment
+DO  - 10.1109/ICICGR68236.2026.11600123
+JO  - 2026 International Conference on Innovations in Communication, Geoscience and Robotics (ICICGR)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 International Conference on Innovations in Communication, Geoscience and Robotics (ICICGR)
+Y1  - 24-25 April 2026
+AB  - Large language model-powered mental health chatbots can improve mental health assistance, but they pose ethical hazards such crisis management, misleading empathy, and harmful discrimination. Mixture-of-Experts (MoE) architectures and guardrail big language models are used to optimise mental health counselling prompts while ensuring ethical alignment. Domain specialists in crisis management, coping methods, psychoeducation, and empathetic reactions are combined with reinforcement learning from human feedback (RLHF) under ethical limitations. Moderated input, expert routing, guardrail validation, and output screening are performed via a multi-layer safety pipeline. A publicly available mental health counselling dataset shows 94.3% safety compliance, 87.2% contextual adaptability, and 91.5% crisis detection sensitivity with 42% lower computing cost than dense baselines. Ethics-by-design improves safety without compromising therapeutic quality by bridging the gap between ethical AI concepts and susceptible domain implementation.
+ER  - 
+
+TY  - CONF
+TI  - “Is It Responsible?“Emerging Results on Comparing Guardrails for Harm Mitigation in LLM-Enhanced Software Applications
+T2  - 2025 ACM/IEEE International Symposium on Empirical Software Engineering and Measurement (ESEM)
+SP  - 407
+EP  - 413
+AU  - M. V. D. S. Neto
+AU  - V. V. G. Neto
+AU  - A. R. G. Filho
+AU  - M. Kassab
+AU  - E. OliveiraJr
+PY  - 2025
+KW  - Accuracy
+KW  - Filtering
+KW  - Prevention and mitigation
+KW  - Large language models
+KW  - Customer services
+KW  - Chatbots
+KW  - Software
+KW  - Software measurement
+KW  - Software engineering
+KW  - Responsible AI
+KW  - LLM
+KW  - LLMOps
+KW  - Guardrails
+KW  - Software Engineering
+DO  - 10.1109/ESEM64174.2025.00045
+JO  - 2025 ACM/IEEE International Symposium on Empirical Software Engineering and Measurement (ESEM)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 ACM/IEEE International Symposium on Empirical Software Engineering and Measurement (ESEM)
+Y1  - 2-3 Oct. 2025
+AB  - Background: The rapid adoption of Large Language Models (LLMs) in software engineering, such as in customer service chatbots, has brought substantial benefits but also significant risks. Biased, inappropriate, or harmful responses may occur when integrating LLMs as commercial off-the-shelf (COTS) components into user-facing applications. Aims: This paper aims to present emerging results from an exploratory study that compares commercial guardrail frameworks, assessing their effectiveness in filtering inappropriate content during chat interactions. Method: We empirically evaluated three guardrail frameworks LLM Guard, Llama Guard, and OpenAI Moderation - using two datasets containing toxic and offensive content. Results: The frameworks achieved high accuracy for one dataset (over 90%) but underperformed in other metrics, indicating that toxic or dangerous content could still reach users in certain scenarios, such as deployment in chatbots. Conclusions: These findings $h$ ighlight $t$ he $n$ eed $f$ or further improvements in guardrail frameworks and provide insights for researchers and practitioners to support the selection of appropriate solutions for enhancing harm mitigation in LLMbased applications.
+ER  - 
+
+TY  - CONF
+TI  - SecureContext EDU: An Open Source University Assistant using Dual - LLM Architecture
+T2  - 2026 4th International Conference on Sustainable Computing and Smart Systems (ICSCSS)
+SP  - 1531
+EP  - 1538
+AU  - G.Kavitha
+AU  - H. A. M
+AU  - P. R
+PY  - 2026
+KW  - Large language models
+KW  - Modeling
+KW  - Retrieval augmented generation
+KW  - Security
+KW  - Chatbots
+KW  - Printing
+KW  - Filtering
+KW  - Filters
+KW  - Conferences
+KW  - Timing
+KW  - Large Language Models
+KW  - Chatbot Security
+KW  - LLM Security Prompt Injection
+KW  - Retrieval-Augmented Generation
+KW  - Threat Detection
+KW  - Suspicious pattern
+KW  - Similarity search
+DO  - 10.1109/ICSCSS69635.2026.11645927
+JO  - 2026 4th International Conference on Sustainable Computing and Smart Systems (ICSCSS)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 4th International Conference on Sustainable Computing and Smart Systems (ICSCSS)
+Y1  - 22-24 July 2026
+AB  - Chatbots powered by LLMs have become popular due to their scalability and instant reply feature. There can be many security issues associated with LLM-based chatbots, which emerge in the interaction between the LLM-based model and other software components. One major problem is that chatbots can be attacked using prompt injection, jailbreaks, and harmful queries. These attacks can change the chatbot behavior and may lead to wrong answers or leakage of sensitive information. This makes security very important in such systems. Existing methods improve the chatbot performance using techniques like modular design, Retrieval-Augmented Generation (RAG) and input filtering for security. However, most of these methods use a single model and do not have strong real-time protection, making them weak against advanced attacks. Hence, this work proposes a Dual-LLM architecture where security is handled as a separate component for protection against real time threats. A classification model is designed to check the user input queries using threat categories and a confidence score is evaluated to block the harmful inputs. Only safe queries are sent to the response model, which uses a controlled RAG system to generate accurate answers. The system is built as a step-by-step pipeline combining classification and response generation. The results show an accuracy of 90% in detecting threats which leads to reduction of unsafe responses.
+ER  - 
+
+TY  - CONF
+TI  - Exploring the Essence of Prompt Tone: A Comparative Study of Large Language Model Security
+T2  - 2024 Third International Conference on Electrical, Electronics, Information and Communication Technologies (ICEEICT)
+SP  - 1
+EP  - 8
+AU  - A. Nair
+AU  - J. Vithayathil
+AU  - S. P. Nambiar
+AU  - S. S
+AU  - S. Murali
+PY  - 2024
+KW  - Sentiment analysis
+KW  - Accuracy
+KW  - Machine learning algorithms
+KW  - Large language models
+KW  - Natural languages
+KW  - Chatbots
+KW  - Transformers
+KW  - Classification algorithms
+KW  - Security
+KW  - Reliability
+KW  - Large Language Models
+KW  - Manipulated
+KW  - Malicious prompts
+KW  - Biased responses
+KW  - Robust security
+KW  - Ethical development
+KW  - User trust
+KW  - Filters
+KW  - Sentiment
+KW  - Reliable
+KW  - Trustworthy
+DO  - 10.1109/ICEEICT61591.2024.10718584
+JO  - 2024 Third International Conference on Electrical, Electronics, Information and Communication Technologies (ICEEICT)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2024 Third International Conference on Electrical, Electronics, Information and Communication Technologies (ICEEICT)
+Y1  - 24-26 July 2024
+AB  - Chatbots powered by Large Language Model(LLM) can be manipulated by malicious prompts, generating harmful content and biased responses which would raise security concerns. Growing dependence on chatbots demands robust security for ethical development and user trust, which makes the work relevant in today’s world. The motivation behind the work is to let the user have a safe experience with no negative responses being displayed while using the chatbot, which paved the way to arrive at the goal of developing a security filter that could be integrated into any LLM feature integrated application to mitigate the risk of having security vulnerabilities like prompt injection and jailbreaking, which could be achieved by converting malicious prompt into safer prompts by the method of eliminating negative sentiment phrases. The work focuses on building and implementing the security filters to popular in-production LLMs like Large Language Model Meta AI-2 (LLaMA2) and Generative Pre-trained Transformer – 3.5 turbo (GPT-3.5) to see how they handle against prompt injection and jailbreaking before and after the security filter being integrated. A large database of 200,000 prompts has been collected and preprocessed to train on a machine learning model using binary classification algorithm having 99.7% accuracy for classification of prompts into malicious or non-malicious and further checks are being done by breaking the prompt into smaller phrases and individually analyzing their compound sentiment score using Natural Language Toolkit (NLTK) Valence Aware Dictionary for Sentiment Reasoning (VADER) algorithm to detect and drop the negative sentiment phrases for the modification of the user prompt to eliminate the possibility of malicious prompt being passed to LLM. It is difficult to determine the sentiment of prompts in a detailed way and convert it into an efficient design that will perform well with models. Once this hurdle is overcome, chatbots will become even more reliable, trustworthy, and user-friendly tools, increasing the level of people’s trust in this technology, and establishing guidelines for how to use these resources in the most beneficial ways.
+ER  - 
+
+TY  - CONF
+TI  - Prompt Injection as a Systemic Vulnerability in LLM-Based Tools: Threat Models, Empirical Analysis, and Mitigation Strategies
+T2  - 2026 IEEE/ACIS 24th International Conference on Software Engineering Research, Management and Applications (SERA)
+SP  - 291
+EP  - 296
+AU  - M. M. Tripathi
+AU  - D. Dhital
+AU  - H. Aryal
+PY  - 2026
+KW  - Modeling
+KW  - Memory
+KW  - Tools
+KW  - Large language models
+KW  - Equations
+KW  - Printing
+KW  - Toxicology
+KW  - Architecture
+KW  - Computer architecture
+KW  - Signal detection
+KW  - Prompt Injection
+KW  - Large Language Models
+KW  - AI Security
+KW  - Autonomous Agents
+KW  - Systems Security
+KW  - Software Architecture
+DO  - 10.1109/SERA69989.2026.11618608
+JO  - 2026 IEEE/ACIS 24th International Conference on Software Engineering Research, Management and Applications (SERA)
+IS  - 
+SN  - 2770-8209
+VO  - 
+VL  - 
+JA  - 2026 IEEE/ACIS 24th International Conference on Software Engineering Research, Management and Applications (SERA)
+Y1  - 27-29 May 2026
+AB  - Large language models (LLMs) deployed as autonomous agents with tool access, retrieval pipelines, and persistent memory expose an expanded attack surface. We formalize prompt injection as a control-boundary violation arising from the conflation of trusted instructions and untrusted data within LLM context windows. We introduce a threat model spanning user input, retrieval pipelines, tool outputs, and persistent memory, and develop a structured taxonomy of attack vectors. We conduct a controlled empirical evaluation across three system architectures (chatbot, retrieval-augmented system, autonomous agent) and three major LLM families (GPT-4, Claude 3.5 Sonnet, Gemini 1.5 Pro), totaling 2,100 trials ($N=50$ per configuration). Results show a monotonic increase in attack success as system autonomy expands, with memory poisoning reaching 94% (95% CI: 83.8-98.2%) in autonomous configurations. Through systematic ablation of six mitigation strategies, we find that prompt-level defenses provide limited protection $(\leq 3.2$ percentage points), while architectural controls-specifically tool permission gating, memory write filtering, and provenance tracking-reduce memory poisoning from 94% to 11%. These findings provide strong empirical evidence that prompt injection is best understood as a system-level vulnerability requiring external policy enforcement rather than prompt engineering alone.
+ER  - 
+
+TY  - JOUR
+TI  - Prompt-Based Jailbreaking of Leading LLM Chatbots: A Survey of Attacks and Defenses
+T2  - IEEE Transactions on Artificial Intelligence
+SP  - 4237
+EP  - 4251
+AU  - B. Knowlton
+AU  - J. Campa
+AU  - D. S. Gallo
+AU  - K. Dajani
+AU  - N. Alzahrani
+PY  - 2026
+KW  - Surveys
+KW  - Safety
+KW  - Artificial intelligence
+KW  - Benchmark testing
+KW  - Multilingual
+KW  - Taxonomy
+KW  - Reviews
+KW  - Pipelines
+KW  - Robustness
+KW  - Reproducibility of results
+KW  - Adversarial machine learning
+KW  - explainable artificial intelligence (AI)
+KW  - foundation models
+KW  - generative AI
+KW  - large language models (LLMs)
+KW  - prompt engineering
+DO  - 10.1109/TAI.2026.3665656
+JO  - IEEE Transactions on Artificial Intelligence
+IS  - 8
+SN  - 2691-4581
+VO  - 7
+VL  - 7
+JA  - IEEE Transactions on Artificial Intelligence
+Y1  - Aug. 2026
+AB  - Generative artificial intelligence (AI) systems—particularly large language models (LLMs)—remain vulnerable to jailbreak attacks: adversarial prompts that bypass safeguards and elicit unsafe or restricted outputs. This survey synthesizes jailbreak research from 2023–2025, covering attack methods, defense strategies, and evaluation frameworks. Jailbreak techniques are grouped into five main categories: prompt-based injections, role-play conditioning, multiturn dialogue, multilingual or multimodal exploits, and optimization-driven pipelines. We also examine discovery methods such as human red teaming and automated attacker systems (e.g., AutoJailbreak and LLMStinger), and review defense mechanisms including supervised fine-tuning (SFT), reinforcement learning from human feedback (RLHF), adversarial fine-tuning, and output or pipeline filtering. Standardized benchmarks—such as PromptBench, JailbreakBench, and multimodal evaluation suites—are analyzed in terms of reproducibility, coverage, and robustness testing. Persistent issues of generalization, reproducibility, and scalability are discussed, along with trade-offs between safety alignment and model utility. This article provides an up-to-date reference clarifying the evolving landscape of jailbreak attacks and defenses in LLMs.
+ER  - 
+
+TY  - CONF
+TI  - Privacy-Preserving Federated Transformer Framework for Detecting Adversarial Prompts in Healthcare Chatbots
+T2  - 2026 International Conference on Innovations in Computational Intelligence (ICICI)
+SP  - 1
+EP  - 6
+AU  - A. K. Mathew
+AU  - D. Rajeev
+AU  - A. Ravi
+PY  - 2026
+KW  - Modeling
+KW  - Medical services
+KW  - Federated learning
+KW  - Privacy
+KW  - Printing
+KW  - Training
+KW  - Signal detection
+KW  - Accuracy
+KW  - Servers
+KW  - Security
+KW  - Prompt Injection Attacks (PIA)
+KW  - Federated Learning (FL)
+KW  - Healthcare Chatbots
+KW  - RoBERTa
+KW  - Natural Language Processing (NLP)
+KW  - AI Security
+KW  - Sustainable Development Goals (SDG 3
+KW  - SDG 9
+KW  - SDG 16)
+DO  - 10.1109/ICICI68867.2026.11564888
+JO  - 2026 International Conference on Innovations in Computational Intelligence (ICICI)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 International Conference on Innovations in Computational Intelligence (ICICI)
+Y1  - 24-25 April 2026
+AB  - Prompt injection attacks is an important security problem in healthcare-specific large language model systems(LLMs). The injected prompt can be used to control the behavior of the model or to leak sensitive data. This vulnerability increases with centralized training pipelines that collect patient prompts on a single server, which leads to data leakage and model poisoning. In this work, we examine Federated Learning (FL) as a privacy-preserving and decentralized prompt injection detection defense for medical chatbots. Using the SPML Healthcare Chatbot Prompt Injection Dataset, we fine-tune a RoBERTa-base classifier in conditions of centralized, IID (Independent and Identically Distributed), federated and Non-IID (Non-Independent and Non-Identically Distributed) federated learning. The experimental results show that the federated model has comparable performance with centralized training, with accuracy of 0.957 and F1-score of 0.964 under IID conditions. The realistic case scenario of Non-IID client distribution was evaluated across 3 different client configurations, the model is able to maintain stable performance with an average performance accuracy of 0.956, precision of 0.942, recall of 0.987, F1-Score of 0.964 and AUC of 0.994. Moreover, the federated setup shows consistent convergence between the communication rounds despite the data heterogeneity. These results suggest that transformer-based federated learning provides an effective and privacy-preserving solution for detecting prompt injection attacks in distributed healthcare conversational AI systems. This work contributes to Sustainable Development Goal (SDG) 3: Good Health and Wellbeing, SDG 9: Industry, Innovation and Infrastructure, and SDG 16: Peace, Justice and Strong Institutions by enhancing the security and privacy of AI-driven healthcare technologies.
+ER  - 
+
+TY  - CONF
+TI  - Jailbreaking LLM-Controlled Robots
+T2  - 2025 IEEE International Conference on Robotics and Automation (ICRA)
+SP  - 11948
+EP  - 11956
+AU  - A. Robey
+AU  - Z. Ravichandran
+AU  - V. Kumar
+AU  - H. Hassani
+AU  - G. J. Pappas
+PY  - 2025
+KW  - Large language models
+KW  - Human-robot interaction
+KW  - Closed box
+KW  - Dogs
+KW  - Media
+KW  - Cognition
+KW  - Safety
+KW  - Robots
+KW  - Glass box
+KW  - Dolphins
+DO  - 10.1109/ICRA55743.2025.11128119
+JO  - 2025 IEEE International Conference on Robotics and Automation (ICRA)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 IEEE International Conference on Robotics and Automation (ICRA)
+Y1  - 19-23 May 2025
+AB  - The recent introduction of large language models (LLMs) has revolutionized the field of robotics by enabling contextual reasoning and intuitive human-robot interaction in domains as varied as manipulation, locomotion, and self-driving vehicles. When viewed as a stand-alone technology, LLMs are known to be vulnerable to jailbreaking attacks, wherein mali-cious prompters elicit harmful text by bypassing LLM safety guardrails. To assess the risks of deploying LLMs in robotics, in this paper, we introduce ROBOPAIR, the first algorithm designed to jailbreak LLM-controlled robots. Unlike existing, textual attacks on LLM chatbots, Robopairelicits harmful physical actions from LLM-controlled robots, a phenomenon we experimentally demonstrate in three scenarios: (i) a white-box setting, wherein the attacker has full access to the NVID IA Dolphins self-driving LLM, (ii) a gray-box setting, wherein the attacker has partial access to a Clearpath Robotics Jackal UGV robot equipped with a GPT-40 planner, and (iii) a black-box setting, wherein the attacker has only query access to the GPT-3.5-integrated Unitree Robotics Go2robot dog. In each scenario and across three new datasets of harmful robotic actions, we demonstrate that ROBOPAIR, as well as several static baselines, finds jailbreaks quickly and effectively, often achieving 100 % attack success rates. Our results reveal, for the first time, that the risks of jailbroken LLMs extend far beyond text generation, given the distinct possibility that jailbroken robots could cause physical damage in the real world. Indeed, our results on the U nitree G02represent the first successful jailbreak of a deployed commercial robotic system. Addressing this emerging vulnerability is critical for ensuring the safe deployment of LLMs in robotics. Additional media is available at: https://robopair.org.
+ER  - 
+
+TY  - CONF
+TI  - Efficient Detection of Toxic Prompts in Large Language Models
+T2  - 2024 39th IEEE/ACM International Conference on Automated Software Engineering (ASE)
+SP  - 455
+EP  - 467
+AU  - Y. Liu
+AU  - J. Yu
+AU  - H. Sun
+AU  - L. Shi
+AU  - G. Deng
+AU  - Y. Chen
+AU  - Y. Liu
+PY  - 2024
+KW  - Accuracy
+KW  - Scalability
+KW  - Large language models
+KW  - Chatbots
+KW  - Feature extraction
+KW  - Vectors
+KW  - Real-time systems
+KW  - Safety
+KW  - Software engineering
+KW  - Glass box
+KW  - llm
+KW  - large language model
+KW  - jailbreak
+KW  - detection
+KW  - ai security
+KW  - llm security
+KW  - toxic prompt
+DO  - 
+JO  - 2024 39th IEEE/ACM International Conference on Automated Software Engineering (ASE)
+IS  - 
+SN  - 2643-1572
+VO  - 
+VL  - 
+JA  - 2024 39th IEEE/ACM International Conference on Automated Software Engineering (ASE)
+Y1  - 27 Oct.-1 Nov. 2024
+AB  - Large language models (LLMs) like ChatGPT and Gemini have significantly advanced natural language processing, enabling various applications such as chatbots and automated content generation. However, these models can be exploited by malicious individuals who craft toxic prompts to elicit harmful or unethical responses. These individuals often employ jailbreaking techniques to bypass safety mechanisms, highlighting the need for robust toxic prompt detection methods. Existing detection techniques, both blackbox and whitebox, face challenges related to the diversity of toxic prompts, scalability, and computational efficiency. In response, we propose ToxicDetector, a lightweight greybox method designed to efficiently detect toxic prompts in LLMs. ToxicDetector leverages LLMs to create toxic concept prompts, uses embedding vectors to form feature vectors, and employs a Multi-Layer Perceptron (MLP) classifier for prompt classification. Our evaluation on various versions of the LLama models, Gemma-2, and multiple datasets demonstrates that ToxicDetector achieves a high accuracy of 96.39% and a low false positive rate of 2.00%, outperforming state-of-the-art methods. Additionally, ToxicDetector’s processing time of 0.0780 seconds per prompt makes it highly suitable for real-time applications. ToxicDetector achieves high accuracy, efficiency, and scalability, making it a practical method for toxic prompt detection in LLMs.
+ER  - 
+
+TY  - CONF
+TI  - Secure Prompt Engineering Patterns for Cloud LLM Agents
+T2  - 2026 IEEE 5th International Conference on AI in Cybersecurity (ICAIC)
+SP  - 1
+EP  - 6
+AU  - S. Sudarsan
+AU  - A. Patel
+AU  - C. Upadhyay
+AU  - V. Gudur
+AU  - P. Matam
+PY  - 2026
+KW  - Cloud computing security
+KW  - Pipelines
+KW  - Taxonomy
+KW  - Reinforcement learning
+KW  - Time division multiplexing
+KW  - Vectors
+KW  - Real-time systems
+KW  - Prompt engineering
+KW  - Testing
+KW  - Resilience
+KW  - Prompt Injection
+KW  - Secure Prompt Engineering
+KW  - Cloud Security
+KW  - LLM Agents
+KW  - LLMSecOps
+KW  - Adversarial Prompts
+KW  - Zero-Trust Architecture
+KW  - AI Safety
+KW  - Cloud Orchestration
+KW  - Trustworthy AI
+KW  - Defense Patterns
+KW  - Autonomous Agents
+DO  - 10.1109/ICAIC67076.2026.11395764
+JO  - 2026 IEEE 5th International Conference on AI in Cybersecurity (ICAIC)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 IEEE 5th International Conference on AI in Cybersecurity (ICAIC)
+Y1  - 18-20 Feb. 2026
+AB  - There is a new security threat to be concerned with when using Large Language Model (LLM) agents on cloud platforms called prompt injection attacks. These injections have the ability to bait agents to perform unauthorized actions that end up exposing data, privilege escalation and the end-user misuse of resources. Although prompt injection in chatbots has been studied before, little focus has been put on the LLM agents, which could be integrated with cloud, where the effect is much stronger. The current paper proposes a type of Secure Prompt Engineering Patterns (SPEP) customized to cloud-specific use cases. We devise a taxonomy of threat vectors, both direct and indirect manipulations of prompts, and suggest reusable security patterns aimed at input sanitization, role-context separation, execution confirmation, capability restriction and chain-of-thought isolation. Organized testing on AWS, GCP, and Azure testbeds with over 200 adversarial prompts indicates that SPEP can decrease the success rates of attacks to below 8% (with negligible latency overhead (<50ms). These findings show that directed prompt engineering is an efficient, weightless protection when it comes to the LLM agents in cloud orchestration pipelines.
+ER  - 
+
+TY  - CONF
+TI  - Explainable Transformer-based Detection of Adversarial Prompts in Chatbots
+T2  - 2025 5th International Conference on Evolutionary Computing and Mobile Sustainable Networks (ICECMSN)
+SP  - 1882
+EP  - 1887
+AU  - B. Reddy.A
+AU  - M. S. V. Chandran
+AU  - N. Chaithanya
+AU  - P. V. Koushik
+AU  - N. S. Krishna
+PY  - 2025
+KW  - Visualization
+KW  - Accuracy
+KW  - Statistical analysis
+KW  - Large language models
+KW  - Perturbation methods
+KW  - Chatbots
+KW  - Transformers
+KW  - Real-time systems
+KW  - Reliability
+KW  - Context modeling
+KW  - Adversarial prompts
+KW  - Explainable AI (XAI)
+KW  - Transformer models
+KW  - Chatbots
+KW  - Prompt injection detection
+KW  - Natural language processing (NLP)
+DO  - 10.1109/ICECMSN68058.2025.11382707
+JO  - 2025 5th International Conference on Evolutionary Computing and Mobile Sustainable Networks (ICECMSN)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 5th International Conference on Evolutionary Computing and Mobile Sustainable Networks (ICECMSN)
+Y1  - 24-26 Nov. 2025
+AB  - The popularity of large language model (LLM)-based chatbots has increased their vulnerability to adversarial prompt attacks that programmable affect the model's behaviour and produce scripted responses. The paper introduces an Explainable Transformer-Based Detection (ETD) framework that is meant to detect and explain adversarial prompts on the fly. The proposed system offers a BERT-based contextual encoder and an attention-based explanation layer, which captures fine-grained semantical dependencies and assigns model decisions on attribute models to certain token influences. The experiment was done on a curated set of 12,000 benign and 8,000 adversarial prompts produced using paraphrasing, prompt injection, and contextual perturbation methods. The ETD framework attained an accuracy of 96.8, a precision of 95.4, a recall of 97.2, and an F1-score of 96.3, which are 5.7 and 8.1 points higher than the traditional LSTM- and CNN-based baselines, respectively. In addition, the built-in explainability component offers the visual interpretations at the token level, which makes it easier to be transparent in detecting adversarial intent. The findings prove that the given ETD model is rather effective in terms of balancing the performance of the detection and the interpretability of the system, which makes contemporary chatbot systems more robust and trustworthy.
+ER  - 
+
+TY  - CONF
+TI  - Usability Study of AI-Based Stress Management Support Among College Students
+T2  - 2026 IEEE 50th Annual Computers, Software, and Applications Conference (COMPSAC)
+SP  - 3278
+EP  - 3279
+AU  - A. Chatterjee
+AU  - A. Banik
+AU  - J. D. Jayaraman
+PY  - 2026
+KW  - Artificial intelligence
+KW  - Educational institutions
+KW  - Tools
+KW  - Human factors
+KW  - Stress
+KW  - Mental health
+KW  - Safety
+KW  - Modeling
+KW  - Surveys
+KW  - Large language models
+KW  - Stress Management Support
+KW  - AI-Safety
+KW  - AI Chatbot
+KW  - Large Language Model
+DO  - 10.1109/COMPSAC69091.2026.00488
+JO  - 2026 IEEE 50th Annual Computers, Software, and Applications Conference (COMPSAC)
+IS  - 
+SN  - 2836-3795
+VO  - 
+VL  - 
+JA  - 2026 IEEE 50th Annual Computers, Software, and Applications Conference (COMPSAC)
+Y1  - 7-10 July 2026
+AB  - College students experience high levels of academic, financial, and social stress. Yet many of them face barriers to accessing campus counseling services, including limited availability, scheduling conflicts, and stigma. This work investigates whether AI-based conversational tools can serve as non-clinical, everyday stress-management support. This study surveyed 120 undergraduate and graduate students at a public urban university to assess perceived usefulness, trust, and ethical concerns regarding AI stress-support tools. Findings indicate that 69.9% of students are willing to use such a tool, with trust rising to 73% when the university endorses it. However, comfort around discussing sensitive topics such as trauma or support during crisis dropped significantly- 35% and 22% respectively. Informed by these findings, this study proposes a prototype of LLM-powered chatbot integrated with a heightened layer of safety guardrail architecture, including input filtering, classification, output review, and crisis escalation, demonstrating the implications of responsible AI deployment in higher-education well-being.
+ER  - 
+
+TY  - CONF
+TI  - Experimental Evaluation of Deploying SASE JEM Authentication and Deep Fool Techniques for Robust Generative AI Chatbot Protection
+T2  - 2025 2nd International Conference on Artificial Intelligence and Knowledge Discovery in Concurrent Engineering (ICECONF)
+SP  - 1
+EP  - 8
+AU  - K. S. Velrani
+AU  - K. S
+AU  - M. J. M
+PY  - 2025
+KW  - Generative AI
+KW  - Authentication
+KW  - Chatbots
+KW  - Knowledge discovery
+KW  - Robustness
+KW  - Concurrent engineering
+KW  - Protection
+KW  - Testing
+KW  - SASE JEM authentication
+KW  - DeepFool adversarial defense
+KW  - generative AI chatbot
+KW  - adversarial prompts
+KW  - jailbreak detection
+DO  - 10.1109/ICECONF65644.2025.11379668
+JO  - 2025 2nd International Conference on Artificial Intelligence and Knowledge Discovery in Concurrent Engineering (ICECONF)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 2nd International Conference on Artificial Intelligence and Knowledge Discovery in Concurrent Engineering (ICECONF)
+Y1  - 9-10 Oct. 2025
+AB  - Generative AI chatbots are used in more and more fields, but until the technology can be secured and trusted, it remains sensitive to unauthorized access and adversarial prompts. This paper will use experimental approaches to improve the safety of chatbots by testing a new model, the SACD, that combines the use of SASE JEM authentication and the DeepFool adversarial defense. The framework will block errant or malicious users, and subsequently identify and counter opposing inputs, such that only harmless prompts are passed through the chatbot. The SACD framework performed well with using the LLM Jailbreak + Safety Data on Kaggle as the program provided a high-level of robustness, scoring 98% and decreasing the number of unsafe outputs and attack success rates significantly. These findings affirm the fact that the suggested structure offers a stable, multi -layered defense system, which integrates access-level protection with the model-level adversarial protection and therefore offers secure, trustworthy, and resilient chatbot interactions.
+ER  - 
+
+TY  - CONF
+TI  - AI-Powered Course Discovery: Leveraging Prompt Engineering, Feedback Loops, and Guardrails for Institutional Context
+T2  - 2026 IEEE Global Engineering Education Conference (EDUCON)
+SP  - 1
+EP  - 5
+AU  - B. Vijayakumar
+AU  - S. K. Varadaraju
+AU  - L. Balaji Baskaran
+AU  - N. C. Bouaynaya
+AU  - S. Alapati
+PY  - 2026
+KW  - Modeling
+KW  - Structured Query Language
+KW  - Retrieval augmented generation
+KW  - Large language models
+KW  - Natural languages
+KW  - Printing
+KW  - Accuracy
+KW  - Conferences
+KW  - Indexes
+KW  - Indexing
+KW  - LLM
+KW  - AI
+KW  - text-to-sql
+KW  - course
+KW  - embedding
+DO  - 10.1109/EDUCON67543.2026.11574417
+JO  - 2026 IEEE Global Engineering Education Conference (EDUCON)
+IS  - 
+SN  - 2165-9567
+VO  - 
+VL  - 
+JA  - 2026 IEEE Global Engineering Education Conference (EDUCON)
+Y1  - 27-30 April 2026
+AB  - Navigating university systems for course selection, schedule planning, and course availability often presents challenges for students, faculty, and advisors due to complex interfaces and filters. This paper introduces an AI-powered chatbot that enables users including students, faculty, and staff to query course offerings, scheduling details, section availability, and departmental listings using natural language. The system integrates institutional data from Ellucian Banner Student Information System (SIS) and supports multiple backend architectures, including star schema creation, direct SQL generation via few-shot prompting, feedback loops for query refinement, ThoughtSpot’s natural language search, conversational amendments, and embedding-based retrieval. We evaluate the effectiveness of these approaches through representative use cases and compare them based on accuracy, flexibility, speed, and user satisfaction. Our results suggest that a hybrid solution combining these methods provides the most balanced performance and usability across diverse course discovery scenarios.
+ER  - 
+
+TY  - CONF
+TI  - Confidential and Attack-Resilient Edge LLM Serving for Multilingual Chatbots
+T2  - 2026 IEEE 5th International Conference on AI in Cybersecurity (ICAIC)
+SP  - 1
+EP  - 9
+AU  - S. K. Gudipati
+AU  - N. A. Mishra
+AU  - A. Mohammed
+AU  - S. R. Akkisetti
+AU  - G. Ankam
+AU  - S. Ponugoti
+PY  - 2026
+KW  - Privacy
+KW  - Runtime
+KW  - Image edge detection
+KW  - Large language models
+KW  - Logic gates
+KW  - Chatbots
+KW  - Throughput
+KW  - Multilingual
+KW  - Encryption
+KW  - Edge computing
+KW  - security and privacy
+KW  - confidential inference
+KW  - remote attestation
+KW  - edge computing
+KW  - multilingual NLP
+KW  - policy enforcement
+DO  - 10.1109/ICAIC67076.2026.11395808
+JO  - 2026 IEEE 5th International Conference on AI in Cybersecurity (ICAIC)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 IEEE 5th International Conference on AI in Cybersecurity (ICAIC)
+Y1  - 18-20 Feb. 2026
+AB  - Large Language Model (LLM) chatbots increasingly run at the network edge to reduce latency and cost, but edge deployments expand the attack surface and amplify privacy risk. We present Aegis-Edge, a confidential and attack-resilient serving stack for multilingual LLM inference on untrusted edge nodes. Aegis-Edge combines (i) remote attestation to verify the serving runtime before model and key release, (ii) confidential inference using trusted execution environments with a sealed key–value cache and tenant-scoped encryption, (iii) policy-as-code guardrails for locale-aware PII redaction and tool-use restrictions, and (iv) a lightweight adversarial input filter targeting multilingual prompt-injection and cache-poisoning attempts. We formalize security invariants over the request–response path and show how they compose across edge, gateway, and KMS. Our implementation supports common edge accelerators and multilingual tokenizers. We empirically evaluate security (attack success rate, leakage proxies, integrity violations), privacy (PII detection/retention bounds), and systems overhead (added latency, throughput, energy) under red-team workloads spanning diverse languages and scripts. Results demonstrate that robust privacy and integrity guarantees can be enforced at the edge while maintaining application-level service objectives. We discuss limitations (e.g., side-channels) and pathways for incremental deployment.
+ER  - 
+
+TY  - CONF
+TI  - GenAI Security: Outsmarting the Bots with a Proactive Testing Framework
+T2  - 2025 IEEE Conference on Artificial Intelligence (CAI)
+SP  - 610
+EP  - 612
+AU  - S. K. Jang Bahadur
+AU  - G. Dhar
+AU  - L. Nigam
+PY  - 2025
+KW  - Technological innovation
+KW  - Correlation
+KW  - Generative AI
+KW  - Prevention and mitigation
+KW  - Organizations
+KW  - Chatbots
+KW  - Complexity theory
+KW  - Security
+KW  - Faces
+KW  - Testing
+KW  - GenAI
+KW  - Security
+KW  - Agents
+KW  - Prompt Injection
+KW  - Red Teaming
+KW  - Blue Teaming
+KW  - LLM
+DO  - 10.1109/CAI64502.2025.00112
+JO  - 2025 IEEE Conference on Artificial Intelligence (CAI)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 IEEE Conference on Artificial Intelligence (CAI)
+Y1  - 5-7 May 2025
+AB  - The increasing sophistication and integration of Generative AI (GenAI) models into diverse applications introduce new security challenges that traditional methods struggle to address. This research explores the critical need for proactive security measures to mitigate the risks associated with malicious exploitation of GenAI systems. We present a framework encompassing key approaches, tools, and strategies designed to outmaneuver even advanced adversarial attacks, emphasizing the importance of securing GenAI innovation against potential liabilities. We also empirically prove the effectiveness of the said framework by testing it against the SPML Chatbot Prompt Injection Dataset. This work highlights the shift from reactive to proactive security practices essential for the safe and responsible deployment of GenAI technologies,
+ER  - 
+
+TY  - CONF
+TI  - From Chatbots to Agentic AI: Digital Agents Transforming FinTech
+T2  - 2025 4th International Conference on Computing, Management and Telecommunications (ComManTel)
+SP  - 82
+EP  - 88
+AU  - S. Alzu’bi
+AU  - A. Mughaid
+PY  - 2025
+KW  - Agentic AI
+KW  - Automation
+KW  - Sensitivity
+KW  - Fintech
+KW  - Digital transformation
+KW  - Prevention and mitigation
+KW  - Finance
+KW  - Telecommunications
+KW  - Reliability
+KW  - Investment
+KW  - Agentic AI
+KW  - FinTech
+KW  - Emotionally Intelligent Management Systems
+KW  - Human-Centric AI
+KW  - Digital Transformation
+DO  - 10.1109/ComManTel68363.2025.11368345
+JO  - 2025 4th International Conference on Computing, Management and Telecommunications (ComManTel)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 4th International Conference on Computing, Management and Telecommunications (ComManTel)
+Y1  - 14-17 Dec. 2025
+AB  - Financial technology (FinTech) is significantly reshaped in the rapid evolution of AI, moving into agentic systems that combine autonomy, reasoning, memory, and compliance guardrails, instead of scripted Chabot. concurrently, the appearance of Emotionally Intelligent Management Systems (EIMS) highlights the importance of integrating emotional awareness into digital enterprise solutions. This paper presents a multiagent FinTech system that employs large language model (LLM) in digital employees’ performance. Five roles were followed to extend beyond automation to deliver adaptive, explainable, and emotionally attuned services: Fraud Detection Assistant with Emotional Sensitivity, a Compliance Companion with Trust-Aware Guardrails, a Customer Support Agent with Empathetic Dialogue, a Personal Finance Mentor with Well-being Focus, and an Investment Analyst Partner with Sentiment Awareness. To evaluate the idea, real and simulated data are combined, the UCI Credit Card Default dataset provides a benchmark for credit risk modelling, while the CFPB Consumer Complaints dataset grounds analysis in regulatory and customer service contexts. Synthesized adversarial obfuscations, simulated suspicious transaction flows is implemented to strengthen the work evaluation. Experiments prove the proposed agentic system reliably, where predictive accuracy using F1-score and AUROC improves compared to traditional baselines, and time to decide reduced by over 30% in customer support and compliance workflows. Moreover, the integration of emotional intelligence enables adaptive responses to customer prevention, transparent compliance explanations, and finance mentoring that accounts for stress signals. Employing FinTech automation with emotionally intelligent management in the proposed work contributes to technical efficiency, regulatory transparency, and human-centric digital transformation, leading to predictive deployments in enterprise, and investment will be strictly illustrative.
+ER  - 
+
+TY  - CONF
+TI  - AbuseGPT: Abuse of Generative AI ChatBots to Create Smishing Campaigns
+T2  - 2024 12th International Symposium on Digital Forensics and Security (ISDFS)
+SP  - 1
+EP  - 6
+AU  - A. M. Shibli
+AU  - M. M. A. Pritom
+AU  - M. Gupta
+PY  - 2024
+KW  - Ethics
+KW  - Generative AI
+KW  - Phishing
+KW  - Ecosystems
+KW  - Message services
+KW  - Chatbots
+KW  - Electronic mail
+KW  - Smishing
+KW  - abuse
+KW  - generative AI
+KW  - LLM
+KW  - scam
+DO  - 10.1109/ISDFS60797.2024.10527300
+JO  - 2024 12th International Symposium on Digital Forensics and Security (ISDFS)
+IS  - 
+SN  - 2768-1831
+VO  - 
+VL  - 
+JA  - 2024 12th International Symposium on Digital Forensics and Security (ISDFS)
+Y1  - 29-30 April 2024
+AB  - SMS phishing, also known as “smishing”, is a growing threat that tricks users into disclosing private information or clicking into URLs with malicious content through fraudulent mobile text messages. In recent past, we have also observed a rapid advancement of conversational generative AI chatbot services (e.g., OpenAI's ChatGPT, Google's BARD), which are powered by pre-trained large language models (LLMs). These AI chatbots certainly have a lot of utilities but it is not systematically understood how they can play a role in creating threats and attacks. In this paper, we propose AbuseGPT method to show how the existing generative AI-based chatbot services can be exploited by attackers in real world to create smishing texts and eventually lead to craftier smishing campaigns. To the best of our knowledge, there is no pre-existing work that evidently shows the impacts of these generative text-based models on creating SMS phishing. Thus, we believe this study is the first of its kind to shed light on this emerging cybersecurity threat. We have found strong empirical evidences to show that attackers can exploit ethical standards in the existing generative AI-based chatbot services by crafting prompt injection attacks to create newer smishing campaigns. We also discuss some future research directions and guidelines to protect the abuse of generative AI-based services and safeguard users from smishing attacks.
+ER  - 
+
+TY  - CONF
+TI  - Prompt-to-SQL Injections in LLM-Integrated Web Applications: Risks and Defenses
+T2  - 2025 IEEE/ACM 47th International Conference on Software Engineering (ICSE)
+SP  - 1768
+EP  - 1780
+AU  - R. Pedro
+AU  - M. E. Coimbra
+AU  - D. Castro
+AU  - P. Carreira
+AU  - N. Santos
+PY  - 2025
+KW  - Large language models
+KW  - Modeling
+KW  - Structured Query Language
+KW  - Databases
+KW  - Generative Pre-trained transformer
+KW  - Printing
+KW  - Testing
+KW  - Signal detection
+KW  - Electronic mail
+KW  - Security
+KW  - SQL
+KW  - Prompt Injection
+KW  - Large Language Models
+KW  - Prompt-to-SQL
+DO  - 10.1109/ICSE55347.2025.00007
+JO  - 2025 IEEE/ACM 47th International Conference on Software Engineering (ICSE)
+IS  - 
+SN  - 1558-1225
+VO  - 
+VL  - 
+JA  - 2025 IEEE/ACM 47th International Conference on Software Engineering (ICSE)
+Y1  - 26 April-6 May 2025
+AB  - Large Language Models (LLMs) have found widespread applications in various domains, including web applications with chatbot interfaces. Aided by an LLM-integration middleware such as LangChain, user prompts are translated into SQL queries used by the LLM to provide meaningful responses to users. However, unsanitized user prompts can lead to SQL injection attacks, potentially compromising the security of the database. In this paper, we present a comprehensive examination of prompt-to-SQL ($\mathbf{P}_{2} \mathbf{S Q L}$) injections targeting web applications based on frameworks such as LangChain and LlamaIndex. We characterize $\mathrm{P}_{2} \text{SQL}$ injections, exploring their variants and impact on application security through multiple concrete examples. We evaluate seven state-of-the-art LLMs, demonstrating the risks of $P_{2}$ SQL attacks across language models. By employing both manual and automated methods, we discovered $\mathrm{P}_{2} \text{SQL}$ vulnerabilities in five real-world applications. Our findings indicate that LLMintegrated applications are highly susceptible to $\mathrm{P}_{2} \text{SQL}$ injection attacks, warranting the adoption of robust defenses. To counter these attacks, we propose four effective defense techniques that can be integrated as extensions to the LangChain framework.
+ER  - 
+
+TY  - CONF
+TI  - Enhancing medical data processing with RAG-augmented fine-tuned LLMs and guardrails
+T2  - International Conference on Advancing Technology in Engineering and Science (ICATES 2025)
+SP  - 65
+EP  - 72
+AU  - A. Shah
+AU  - D. Shetty
+AU  - P. Patil
+AU  - P. Ambre
+AU  - S. Chaure
+AU  - D. Rajadhyax
+PY  - 2026
+DO  - 10.1049/icp.2025.4700
+JO  - International Conference on Advancing Technology in Engineering and Science (ICATES 2025)
+IS  - 
+SN  - 
+VO  - 2025
+VL  - 2025
+JA  - International Conference on Advancing Technology in Engineering and Science (ICATES 2025)
+Y1  - 4-5 Oct. 2025
+AB  - As the requirement grows in finding more and more reliable and trustworthy medical query processing chatbots that are based on LLM should be well-designed to ensure accuracy of responses as well as their ethicality. Our approach considers a lightweight fine-tuning model based on Quantized Low-Rank Adaptation (QLoRA) to speedup the adaptation of the model on domain-specific medical data on scarce computational resources. NeMo-Guardrails are also part of the system to ensure the ethical compliance and safety which ensure one to respond to the content getting hallucination free. We choose to use a parameter model which is fine-tuned using domain specific data, gemmaq1.1-7B, which give clinically relevant and context aware outputs. The use of Retrieval-Augmented Generation (RAG) is used to bring the external medical context dynamically. Embeddings called query embeddings are created by the pubmedbert-base-embeddings model which is built on the BioBERT architecture and trained on medical text. The embeddings are stored in a Qdrant vector data base and searched using cosine similarity, best results are added to the prompt to increase the accuracy and factual basis. The metrics of NLP like BLEU, ROUGE-L, BERTscore and QAG were used for the evaluation of the method suggested. The study helps to develop safe, grounded and clinically robust LLM based medical chatbot which can be utilized in the real health care settings.
+ER  - 
+
+TY  - CONF
+TI  - SECUIR: Design and Implementation of an Efficient, Secure, and Access-Controlled Smart Information Retrieval System
+T2  - 2026 IEEE International Conference on Intelligence and Security Informatics (ISI)
+SP  - 7
+EP  - 12
+AU  - C. N. Sekharan
+AU  - M. R. Detroja
+PY  - 2026
+KW  - Security
+KW  - Indexing
+KW  - Indexes
+KW  - Grounding
+KW  - Retrieval augmented generation
+KW  - Large language models
+KW  - Modeling
+KW  - Printing
+KW  - Artificial intelligence
+KW  - Organizations
+KW  - Factual grounding
+KW  - Access Control
+KW  - MultiTenant Security
+KW  - Input Validation
+KW  - Semantic Caching
+KW  - Responsible AI
+KW  - Organizational Chatbot
+KW  - LLM Security
+KW  - RetrievalAugmented Generation
+DO  - 10.1109/ISI69914.2026.11685844
+JO  - 2026 IEEE International Conference on Intelligence and Security Informatics (ISI)
+IS  - 
+SN  - 2837-6617
+VO  - 
+VL  - 
+JA  - 2026 IEEE International Conference on Intelligence and Security Informatics (ISI)
+Y1  - 12-14 Aug. 2026
+AB  - Deploying large language model (LLM)-based information retrieval systems in any organizational setting introduces critical challenges in security, access control, and providing factual information. We present SECUIR (Secure Information Retrieval), a secure, access-controlled information retrieval framework designed for multi-tenant organizational use and deployment. SECUIR addresses three practical security and reliability concerns: (1) multi-tenant data isolation via per-organization vector datastores with URI-prefix enforcement, preventing cross-organizational data leakage; (2) inputscope enforcement via a dual-gate embedding-based topic filter that rejects out-of-scope and adversarially crafted queries quickly with zero API cost, preventing vocabulary-overlap bypass attacks; and (3) incorrect-answer suppression via factual grounding, reducing false or unsupported claims in outputs. Our system is proposed as a hardened model by removing six vulnerabilities, including Cross-Site Request Forgery (CSRF), LLM prompt injection via history manipulation, cross-org corpus leakage, and topic index sampling bias. A 100-question institutional benchmark (judge: Claude Sonnet 4, with human review; Cohen’s $\kappa=0.763$) shows SECUIR achieves 91.9% F1 versus $\mathbf{6 1 . 5 \%}$ for direct LLM generation (+30.4 pp), with a 40.5 pp recall advantage. The system was experimented to host reliably across five organizations (504-20,003 documents) with $\mathcal{O}(\Delta)$ incremental indexing enabling deployment in under 10 minutes.
+ER  - 
+
+TY  - CONF
+TI  - The Causal Impact of Tool Affordance on Safety Alignment in LLM Agents
+T2  - 2026 6th International Conference on Electrical, Computer and Energy Technologies (ICECET)
+SP  - 1
+EP  - 6
+AU  - S. Yu
+AU  - F. Carroll
+AU  - B. L. Bentley
+PY  - 2026
+KW  - Modeling
+KW  - Safety
+KW  - Tools
+KW  - Large language models
+KW  - Printing
+KW  - Complexity theory
+KW  - Limiting
+KW  - Artificial intelligence
+KW  - Availability
+KW  - Optimization
+KW  - Large Language Models (LLMs)
+KW  - LLM Agents
+KW  - AI Safety
+KW  - Tool Affordance
+KW  - Agent Evaluation
+DO  - 10.1109/ICECET65726.2026.11632769
+JO  - 2026 6th International Conference on Electrical, Computer and Energy Technologies (ICECET)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 6th International Conference on Electrical, Computer and Energy Technologies (ICECET)
+Y1  - 6-9 July 2026
+AB  - Large language models (LLMs) are increasingly deployed as agents with access to executable tools, enabling direct interaction with external systems. However, most safety evaluations remain text-centric and assume that compliant language implies safe behavior. In this work, we empirically examine how executable tool affordance affects safety alignment in LLM agents using a paired evaluation framework that compares text-only chatbot behavior with tool-enabled agent behavior under identical prompts and policies. Experiments are conducted in a deterministic financial transaction environment with binary safety constraints across 1,500 evaluation instances. To separate intent from outcome, we distinguish between attempted and realized violations using dual enforcement regimes that block or permit unsafe actions. Both evaluated models maintain perfect compliance in text-only settings, yet exhibit sharp increases in violations after tool access is introduced, reaching rates up to 85% despite unchanged rules. We observe substantial gaps between attempted and executed violations, indicating that external guardrails can suppress visible harm while masking persistent misalignment. Agents also develop spontaneous constraint circumvention without adversarial prompting. These results show that tool affordance can act as a significant driver of safety misalignment under controlled conditions and that text-based evaluation alone may be insufficient for assessing agentic systems.
+ER  - 
+
+TY  - CONF
+TI  - Enhancing Patient Intake Process in Mental Health Consultations Using RAG-Driven Chatbot
+T2  - 2024 12th International Conference on Affective Computing and Intelligent Interaction Workshops and Demos (ACIIW)
+SP  - 256
+EP  - 264
+AU  - M. Shayaninasab
+AU  - M. Zahoor
+AU  - Ö. N. Yalçin
+PY  - 2024
+KW  - Measurement
+KW  - Large language models
+KW  - Conferences
+KW  - Retrieval augmented generation
+KW  - MIMICs
+KW  - Mental health
+KW  - Medical services
+KW  - Depression
+KW  - Chatbots
+KW  - Safety
+KW  - Conversational Agents
+KW  - Mental Health
+KW  - Retrieval Augmented Generation (RAG)
+KW  - Large Language Models (LLM)
+DO  - 10.1109/ACIIW63320.2024.00053
+JO  - 2024 12th International Conference on Affective Computing and Intelligent Interaction Workshops and Demos (ACIIW)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2024 12th International Conference on Affective Computing and Intelligent Interaction Workshops and Demos (ACIIW)
+Y1  - 15-15 Sept. 2024
+AB  - In this paper, we develop and evaluate an empathic chatbot, called EmoBot, for a mental healthcare patient in-take scenario. EmoBot employs Retrieval-Augmented Generation (RAG) methods with Large Language Models (LLMs), to provide empathic support and advice, while ensuring the intake process is completed. We evaluate EmoBot's performance both by automated metrics using available datasets and through dialogues with a simulated patient model that mimics varying levels of depression severity. Our evaluations showed good agreement between EmoBot's categorization of depression severity levels and human raters. EmoBot's topic classification system achieved 78.48% accuracy on the Primate2022 dataset [1] without fine-tuning. EmoBot's responses showed a 0.93 similarity with patient inputs, proving contextual relevance. These findings highlight the effectiveness of RAG-based methods in guiding and providing safety guardrails for LLMs and their potential as supportive tools for health assessment and support.
+ER  - 
+
+TY  - CONF
+TI  - A Framework for Security Testing of Large Language Models
+T2  - 2024 IEEE 12th International Conference on Intelligent Systems (IS)
+SP  - 1
+EP  - 7
+AU  - K. Traykov
+PY  - 2024
+KW  - Industries
+KW  - Generative AI
+KW  - Large language models
+KW  - Prevention and mitigation
+KW  - Source coding
+KW  - Semantics
+KW  - Reproducibility of results
+KW  - Blockchains
+KW  - Computer crime
+KW  - Testing
+KW  - Large language models (LLMs)
+KW  - Cybersecurity
+KW  - LLM Security
+KW  - LLM Risks
+KW  - LLM Vulnerabilities
+KW  - Secure Software Development
+KW  - Software Testing
+DO  - 10.1109/IS61756.2024.10705238
+JO  - 2024 IEEE 12th International Conference on Intelligent Systems (IS)
+IS  - 
+SN  - 2767-9802
+VO  - 
+VL  - 
+JA  - 2024 IEEE 12th International Conference on Intelligent Systems (IS)
+Y1  - 29-31 Aug. 2024
+AB  - The purpose of this paper is to present a framework for testing of large language models (LLMs) for security vulnerabilities before their implementation to production environment. The paper discusses the latest developments in the Artificial Intelligence (AI) and Generative Artificial Intelligence (Generative AI) adoption in the industry, the expectations for further accelerated adoption and evolving regulatory landscape. An overview of the most significant risks and vulnerabilities of the LLMs such as prompt injection and denial of service have been presented with their mitigation strategies. A testing approach and testing framework have been developed and implemented with simple chatbot app. The test scenarios have been executed and results have been obtained for three open-source LLMs from which two pass the test and one failed and demonstrated the application of the proposed testing framework. Source code of the application and test script are published open source for reproducibility and reuse. In conclusion the with the confirmation of the results the limitation of the reliance on semantic similarity for the responses of the models was discussed together with three areas for further development: expanding the test scenarios to significant risks, integration with popular cloud continuous development platforms and integrating blockchain for transparent publication of the final test results.
+ER  - 
+
+TY  - CONF
+TI  - Bridging Large Language Models and Logic Programming
+T2  - 2025 IEEE International Conference on Metrology for eXtended Reality, Artificial Intelligence and Neural Engineering (MetroXRAINE)
+SP  - 1066
+EP  - 1071
+AU  - V. Crocetti
+AU  - A. F. Dragoni
+PY  - 2025
+KW  - Adaptation models
+KW  - Codes
+KW  - Logic programming
+KW  - Natural languages
+KW  - Dynamic scheduling
+KW  - Chatbots
+KW  - Cognition
+KW  - Reliability
+KW  - Iterative methods
+KW  - Engines
+KW  - LLM
+KW  - Prolog
+KW  - framework
+KW  - Qwen
+KW  - chatbot
+KW  - AI
+KW  - logic programming
+DO  - 10.1109/MetroXRAINE66377.2025.11340308
+JO  - 2025 IEEE International Conference on Metrology for eXtended Reality, Artificial Intelligence and Neural Engineering (MetroXRAINE)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 IEEE International Conference on Metrology for eXtended Reality, Artificial Intelligence and Neural Engineering (MetroXRAINE)
+Y1  - 22-24 Oct. 2025
+AB  - This paper introduces a self-correcting framework11The source code is available at: https://github.com/Pryce22/LLM-Prolog that converts natural language queries into executable Prolog code. The core of our approach is an iterative refinement loop that leverages structured error feedback from the SWI-Prolog engine. A key feature is our dynamic temperature scheduling mechanism, where the LLM's temperature is incrementally increased upon each failed attempt. This injection of adaptive stochasticity forces the model to escape deterministic failure modes and explore a wider solution space. By tightly integrating Prolog's logic, the system produces formally verifiable outputs, enhancing reasoning reliability in logically complex scenarios. Experimental results demonstrate the framework's value as a “logical guardrail”. Although a base LLM may achieve higher average accuracy, our method excels in enhancing reliability where formal reasoning is critical. This is highlighted by its ability to recover correct solutions for a significant portion of the cases (9 out of 24) on which a powerful 72B parameter base model failed, showcasing its utility in applications demanding precision and consistency. The system is deployed in a chat interface, lowering barriers for non-experts while improving productivity for experts using logic programming. Its modular, adaptive design establishes a foundation for combining symbolic reasoning with LLMs, supporting the development of more trustworthy AI systems.
+ER  - 
+
+TY  - CONF
+TI  - Agentic AI for Therapy
+T2  - 2026 9th International Conference on Computational Intelligence in Data Science (ICCIDS)
+SP  - 1
+EP  - 6
+AU  - S. Yadav
+AU  - A. K. Sam
+AU  - J. Jitto
+AU  - J. V. L
+PY  - 2026
+KW  - Agentic AI
+KW  - Ethics
+KW  - Large language models
+KW  - Anxiety disorders
+KW  - Mental health
+KW  - Chatbots
+KW  - Particle measurements
+KW  - User experience
+KW  - Safety
+KW  - Artificial intelligence
+KW  - Large Language Models (LLMs)
+KW  - Therapeutic AI
+KW  - Mental Health Chatbots
+KW  - Agentic Systems
+KW  - Transparent Memory
+KW  - User Control
+KW  - Crisis Detection
+KW  - AI Ethics
+KW  - Human-AI Interaction
+KW  - Trust in AI
+DO  - 10.1109/ICCIDS69108.2026.11407690
+JO  - 2026 9th International Conference on Computational Intelligence in Data Science (ICCIDS)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 9th International Conference on Computational Intelligence in Data Science (ICCIDS)
+Y1  - 8-10 Jan. 2026
+AB  - Existing Large Language Model (LLM) based systems for mental health support are often unsafe and unreliable, primarily due to the absence of dynamic, user-controlled memory. This limitation leads to inconsistent therapeutic continuity and undermines the user trust necessary for forming meaningful therapeutic alliances. This paper introduces an Agentic Therapeutic Agent designed to address these challenges through a modular architecture that prioritizes safety, transparency, and long-term relationship building. The proposed framework's core feature is a secure Long-Term Memory system with a user-facing control panel and pathways for human therapist oversight. Initial development has produced two foundational, non-integrated modules: a rudimentary conversational AI and an effective crisis detection model intended to function as the first component of the agent's Safety & Guardrail Layer. The central contribution of this project is the design, implementation, and validation of this transparent memory architecture, which will integrate the conversational and safety modules. This approach directly addresses the critical gaps of memory and trust in therapeutic AI, demonstrating a tangible pathway toward a more ethically guided and effective support tool.
+ER  - 
+
+TY  - BOOK
+TI  - AI Agents in Practice: Design, implement, and scale autonomous AI systems for production
+SP  - 1
+EP  - 
+AU  - Valentina Alto
+PY  - 2025
+DO  - 
+PB  - Packt Publishing
+SN  - 9781805801344
+UR  - http://ieeexplore.ieee.org/document/11244365
+AB  - Master the art of building AI agents with this hands-on guide to orchestration, multi-agent systems, real-world case studies, and ethical insights to drive immediate business impactKey FeaturesBuild production-ready AI agents with hands-on tutorials for diverse industry applicationsExplore multi-agent system architectures with practical frameworks for orchestrator comparisonFuture-proof your AI development with ethical implementation strategies and security patternsPurchase of the print or Kindle book includes a free PDF eBookBook DescriptionAs AI agents evolve to take on complex tasks and operate autonomously, you need to learn how to build these next-generation systems. Author Valentina Alto brings practical, industry-grounded expertise in AI Agents in Practice to help you go beyond simple chatbots and create AI agents that plan, reason, collaborate, and solve real-world problems using large language models (LLMs) and the latest open-source frameworks. In this book, you'll get a comparative tour of leading AI agent frameworks such as LangChain and LangGraph, covering each tool's strengths, ideal use cases, and how to apply them in real-world projects. Through step-by-step examples, you’ll learn how to construct single-agent and multi-agent architectures using proven design patterns to orchestrate AI agents working together. Case studies across industries will show you how AI agents drive value in real-world scenarios, while guidance on responsible AI will help you implement ethical guardrails from day one. The chapters also set the stage with a brief history of AI agents, from early rule-based systems to today's LLM-driven autonomous agents, so you understand how we got here and where the field is headed. By the end of this book, you'll have the practical skills, design insights, and ethical foresight to build and deploy AI agents that truly make an impact.What you will learnBuild core agent components such as LLMs, memory systems, tool integration, and context managementDevelop production-ready AI agents using frameworks such as LangChain with codeCreate effective multi-agent systems using orchestration patterns for problem-solvingImplement industry-specific agents for e-commerce, customer support, and moreDesign robust memory architectures for agents with short- and long-term recallApply responsible AI practices with monitoring, guardrails, and human oversightOptimize AI agent performance and cost for production environmentsWho this book is forThis book is ideal for AI engineers and data scientists looking to move beyond basic LLM implementations to build sophisticated autonomous agents. Software developers and system architects will find practical guidelines for integrating agents into existing tech stacks. Product managers and technical entrepreneurs will gain strategic insights into how AI agents can solve business problems across industries. A basic understanding of machine learning concepts and working knowledge of Python are required to make the most of this book and implement production-ready AI agent systems.
+ER  - 
+
+TY  - BOOK
+TI  - Building Production AI Agents for the Web: Design and orchestrate autonomous agents with MCP, Multi-Agent Patterns, and Harness Engineering
+SP  - 1
+EP  - 
+AU  - Christoffer Noring
+PY  - 2026
+DO  - 
+PB  - Packt Publishing
+SN  - 9781806103324
+UR  - http://ieeexplore.ieee.org/document/11721275
+AB  - Architect, orchestrate, and deploy scalable AI agents with real-world patterns, multi-agent systems, and evaluation frameworks.Key FeaturesFilled with real-world agentic web application examples using LLMs, RAG, and tool callingDesign and implement AI assistants with reasoning patterns like ReActArchitect scalable agent systems with planning, orchestration, and autonomyBook DescriptionAdding an LLM to an application is easy. Building an intelligent application that can reliably use your data, call tools, make decisions, complete tasks, and operate in production is much harder. Building Production AI Agents for the Web is a practical guide to engineering modern AI-powered applications beyond the basic chatbot. You'll start by integrating LLMs into web applications and progressively extend their capabilities with tool calling, RAG, and MCP. From there, you'll learn how these building blocks come together to create AI assistants and agents capable of reasoning and taking action. You'll explore the ReAct architecture, build your first agentic application, and progress toward advanced agent architectures and multi-agent systems. You'll learn proven agent patterns and anti-patterns that help you make better architectural decisions as your applications scale. In the later chapters, you'll learn how to test LLMs and agents, manage APIs, deploy agentic applications, apply responsible AI practices, and build an agent harness that provides the structure and guardrails agents need to operate reliably. By the end, you'll understand the complete journey from integrating your first LLM to engineering production-ready intelligent applications that can retrieve information, use tools, reason, collaborate, and take action.What you will learnIntegrate LLMs into web apps and extend their capabilities with tool calling and external systemsBuild RAG pipelines that ground AI applications in relevant business and application dataUse MCP to connect AI applications with tools, resources, and capabilitiesBuild intelligent AI agents using ReAct, advanced agent architectures, and multi-agent patternsTest and evaluate LLMs and agents to improve reliability and accuracyBuild an agent harness with the context, tools, guardrails, and infrastructure needed to take AI applications into productionWho this book is forThis book is for full-stack developers, software architects, and AI practitioners looking to build intelligent, agent-driven web applications. It’s also valuable for tech leads and product managers working on AI-powered products. If you have a basic understanding of web development and want to move beyond simple AI integrations into autonomous, production-ready agent systems, this book will give you the frameworks, tools, and hands-on experience to get there.
+ER  - 
+
+

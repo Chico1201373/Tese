@@ -3,232 +3,380 @@
 \chapter{Estado da Arte} % Main chapter title
 \label{chap:Chapter2} % For referencing the chapter elsewhere, use \ref{chap:Chapter2}
 
-% NOTA: capítulo em desenvolvimento. Não inserir resultados, contagens ou lacunas
-% antes de concluir a pesquisa, a seleção e a síntese dos estudos.
-%
-% A CONFIRMAR ANTES DE ENTREGAR (procura por "TODO"):
-%  - As RQ-R1 e RQ-R2 abaixo têm de ser iguais às RQ1 e RQ2 do Capítulo 1.
-%  - Fonte Scopus: ainda não foi pesquisada (decidir Scopus vs. ScienceDirect).
-%  - Q3 (segurança) ainda não foi testada no piloto.
-%  - Número de revisores na triagem.
-%  - Cada [CITAR] precisa de uma referência verificada.
+% Números deste capítulo: gerados por scripts/juntar.py, scripts/triagem.py e scripts/prisma.py
+% (ver scripts/exports/prisma.md). Se a pesquisa ou a triagem mudarem, voltar a correr os scripts
+% e atualizar as tabelas.
+
+Este capítulo apresenta o estado da arte sobre assistentes conversacionais baseados em \glspl{LLM} cujas respostas são limitadas a um contexto definido pela aplicação, com foco em educação e saúde. Começa por apresentar os fundamentos teóricos (Secção~\ref{sec:chap2_concepts}). Descreve depois o protocolo da revisão sistemática (Secção~\ref{sec:chap2_protocol}) e os resultados da pesquisa e da seleção (Secção~\ref{sec:chap2_results}). Segue-se a síntese crítica dos estudos, organizada pelas questões de investigação (Secção~\ref{sec:chap2_synthesis}), a lacuna de investigação que dela resulta (Secção~\ref{sec:chap2_gap}), as ameaças à validade (Secção~\ref{sec:chap2_threats}) e as conclusões do capítulo (Secção~\ref{sec:chap2_conclusions}).
 
 %----------------------------------------------------------------------------------------
-\section{Introdução}
-\label{sec:chap2_intro}
+\section{Fundamentos Teóricos}
+\label{sec:chap2_concepts}
 
-Este capítulo apresenta uma revisão sistemática da literatura sobre sistemas conversacionais baseados em \glspl{LLM} cujas respostas dependem de um contexto definido pela aplicação. A revisão organiza-se em três dimensões: as abordagens técnicas para fornecer esse contexto ao modelo e restringir as respostas; os métodos de avaliação da fidelidade ao contexto, da correção factual e da recusa de perguntas fora do âmbito; e os compromissos operacionais reportados, nomeadamente fiabilidade, segurança, latência, custo e integração.
+Esta secção apresenta os fundamentos em que o trabalho assenta: o papel das perguntas de escolha múltipla e do \emph{feedback} na aprendizagem, os assistentes conversacionais, o funcionamento e as limitações dos \glspl{LLM}, as formas de lhes fornecer contexto, o controlo do âmbito e a avaliação das respostas. A literatura recente sobre sistemas concretos é analisada a partir da Secção~\ref{sec:chap2_protocol}, através da revisão sistemática.
 
-No caso de estudo desta dissertação, o contexto associado à pergunta em curso no Adhara QBank é fornecido diretamente ao modelo, sem uma etapa de recuperação de informação. A literatura sobre \emph{retrieval-augmented generation} (RAG) é, por isso, considerada como termo de comparação e como principal fonte de métodos de avaliação, e não como solução assumida. A síntese será relacionada com esse caso de estudo: um assistente para esclarecer dúvidas sobre a pergunta em curso.
+\subsection{Aprendizagem com Perguntas e \emph{Feedback}}
+\label{sec:chap2_learning}
 
-O capítulo apresenta o protocolo da revisão (Secção~\ref{sec:chap2_protocol}), os resultados da pesquisa e da seleção (Secção~\ref{sec:chap2_results}), a síntese crítica dos estudos (Secção~\ref{sec:chap2_synthesis}) e a lacuna de investigação que daí resulta (Secção~\ref{sec:chap2_gap}).
+Responder a perguntas não serve apenas para avaliar: o esforço de recordar a informação melhora a retenção a longo prazo mais do que voltar a estudá-la, um fenómeno conhecido como efeito de teste \parencite{roediger2006test}. Este efeito foi também observado em educação médica, onde os testes frequentes são propostos como estratégia de aprendizagem e não só de avaliação \parencite{larsen2008test}. Os bancos de perguntas como o QBank apoiam-se neste princípio.
+
+O efeito da prática depende do \emph{feedback} que se segue à resposta. \textcite{hattie2007power} definem o \emph{feedback} como a informação que ajuda o estudante a reduzir a distância entre o desempenho atual e o desejado, respondendo a três perguntas: para onde vou, como estou a ir e qual o passo seguinte. \textcite{shute2008focus} conclui que o \emph{feedback} elaborado, que explica porque é que uma resposta está certa ou errada, tende a ser mais eficaz do que a simples indicação de certo ou errado, e que deve ser específico e ajustado ao estudante. A explicação de cada pergunta do QBank é um \emph{feedback} elaborado, mas é igual para todos os utilizadores e não responde à dúvida concreta de cada um.
+
+Um assistente conversacional permite aproximar esse \emph{feedback} de uma tutoria individual, na qual o estudante pergunta o que não percebeu. A tutoria individual é há muito associada a ganhos de aprendizagem elevados face ao ensino em grupo \parencite{bloom1984sigma}, e esta é uma das motivações para o uso de \glspl{LLM} em educação \parencite{kasneci2023chatgpt}. O mesmo enquadramento justifica as regras por modo: no modo Teste, um assistente que revele a resposta antes de o estudante responder anula o esforço de recordar, de que depende o efeito de teste.
+
+\subsection{Assistentes Conversacionais}
+\label{sec:chap2_chatbots}
+
+Os assistentes conversacionais evoluíram de sistemas baseados em regras e padrões, como a ELIZA \parencite{weizenbaum1966eliza}, para sistemas que selecionam respostas de uma base de conhecimento e, mais recentemente, para sistemas generativos baseados em \glspl{LLM} \parencite{adamopoulou2020chatbots}. Podem ser classificados, entre outros critérios, pelo domínio (aberto ou fechado), pelo objetivo (informativo, orientado a tarefas ou de conversa livre) e pelo método de produção da resposta (regras, recuperação ou geração) \parencite{adamopoulou2020chatbots}. Nesta classificação, o assistente do QBank é de domínio fechado, informativo e generativo. A sua particularidade é que o domínio não é o da plataforma em geral mas o da pergunta em curso: o contexto muda a cada item.
+
+\subsection{Modelos de Linguagem de Grande Dimensão}
+\label{sec:chap2_llms}
+
+Os \glspl{LLM} atuais baseiam-se na arquitetura \emph{Transformer}, em que mecanismos de atenção relacionam cada elemento do texto com os restantes \parencite{vaswani2017attention}. São treinados em grandes corpora para prever o elemento seguinte do texto e, a partir de certa escala, conseguem executar tarefas descritas no \emph{prompt}, com ou sem exemplos, sem alterar os seus parâmetros: a aprendizagem em contexto (\gls{ICL}) \parencite{brown2020language}. O ajuste por instruções com \emph{feedback} humano torna os modelos mais capazes de seguir instruções e de produzir respostas úteis \parencite{ouyang2022training}. É esta capacidade que permite definir o comportamento de um assistente através de instruções de sistema, mas as instruções orientam o modelo sem garantir que são cumpridas.
+
+O texto é processado em \emph{tokens}, unidades que correspondem aproximadamente a partes de palavras. Cada modelo aceita um número máximo de \emph{tokens} por pedido (a janela de contexto). Nas \glspl{API} comerciais, o custo é calculado pelo número de \emph{tokens} de entrada e de saída, e o tempo de resposta cresce com o comprimento da resposta, que é gerada \emph{token} a \emph{token}. A quantidade de dados da pergunta incluída no \emph{prompt} afeta, assim, diretamente o custo e a latência. Além disso, ter a informação no contexto não garante que é usada: \textcite{liu2024lost} mostram que o desempenho é melhor quando a informação relevante está no início ou no fim do contexto e piora quando está no meio, o que é relevante para a forma como os campos da pergunta são organizados no \emph{prompt}.
+
+O desempenho dos \glspl{LLM} varia também com a língua. Numa avaliação de modelos generativos em dezenas de línguas, \textcite{ahuja2023mega} observaram melhores resultados em inglês e nas línguas com mais recursos do que nas línguas com menos recursos. As seis línguas do QBank são de recursos elevados, mas a diferença entre línguas, incluindo entre as variantes europeia e brasileira do português, tem de ser verificada na avaliação.
+
+\subsection{Formas de Fornecer Contexto ao Modelo}
+\label{sec:chap2_context}
+
+Na geração aumentada por recuperação (\gls{RAG}), o sistema pesquisa num corpus os excertos mais relevantes para a pergunta do utilizador e inclui-os no \emph{prompt} antes da geração \parencite{lewis2020rag}. Em alternativa, quando o contexto relevante é conhecido à partida, pode ser incluído diretamente no \emph{prompt}, sem pesquisa. Esta forma de condicionar o modelo pelo contexto do \emph{prompt}, sem alterar os seus parâmetros, enquadra-se na aprendizagem em contexto (\gls{ICL}). No QBank, o contexto é o registo da pergunta em curso, identificado pelo seu ID, pelo que não existe uma etapa de recuperação. Ambas as abordagens dependem de o modelo usar o contexto fornecido e não o seu conhecimento interno. A Figura~\ref{fig:context} compara as duas: a diferença está no passo destacado, em que a pesquisa por semelhança, sujeita a erros de recuperação, é substituída pela leitura direta do registo do item. Uma terceira alternativa, o ajuste fino (\emph{fine-tuning}), altera os parâmetros do modelo com dados do domínio. Não é adequada ao caso, porque o conhecimento teria de ser atualizado sempre que o conteúdo muda e não garante que a resposta se limita a um item.
+
+\begin{figure}[htbp]
+\centering
+\input{ch2/assets/contexto}
+\caption{Duas formas de fornecer contexto ao modelo: (a) recuperação a partir de um corpus; (b) leitura direta dos dados da pergunta em curso, a abordagem do QBank.}
+\label{fig:context}
+\end{figure}
+
+\subsection{Alucinação, Fidelidade e Recusa}
+\label{sec:chap2_hallucination}
+
+Um \gls{LLM} gera texto plausível a partir do conhecimento adquirido no treino e do texto que recebe no \emph{prompt}. Designa-se por alucinação a geração de conteúdo incorreto ou não suportado. \textcite{huang2025hallucination} distinguem a alucinação de factualidade (conteúdo que contradiz factos do mundo) da alucinação de fidelidade (conteúdo que se afasta do contexto ou das instruções fornecidas). No caso do QBank, a propriedade mais relevante é a fidelidade: o assistente deve responder com base nos dados validados da pergunta, mesmo que o modelo tenha conhecimento próprio diferente.
+
+Uma forma de reduzir respostas sem suporte é o modelo abster-se quando o contexto não contém a informação necessária. \textcite{kadavath2022know} mostram que os modelos conseguem, em parte, estimar se sabem a resposta, mas essa estimativa não é perfeita. Num assistente de contexto fechado, a recusa não pode depender só desta capacidade: tem de ser pedida explicitamente nas instruções e avaliada com perguntas cuja resposta não está no contexto.
+
+\subsection{Controlo do Âmbito e Segurança}
+\label{sec:chap2_security}
+
+Um assistente de âmbito restrito deve recusar pedidos fora desse âmbito (abstenção ou recusa). As instruções que definem esse âmbito podem ser contornadas por injeção de instruções (\emph{prompt injection}), quer diretamente pelo utilizador quer através de conteúdo externo incluído no \emph{prompt} \parencite{greshake2023indirect,geng2026prompt}. Os mecanismos de defesa incluem filtros de entrada e de saída, modelos classificadores dedicados (\emph{guardrails}) e arquiteturas com mais do que um modelo.
+
+\textcite{perez2022ignore} distinguem dois objetivos destes ataques: desviar o modelo da tarefa definida (\emph{goal hijacking}) e levá-lo a revelar as suas instruções ou o contexto (\emph{prompt leaking}). A \emph{OWASP Top 10 for LLM Applications} coloca a injeção de instruções em primeiro lugar entre os riscos de aplicações com \glspl{LLM} e inclui a fuga das instruções de sistema \parencite{owasp2025llm}. No QBank, uma fuga com consequências seria revelar a resposta correta no modo Teste. Daqui resulta um princípio de desenho: a informação que não pode ser revelada não deve estar no \emph{prompt}, porque nenhuma instrução garante que o modelo não a revela.
+
+\subsection{Avaliação de Respostas}
+\label{sec:chap2_evaluation}
+
+A avaliação de sistemas de resposta com contexto combina métricas de referência (exatidão, F1, semelhança semântica), métricas específicas de fidelidade ao contexto, como as do \gls{RAGAS} \parencite{es2024ragas}, avaliação por um \gls{LLM} juiz (\emph{LLM-as-a-judge}) \parencite{zheng2023judging}, avaliação por especialistas e estudos com utilizadores.
+
+Estas abordagens têm custos e limitações diferentes. As métricas de referência exigem respostas de referência e penalizam formulações corretas mas diferentes. As métricas de fidelidade, como a do \gls{RAGAS}, decompõem a resposta em afirmações e verificam se cada uma é suportada pelo contexto, sem precisar de uma resposta de referência \parencite{es2024ragas}. Um \gls{LLM} juiz permite avaliar muitas respostas a baixo custo, mas tem enviesamentos conhecidos, como a preferência pela posição ou por respostas mais longas \parencite{zheng2023judging}, pelo que deve ser validado com avaliação humana numa amostra. A avaliação por especialistas é a referência para a correção em contexto médico, mas é cara. A utilidade percebida e a usabilidade avaliam-se junto dos utilizadores, por exemplo com a escala \gls{SUS} \parencite{brooke1996sus}.
 
 %----------------------------------------------------------------------------------------
 \section{Protocolo da Revisão}
 \label{sec:chap2_protocol}
 
-A revisão segue o PRISMA 2020 \textbf{[CITAR]}. O protocolo foi definido antes da pesquisa final: questões, fontes, expressões de pesquisa, critérios de seleção, avaliação da qualidade e campos de extração. As alterações feitas depois da pesquisa piloto estão justificadas na Secção~\ref{sec:chap2_search}.
+A revisão segue as orientações de \textcite{kitchenham2007guidelines} para revisões sistemáticas em engenharia de software e é relatada segundo o \gls{PRISMA} 2020 \parencite{page2021prisma}. O protocolo definiu, antes da pesquisa final, as questões, as fontes, as expressões de pesquisa, os critérios de seleção e os campos de extração. As alterações feitas depois da pesquisa piloto estão justificadas na Secção~\ref{sec:chap2_search}.
 
 \subsection{Questões da Revisão}
 \label{sec:chap2_rqs}
 
+A revisão responde às duas questões de investigação definidas no Capítulo~\ref{chap:Chapter1}:
 \begin{description}
-    \item[RQ-R1] Que abordagens utilizam os sistemas conversacionais baseados em \glspl{LLM} para limitar as respostas a um contexto específico da aplicação?
-    \item[RQ-R2] Como são avaliadas, nestes sistemas, a fidelidade ao contexto fornecido, a correção factual e a recusa de perguntas fora do âmbito?
+    \item[RQ1] Como utilizam os sistemas conversacionais baseados em \glspl{LLM} um contexto específico da aplicação para limitar as respostas, e que compromissos operacionais são reportados para essas abordagens?
+    \item[RQ2] Como são avaliadas, nestes sistemas, a correção factual, a fidelidade ao contexto fornecido e a adesão ao âmbito definido?
 \end{description}
 
-% TODO: copiar estas RQ para o Capítulo 1 (secção Questões de Investigação).
+Cada questão é coberta por duas expressões de pesquisa (Tabela~\ref{tab:queries}): a RQ1 pela Q1 (contexto) e pela Q3 (segurança do âmbito); a RQ2 pela Q2 (fidelidade e correção) e pela Q4 (recusa fora do âmbito).
 
-Os compromissos operacionais (latência, custo, segurança e integração) não constituem uma questão autónoma: são extraídos de cada estudo, quando reportados, e discutidos na síntese (Secção~\ref{sec:chap2_synthesis}).
+O âmbito das questões foi estruturado com os critérios \gls{PICOC} (População, Intervenção, Comparação, Resultados e Contexto) recomendados por \textcite{kitchenham2007guidelines}. A Tabela~\ref{tab:picoc} mostra cada critério e onde é aplicado: a população, a intervenção e os resultados dão origem aos blocos das expressões de pesquisa; o contexto é aplicado nos critérios de seleção, para não excluir na pesquisa estudos que não mencionam o domínio no título ou no resumo.
+
+\begin{table}[htbp]
+\caption{Critérios \gls{PICOC} da revisão e onde são aplicados.}
+\label{tab:picoc}
+\centering
+\footnotesize
+\begin{tabular}{p{1.9cm} p{8.2cm} p{3.4cm}}
+\toprule
+\tabhead{Critério} & \tabhead{Definição} & \tabhead{Aplicação} \\
+\midrule
+População & Sistemas conversacionais e de resposta a perguntas baseados em \glspl{LLM} & Blocos \gls{LLM} e \emph{chatbot}/\gls{QA} (Q1--Q4) \\
+Intervenção & Limitação das respostas a um contexto definido pela aplicação (\gls{RAG}, contexto no \emph{prompt}, \emph{grounding}) e controlo do âmbito (\emph{guardrails}, recusa) & Bloco de contexto (Q1), segurança (Q3) e recusa (Q4) \\
+Comparação & Entre formas de fornecer o contexto e com o modelo sem contexto, quando reportada & Extração (não restringe a pesquisa) \\
+Resultados & Correção factual, fidelidade ao contexto, adesão ao âmbito e recusa, robustez a manipulação; latência e custo & Bloco de avaliação (Q2, Q4); critério I4; extração \\
+Contexto & Educação e saúde; estudos primários publicados entre 2021 e 2026 & Filtro de anos; critérios I1--I3 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Fontes e Estratégia de Pesquisa}
 \label{sec:chap2_search}
 
-As fontes são Scopus, IEEE Xplore e ACM Digital Library. O Scopus é uma base multidisciplinar que indexa vários editores; o IEEE Xplore e a ACM Digital Library cobrem a literatura de computação e engenharia de software. Foram escolhidas antes da pesquisa final. O \emph{snowballing}, se utilizado, será documentado como método complementar e não misturado com os resultados das bases. % TODO: confirmar Scopus (ver nota no topo).
+\paragraph{Fontes.} Foram usadas três fontes: IEEE Xplore e ACM Digital Library, que cobrem a literatura de engenharia informática, sistemas e \gls{IA}, e Scopus, uma base multidisciplinar que cobre também revistas de educação e saúde. As fontes foram escolhidas antes da pesquisa final. % NOTA (não aparece no PDF): a pesquisa Scopus foi executada através da interface Scopus da Elsevier, com TITLE-ABS-KEY.
 
-\paragraph{Pesquisa piloto.}
-Antes de fixar as expressões, foi feita uma pesquisa piloto em IEEE Xplore, ACM Digital Library e ScienceDirect, limitada aos primeiros 30 títulos de cada pesquisa e sem acesso aos resumos. O piloto serviu apenas para ajustar as expressões e não entra nas contagens finais. Levou a três decisões: (i) estreitar as expressões a sistemas conversacionais e de resposta a perguntas, porque as versões gerais devolviam sobretudo \emph{hardware} de inferência, geração de código e recomendação; (ii) retirar latência e custo dos blocos de pesquisa e tratá-los como campos de extração, pelo mesmo motivo; (iii) tratar as revisões e os \emph{surveys}, muito frequentes nos resultados, pelo critério de exclusão E4.
+\paragraph{Pesquisa piloto.} Antes de fixar as expressões, foi feita uma pesquisa piloto nas três fontes, limitada aos primeiros 30 títulos de cada pesquisa. O piloto levou a três decisões: (i) estreitar as expressões a sistemas conversacionais e de resposta a perguntas, porque as versões gerais devolviam sobretudo geração de código, \emph{hardware} de inferência e recomendação; (ii) retirar latência e custo dos blocos de pesquisa e tratá-los como campos de extração, pelo mesmo motivo; (iii) separar a segurança do âmbito (Q3) e a recusa fora do âmbito (Q4) em expressões próprias.
 
-\paragraph{Expressões de pesquisa.}
-Cada expressão combina blocos de conceitos: os sinónimos de um bloco são ligados por \texttt{OR} e os blocos por \texttt{AND}. Não utilizam truncagem com \texttt{*} e respeitam o limite de conectores booleanos por campo. Pesquisam-se o título, o resumo e as palavras-chave, na sintaxe de cada fonte (no Scopus, \texttt{TITLE-ABS-KEY(...)}). A versão executada em cada fonte é guardada literalmente.
-
-\paragraph{Q1 --- contexto e sistemas conversacionais (RQ-R1).}
-\begin{verbatim}
-("large language model" OR LLM)
-AND (grounding OR "context injection" OR "prompt context"
-     OR "retrieval-augmented generation")
-AND (chatbot OR "conversational system" OR "question answering")
-\end{verbatim}
-
-\paragraph{Q2 --- fidelidade, correção e recusa fora do âmbito (RQ-R2).}
-\begin{verbatim}
-("large language model" OR LLM)
-AND (faithfulness OR factuality OR "out-of-scope")
-AND (chatbot OR "conversational system")
-AND (evaluation OR benchmark)
-\end{verbatim}
-
-\paragraph{Q3 --- segurança do âmbito (RQ-R1).}
-\begin{verbatim}
-("large language model" OR LLM)
-AND ("prompt injection" OR "prompt leakage" OR jailbreak)
-AND (chatbot OR "conversational system")
-\end{verbatim}
-% TODO: Q3 ainda não foi testada no piloto; ajustar ou retirar conforme o resultado.
+\paragraph{Expressões de pesquisa.} Cada expressão combina blocos de conceitos: os sinónimos de um bloco são ligados por \texttt{OR} e os blocos por \texttt{AND}. Nenhuma expressão excede oito conectores booleanos. A Tabela~\ref{tab:queries} apresenta as quatro expressões.
 
 \begin{table}
-\caption{Pesquisas e questões da revisão.}
+\caption{Expressões de pesquisa e questões a que respondem.}
 \label{tab:queries}
 \centering
-\small
-\begin{tabular}{p{1.4cm} p{3cm} p{8.6cm}}
+\footnotesize
+\begin{tabular}{p{0.7cm} p{0.9cm} p{11.6cm}}
 \toprule
-\tabhead{Pesquisa} & \tabhead{Questão} & \tabhead{Objetivo} \\
+\tabhead{Id} & \tabhead{RQ} & \tabhead{Expressão} \\
 \midrule
-Q1 & RQ-R1 & Abordagens que fornecem contexto ao modelo e limitam as respostas \\
-Q2 & RQ-R2 & Avaliação de fidelidade, correção e recusa fora do âmbito \\
-Q3 & RQ-R1 & Mecanismos de segurança que protegem o âmbito (injeção e fuga de instruções) \\
+Q1 & RQ1 & \texttt{("large language model" OR LLM) AND (grounding OR "context injection" OR "prompt context" OR "retrieval-augmented generation") AND (chatbot OR "conversational system" OR "question answering")} \\
+Q2 & RQ2 & \texttt{("large language model" OR LLM) AND (faithfulness OR factuality OR correctness) AND (chatbot OR "conversational system") AND (evaluation OR benchmark)} \\
+Q3 & RQ1 & \texttt{("large language model" OR LLM) AND ("prompt injection" OR "prompt leakage" OR jailbreak OR guardrails) AND (chatbot OR "conversational system")} \\
+Q4 & RQ2 & \texttt{("large language model" OR LLM) AND ("out-of-scope" OR abstention) AND (evaluation OR benchmark)} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\paragraph{Regra de paragem e registo.}
-Em cada fonte e para cada pesquisa são analisados os primeiros 30 resultados, ordenados por relevância; este limite é a regra de paragem. Para cada par (fonte, pesquisa) regista-se a expressão exata, a data de execução, o intervalo temporal, a língua, o total apresentado pela fonte e o número de registos analisados, numa tabela de registo das pesquisas. Os registos são exportados com resumo e importados no Rayyan \textbf{[CITAR]}.
+\paragraph{Campos pesquisados.} Em todas as fontes, as expressões foram aplicadas ao título, ao resumo e às palavras-chave, com o filtro de anos 2021--2026. No Scopus foi usado o campo \texttt{TITLE-ABS-KEY(...)}. No IEEE Xplore e na ACM Digital Library, que não têm um campo equivalente, cada termo foi expandido para os três campos (por exemplo, no IEEE Xplore, \texttt{("Document Title":LLM OR "Abstract":LLM OR "Author Keywords":LLM)}), mantendo a lógica booleana. A versão exata executada em cada fonte está guardada no registo da pesquisa.
+
+\paragraph{Execução e registo.} As pesquisas foram executadas a 2 de novembro de 2026. Foram exportados todos os resultados de cada pesquisa, com resumo, em RIS (IEEE Xplore e Scopus) ou BibTeX (ACM Digital Library). Para cada par fonte--pesquisa foram registados a expressão executada, a data, os filtros, o total indicado pela fonte e o número de registos exportados (Tabela~\ref{tab:searchlog}).
 
 \subsection{Critérios de Inclusão e Exclusão}
 \label{sec:chap2_criteria}
 
+A Tabela~\ref{tab:criteria} apresenta os critérios de seleção. O critério I3 delimita o foco da revisão a educação e saúde, que são os domínios do QBank, e exige que a resposta dependa de um contexto definido. Não exige recuperação de informação: um estudo em que o contexto é fornecido diretamente ao modelo cumpre-o, tal como um estudo com \gls{RAG}. Excecionalmente, foram incluídos três estudos de outros domínios que avaliam diretamente o efeito do contexto incluído no \emph{prompt}, por ser essa a técnica do caso de estudo.
+
 \begin{table}
-\caption{Critérios de inclusão e exclusão da revisão.}
+\caption{Critérios de inclusão e exclusão.}
 \label{tab:criteria}
 \centering
-\small
-\begin{tabular}{p{1cm} p{5.8cm} p{1cm} p{5.8cm}}
+\footnotesize
+\begin{tabular}{p{0.6cm} p{5.9cm} p{0.6cm} p{5.9cm}}
 \toprule
 \tabhead{} & \tabhead{Inclusão} & \tabhead{} & \tabhead{Exclusão} \\
 \midrule
-I1 & Publicação entre 27-10-2021 e 27-10-2026, inclusive & E1 & Duplicados \\
-I2 & Língua inglesa ou portuguesa & E2 & Editoriais, opiniões, livros e registos sem informação metodológica suficiente \\
-I3 & Estudo primário sobre sistema conversacional ou de resposta a perguntas baseado em \gls{LLM}, cujas respostas dependem de um contexto definido (RAG, injeção no \emph{prompt} ou base de conhecimento) & E3 & Sem \gls{LLM}, sem sistema conversacional ou de resposta a perguntas, ou sem relação com respostas contextualizadas nem com a sua avaliação \\
-I4 & Método, sistema ou avaliação descritos com detalhe suficiente para extrair dados & E4 & Revisões e \emph{surveys}, excluídos da síntese principal; podem apoiar o enquadramento e o \emph{snowballing} \\
+I1 & Publicado entre 27-10-2021 e 27-10-2026 & E1 & Duplicado \\
+I2 & Em inglês ou português & E2 & Sem resumo, editorial, opinião, tutorial, descrição de \emph{workshop} ou sem informação metodológica suficiente \\
+I3 & Estudo primário sobre sistema conversacional ou de resposta a perguntas baseado em \gls{LLM}, aplicado a educação ou saúde, cujas respostas dependem de um contexto definido (\gls{RAG}, contexto no \emph{prompt} ou base de conhecimento) & E3 & Não usa \gls{LLM}; não é sistema conversacional ou de \gls{QA}; fora de educação e saúde; método genérico sem aplicação; ou sem contexto definido \\
+I4 & Descreve a avaliação das respostas ou dos mecanismos de controlo (correção, fidelidade, recusa ou segurança) & E4 & Revisão ou \emph{survey} (excluída da síntese; pode apoiar o enquadramento) \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-O critério I3 não exige recuperação de informação: um estudo em que o contexto é fornecido diretamente ao modelo cumpre-o tal como um estudo com RAG.
-
 \subsection{Seleção dos Estudos}
 \label{sec:chap2_selection}
 
-A seleção tem três etapas: identificação e remoção de duplicados; triagem de títulos e resumos; e avaliação dos textos integrais. A triagem é feita no Rayyan \textbf{[CITAR]}, com as decisões e os motivos de exclusão registados. Na avaliação dos textos integrais, cada exclusão é associada a um dos critérios E1 a E4. O processo é documentado num diagrama PRISMA \textbf{[CITAR]}, que indica os registos por fonte, os duplicados removidos, os excluídos em cada etapa e os estudos incluídos. % TODO: indicar o número de revisores (por exemplo, segunda triagem pelo orientador).
-
-\subsection{Avaliação da Qualidade}
-\label{sec:chap2_quality}
-
-A elegibilidade (critérios de seleção) é distinta da qualidade. Os estudos incluídos são avaliados com cinco critérios, cada um classificado como \emph{sim} (1), \emph{parcial} (0,5) ou \emph{não} (0):
+A seleção seguiu quatro passos, todos registados em ficheiros e reprodutíveis através de \emph{scripts}:
 \begin{enumerate}
-    \item[QA1] O método ou sistema está descrito com clareza suficiente para ser compreendido.
-    \item[QA2] O contexto fornecido ao modelo e a sua origem estão descritos.
-    \item[QA3] A avaliação usa dados, métricas ou comparações explícitos.
-    \item[QA4] Os resultados são apresentados de forma verificável (dados, dimensão da amostra, avaliadores).
-    \item[QA5] São discutidas limitações ou ameaças à validade.
+    \item \textbf{Deduplicação.} Os registos das três fontes foram juntos e os duplicados removidos, primeiro pelo DOI normalizado e depois pelo título normalizado. Cada registo guarda a fonte e a pesquisa de onde veio.
+    \item \textbf{Triagem por regras (fase A).} Foram aplicadas regras explícitas sobre o título e o resumo, que implementam os critérios E2, E3 e E4 e o foco do I3 e do I4: registo sem resumo ou que não é artigo; revisão ou \emph{survey}; ausência de termos de \gls{LLM}; ausência de termos de sistema conversacional ou \gls{QA}; ausência de termos de educação ou saúde; e ausência de termos de avaliação das respostas. As regras e os termos usados estão no \emph{script} de triagem.
+    \item \textbf{Triagem por leitura (fase B).} Os registos que passaram a fase A foram lidos (título e resumo) e classificados como incluídos ou excluídos, com um critério e um motivo por registo. Esta triagem foi feita com apoio de um assistente de \gls{IA}, que propôs as decisões e os motivos; as decisões foram verificadas pelo autor (Secção~\ref{sec:chap1_ethics}). % TODO: indicar se o orientador reviu uma amostra.
+    \item \textbf{Priorização.} Dentro dos incluídos, foram marcados como prioritários os estudos que cumprem pelo menos uma das seguintes condições, escolhidas pela proximidade ao caso de estudo: (a) contexto fechado e próximo do QBank (perguntas de exame ou de escolha múltipla, materiais de um curso ou um documento específico); (b) avaliação explícita da correção, da fidelidade ou da recusa; (c) mecanismo de controlo do âmbito ou de segurança; (d) suporte a várias línguas.
 \end{enumerate}
-A pontuação não exclui estudos: serve para ponderar a evidência na síntese.
 
-\subsection{Extração de Dados}
+\subsection{Avaliação da Qualidade e Extração de Dados}
 \label{sec:chap2_extraction}
 
-Para cada estudo incluído são extraídos os campos da Tabela~\ref{tab:extraction}. A matriz completa fica em apêndice; no texto apresenta-se apenas uma tabela de classificação.
+Na leitura do texto integral, cada estudo será avaliado com cinco critérios de qualidade, cada um classificado como \emph{sim} (1), \emph{parcial} (0,5) ou \emph{não} (0): (QA1) o objetivo está claro; (QA2) o sistema, o modelo e a origem do contexto estão descritos; (QA3) os dados, as perguntas ou os cenários de avaliação estão descritos; (QA4) o método de avaliação é adequado às conclusões; (QA5) as limitações e ameaças à validade são discutidas. A pontuação não exclui estudos: serve para ponderar a evidência na síntese.
+
+Os campos de extração estão na Tabela~\ref{tab:extraction}. Nesta fase, a extração foi feita a partir dos resumos; os campos serão confirmados e completados com o texto integral.
 
 \begin{table}
 \caption{Campos de extração de dados.}
 \label{tab:extraction}
 \centering
-\small
-\begin{tabular}{p{0.6cm} p{3.4cm} p{7.2cm} p{1.6cm}}
+\footnotesize
+\begin{tabular}{p{0.4cm} p{3.4cm} p{7.6cm} p{1.4cm}}
 \toprule
 \tabhead{\#} & \tabhead{Campo} & \tabhead{Descrição} & \tabhead{Questão} \\
 \midrule
-1 & Referência e ano & Autores, ano e tipo de publicação & --- \\
-2 & Domínio e aplicação & Educação, saúde, apoio ao cliente, entre outros & RQ-R1 \\
-3 & Modelo e abordagem & Modelo de linguagem; \emph{prompting}, RAG, \emph{fine-tuning} ou combinação & RQ-R1 \\
-4 & Chegada do contexto & Como o contexto chega ao modelo: RAG, injeção direta no \emph{prompt}, base de conhecimento ou outro & RQ-R1 \\
-5 & Controlo e recusa & Mecanismos para limitar as respostas e recusar perguntas fora do âmbito & RQ-R1, RQ-R2 \\
-6 & Avaliação & Método (automática, \emph{LLM-as-a-judge}, humana), dados, métricas e participantes & RQ-R2 \\
-7 & Resultados e limitações & Principais resultados e limitações indicadas pelos autores & RQ-R2 \\
-8 & Aspetos operacionais & Latência, custo, segurança e integração, quando reportados & RQ-R1 \\
+1 & Referência & Autores, ano, fonte e tipo de publicação & --- \\
+2 & Domínio e utilizadores & Educação ou saúde; estudantes, doentes, profissionais & RQ1 \\
+3 & Origem do contexto & \gls{RAG}, grafo de conhecimento, contexto no \emph{prompt}, base de dados ou outro & RQ1 \\
+4 & Controlo da resposta & Instruções, filtros, citações, verificação, recusa, \emph{guardrails} & RQ1, RQ2 \\
+5 & Modelo e componentes & Modelo de linguagem, \emph{fine-tuning}, execução local ou na nuvem & RQ1 \\
+6 & Avaliação & Método (métricas, \gls{LLM} juiz, especialistas, utilizadores), dados e dimensão da amostra & RQ2 \\
+7 & Resultados & Correção, fidelidade, recusa e segurança & RQ2 \\
+8 & Compromissos e limitações & Latência, custo, integração, privacidade e limitações reportadas & RQ1 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Ameaças à Validade}
-\label{sec:chap2_threats}
-
-Esta revisão tem limitações conhecidas. O limite de 30 resultados por fonte e pesquisa, ordenados por relevância, pode deixar de fora estudos relevantes que a fonte classifica mais abaixo; por isso o total apresentado por cada fonte é registado. A restrição ao inglês e ao português e às três fontes escolhidas limita a cobertura. A literatura sobre \glspl{LLM} evolui depressa e a janela temporal termina em 27-10-2026. % TODO: acrescentar o número de revisores quando definido.
-
 %----------------------------------------------------------------------------------------
-\section{Resultados da Pesquisa}
+\section{Resultados da Pesquisa e da Seleção}
 \label{sec:chap2_results}
 
-A pesquisa e a seleção dos estudos ainda estão em curso. Por esse motivo, este capítulo não apresenta contagens nem um diagrama de fluxo como resultados finais. Após a execução final das pesquisas, serão registados os resultados por fonte, a remoção de duplicados, as decisões de seleção por título e resumo, a avaliação do texto integral e os estudos incluídos. O diagrama PRISMA será inserido depois de estes valores serem confirmados.
+A Tabela~\ref{tab:searchlog} apresenta o registo da pesquisa. Foram exportados 1547 registos: 844 do IEEE Xplore, 424 da ACM Digital Library e 279 do Scopus. No IEEE Xplore, 3 dos 756 resultados da Q1 não puderam ser exportados pela própria plataforma; na ACM Digital Library, a exportação da Q4 devolveu 26 registos para um total indicado de 25. A Q1 concentra a maior parte dos resultados, por cobrir a literatura de \gls{RAG} aplicada a qualquer domínio.
 
-% \begin{figure}[t]
-% \centering
-% \includegraphics[width=0.8\textwidth]{ch2/assets/prisma}
-% \caption[Diagrama PRISMA]{Diagrama PRISMA do processo de seleção.}
-% \label{fig:prisma}
-% \end{figure}
+\begin{table}
+\caption{Registo da pesquisa (2 de novembro de 2026; título, resumo e palavras-chave; 2021--2026).}
+\label{tab:searchlog}
+\centering
+\footnotesize
+\begin{tabular}{l r r r r r}
+\toprule
+\tabhead{Fonte} & \tabhead{Q1} & \tabhead{Q2} & \tabhead{Q3} & \tabhead{Q4} & \tabhead{Exportados} \\
+\midrule
+IEEE Xplore & 756 (753) & 24 & 38 & 29 & 844 \\
+ACM Digital Library & 358 & 24 & 16 & 25 (26) & 424 \\
+Scopus & 102 & 131 & 14 & 32 & 279 \\
+\midrule
+\textbf{Total} & & & & & \textbf{1547} \\
+\bottomrule
+\end{tabular}
 
-% Tabela de classificação dos estudos (preencher só depois da extração):
-% \begin{table}
-% \caption{Classificação dos estudos incluídos.}
-% \label{tab:classification}
-% \centering
-% \small
-% \begin{tabular}{p{3cm} p{2.5cm} p{3cm} p{2.5cm} p{2cm}}
-% \toprule
-% \tabhead{Estudo} & \tabhead{Domínio} & \tabhead{Abordagem} & \tabhead{Contexto} & \tabhead{Avaliação} \\
-% \midrule
-% \bottomrule
-% \end{tabular}
-% \end{table}
+\vspace{2pt}
+{\scriptsize Total indicado pela fonte; entre parênteses, o número exportado quando é diferente.}
+\end{table}
 
-% Tabela de registo das pesquisas (uma linha por fonte e pesquisa):
-% fonte | pesquisa | expressão executada | data | filtros | total na fonte | analisados
+O fluxo de seleção está na Figura~\ref{fig:prisma}. Foram removidos 130 duplicados (126 entre pesquisas da mesma fonte e 4 entre fontes), ficando 1417 registos únicos. As regras da fase A excluíram 1034 registos, sobretudo por estarem fora de educação e saúde (565), por serem revisões (125), por não serem sistemas conversacionais ou de \gls{QA} (125) ou por não descreverem a avaliação das respostas (115). Na fase B foram lidos 383 registos, dos quais 172 foram excluídos (161 por E3, 8 por E2 e 3 por E4), principalmente por serem métodos de \gls{RAG} genéricos ou por pertencerem a outros domínios. Foram incluídos 211 estudos para leitura integral, dos quais 48 foram marcados como prioritários.
+
+\begin{figure}[t]
+\centering
+\input{ch2/assets/prisma}
+\caption[Diagrama PRISMA da seleção dos estudos]{Diagrama PRISMA 2020 da seleção dos estudos. A avaliação do texto integral ainda está por fazer.}
+\label{fig:prisma}
+\end{figure}
+
+Dos 211 estudos incluídos, 198 vieram da Q1, 11 da Q2, 12 da Q3 e 4 da Q4 (um estudo pode vir de mais do que uma pesquisa). Por fonte, 153 vieram do IEEE Xplore, 57 da ACM Digital Library e apenas 1 do Scopus, cujos resultados incluíram muitos registos fora do âmbito, como números completos de revistas e livros de resumos. A literatura é muito recente: 101 estudos são de 2026, 79 de 2025 e 31 de 2024. Por tema, 64 estudos tratam assistentes de saúde para doentes ou profissionais, 54 assistentes de apoio à aprendizagem, 51 \gls{QA} médico avaliado em \emph{benchmarks}, 27 assistentes institucionais de universidades, 8 segurança e \emph{guardrails}, 4 controlo do âmbito e recusa, e 3 o efeito do contexto incluído no \emph{prompt}.
+
+A Tabela~\ref{tab:indicators} resume indicadores descritivos dos 211 estudos, obtidos por pesquisa de termos nos títulos e resumos. São indicadores de frequência e não de eficácia, e tendem a subestimar o que os textos integrais descrevem, porque nem todos os resumos referem todos os aspetos do estudo. A classificação dos 48 estudos prioritários está no Apêndice~\ref{AppendixB}.
+
+\begin{table}
+\caption{Indicadores descritivos dos 211 estudos incluídos (a partir de títulos e resumos).}
+\label{tab:indicators}
+\centering
+\footnotesize
+\begin{tabular}{p{9.2cm} r r}
+\toprule
+\tabhead{Aspeto referido no título ou resumo} & \tabhead{N.\textsuperscript{o}} & \tabhead{\%} \\
+\midrule
+\multicolumn{3}{l}{\emph{Origem do contexto (RQ1)}} \\
+\gls{RAG} & 170 & 81 \\
+Grafo de conhecimento ou ontologia & 32 & 15 \\
+\emph{Fine-tuning} & 35 & 17 \\
+Contexto no \emph{prompt}, \gls{ICL} ou engenharia de \emph{prompts} & 22 & 10 \\
+\midrule
+\multicolumn{3}{l}{\emph{Controlo do âmbito e aspetos operacionais (RQ1)}} \\
+Citações ou rastreabilidade das fontes & 21 & 10 \\
+Segurança (injeção, \emph{jailbreak}, \emph{guardrails}) & 16 & 8 \\
+Recusa, abstenção ou perguntas fora do âmbito & 7 & 3 \\
+Várias línguas ou língua diferente do inglês & 27 & 13 \\
+Latência ou tempo de resposta & 23 & 11 \\
+Custo & 15 & 7 \\
+\midrule
+\multicolumn{3}{l}{\emph{Avaliação (RQ2)}} \\
+Exatidão (\emph{accuracy}) & 109 & 52 \\
+Métricas automáticas (fidelidade, \gls{RAGAS}, ROUGE, BLEU, F1 e semelhantes) & 51 & 24 \\
+\emph{Benchmark} de escolha múltipla ou de exame & 36 & 17 \\
+Especialistas, clínicos ou docentes (como avaliadores ou utilizadores) & 45 & 21 \\
+Estudo com utilizadores, questionário ou entrevistas & 22 & 10 \\
+\gls{LLM} como juiz & 5 & 2 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 %----------------------------------------------------------------------------------------
 \section{Síntese Crítica}
 \label{sec:chap2_synthesis}
 
-A síntese deve agrupar, comparar, explicar e criticar os estudos, e não resumi-los um a um. A frequência de uma técnica descreve a sua utilização, não prova que seja a mais eficaz.
+Esta síntese é preliminar: baseia-se nos títulos e resumos dos estudos incluídos, com destaque para os 48 prioritários, e será revista após a leitura dos textos integrais. Os estudos são agrupados por mecanismo e por tipo de avaliação, e não resumidos um a um. A frequência de uma técnica descreve a sua utilização, mas não prova que seja a mais eficaz.
 
-\subsection{Abordagens}
-% TODO: agrupar por como o contexto chega ao modelo (RAG, injeção direta, base de conhecimento) e por técnica (prompting, fine-tuning); comparar. Verificar quantos estudos usam injeção direta, sem recuperação.
+\subsection{Como o Contexto Chega ao Modelo (RQ1)}
+\label{sec:chap2_syn_context}
 
-\subsection{Avaliação}
-% TODO: como são avaliadas a fidelidade, a correção e a recusa; métodos, métricas e participantes; evidência de impacto na aprendizagem, se existir.
+\paragraph{Predomínio do RAG.} A forma dominante de limitar as respostas a um contexto é o \gls{RAG}, referido em 81\% dos estudos incluídos. Em educação, o contexto é tipicamente o material de um curso: manuais, diapositivos, enunciados e registos das aulas \parencite{seshadri2026alan,han2026textbook,feng2024courseassist,barzanji2026buddy,sayeed2026tutor,yan2026question}. Em saúde, são diretrizes clínicas, literatura médica ou bases de perguntas e respostas \parencite{raputri2025retrieval,nurfadhilah2025retrieval,azam2024cancerbot,christiawan2025sanity}. Vários estudos acrescentam grafos de conhecimento ou ontologias, quer para estruturar o que é recuperado \parencite{zhang2025meditrir}, quer para validar a resposta depois de gerada \parencite{zhao2025cyberbot}.
 
-\subsection{Controlo de Âmbito e Segurança}
-% TODO: injeção de instruções, fuga do prompt, recusa fora de âmbito.
+\paragraph{O contexto ajuda, mas também pode prejudicar.} Os estudos que comparam o mesmo modelo com e sem contexto relatam, em geral, melhorias da correção e da fidelidade \parencite{raputri2025retrieval,nurfadhilah2025retrieval,azam2024cancerbot}. Contudo, um grupo de estudos de \gls{QA} médico mostra que a recuperação pode piorar os resultados. \textcite{xie2026when} observaram que três variantes de \gls{RAG} ficaram abaixo do modelo sem contexto no MedQA-USMLE: a recuperação corrigiu 5--6\% das perguntas mas induziu em erro 6--7\%, e a confiança do recuperador não previa quando o contexto ajudava. \textcite{rahat2026noise} registaram uma queda da exatidão de 68,8\% para 17,6\% no PubMedQA quando o modelo recebia documentos recuperados; nos casos analisados, os documentos desviavam o modelo (41,8\%) ou contradiziam o seu conhecimento (37,6\%), e uma alteração do \emph{prompt} recuperou parte da perda. \textcite{liu2026quality} concluíram que a qualidade da base de conhecimento pesa mais do que a quantidade. Na mesma linha, os estudos que incluem conhecimento de grafos diretamente no \emph{prompt} mostram que contexto pouco relevante pode baixar o desempenho abaixo do modelo sem contexto \parencite{ghanbari2025evaluating,ghanbari2025quantifying}.
 
-\subsection{Compromissos Operacionais}
-% TODO: latência, custo e integração reportados; como se relacionam com a abordagem usada.
+\paragraph{Contexto fechado e fornecido diretamente.} São poucos os estudos em que o contexto é fixo e conhecido à partida, como no QBank. Os mais próximos fundamentam as respostas na aula em curso \parencite{liu2026asknow} ou numa apresentação gravada \parencite{xu2026echomind}, ou respondem a perguntas sobre um único relatório radiológico \parencite{hamidi2026large}. No estudo de \textcite{xu2026echomind}, o assistente fundamentado nos materiais da apresentação melhorou a experiência de aprendizagem, enquanto um assistente genérico não superou o vídeo sem assistente, o que sugere que o valor está no contexto e não apenas na presença de um assistente. \textcite{zheng2026comparative} compararam \emph{fine-tuning}, \gls{RAG} e contexto no \emph{prompt} num serviço de apoio técnico, e a combinação de contexto no \emph{prompt} com \gls{RAG} obteve a maior correção. Não foi identificado, ao nível dos resumos, nenhum estudo em que o contexto seja o registo completo de uma pergunta de escolha múltipla validada (vinheta, opções, explicação e informação complementar) usado para esclarecer dúvidas do estudante.
 
-\subsection{Limitações Reportadas}
-% TODO: limitações recorrentes e contradições na evidência.
+\paragraph{Perguntas de escolha múltipla e de exame.} Os estudos com perguntas de exame tratam, sobretudo, a escolha da resposta correta em \emph{benchmarks} como o MedQA e o MedMCQA \parencite{zhang2025meditrir,liu2026quality,xie2026when}, e não a explicação de uma pergunta cuja resposta já é conhecida. A exceção mais próxima é o assistente de \textcite{khan2025towards}, que explica as soluções de perguntas de um exame de acesso à pós-graduação em engenharia e foi avaliado em fidelidade, relevância, latência e por avaliação humana.
+
+\subsection{Controlo do Âmbito e Segurança (RQ1)}
+\label{sec:chap2_syn_scope}
+
+\paragraph{Instruções no \emph{prompt} não chegam.} O resultado mais relevante para o QBank é o de \textcite{rayhan2026sage}: num tutor de programação, os tutores baseados apenas em instruções no \emph{prompt} tiveram uma utilidade semelhante à do sistema proposto (42\% e 44\%), mas cumpriram as políticas do docente em apenas 30\% dos casos, contra 90\% com um controlo de acesso explícito ao conteúdo. Da mesma forma, o CS50.ai usa \emph{guardrails} pedagógicos para que o assistente apoie o estudante sem lhe dar diretamente as soluções \parencite{liu2024teaching}, e o CourseAssist classifica a intenção do estudante para garantir respostas pedagogicamente adequadas \parencite{feng2024courseassist}. Estes mecanismos correspondem às regras por modo do QBank, por exemplo não revelar a resposta correta antes do tempo no modo Teste.
+
+\paragraph{Recusa fora do âmbito.} Poucos estudos avaliam a recusa (3\% dos incluídos). As abordagens encontradas são: modelos de \emph{guardrail} com uma categoria de restrição de tema \parencite{walczak2026comparative}; \emph{fine-tuning} com exemplos de recusa, num assistente multilingue para estudantes \parencite{abrar2025domain}; e monitorização dos estados internos do modelo para detetar respostas fora do domínio \parencite{li2026responsible}. \textcite{walczak2026comparative} relatam um compromisso claro: o modelo com maior sensibilidade gera muitos falsos positivos, e o mais preciso é demasiado lento para uso síncrono. Notam ainda que as classificações dos especialistas e a perceção dos utilizadores divergem.
+
+\paragraph{Defesas contra injeção de instruções.} A defesa mais avaliada em contexto real é a arquitetura com dois modelos, em que um primeiro \gls{LLM} filtra os pedidos e só os pedidos aprovados chegam ao modelo que responde. O ChatTEDU bloqueou as 180 tentativas de ataque identificadas em 4501 interações reais, com 0,28\% de falsos positivos e 18\% de latência adicional; 15\% dos ataques eram multilingues \parencite{emekci2025securing}. O SecureContext EDU usa a mesma ideia com um classificador de ameaças \parencite{kavitha2026securecontext}. Outros estudos treinam classificadores dedicados \parencite{tien2024optimizing,mathew2026privacy} ou usam bibliotecas de \emph{guardrails} \parencite{shah2026enhancing}. No QBank, o contexto vem da base de dados validada e não de documentos externos, o que reduz o risco de injeção indireta \parencite{greshake2023indirect}, mas não o de injeção direta pelo utilizador.
+
+\subsection{Compromissos Operacionais (RQ1)}
+\label{sec:chap2_syn_tradeoffs}
+
+Apenas 11\% dos estudos referem a latência e 7\% o custo. Quando são reportados, os compromissos são relevantes: o assistente com um \gls{LLM} juiz de \textcite{bellard2025development} demorou em média 15,7~s por pergunta, a um custo de cerca de 0,003~USD; a camada de segurança do ChatTEDU acrescentou 18\% de latência \parencite{emekci2025securing}; e o \gls{RAG} baseado em grafos exigiu 10 a 20 vezes mais recursos do que o \gls{RAG} vetorial, para ganhos apenas em certos tipos de pergunta \parencite{jain2025aligning}. Vários estudos privilegiam modelos executados localmente, por razões de privacidade e custo \parencite{trang2025customized,nurfadhilah2025retrieval,ruga2025conversational}. Raramente, porém, se relaciona a escolha do mecanismo de contexto com o seu impacto na latência e no custo.
+
+\paragraph{Várias línguas.} 13\% dos estudos tratam línguas diferentes do inglês ou várias línguas. As abordagens incluem: um \gls{RAG} trilingue com \emph{embeddings} multilingues \parencite{sbai2025advanced}; traduzir os documentos e as perguntas para inglês e a resposta de volta \parencite{ruga2025conversational}; e usar modelos adaptados à língua local, que obtiveram maior fidelidade (cerca de 0,95) do que um modelo geral \parencite{nurfadhilah2025retrieval}. Estes estudos avaliam, em geral, o desempenho por língua, mas raramente a fidelidade ao mesmo conteúdo validado em várias línguas ou a recusa em várias línguas, que é o que o QBank exige.
+
+\subsection{Avaliação da Correção, da Fidelidade e do Âmbito (RQ2)}
+\label{sec:chap2_syn_eval}
+
+\paragraph{Métricas heterogéneas.} A métrica mais referida é a exatidão (52\%), sobretudo em \emph{benchmarks} de escolha múltipla. A fidelidade ao contexto é medida, em 24\% dos estudos, com métricas automáticas do tipo \gls{RAGAS} \parencite{es2024ragas}: por exemplo, 0,875 de fidelidade num assistente de saúde mental \parencite{christiawan2025sanity} e cerca de 0,95 num assistente de educação de doentes \parencite{nurfadhilah2025retrieval}. Estas métricas dependem, por sua vez, de um \gls{LLM} avaliador, pelo que herdam as suas limitações \parencite{zheng2023judging}. Como as métricas, os dados e os modelos diferem entre estudos, os valores não são diretamente comparáveis.
+
+\paragraph{LLM como juiz, especialistas e utilizadores.} \textcite{buti2026evaluating} avaliaram um assistente de aconselhamento académico com um \gls{LLM} juiz num \emph{benchmark} de 55 perguntas revistas por especialistas, e encontraram poucas alucinações (3 em 53), concluindo que o contexto recuperado restringe o modelo sem eliminar o risco de invenção. \textcite{liao2026heal} combinaram um \gls{LLM} juiz com auditoria por estudantes de medicina, e \textcite{oh2026automedic} propuseram uma avaliação automática de agentes clínicos em diálogo multi-turno, validada por especialistas. Em educação, os docentes avaliam a correção das respostas \parencite{liu2026asknow,miroyan2025analyzing}, e os estudos com utilizadores medem a utilidade percebida e a usabilidade \parencite{seshadri2026alan,han2026textbook,barzanji2026buddy,xu2026echomind}. Poucos estudos combinam as três formas de avaliação.
+
+\paragraph{Fidelidade ao contexto versus conhecimento do modelo.} Um aspeto pouco avaliado, mas central para o QBank, é se o modelo segue o contexto quando este contradiz o seu conhecimento. \textcite{jain2025aligning} fizeram-no com manuais alterados de propósito para contradizer o conhecimento do modelo, e verificaram diferenças entre abordagens de \gls{RAG}. As taxonomias de erros de \textcite{hamidi2026large} e \textcite{rahat2026noise}, que separam alucinação, abstenção indevida e desvio provocado pelo contexto, são uma alternativa mais informativa do que uma única métrica agregada.
+
+\paragraph{Avaliação da recusa.} A recusa é avaliada em poucos estudos e de formas diferentes: precisão da recusa \parencite{abrar2025domain}, taxa de abstenção \parencite{ishadya2026mitigating}, falsos positivos e falsos negativos de abstenção \parencite{hamidi2026large}, cumprimento das políticas do docente \parencite{rayhan2026sage} e taxa de rejeição fora do domínio \parencite{li2026responsible}. \textcite{ishadya2026mitigating} mostram que menos abstenção e mais respostas suportadas podem coexistir, o que indica que a recusa deve ser avaliada em conjunto com a correção.
+
+\paragraph{Dimensão das avaliações.} Muitas avaliações usam conjuntos pequenos: 14 perguntas \parencite{sayeed2026tutor}, 25 pares sintéticos \parencite{bellard2025development}, 50 pares \parencite{feng2024courseassist} ou 55 perguntas \parencite{buti2026evaluating}. As avaliações em uso real, com centenas ou milhares de utilizadores, medem sobretudo a utilidade percebida e não a fidelidade de cada resposta \parencite{seshadri2026alan,emekci2025securing}.
+
+\subsection{Limitações Recorrentes}
+\label{sec:chap2_syn_limits}
+
+Os estudos analisados partilham as seguintes limitações:
+\begin{itemize}
+    \item avaliações em conjuntos pequenos, frequentemente sintéticos, e sem validação externa;
+    \item fidelidade medida por \glspl{LLM} avaliadores, sem verificação humana sistemática;
+    \item recusa e perguntas fora do âmbito raramente avaliadas, e avaliadas separadamente da correção;
+    \item avaliação multilingue centrada no desempenho por língua e não na consistência com o mesmo conteúdo validado;
+    \item latência e custo raramente reportados e não relacionados com as escolhas de arquitetura;
+    \item poucos estudos com contexto fechado e fornecido diretamente, apesar de a evidência mostrar que a recuperação introduz erros próprios.
+\end{itemize}
 
 %----------------------------------------------------------------------------------------
 \section{Lacuna de Investigação}
 \label{sec:chap2_gap}
 
-% TODO: escrever só depois da síntese, seguindo a cadeia
-% Evidência -> Limitação -> Lacuna -> Questão de investigação -> Contribuição.
-% Hipótese de trabalho a verificar (NÃO escrever como resultado): a literatura de respostas
-% fundamentadas em contexto concentra-se em RAG; pode haver pouca evidência sobre contexto
-% fechado por item, injetado diretamente, com avaliação de fidelidade e de recusa.
+A Tabela~\ref{tab:gap} apresenta a cadeia que liga a evidência à oportunidade de investigação.
+
+\begin{table}[htbp]
+\caption{Da evidência à oportunidade de investigação.}
+\label{tab:gap}
+\centering
+\footnotesize
+\begin{tabular}{p{3.3cm} p{3.3cm} p{3.3cm} p{3.3cm}}
+\toprule
+\tabhead{Evidência} & \tabhead{Limitação} & \tabhead{Lacuna} & \tabhead{Oportunidade} \\
+\midrule
+O \gls{RAG} domina (81\%); a recuperação pode introduzir contexto que desvia ou contradiz o modelo. & Poucos estudos usam contexto fechado, validado e fornecido diretamente, como o de uma pergunta de exame. & Pouca evidência sobre a fidelidade de assistentes que respondem apenas com o contexto validado de cada item. & Assistente que usa só os dados da pergunta em curso, avaliado em fidelidade e correção. \\
+\addlinespace
+Instruções no \emph{prompt} não garantem o cumprimento das políticas (30\% contra 90\%). & A recusa é avaliada em 3\% dos estudos, com métricas diferentes. & Pouca evidência sobre recusa e regras por modo em assistentes de estudo para exames. & Mecanismos de recusa e regras por modo (Teste e Estudo) avaliados com perguntas fora do âmbito. \\
+\addlinespace
+Estudos multilingues avaliam o desempenho por língua. & Consistência com o mesmo conteúdo validado em várias línguas raramente avaliada. & Pouca evidência sobre fidelidade e recusa em várias línguas em simultâneo. & Avaliação da fidelidade e da recusa nas línguas do QBank. \\
+\addlinespace
+Avaliações pequenas, com \gls{LLM} juiz ou só com utilizadores. & Poucos estudos combinam métricas, especialistas e utilizadores. & Falta de protocolos de avaliação completos. & Protocolo que combina testes técnicos, especialistas da Adhara e utilizadores. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Em síntese, a literatura mostra como fundamentar as respostas de um assistente num contexto, sobretudo através de \gls{RAG}, e como medir a sua fidelidade. Contudo, no corpus analisado não foi encontrado um assistente de estudo que responda apenas com o contexto fechado e validado de cada pergunta de um banco de perguntas, que respeite regras por modo de exame e que seja avaliado, em várias línguas, quanto à correção, à fidelidade e à recusa em simultâneo. Esta lacuna é preliminar e será confirmada após a leitura dos textos integrais. É a esta oportunidade que o presente trabalho procura responder.
+
+%----------------------------------------------------------------------------------------
+\section{Ameaças à Validade}
+\label{sec:chap2_threats}
+
+\begin{itemize}
+    \item \textbf{Fontes e campos.} A pesquisa limitou-se a três fontes, ao inglês e ao português e ao título, resumo e palavras-chave. Na IEEE Xplore e na ACM Digital Library, a restrição a estes campos foi feita expandindo cada termo, o que pode não ser exatamente equivalente ao \texttt{TITLE-ABS-KEY}. No Scopus, a pesquisa devolveu registos que não são artigos, o que sugere uma restrição de campos menos estrita.
+    \item \textbf{Triagem por regras.} A fase A excluiu registos por ausência de termos no título e no resumo. Estudos relevantes que não usem esses termos podem ter sido excluídos (falsos negativos). As regras estão documentadas e podem ser repetidas.
+    \item \textbf{Revisor único e apoio de \gls{IA}.} A triagem foi feita por um único revisor, com apoio de um assistente de \gls{IA}. Para mitigar o enviesamento, cada decisão tem um critério e um motivo registados e foi verificada pelo autor. % TODO: segunda revisão de uma amostra pelo orientador.
+    \item \textbf{Síntese a partir de resumos.} A síntese e os indicadores da Tabela~\ref{tab:indicators} baseiam-se nos resumos e serão revistos com o texto integral e com a avaliação da qualidade.
+    \item \textbf{Janela temporal.} O filtro das interfaces é anual (2021--2026); o cumprimento exato das datas de 27-10-2021 a 27-10-2026 será confirmado na leitura integral.
+    \item \textbf{Evolução rápida.} A literatura sobre \glspl{LLM} evolui depressa: quase metade dos estudos incluídos é de 2026.
+\end{itemize}
 
 %----------------------------------------------------------------------------------------
 \section{Conclusões do Capítulo}
 \label{sec:chap2_conclusions}
 
-% TODO: o que se sabe, o que falta saber e como o trabalho desta dissertação responde à lacuna.
+A revisão identificou 1547 registos em três fontes e incluiu 211 estudos para leitura integral, dos quais 48 são prioritários. Quanto à RQ1, a forma dominante de limitar as respostas é o \gls{RAG}, mas a evidência mostra que a recuperação também introduz erros, e que as instruções no \emph{prompt}, sozinhas, não garantem o cumprimento do âmbito; os mecanismos mais robustos combinam controlo explícito do conteúdo, filtros dedicados e recusa. Os compromissos de latência e custo são pouco reportados. Quanto à RQ2, a avaliação é heterogénea: exatidão em \emph{benchmarks}, métricas automáticas de fidelidade dependentes de \glspl{LLM} avaliadores, avaliação por especialistas e estudos com utilizadores, raramente combinados, e com pouca avaliação da recusa e do comportamento em várias línguas.
+
+Para o assistente do QBank, estas conclusões traduzem-se em decisões de desenho e de avaliação: fornecer ao modelo apenas o contexto validado da pergunta em curso; não depender apenas de instruções no \emph{prompt} para o âmbito e para as regras por modo; tratar a segurança contra injeção direta; e avaliar a correção, a fidelidade e a recusa em conjunto, nas várias línguas do QBank, combinando testes técnicos, especialistas da Adhara e utilizadores. O Capítulo~\ref{chap:Chapter3} parte destas conclusões para o desenho da solução.

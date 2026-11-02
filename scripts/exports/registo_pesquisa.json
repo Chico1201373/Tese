@@ -1,0 +1,150 @@
+{
+  "ieee/Q2": {
+    "fonte": "IEEE Xplore",
+    "qid": "Q2",
+    "ficheiros": [
+      "ieee_Q2_p1.ris"
+    ],
+    "data": "2026-11-02 11:56",
+    "total": 24,
+    "query": "((\"Document Title\":\"large language model\" OR \"Abstract\":\"large language model\" OR \"Author Keywords\":\"large language model\") OR (\"Document Title\":LLM OR \"Abstract\":LLM OR \"Author Keywords\":LLM)) AND ((\"Document Title\":faithfulness OR \"Abstract\":faithfulness OR \"Author Keywords\":faithfulness) OR (\"Document Title\":factuality OR \"Abstract\":factuality OR \"Author Keywords\":factuality) OR (\"Document Title\":correctness OR \"Abstract\":correctness OR \"Author Keywords\":correctness)) AND ((\"Document Title\":chatbot OR \"Abstract\":chatbot OR \"Author Keywords\":chatbot) OR (\"Document Title\":\"conversational system\" OR \"Abstract\":\"conversational system\" OR \"Author Keywords\":\"conversational system\")) AND ((\"Document Title\":evaluation OR \"Abstract\":evaluation OR \"Author Keywords\":evaluation) OR (\"Document Title\":benchmark OR \"Abstract\":benchmark OR \"Author Keywords\":benchmark))",
+    "exportados": 24
+  },
+  "ieee/Q3": {
+    "fonte": "IEEE Xplore",
+    "qid": "Q3",
+    "ficheiros": [
+      "ieee_Q3_p1.ris"
+    ],
+    "data": "2026-11-02 11:57",
+    "total": 38,
+    "query": "((\"Document Title\":\"large language model\" OR \"Abstract\":\"large language model\" OR \"Author Keywords\":\"large language model\") OR (\"Document Title\":LLM OR \"Abstract\":LLM OR \"Author Keywords\":LLM)) AND ((\"Document Title\":\"prompt injection\" OR \"Abstract\":\"prompt injection\" OR \"Author Keywords\":\"prompt injection\") OR (\"Document Title\":\"prompt leakage\" OR \"Abstract\":\"prompt leakage\" OR \"Author Keywords\":\"prompt leakage\") OR (\"Document Title\":jailbreak OR \"Abstract\":jailbreak OR \"Author Keywords\":jailbreak) OR (\"Document Title\":guardrails OR \"Abstract\":guardrails OR \"Author Keywords\":guardrails)) AND ((\"Document Title\":chatbot OR \"Abstract\":chatbot OR \"Author Keywords\":chatbot) OR (\"Document Title\":\"conversational system\" OR \"Abstract\":\"conversational system\" OR \"Author Keywords\":\"conversational system\"))",
+    "exportados": 38
+  },
+  "acm/Q2": {
+    "fonte": "ACM Digital Library",
+    "qid": "Q2",
+    "ficheiros": [
+      "acm_Q2_p1.bib"
+    ],
+    "data": "2026-11-02 12:08",
+    "total": 24,
+    "query": "((Title:\"large language model\" OR Abstract:\"large language model\" OR Keyword:\"large language model\") OR (Title:LLM OR Abstract:LLM OR Keyword:LLM)) AND ((Title:faithfulness OR Abstract:faithfulness OR Keyword:faithfulness) OR (Title:factuality OR Abstract:factuality OR Keyword:factuality) OR (Title:correctness OR Abstract:correctness OR Keyword:correctness)) AND ((Title:chatbot OR Abstract:chatbot OR Keyword:chatbot) OR (Title:\"conversational system\" OR Abstract:\"conversational system\" OR Keyword:\"conversational system\")) AND ((Title:evaluation OR Abstract:evaluation OR Keyword:evaluation) OR (Title:benchmark OR Abstract:benchmark OR Keyword:benchmark))",
+    "exportados": 24
+  },
+  "acm/Q3": {
+    "fonte": "ACM Digital Library",
+    "qid": "Q3",
+    "ficheiros": [
+      "acm_Q3_p1.bib"
+    ],
+    "data": "2026-11-02 12:08",
+    "total": 16,
+    "query": "((Title:\"large language model\" OR Abstract:\"large language model\" OR Keyword:\"large language model\") OR (Title:LLM OR Abstract:LLM OR Keyword:LLM)) AND ((Title:\"prompt injection\" OR Abstract:\"prompt injection\" OR Keyword:\"prompt injection\") OR (Title:\"prompt leakage\" OR Abstract:\"prompt leakage\" OR Keyword:\"prompt leakage\") OR (Title:jailbreak OR Abstract:jailbreak OR Keyword:jailbreak) OR (Title:guardrails OR Abstract:guardrails OR Keyword:guardrails)) AND ((Title:chatbot OR Abstract:chatbot OR Keyword:chatbot) OR (Title:\"conversational system\" OR Abstract:\"conversational system\" OR Keyword:\"conversational system\"))",
+    "exportados": 16
+  },
+  "acm/Q4": {
+    "fonte": "ACM Digital Library",
+    "qid": "Q4",
+    "ficheiros": [
+      "acm_Q4_p1.bib"
+    ],
+    "data": "2026-11-02 12:08",
+    "total": 25,
+    "query": "((Title:\"large language model\" OR Abstract:\"large language model\" OR Keyword:\"large language model\") OR (Title:LLM OR Abstract:LLM OR Keyword:LLM)) AND ((Title:\"out-of-scope\" OR Abstract:\"out-of-scope\" OR Keyword:\"out-of-scope\") OR (Title:abstention OR Abstract:abstention OR Keyword:abstention)) AND ((Title:evaluation OR Abstract:evaluation OR Keyword:evaluation) OR (Title:benchmark OR Abstract:benchmark OR Keyword:benchmark))",
+    "exportados": 26
+  },
+  "ieee/Q1": {
+    "fonte": "IEEE Xplore",
+    "qid": "Q1",
+    "ficheiros": [
+      "ieee_Q1_p1.ris",
+      "ieee_Q1_p2.ris",
+      "ieee_Q1_p3.ris",
+      "ieee_Q1_p4.ris",
+      "ieee_Q1_p5.ris",
+      "ieee_Q1_p6.ris",
+      "ieee_Q1_p7.ris",
+      "ieee_Q1_p8.ris"
+    ],
+    "data": "2026-11-02 11:52",
+    "total": 756,
+    "query": "((\"Document Title\":\"large language model\" OR \"Abstract\":\"large language model\" OR \"Author Keywords\":\"large language model\") OR (\"Document Title\":LLM OR \"Abstract\":LLM OR \"Author Keywords\":LLM)) AND ((\"Document Title\":grounding OR \"Abstract\":grounding OR \"Author Keywords\":grounding) OR (\"Document Title\":\"context injection\" OR \"Abstract\":\"context injection\" OR \"Author Keywords\":\"context injection\") OR (\"Document Title\":\"prompt context\" OR \"Abstract\":\"prompt context\" OR \"Author Keywords\":\"prompt context\") OR (\"Document Title\":\"retrieval-augmented generation\" OR \"Abstract\":\"retrieval-augmented generation\" OR \"Author Keywords\":\"retrieval-augmented generation\")) AND ((\"Document Title\":chatbot OR \"Abstract\":chatbot OR \"Author Keywords\":chatbot) OR (\"Document Title\":\"conversational system\" OR \"Abstract\":\"conversational system\" OR \"Author Keywords\":\"conversational system\") OR (\"Document Title\":\"question answering\" OR \"Abstract\":\"question answering\" OR \"Author Keywords\":\"question answering\"))",
+    "exportados": 753
+  },
+  "ieee/Q4": {
+    "fonte": "IEEE Xplore",
+    "qid": "Q4",
+    "ficheiros": [
+      "ieee_Q4_p1.ris"
+    ],
+    "data": "2026-11-02 11:57",
+    "total": 29,
+    "query": "((\"Document Title\":\"large language model\" OR \"Abstract\":\"large language model\" OR \"Author Keywords\":\"large language model\") OR (\"Document Title\":LLM OR \"Abstract\":LLM OR \"Author Keywords\":LLM)) AND ((\"Document Title\":\"out-of-scope\" OR \"Abstract\":\"out-of-scope\" OR \"Author Keywords\":\"out-of-scope\") OR (\"Document Title\":abstention OR \"Abstract\":abstention OR \"Author Keywords\":abstention)) AND ((\"Document Title\":evaluation OR \"Abstract\":evaluation OR \"Author Keywords\":evaluation) OR (\"Document Title\":benchmark OR \"Abstract\":benchmark OR \"Author Keywords\":benchmark))",
+    "exportados": 29
+  },
+  "acm/Q1": {
+    "fonte": "ACM Digital Library",
+    "qid": "Q1",
+    "ficheiros": [
+      "acm_Q1_p1.bib",
+      "acm_Q1_p2.bib",
+      "acm_Q1_p3.bib",
+      "acm_Q1_p4.bib",
+      "acm_Q1_p5.bib",
+      "acm_Q1_p6.bib",
+      "acm_Q1_p7.bib",
+      "acm_Q1_p8.bib"
+    ],
+    "data": "2026-11-02 11:57",
+    "total": 358,
+    "query": "((Title:\"large language model\" OR Abstract:\"large language model\" OR Keyword:\"large language model\") OR (Title:LLM OR Abstract:LLM OR Keyword:LLM)) AND ((Title:grounding OR Abstract:grounding OR Keyword:grounding) OR (Title:\"context injection\" OR Abstract:\"context injection\" OR Keyword:\"context injection\") OR (Title:\"prompt context\" OR Abstract:\"prompt context\" OR Keyword:\"prompt context\") OR (Title:\"retrieval-augmented generation\" OR Abstract:\"retrieval-augmented generation\" OR Keyword:\"retrieval-augmented generation\")) AND ((Title:chatbot OR Abstract:chatbot OR Keyword:chatbot) OR (Title:\"conversational system\" OR Abstract:\"conversational system\" OR Keyword:\"conversational system\") OR (Title:\"question answering\" OR Abstract:\"question answering\" OR Keyword:\"question answering\"))",
+    "exportados": 358
+  },
+  "sciencedirect/Q3": {
+    "fonte": "ScienceDirect",
+    "qid": "Q3",
+    "ficheiros": [
+      "sciencedirect_Q3_p1.ris"
+    ],
+    "data": "2026-11-02 12:26",
+    "total": 14,
+    "query": "TITLE-ABS-KEY((\"large language model\" OR LLM) AND (\"prompt injection\" OR \"prompt leakage\" OR jailbreak OR guardrails) AND (chatbot OR \"conversational system\"))",
+    "exportados": 14
+  },
+  "sciencedirect/Q1": {
+    "fonte": "ScienceDirect",
+    "qid": "Q1",
+    "ficheiros": [
+      "sciencedirect_Q1_p1.ris",
+      "sciencedirect_Q1_p2.ris"
+    ],
+    "data": "2026-11-02 12:24",
+    "total": 102,
+    "query": "TITLE-ABS-KEY((\"large language model\" OR LLM) AND (grounding OR \"context injection\" OR \"prompt context\" OR \"retrieval-augmented generation\") AND (chatbot OR \"conversational system\" OR \"question answering\"))",
+    "exportados": 102
+  },
+  "sciencedirect/Q2": {
+    "fonte": "ScienceDirect",
+    "qid": "Q2",
+    "ficheiros": [
+      "sciencedirect_Q2_p1.ris",
+      "sciencedirect_Q2_p2.ris"
+    ],
+    "data": "2026-11-02 12:25",
+    "total": 131,
+    "query": "TITLE-ABS-KEY((\"large language model\" OR LLM) AND (faithfulness OR factuality OR correctness) AND (chatbot OR \"conversational system\") AND (evaluation OR benchmark))",
+    "exportados": 131
+  },
+  "sciencedirect/Q4": {
+    "fonte": "ScienceDirect",
+    "qid": "Q4",
+    "ficheiros": [
+      "sciencedirect_Q4_p1.ris"
+    ],
+    "data": "2026-11-02 12:26",
+    "total": 32,
+    "query": "TITLE-ABS-KEY((\"large language model\" OR LLM) AND (\"out-of-scope\" OR abstention) AND (evaluation OR benchmark))",
+    "exportados": 32
+  }
+}

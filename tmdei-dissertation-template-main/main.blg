@@ -1,9 +1,15 @@
 [0] Config.pm:308> INFO - This is Biber 2.20
 [0] Config.pm:311> INFO - Logfile is 'main.blg'
-[39] biber-darwin:340> INFO - === Mon Oct 12, 2026, 12:49:12
-[48] Biber.pm:420> INFO - Reading 'main.bcf'
-[93] Biber.pm:994> INFO - Found 0 citekeys in bib section 0
-[101] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[101] bbl.pm:779> INFO - Output to main.bbl
-[101] Biber.pm:131> WARN - The file 'main.bcf' does not contain any citations!
-[101] Biber.pm:133> INFO - WARNINGS: 1
+[43] biber-darwin:340> INFO - === Mon Nov  2, 2026, 15:05:09
+[52] Biber.pm:420> INFO - Reading 'main.bcf'
+[113] Biber.pm:994> INFO - Found 84 citekeys in bib section 0
+[122] Biber.pm:4463> INFO - Processing section 0
+[127] Biber.pm:4654> INFO - Looking for bibtex file 'mainbibliography.bib' for section 0
+[130] bibtex.pm:1713> INFO - LaTeX decoding ...
+[167] bibtex.pm:1519> INFO - Found BibTeX data source 'mainbibliography.bib'
+[496] UCollate.pm:68> INFO - Overriding locale 'pt-PT' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[496] UCollate.pm:68> INFO - Overriding locale 'pt-PT' defaults 'variable = shifted' with 'variable = non-ignorable'
+[497] Biber.pm:4283> INFO - Sorting list 'nyt/global//global/global/global' of type 'entry' with template 'nyt' and locale 'pt-PT'
+[497] Biber.pm:4289> INFO - No sort tailoring available for locale 'pt-PT'
+[555] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[580] bbl.pm:779> INFO - Output to main.bbl

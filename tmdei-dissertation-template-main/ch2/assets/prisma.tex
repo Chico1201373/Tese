@@ -1,0 +1,29 @@
+% Gerado por scripts/prisma.py -- não editar à mão
+\begin{tikzpicture}[
+  box/.style={draw, rectangle, align=left, text width=6.2cm, font=\scriptsize, inner sep=4pt},
+  side/.style={draw, rectangle, align=left, text width=5.6cm, font=\scriptsize, inner sep=4pt},
+  stage/.style={font=\scriptsize\bfseries, rotate=90, anchor=south},
+  arr/.style={-{Stealth[length=2mm]}}]
+\node[box, anchor=north west] (id) at (0,0) {Registos identificados nas bases ($n=1547$)\\
+  IEEE Xplore ($n=844$)\\ ACM DL ($n=424$)\\ Scopus ($n=279$)};
+\node[side, anchor=west] (dup) at ([xshift=0.8cm]id.east) {Registos removidos antes da triagem:\\ duplicados ($n=130$)};
+\node[box, anchor=north west] (scr) at ([yshift=-0.7cm]id.south west) {Registos triados por título e resumo ($n=1417$)};
+\node[side, anchor=north west] (auto) at ([xshift=0.8cm]scr.north east) {Excluídos por regras automáticas ($n=1034$):\\
+  fora de educação/saúde ($n=565$)\\
+  revisão ou survey, E4 ($n=125$)\\
+  não é chatbot/QA ($n=125$)\\
+  sem avaliação das respostas ($n=115$)\\
+  não usa LLM ($n=74$)\\
+  sem resumo ou não é artigo, E2 ($n=30$)};
+\node[box, anchor=north west] (man) at ([yshift=-0.6cm]scr.south west |- auto.south) {Registos lidos manualmente ($n=383$)};
+\node[side, anchor=west] (exm) at ([xshift=0.8cm]man.east) {Excluídos na leitura ($n=172$):\\
+  E3 ($n=161$), E2 ($n=8$), E4 ($n=3$)};
+\node[box, anchor=north west] (inc) at ([yshift=-0.9cm]man.south west) {Estudos para leitura integral ($n=211$)\\
+  dos quais prioritários ($n=48$)};
+\draw[arr] (id) -- (scr); \draw[arr] (id.east) -- (dup.west);
+\draw[arr] (scr) -- (man); \draw[arr] (scr.east) -- (scr.east -| auto.west);
+\draw[arr] (man) -- (inc); \draw[arr] (man.east) -- (exm.west);
+\node[stage] at ([xshift=-0.15cm]id.west) {Identificação};
+\node[stage] at ([xshift=-0.15cm]man.west) {Triagem};
+\node[stage] at ([xshift=-0.15cm]inc.west) {Incluídos};
+\end{tikzpicture}

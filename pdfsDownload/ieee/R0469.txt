@@ -1,0 +1,1172 @@
+A TU-Tutor: A RAG-Based Socratic Tutoring
+System with Agentic AI Adaptive Assessment
+Md Shaba Sayeed Shaira Wajiha Robin Ghosh
+Engineering and Computing Sciences Engineering and Computing Sciences Engineering and Computing Sciences
+Arkansas Tech University Arkansas Tech University Arkansas Tech University
+Russellville, Arkansas, USA Russellville, Arkansas, USA Russellville, Arkansas, USA
+msayeed@atu.edu swajiha@atu.edu rghosh@atu.edu
+Md Abdus Salam Siddique Shruti Bhandari
+Engineering and Computing Sciences Engineering and Computing Sciences
+Arkansas Tech University Arkansas Tech University
+Russellville, Arkansas, USA Russellville, Arkansas, USA
+msiddique@atu.edu sbhandari3@atu.edu
+Abstract—Large language models (LLMs) have great potential
+for educational tutoring, but hallucinations, poor curriculum
+alignment, and limited access to domain specific knowledge
+limit their application in academic settings. Retrieval augmented
+generation (RAG) is one way to overcome these shortcomings
+by anchoring model outputs to external sources. Still, most
+educational RAG systems are limited to single turn question
+answering and offer little pedagogical assistance. The paper will
+provide the design and assessment of the RAG enhanced LLM
+chatbot in Socratic tutoring and adaptive quiz generation at
+Arkansas Tech University (ATU). The system employs a hybrid
+retrieval pipeline with FAISS, BM25, and cross encoder re
+ranking on a knowledge base of 2,328 chunks from 17 open
+educational resources textbooks, as well as a retriever fine tuned
+on 929 domain specific query passage pairs. The Qwen3 8B model
+supports both tutoring and assessment. In tutoring mode, the
+system generates grounded explanations and Socratic follow up
+questions; in assessment mode, it generates curriculum aligned
+multiple choice and short answer questions with immediate feed-
+back. The assessment of 14 questions demonstrated strong results
+in relevance, conciseness, contextual grounding, and resistance
+to hallucinations, with overall heuristic and LLM scores of
+4.00/5. Lower scores in empathy and Socratic scaffolding indicate
+areas for future improvement. The findings show the potential
+of retrieval based tutoring and self adaptive assessment in a
+university specific curriculum.
+Index Terms—Retrieval Augmented Generation (RAG), Large
+Language Models (LLM), Socratic Tutoring, Agentic AI, Adap-
+tive Quiz Generation, Intelligent Tutoring Systems, Higher
+Education, FAISS, BM25, Cross Encoder Reranking, Prompt
+Engineering, Open Educational Resources (OER), Curriculum
+Aligned Assessment, Natural Language Processing (NLP), Edu-
+cational Technology
+I. I NTRODUCTION
+Large language models (LLMs) have become a growing
+focus in education due to their ability to generate natural
+language responses, interactively answer questions, and pro-
+vide individualized learning experiences [1], [2], [3]. In post
+secondary education, these abilities enable scalable tutoring
+mechanisms that help students access on demand academic
+assistance outside the classroom, particularly in environments
+where individual teacher care is limited [1], [2]. More recent
+research has demonstrated growing concern about conversa-
+tional AI systems capable of explaining concepts, answering
+follow up questions, and supporting inquiry based dialogue in
+realistic academic settings [2]. This tendency is a symptom of a
+broader shift in the model of content delivery, from a one way
+approach to incorporating more interactive, student centered
+education with the help of AI [4]. Despite this potential,
+general purpose LLMs are inadequate as academic tutors and
+cannot be trusted to be reliable and safe when not grounded
+or maintained under pedagogical control [3]. They can include
+hallucinated, misleading, or factually inaccurate information
+in their output, particularly when accuracy, credibility, and
+curriculum coherence are needed [4]. Moreover, these models
+typically rely solely on static pretraining data. They thus may
+not fully capture the institution specific course material, the
+goals of the current instruction, or the terminology used in a
+given discipline [1]. Consequently, efficient academic tutoring
+systems should not simply produce plausible answers but
+also provide systematic, credible, and pedagogically significant
+assistance that guides students in accumulating knowledge
+step by step [5], [6], [7]. To overcome these constraints,
+RAG offers a pragmatic approach by leveraging model outputs
+based on curated external sources of knowledge, including
+textbooks, teaching resources, and academic documents [1].
+The RAG based system retrieves passages of a document
+collection that are relevant to the query but are not based on
+parametric knowledge, and makes these passages available as
+contextual evidence as the response is generated. This design
+helps increase grounding in fact, reduces the possibility of
+hallucination, and enables the inclusion of domain specific
+information without retraining a whole language model [3].
+These properties are especially valuable in education, as they
+0374
+2026 IEEE World AI IoT Congress (AIIoT) | 979-8-3315-4568-0/26/$31.00 ©2026 IEEE | DOI: 10.1109/AIIoT68874.2026.11569566
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:58:37 UTC from IEEE Xplore.  Restrictions apply. 
+allow a tutor’s response to align with authoritative learning
+materials rather than with Web scale priors that are more
+widely disseminated and uncontrolled [3]. Factual grounding,
+however, is not in itself enough to make a good tutor. Even
+most of the AI and RAG based systems currently used in ed-
+ucation remain primarily question answer systems, searching
+for information and providing explicit answers without truly
+supporting the pedagogical interaction required to drive real
+learning [4]. Incorrect tutoring involves systematic expositions,
+directed inquiries, comments on incomplete knowledge, and
+opportunities for self evaluation [6]. Specifically, the Socratic
+type dialogue is pedagogically useful in that it prompts stu-
+dents to express their arguments, challenge their assumptions,
+and actively engage with the content rather than passively
+accept the answer [7]. Based on these considerations, one
+can notice a research gap: educational systems that inte-
+grate grounded retrieval into dialogic tutoring and adaptive
+assessment within a single framework are required [4]. The
+gap in quiz based learning is very important. Assessment
+is not only applicable to grading but also to strengthening
+comprehension, uncovering misunderstandings, and enabling
+learners to check their own development [5]. Multiple choice
+and short answer questions, when aligned with instructional
+material and followed by immediate feedback, may facilitate
+retrieval practice, reinforce understanding, and enhance self
+regulated learning [7]. However, in most AI learning systems,
+tutoring and assessment remain distinct, even though they
+are inherently complementary in actual educational practice
+[5], [4]. The ability to explain content and generate grounded
+and curriculum relevant quizzes, therefore, provides students
+with a comprehensive and educationally significant learning
+workflow through a tutoring system [8]. To mitigate these
+shortcomings, this paper introduces a RAG enhanced LLM
+chatbot that can serve A TU students and facilitate Socratic
+tutoring and adaptive quiz generation. The system utilizes
+a knowledge based retrieval pipeline consisting of dense
+semantic retrieval, sparse lexical retrieval, and neural reranking
+to enhance evidence selection and domain alignment, based
+on a body of knowledge comprising 17 open educational re-
+source textbooks [9]. The assessment and the tutoring module
+retrieve content relevant to producing grounded explanations
+and scaffolding questions to promote active reasoning [10],
+[11] and the assessment module produces multiple choice and
+short answer quizzes grounded in feedback and aligned with
+the curriculum [12], [13]. The proposed system is designed
+exclusively for tutoring and formative assessment and does
+not require the collection of sensitive personal information.
+When deployed locally or in a controlled environment, user
+queries do not have to be exposed to external internet services
+and are thus less prone to privacy and data leakage. The
+proposed system merges grounded retrieval, conversational
+tutoring, Socratic scaffolding, and adaptive assessment within
+a university congruent architecture as opposed to generic
+educational chatbots [14] , [12]. It is a design that goes beyond
+mere academic question answering to a better grounded, more
+pedagogically organized form of AI assisted learning in higher
+education [15], [16].
+II. R
+ELATED
+W
+ORK
+Recent educational tutoring systems are progressively inte-
+grating retrieval augmented generation (RAG) with large lan-
+guage models (LLM) to enhance factual grounds, instructional
+relevance, and learner adaptation. LPITutor reflects this trend,
+combining LLMs, RAG, and prompt engineering to generate
+tailored tutoring responses based on learner proficiency and
+question difficulty [17]. Likewise, RoboTuB demonstrates that
+domain specific learning can be facilitated through retrieval
+grounded tutoring, which creates multi step STEM problems
+using structured explanations, simulations, and code examples
+[18]. Nevertheless, such systems primarily focus on individ-
+ualized support and responsive material presentation, at the
+expense of direct Socratic conversation or built in formative
+evaluation. Another parallel line of research concerns Socratic
+and dialogic tutoring. A notebookLM is a Socratic physics
+tutor in which retrieval grounded, source based interaction is
+employed to provide students with question based learning,
+demonstrating that RAG can facilitate more traceable and ped-
+agogically organised tutoring [19]. The Socratic AI for clinical
+case based learning also uses an adaptive strategy similar to
+the LLM based tutoring approach, based on guided reasoning,
+real time feedback, and systematic assessment of learning
+strengths and weaknesses [20]. The studies are closely related
+to our system’s tutor system, but they are usually area specific,
+lack shared context, broad academic corpus grounding, and
+a separate assessment generation component. Regarding the
+assessment side, it has previously been demonstrated that RAG
+and LLM stimulation are applicable for producing adaptive
+quizzes with high topical and contextual relevance [21]. Other
+researchers also show that course aligned retrieval and domain
+adaptation can enhance the quality of tutoring in curriculum
+specific environments [22]. Though this has been done, it can
+still be said that the current work remains disjointed among the
+individualized RAG tutoring, Socratic instructional dialogue,
+and the generation of quizzes, which are mostly distinct. On
+the other hand, our system combines a hybrid retrieval pipeline
+for course relevant textbooks, a retrieval grounded Socratic
+tutoring module, and an agentic quiz generation workflow into
+a single university centric architecture for guided learning and
+formative assessment.
+III. M
+ETHODOLOGY
+A. System Overview
+This paper describes the design and development of a
+Retrieval Augmented Generation (RAG) system based on an
+LLM and an agentic quiz generation workflow to aid Socratic
+tutoring and formative assessment of students at Arkansas
+Tech University (A TU). The system architecture comprises
+of five major components: (1) a knowledge base of domain
+specific knowledge of open educational resource textbooks
+applicable to A TU coursework, (2) a hybrid retriever based
+on dense vector retrieval, sparse lexical retrieval, and neural
+reranking, (3) a fine tuned dense retriever, tailored to the
+0375
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:58:37 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE I
+C
+OMPARISON OF
+E
+XISTING
+RAG-B
+ASED
+T
+UTORING AND
+Q
+UIZ
+G
+ENERATION
+A
+PPROACHES
+Reference
+Proposed System
+Finding
+Limitation
+Liu et al., 2025
+LPITutor
+RAG and prompt engineering improve the quality of personal-
+ized tutoring, including accuracy, clarity, and coherence.
+Does not explicitly support Socratic tutoring or agentic quiz
+generation.
+Pandey et al., 2025
+RoboTuB
+Retrieval-grounded tutoring supports multi-step STEM learning
+and improves learner outcomes.
+Focused on STEM MOOCs, not a broad university chatbot with
+Socratic dialogue and quiz workflow.
+Tufino, 2025
+NotebookLM as a So-
+cratic Physics Tutor
+RAG can support traceable Socratic tutoring grounded in source
+documents.
+Domain-specific and does not include a separate quiz-
+generation module.
+Golchini et al.,
+2025
+Socratic AI
+Adaptive Socratic tutoring scaffolds learners’ reasoning through
+feedback.
+Specialized for clinical case-based learning rather than general
+academic tutoring.
+Gopi et al., 2024
+Adaptive Quiz Genera-
+tion with RAG
+RAG enables context-grounded adaptive quiz generation with
+relevant explanations.
+Quiz-centric and not unified with a Socratic tutoring chatbot.
+Karatepe et al.,
+2026
+RAG + Domain Adap-
+tation for ITS
+Course-aligned retrieval and adaptation improve the relevance
+and coherence of tutoring.
+Framed more as tutoring QA than a Socratic tutor with agentic
+formative assessment.
+Fig. 1. Workflow of the A TU-Tutor System.
+academic corpus, (4) an LLM based Socratic tutoring module
+and (5) an agentic quiz generation module to perform cur-
+riculum aligned formative assessment. It was run on a Kaggle
+Notebook system with a chat interface built with Gradio that
+provides real time, retrieval grounded tutoring.
+B. Knowledge Base Construction
+The knowledge base was constructed from 17 Open Edu-
+cational Resources (OER) textbooks retrieved from Arkansas
+Tech University’s Online Research Commons across a variety
+of academic subjects. All the books were gathered as PDFs
+and processed page by page with PyPDF. Removal of page
+numbers, text page breaks, and page whitespace; normalization
+of Unicode characters; and repair of hyphenation were all
+done to extract text and cleanse it. The cleaned corpus was
+then segmented using a sliding window chunking method with
+chunks of about 900 tokens and a 140 token overlap; very short
+chunks were discarded. This fixed length overlapping design
+was used as a practical baseline for long document retrieval,
+as has been done before and in line with previous studies
+demonstrating that chunking quality and overlap affect long
+document retrieval performance [23]. A chunk was assigned
+a SHA 1 identifier and stored with metadata, including title,
+source path, page range, and an approximate token count, to
+support reproducible provenance and indexing [24] [25]. The
+pipeline created 2,328 indexed chunks, stored in JSONL for-
+mat for downstream access. The system specific information
+below corresponds to the uploaded methodology description.
+C. Hybrid Retrieval Pipeline
+A hybrid retrieval pipeline has been designed to maximize
+the relevance and coverage of the context provided to the
+LLM. The pipeline combines three retrieval mechanisms that
+are complementary, each more effective in its own right: dense
+semantic retrieval, sparse lexical retrieval, and neural cross
+encoder re ranking [26]–[28]. Dense V ector Retrieval: Each
+chunk in the knowledge base was represented as a 384 dimen-
+sional dense vector using the Sentence Transformer model, all
+MiniLM L6 v2. The embeddings were L2 normalized and
+indexed with a FAISS IndexFlatIP inner product index to
+perform efficient similarity search on the corpus [29]. Sparse
+Lexical Retrieval: In parallel, a BM25Okapi index was built
+over the tokenized corpus. Tokenization included lowercasing,
+removing invalid characters, and removing tokens shorter than
+3 characters. This component captures exact lexical matches
+for domain specific terminology that may not be fully pre-
+served in dense embedding space [26], [28]. Score Fusion: For
+each incoming query, dense retrieval and BM25 retrieval were
+performed separately, and each returned the top 50 candidate
+chunks. The two ranked lists were fused (weighted linear
+combination with weights of 0.6 for dense retrieval scores
+and 0.4 for BM 25 scores).These weights were chosen as
+an intuitive heuristic to give greater weight to semantic simi-
+larity and keep lexical matching for course-specific terms. A
+complete ablation study of different dense and sparse retrieval
+weights remains to be done. A soft boilerplate filter was used
+for the front matter (license page, table of contents, citation
+packed sections, etc.), and a minimum of 12 candidates were
+retained to avoid retrieval failure in edge cases [28]. Cross
+Encoder Reranking: The fused candidate set was reranked
+using the cross encoder/ms marco MiniLM L6 v2 model,
+which jointly encodes each query passage pair to obtain fine
+grained relevance scores. The five best passages/propositions
+re ranked were used as the last retrieval context for the
+generation module [27], [30]. This three stage retrieve, fuse,
+0376
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:58:37 UTC from IEEE Xplore.  Restrictions apply. 
+and re rank design was intended to balance recall, precision,
+and computational efficiency [27].
+D. Retriever Fine Tuning
+To adapt the dense retriever to the domain specific char-
+acteristics of the A TU textbook corpus, the base Sentence
+Transformer model was fine tuned on a custom query passage
+dataset. Training pairs were constructed using three com-
+plementary strategies: (1) 95 hand crafted domain questions
+paired with BM25
+retrieved chunks from the 17 textbooks,
+(2) synthetic queries generated from 600 randomly sampled
+chunks by truncating their opening sentences, and (3) cross
+chunk pairs in the book linking topically related passages
+within the same textbook. This process produced 929 query
+passage pairs, which were split into 836 training pairs and 93
+validation pairs. Fine-tuning used the MultipleNegativesRank-
+ingLoss objective for 3 epochs with a batch size of 32 and
+a learning rate of
+2
+ˆ
+10
+´
+5
+, with linear warmup over 10%
+of the training steps.Mixed precision training was performed
+on an NVIDIA Tesla T4 GPU, and validation was conducted
+using an InformationRetrievalEvaluator after each epoch. The
+best checkpoint was retained and the FAISS index was rebuilt
+using the embedded data of the updated model so that the
+subsequent retrieval reflected the domain adapted embedding
+space [31], [32].
+E. Large Language Model Configuration and Inference Con-
+trols
+The generative aspect of the system is grounded in Qwen3
+8B, an 8 billion parameter language model. To allow deploy-
+ment on a single Nvidia Tesla T4 GPU with 16GB of VRAM,
+the model was loaded with the 4 bit NormalFloat (NF4)
+quantization using the BitsAndBytes framework, switching to
+double quantization and a computation data type of float16.
+This configuration significantly reduced memory usage while
+maintaining very good generation quality for tutoring and quiz
+generation applications [33], [34]. To improve response quality
+during inference, a lightweight output control pipeline was
+employed. Internal reasoning traces and meta commentary
+were removed using pattern based filtering. In addition, to
+detect outputs with unusually low alphabetic character content,
+a simple corruption detection heuristic was used to provide a
+fallback response when needed. Finally, the pad token was tied
+to the end of sequence token to allow for stable generation
+behavior [34], [35].
+F . Socratic Tutoring Module
+The Socratic tutoring module is the main pedagogical
+interface of the proposed system. It focuses on supporting
+active learning through very short, retrieval based explanations
+and a selected follow up question. The LLM was prompted
+with a structured prompt that elicited a two part response:
+EXPLAIN, which provides a short answer using only the
+retrieved notes, and QUESTION, which includes one Socratic
+follow up question. The prompt precluded outside knowledge,
+code generation, and vague questioning, and a lack of suffi-
+cient evidence triggered a controlled fall back response [36],
+[37]. To make the system more reliable, topic based query
+expansion, lightweight affect sensitive routing of confused
+or frustrated learners, and grounding checks to minimize
+unsupported generation were employed. In the event of a
+retrieval failure, the system performed a second expanded
+search, followed by a fallback message. These mechanisms
+support concise, grounded, and pedagogically guided tutoring
+behaviour [6], [38].
+G. Agentic Quiz Generation Module
+The quiz generation module extends the system from con-
+versational tutoring to formative assessment. It operates as a
+goal directed, multi step workflow for topic selection, support-
+ing passage retrieval, item generation, output quality checking,
+and grounding feedback [39], [40]. Selection of Topics: The
+module includes a pool of quiz topics that can be configured
+to align with the 17 textbooks. At quiz initialization, topics are
+either selected by the user or randomly sampled, then divided
+into multiple choice and short answer fields according to the
+desired quiz structure [41]. Retrieval Grounded Generation:
+The module follows the hybrid retrieval pipeline outlined in
+Section III C to retrieve the top 5 passages for each chosen
+topic. These notes are then fed to Qwen3 8B with a structured
+prompt that limits question generation to the retrieved material
+[42]. For multiple choice questions, the prompt asks the
+model to generate a single question, four choices, the correct
+answer letter, and a one sentence explanation, in the form
+QUESTION, A, B, C, D, ANSWER, and EXPLANA TION.
+In short answer questions, the model should generate one
+answerable question along with a model response in the form
+of a question and answer pair, two to three sentences [41],
+[42]. Output Parsing and V alidation: The generated output
+is purged of reasoning traces, and then regular expressions
+are used to process it. Questions are validated based on three
+criteria: all required fields must be present, the question text
+must be a minimum length, and the explanation or model
+answer must have sufficient detail. Items that do not pass
+validation are discarded [43]. Interactive Quiz Delivery: V alid
+questions are displayed to the student in random order. For
+the multiple choice questions, the student clicks an answer
+and receives instant feedback. The grounded explanation is
+used to reinforce correct responses, whereas the incorrect
+answers display the correct response and explanation. For short
+answer items, the model answer is shown to the student after
+they respond, and the student is invited to self assess their
+performance on a three point scale [39]. Formative Feedback:
+A summary report that appears at the end of the quiz session
+includes multiple choice accuracy, the average self assessment
+for short answer questions, and a list of topics associated with
+incorrect answers. This enables the student to identify areas
+that require further study [43].
+0377
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:58:37 UTC from IEEE Xplore.  Restrictions apply. 
+Fig. 2. A TU-Tutor chat interface.
+IV. EVALUATION AND RESULTS
+A. Evaluation Framework
+The suggested system has been tested using a multi di-
+mensional assessment framework developed to quantify the
+quality of tutoring responses and the pedagogical effectiveness
+of the Socratic dialogue. The set of 14 questions was prepared
+to address academic content queries across various subjects,
+misconception related prompts, emotionally charged student
+responses, and one boundary testing question that was not
+within the scope of the primary tutoring. Examples were
+included: “What is database normalization?” “Why use R
+instead of Python?” “R is paid software, right?” “I have no
+idea about this topic”, and “What happened during Hurricane
+Andrew?” This diversity was meant to provide stress tests
+for the system based on realistic student interaction patterns,
+to measure several dimensions of tutoring performance, such
+as conceptual support, misconception management, affective
+responsiveness, and safe boundary behavior [5], [6], [44].
+The test was an automated, heuristic scoring, rubric directed
+LLM as judge test. The heuristic measures captured relevance,
+empathy/instructional tone, conciseness, and context ground-
+ing, which are shared dimensions for gauging the quality of
+educational dialogue and feedback to the learner [6], [45]. The
+evaluation based on the LLM was used to assess the ability
+to resist hallucinations, the quality of the Socratic scaffold,
+and the use of context, using a pedagogically informed rubric.
+This two trial design aligns with existing research suggesting
+the use of multi method assessment of educational AI sys-
+tems, specifically evaluating response quality and assessing
+the greater teaching value of scaffolded dialogue [37], [46].
+Fig. 3. Overall Evaluation Summary of the A TU-Tutor System.
+B. Analysis of Results Matrix
+The results Table II indicates that the A TU RAG Socratic
+Tutor performs best in relevance, conciseness, grounding, and
+hallucination resistance, while empathy and Socratic scaffold-
+ing are weaker. Relevance (4.21/5) suggests that, in general,
+the system responded to student queries accurately and well
+domain matched, particularly for well formulated academic
+queries. The best major measure was hallucination resistance
+(4.64/5), indicating that the retrieval augmented design effec-
+tively limited unsupported or fabricated claims. On the same
+note, the scores in the context related category, including
+Context Heuristic (4.07/5), Context Use (4.36/5), indicate that
+the tutor gave meaningful responses based on the retrieved
+information, and Conciseness (4.57/5) demonstrates that the
+tutor gave short and student oriented answers [47], [48].
+Empathy (3.14/5), in turn, along with Socratic Scaffolding
+Quality (3.00/5), was relatively low. Despite the fact that the
+system regularly maintained a helpful tone and created follow
+up questions, it did not always go deep enough or be adaptive
+and pedagogically strategic. Such a trend is consistent with
+previous studies of tutoring history, which have demonstrated
+that automated systems tend to be effective at reliably deliv-
+ering knowledge, albeit with comparable affective sensitivity
+and adaptive guidance to human expert tutors [48]–[50]. On
+the whole, the heuristic and LLM based aggregate scores were
+4.00/5, indicating high overall performance. These findings
+imply that the tutor is already satisfactory as an instruction
+grounded academic support tool. Still, it should be enhanced
+in the future by incorporating more meaningful scaffolding
+techniques, misconception related prompts, and more overt,
+affect sensitive feedback [50]. In a broader sense, current
+research on educational chatbot evaluation also facilitates the
+assessment not only of answer quality but also of learner
+engagement and the perceived value of instruction [5].
+C. Per Question Hallucination and Scaffolding Analysis
+In Table III, hallucination resistance was very stable across
+most questions, with almost all responses rated 5/5, indicating
+that the retrieval augmented design was highly effective at
+restricting the generation of unsupported facts. The greatest
+exception was the affective prompt, ”I keep getting this wrong,
+0378
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:58:37 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE II
+E
+VALUATION
+R
+ESULTS
+Metric
+Score (out of 5)
+Percentage
+Relevance
+4.21
+84.2%
+Empathy
+3.14
+62.8%
+Conciseness
+4.57
+91.4%
+Context Heuristic
+4.07
+81.4%
+Heuristic Overall
+4.00
+80.0%
+Hallucination
+Resistance
+4.64
+92.8%
+Socratic Scaffolding
+3.00
+60.0%
+Context Use (LLM)
+4.36
+87.2%
+LLM Overall
+4.00
+80.0%
+TABLE III
+P
+ER
+-Q
+UESTION
+H
+ALLUCINATION AND
+S
+CAFFOLDING
+S
+CORES
+Question
+Hallucination
+Scaffolding
+What is database normalization?
+5/5
+3/5
+What is 1NF?
+5/5
+5/5
+What is logistic regression?
+5/5
+3/5
+Why use R instead of Python?
+5/5
+3/5
+What is hydrogen bonding?
+5/5
+3/5
+What is material fatigue?
+5/5
+3/5
+What is the Z-transform?
+5/5
+3/5
+What is phonological awareness?
+5/5
+2/5
+What is career advising?
+5/5
+2/5
+What is the digital divide?
+5/5
+3/5
+What happened during Hurricane
+Andrew?
+5/5
+3/5
+R is paid software right?
+5/5
+2/5
+I have no idea about this topic
+5/5
+4/5
+I keep getting this wrong, I give
+up
+0/5
+3/5
+A verage
+4.64/5
+3.00/5
+I give up,” which got 0/5 since the answer focused on encour-
+agement rather than retrieval grounded content. The quality of
+the scaffold varied: many questions scored 2/5 or 3/5, while
+only one reached the maximum of 5/5. This implies that the
+tutor can create follow up questions, but their pedagogical
+depth is not always high.
+D. Quiz Generation Assessment
+The quiz generation agentic module was tested indepen-
+dently of the tutoring element. It has been assessed across
+various academic subjects using multiple choice and short
+answer quizzes. The module was able to extract relevant notes
+and formulate legitimate quiz items based on the scholarly
+corpus. The practicality of automated quiz building, delivery
+of formative assessment, and immediate feedback processes in
+learning institutions can be justified by the previous research
+on digitally supported and AI enabled assessment [51], [52].
+For multiple choice questions, the system generated a question
+stem, four viable response choices, a correct response, and
+a brief response using retrieved information. The distractors
+were intended to reflect probable misconceptions rather than
+random options, which is in line with the current assessment
+design paradigm [53], [54]. For short answer questions, the
+system would generate a question and a brief model answer
+based on the supporting notes. Response tracking, immediate
+feedback, and a formative summary indicating the aspects
+that needed to be reviewed again were also supported by
+the interactive quiz workflow, which is consistent with the
+literature on digital formative assessment [55], [56]. These
+findings suggest that an agentic quiz item can independently
+convert the retrieved course content into an applicable for-
+mative assessment. In contrast, the tutoring item is largely
+retrieval based and Socratic in format but not entirely agentic
+[57].
+V. CHALLENGES AND LIMITATIONS
+A. Socratic Scaffolding Quality
+Socratic scaffolding was the least developed dimension of
+evaluation, with an average score of 3.00 out of 5. The
+system often generated quite superficial follow up questions
+rather than more probing inquiries that ask individuals to
+compare, reflect, or analyze outcomes. These findings suggest
+that, despite the tutor’s ability to guide basic questioning, the
+Socratic prompting strategy is not robust across domains and
+query types. This finding aligns with earlier studies showing
+that maintaining sustained, high quality pedagogical guidance
+and deep interaction is difficult for AI tutoring systems [14].
+B. Transparency and Source Attribution
+Although the system achieved good context grounding per-
+formance, learners did not always refer to it in their interac-
+tions. Although retrieved passages were typically incorporated
+well into answers, the system was not always able to explicitly
+provide attribution or the source. The ongoing design dilemma
+for retrieval grounded educational systems is the trade off
+between conversational fluency and opaque source attribution.
+Too little attribution can undermine trust and traceability, while
+too much can interfere with the learning process [58].
+Moreover, the evaluation was conducted on a limited set
+of 14 questions; therefore, the reported scores should be
+interpreted as preliminary evidence of system behavior rather
+than broad generalizable performance claims. Future work will
+expand the evaluation using a larger question set, student-
+facing studies, and baseline comparisons.
+C. Computing and Data Resource
+The system was tested and trained using two Tesla T4 chips
+with 16 GB VRAM and 4 bit quantized inference. Although
+it enabled cost effective, practical experimentation for deploy-
+ment, the configuration limited the size of the model that
+could be inferred and the scale of experimentation. Although
+more advanced models, stronger rerankers, or pipeline based
+tutoring architectures could provide further improvements,
+these options were beyond the available hardware budget.
+The retriever fine tuning phase also used 929 query passage
+pairs, limiting the amount of supervised adaptation in retrieval.
+These trade offs align with the existing literature on model
+compression and the resource constrained implementation of
+a large transformer system [59].
+0379
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:58:37 UTC from IEEE Xplore.  Restrictions apply. 
+VI. CONCLUSION AND FUTURE WORK
+This paper presents an intelligent system based on a chat-
+bot, intelligent Socratic tutoring and adaptive quiz generation
+system, retrieval augmented with large language models, for
+Arkansas Tech University. The system used a hybrid re-
+trieval pipeline comprising FAISS, BM25, and cross encoder
+reranking of 2,328 chunks from 17 open educational resource
+textbooks, a retriever fine tuned on 929 domain specific query
+passages, and the Qwen3 8B language model. Assessment of
+14 varied items yielded an overall score of 4.00/5, indicating
+that the system demonstrated strength in relevance, concise-
+ness, contextual grounding, and hallucination resistance. Still,
+there are some areas for improvement, such as empathy and
+the quality of Socratic scaffolding. Further research will be
+conducted in four directions. The first is to enhance adaptive
+scaffolding, in which the tutor can respond dynamically by
+adjusting guidance based on learners’ progress and recurring
+misconceptions, whilst maintaining a fruitful balance between
+Socratic prompting and direct support to prevent learner frus-
+tration [1], [7]. Second, the contribution of retrieval, reranking,
+and prompts, as independent variables, to the overall quality of
+tutoring requires controlled ablation studies [2]. Third, control
+over adaptive difficulty and alignment to the Taxonomy of
+Bloom should be added to the quiz generation module [60],
+[61]. Lastly, formal user tests assessing learning outcomes,
+cognitive load, and student satisfaction are needed to objec-
+tively evaluate the pedagogical efficacy of the system, beyond
+heuristic assessment [62].
+R
+EFERENCES
+1
+Joseph J. Slade, Alina Hyk, and Regan A. R. Gurung. Transforming
+learning: Assessing the efficacy of a retrieval-augmented generation
+system as a tutor for introductory psychology. In
+Proceedings of the
+Human Factors and Ergonomics Society Annual Meeting
+, volume 68,
+pages 1827–1830. SAGE Publications, 2024.
+2
+Y ogesh Simmhan and V arad Kulkarni. Towards ai agents for course
+instruction in higher education: Early experiences from the field.
+arXiv
+preprint arXiv:2510.20255
+, 2025.
+3
+Erick S. Tyndall, Colleen Gayheart, Adama Some, Jordan Genz, Thomas
+Wagner, and Brian Langhals. Impact of retrieval-augmented generation
+and large language model complexity on undergraduate exams created
+and taken by ai agents.
+Data & Policy
+, 7:e57, 2025.
+4
+Y ufeng Qian. Prompt engineering in education: A systematic review
+of approaches and educational applications.
+Journal of Educational
+Computing Research
+, 63(7-8):1782–1818, 2025.
+5
+Wei Qiu, Chit Lin Su, Nurabidah Binti Jamil, Maung Thway, Samuel
+Soo Hwee Ng, Lei Zhang, Fun Siong Lim, and Joel Weijia Lai. A sys-
+tematic approach to evaluate the use of chatbots in educational contexts:
+Learning gains, engagements and perceptions.
+Computers
+, 14(7):270,
+2025.
+6
+Jorge Fern
+´
+andez-Herrero. Evaluating recent advances in affective intelli-
+gent tutoring systems: A scoping review of educational impacts and future
+prospects.
+Education Sciences
+, 14(8):839, 2024.
+7
+Behnam Zakeri. Generative ai for project-based assessment in energy and
+sustainability education.
+Research Square
+, 2025. Preprint.
+8
+Patrick Lewis, Ethan Perez, Aleksandra Piktus, Fabio Petroni, Vladimir
+Karpukhin, Naman Goyal, Heinrich K
+¨
+uttler, Mike Lewis, Wen-tau Yih,
+Tim Rockt
+¨
+aschel, Sebastian Riedel, and Douwe Kiela. Retrieval-
+augmented generation for knowledge-intensive nlp tasks.
+arXiv preprint
+arXiv:2005.11401
+, 2020.
+9
+Jakub Swacha and Michał Gracel. Retrieval-augmented generation (rag)
+chatbots for education: A survey of applications.
+Applied Sciences
+,
+15(8):4234, 2025.
+10
+Romain Puech, Jakub Macina, Julia Chatain, Mrinmaya Sachan, and Manu
+Kapur. Towards the pedagogical steering of large language models for
+tutoring: A case study with modeling productive failure. In
+Findings of
+the Association for Computational Linguistics: ACL 2025
+, pages 26291–
+26311, Vienna, Austria, 2025. Association for Computational Linguistics.
+11
+Jiayu Liu, Zhenya Huang, Tong Xiao, Jing Sha, Jinze Wu, Qi Liu, Shijin
+Wang, and Enhong Chen. Socraticlm: Exploring socratic personalized
+teaching with large language models. In
+Advances in Neural Information
+Processing Systems 37 (NeurIPS 2024)
+, 2024.
+12
+Nicy Scaria, Suma Dharani Chenna, and Deepak Subramani. Automated
+educational question generation at different bloom’s skill levels using large
+language models: Strategies and evaluation. In
+Artificial Intelligence in
+Education
+, volume 14830 of
+Lecture Notes in Computer Science
+, pages
+165–179. Springer, 2024.
+13
+Y uto Tomikawa, Ayaka Suzuki, and Masaki Uto. Adaptive question–
+answer generation with difficulty control using item response theory
+and pretrained transformer models.
+IEEE Transactions on Learning
+Technologies
+, 2024.
+14
+Moosa Ahmed Hassan Bait Ali Sulaiman.
+Application of Teachers’
+Knowledge of Socratic Questioning in Developing EFL Critical Thinking
+Skills among Omani Post-Basic Learners
+. Ph.d. dissertation, University
+Malaysia Sabah, 2019.
+15
+Hanyi Xu, Wensheng Gan, Zhenlian Qi, Jiayang Wu, and Philip S.
+Y u. Large language models for education: A survey.
+arXiv preprint
+arXiv:2405.13001
+, 2024.
+16
+Shen Wang, Tianlong Xu, Hang Li, Chaoli Zhang, Joleen Liang, Jiliang
+Tang, Philip S. Y u, and Qingsong Wen. Large language models for
+education: A survey and outlook.
+arXiv preprint arXiv:2403.18105
+, 2024.
+17
+Zhensheng Liu, Prateek Agrawal, Saurabh Singhal, Vishu Madaan, Mohit
+Kumar, and P . K. V erma. Lpitutor: an llm based personalized intelligent
+tutoring system using rag and prompt engineering.
+PeerJ Computer
+Science
+, 11:e2991, 2025.
+18
+Avijit Pandey, Gaurav Misra, Sunny Prajapati, and Syaamantak
+Das. Robotub: Retrieval-augmented tutoring for adaptive learning
+in stem moocs. In
+Proceedings of the International Conference
+on Computers in Education (ICCE)
+, dec 2025. [Online]. Available:
+https://library.apsce.net/index.php/ICCE/article/view/5938.
+19
+Eugenio Tufino. Notebooklm as a socratic physics tutor: Design
+and preliminary observations of a rag-based tool.
+arXiv preprint
+arXiv:2504.09720
+, 2025.
+20
+Negin Golchini, Elisabetta Passalacqua, Leah V aughn, Raja-Elie E. Ab-
+dulnour, Theodore Zack, and Samuel Finlayson. Socratic ai: An adaptive
+tutor for clinical case based learning.
+medRxiv
+, 2025.
+21
+S. Gopi, D. Sreekanth, and N. Dehbozorgi. Enhancing engineering
+education through llm-driven adaptive quiz generation: A rag-based ap-
+proach. In
+2024 IEEE Frontiers in Education Conference (FIE)
+, pages
+1–8, Washington, DC, USA, 2024. IEEE.
+22
+Zeynep Karatepe, H. Esma G
+¨
+oz
+¨
+u, M. N. Alpdemir, and Y . Alpdemir.
+Using retrieval augmented generation (rag) and domain adaptation for
+high performance intelligent tutoring systems: A case study. In
+2026 5th
+International Informatics and Software Engineering Conference (IISEC)
+.
+IEEE, feb 2026.
+23
+Cesar Abraham Gomez-Cabello, Srinivasagam Prabha, Syed Ali Haider,
+Ariana Genovese, Bernardo G. Collaco, Nadia G. Wood, Sanjay Bagaria,
+and Antonio Jorge Forte. Comparative evaluation of advanced chunking
+for retrieval-augmented generation in large language models for clinical
+decision support.
+Bioengineering
+, 12(11):1194, 2025.
+24
+Ayman Asad Khan, Md Toufique Hasan, Kai Kristian Kemell, Jussi Rasku,
+and Pekka Abrahamsson. Developing retrieval augmented generation
+(rag) based llm systems from pdfs: An experience report.
+arXiv preprint
+arXiv:2410.15944
+, 2024.
+25
+Guanghui Qin, Y ukun Feng, and Benjamin V an Durme. The nlp task
+effectiveness of long-range transformers. In
+Proceedings of the 17th
+Conference of the European Chapter of the Association for Computational
+Linguistics
+, pages 3774–3790, Dubrovnik, Croatia, 2023. Association for
+Computational Linguistics.
+26
+Rapha
+¨
+el Sourty, Jos
+´
+e G. Moreno, Lynda Tamine, and Franc ¸ois Servant.
+Cherche: A new tool to rapidly implement pipelines in information
+retrieval. In
+Proceedings of the 31st ACM International Conference on
+Information & Knowledge Management
+, pages 3283–3288, 2022.
+27
+Zahin Ibnat, Paul E. Calzada, Rasin Mohammed Ihtemam, Sujan Ku-
+mar Saha, Jingbo Zhou, Farimah Farahmandi, and Mark Tehranipoor.
+Deepv: A model-agnostic retrieval-augmented framework for verilog
+0380
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:58:37 UTC from IEEE Xplore.  Restrictions apply. 
+code generation with a high-quality knowledge base.
+arXiv preprint
+arXiv:2510.05327
+, 2025.
+28
+Mashrur Rahman, Mantaqa Abedin, Monowar Zamil Abir, Md. Faizul Is-
+lam Ansari, Adib Reza, Farig Y ousuf Sadeque, and Niloy Farhan.
+Transforming mentorship: An ai powered chatbot approach to university
+guidance.
+arXiv preprint arXiv:2511.04172
+, 2025.
+29
+Alberto Berenguer, Adriana Morej
+´
+on, David Tom
+´
+as, and Jos
+´
+e-Norberto
+Maz
+´
+on. Leveraging large language models for sensor data retrieval.
+Applied Sciences
+, 14(6):2506, 2024.
+30
+Amal Abed, Ivan Lukic, J
+¨
+org K. H. Franke, and Frank Hutter. Increasing
+llm coding capabilities through diverse synthetic coding tasks.
+arXiv
+preprint arXiv:2510.23208
+, 2025.
+31
+Boxin Wang, Wei Ping, Peng Xu, Lawrence McAfee, Zihan Liu, Moham-
+mad Shoeybi, Yi Dong, Oleksii Kuchaiev, Bo Li, Chaowei Xiao, Anima
+Anandkumar, and Bryan Catanzaro. Shall we pretrain autoregressive
+language models with retrieval? a comprehensive study. In
+Proceedings of
+the 2023 Conference on Empirical Methods in Natural Language Process-
+ing
+, pages 7763–7786, Singapore, 2023. Association for Computational
+Linguistics.
+32
+Harshit Nainwani and Hediyeh Baban. Search is not retrieval: Decoupling
+semantic matching from contextual assembly in rag.
+arXiv preprint
+arXiv:2511.04939
+, 2025.
+33
+Muhammed Hasan C ¸ elik and Xiaohui Xie. Efficient inference, training,
+and fine-tuning of protein language models.
+iScience
+, 28(10):113495,
+2025.
+34
+Prabin R. Shakya, Ayush Khaneja, and Kavishwar B. Wagholikar. For
+clinical data extraction, qlora attains accuracy close to lora while requiring
+lower compute resources.
+medRxiv
+, 2025. Preprint.
+35
+Darrin Lea, James Ghawaly, Golden Richard III, Aisha Ali-Gombe, and
+Andrew Case. Rex86: A local large language model for assisting in x86
+assembly reverse engineering.
+arXiv preprint arXiv:2510.20975
+, 2025.
+36
+Hudson K. Etkin, Kai J. Etkin, Ryan J. Carter, and Camarin E. Rolle.
+Differential effects of gpt-based tools on comprehension of standardized
+passages.
+Frontiers in Education
+, 10:1506752, 2025.
+37
+William B. Wood and Kimberly D. Tanner. The role of the lecturer as
+tutor: Doing what effective tutors do in a large lecture class.
+CBE—Life
+Sciences Education
+, 11(1):3–9, 2012.
+38
+Kathryn N. Thompson, Kimberley L. Chandler, Candice Morgan, Daniel
+Khashabi, Emily A. Delinski, and Benjamin V an Durme. Artificial
+intelligence as a co-tutor: Assessing the impact in the advanced learning
+virtual classroom.
+Journal of Advanced Academics
+, 36(4):714–745, 2025.
+39
+Jingru Lin, Chen Zhang, Stephen Y . Liu, and Haizhou Li. Ragcap-
+bench: Benchmarking capabilities of llms in agentic retrieval augmented
+generation systems.
+arXiv preprint arXiv:2510.13910
+, 2025.
+40
+Shiyi Cao, Dacheng Li, Fangzhou Zhao, Shuo Y uan, Sumanth R. Hegde,
+Connor Chen, Charlie Ruan, Tyler Griggs, Shu Liu, Eric Tang, Richard
+Liaw, Philipp Moritz, Matei Zaharia, Joseph E. Gonzalez, and Ion Stoica.
+Skyrl-agent: Efficient rl training for multi-turn llm agent.
+arXiv preprint
+arXiv:2511.16108
+, 2025.
+41
+Zhiyuan Li, Haisheng Y u, Guangchuan Guo, Nan Zhou, and Jiajun
+Zhang. Muisqa: Multi-intent retrieval-augmented generation for scientific
+question answering.
+arXiv preprint arXiv:2511.16283
+, 2025.
+42
+Hengran Zhang, Keping Bi, Jiafeng Guo, Jiaming Zhang, Shuaiqiang
+Wang, Dawei Yin, and Xueqi Cheng. Llm-specific utility: A new perspec-
+tive for retrieval-augmented generation.
+arXiv preprint arXiv:2510.11358
+,
+2025.
+43
+Xinming Wang, Jian Xu, Bin Y u, Sheng Lian, Hongzhu Yi, Yi Chen,
+Yingjian Zhu, Boran Wang, Hongming Y ang, Han Hu, Xu-Y ao Zhang, and
+Cheng-Lin Liu. Mr-align: Meta-reasoning informed factuality alignment
+for large reasoning models.
+arXiv preprint arXiv:2510.24794
+, 2025.
+44
+Andrew Ravenscroft. Promoting thinking and conceptual change with dig-
+ital dialogue games.
+Journal of Computer Assisted Learning
+, 23(6):453–
+465, 2007.
+45
+Anastasios Ioannis Ntourmas, Y annis Dimitriadis, Sophia Daskalaki, and
+Nikolaos M. Avouris. Assessing learner facilitation in mooc forums:
+A mixed-methods evaluation study.
+IEEE Transactions on Learning
+Technologies
+, 15(2):265–278, 2022.
+46
+Nguyen-Thinh Le. How do technology-enhanced learning tools support
+critical thinking?
+Frontiers in Education
+, 4:126, 2019.
+47
+Michelene T. H. Chi, Stephanie A. Siler, Heisawn Jeong, Takashi Y a-
+mauchi, and Robert G. Hausmann. Learning from human tutoring.
+Cognitive Science
+, 25(4):471–533, 2001.
+48
+Arthur C. Graesser, Mark W. Conley, and Andrew Olney. Intelligent
+tutoring systems. In Kenneth R. Harris, Steve Graham, and Tim Urdan,
+editors,
+APA Educational Psychology Handbook
+, volume 3, pages 451–
+473. American Psychological Association, 2012.
+49
+Susanne P . Lajoie. Extending the scaffolding metaphor.
+Instructional
+Science
+, 33(5–6):541–557, 2005.
+50
+Benjamin D. Nye, Arthur C. Graesser, and Xiangen Hu. Autotutor and
+family: A review of 17 years of natural language tutoring.
+International
+Journal of Artificial Intelligence in Education
+, 24(4):427–469, 2014.
+51
+Leo Havemann, Simon Katan, Edward Anstead, Marco Gillies, Joanna
+Stroud, and Sarah Sherman. Digitally supported assessment. In Linda
+Amrane-Cooper, David Baume, Sally Brown, Stylianos Hatzipanagos,
+Patricia Powell, Sarah Sherman, and Alan Tait, editors,
+Online and
+Distance Education for a Connected World
+, pages 195–210. UCL Press,
+London, UK, 2023.
+52
+Indira Koneru. Exploring moodle functionality for managing open
+distance learning e-assessments.
+Turkish Online Journal of Distance
+Education
+, 18(4):129–141, 2017.
+53
+John Gardner, Michael O’Leary, and Li Y uan. Artificial intelligence
+in educational assessment: ‘breakthrough? or buncombe and ballyhoo?’.
+Journal of Computer Assisted Learning
+, 37(5):1207–1216, 2021.
+54
+Nina B. Ødegaard, Hilde T. Myrhaug, Tone Dahl-Michelsen, and Yngve
+Røe. Digital learning designs in physiotherapy education: A systematic
+review and meta-analysis.
+BMC Medical Education
+, 21(1):48, 2021.
+55
+Phillip Dawson, Michael Henderson, Tracii Ryan, Paige Mahoney, Megan
+Phillips, Elizabeth Molloy, and David Boud. Technology and feedback de-
+sign. In
+Learning, Design, and Technology: An International Compendium
+of Theory, Research, Practice, and Policy
+. Springer, 2023.
+56
+Ritu Lakhtakia, Farah Otaki, Laila Alsuwaidi, and Nabil Zary. Assess-
+ment as learning in medical education: Feasibility and perceived impact
+of student-generated formative assessments.
+JMIR Medical Education
+,
+8(3):e35820, 2022.
+57
+Ahmed El-Hashash. Role of digital formative assessment in improving
+the assessment and monitoring of students’ learning and their significance
+during the covid-19 pandemic.
+Open Journal of Educational Research
+,
+2(1):9–12, 2022.
+58
+Melanie M. Cooper and Michael W. Klymkowsky. Let us not squander the
+affordances of llms for the sake of expedience: Using retrieval augmented
+generative ai chatbots to support and evaluate student reasoning.
+Journal
+of Chemical Education
+, 101(11):4847–4856, 2024.
+59
+Prakhar Ganesh, Yinfei Chen, Xinyun Lou, Muhammad Hassan Khan,
+Yinfei Y ang, Dhruba Shao, Noah A. Smith Chen, Caiming Xiong, Richard
+Socher, and Luke Zettlemoyer. Compressing large-scale transformer-
+based models: A case study on bert.
+Transactions of the Association
+for Computational Linguistics
+, 9:1061–1080, 2021.
+60
+Sabina Elkins, Ekaterina Kochmar, Jackie C. K. Cheung, and Iulian Vlad
+Serban. How teachers can use large language models and bloom’s
+taxonomy to create educational quizzes. In
+Proceedings of the AAAI
+Conference on Artificial Intelligence
+, volume 38, pages 23084–23091,
+2024.
+61
+Anne Herrmann-Werner, Teresa Festl-Wietek, Friederike Holderried, Lea
+Herschbach, J
+¨
+org Griewatz, Ken Masters, Stephan Zipfel, and Moritz
+Mahling. Assessing chatgpt’s mastery of bloom’s taxonomy using
+psychosomatic medicine exam questions: Mixed-methods study.
+Journal
+of Medical Internet Research
+, 26(1):e52113, 2024.
+62
+Abdullah Alenezi and Abdulhameed Alenezi. Evaluating the effectiveness
+of chatbot-assisted learning in enhancing english conversational skills
+among secondary school students.
+Education Sciences
+, 15(9):1136, 2025.
+0381
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:58:37 UTC from IEEE Xplore.  Restrictions apply. 

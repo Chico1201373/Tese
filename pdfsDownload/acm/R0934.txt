@@ -1,0 +1,1768 @@
+AskNow: An LLM-powered Interactive System for Real-Time 
+Question Answering in Large-Scale Classrooms 
+Ziqi Liu 
+Department of Computer Sciences 
+University of Wisconsin-Madison 
+Madison, Wisconsin, USA 
+ziqil@cs.wisc.edu 
+Yuankun Wang 
+Department of Computer Sciences 
+University of Wisconsin-Madison 
+Madison, Wisconsin, USA 
+ywang3298@wisc.edu 
+Hui-Ru Ho 
+Department of Computer Sciences 
+University of Wisconsin-Madison 
+Madison, Wisconsin, USA 
+hho24@cs.wisc.edu 
+Yuheng Wu 
+Department of Computer Sciences 
+University of Wisconsin-Madison 
+Madison, Wisconsin, USA 
+yuheng.wu@wisc.edu 
+Yuhang Zhao 
+Department of Computer Sciences 
+University of Wisconsin-Madison 
+Madison, Wisconsin, USA 
+yuhang.zhao@cs.wisc.edu 
+Bilge Mutlu 
+Department of Computer Sciences 
+University of Wisconsin-Madison 
+Madison, Wisconsin, USA 
+bilge@cs.wisc.edu 
+Figure 1: Overview of AskNow, an interactive system powered by LLM, consisting of Student Interface and Instructor Interface. 
+In a large-scale classroom, 1) AskNow is listening to the instructor using streaming speech-to-text technology. 2) Students can 
+ask questions through their own devices and get immediate feedback grounded in the ongoing lecture context. 3) Instructor 
+Interface displays common confusion areas in real time. 
+/gid00004/gid00028/gid00047/gid00030/gid00035/gid00001/gid00040/gid00032/gid00001/gid00048/gid00043/gid00001/gid00050/gid00036/gid00047/gid00035/gid00001/gid00050/gid00035/gid00028/gid00047/gid00001
+/gid00047/gid00035/gid00032/gid00001/gid00047/gid00032/gid00028/gid00030/gid00035/gid00032/gid00045/gid00001/gid00037/gid00048/gid00046/gid00047/gid00001/gid00046/gid00028/gid00036/gid00031/gid00505
+/gid00020/gid00048/gid00045/gid00032/gid00510/gid00001/gid00020/gid00035/gid00032/gid00001/gid00040/gid00032/gid00041/gid00047/gid00036/gid00042/gid00041/gid00032/gid00031
+/gid00047/gid00035/gid00032/gid00001/gid00033/gid00042/gid00039/gid00039/gid00042/gid00050/gid00036/gid00041/gid00034/gid00001/gid00043/gid00042/gid00036/gid00041/gid00047/gid00046/gid00505/gid00505/gid00505
+/gid00002/gid00046/gid00038/gid00001/gid00041/gid00042/gid00050/gid01141/gid01141/gid01141/gid01141/gid01141/gid01141
+/gid00020/gid00047/gid00048/gid00031/gid00032/gid00041/gid00047/gid00001/gid00010/gid00041/gid00047/gid00032/gid00045/gid00033/gid00028/gid00030/gid00032
+/gid00020/gid00047/gid00048/gid00031/gid00032/gid00041/gid00047/gid00001/gid00018/gid00048/gid00032/gid00046/gid00047/gid00036/gid00042/gid00041
+/gid01175/gid00018/gid00048/gid00032/gid00045/gid00052/gid01176
+/gid00013/gid00013/gid00014
+/gid01175/gid00008/gid00017/gid00021/gid01162/gid01091/gid00042/gid01176
+/gid00019/gid00032/gid00028/gid00039/gid01162/gid00047/gid00036/gid00040/gid00032/gid00001
+/gid00021/gid00045/gid00028/gid00041/gid00046/gid00030/gid00045/gid00036/gid00043/gid00047/gid00036/gid00042/gid00041
+/gid00004/gid00042/gid00041/gid00047/gid00032/gid00051/gid00047/gid01162/gid00028/gid00050/gid00028/gid00045/gid00032/gid00001/gid00002/gid00041/gid00046/gid00050/gid00032/gid00045
+/gid01175/gid00016/gid00048/gid00047/gid00043/gid00048/gid00047/gid01176
+/gid00001/gid00010/gid00041/gid00046/gid00047/gid00045/gid00048/gid00030/gid00047/gid00042/gid00045/gid00001/gid00010/gid00041/gid00047/gid00032/gid00045/gid00033/gid00028/gid00030/gid00032/gid00002/gid00046/gid00038/gid00015/gid00042/gid00050/gid00001/gid00002/gid00045/gid00030/gid00035/gid00036/gid00047/gid00032/gid00030/gid00047/gid00048/gid00045/gid00032
+/gid00018/gid00048/gid00032/gid00046/gid00047/gid00036/gid00042/gid00041/gid00001
+/gid00002/gid00034/gid00034/gid00045/gid00032/gid00034/gid00028/gid00047/gid00036/gid00042/gid00041
+/gid00038/gid00526/gid00040/gid00032/gid00028/gid00041/gid00046
+ /gid00021/gid00042/gid00043/gid00001/gid00028/gid00046/gid00038/gid00032/gid00031/gid00001/gid00044/gid00048/gid00032/gid00046/gid00047/gid00036/gid00042/gid00041/gid00046
+/gid00018/gid00048/gid00032/gid00046/gid00047/gid00036/gid00042/gid00041/gid00001/gid00466
+/gid00018/gid00048/gid00032/gid00046/gid00047/gid00036/gid00042/gid00041/gid00001/gid00467
+/gid00018/gid00048/gid00032/gid00046/gid00047/gid00036/gid00042/gid00041/gid00001/gid00468/gid00020/gid00043/gid00032/gid00032/gid00030/gid00035/gid00526/gid00047/gid00042/gid00526/gid00047/gid00032/gid00051/gid00047/gid01088
+/gid01089 /gid01090
+Abstract 
+In large-scale classrooms, students often struggle to ask questions 
+due to limited instructor attention and social pressure. Based on 
+findings from a formative study with 24 students and 12 instructors, 
+we designed AskNow, an LLM-powered system that enables students 
+to ask questions and receive real-time, context-aware responses 
+grounded in the ongoing lecture and that allows instructors to view 
+students’ questions collectively. We deployed AskNow in three uni-
+versity computer science courses for a week and tested with 117 
+students. To evaluate AskNow’s responses, each instructor rated the 
+perceived correctness and satisfaction of 100 randomly sampled 
+AskNow-generated responses. In addition, we conducted interviews 
+with 24 students and the three instructors to understand their ex-
+perience with AskNow. We found that AskNow significantly reduced 
+students’ perceived time to resolve confusion. Instructors rated 
+AskNow’s responses as highly accurate and satisfactory. Instructor 
+and student feedback provided insights into the role of such systems 
+in supporting real-time learning in large lecture settings. 
+CCS Concepts 
+• Human-centered computing → Interactive systems and
+tools; • Applied computing → Interactive learning environ-
+ments.
+Keywords 
+Large Language Models (LLMs); Educational Technology; LLMs in 
+Education; Real-time Question-Answering; Classroom Learning; 
+Large-scale Classroom 
+ACM Reference Format: 
+Ziqi Liu, Yuankun Wang, Hui-Ru Ho, Yuheng Wu, Yuhang Zhao, and Bilge 
+Mutlu. 2026. AskNow: An LLM-powered Interactive System for Real-Time 
+Question Answering in Large-Scale Classrooms. In Proceedings of the 2026 
+CHI Conference on Human Factors in Computing Systems (CHI ’26), April 
+13–17, 2026, Barcelona, Spain. ACM, New York, NY, USA, 22 pages. https:
+//doi.org/10.1145/3772318.3790328 
+1 Introduction 
+Large-scale classrooms present unique challenges for student-
+instructor interactions, including students feeling reluctant to ask 
+questions due to social pressure [10] or unable to attract instruc-
+tor attention [27], challenges exacerbated by more advanced or 
+fast-paced classes [9]. Instructors, on the other hand, can be over-
+whelmed with teaching while managing a large classroom and moni-
+toring student attention, confusion, and questions [51]. Researchers 
+and educators have explored various technology-mediated inter-
+ventions to address these challenges. Audience Response Systems 
+(ARS), such as Poll Everywhere, Slido, and Top Hat, allow students 
+to participate anonymously through multiple-choice polling, en-
+hancing engagement, attendance, and ability to give and receive 
+immediate feedback [15, 38, 46]. Similarly, classroom backchannel 
+This work is licensed under a Creative Commons Attribution 4.0 International License. 
+CHI ’26, Barcelona, Spain 
+© 2026 Copyright held by the owner/author(s). 
+ACM ISBN 979-8-4007-2278-3/26/04 
+https://doi.org/10.1145/3772318.3790328 
+systems, such as Hotseat [1] and Backchan.nl [33], enable students 
+to post open-ended questions during lectures without interrupting 
+the instructor [5, 49]. Although these tools effectively promote stu-
+dent participation and relay student confusion to instructors, these 
+technologies still offer limited support to students, due to lack of 
+personalized, real-time feedback, and instructors, due to the added 
+demand on their attention [29]. 
+Recent advances in large language models (LLMs) have expanded 
+possibilities for educational support across domains, including pro-
+gramming education [36, 42, 68, 75, 76], early childhood learning 
+[35, 77], and tutoring [28]. Systems, such as SPHERE, assist instruc-
+tors in reviewing and prioritizing feedback on student code [68], 
+while a virtual teaching assistant, named Jill Watson, answers ques-
+tions in online education [67]. Although these systems demonstrate 
+the potential of LLMs for personalized feedback and support, they 
+are primarily designed for asynchronous interactions or special-
+ized contexts such as real-time code assessment. Little work has 
+been done to explore how LLMs could provide students and instruc-
+tors with contextualized, real-time support during synchronous, 
+in-person lectures, particularly in large-scale classroom settings. 
+To address these challenges, we conducted a two-phase study. 
+In Phase 1, we interviewed 24 students and 12 instructors to un-
+derstand their experiences with learning and teaching in large 
+classrooms, respectively. In particular, we discussed challenges in 
+real-time interaction, strategies for resolving confusion, and expec-
+tations for AI-powered support tools. To address the challenges 
+identified in our formative study, we designed AskNow, an interac-
+tive system that leverages LLMs to provide students with immedi-
+ate, context-aware answers to their questions during live lectures. 
+AskNow synchronously records and transcribes the lecture content, 
+which serves as context for the LLM’s responses. In Phase 2, we 
+deployed AskNow across three large university computer science 
+courses of varying difficulty levels, where 117 students used AskNow 
+over two sessions of their class and responded to pre- and post-
+surveys measuring perceived effectiveness of AskNow. We further 
+evaluated the system through expert assessments, where instruc-
+tors rated the accuracy of AskNow-generated responses. Finally, we 
+interviewed all three instructors and 24 students regarding their 
+experience using AskNow. 
+Our data showed that AskNow significantly reduced students’ 
+perceived time to resolve confusion during lectures. Instructors 
+rated AskNow’s responses as highly accurate and satisfactory. Stu-
+dents demonstrated a variety of use patterns based on when and 
+why they used AskNow to seek clarification, and instructor feedback 
+revealed insights into how real-time AI systems could complement 
+traditional classroom teaching to better support large-scale learning 
+environments. 
+Our work makes the following contributions: 
+• Formative Data: An empirical understanding of large class-
+room needs from both instructor and student perspectives.
+• System Contribution: AskNow, a real-time AI-based question-
+answering tool for large-scale classrooms.
+• Evaluation Data: An empirical understanding of how AskNow
+was used across three university courses.
+• Design Implications: Insights from our real-world deployment
+synthesized into implications to inform the design of future
+LLM-powered classroom support systems.
+AskNow: An LLM-powered Interactive System for Real-Time Question Answering in Large-Scale Classrooms CHI ’26, April 13–17, 2026, Barcelona, Spain 
+2 Related Work 
+2.1 Challenges in Large-scale Classrooms 
+Although large-enrollment courses are often valued for their ef-
+ficiency, they consistently constrain meaningful interaction and 
+make it difficult for instructors to monitor individual student under-
+standing [27, 30, 50]. Within crowded lecture halls, many students 
+refrain from asking questions due to communication apprehension, 
+which substantially limits overall participation [10, 51]. The time 
+pressure of covering extensive material, coupled with the tradi-
+tional single-speaker paradigm, further restricts opportunities for 
+turn-taking, such that only a small subset of vocal students tends 
+to dominate classroom discourse [27, 70]. As class size increases, 
+empirical work has shown declines in active engagement and reduc-
+tions in teacher–student interactions, with particularly pronounced 
+effects for students with lower prior attainment [8]. Foundational 
+analyses of lecturing similarly highlight that conventional lectures 
+are primarily designed for efficient information transmission rather 
+than adaptive, dialogic exchange [9, 31]. 
+The pedagogical costs of these interaction gaps are considerable. 
+Misconceptions often remain unvoiced during the rapid pace of 
+delivery, and opportunities for in-the-moment clarification are lost 
+[30, 50]. A substantial body of research underscores the importance 
+of immediate feedback, demonstrating that students benefit when 
+misunderstandings are addressed promptly rather than after delays 
+[4, 23, 39, 65]. Interactive and team-based learning formats similarly 
+rely on rapid clarification cycles, which have been linked to greater 
+engagement and deeper knowledge construction [12, 59]. In sum, 
+scale itself introduces structural barriers to inclusive participation 
+and timely feedback, leaving widespread confusion easily over-
+looked in the context of large-scale lectures [2, 20, 27, 51, 65, 70]. 
+2.2 Technology for Large-scale Classrooms 2.3 AI-based Systems for Learning Support 
+To mitigate challenges in large-scale classrooms, researchers and 
+educators have explored various technology-mediated interven-
+tions. One prominent line of work is Audience Response Systems 
+(ARS)–commonly known as clickers or live polling tools–such 
+as Poll Everywhere, Top Hat, and traditional handheld clickers 
+(e.g., TurningPoint). These tools enable simultaneous student re-
+sponses to multiple-choice questions, providing aggregated and 
+real-time feedback to the class [15, 38, 46]. Many studies have 
+demonstrated the positive impact of ARS in large-scale classrooms, 
+including improved attendance via increased student motivation 
+[13, 15, 32]; enhanced attention through interactive, real-time 
+polling [7, 13, 15, 21]; and increased participation by leveraging 
+anonymity to reduce anxieties associated with public speaking 
+[61, 62, 66]. Furthermore, ARS usage correlates positively with 
+overall classroom engagement, as students actively reflect and re-
+spond to lecture content rather than passively receiving information 
+[22, 57]. Finally, empirical evidence consistently demonstrates that 
+ARS can promote students’ learning performance, knowledge reten-
+tion, and academic achievement across diverse disciplines, includ-
+ing physics [11], biology [57], pharmacy education [63], medicine 
+[56, 60], and general undergraduate instruction [37, 40]. These 
+improvements are largely attributed to ARS’s ability to facilitate 
+frequent formative assessment, promote active engagement, and 
+provide immediate feedback. 
+Another technology-based strategy is the classroom backchan-
+nel, a secondary communication stream enabling students to post 
+questions, comments, or feedback in real-time alongside the pri-
+mary lecture[1, 33]. Examples such as Hotseat at Purdue University 
+[1], Backchan.nl [33], and Backstage [55] enable participation in 
+large lectures via web or mobile interfaces. Hotseat, in particular, 
+has shown effectiveness in lowering barriers related to anxiety or so-
+cial pressure by offering anonymous participation [1]. Evaluations 
+of backchannel systems indicated increased student interaction, 
+especially during fast-paced or complex lectures, as students were 
+able to ask questions without interrupting the instructor [5, 49]. 
+Students also reported greater engagement due to the immediate 
+visibility of their questions or feedback [1, 34]. Overall, backchannel 
+tools offer students ways to resolve confusion and enhance their 
+engagement during lectures. 
+However, despite their demonstrated benefits, both ARS and 
+backchannel systems have notable limitations. ARS tools usually 
+only allow students to respond through simple multiple-choice or 
+polling interactions, limiting their ability to capture more detailed 
+or complex student confusions. Backchannel systems, although sup-
+porting open-ended queries, still rely heavily on manual responses 
+from instructors or moderators, hindering real-time interaction 
+in large lectures. Furthermore, continuous monitoring of student 
+inputs may increase instructor cognitive load, disrupting lecture 
+flow [29]. In addition, students may get distracted from the ongoing 
+lecture while posting questions through backchannel [1, 5]. Most im-
+portantly, neither type of system provides immediate, personalized, 
+and detailed feedback, often leaving student misunderstandings 
+unresolved during class. 
+Recent advancements in artificial intelligence (AI) and large lan-
+guage models (LLMs) have created new opportunities for enhancing 
+education. With capabilities such as real-time natural language in-
+teraction, personalized feedback generation, and flexible content 
+creation, these technologies offer the potential to support learning 
+at scale and to augment traditional instruction with more adaptive, 
+individualized support. Researchers have begun exploring how AI-
+driven systems can address challenges across various educational 
+domains, improving both student learning experiences and teacher 
+workflows. 
+In programming education, several systems have leveraged LLMs 
+to support scalable learning. VizProg visualizes student coding 
+progress to help identify misunderstandings [75], while CFlow ex-
+tends this work by enabling large-scale semantic flow analysis of 
+student code [76]. SPHERE builds on these approaches by review-
+ing LLM outputs to prioritize critical feedback for instructors [68]. 
+Other applications have explored the use of LLMs for learning sup-
+port beyond computing. Storyfier supports vocabulary acquisition 
+through AI-generated storytelling [54], while LessonPlanner [24] 
+and LitLinker [25] assist novice teachers in designing pedagogy-
+aligned lesson plans and interdisciplinary learning contexts, re-
+spectively. In early childhood education, Mathemyths introduces 
+co-creative storytelling to teach mathematical language [77], SET-
+PAiREd enables parents and LLMs to co-design educational content 
+CHI ’26, April 13–17, 2026, Barcelona, Spain Ziqi Liu, Yuankun Wang, Hui-Ru Ho, Yuheng Wu, Yuhang Zhao, and Bilge Mutlu 
+for robot-mediated learning [35], and StoryMate personalizes inter-
+active story reading experiences for children [16]. For assessment 
+and tutoring, systems such as ConQuer facilitate concept-based 
+quiz generation [28], while Jill Watson acts as a virtual teaching 
+assistant that answers student questions in online education based 
+on course materials [67]. Building on this line of work, Tiwari et al. 
+introduced an AI-assisted teaching support tool that automatically 
+answers frequently asked questions [69], and Askademia uses a 
+vision–language model to provide responses to student queries 
+during lectures based on course materials and slides [48]. 
+While these systems demonstrate the versatility of AI and LLMs 
+in educational contexts, much of the current work has focused on 
+asynchronous, one-on-one, or home-based learning environments. 
+A small but growing body of work explores the integration of AI 
+into real-time classroom settings. For example, Askademia and Pair-
+Up both investigate how real-time agents can support students 
+and teachers during live sessions [48, 73]. However, these systems 
+primarily evaluate correctness, efficiency, and orchestration, and 
+provide limited instructor-facing awareness of students’ collective 
+confusion, offering little discussion of how such agents may in-
+fluence students’ in-class attention or perceptions of instructional 
+authority. Subsequent work on AI co-orchestration tools further ex-
+amines how teachers conceptualize sharing control with AI systems, 
+highlighting concerns around trust, responsibility, and efficiency 
+[41]. 
+Despite these advances, there remains a significant gap in re-
+search on how LLMs might directly support students’ real-time 
+clarification needs during live lectures while also preserving instruc-
+tor oversight and authority. Existing AI-based classroom systems 
+primarily aim to assist instructors in managing class dynamics or 
+provide delayed feedback, and even real-time virtual teaching assis-
+tants rarely give instructors an aggregated view of ongoing student 
+confusion in large lecture halls. To address this gap, the present 
+work explores the use of LLMs as real-time classroom assistants, 
+supporting dynamic clarification in large-scale lectures. 
+3 Formative Study 
+Based on the prior work, we identified that instructors face chal-
+lenges in gauging individual student understanding and facilitating 
+real-time interaction, while students have difficulties in voicing 
+questions and receiving immediate feedback during lectures. To 
+inform how we can design a system to bridge these gaps, we con-
+ducted a formative study with 24 students and 12 instructors to 
+understand their experiences in classroom learning, including the 
+challenges they face, current strategies for resolving confusion, and 
+their expectations for AI-powered support tools. 
+3.1 Methods 
+3.1.1 Participants. We recruited a total of 36 participants, includ-
+ing 24 students (13 female, 11 male; Age between 18 and 29, 
+𝑀𝑒𝑎𝑛 = 22.38, 𝑆𝐷 = 3.14) and 12 instructors (4 female, 8 male), 
+from a large public university in the Midwestern United States. 
+Recruitment was conducted university-wide. Student participants 
+were enrolled in a variety of disciplines and included both under-
+graduate and graduate students across all years of study. Instructor 
+participants were similarly diverse, from different academic depart-
+ments and teaching at least one course during the current academic 
+semester. Demographic details of participants are presented in Ta-
+ble 1 (Students) and Table 2 (Instructors). Each Participant received 
+$10 as compensation for completing the interview. The study was 
+approved by our university’s IRB. 
+3.1.2 Semi-structured Interviews. Each participating student and 
+instructor took part in a semi-structured interview, which lasted 
+for around 30 minutes. For both students and instructors, the in-
+terviews began with open-ended questions about recent classroom 
+experiences, challenges, and current strategies for resolving con-
+fusion. Only in the latter part of the interview did we introduce a 
+short vignette about a hypothetical AI assistant, using it to probe 
+participants’ expectations and concerns rather than to elicit con-
+crete feature requests. Consistent with prior work highlighting that 
+users may struggle to articulate their underlying needs directly [53], 
+we anchored our questions in concrete past experiences and probed 
+for the reasons behind participants’ suggestions. Student interview 
+questions explored their in-class confusion experiences (e.g., “Have 
+you ever encountered moments during the lecture when you don’t 
+Table 1: Students’ Demographics in the formative study 
+ID Gen-
+der 
+Level of 
+Study 
+Year 
+of 
+Study 
+Major(s) Native 
+English 
+Speaker 
+S1 M Undergrad 1 English Literature, Japanese No 
+S2 M Grad 1 Special Education No 
+S3 F Undergrad 1 Neurobiology, Psychology No 
+S4 F Grad 1 Biotechnology No 
+S5 F Grad 2 Endocrinology, Reproductive Physiol-
+ogy 
+No 
+S6 F Undergrad 3 Chemical Engineering Yes 
+S7 M Grad 1 Business Administration Yes 
+S8 M Grad 2 Educational Policy Studies No 
+S9 M Grad 1 Information Science Yes 
+S10 M Undergrad 2 Biochemistry, Asian Languages and 
+Cultures 
+Yes 
+S11 M Undergrad 1 Journalism Yes 
+S12 F Grad 3 Industrial Engineering No 
+S13 M Undergrad 1 Computer Science Yes 
+S14 F Grad 2 Nursing No 
+S15 F Undergrad 2 Biology Yes 
+S16 F Undergrad 2 Agricultural Business Management Yes 
+S17 M Undergrad 3 Sociology Yes 
+S18 F Undergrad 1 Food Science & Life Science Communi-
+cation 
+Yes 
+S19 F Grad 1 Atmospheric and Oceanic Sciences Yes 
+S20 M Undergrad 4 Political Science Yes 
+S21 M Grad 1 Computer Science Yes 
+S22 M Undergrad 4 Mechanical Engineering Yes 
+S23 F Grad 1 Psychology Yes 
+S24 F Grad 1 Economics No 
+AskNow: An LLM-powered Interactive System for Real-Time Question Answering in Large-Scale Classrooms CHI ’26, April 13–17, 2026, Barcelona, Spain 
+Table 2: Instructors’ Demographics in the formative study 
+ID Department Position Teaching 
+Experi-
+ence 
+Class 
+Size 
+I1 Public Affairs Lecturer 1-2 years 30 
+I2 Business Lecturer 6-9 years 100 
+I3 Chemistry Lecturer 10+ years 200 
+I4 Mechanical Engineering Assistant Professor 1-2 years 41 
+I5 Information Science Teaching Faculty 3-5 years 15 
+I6 Biology Teaching Faculty 10+ years 20 
+I7 Industrial Engineering Assistant Professor 6-9 years 30 
+I8 Nuclear Engineering Assistant Professor 6-9 years 30 
+I9 Biochemical Engineering Research Analyst 6-9 years 108 
+I10 Computer Science Teaching Faculty 10+ years 200 
+I11 English & Law Associate Professor 10+ years 300 
+I12 Pharmacy Teaching Faculty 6-9 years 50 
+fully understand something? Can you describe some specific ex-
+amples?”), their confusion resolution strategies (e.g., “When your 
+questions or difficulties don’t get resolved immediately, how do you 
+usually handle them?”), the effectiveness and limitations of their 
+current strategies (e.g., “How effective do you find this approach?”, 
+“Are there any drawbacks for you when using this method?”), and 
+their expectations for potential AI-powered learning support (e.g., 
+“Imagine that there is a real-time answering tutor available during 
+your class, providing instant answers or clarifications. How helpful do 
+you think this tool would be? Why?”). Instructors’ questions focused 
+on their challenges in gauging student understanding (e.g., “What 
+is your experience with students asking questions during lectures?”), 
+current approach to addressing student questions (e.g., “What do 
+you currently do to address student confusion?”, “How well does this 
+approach work?”). After discussing these existing practices did we 
+introduce the AI vignette and potential integration to understand 
+instructors’ expectations. 
+3.1.3 Data Analysis. To anonymize participants, we assigned IDs 
+based on the order of study completion (e.g., S1 refers to the first 
+student participant, I1 refers to the first instructor participant). For 
+qualitative data, we conducted a reflexive Thematic Analysis (TA) 
+following Clarke and Braun [18] and McDonald et al. [47] to iden-
+tify patterns and understand student and instructor perspectives. 
+The first author and the third author, experienced in qualitative 
+coding, transcribed and familiarized themselves with the data from 
+audio recordings. Initial semantic codes were generated by the 
+first author and organized into categories as the initial codebook. 
+The team collaboratively coded data from the first participant us-
+ing the initial codebook, discussed interpretations, and created a 
+consensus-based codebook. Using the codebook, the remaining data 
+were independently coded by the two authors, with peer reviews 
+and iterative discussions to finalize codes. We constructed final 
+themes from recurring, meaningful patterns in the data. 
+3.2 Findings 
+Through interviews with students and instructors, we identified 
+five central themes reflecting the challenges and needs of students 
+and instructors in lecture settings. These findings serve as founda-
+tions for deriving design implications, guiding the development of 
+AI-powered systems that can more effectively mediate real-time 
+learning support and instructional feedback. 
+3.2.1 Challenges in Following and Retaining Lecture Content. Many 
+students described experiencing confusion during lectures for a 
+variety of reasons. For many, the fast pace or density of the course 
+material was difficult to follow (S6, S7, S18, S21, S22). For exam-
+ple, S6 stated, “Sometimes professors rush through the content and I 
+can’t follow.” Furthermore, several students noted that confusion 
+often arose when instructors introduced complex concepts without 
+providing sufficient elaboration or examples (S3, S5, S10). As S10 
+explained, “Sometimes in organic chemistry he’ll bring up a new 
+concept that is pretty confusing because there’re a lot of moving parts.” 
+Language and cultural barriers were particularly salient for interna-
+tional students (S2, S3, S8). For example, S2 stated, “For the statistics 
+class, I learned the concepts in Chinese before, but learning them in 
+English is totally new.” In addition, S8 added, “When certain refer-
+ences are local, it is a bit challenging from time to time to grasp what 
+this localized knowledge is assuming”. Besides in maintaining focus 
+during long lectures, students also face challenges in recovering 
+when they missed part of the lecture (S2, S11, S16–S22). Several 
+participants noted that missing a key point often caused them to 
+fall behind and struggle to catch up, leading to cascading confusion 
+throughout the lecture. As S21 described, “When there are times 
+when I get behind in a lecture. Then I get stuck on it and then I fall 
+behind in the rest of lecture.” 
+Design Implication #1: These findings suggest the need for a 
+system that can provide immediate clarification to help students re-
+cover from momentary lapses and support continuous participation 
+during class. 
+3.2.2 Barriers to Asking Questions During Large Lectures. Many 
+students expressed reluctance to ask questions during class, partic-
+ularly in large lecture settings. Social anxiety (S17, S19, S23), fear of 
+judgment (S9, S13, S16, S18, S21, S22), and concern about interrupt-
+ing the lecture (S1, S3, S8, S17, S19, S20, S21, S23) were common 
+deterrents. For instance, S16 expressed concerns “to be that person 
+to ask a stupid question,” while S1 felt like “it’s rude to interrupt the 
+whole class just for me.” Several students felt isolated in their con-
+fusion and assumed others understood the material (S3, S10, S15). 
+For example, S3 felt like “the only one who has the problem here.” 
+Others referenced cultural or language barriers that made it harder 
+to speak up (S2, S3, S8, S24): “I’m worried about my oral English 
+(S24). ” The issue was compounded in large classrooms, where the 
+substantial number of the students discouraged active participation. 
+As S13 expressed, “it can be a little daunting to ask questions in 
+class because there’s so many other people in the room.” Conversely, 
+students reported greater comfort asking questions in smaller or 
+discussion-based classes, or when they had built familiarity with 
+the instructor (S4, S7, S8, S10, S16, S17, S20). 
+CHI ’26, April 13–17, 2026, Barcelona, Spain Ziqi Liu, Yuankun Wang, Hui-Ru Ho, Yuheng Wu, Yuhang Zhao, and Bilge Mutlu 
+Design Implication #2: These results suggest that our system 
+should be able to reduce the social costs of participation by enabling 
+private, low-friction question submission. 
+3.2.3 Limitations in Student Strategies for Confusion Resolution. 
+Students employed a variety of strategies to resolve confusion, 
+including asking peers, searching online, reviewing lecture record-
+ings, and attending office hours. AI tools like ChatGPT were also 
+commonly used. 
+However, each of these methods had limitations. Peers were 
+sometimes helpful but not always accurate: “When I asked my 
+friends, I feel less embarrassed. But it could almost be more confus-
+ing (S16). ” Online searches and videos were often time-consuming 
+(S2, S9, S15, S16, S22): “Searching online takes more time (S2), ” and 
+“YouTube videos are less effective” sometimes if it is not the right 
+video (S16). Students noted that ChatGPT was convenient but could 
+produce vague or incorrect answers (S3, S14, S20, S21). For instance, 
+S14 said that “It tends to provide some general generic answers some-
+times,” while S3 mentioned that “sometimes ChatGPT gives false 
+ideas, so I double check with the professor.” 
+Attending office hours was frequently cited as helpful but im-
+practical due to scheduling conflicts (S4, S10, S11, S16, S20, S22), 
+distance between home and school (S4, S12, S20, S22), or social 
+anxiety (S17, S19, S23). For example, S22 shared that “office hours 
+have very set times...if I’m far from campus...I can’t really make it.” 
+Design Implication #3: These limitations underscore the need 
+for an accessible and context-aware support system that minimizes 
+effort and delay in resolving confusion during lectures. 
+3.2.4 Student Expectations for an AI-Powered Support Tool. Stu-
+dents articulated a set of desired features for a classroom AI as-
+sistant, including real-time transcription (S3, S17, S18, S22) and 
+summarization of lecture content (S9, S13, S15, S17, S20, S23). S13 
+said that “it would be nice if it could give me a summary of what 
+the professor said for the past five or ten minutes (S13). ” They also 
+wanted the ability to ask questions and receive real-time, concise, 
+and contextually relevant answers (S7, S15, S18). For example, S18 
+said that it would be nice “if it knows what’s going on and I can ask it 
+questions. ” Several students expressed interest in additional features 
+such as generating practice questions (S10, S16, S17), summarizing 
+key terms (S23), and explaining how different concepts connect 
+(S21, S23). 
+In addition to describing desired functionalities, students also 
+highlighted expectations for how the tool should fit into existing 
+classroom practices. Many preferred a lightweight, low-friction 
+interface that runs directly on devices they already use, such as 
+laptops or tablets. They explained that such a tool could “just split 
+screen and have it in the corner, ready and available” (S15), and that 
+a website “linked to Canvas” aligns well with current workflows 
+since “most people already have their laptops out” (S19). Several also 
+favored using their own devices rather than carrying additional 
+hardware, noting they “didn’t have to also have another device open” 
+(S18). 
+Design Implication #4: The tool should be seamlessly inte-
+grated into students’ workflow, preferably accessible on devices 
+they already use, such as laptops or phones, and should not require 
+additional setup or effort during class. 
+3.2.5 Instructor Needs and Opportunities for AI Support. Instruc-
+tors identified various needs and concerns regarding classroom 
+dynamics and the potential integration of an AI assistant. First, 
+instructors confirmed that students were often apprehensive about 
+asking questions in large classes. Despite encouragement, “students 
+are very apprehensive of asking questions in large classes, and so it 
+doesn’t matter how often you try and invite answers or questions, no 
+one asks (I2). ” I10 similarly observed, “typically the students who are 
+asking the questions are the most confident...the students who are the 
+least confident often sit in the back and don’t want to voice anything.” 
+Second, instructors found it difficult to accurately track student 
+confusion during lectures, lacking real-time indicators of student 
+understanding. As I11 explained, It’s very hard to tell how many 
+students have already fully understood the concept...I have no way 
+of measuring how and to what extent students are not understand-
+ing, except for exams.” Similarly, I4 shared, “I don’t feel like I have 
+indicators on whether the students actually know what I’m talking 
+about.” Some instructors had attempted to collect student questions 
+during class using simple tools but yielded low participation (I2, I8). 
+For example, I2 “tried Google Sheets...but students don’t seem to be 
+interested in filling in questions during lecture.” 
+Therefore, instructors expressed strong interest in having a tool 
+that not only encourages students to ask questions, but also pro-
+vides a safe, anonymous channel for doing so. A key reason be-
+hind students’ reluctance was their concern about privacy and 
+fear of judgment from peers. Several instructors emphasized that 
+anonymity would be critical to making students feel comfortable 
+asking questions (I2, I5, I10). As I2 explained, “I would like every-
+thing to be anonymized in some way, shape or form so that a student 
+can ask questions and not have to worry about other students knowing 
+who is asking the question.” 
+Beyond facilitating anonymous question submission, instructors 
+also hoped that an AI assistant could help respond to student ques-
+tions in real time. However, they raised concerns regarding the 
+accuracy and appropriateness of AI-generated answers (I4, I6–I8, 
+I12). Instructors emphasized the importance of ensuring the con-
+sistence of responses from AI with the course content and their 
+own teaching style (I1, I10, I12). As I12 highlighted, “I would want 
+to have a chance to look at the type of content that is being sent to 
+students.” Consequently, instructors wanted the ability to review 
+and monitor AI responses to maintain quality and consistency. 
+In addition, instructors want to know what questions students 
+were asking during class. They wanted access to both raw questions 
+(I7, I8) and aggregated questions grouped by topics (I2, I3, I5–I8, 
+I10, I12). For example, I7 mentioned “based on my current experi-
+ence, almost all questions are important questions.” Other instructors 
+emphasized the importance of grouping similar questions by topics 
+or learning objectives to highlight common areas of confusion. For 
+instance, I2 noted “I’d like some sort of grouping and ranking of 
+problems so I know which topic was generating the most questions.” 
+To utilize the questions in real-time, instructors favored simple, ag-
+gregated displays like top-question lists. As explained by I5, “being 
+able to have an aggregated summary list of the top five questions, but 
+then also seeing the individual questions because it may be complex 
+or may be a little nuanced.” They stressed that interfaces must be 
+quick to check and minimally disruptive (I2, I4, I6, I8–I11). 
+AskNow: An LLM-powered Interactive System for Real-Time Question Answering in Large-Scale Classrooms CHI ’26, April 13–17, 2026, Barcelona, Spain 
+Finally, instructors saw great potential for such a system that 
+can help them reflect on and improve their teaching. Reviewing 
+patterns in student confusion could help adjust explanations and 
+lecture pacing. As I6 stated, “If I’ve got the most common types of
+questions for a particular lecture, I can use that information when I 
+plan that lecture for the next time.”
+Design Implication #5: These insights suggest that an effective
+AI-powered classroom assistant should not only support real-time 
+clarification for students, but also provide actionable feedback to 
+instructors to enhance teaching effectiveness. 
+4 AskNow 
+Based on the formative study findings, we designed and developed 
+AskNow, an interactive system powered by a large language model 
+(LLM) to support real-time question answering in large-scale class-
+rooms. AskNow consisted of a student and an instructor interfaces. 
+We show the architecture of AskNow in Figure 2. 
+We carefully structured AskNow’s functionality based on the ex-
+plicit challenges and requirements identified from our formative 
+study. In particular, each core feature directly addresses the five 
+Design Implications (DIs #1–#5) we derived in Section 3. Students 
+reported significant difficulties in following fast-paced lectures, 
+language and cultural barriers causing comprehension issues, and 
+hesitancy in public questioning due to social anxiety. Conversely, 
+instructors expressed challenges in gauging real-time student com-
+prehension, and wanted effective tools to detect and address areas of 
+widespread confusion promptly. In response, AskNow incorporates 
+three core phases to directly address these identified needs: (1) real-
+time lecture transcription, (2) context-aware question answering, 
+and (3) question aggregation. 
+4.1 Real-time Lecture Transcription 
+On the instructor interface, AskNow provides real-time, automatic 
+speech-to-text transcription of lecture audio. This real-time tran-
+scription functionality not only provides instructors with a compre-
+hensive textual record of their lecture but also creates an essential 
+context data for the language model, serving subsequent function-
+alities such as context-aware question answering. This ensures 
+that AskNow-generated responses are precise, contextually relevant, 
+and directly linked to the ongoing lecture content, which directly 
+addresses Design Implication #1 by offering students immediate 
+clarifications to help them catch up on missed content and supports 
+Design Implication #3 through continuous real-time availability of 
+contextual transcript information. 
+4.2 Context-aware Question Answering 
+On the student interface, AskNow allows students to privately sub-
+mit questions and obtain real-time, contextually accurate responses, 
+Instructor
+Interface
+Student 
+Interface 1 
+Student
+ 
+Interface 2
+Student 
+Interface 3 
+Student 3
+Real-time 
+Reporting
+Real-time 
+Speech to text
+Question
+Answer
+Real-time 
+Transcription
+Question
+ 
+Aggregation 
+K -means 
+Question
+Question 
+Answer 
+Answer
+Instructor
+Student 2
+Student 1 
+Figure 2: AskNow system architecture and end-to-end data flow. Student interfaces send questions to a cloud backend, which 
+retrieves the ongoing lecture transcript (streamed from the Instructor Interface via real-time speech-to-text) and lecture 
+metadata to construct a context-aware prompt for the LLM; the generated answer is then returned to the originating student. In 
+parallel, all question events are logged, embedded, and clustered into topic groups that are displayed on the Instructor Interface 
+to surface common areas of confusion in real time. 
+CHI ’26, April 13–17, 2026, Barcelona, Spain Ziqi Liu, Yuankun Wang, Hui-Ru Ho, Yuheng Wu, Yuhang Zhao, and Bilge Mutlu 
+addressing the barriers identified in our formative study, such as 
+social anxiety, fear of interrupting lectures, and concerns about 
+judgment (Section 3.2.2). Aligned with Design Implication #2, stu-
+dents can ask questions anonymously, reducing social costs and 
+hesitation that often hinder large-class participation. Furthermore, 
+following Design Implication #3 and #4, the student interface is 
+designed in a GPT-like chat format to minimize the learning curve; 
+users can seamlessly interact with the system in a familiar, con-
+versational style without additional setup or instruction, ensuring 
+minimal disruption to students’ existing workflow and allowing 
+them to use familiar devices (laptops, phones) in class. Specifically, 
+when a student submits a question, the system retrieves the current 
+lecture transcript to ensure LLM responds based on the current 
+classroom context. The whole transcript is divided into 30-second 
+segments and added corresponding timestamps to enable context 
+referencing on temporal information (e.g., “What did the instructor 
+say ten minutes ago?”). See Figure 3 for an example. This segmen-
+tation is used only for storage and indexing, which does not limit 
+the amount of context provided to the LLM. This design directly 
+addresses Design Implication #1, which highlights the need for im-
+mediate clarification and recovery from missed or confusing lecture 
+segments. 
+To further enhance the precision and relevance of the generated 
+responses, instructors provide lecture-specific metadata—including 
+lecture title, subject, and instructor name—upon initiating the lec-
+ture session. This metadata is incorporated directly into the prompt 
+sent to the OpenAI GPT-4o model, aiding it in accurately interpret-
+ing lecture contexts and generating responses that align closely 
+with course content and instructional style. 
+Moreover, the prompt engineering strategy includes carefully 
+crafted instructions to ensure appropriateness, safety, and consis-
+tency in the generated responses. For example, the prompt explicitly 
+instructs the model to always reference the lecture transcript first, 
+maintain a neutral and informative tone, and adhere strictly to aca-
+demic and technical accuracy. Additional safety guidelines prevent 
+misuse or unintended behavior, instructing the model to decline 
+engaging with inappropriate requests and ensuring compliance 
+Figure 3: An example of AskNow responding to a time-relevant 
+question through the student interface, where the student 
+asked the LLM to summarize the first five minutes of the 
+lecture. 
+with content policies. Please refer to Appendix Section A for the 
+full system prompt. 
+Finally, in selecting the LLM to power this context-aware an-
+swering module, we conducted careful comparisons among various 
+advanced models, including Anthropic’s Claude 3.5 Haiku, GPT-
+4o-mini, and GPT-4o. We ultimately selected GPT-4o based on its 
+superior balance of response accuracy and cost efficiency, which are 
+particularly critical for scalability and effectiveness in large-scale 
+classroom environments. 
+4.3 Question aggregation 
+We used multiple strategies, including embedding-based clustering, 
+to aggregate student questions and provide instructors with a con-
+cise yet comprehensive view of common misunderstandings. Once 
+students submit their questions through the AskNow interface, these 
+are automatically processed and displayed on the instructor-facing 
+web dashboard. Aligned with Design Implication #5, this approach 
+offers real-time, actionable insights into student confusion. Draw-
+ing on our formative study (Section 3.2.5), we implemented four 
+distinct methods for organizing and presenting questions, and the 
+UI design is presented in Figure 4: 
+1. Sort by Time. All submitted questions are displayed in re-
+verse chronological order, prioritizing recent student queries at 
+the top of the instructor interface. This approach helps instructors 
+quickly identify emerging points of confusion in real-time during 
+the lecture. 
+2. Sort by Topic. To facilitate concise and efficient compre-
+hension of complex growing student inquiries, we embedded each 
+question into a semantic vector space. Each question is preprocessed 
+into a high-dimensional embedding vector that captures its seman-
+tic content. Leveraging these embeddings, we performed clustering 
+by calculating pairwise Euclidean distances between vectors and 
+recursively applying a threshold-based, K-means algorithm that 
+does not require a fixed K. When a new question arrives, it is as-
+signed to the existing cluster whose centroid is within a predefined 
+distance threshold, or a new cluster is created if no such cluster 
+exists. This predefined distance threshold, selected through an it-
+erative testing to balance cluster granularity and stability, ensures 
+that questions are clustered based on actual semantic similarity 
+rather than arbitrary or predefined group sizes, thus maintaining 
+consistent clustering accuracy regardless of class size variations. 
+For each cluster, we use the question whose embedding lies clos-
+est to the cluster centroid as the representative “topic question, ” 
+and display this question as the title of the block in the instruc-
+tor interface. After clustering, the resulting topic-based question 
+groups are sorted by the most recent timestamp, allowing instruc-
+tors to easily identify and respond to current, collective student 
+misunderstandings. 
+3. Top 5 Topics. Due to instructors’ expressed need to swiftly 
+identify and address the most critical and common questions during 
+a lecture, we provided a streamlined "Top 5 topics" view showcas-
+ing only the top five most frequently occurring question clusters. 
+To maximize relevance and minimize noise, we applied heuristic 
+filters excluding overly general or non-productive queries, such 
+as requests to "catch me up, " greetings ("Hello AskNow"), overly 
+broad summaries of lecture content, or extremely short questions. 
+AskNow: An LLM-powered Interactive System for Real-Time Question Answering in Large-Scale Classrooms CHI ’26, April 13–17, 2026, Barcelona, Spain 
+(a) Sort by Time
+ (b) Sort by Topic
+(c) Top 5 Topics
+ (d) Must Answer 
+Figure 4: Instructor interface with four modes of question aggregation: (a) Displays recent questions at the top; (b) Clusters 
+semantically similar questions; (c) Highlights the most frequent clusters; (d) Shows questions flagged by students for instructor 
+clarification. Screenshots are taken from the actual deployment of the system. In (d), student names are blurred to preserve 
+anonymity. 
+This targeted approach helps instructors efficiently prioritize areas 
+needing immediate attention without overwhelming them with 
+redundant or low-value queries. 
+4. Must Answer. Recognizing the potential limitations of AI-
+generated responses—particularly as noted by students who some-
+times require direct instructor clarification—we introduced a special 
+interaction mode. After receiving AI-generated responses, students 
+may use a dedicated “Send to Instructor for Answer” button if they 
+feel their question remains unresolved or unsatisfactorily answered. 
+Such questions, analogous to traditional hand-raising, are sepa-
+rately collected under the “Must Answer” category, prominently 
+displayed to ensure instructors promptly address these pressing 
+concerns. 
+These four modes of aggregation collectively provide instructors 
+with actionable, real-time insights into students’ shared points of 
+confusion. This design not only addresses the need for scalable 
+monitoring but also ensures that critical questions requiring direct 
+instructor input remain visible and prioritized. 
+4.4 System Implementation and Technical 
+Details 
+AskNow is designed as an interactive system with an architecture 
+tailored to the dynamic, high-concurrency, and low-latency require-
+ments of real-time classroom use. In this section, we report the 
+main technical challenges and the corresponding implementation 
+strategies. 
+4.4.1 Dynamic, Low-Latency Context Management. To precisely 
+understand and utilize a constantly changing lecture context in 
+real time, we developed a decoupled full-stack architecture. The 
+student-facing interface is implemented in Next.js (TypeScript) 
+and deployed on Vercel for elastic, Internet-facing scale, while the 
+instructor interface is hosted privately on cloud servers for secure, 
+real-time monitoring. A Node.js + Express backend on AWS EC2 
+1 provides a reliable infrastructure for concurrent requests, with
+Socket.IO handling real-time bidirectional communication. 
+We implemented efficient context retrieval through differential 
+updates strategy. Returned transcripts are incrementally materi-
+alized on the server as structured, segmented JSON with stable 
+segment indices and timestamps. When answering, it fetches only 
+1https://aws.amazon.com/ec2/
+CHI ’26, April 13–17, 2026, Barcelona, Spain Ziqi Liu, Yuankun Wang, Hui-Ru Ho, Yuheng Wu, Yuhang Zhao, and Bilge Mutlu 
+the newest transcript segments necessary for context, thereby re-
+ducing token costs, avoiding redundant context, and keeping end-
+to-end latency low. Explicit segmentation also supports traceability 
+of responses against specific transcript spans. 
+In addition, we integrate AssemblyAI’s real-time Speech-to-Text 
+API 2 to support uninterrupted streaming transcription. Its ability 
+to handle indefinite-duration sessions prevents context loss or la-
+tency that would otherwise occur from session renewals during 
+long lectures. To balance semantic completeness with responsive-
+ness, lecture transcripts are segmented into 30-second windows, 
+a trade-off identified through iterative testing. Shorter windows 
+risk capturing incomplete semantic units, while longer ones dilute 
+the context for time-sensitive questions and introduce unaccept-
+able end-to-end latency. These windows serve as the basic units 
+for incremental transcript storage and timestamping, whereas the 
+context retrieved for question answering may span all accumulated 
+windows since the beginning of the lecture. 
+4.4.2 High-Concurrency, Real-time Semantic Aggregation. To con-
+vert the high volume of incoming student questions into an inter-
+pretable dashboard for instructors, we implemented a multi-stage 
+aggregation pipeline. A threshold-based, recursive K-means algo-
+rithm groups semantically similar questions without forcing them 
+into arbitrary cluster sizes. This approach maintains high seman-
+tic coherence even under rapid increases in question volume and 
+ensures clusters remain stable, giving instructors a consistent real-
+time view. The distance threshold can also be configured to adjust 
+the granularity of generated topics. 
+Our technology choices were performance-driven. We delib-
+erately avoided computationally intensive alternatives, such as 
+running local embedding models or employing LLMs for dynamic 
+summarization or classification, as these would introduce unaccept-
+able latency, disrupt transcript storage and retrieval, and consume 
+unsustainable levels of API tokens in large classrooms. Instead, 
+the aggregation path is engineered to remain lightweight and non-
+blocking. We selected OpenAI’s text-embedding-3-small 3 API, 
+which offers a favorable balance of embedding quality, speed, and 
+cost efficiency. This design enables accurate, contextually relevant 
+aggregation while maintaining low latency and system respon-
+siveness when many students interact simultaneously, ensuring 
+that instructors receive timely and reliable insights into student 
+needs. Additional implementation details—including the full sys-
+tem prompt, transcript segmentation configuration, example tran-
+script records, question logging schema, and pinned model and API 
+versions—are provided in Appendices A–E to support reproducibil-
+ity of our implementation. 
+5 Evaluation 
+To evaluate the effectiveness and usability of AskNow in real class-
+room settings, we conducted a series of studies to answer three 
+research questions: 
+• (1) How effectively does AskNow address student questions? 
+• (2) How do students use and perceive AskNow? 
+• (3) How do instructors use and perceive AskNow? 
+2https://www.assemblyai.com/products/streaming-speech-to-text
+3https://platform.openai.com/docs/models/text-embedding-3-small 
+5.1 Participants 
+We recruited participants from three university-level courses of-
+fered by the Department of Computer Sciences at the University 
+of Wisconsin–Madison: an introductory undergraduate course in 
+web development, an intermediate undergraduate course in build-
+ing user interfaces, and an advanced graduate-level course in hu-
+man–computer interaction. 
+In total, 88 students were enrolled in the introductory course, 129 
+in the intermediate course, and 69 in the advanced course. Among 
+them, 51, 73, and 48 students, respectively, signed up for the study. 
+Students who completed all study components—including the pre-
+survey, lecture attendance, system use, and post-survey—numbered 
+32, 48, and 37, respectively, across the three courses. Table 3 sum-
+marizes the three courses and the participation of students. 
+Table 3: Summary of student participation across courses. 
+Course 
+ID 
+Course 
+Level 
+Class 
+Size 
+Signed 
+Up 
+Completed 
+Study 
+C1 Introductory 88 51 32 
+C2 Intermediate 129 73 48 
+C3 Advanced 69 48 37 
+Additionally, three course instructors participated in the study 
+by evaluating student questions and AskNow’s responses, and by 
+participating in post-study interviews. 
+5.2 Study Sessions and Procedure 
+Figure 5: Study Procedure 
+We obtained IRB approval for the study and coordinated with the 
+course instructors for participant recruitment. Two weeks before 
+the deployment, we invited students to participate through oral 
+announcements during lectures and notifications posted on each 
+course’s Canvas page. Participation was entirely voluntary. Figure 
+5 demonstrates the study sessions and procedure. 
+Students who agreed to participate were required to complete 
+three steps: 
+(1) Pre-survey: A 5-minute online survey that collected demo-
+graphic information and assessed students’ perceived course 
+understanding, frequency of confusion, and the current effi-
+ciency of resolving confusion during lectures. 
+(2) System use: Attending the two in-person lectures during 
+the test week, during which students were provided access 
+to AskNow and could use it as needed to ask questions and 
+receive real-time answers. 
+AskNow: An LLM-powered Interactive System for Real-Time Question Answering in Large-Scale Classrooms CHI ’26, April 13–17, 2026, Barcelona, Spain 
+(3) Post-survey: A 10-minute online survey administered after 
+the test week, measuring changes in perceived course under-
+standing, information retention, frequency of confusion, and 
+efficiency in resolving confusion after using AskNow. Partic-
+ipants also completed a USE (Usefulness, Satisfaction, and 
+Ease of Use) questionnaire [45]. 
+Students who completed all three steps were awarded 1 extra 
+credit point toward their final course grade. At the end of the 
+post-survey, participants were asked whether they were willing to 
+participate in a follow-up interview. From the pool of volunteers, 
+we randomly selected eight students from each course (24 students 
+in total) to participate in a 30-minute semi-structured interview. 
+Students who completed the interview received a $10 compensation. 
+In addition to student feedback, we collected system interaction 
+logs, comprising the questions students asked and the correspond-
+ing answers generated by AskNow. Course instructors later evalu-
+ated a sample of these question–answer pairs and then participated 
+in a 30-minute semi-structured interview to reflect on their use of 
+AskNow in the classroom and on the quality of its responses (see 
+Section 5.3.1 for details of the expert evaluation procedure). Each 
+instructor was compensated $50 for their time. 
+5.3 Data Analysis 
+To comprehensively assess the effectiveness and usability of 
+AskNow, we conducted a multi-method analysis that combined ex-
+pert validation of system responses, quantitative comparisons of 
+pre- and post-survey results, and qualitative analysis of student 
+and instructor interviews. Below, we detail the methods used for 
+each analysis component. 
+5.3.1 AskNow Response Validation. To evaluate the accuracy and 
+perceived quality of AskNow’s answers, we performed expert val-
+idation using instructors’ ratings. For each course, we randomly 
+sampled 100 question-answer pairs generated during the study ses-
+sions. Instructors were asked to independently assess each pair 
+along two dimensions: perceived correctness and perceived 
+satisfaction, both rated on a 5-point Likert scale (1 = strongly 
+disagree, 5 = strongly agree). Because instructors evaluated 100 
+question–answer pairs per course, we adopted a shorter 5-point 
+scale to reduce their rating burden while still capturing meaningful 
+variation in their judgments. 
+We calculated descriptive statistics for both dimensions across 
+each course. These ratings provided an expert-grounded evaluation 
+of the reliability and relevance of AskNow’s responses within the 
+context of real classroom use. 
+5.3.2 Quantitative Analysis. Quantitative analyses focused on com-
+paring students’ self-reported learning experiences before and after 
+using AskNow. 
+We administered matched pre- and post-surveys to assess four 
+perceived dimensions: (1) overall understanding of course material, 
+(2) information retention from lectures, (3) frequency of confusion 
+during lectures, and (4) time required to resolve confusion when 
+confused. Responses were collected using 7-point Likert scales (1 
+= strongly disagree, 7 = strongly agree). To maintain consistency 
+across student-facing measures, and in line with the standard USE 
+questionnaire [45], all student survey items in our study–including 
+both the pre/post learning items and the USE scales–used 7-point 
+response options. 
+For each dimension and within each course, we conducted paired-
+sample 𝑡-tests comparing pre- and post-survey scores. Because 
+we ran four related tests per course, we treated them as a fam-
+ily of comparisons and applied Bonferroni correction to control 
+the family-wise Type I error rate [71], adjusting the per-test sig-
+nificance threshold to 𝛼adj = .0125. Following current reporting 
+recommendations [72], we report both unadjusted and Bonferroni-
+corrected 𝑝-values, along with standardized effect sizes (Cohen’s 𝑑 
+for repeated measures) and 95% confidence intervals for the mean 
+pre–post differences (Table 4). For interpretation, we use Cohen’s 
+conventional benchmarks for 𝑑 (0.2, 0.5, and 0.8 indicating small, 
+medium, and large effects, respectively) [19]. 
+Additionally, we analyzed responses to the USE (Usefulness, 
+Satisfaction, and Ease of Use) questionnaire administered in the 
+post-survey. We computed mean ratings for each of the four sub-
+scales—Usefulness, Ease of Use, Ease of Learning, and Satisfaction—to 
+assess students’ perceptions of AskNow’s usability. 
+5.3.3 Qualitative Analysis. We conducted thematic analysis on 
+semi-structured interview data collected from 24 students and 3 
+instructors. 
+All interviews were audio-recorded, transcribed verbatim, and 
+analyzed using an inductive thematic coding approach. Two re-
+searchers independently reviewed the transcripts, generated initial 
+codes, and iteratively refined emerging themes through discussion 
+and consensus-building. We used the same analysis methods as 
+we did in 3.1.3. In this phase, we similarly assigned IDs based on 
+the order of study completion (e.g., P1 refers to the first student 
+participant, In1 refers to the first instructor participant). 
+The qualitative findings complement our quantitative analyses 
+by offering nuanced insights into users’ experiences and percep-
+tions, highlighting the strengths of AskNow as well as areas for 
+further system refinement. 
+6 Results 
+We present the results of our evaluation organized around the 
+three research questions. We first report on the effectiveness of 
+AskNow in supporting student learning, followed by an analysis of 
+usage patterns, and finally, a thematic analysis of students’ and 
+instructors’ perceptions. 
+6.1 Effectiveness of AskNow 
+We assessed the effectiveness of AskNow through three perspectives: 
+students’ perceived learning experience before and after using the 
+system, instructors’ evaluations of the system-generated responses, 
+and students’ perceived usability based on the USE questionnaire 
+[45]. 
+6.1.1 Pre- and Post-Survey Results. Among the four perceived 
+learning dimensions, students’ ratings of the time required to re-
+solve confusion during lectures showed the clearest and most robust 
+pre–post changes. Across all three courses, mean scores on this 
+item decreased by roughly 1.1–1.4 scale points on the 7-point Likert 
+scale (lower scores indicate shorter perceived time), and these differ-
+ences remained statistically significant after Bonferroni correction 
+CHI ’26, April 13–17, 2026, Barcelona, Spain Ziqi Liu, Yuankun Wang, Hui-Ru Ho, Yuheng Wu, Yuhang Zhao, and Bilge Mutlu 
+Course 
+Understanding 
+Information 
+Retention 
+Frequency of 
+Confusion 
+Time to 
+  Resolve Confusion 
+0 
+2 
+4 
+6Mean Likert Score (1-7)
+* 
+Course 1 - Pre vs Post Survey Comparison 
+Survey Time 
+Pre 
+Post 
+(a) C1 (Introductory)
+Course 
+Understanding 
+Information 
+Retention 
+Frequency of 
+Confusion 
+Time to 
+  Resolve Confusion 
+0 
+2 
+4 
+6Mean Likert Score (1-7)
+* 
+Course 2 - Pre vs Post Survey Comparison 
+Survey Time 
+Pre 
+Post 
+(b) C2 (Intermediate) 
+Course 
+Understanding 
+Information 
+Retention 
+Frequency of 
+Confusion 
+Time to 
+  Resolve Confusion 
+0 
+2 
+4 
+6Mean Likert Score (1-7)
+* 
+Course 3 - Pre vs Post Survey Comparison 
+Survey Time 
+Pre 
+Post 
+(c) C3 (Advanced) 
+Figure 6: Pre- and post-survey comparisons of students’ perceived learning experience across three courses: (a) Course 1 
+(Introductory), (b) Course 2 (Intermediate), and (c) Course 3 (Advanced). The y-axis represents mean scores on a 7-point Likert 
+scale; error bars represent ±1 standard error of the mean (SEM). Asterisks indicate pre–post differences that remain statistically
+significant after Bonferroni correction for the four tests per course. 
+for the four tests per course (all 𝑝adj < .0125; Table 4). The corre-
+sponding effect sizes were in the medium range (|𝑑 | = 0.62–0.77), 
+and the 95% confidence intervals for the mean differences did not 
+include zero. Taken together, these results indicate that students 
+perceived AskNow as meaningfully accelerating how quickly they 
+could resolve confusion in class. 
+For overall understanding of course material and information 
+retention from lectures, we observed small-to-medium positive 
+changes, particularly in the intermediate and advanced courses. 
+For example, in Course 3, students’ perceived understanding and 
+retention increased by approximately 0.4–0.5 points on the 7-point 
+scale (see Table 4). Several of these contrasts reached conventional 
+significance before correction (e.g., 0.02 ≤ 𝑝raw ≤ 0.08), but none
+remained significant under the Bonferroni-adjusted threshold (all 
+𝑝adj ≥ .09). We therefore interpret these improvements as promis-
+ing trends rather than confirmatory evidence of changes in these 
+broader aspects of perceived learning. 
+By contrast, we did not observe systematic pre–post differences 
+in students’ self-reported frequency of confusion during lectures 
+(all |𝑑 | ≤ 0.22, all 𝑝adj ≥ .89).
+Detailed descriptive statistics, confidence intervals, and effect 
+sizes for each item and course are reported in Table 4 and visualized 
+in Figure 6, where asterisks indicate only those pre–post differences 
+that remain significant after Bonferroni correction. 
+In addition to these changes in students’ perceived learning 
+experience, we evaluated the quality and usability of AskNow from 
+both instructor and student perspectives. 
+6.1.2 Instructor Evaluation of Response Quality. To assess the per-
+ceived quality of AskNow’s responses, course instructors were in-
+vited to rate randomly sampled question-answer pairs on two di-
+mensions: perceived correctness and satisfaction (both on a 5-point
+Likert scale). Across all three courses, instructors consistently rated 
+the responses highly, indicating that AskNow provided accurate and 
+satisfactory answers overall. 
+Specifically, the perceived correctness scores, measured on a 
+5-point Likert scale, were 4.88 (Course 1), 4.79 (Course 2), and 4.53
+(Course 3). Satisfaction ratings were similarly high, with scores of 
+4.75 (Course 1), 4.51 (Course 2), and 4.45 (Course 3). These results 
+suggest that instructors found AskNow to be a reliable support tool 
+for addressing student questions during lectures. A summary of 
+instructors’ ratings across the three courses is illustrated in Figure 7. 
+6.1.3 Usability Evaluation (USE Questionnaire). We further admin-
+istered the standard USE (Usefulness, Satisfaction, and Ease of Use) 
+questionnaire to students who used AskNow during the study. Stu-
+dents’ responses were highly positive across all dimensions. 
+Across the three courses, average ratings for Usefulness, Ease
+of Use, Ease of Learning, and Satisfaction were all above 5 out of
+7 (Table 5). Notably, Ease of Learning received exceptionally high
+ratings, exceeding 6 in all three courses, indicating that students 
+found the system intuitive and easy to adopt with minimal effort. 
+These results demonstrate that AskNow was not only effective 
+in supporting students’ learning during lectures but was also well-
+received in terms of usability and user satisfaction. 
+6.2 Usage Patterns 
+Across the three participating courses, students generated a total of 
+302 (Course 1), 438 (Course 2), and 321 (Course 3) questions through 
+the AskNow system. We first filtered out irrelevant questions—such 
+as greetings (e.g., “Hello,” “How are you?”) and inquiries unrelated to
+C1 (introductory) C2 (intermediate) C3 (advanced) 0 
+1 
+2 
+3 
+4 
+5 
+Score
+4.88 4.79
+4.53 
+4.75 
+4.51 4.45
+Overall Perceived Correctness and Satisfaction per Course
+Perceived Correctness
+Satisfaction
+Figure 7: Instructor-rated correctness and satisfaction across 
+three courses. Error bars represent ±1 standard error of the
+mean (SEM). Instructors in all three courses gave high ratings 
+on the perceived correctness and satisfaction of AskNow. 
+AskNow: An LLM-powered Interactive System for Real-Time Question Answering in Large-Scale Classrooms CHI ’26, April 13–17, 2026, Barcelona, Spain 
+Table 4: Pre–post descriptive statistics, effect sizes, and 𝑝-values for perceived learning measures by course. Means and standard 
+deviations are based on paired responses. Positive Δ𝑀 values indicate higher post-survey ratings; negative values on “Time to 
+resolve confusion” indicate shorter perceived time. 
+Course Dimension 𝑛 Pre 𝑀 (SD) Post 𝑀 (SD) Δ𝑀 [95% CI] 𝑑 𝑝raw 𝑝adj 
+Course 1 Course understanding 32 5.44 (0.98) 5.78 (0.87) +0.34 [-0.04, 0.73] 0.32 .078 .311 
+Course 1 Information retention 32 5.09 (1.20) 5.47 (0.84) +0.38 [-0.12, 0.87] 0.27 .136 .543 
+Course 1 Frequency of confusion 32 3.12 (0.83) 2.81 (1.33) -0.31 [-0.83, 0.20] -0.22 .224 .895 
+Course 1 Time to resolve confusion 32 3.53 (1.39) 2.28 (1.17) -1.25 [-1.97, -0.53] -0.62 .001 .005 
+Course 2 Course understanding 48 5.23 (0.95) 5.58 (0.99) +0.35 [-0.03, 0.74] 0.27 .071 .284 
+Course 2 Information retention 48 4.98 (0.81) 5.38 (1.02) +0.40 [0.02, 0.77] 0.30 .040 .161 
+Course 2 Frequency of confusion 48 3.50 (1.01) 3.58 (1.35) +0.08 [-0.40, 0.57] 0.05 .730 1.000 
+Course 2 Time to resolve confusion 48 3.77 (1.37) 2.38 (1.16) -1.40 [-1.92, -0.87] -0.77 < .001 < .001 
+Course 3 Course understanding 37 5.14 (0.79) 5.54 (0.77) +0.41 [0.06, 0.75] 0.39 .023 .093 
+Course 3 Information retention 37 4.92 (0.92) 5.43 (0.99) +0.51 [0.06, 0.96] 0.38 .026 .104 
+Course 3 Frequency of confusion 37 3.05 (0.78) 3.14 (0.98) +0.08 [-0.33, 0.49] 0.07 .692 1.000 
+Course 3 Time to resolve confusion 37 3.32 (1.23) 2.24 (1.21) -1.08 [-1.63, -0.53] -0.65 < .001 .001 
+the course material (e.g., “How’s the weather today?”). After filtering, 
+255 questions in Course 1, 417 in Course 2, and 204 in Course 3 
+remained for analysis. 
+The first and third authors independently coded all retained 
+questions into five categories based on their primary intent: 
+• Catch me up: Questions aimed at real-time support to catch 
+up with the ongoing lecture content. Examples include “I 
+just arrived to class. Can you quickly catch me up on what 
+I’ve missed?”, “Catch me up! What did the instructor just ex-
+plain?”, and “What was the student’s question and instructor’s 
+answer?”. 
+• Definition or Information: Inquiries seeking clarification 
+or further information about lecture-related concepts. Rep-
+resentative questions include “Can you explain falsifiabil-
+ity?”, “How does an independent variable affect the dependent 
+variable during hypothesis formulation?”, and “Does a quasi-
+experiment always include both pre- and post-tests? ”. 
+• Summarization: Requests for summarizing the content cov-
+ered in the lecture. Typical examples are “Help me summarize 
+the main topics covered today.”, “Summarize the key points 
+the instructor talked about.”, and “What were the main ideas 
+discussed so far in class?”. 
+• External Knowledge: Questions that required information 
+beyond the immediate lecture context. Examples include 
+“Did the professor make any mistake?”, “Where does crowd-
+sourcing come from?”, and “Are there examples of crowdsourc-
+ing applied in structural engineering?”. 
+Table 5: USE questionnaire mean scores (1–7) by course and 
+subscale. 
+Course Usefulness Ease of Use Ease of Learning Satisfaction 
+Course 1 5.57 5.80 6.07 5.70 
+Course 2 5.42 5.85 6.18 5.40 
+Course 3 5.17 5.61 6.09 5.10 
+• Other Types: Questions that did not fit into the above cat-
+egories, such as inquiries about course logistics, technical 
+troubleshooting, or tool usage. For instance, students asked 
+“Do we have a discussion post due tomorrow?”, “How do I install 
+Node.js and npm?”, “Can you translate what the professor is 
+saying in Hindi?”, and “Why would I be getting an infinite 
+fetch loop?”. 
+The distribution of question types across the three courses is 
+shown in Figure 8. Across all three courses, the majority of questions 
+fell into the Catch me up and Definition or Information cate-
+gories, collectively accounting for more than half of all questions 
+in each course. This finding indicates that students predominantly 
+used AskNow to seek clarification on lecture content and to reinforce 
+their understanding during class. 
+Moreover, based on the total number of questions and the number 
+of participants, we estimate that each student asked an average 
+of 4 to 7 questions during the study sessions. This suggests that 
+students were actively engaging with the system throughout the 
+lectures. 
+Interestingly, in Course 2, a course with a strong focus on prac-
+tical skills development, there was a noticeably higher proportion 
+of Other Type questions, particularly those related to technical 
+support and tool usage (e.g., npm installation, Git commands). This 
+observation highlights AskNow’s potential to assist students not 
+only in content comprehension but also in navigating technical 
+challenges in hands-on learning environments. 
+6.3 Student Perception 
+Beyond the analysis of logged questions, we conducted thematic 
+analysis on post-study interviews with 24 students to further under-
+stand their experiences and use of AskNow. This qualitative analysis 
+complements the quantitative findings by offering deeper insights 
+into students’ usage behaviors, motivations, perceptions of the 
+system, and suggestions for improvement. 
+6.3.1 Usage Contexts. Students reported using AskNow primarily to 
+catch up on missed content during lectures, particularly when they 
+were late, distracted, or engaged in parallel activities. For instance, 
+CHI ’26, April 13–17, 2026, Barcelona, Spain Ziqi Liu, Yuankun Wang, Hui-Ru Ho, Yuheng Wu, Yuhang Zhao, and Bilge Mutlu 
+0 50 100 150 200 250 300 350 400 
+Number of Questions
+C3 
+(advanced) 
+C2 
+(intermediate)
+C1 
+(introductory)
+30.2% 
+25.4% 
+35.3%
+39.2% 
+42.0%
+26.0%
+10.2%
+7.2%
+5.9% 
+13.7% 
+13.4% 
+24.0% 
+6.7%
+12.0%
+8.8%
+Total: 255
+Total: 417
+Total: 204
+Distribution of Question T ypes per Course
+Question T ype
+Catch me up 
+Definition or Info 
+Summarization 
+External reference
+Other T ype
+Figure 8: Distribution of question types across different courses 
+P6 noted, “Maybe if I miss something, I’ll just ask it to tell me what
+the professor has said”, while P7 described, “Usually I get late to
+two-hour courses... I would just use it to catch up with the lecture”.
+Similarly, P9 shared, “If I stopped paying attention for a period of
+time, I would ask what the professor had just said”.
+In addition to catching up, students also frequently used AskNow 
+to request explanations for complex concepts encountered during 
+lectures. P13 recalled, “When the teacher introduced new concepts
+like useEffect, I used AskNow to help me understand it”, and P21
+explained, “When I lose focus and don’t understand a concept or
+keyword, I just ask for further explanation”.
+Other less common but noteworthy usage patterns included 
+generating study guides after class (P1) and creating exercises for 
+additional practice (P3). These findings suggest that students lever-
+aged AskNow both for real-time clarification and for post-lecture 
+reinforcement of learning. 
+6.3.2 Motivations for Using AskNow. Several motivations drove 
+students to prefer AskNow over traditional in-class question-asking. 
+A prominent motivation was the desire to avoid disrupting the 
+lecture flow. P15 remarked, “I don’t want to interrupt the professor
+because it is not good and it makes the course not fluent”, while
+P21 stated, “Asking AskNow is great because you don’t interrupt the
+lecture”.
+Students also emphasized the reduction of social pressure and 
+anxiety when using AskNow. P13 shared, “I’m really nervous about
+asking questions during the lecture, especially as an international 
+student”, and P17 noted, “Sometimes we feel a bit shy to ask in front
+of the entire class, but AskNow allowed us to ask anonymously”.
+Efficiency was another frequently cited motivation. Students 
+appreciated the immediacy and convenience of receiving answers 
+without waiting. P6 explained, “It gives me a very fast answer. I
+don’t need to browse Google”, and P21 highlighted, “You don’t need
+to interrupt, you don’t need to raise your hand; no barrier”.
+These motivations collectively illustrate how AskNow addressed 
+key barriers to help-seeking behaviors in large lecture environ-
+ments, making real-time clarification more accessible and less in-
+timidating. 
+6.3.3 Perceptions of AskNow’s Responses. Overall, students per-
+ceived AskNow’s responses as accurate, clear, and supportive of their 
+learning. Multiple participants expressed trust in the correctness of 
+the system’s outputs. P1 remarked, “None of the answers were wrong
+that I got, so I’m assuming that it was right”. Others highlighted the
+readability and structure of the responses, with P7 stating, “The
+chatbot gave me answers in bullet points. It was very straightforward 
+to read”.
+Students who were non-native English speakers particularly 
+valued the system’s ability to provide explanations in their preferred 
+language. P8 commented, “Because my native language is not English,
+I can chat in my language and better understand what the teacher 
+said”, and P14 added, “AskNow can help me understand phrases or
+sentences that I might have missed the first time”.
+These perceptions suggest that AskNow successfully delivered 
+timely and comprehensible responses, enhancing students’ under-
+standing regardless of their language background. 
+6.3.4 Suggestions for Future Improvement. While students were 
+generally satisfied with AskNow, they also identified several areas 
+for improvement. 
+One frequently suggested enhancement was integrating addi-
+tional course materials, such as lecture slides or notes, to provide 
+more grounded and context-specific answers. As P1 suggested, 
+“Maybe allow AskNow to access professor slides or notes”, and P8
+AskNow: An LLM-powered Interactive System for Real-Time Question Answering in Large-Scale Classrooms CHI ’26, April 13–17, 2026, Barcelona, Spain 
+proposed, “Maybe it can keep chasing which slide the teacher is 
+showing”. 
+Students also expressed a desire for customizable response 
+lengths to suit different needs. P17 proposed, “Maybe have an option 
+for a brief answer or a detailed one”, while P21 noted, “Some users 
+want longer answers, but for non-native speakers, shorter responses 
+might be better”. 
+Additional suggestions included supporting uploads of images 
+and PDFs (P4, P17), introducing shortcut buttons for common 
+queries (P6), enabling after-class access for review purposes (P10), 
+and providing options for user-controlled anonymity when submit-
+ting questions (P4). 
+These suggestions highlight students’ aspirations for more flex-
+ible, personalized, and context-aware real-time learning support 
+through systems like AskNow. 
+6.4 Instructor Perception 
+Thoughts about the AskNow Instructor-side Features. Instructors 
+emphasized the importance of avoiding recording sensitive infor-
+mation about students to protect student privacy. All instructors 
+appreciated the Pause feature, recognizing its importance during in-
+class activities or personal student interactions to avoid recording 
+irrelevant or sensitive conversations. In1 highlighted that pausing 
+could help maintain student privacy, aligning with FERPA regula-
+tions. In2 mentioned using it naturally during breaks and activities 
+in class to avoid feeding unrelated content into AskNow. 
+Regarding the four ways to display student questions, instruc-
+tors preferred using the interface primarily during breaks or after 
+lectures rather than in real time. In1 and In2 favored post-lecture 
+review to reflect on student confusions. In2 and In3 emphasized that 
+categorizing questions by topics helped them quickly grasp areas of 
+confusion, although In3 noted that many displayed questions asked 
+for summaries, which were less useful to the instructor during the 
+lecture. 
+Quality and Limitations of Responses. Overall, instructors found 
+AskNow’s responses to be accurate and helpful. In1 expressed high 
+satisfaction, stating that only a small percentage of the responses 
+had minor problems, mainly due to outdated knowledge. For exam-
+ple, AskNow suggested an outdated way to create a React project, 
+which might mislead student. Similarly, In2 found responses to be 
+generally well-aligned with the course content but observed that the 
+system sometimes generated irrelevant code snippets when explain-
+ing high-level design concepts, which could potentially confuse 
+students. In3 acknowledged the system’s strength in summarization 
+and explanation tasks but pointed out several limitations, including 
+transcription errors affecting answer quality, inconsistencies in 
+summarizations, and occasional hallucinations, particularly when 
+the system attempted to reference visual materials it did not have 
+access to. 
+Perceived Benefits. The instructors identified several perceived 
+benefits of AskNow for students. They noted that the system pro-
+vided real-time clarification, allowing students who arrived late or 
+missed parts of the lecture to catch up effectively. 
+In2 and In3 emphasized that AskNow supported shy students 
+who might otherwise hesitate to ask questions in a large lecture 
+setting. 
+Furthermore, In1 noted that AI-assisted responses helped stu-
+dents identify small mistakes in in-class exercises, providing imme-
+diate feedback that enhanced their learning experience. 
+For instructors, AskNow offered opportunities for post-lecture 
+reflection. In2 highlighted that the aggregated student questions 
+could inform improvements in future course design by identifying 
+areas of recurring confusion. 
+Concerns. Despite recognizing its benefits, instructors raised 
+several concerns about the system. In1 and In2 expressed concerns 
+about information overload, suggesting that lengthy AI responses 
+during real-time lectures could overwhelm students and cause them 
+to miss ongoing live content. 
+In3 raised a concern that the availability of immediate AI-
+generated answers could disrupt students’ critical thinking pro-
+cesses, encouraging a habit of seeking quick solutions rather than 
+reflecting independently. 
+Both In2 and In3 also noted issues with misaligned content, 
+where AskNow provided irrelevant or out-of-scope information, 
+such as detailed code implementations, that did not match the 
+lecture’s conceptual focus. 
+Another significant concern raised by In2 was the potential im-
+pact on class attendance; if students could easily access summarized 
+content through AskNow, they might feel less motivated to attend 
+lectures in person, potentially missing nuanced explanations and 
+interactive elements that are essential to learning. 
+Suggestions for Improvements. The instructors proposed several 
+improvements to improve the usability and effectiveness of As-
+kNow. One major recommendation was to integrate more contex-
+tual information into the system by feeding lecture slides and other 
+course materials alongside audio transcripts, thereby improving 
+the relevance of AI-generated responses. 
+In addition, In3 emphasized the need for content filtering fea-
+tures, suggesting that generic summary questions should be filtered 
+out to allow instructors to focus on substantive points of confusion. 
+To better align with classroom pedagogical goals, In3 also suggested 
+introducing instructor-side controls that could restrict students’ 
+access to external knowledge generation during specific periods, 
+such as critical thinking exercises. 
+Furthermore, instructors recommended the development of en-
+hanced post-lecture reports, featuring visualized summaries that 
+highlight areas of peak confusion organized by content topics. In3 
+also proposed the addition of a mobile-friendly interface for instruc-
+tors, which would allow them to conveniently access the system 
+while moving around during lectures. Finally, In1 suggested imple-
+menting an instructor-facing chatbot to facilitate post-class review, 
+allowing instructors to ask follow-up questions and receive synthe-
+sized insights. 
+Overall, instructors found AskNow promising, particularly for 
+supporting student learning and post-lecture reflection. Addressing 
+their concerns and implementing their suggested improvements 
+would further enhance the system’s usability and educational im-
+pact. 
+CHI ’26, April 13–17, 2026, Barcelona, Spain Ziqi Liu, Yuankun Wang, Hui-Ru Ho, Yuheng Wu, Yuhang Zhao, and Bilge Mutlu 
+7 Discussion 
+Our deployment and evaluation of AskNow reveal promising op-
+portunities and important considerations for real-time AI-powered 
+support in large-scale classrooms. Students leveraged AskNow to 
+clarify confusion efficiently and without social anxiety, while in-
+structors found the system’s responses to be largely accurate and 
+satisfactory. However, our findings also highlight challenges such 
+as managing cognitive load, ensuring alignment with pedagogical 
+goals, and balancing immediate support with the promotion of 
+deeper critical engagement. In this section, we discuss the impli-
+cations of our findings for the design and deployment of real-time 
+educational support systems, reflect on limitations of our study, 
+and propose directions for future work. 
+Our study demonstrates that AskNow effectively supported stu-
+dents’ real-time learning needs in large lecture settings. Students’ 
+perceived time to resolve confusion decreased significantly across 
+all three courses, and instructors consistently rated AskNow’s re-
+sponses highly in correctness and satisfaction. Students primarily 
+used AskNow to catch up on missed content and clarify concepts 
+without disrupting the lecture, motivated by the desire to avoid 
+social anxiety, maintain lecture flow, and receive timely answers. 
+Instructors valued AskNow’s potential to enhance post-lecture re-
+flection but emphasized the need to manage cognitive load and 
+align system responses with course objectives. At the same time, 
+our evaluation relies on students’ self-reported experiences and 
+instructors’ expert judgments collected over a short deployment, 
+rather than on objective performance metrics, so our findings pri-
+marily characterize perceived in-class support rather than definitive 
+short- or long-term learning gains. 
+7.1 A Chain of Affordances in Real-Time 
+Classroom Support 
+Our findings suggest that AskNow enables a unique chain of affor-
+dances that collectively foster student engagement and provide 
+instructors with richer pedagogical feedback. First, the system low-
+ers the social barrier for participation by allowing students to ask 
+questions anonymously and without interrupting lecture flow (A). 
+Second, it provides immediate, context-sensitive answers to stu-
+dent questions (B). The combination of these two features increases 
+students’ willingness to actively seek clarification in real time (C). 
+As a result, instructors gain access to a more comprehensive and 
+authentic aggregation of student confusions and areas of misun-
+derstanding (D). This chain—low barrier (A) plus real-time answers 
+(B) leading to increased questioning (C) and ultimately to richer 
+instructional insights (D)—highlights the systemic value of inte-
+grating AI-powered support into live classroom settings. 
+7.2 Comparison with Existing Tools 
+This chain of affordances also clarifies why existing classroom tech-
+nologies cannot serve as direct baselines for our study. Clicker 
+systems (e.g., TopHat) provide a low social barrier (A) and enable 
+instructors to collect aggregate feedback, but only on instructor-
+defined prompts, thus offering at best a limited version of (D) with-
+out supporting real-time individualized answers (B) or encouraging 
+spontaneous questioning (C). Backchannel platforms (e.g., Piazza) 
+similarly reduce social barriers (A) and can encourage some student 
+questioning (C), but they rely heavily on human moderation and 
+are not feasible for real-time deployment in large-scale classrooms. 
+Without the ability to provide immediate responses (B), backchan-
+nels also fail to generate the same comprehensive aggregation of 
+student confusion (D). By contrast, AskNow uniquely integrates all 
+four elements (A+B→C→D), thereby creating conditions for both 
+immediate individual learning support and broader instructional 
+insight. 
+Finally, while existing systems cannot serve as direct compara-
+tors in our evaluation, future research could explore broader cross-
+system comparisons. For instance, it remains an open question 
+whether the immediacy of real-time support provided by AskNow 
+yields long-term learning benefits beyond those enabled by clickers 
+or post-hoc backchannel discussions. Investigating such trade-offs 
+across modalities would help advance our understanding of how 
+different technologies shape not only in-class engagement but also 
+sustained learning outcomes. 
+7.3 Design Implications 
+Our findings suggest several important design implications for real-
+time AI-powered classroom support systems. Systems should be 
+designed to minimize cognitive overload by delivering concise and 
+contextually appropriate responses. Offering adjustable response 
+lengths would allow students to tailor the level of detail to their 
+immediate cognitive needs. Given that a significant proportion of 
+student questions were related to catching up on recent lecture 
+content, the system could include shortcut functionalities, such as 
+a "Catch me up" button, or even dynamic real-time summarizations 
+to facilitate efficient information retrieval. However, care must 
+be taken to avoid adding cognitive burden through information 
+overload. 
+Another critical implication is the grounding of AI responses 
+in course materials. Integrating resources such as lecture slides, 
+syllabi, and readings would enable the system to deliver more ac-
+curate and pedagogically aligned responses. Personalization and 
+accessibility must be prioritized by offering multi-language support 
+and adjustable explanation depth, ensuring that diverse learners, 
+including non-native English speakers, can effectively engage with 
+the system. 
+Moreover, AskNow presents opportunities to not only support in-
+dividual learning but also enhance collective learning environments 
+[64]. Future designs could incorporate selective sharing of student 
+questions through a moderated backchannel, enabling peers to 
+benefit from each other’s inquiries without disrupting the lecture 
+flow [74]. Finally, for instructors, providing analytic dashboards 
+that summarize and categorize collected student questions after 
+the lecture could offer valuable insights for refining instructional 
+strategies and understanding common points of confusion. In addi-
+tion, our findings and prior work suggest that real-time assistants 
+should be designed not only to deliver answers quickly but also to 
+scaffold active cognitive engagement. Rather than always provid-
+ing fully worked-out solutions, systems could sometimes respond 
+with prompts that ask students to predict, explain, or connect ideas 
+before revealing the answer, or offer brief hints that encourage re-
+trieval and reflection. Such interaction patterns may help mitigate 
+AskNow: An LLM-powered Interactive System for Real-Time Question Answering in Large-Scale Classrooms CHI ’26, April 13–17, 2026, Barcelona, Spain 
+the risk that easy access to correct answers leads students to rely 
+on the system in ways that reduce effortful thinking during lecture. 
+Beyond these design implications, we highlight two deployment 
+considerations–privacy and instructor adoption–that are critical 
+for real-world integration. 
+7.4 Balancing Student Privacy and Real-time 
+Support 
+While AskNow enabled anonymous, low-friction question submis-
+sion that reduced students’ social anxiety, its use of real-time lecture 
+transcripts and logged interactions also raises important privacy 
+considerations. Instructors in our formative study explicitly empha-
+sized the need for anonymization to make students feel comfortable 
+asking questions. Our deployment confirmed this: students were 
+more willing to engage when assured that their questions were 
+not identifiable. At the same time, providing aggregated views of 
+student questions to instructors created new tensions: some stu-
+dents expressed concerns about whether their usage data might 
+later be linked back to them, particularly for sensitive or personal 
+confusions. These findings highlight the importance of designing 
+classroom AI systems that preserve individual privacy while still 
+offering instructors sufficient visibility to address common areas of 
+confusion. Future iterations should explore more transparent con-
+sent mechanisms, data minimization practices, and flexible controls 
+for what is shared with instructors. 
+7.5 Instructor Adoption Concerns 
+Instructors valued AskNow’s ability to surface collective confu-
+sion and provide immediate support, yet they also raised adop-
+tion concerns that shaped their perceptions of long-term integra-
+tion. A central issue was the accuracy and appropriateness of AI-
+generated responses. Instructors worried about inconsistencies be-
+tween AskNow’s outputs and their intended teaching points, as well 
+as the potential erosion of their pedagogical authority if incorrect 
+answers were delivered in class. They also emphasized the need for 
+low-disruption interfaces: while aggregated summaries were useful, 
+monitoring them in real time added to their cognitive load. These 
+concerns suggest that adoption of classroom AI systems will depend 
+on building instructor trust through transparent prompt design, 
+opportunities for instructor oversight, and integration strategies 
+that complement–rather than compete with–instructors’ teaching 
+practices. Addressing these adoption barriers is critical for moving 
+from short-term trials to sustained classroom use. 
+7.6 Limitations & Future Work 
+While our study offers valuable insights, several limitations warrant 
+consideration. The study was limited to two lectures per course, 
+which may not fully capture long-term adoption patterns or sus-
+tained learning outcomes. Additionally, the study was conducted 
+within a single university and within computer science and HCI-
+related disciplines, limiting generalizability across different aca-
+demic domains. Participant self-selection may have introduced bias, 
+as students who were more motivated or more comfortable with 
+technology might have been more likely to participate. Further-
+more, our system operated solely based on live audio transcripts 
+without integration of visual materials such as slides, which might 
+have constrained the relevance and specificity of responses. More 
+fundamentally, our primary outcome measures were subjective: the 
+pre–post comparisons capture students’ self-reported understand-
+ing, retention, confusion, and time to resolve confusion, and the 
+instructor ratings reflect perceived correctness and satisfaction with 
+individual answers, all collected during a single week of use. We 
+did not obtain objective performance metrics such as quiz scores, 
+assignment grades, or delayed retention tests, nor did we include a 
+separate control condition. As a result, our current data speak to 
+how students and instructors experienced AskNow in situ, rather 
+than to causal effects on short- or long-term learning outcomes. 
+Recent work further cautions against equating perceived help-
+fulness with actual learning. Chen et al. show that, in AI-supported 
+note-taking, providing more automated assistance can make the 
+experience feel easier while at the same time reducing learners’ 
+cognitive engagement and lowering post-test performance [17]. In 
+a complementary line of work, Butowska-Buczyńska et al. demon-
+strate that varied, effortful retrieval practice leads to more effective 
+learning than repeatedly retrieving or re-reading the same infor-
+mation [14]. Together, these results suggest that tools like AskNow, 
+which lower the friction of obtaining correct answers, may simul-
+taneously support timely clarification and risk undermining the 
+effortful retrieval processes that are critical for durable learning. 
+Our qualitative findings already reflect this tension. Several stu-
+dents reported using AskNow when they were late, momentarily 
+distracted, or had “stopped paying attention, ” describing the system 
+as a way to quickly catch up, while instructors worried that long or 
+overly detailed answers during class could overload students and 
+cause them to miss ongoing explanations. We did not directly mea-
+sure attention allocation, time-on-task, or depth of processing, so 
+we cannot determine whether interacting with AskNow ultimately 
+helps students remain engaged with the lecture or encourages them 
+to offload thinking to the AI. 
+Future work should therefore complement subjective reports 
+with objective indicators of learning and cognitive engagement. 
+Larger deployments could, for example, randomly assign students 
+or lecture sessions to different conditions (e.g., AskNow, a traditional 
+backchannel, or no additional tool) and compare performance on 
+concept-specific quizzes, delayed retention tests, transfer problems, 
+and behavioral measures of attention. Building on the AI-assistance 
+and retrieval-practice literature, such studies could also explore 
+interaction designs that explicitly prompt students to restate or 
+apply concepts themselves, or that defer more detailed explanations 
+to after-class review, in order to preserve the benefits of real-time 
+clarification while supporting deeper learning. 
+Beyond these study-specific limitations, future deployments 
+must also address technical challenges inherent to real-time educa-
+tional support systems. Although expanding access to richer course 
+materials–such as syllabi, lecture slides, and assigned readings– 
+would likely improve response quality and pedagogical alignment, 
+large language models (LLMs) face fundamental context length 
+limitations. Directly incorporating extensive course materials risks 
+exceeding the model’s context window, potentially leading to de-
+graded performance. Future work should explore integrating con-
+text management strategies such as retrieval-augmented generation 
+(RAG) [26, 43], sparse attention mechanisms (e.g., Longformer [6]), 
+CHI ’26, April 13–17, 2026, Barcelona, Spain Ziqi Liu, Yuankun Wang, Hui-Ru Ho, Yuheng Wu, Yuhang Zhao, and Bilge Mutlu 
+chunking combined with hierarchical attention models (e.g., Hierar-
+chical Transformers [44]), and other techniques for multi-document 
+retrieval and understanding to support scaling without compromis-
+ing accuracy. 
+Moreover, some instances of incorrect responses were not solely 
+attributable to the limitations of LLMs but also to inaccuracies in-
+troduced during the speech-to-text (STT) transcription process. For 
+example, during one lecture, the STT system misrecognized the 
+term "crowdsourcing" as "cross sourcing, " leading AskNow to ini-
+tially misinterpret the instructor’s discussion until further context 
+allowed the model to self-correct. This highlights the critical role 
+of transcription quality in the overall system performance. Future 
+versions of AskNow could enhance STT accuracy by allowing in-
+structors to predefine key course-specific terminology, enabling the 
+STT system to better recognize specialized vocabulary and feeding 
+more reliable textual input to the LLM [52]. Improving transcrip-
+tion accuracy can in turn improve the precision and reliability of 
+real-time responses. 
+Additionally, our study revealed that both students and instruc-
+tors emphasized the critical importance of privacy protection. While Acknowledgments 
+the large volume of student interaction data collected by systems 
+like AskNow holds significant potential for informing future instruc-
+tional design and improving educational practices, it is imperative 
+to ensure that student privacy is rigorously safeguarded. Future 
+implementations must adopt strict privacy-preserving mechanisms, 
+such as comprehensive data anonymization, careful handling of 
+sensitive information, and clear limitations on data usage [58]. It 
+is essential that the use of collected data does not cause harm to 
+individual students and that its application remains firmly focused 
+on educational enhancement in an ethical and responsible manner 
+[3]. 
+Looking ahead, future work should also explore extended de-
+ployments across diverse disciplines and course types, including 
+both theoretical and applied fields, to better understand the broader 
+applicability of real-time AI support systems. Building on the in-
+sights from data collection, longitudinal deployments spanning 
+multiple semesters could allow instructors to refine and customize 
+AI responses over time. With accumulated data, instructors might 
+even fine-tune local models tailored to their specific courses, re-
+ducing deployment costs, improving pedagogical alignment, and 
+enhancing system stability. Furthermore, exploring more efficient 
+and less cognitively taxing ways of delivering real-time lecture 
+summaries—such as through visualizations or tiered information 
+layers—represents an exciting avenue for future system develop-
+ment. 
+8 Conclusion 
+In this work, we explored how LLM-based systems can support real-
+time learning and interaction in large-scale classrooms. Through 
+formative interviews with students and instructors, we identified 
+key challenges around real-time question-asking, cognitive load, 
+and access to immediate support. To address these challenges, we 
+developed AskNow, an LLM-powered system that enables students to 
+ask questions during lectures and receive immediate, context-aware 
+answers. Our deployment across three large university computer 
+science courses demonstrated that AskNow significantly reduced 
+students’ perceived time to resolve confusion, was rated highly 
+by instructors for correctness and satisfaction, and was positively 
+received by students in terms of usability. Our findings provide 
+empirical evidence that real-time, AI-mediated question-answering 
+can help lower barriers to help-seeking, enhance student engage-
+ment, and offer valuable post-lecture insights for instructors. At 
+the same time, our results surfaced important considerations for 
+future system design, including managing cognitive load, ground-
+ing AI responses in course-specific materials, safeguarding student 
+privacy, and supporting instructor trust in AI-generated responses. 
+Looking forward, we see opportunities to expand this work by in-
+tegrating richer multimodal classroom contexts (e.g., lecture slides, 
+whiteboard content), supporting longitudinal use across a full se-
+mester, and investigating the impacts of AI-mediated interaction 
+on learning outcomes at scale. We hope that our study offers both 
+practical tools and conceptual foundations for designing real-time, 
+LLM-powered educational systems that enhance learning equity, 
+efficiency, and engagement in large classrooms. 
+We thank the students and instructors who participated in our 
+studies for their time and feedback. This work was supported in part 
+by the Trewartha Senior Honors Thesis Research Award. We also 
+thank the anonymous reviewers for their constructive feedback. 

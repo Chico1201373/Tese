@@ -9,3 +9,5 @@ papers_firefox_app_profile/
 papers_firefox_profile/
 
 scripts/_arquivo/
+scripts/textos/
+scripts/.venv/

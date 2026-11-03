@@ -1,0 +1,379 @@
+Cloud-Edge Retrieval-Augmented Agent Tutor for
+Trustworthy Personalized Learning in
+Resource-Constrained Higher Education
+1st Hao Wei*
+Shinawatra University,
+Pathum Thani 12160, Thailand
+Jinzhong Health College,
+Jinzhong 030600, Shanxi, China
+258587775@qq.com
+*Corresponding author
+2nd Yahui Chai
+Computer Application Technology
+Jiangxi University of Software
+Professional Technology
+Nanchang 330000, Jiangxi, China
+chai yh2@sina.com
+3rd Siyu You
+Business Administration
+Jiangxi University of
+Finance and Economics
+Nanchang 330000, Jiangxi, China
+376521258@qq.com
+4th Ying Jia
+Jinzhong College of Health
+Shanxi, China
+2258702464@qq.com
+5th Wenyuan Lu
+Shinawatra University
+Pathum Thani 12160, Thailand
+523590124@qq.com
+6th Mey Sok
+Institute of Technology of Cambodia
+Phnom Penh 12156, Cambodia
+sokmey806@gmail.com
+Abstract—Generative AI tutors are attractive for universities
+that lack enough human tutoring capacity, but unbounded cloud
+chatbots are difficult to audit, costly to operate, and risky
+when advice is not grounded. This paper presents a cloud-edge
+retrieval-augmented agent tutor for trustworthy personalized
+learning in resource-constrained higher education. The workflow
+combines early-risk learning analytics, local evidence retrieval,
+policy checking, route-aware cloud escalation, and an explicit
+run record. On the Open University Learning Analytics Dataset
+(OULAD), the executed pipeline processed 32,593 student-course
+records, produced 8,149 test predictions, audited 160 high-risk
+feedback cases, and generated a full-test routing audit. Logistic
+regression achieved Macro-F1=0.757, AUC=0.838, and at-risk
+recall=0.693 from first-28-day activity; across five split seeds,
+Macro-F1 was 0.757 ±0.002. Feature ablation, query ablation,
+and route-policy stress tests identify which design choices matter.
+The contribution is a reproducible AIoTC-style architecture
+and evidence package, bounded to offline public-data evalua-
+tion rather than classroom learning gains or hardware latency
+benchmarking.
+Index Terms —retrieval-augmented generation, LLM agents,
+learning analytics, edge AI, cloud computing, trustworthy AI,
+personalized learning, SDG 4
+I. I NTRODUCTION
+Universities are rapidly testing generative AI for tutoring
+and feedback, including large-scale automated feedback for
+language learning [1], [2]. The education literature is also
+cautious about hallucination, academic-integrity, transparency,
+and governance risks [1]. These risks are sharper in resource-
+constrained institutions. A useful AI tutor must personalize
+support, but it cannot send every learner interaction to a cloud
+model or issue advice that cannot be traced to evidence.
+Three technical streams are relevant but often remain sep-
+arate. Learning analytics can identify learners who may need
+early support [3]–[5]. Retrieval-augmented generation (RAG)
+can ground generated language in external evidence, although
+retrieval does not remove the need for faithfulness evalua-
+tion [6]–[8]. LLM-agent work provides a way to separate
+sensing, tool use, policy checking, and response composi-
+tion [9]. Edge intelligence and mobile-edge LLM research
+further motivate routing some computation away from the
+cloud when latency, privacy, bandwidth, or cost matters [10],
+[11].
+This paper joins these streams into a compact AIoTC
+education service. The technical novelty is a logged control
+loop linking risk scoring, course-context retrieval, evidence-
+marker auditing, policy blocking, and cloud-edge routing for
+one learner record. This differs from educational RAG that
+mainly grounds answers and learning analytics that mainly
+predicts risk. This positioning is consistent with recent work on
+auditability in AI-integrating learning-analytics systems [12].
+We contribute (i) a route-aware RAG agent architecture, (ii)
+a reproducible OULAD experiment with prediction, ablation,
+retrieval, agent, and routing artifacts, and (iii) an explicit claim
+boundary that avoids unperformed classroom, human-rating, or
+edge-device claims.
+II. M ETHOD
+Fig. 1 shows the system. The edge side computes early-risk
+scores and local retrieval over course statistics and support-
+policy passages. The agent executes a fixed trace: sense risk,
+retrieve evidence, check policy, compose feedback, and route
+delivery. Sense risk reads the score and early activity; retrieve
+2026 5th International Conference on Artificial Intelligence, Internet of Things and Cloud Computing Technology (AIoTC)
+979-8-3195-4434-6/26/$31.00 ©2026 IEEE
+891
+2026 5th International Conference on Artificial Intelligence, Internet of Things and Cloud Computing Technology (AIoTC) | 979-8-3195-4434-6/26/$31.00 ©2026 IEEE | DOI: 10.1109/AIOTC71250.2026.11689071
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:54:38 UTC from IEEE Xplore.  Restrictions apply. 
+evidence selects course/policy passages; check policy blocks
+unsupported or sensitive claims; compose feedback emits
+evidence-marked guidance. A high-risk record with few first-
+28-day clicks and low early assessment mean is routed to cloud
+handling when retrieval confidence is low, after citing course
+evidence and support policy.
+For each student-course record i, early features x0:28i are
+computed from the first 28 days of virtual learning environ-
+ment (VLE) activity, registration data, assessment submissions,
+and course/learner descriptors. The binary target in Eq. (1) is
+yi = 1{finali ∈ {Fail, Withdrawn}}. (1)
+The edge predictor in Eq. (2) estimates an at-risk probability
+by a regularized logistic objective:
+ri = σ(w⊤zi + b),
+L = −
+X
+i
+{yi log ri + (1 − yi) log(1 − ri)} + λ∥w∥22, (2)
+where zi is the encoded feature vector. We compare this
+model with random forest and Extra Trees under the same
+split. Demographic fields are used for subgroup auditing and
+reproducibility, not for stereotype-based feedback.
+For feedback, a query qi combines course code, presenta-
+tion, risk score, early clicks, active days, and early assessment
+mean. A TF-IDF retriever ranks evidence passages by cosine
+similarity as Eq. (3):
+Rk(qi) = TopKd∈D cos(ϕ(qi), ϕ(d)). (3)
+Retrieval confidence is ci = maxd∈Rk(qi) cos(ϕ(qi), ϕ(d)).
+The audit uses four claim slots: risk status, behavioral evi-
+dence, course comparison, and action. A supported claim must
+cite [E1] or [P1], match course context, and avoid protected
+or sensitive inferences. For M expected claim slots and mi
+observed evidence markers, unsupported-claim rate is
+ui = 1 − min(mi/M, 1). (4)
+Using Eq. (4) as the grounding audit, the route in Eq. (5) is
+assigned by a deterministic policy with confidence threshold
+τc = 0.04:
+ρi =
+
+
+
+edge-only, r i < 0.55, ci ≥ τc,
+edge-first, 0.55 ≤ ri < 0.75, ci ≥ τc,
+cloud, r i ≥ 0.75 or ci < τc.
+(5)
+Algorithmically, each record follows six steps: construct zi,
+score ri with Eq. (2), rank Rk(qi) with Eq. (3), compose
+evidence-marked feedback, audit ui, and export the route ρi
+from Eq. (5). Latency and token values are route-level proxies,
+not hardware measurements.
+III. E XPERIMENT AND RUN RECORD
+The experiment uses OULAD [3], a public dataset con-
+taining course metadata, assessments, VLE resources, student
+information, registrations, assessment submissions, and VLE
+clicks. The pipeline builds a 32,593-row first-28-day feature
+TABLE I
+EXECUTED PIPELINE RECORD AND EXTRACTED ARTIFACTS .
+Item Evidence generated in this project
+Command python3
+03_Experiments/run_pipeline.py
+Environment Python 3.9.6; scikit-learn 1.6.1; NumPy 2.0.2
+Data manifest 7 OULAD CSV files with byte sizes and
+SHA-256 hashes
+Feature/prediction
+outputs
+32,593 feature rows; 8,149 test-prediction rows
+Feedback/routing
+outputs
+160 feedback-audit rows; 8,149 route-audit
+rows
+Ablation/stress
+outputs
+5 split seeds; 3 time windows; 4 feature
+variants; 3 query variants; 4 route policies
+Claim boundary Offline public-data experiment; no classroom
+or hardware claim
+table with an at-risk rate of 0.528 and uses a stratified 75/25
+split with seed 2026. The test set contains 8,149 records.
+Table I summarizes the run record. In addition to metric
+summaries, the project stores the processed feature table,
+test predictions, feedback-audit CSV , agent-audit CSV , route-
+audit CSV , sustainability indicators, run log, and command
+transcript. This matters because the paper’s claim is not that
+an abstract framework “should work,” but that an executable
+pipeline produced traceable artifacts.
+TABLE II
+FIRST-28- DAY AT-RISK PREDICTION ON OULAD.
+Model Acc. Macro-F1 AUC Risk Rec.
+Logistic Reg. 0.757 0.757 0.838 0.693
+Random Forest 0.756 0.756 0.842 0.668
+Extra Trees 0.757 0.756 0.842 0.648
+Table II shows that logistic regression gives the best Macro-
+F1. The tree ensembles provide close AUC but lower at-
+risk recall. The selected model was rerun over five strati-
+fied split seeds, giving Macro-F1 of 0.757 ±0.002, AUC of
+0.841±0.004, and at-risk recall of 0.694 ±0.007. The largest
+measured recall gap among gender, disability, and low-IMD
+groupings is 0.118, so the system records a fairness warning
+rather than claiming fairness certification.
+Fig. 2 summarizes the evidence matrix. Window sensitivity
+showed that Macro-F1 increased from 0.700 at day 7 to 0.725
+at day 14 and 0.757 at day 28, while AUC increased from
+0.768 to 0.838. Feature ablation showed that removing VLE
+activity reduced Macro-F1 to 0.727 and removing assessment
+features reduced it to 0.732; an administrative/profile-only
+variant fell to 0.638. These results support the design choice
+of using early behavioral and assessment signals together.
+For RAG evaluation, we selected the 160 highest-risk test
+records. Retrieval reached precision@1=1.00 and hit@3=1.00
+for the exact course-presentation statistics document. A query
+ablation exposed the boundary: removing course identifiers
+reduced precision@1 and hit@3 to 0.006. Grounded feedback
+reached evidence coverage of 1.00 and unsupported-claim
+rate of 0.00; generic advice reached evidence coverage of
+0.00 and unsupported-claim rate of 1.00. The local retrieval
+892
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:54:38 UTC from IEEE Xplore.  Restrictions apply. 
+Cloud-edge RAG agent tutor: auditable service chain
+The design separates local prediction, evidence retrieval, policy checking, and cloud escalation.
+Learner traces
+first 28 days
+VLE + assessment
+registration
+Edge scoring
+logistic model
+risk score r
+subgroup audit
+Local retrieval
+course statistics
+support policy
+evidence IDs
+Agent checks
+sense risk
+retrieve
+check policy
+Tutor reply
+evidence marks
+bounded action
+audit log
+Edge-first rule r < 0.55 -> edge-only; 0.55 <= r < 0.75 -> edge-first summary
+r >= 0.75 or low retrieval confidence -> cloud assistance
+Boundary Offline public-data evaluation; route latency is not a hardware benchmark.
+Audit outputs
+records: 32,593 feedback audit: 160
+edge-only route: 60.4% unsupported claims: 0.00
+Fig. 1. Auditable cloud-edge RAG tutor architecture. The workflow separates learner traces, edge scoring, local retrieval, agent policy checks, route selection,
+and logged feedback so that each personalized recommendation can be traced to evidence and a delivery route.
+LR RF ET
+0.65
+0.70
+0.75
+0.80
+0.85Score
+selected
+5-seed Macro-F1
+0.757 +/- 0.002
+a Model comparison
+Macro-F1
+AUC
+Risk recall
+7 14 28
+Observation window (days)
+0.70
+0.75
+0.80
+0.85Score
+b Early-window sensitivity
+Macro-F1
+AUC
+0.6 0.7
+Macro-F1
+Full
+No VLE
+No assess.
+Admin only
+0.757
+0.727
+0.732
+0.638
+c Feature ablation
+Full Course No course
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0Precision@1
+1.00 1.00
+0.01
+d Retrieval query ablation
+Cloud
+sparing
+Default Support
+intensive
+Retrieval
+strict
+0.0
+0.2
+0.4
+0.6
+0.8Share of test set
+e Route-policy stress test
+Edge-only
+Cloud call
+0 2 4
+log10(rows)
+Feature table
+Test predictions
+Feedback audit
+Route audit
+Ablation/stress
+32,593
+8,149
+160
+8,149
+496
+f Extracted run artifacts
+Fig. 2. Experimental evidence matrix. (a) Three compact models were trained and compared on the same split; the selected model was also checked across
+five split seeds. (b) Longer early-observation windows increased Macro-F1 and AUC. (c) Feature ablations show that removing VLE or assessment signals
+reduces balanced performance. (d) Retrieval fails when course context is removed from the query. (e) Route-policy stress tests expose the resource-support
+trade-off. (f) The executed pipeline produced row-level artifacts and ablation/stress-test records.
+measurement in the latest run was about 0.24 ms per feedback
+item.
+The routing audit was run on the full 8,149-record test
+set. The default policy assigned 60.4% of records to edge-
+only handling, 13.7% to edge-first cloud summary, and 25.9%
+to cloud-assisted handling. Route-policy stress tests changed
+cloud-call share from 31.5% under a cloud-sparing policy
+to 50.0% under a support-intensive policy and 83.8% under
+a retrieval-strict policy. These values indicate a controllable
+resource-support trade-off; they should not be read as device
+benchmarks.
+IV. D ISCUSSION
+The results support the design choice of treating learner-
+facing AI as an auditable service. Learning analytics supplies
+893
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:54:38 UTC from IEEE Xplore.  Restrictions apply. 
+a support trigger, RAG supplies evidence grounding, the agent
+trace supplies governance, and route-aware delivery supplies
+resource control, consistent with calls for ethical educational
+AI [13].
+The strongest evidence is reproducibility: the same script
+regenerates the feature table, model metrics, seed checks, abla-
+tions, feedback audit, route audit, and figures from public data.
+The run transcript records the command, software versions,
+row counts, scores, audit rows, and figure outputs, making the
+architecture checkable rather than conceptual.
+The evidence is intentionally conservative. The selected
+model is not claimed to be best in all settings; it is selected
+because it gives the best Macro-F1 in this run and the
+highest at-risk recall among tested compact baselines. The
+feedback audit checks grounding, prohibited inferences, and
+template actionability, but not free-form conversation, learner
+satisfaction, or teaching effectiveness.
+The main deployment boundary is cloud-edge measurement:
+the route audit covers every test record, but latency and
+token values remain proxies. Deployment still requires edge-
+device profiling, network measurements, human ratings, and
+institutional review before classroom-impact claims.
+For AIoTC education systems, this boundary is useful.
+The workflow turns a tutor into inspectable decisions: which
+learners were flagged, which evidence passages were retrieved,
+which claims were allowed, and which route handled the
+request. The recall-gap warning is a deployment gate: adminis-
+trators review subgroup recall before launch, adjust thresholds
+or add human review when gaps persist, and never use the
+flag for punitive automation. Prediction remains a support
+trigger rather than an automated intervention. Route thresholds
+can change without retraining the predictor, helping resource-
+constrained universities audit the service before live teaching.
+V. C ONCLUSION
+This paper presented a cloud-edge RAG agent tutor for trust-
+worthy personalized learning in resource-constrained higher
+education. In a reproducible OULAD experiment, risk an-
+alytics, evidence-grounded feedback, and edge-first routing
+produced an inspectable AIoTC workflow under a conservative
+claim boundary. Future deployment work should test class-
+room learning gains and hardware latency.

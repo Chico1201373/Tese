@@ -1,0 +1,2432 @@
+ 
+Quality Outweighs Quantity: 
+Advancing Medical 
+Question Answering with 
+RAG
+-
+MCP 
+Muti
+-
+Agent 
+LLM 
+Framework 
+and
+ 
+Curated Knowledge Databases
+ 
+ 
+Troy Liu
+ 
+Green Valley High School 
+ 
+Henderson, Nevada
+ 
+troyliu369@gmail.com
+ 
+ 
+ 
+ 
+ 
+ 
+Ming Zhu
+ 
+Department of Electrical and Computer 
+Engineering
+ 
+University of Nevada Las Vegas
+ 
+Las Vegas, Nevada
+, 
+USA
+ 
+Ming.Zhu@unlv.edu
+ 
+ 
+Shengjie(Patrick) Zhai
+*, IEEE Member
+ 
+Department of Electrical and Computer 
+Engineering
+ 
+University of Nevada Las Vegas
+ 
+Las Vegas, Nevada, USA
+ 
+Shengjie.Zhai@unlv.edu
+Abstract
+—
+Medical multiple
+-
+choice question (MCQ) answering 
+requires specialized domain knowledge, multi
+-
+step clinical 
+reasoning, and ability to discriminate among closely related 
+distractor options. Current large language models (LLMs) 
+frequently exhibit hallucinati
+ons, inconsistent reasoning patterns, 
+and unstable performance when confronted with complex 
+biomedical scenarios. This study introduces a structured multi
+-
+agent framework integrating Retrieval
+-
+Augmented Generation 
+(RAG) with Model Context Protocol
+ 
+(MCP) to enhance accuracy 
+and reliability in medical reasoning tasks. The proposed 
+architecture employs an administrator agent that performs 
+domain
+-
+specific task routing and coordinates five specialized 
+medical agents
+—
+Physiology, Pathology, Clinical Medic
+ine, 
+Treatment and Pharmacology, and Public Health
+—
+integrating 
+their outputs through weighted consensus for final answer 
+selection. Critically, this study demonstrates that knowledge 
+database quality significantly outweighs quantity in RAG systems: 
+curatin
+g high
+-
+quality question subsets from 
+knowledge
+ 
+data yields 
+substantially greater performance gains than utilizing entire 
+unfiltered 
+knowledge 
+datasets. Evaluated on MedMCQA and 
+MedQA
+-
+USMLE benchmarks using GPT
+-
+oss 21B and LLaMA 4
+-
+Scout 17B base models without fine
+-
+tuning, the MCP
+-
+based multi
+-
+agent framework achieves approximately 5% accuracy 
+improvement (71
+-
+75%) over single
+-
+agent baselines (66
+-
+7
+0%). 
+Furthermore, employing only top
+-
+500 highest
+-
+quality curated 
+questions in RAG knowledge database boosts accura
+cy to nearly 
+80%, representing ~10% overall improvement. Ablation studies 
+confirm multi
+-
+agent consensus mechanisms provide 1.0
+-
+2.4% 
+additional gains beyond retrieval augmentation alone, while 
+scaling analysis reveals optimal performance at 11
+-
+13% curated 
+knowledge
+ 
+data. These findings establish that domain 
+specialization, structured agent collaboration, and strategic data 
+curation collectively enhance both accuracy and interpretability in 
+medical reasoning systems, offering practical pathway for 
+deploying r
+eliable clinical decision support without 
+computationally expensive model fine
+-
+tuning.
+ 
+Keywords
+—
+ 
+Medical question answering, 
+M
+ulti
+-
+agent 
+systems, Model Context Protocol (MCP), 
+Retrieval
+-
+Augmented 
+Generation (RAG)
+, 
+C
+urated datasets, 
+C
+linical reasoning, 
+L
+arge 
+language models
+ 
+(LLMs)
+.
+ 
+I.
+ 
+I
+NTRODUCTION
+ 
+Medical and allied multiple
+-
+choice question (MCQ) 
+answering demands deep clinical comprehension, seamless 
+integration of foundational science concepts, and the ability to 
+discriminate among distractor choices that often differ only by 
+subtle clinical signi
+ficance. In this environment, reasoning 
+frequently spans multiple biomedical subdomains, distractors 
+may be crafted to exploit common misconceptions, and the 
+correct answer may hinge on recognition of contextual cues 
+embedded in patient presentations or me
+chanistic disease 
+pathways. 
+ 
+Although 
+modern 
+large language models (LLMs) have 
+demonstrated 
+remarkable 
+capabilities across general reasoning 
+tasks, 
+their current performance in medical 
+question
+-
+answering 
+(QA) and 
+MCQ settings remains unstable and inconsistent 
+[1]
+. 
+For example, systematic reviews reveal that even when LLMs 
+achieve moderate accuracy on standardized medical
+-
+exam style 
+questions, their performance may vary significantly by 
+specialty or task type, and they are prone to “hallucinations”
+—
+that is, generat
+ing plausible but incorrect or unsupported 
+statements 
+[2]
+. 
+Moreover, the reliability of decision
+-
+making by 
+standalone LLM agents in clinical contexts is limited by their 
+brittleness: slight changes in input phrasing or context can 
+produce markedly different outcomes, and the reasoning chains 
+that lead to a correct
+ 
+answer are often opaque or poorly aligned 
+with clinician logic 
+[3]
+.
+ 
+To overcome the aforementioned limitations, this study 
+introduces a multi
+-
+agent medical reasoning framework that 
+integrates the Model Context Protocol (MCP) 
+[4]
+ 
+with the 
+Retrieval
+-
+Augmented Generation (RAG)
+ 
+[5]
+ 
+paradigm
+ 
+to 
+answer 
+the medical MCQs
+. 
+The proposed architecture employs 
+MCP as a structured communication interface that enables 
+coordinated interaction among an 
+“
+administrator
+”
+ 
+agent and 
+multiple 
+“
+medical”
+ 
+agents
+ 
+in specialized
+-
+domains, such as 
+p
+hysiology, pathology, clinical, treatment and public health
+. 
+Each medical agent independently selects the answer
+ 
+to each 
+given query and
+ 
+performs contextual reasoning upon their 
+assigned roles and expertise
+, as well as by 
+referring to
+ 
+the 
+0104
+2026 IEEE 16th Annual Computing and Communication Workshop and Conference (CCWC) | 979-8-3315-9397-1/26/$31.00 ©2026 IEEE | DOI: 10.1109/CCWC67433.2026.11393764
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:52:34 UTC from IEEE Xplore.  Restrictions apply. 
+content in a “knowledge pool/database”
+ 
+shared by all medical 
+agents
+. The administrator agent subsequently aggregates these 
+domain
+-
+specific outputs through a weighted consensus 
+mechanism, wherein contributions from agents most aligned 
+with the query domain are prioritized in the final decision. This 
+cooperative structure d
+istributes reasoning responsibilities 
+across multiple specialized components, thereby alleviating key 
+deficiencies of monolithic large language models, including 
+conceptual drift, reasoning
+ 
+inconsistency, and lack of 
+interpretability. Furthermore, by maintaining explicit domain 
+grounding and generating transparent, auditable rationales, 
+each agent’s output can be independently validated. The 
+modular design also facilitates incremental refine
+ment of 
+individual domain agents without necessitating retraining of the 
+entire system, thereby enhancing scalability, adaptability, and 
+long
+-
+term maintainability
+ 
+as the 
+F
+ig. 1 shown
+.
+ 
+W
+e evaluate our 
+MCP
+-
+RAG
+-
+based multi
+-
+agent 
+framework 
+using the MedMCQA
+ 
+[6]
+ 
+and MedQA
+-
+USMLE datasets
+ 
+[7]
+, 
+respectively, both of which are
+ 
+widely used benchmarks for 
+assessing medical knowledge in multiple
+-
+choice format.
+ 
+Each 
+dataset is split into two subsets: 1) “knowledge” for the RAG 
+database, and 2) “test” for the performance evaluation. 
+Compared to using a standalone state
+-
+of
+-
+the
+-
+art
+ 
+(SoTA)
+ 
+LLM 
+agent 
+directly 
+for 
+the test
+ 
+questions
+ 
+and achieving an accuracy 
+of 66%~70%
+, the proposed framework achieves approximately 
+5% 
+improvement
+ 
+in accuracy
+ 
+(i.e., 71%~75%)
+. 
+Furthermore, by 
+filtering
+ 
+the 
+“knowledge” subset
+ 
+using a detailed rubric and 
+select only the highest
+-
+quality questions as examples to guide 
+the multi
+-
+agent reasoning process
+, the accuracies are boosted 
+to 
+almost 80%
+, demonstrating the 
+advancement
+ 
+of the proposed 
+framework and “knowledge” condensing approach.
+ 
+The
+ 
+major 
+contribution
+ 
+of t
+his paper 
+includes: 1) proposing 
+an MCP
+-
+RAG
+-
+based multi
+-
+agent to improve the accuracy in 
+answering medical and allied MCQs; 2) demonstrating that the 
+quality of the knowledge database for RAG is more important 
+than the quantity, and thus improve both effectiveness a
+nd 
+efficiency in real 
+medical 
+applications.
+ 
+ 
+ 
+Fig. 
+1
+ 
+Schematic of the framework where an administrator agent coordinates 
+five specialized experts using high
+-
+quality RAG. Their collective outputs are 
+aggregated via a weighted consensus mechanism to ensure reliable clinical 
+decision support.
+ 
+II.
+ 
+L
+ITERATURE 
+R
+EVIEW
+ 
+Recent advances in 
+LLM
+ 
+systems have led to growing 
+interest in collaborative and data
+-
+augmented approaches for 
+complex reasoning tasks such as medical question answering. 
+Due to the imperfection of current LLMs and the complexity of 
+interdisciplinary factoring and reasoning in the medicine realm, 
+multiple approaches have been proposed to improve the 
+accuracy in medical question answering, such as
+ 
+multi
+-
+agent 
+collaboration, retrieval
+-
+augmented generation (RAG), and 
+data
+-
+centric scaling effects.
+ 
+A.
+ 
+Multi
+-
+Agent Collaboration Frameworks
+ 
+Multi
+-
+agent LLM frameworks have been developed to 
+simulate distributed reasoning, where multiple specialized 
+agents coordinate toward a shared objective. CAMEL 
+[8]
+ 
+and 
+MetaGPT 
+[9]
+ 
+demonstrated structured role
+-
+based collaboration 
+in software engineering and reasoning tasks, while ChatDev 
+[10]
+ 
+applied similar principles for cooperative code generation. 
+These frameworks showed that explicit task division and 
+communication protocols can improve consistency and task 
+decomposition. However, most 
+of current studies 
+rely on 
+homogeneous models and lack domain specialization or 
+dynamic weighting mechanisms, leading to limited scalability 
+in expert
+-
+driven fields such as medicine.
+ 
+B.
+ 
+Retrieval
+-
+Augmented Generation (RAG) and External 
+Knowledge Integration
+ 
+Retrieval
+-
+augmented methods, such as REALM 
+[11]
+ 
+and 
+RETRO 
+[12]
+, combine retrieval and generation to enhance 
+factual grounding. 
+REPLUG
+ 
+[13]
+ 
+d
+ecouples the retrieval and 
+LLM training, allowing the LLM to learn how to better utilize 
+retrieved documents without modifying the underlying 
+retriever.
+ 
+In medical question answering, RAG architectures 
+have improved answer accuracy by leveraging biomedical 
+knowledge bases and PubMed retrieval pipelines. However, 
+RAG systems often depend heavily on retrieval quality and can 
+suffer from hallucination when re
+trieved evidence is 
+incomplete or inconsistent.
+ 
+C.
+ 
+Impact of Data Scale and Curation on Model Performance
+ 
+Recent work highlights that dataset quality often outweighs 
+size in determining reasoning performance. Studies 
+[14], [15]
+ 
+demonstrated that curated question subsets
+—
+filtered for clarity 
+and reasoning depth
+—
+can yield higher downstream 
+performance than raw large
+-
+scale data. Smaller curated datasets 
+facilitate interpretability and stability, particularly in multi
+-
+agent systems w
+here input consistency affects coordination.
+ 
+III.
+ 
+M
+ETHODOLOGY
+ 
+A.
+ 
+MCP
+-
+RAG
+-
+Enhanced
+ 
+Multi
+-
+Agent Architecture
+ 
+The 
+overview of the proposed MCP
+-
+RAG
+-
+enhanced
+ 
+multi
+-
+agent medical MCQ answering framework 
+is
+ 
+illustrated as 
+Fig. 
+2
+. 
+MCP
+ 
+serves as the foundational communication and 
+coordination framework
+ 
+and provides standardized protocol for 
+tool
+-
+based interactions between agents and a shared context 
+server
+ 
+for our multi
+-
+agent medical question
+-
+answering system. 
+The MCP implementation follows a client
+-
+server architecture 
+wherein multiple specialized agents communicate through a 
+centralized server that manages state, coordi
+nates tool 
+execution, and maintains persistent knowledge bases.
+ 
+ 
+0105
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:52:34 UTC from IEEE Xplore.  Restrictions apply. 
+ 
+Fig. 
+2
+ 
+Overview of the multi
+-
+agent medical question
+-
+answering pipeline.  
+ 
+Our multi
+-
+agent system implements domain
+-
+specific 
+specialization through five 
+specialized medical agents
+, namely 
+PhysiologyAgent, PathologyAgent, ClinicalAgent, Treatment
+-
+Agent, and PublicHealthAgent
+, respectively. E
+ach 
+agent is a 
+direct instance of a general
+-
+purpose LLM
+ 
+(e.g., L
+L
+a
+MA
+, GPT
+-
+oss, etc.)
+ 
+but assigned with a role 
+description
+ 
+for distinct 
+medical knowledge domains through domain
+-
+specific keyword 
+lexicons that guide question routing and prompt generation. 
+This architectural design was motivated by the observation that 
+large monolithic medical models often conflate mechanisti
+c 
+physiology, disease processes, intervention strategies, and 
+population
+-
+level evidence, resulting in reasoning errors and 
+reduced clinical reliability. By contrast, the multi
+-
+agent 
+structure distributes knowledge across focused expert 
+components, enabling
+ 
+each agent to operate with 
+higher 
+precision, reduced conceptual drift, and improved grounding in 
+validated medical semantics.
+ 
+The system further benefits from independent expert 
+reasoning within each domain module. When addressing 
+complex medical queries, agents generate specialized rationales 
+from their disciplinary perspective. These rationales are later 
+synthesized by 
+the 
+AdminAgent
+ 
+to form a unified output. This 
+modular structure supports transparent knowledge contribution, 
+allowing error sources to be identified at the agent level and 
+enabling iterative refinement of individual knowledge domains 
+without full
+-
+system retraining
+.
+ 
+B.
+ 
+Question Routing and Domain Classification
+ 
+The question routing mechanism implements a keyword
+-
+based domain relevance scoring system that determines which 
+agents should b
+e given a greater weight in voting
+ 
+for each 
+medical question. The routing algorithm consists of two phases: 
+(1) domain relevance scoring, and (2) agent selection with 
+diversity constraints.
+ 
+To compute domain relevance for each specialist agent, the 
+system first evaluates how closely the content of a given 
+question aligns with the agent’s predefined keyword domain. 
+For a multiple
+-
+choice question
+ 
+𝑞
+ 
+with answer options 
+𝑂
+=
+{
+𝑜
+!
+,
+𝑜
+"
+,
+𝑜
+#
+,
+𝑜
+$
+}
+, the text of each question and all options is 
+concatenated and lowercased
+ 
+(i.e., 
+{
+𝑞
+,
+𝑂
+}
+)
+. 
+The role of e
+ach 
+agent 
+𝑎
+%
+ 
+is defined with 
+a keyword lexicon 
+𝐾
+%
+ 
+and the system 
+checks whether each keyword 
+in 
+𝐾
+%
+ 
+appears in the combined 
+text
+ 
+{
+𝑞
+,
+𝑂
+}
+. 
+Each
+ 
+matched keyword contributes 0.1 points to the 
+raw relevance score 
+of 
+the 
+a
+gent
+ 
+𝑎
+%
+:
+ 
+𝑟
+%
+(
+𝑞
+,
+𝑂
+)
+=
+-
+.
+0
+.
+1
+0
+&
+∈
+(
+!
+ 
+(
+1
+)
+ 
+To maintain comparability across agents, the score is then 
+normalized to the range 
+[
+0
+,
+1
+]
+ 
+using a hard cap,
+ 
+i.e.,
+ 
+𝑟
+′
+%
+=
+min
+	
+(
+𝑟
+%
+,
+1
+)
+.
+ 
+After computing relevance scores for all agents, the system 
+aggregates their predictions using a weighted voting scheme in 
+which every agent contributes to the final decision. Rather than 
+selecting only the top
+-
+ranked agents, the framework converts 
+each ag
+ent’s normalized relevance score 
+𝑟
+′
+%
+	
+into a voting 
+weight that reflects its estimated domain applicability. To 
+accomplish this, the system applies a standard exponential 
+weighting function that emphasizes high
+-
+relevance agents 
+while preserving non
+-
+zero influence from the remainder of the 
+ense
+mble. 
+For each agent 
+𝑎
+%
+, an unnormalized weight is first 
+computed as 
+ 
+𝑤
+:
+%
+=
+exp
+(
+𝛾
+𝑟
+)
+%
+)
+ 
+(
+2
+)
+ 
+The final normalized weight assigned to agent 
+𝑎
+%
+ 
+is then 
+obtained through softmax normalization:
+ 
+𝑤
+%
+=
+exp
+(
+𝛾
+𝑟
+)
+%
+)
+∑
+exp
+(
+𝛾
+𝑟
+)
+%
+)
+*
+ 
+(
+3
+)
+ 
+p
+roducing 
+a smooth, monotonic mapping from relevance scores 
+to voting weights. In practice, selecting 
+𝛾
+ 
+such that the top two 
+to three agents collectively account for the majority of the total 
+weight (typically 60
+–
+80%) yields stable performance while 
+maintaining ensemble diversity. Because all agents receive 
+strictly positive weights under the softmax formu
+lation, the 
+system mitigates risks associated with single
+-
+agent failure 
+modes and ensures that secondary agents can contribute 
+corrective signals when relevant.
+ 
+To compute the total support for each answer option 
+𝑜
+, the 
+system computes the score of each option 
+𝑜
+∈
+𝑂
+ 
+as:
+ 
+𝑆
+(
+𝑜
+)
+=
+-
+𝑤
+%
+%
+:
+,
+!
+-
+.
+ 
+(
+4
+)
+ 
+where 
+𝑆
+(
+𝑜
+)
+ 
+measures the weighted vote count by aggregated 
+relevance
+-
+weighted influence. For every agent whose predicted 
+answer 
+𝑣
+%
+ 
+matches option 
+𝑜
+, its weight 
+𝑤
+%
+ 
+contributes to the 
+score. It then selects the final answer 
+𝑜
+C
+ 
+with the highest 
+weighted support:
+ 
+𝑜
+C
+=
+arg
+max
+.
+∈
+/
+𝑆
+(
+𝑜
+)
+ 
+(
+5
+)
+ 
+C.
+ 
+Question Scoring and Data Curation
+ 
+To illustrate the diversity of question quality within the 
+datasets, we provide examples of high
+-
+ 
+and low
+-
+quality items 
+taken directly from the 
+knowledge
+ 
+sets. High
+-
+quality questions 
+typically contain appropriate distractors that reflect real 
+differential diagnoses, multi
+-
+step reasoning, specific biomedical 
+clear subdomain mapping, inheritance pattern clues, and 
+possibly embedded laboratory results. For ex
+ample, 
+ 
+ 
+Question
+AdminAgent
+Domain
+Relevanc
+e
+Answer 
+Synthesis
+Specialized Medical Agents
+PhysiologyAgent
+PathologyAgent
+ClinicalAgent
+Treatm entA gent
+PublicHealthAgent
+Knowledge
+Final Answer
+0106
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:52:34 UTC from IEEE Xplore.  Restrictions apply. 
+“A 
+14
+-
+year
+-
+old girl presents with quadriparesis, facial palsy, 
+winging of scapula and ptosis. There is a history of similar 
+illness in her father and brother but less severe. Her CPK level 
+is 500 IU/L. She is most likely suffering from:”
+ 
+A.
+ 
+Emery
+-
+Dreifuss muscular dystrophy
+ 
+B.
+ 
+Becker muscular dystrophy
+ 
+C.
+ 
+Limb
+-
+girdle dystrophy
+ 
+D.
+ 
+Facioscapulohumeral dystrophy 
+ 
+ 
+In contrast, low
+-
+quality questions often lack depth, contain 
+trivial content and/or minimal context, provide distractors that 
+are implausible or unrelated. Such items score poorly on our 
+rubric and are excluded from curated knowledge sets. For 
+example:
+ 
+ 
+“Stomach is derived from?”
+ 
+A.
+ 
+Foregut
+ 
+B.
+ 
+Midgut
+ 
+C.
+ 
+Hindgut
+ 
+D.
+ 
+Allantois
+ 
+ 
+The default datasets (MedQA
+-
+USMLE and MedMCQA
+) 
+mix questions that provide valuable context with questions that 
+are ambiguous, poorly structured, or trivial. To provide a 
+structured prior for the multi
+-
+agent system, we developed a 
+100
+-
+point scoring rubric used to evaluate each question 
+in the 
+knowledge database 
+along five dimensions: clinical reasoning 
+complexity, medical knowledge depth, explanation quality, 
+option distractibility, and subject relevance. 
+Each dimension 
+contributes a fixed maximum number of points, with clinical 
+reasoning complexity we
+ighted most heavily due to its direct 
+relevance to diagnostic and decision
+-
+making performance.
+ 
+ 
+Clinical reasoning complexity (0
+–
+30 points) is scored 
+based on the presence and density of diagnostic or management 
+intent indicators, clinical scenario richness, and explicit or 
+implicit multi
+-
+step reasoning. Diagnostic intent indicators 
+include phrases s
+uch as “most likely,” “best initial,” “next 
+step,” and “mechanism of action.” Scenario richness is assessed 
+by the inclusion of symptoms, physical examination findings, 
+family history, and laboratory or imaging results. Multi
+-
+step 
+reasoning is identified 
+through causal or inferential language 
+(e.g., “because,” “therefore,” “leads to”).
+ 
+Medical knowledge depth (0
+–
+25 points) evaluates the level 
+of biomedical understanding required to answer the question. 
+Lower scores correspond to anatomy
+-
+level or single
+-
+fact recall, 
+while higher scores are assigned to questions involving disease 
+mechanism
+s, pathophysiology, pharmacokinetics, or etiologic 
+reasoning with clinical correlation. Questions requiring 
+synthesis of knowledge across systems or disease stages receive 
+the highest scores.
+ 
+Explanation quality (0
+–
+20 points) measures the presence 
+and depth of explanatory reasoning associated with the correct 
+answer. Points are assigned based on explanation length, 
+evidence
+-
+based justification, and explicit reference to 
+physiological or patholo
+gical mechanisms (e.g., “due to,” 
+“mechanism,” “results from”).
+ 
+Option distractibility (0
+–
+15 points) assesses the quality of 
+answer choices. Higher scores are assigned when distractors are 
+clinically plausible, comparable in length and terminology 
+density, and represent realistic alternative diagnoses. Options 
+that are trivial, structurally imbalanced, or semantically 
+unrelated receive lower scores.
+ 
+Subject relevance (0
+–
+10 points) evaluates alignment with 
+high
+-
+yield clinical domains (e.g., cardiology, pulmonology, 
+neurology), specificity of the medical topic, and contribution to 
+topic diversity within the curated set. Broadly relevant and 
+clinically impactful subjects receive higher scores.
+ 
+Each dimension contributes to the final score
+ 
+out of 100
+, 
+producing a ranked list of questions. 
+Experiments varied the 
+proportion of high
+-
+scoring questions used as examples, ranging 
+from the top 3% to the top 15% of the 
+default
+ 
+knowledge set
+. 
+The goal of these five dimensions is to ensure that all selected 
+questions provide relevant context to the model. Clinical 
+relevance and educational value for the model is prioritized in 
+hopes of improving model reasoning and consistency within the 
+framework
+.
+ 
+IV.
+ 
+E
+XPERIMENTS AND 
+R
+ESULTS
+ 
+In this section, we
+ 
+evaluate the proposed multi
+-
+agent MCP 
+architecture across three experimental dimensions: (1) the 
+effect of 
+knowledge
+ 
+data
+base
+ 
+configuration on accuracy, (2) the 
+impact of scaling high
+-
+quality 
+data 
+within the retrieval module, 
+and (3) an ablation isolating the contribution of multi
+-
+agent 
+consensus relative to a single
+-
+agent pipeline operating under 
+identical retrieval conditions.
+ 
+A.
+ 
+Datasets
+ 
+This study uses two publicly available medical multiple
+-
+choice question answering datasets: MedMCQA 
+[
+7
+]
+ 
+and 
+MedQA
+-
+USMLE 
+[
+8
+]
+. The MedMCQA dataset covers a broad 
+range of medical subjects, including physiology, pathology, 
+epidemiology, pharmacology, and clinical decision
+-
+making. In 
+contrast, the MedQA
+-
+USMLE dataset is modeled after United 
+States Medical Licensing Examination (US
+MLE) questions and 
+consists primarily of vignette
+-
+style problems that require multi
+-
+step interpretation of clinical presentations.
+ 
+Each dataset was randomly divided into two subsets: 1) 80% 
+for the “knowledge” database for the RAG process for each 
+LLM agent, and 2) 20% for the testing split, which is exclusively 
+used for the benchmark performance evaluation .
+ 
+B.
+ 
+Base Models
+ 
+Two foundation models, namely GPT
+-
+oss 21B 
+[16]
+ 
+and 
+L
+L
+a
+MA
+ 
+4
+-
+Scout 17B 
+[17]
+, serve as the 
+underlying engines for 
+all MCP agents. In each benchmark, all five agents were either 
+based on GPT
+-
+oss 21B or 
+L
+L
+a
+MA
+ 
+4
+-
+Scout. Neither model 
+underwent fine
+-
+tuning upon MedMCQA or MedQA
+-
+USMLE. 
+All observed performance improvements arise from inference
+-
+time architectural features, including multi
+-
+agent collaboration 
+and curated question conditioning. 
+ 
+C.
+ 
+Experiment 1: Effect of 
+Knowledge
+ 
+Data
+base
+ 
+Configuration
+ 
+The first set of experiments assesses how 
+proposed 
+framework and 
+different data configurations influence model 
+performance
+: 1)
+ 
+“
+Baseline
+”
+ 
+only 
+uses one standalone 
+LLM 
+agent without RAG
+-
+MCP
+, 
+2) “
+Full Train
+”
+ 
+employs the 
+0107
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:52:34 UTC from IEEE Xplore.  Restrictions apply. 
+proposed MCP
+-
+RAG multi
+-
+agent framework, and utilizes all 
+“knowledge”
+ 
+subset for the RAG of all medical agents; and 3)
+ 
+“
+Top
+-
+500
+”
+ 
+only consists
+ 
+of the 500 highest
+-
+quality curated 
+medical questions
+ 
+from the “knowledge” subset for the RAG of 
+all medical agents
+. 
+Table 
+1
+ 
+summarize
+s 
+results for 
+LLaMA
+-
+4 
+Scout 17B
+ 
+and GPT
+-
+oss 21B
+, respectively,
+ 
+across the three 
+conditions under
+ 
+multi
+-
+agent (5
+-
+agent) MCP settings.
+ 
+T
+ABLE 
+1
+.
+ 
+A
+CCURACY 
+(%)
+ 
+FOR 
+B
+ASELINE
+,
+ 
+F
+ULL 
+T
+RAIN 
+S
+PLIT
+,
+ 
+AND 
+T
+OP
+-
+500
+ 
+S
+UBSET CONFIGURATIONS ON 
+M
+ED
+MCQA
+ 
+AND 
+M
+ED
+QA
+ 
+USMLE.
+ 
+ 
+Accuracy
+ 
+Setup
+ 
+Model
+ 
+MedMCQA
+ 
+Med
+Q
+A USMLE
+ 
+Baseline
+ 
+Llama
+ 
+4
+ 
+17B
+ 
+66.01%
+ 
+68.85%
+ 
+GPT
+-
+oss 21B
+ 
+67.30%
+ 
+70.20%
+ 
+Full Train 
+ 
+Llama
+ 
+4
+ 
+17B
+ 
+71.39%
+ 
+74.12%
+ 
+GPT
+-
+oss 21B
+ 
+72.58%
+ 
+75.09%
+ 
+Top
+-
+500
+ 
+Llama
+ 
+4
+ 
+17B
+ 
+75.29%
+ 
+79.01%
+ 
+GPT
+-
+oss 21B
+ 
+76.10%
+ 
+79.56%
+ 
+SoTA
+ 
+small
+-
+scale LLM
+ 
+GPT
+-
+4o
+-
+mini 
+[18]
+ 
+66.17%
+ 
+73.29%
+ 
+Llama 3.1 70B 
+[19]
+ 
+75.18%
+ 
+87.43%
+ 
+ 
+For both 
+GPT
+-
+oss and L
+LaMA
+ 
+4
+-
+Scout scenarios
+, 
+the 
+proposed MCP
+-
+RAG multi
+-
+agent framework has demonstrated 
+an
+ 
+accuracy
+ 
+improvement of about 5% for both testing datasets, 
+respectively. In addition, by filtering out the low quality QAs 
+and only keeping the top 500 highest
+-
+score QAs in the RAG 
+knowledge database, the enhanced framework achieves a 
+significant almost 10% impro
+vement in accuracy. The results 
+also outperformed the 
+SoTA
+ 
+LLM 
+models
+ 
+of similar scale 
+(~20B or less
+)
+ 
+[18]
+,
+ 
+and show compatible performance in more 
+general medical QA scenarios (MedMCQA
+), compared to fine
+-
+tuned larger scale SoTA LLM models 
+[19]
+.
+ 
+With that, we can 
+conclude
+ 
+that targeted, high
+-
+quality curation of medical 
+questions is substantially more effective than either 
+simply 
+enlarging the 
+knowlege
+ 
+corpus or relying on broader supervised 
+splits.
+  
+ 
+It is worth noting that although some state
+-
+of
+-
+the
+-
+art LLMs 
+can reach the accuracy of over 85% in 
+MedQA 
+[19]
+[20]
+, those 
+models are usually specifically fine
+-
+tuned for medical datasets. 
+In addition, these LLMs are typically in large scale, with over 
+70
+ 
+or even 100 
+billion parameters, which are computational 
+expensive and inadaptable to portable devices, such as 
+smartphones, etc.
+ 
+D.
+ 
+Experiment 2: Scaling Analysis of High
+-
+Quality Example 
+Proportions
+ 
+To analyze the effect of example/data quality and quantity 
+in the retrieval module, we vary the proportion of curated 
+examples included in the MCP workflow from 3% to 15% of 
+the total available pool. 
+All curated data used in this experiment 
+comes from the 
+“knowledge”
+ 
+split that was 
+80% of
+ 
+the original 
+dataset. 
+Results in 
+Table 
+2
+ 
+and 
+Fig. 3
+ 
+show that performance 
+increases steadily as a larger proportion
+ 
+(
+about 
+11%~13%)
+ 
+of 
+curated data is introduced
+, reaching to an approximate 80% 
+accuracy for the testing split
+. 
+The consistent improvement 
+across both 
+models and datasets
+ 
+highlights the sensitivity of 
+MCP systems to data curation quality and supports the 
+hypothesis that high
+-
+quality data amplifies the benefits of 
+multi
+-
+agent reasoning. 
+This evidence also indicate that
+ 
+we can 
+select the optimum amount of dataset for the RAG in the 
+framework, and thus to optimize the outcome performance in 
+both accuracy and computing efficiency (e.g., responding 
+delay, 
+power consumption, 
+etc.)
+ 
+for the MCP
+-
+RAG
+-
+based 
+multi
+-
+agent framewor
+k for medical QA
+/
+ 
+MCQ 
+and potential 
+reasoning 
+applications.
+ 
+T
+ABLE 
+2
+.
+ 
+A
+CCURACY 
+(%)
+ 
+OF 
+M
+ULTI
+-
+A
+GENT 
+MCP
+ 
+MODELS ACROSS 
+INCREASING PROPORTIONS OF HIGH
+-
+QUALITY DATA
+ 
+ 
+ 
+ 
+ 
+Fig. 
+3
+ 
+Accuracy trend of Multi
+-
+Agent MCP models as the proportion of high
+-
+quality 
+knowledge
+ 
+data increases. 
+ 
+E.
+ 
+Experiment 3: Isolating Multi
+-
+Agent Consensus Effects
+ 
+To quantify the contribution of multi
+-
+agent consensus 
+independently of data or retrieval effects, we construct an 
+ablation in which the MCP pipeline is replaced with a single
+-
+agent system using identical 
+context
+, retrieval outputs, and 
+question contexts. This isolates the effect of the
+ 
+multi
+-
+agent 
+architecture and
+ 
+weighted voting mechanism described
+. 
+ 
+Across all datasets and configurations, the multi
+-
+agent MCP 
+system demonstrates consistent improvements over its single
+-
+agent counterpart. For LLaMA
+-
+4 Scout
+, 
+the multi
+-
+agent system 
+yields +1.0 to +2.4 absolute accuracy improvements relative to 
+the single
+-
+agent model under matching conditions
+ 
+for MedQA 
+dataset, and with a higher improvement in MedMCQA dataset. 
+One possible reason is that the MedMCQA has a larger and 
+broader spectrum of questions
+, and thus a consensus 
+mechanism with “specialized” agent can be
+tter capture the 
+critical information in the question.
+ 
+It is also noticeable that 
+reaches the peak with an optimal amount of “filtered
+ 
+knowledge”. 
+GPT
+-
+oss 21B shows similar behavior, with multi
+-
+agent gains in every 
+data
+-
+proportion condition (
+Table 
+3
+). These 
+results reinforce that consensus
+-
+based aggregation
+—
+rather than 
+simply increased context
+—
+provides measurable performance 
+benefits.
+ 
+ 
+0108
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:52:34 UTC from IEEE Xplore.  Restrictions apply. 
+T
+ABLE 
+3
+.
+ 
+A
+CCURACY 
+(%)
+ 
+BY MODEL
+,
+ 
+DATASET
+,
+ 
+AGENT CONFIGURATION
+,
+ 
+AND 
+PROPORTION OF HIGH
+-
+QUALITY 
+K
+NOWLEDGE
+ 
+DATA 
+(3
+-
+15%).
+ 
+ 
+F.
+ 
+Experiment 4: Analysis of Curated Question Similarity
+ 
+To
+ 
+characterize the structural properties of curated subsets, 
+we 
+computed pairwise semantic similarity matrices using 
+sentence
+-
+transformer embeddings (all
+-
+MiniLM
+-
+L6
+-
+v2)
+ 
+[21]
+ 
+for 
+question
+-
+answer pairs in both MedMCQA and MedQA
+-
+USMLE knowledge databases. Fig
+.
+4 
+(a) presents the similarity 
+heatmap for top
+-
+500 highest
+-
+quality MedMCQA questions, 
+showing predominantly low inter
+-
+question correlation (mean 
+cosine similarity: 0.23 ± 0.11) with minimal diagonal 
+clustering, indicating strong 
+semantic
+ 
+independence. Fig
+.
+ 
+4 
+(b) 
+compares these curated questions against 500 randomly 
+sampled questions
+ 
+from the entire knowledge base dataset
+, 
+revealing similarly low cross
+-
+similarity (mean: 0.21 ±
+ 
+0.09). 
+Fig
+.
+ 
+4 shows analogous results for MedQA
+-
+USMLE: within
+-
+group similarity of 0.19 ± 0.10 (Fig. 
+5 
+a) and cross
+-
+similarity of 
+0.18 ± 0.08 (Fig. 
+5
+b).
+ 
+The consistently low similarity scores (all means < 0.25) 
+across both datasets establish that the top 500
+-
+600 curated 
+questions represent approximately 500
+-
+600 independent 
+knowledge units, each contributing distinct medical concepts to 
+the RAG knowledge ba
+se. This topical diversity explains why 
+relatively small curated subsets (11
+-
+13% of 
+knowledge
+ 
+data) 
+outperform full unfiltered datasets: curated questions provide 
+comprehensive domain coverage without redundant or low
+-
+value examples that introduce noise or
+ 
+dilute retrieval 
+relevance. Importantly, comparable similarity distributions 
+between curated and random subsets indicate that curation 
+improves question quality (reasoning complexity, explanation 
+depth, distractor appropriateness) rather than constraining
+ 
+topical breadth, ensuring robust generalization across medical 
+domains
+.
+ 
+a)
+b)
+ 
+Fig. 
+1
+ 
+Semantic similarity structure of curated vs. random data subsets for 
+MedMCQA. 
+ 
+a)
+ 
+b
+)
+ 
+Fig. 
+5
+ 
+Semantic similarity structure of curated vs. random data subsets for 
+MedQA USMLE. 
+ 
+V.
+ 
+C
+ONCLUSION 
+AND 
+P
+ERSPECTIVE
+ 
+Large language models exhibit persistent limitations in 
+medical reasoning, including hallucinations and inconsistent 
+performance across complex clinical scenarios. This study 
+addressed these challenges through a multi
+-
+agent framework 
+integrating Retrieval
+-
+Augmented Generation (RAG) with 
+Model Context Protocol (MCP), enabling five domain
+-
+specialized agents to coordinate via weighted consensus 
+mechanisms.
+ 
+Experimental evaluation on MedMCQA and MedQA
+-
+USMLE benchmarks demonstrates three critical findings. First, 
+multi
+-
+agent collaboration achieved approximately 5% accuracy 
+improvement over single
+-
+agent baselines (71
+-
+75% vs. 66
+-
+70%) 
+without fine
+-
+tuning. Second,
+ 
+ablation studies confirmed that 
+consensus mechanisms contributed 1.0
+-
+2.4% additional gains 
+beyond retrieval augmentation alone. Third, and most 
+significantly, knowledge quality dramatically outweighs 
+quantity: curating only the top 11
+-
+13% highest
+-
+quality 
+questions yielded ~10% overall improvement, reaching ~80% 
+accuracy while reducing computational overhead.
+ 
+These findings establish practical pathways for deploying 
+resource
+-
+efficient medical AI in clinical settings. Future work 
+should address four priorities: multimodal data integration 
+(imaging, EHR, genomics) to handle real
+-
+world clinical 
+complexity, uncerta
+inty
+-
+aware consensus for safety
+-
+critical 
+decisions, adaptive knowledge curation for dynamic domain 
+evolution, and prospective clinical validation to assess real
+-
+world safety, interpretability, and user acceptance.
+ 
+More broadly, this work demonstrates that strategic 
+specialization and quality
+-
+focused curation outperform scale
+-
+dependent approaches, providing a practical roadmap for 
+developing accurate, transparent, and computationally efficient 
+medical AI systems appl
+icable across knowledge
+-
+intensive 
+domains
+.
+ 
+A
+CKNOWLEDGEMENT
+ 
+This work was partially supported by the Office of Nevada 
+Economic Development’s Sports Innovation Initiative Grant at 
+the 
+University of Nevada, Las Vegas, and by the National 
+Science Foundation under Award No. 2119691. The authors 
+also thank the members of the Zhai Biomedical Microdevice 
+Laboratory (ZBML) for their dedication and contributions, 
+without which this work would n
+ot have been possible.
+ 
+ 
+0109
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:52:34 UTC from IEEE Xplore.  Restrictions apply. 
+R
+EFERENCES
+ 
+[1]
+ 
+V. Liévin, C. E. Hother, A. G. Motzfeldt, and O. Winther, ‘Can large 
+language models reason about medical questions?’, 
+Patterns
+, vol. 5, no. 
+3, Mar. 2024, doi: 10.1016/j.patter.2024.100943.
+ 
+[2]
+ 
+S. Shool, S. Adimi, R. Saboori Amleshi, E. Bitaraf, R. Golpira, and M. 
+Tara, ‘A systematic review of large language model (LLM) evaluations 
+in clinical medicine’, 
+BMC Med Inform Decis Mak
+, vol. 25, no. 1, p. 117, 
+Mar. 2025, doi: 10.1186/s12911
+-
+025
+-
+02954
+-
+4.
+ 
+[3]
+ 
+A. M. Alkalbani 
+et al.
+, ‘A Systematic Review of Large Language Models 
+in Medical Specialties: Applications, Challenges and Future Directions’, 
+Information
+, vol. 16, no. 6, p. 489, June 2025, doi: 
+10.3390/info16060489.
+ 
+[4]
+ 
+‘Introducing the Model Context Protocol’. Accessed: Nov. 08, 2025. 
+[Online]. Available: https://www.anthropic.com/news/model
+-
+context
+-
+protocol
+ 
+[5]
+ 
+P. Lewis 
+et al.
+, ‘Retrieval
+-
+Augmented Generation for Knowledge
+-
+Intensive NLP Tasks’, in 
+Advances in Neural Information Processing 
+Systems
+, Curran Associates, Inc., 2020, pp. 9459
+–
+9474. Accessed: Nov. 
+08, 2025. [Online]. Available: 
+https://proceedings.neurips.cc/paper/2020/hash/6b493230205f780e1bc2
+6945df7481e5
+-
+Abstract.html
+ 
+[6]
+ 
+A. Pal, L. K. Umapathi, and M. Sankarasubbu, ‘MedMCQA: A Large
+-
+scale Multi
+-
+Subject Multi
+-
+Choice Dataset for Medical domain Question 
+Answering’, in 
+Proceedings of the Conference on Health, Inference, and 
+Learning
+, PMLR, Apr. 2022, pp. 248
+–
+260. Accessed: Nov. 08, 2025. 
+[Online]. Available: https://proceedings.mlr.press/v174/pal22a.html
+ 
+[7]
+ 
+Q. Jin, B. Dhingra, Z. Liu, W. Cohen, and X. Lu, ‘PubMedQA: A Dataset 
+for Biomedical Research Question Answering’, in 
+Proceedings of the 
+2019 Conference on Empirical Methods in Natural Language Processing 
+and the 9th International Joint Conference on Natural Language 
+Processing (EMNLP
+-
+IJCNLP)
+, K. Inui, J. Jiang, V. Ng, and X. Wan, Eds, 
+Hong Kong, China: Association for Computational Linguistics, Nov. 
+2019, pp. 2567
+–
+2577. doi: 10.18653/v1/D19
+-
+1259.
+ 
+[8]
+ 
+G. Li, H. Hammoud, H. Itani, D. Khizbullin, and B. Ghanem, ‘CAMEL: 
+Communicative Agents for “Mind” Exploration of Large Language 
+Model Society’, 
+Advances in Neural Information Processing Systems
+, 
+vol. 36, pp. 51991
+–
+52008, Dec. 2023.
+ 
+[9]
+ 
+G. Xiong, Q. Jin, Z. Lu, and A. Zhang, ‘Benchmarking Retrieval
+-
+Augmented Generation for Medicine’, in 
+Findings of the Association for 
+Computational Linguistics: ACL 2024
+, L.
+-
+W. Ku, A. Martins, and V. 
+Srikumar, Eds, Bangkok, Thailand: Association for Computational 
+Linguistics, Aug. 2024, pp. 6233
+–
+6251. doi: 10.18653/v1/2024.findings
+-
+acl.372.
+ 
+[10]
+ 
+L. Stuhlmann, M. A. Saxer, and J. Fürst, ‘Efficient and Reproducible 
+Biomedical Question Answering using Retrieval Augmented 
+Generation’, May 12, 2025, 
+arXiv
+: arXiv:2505.07917. doi: 
+10.48550/arXiv.2505.07917.
+ 
+[11]
+ 
+J. He 
+et al.
+, ‘Retrieval
+-
+Augmented Generation in Biomedicine: A Survey 
+of Technologies, Datasets, and Clinical Applications’, May 12, 2025, 
+arXiv
+: arXiv:2505.01146. doi: 10.48550/arXiv.2505.01146.
+ 
+[12]
+ 
+S. Rasal, ‘LLM Harmony: Multi
+-
+Agent Communication for Problem 
+Solving’, Jan. 02, 2024, 
+arXiv
+: arXiv:2401.01312. doi: 
+10.48550/arXiv.2401.01312.
+ 
+[13]
+ 
+W. Shi 
+et al.
+, ‘REPLUG: Retrieval
+-
+Augmented Black
+-
+Box Language 
+Models’, in 
+Proceedings of the 2024 Conference of the North American 
+Chapter of the Association for Computational Linguistics: Human 
+Language Technologies (Volume 1: Long Papers)
+, K. Duh, H. Gomez, 
+and S. Bethard, Eds, Mexico City, Mexico: Association for 
+Computational Linguistics, June 2024, pp. 8371
+–
+8384. doi: 
+10.18653/v1/2024.naacl
+-
+long.463.
+ 
+[14]
+ 
+‘Journal of Medical Internet Research 
+-
+ 
+Two
+-
+Layer Retrieval
+-
+Augmented 
+Generation Framework for Low
+-
+Resource Medical Question Answering 
+Using Reddit Data: Proof
+-
+of
+-
+Concept Study’. Accessed: Nov. 10, 2025. 
+[Online]. Available: https://www.jmir.org/2025/
+1/e66220/
+ 
+[15]
+ 
+O. K. Gargari and G. Habibi, ‘Enhancing medical AI with retrieval
+-
+augmented generation: A mini narrative review’, 
+DIGITAL HEALTH
+, 
+vol. 11, p. 20552076251337177, May 2025, doi: 
+10.1177/20552076251337177.
+ 
+[16]
+ 
+openai/gpt
+-
+oss
+. (Nov. 08, 2025). Python. OpenAI. Accessed: Nov. 08, 
+2025. [Online]. Available: https://github.com/openai/gpt
+-
+oss
+ 
+[17]
+ 
+‘meta
+-
+llama/Llama
+-
+4
+-
+Scout
+-
+17B
+-
+16E · Hugging Face’. Accessed: Nov. 
+08, 2025. [Online]. Available: https://huggingface.co/meta
+-
+llama/Llama
+-
+4
+-
+Scout
+-
+17B
+-
+16E
+ 
+[18]
+ 
+M. R. Rezaei, R. S. Fard, J. L. Parker, R. G. Krishnan, and M. Lankarany, 
+‘Agentic Medical Knowledge Graphs Enhance Medical Question 
+Answering: Bridging the Gap Between LLMs and Evolving Medical 
+Knowledge’, in 
+Findings of the Association for Computational 
+Linguistics: EMNLP 2025
+, C. Christodoulopoulos, T. Chakraborty, C. 
+Rose, and V. Peng, Eds, Suzhou, China: Association for Computational 
+Linguistics, Nov. 2025, pp. 12682
+–
+12701. doi: 
+10.18653/v1/2025.findings
+-
+emnlp.679.
+ 
+[19]
+ 
+H. Tran 
+et al.
+, ‘RARE: Retrieval
+-
+Augmented Reasoning Enhancement 
+for Large Language Models’, in 
+Proceedings of the 63rd Annual Meeting 
+of the Association for Computational Linguistics (Volume 1: Long 
+Papers)
+, W. Che, J. Nabende, E. Shutova, and M. T. Pilehvar, Eds, 
+Vienna, Austria: Association for Computational Linguistics, July 2025, 
+pp. 18305
+–
+18330. doi: 10.18653/v1/2025.acl
+-
+long.896.
+ 
+[20]
+ 
+K. Singhal 
+et al.
+, ‘Toward expert
+-
+level medical question answering with 
+large language models’, 
+Nat Med
+, vol. 31, no. 3, pp. 943
+–
+950, Mar. 2025, 
+doi: 10.1038/s41591
+-
+024
+-
+03423
+-
+7.
+ 
+[21]
+ 
+‘sentence
+-
+transformers/all
+-
+MiniLM
+-
+L6
+-
+v2 · Hugging Face’. Accessed: 
+Nov. 13, 2025. 
+[Online]. Available: https://huggingface.co/sentence
+-
+transformers/all
+-
+MiniLM
+-
+L6
+-
+v2
+ 
+ 
+0110
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:52:34 UTC from IEEE Xplore.  Restrictions apply. 

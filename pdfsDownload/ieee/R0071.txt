@@ -1,0 +1,585 @@
+ 
+Sanity-LLM: Enhancing Mental Health Chatbots 
+with Retrieval-Augmented Generation (RAG) 
+1st Jefry Christiawan  
+Computer Science Department  
+School of Computer Science 
+Bina Nusantara University 
+Jakarta, Indonesia 
+jefry.christiawan@binus.ac.id 
+ 
+ 
+2nd Dominick Albert Setiawan 
+Computer Science Department  
+School of Computer Science 
+Bina Nusantara University 
+Jakarta, Indonesia 
+dominick.setiawan@binus.ac.id 
+4th Hidayaturrahman 
+Computer Science Department  
+School of Computer Science 
+Bina Nusantara University 
+Jakarta, Indonesia 
+hidayaturrahman@binus.ac.id 
+3rd Joshua Andrew Pieter Oroh 
+Computer Science Department  
+School of Computer Science 
+Bina Nusantara University 
+Jakarta, Indonesia 
+joshua.oroh@binus.ac.id 
+ 
+ 
+Abstract— This study introduces Sanity-LLM, an 
+advanced Retrieval-Augmented Generation (RAG) 
+framework for mental health chatbots that aims to 
+produce responses that are accurate, empathetic, and 
+safe. The proposed architecture integrates hybrid 
+semantic–keyword search, step-back questioning, and a 
+reranking mechanism to improve the relevance and 
+grounding of generated responses. The knowledge base 
+was built from publicly available mental health dialogues 
+and Q&A data, embedded and indexed using FAISS. 
+Evaluation using RAGAS metrics demonstrates notable 
+performance improvements, achieving 0.9391 context 
+precision, 0.7077 context recall, 0.8754 faithfulness, and 
+0.6297 answer correctness, surpassing naïve RAG 
+baselines. Ablation results further confirm that each 
+module: hybrid retrieval, step-back prompting, and 
+reranking contributes significantly to the overall system 
+effectiveness. While not a substitute for professional care, 
+Sanity-LLM offers a scalable and accessible first-line 
+support tool for encouraging help-seeking behavior. 
+Future work will focus on broadening verified knowledge 
+sources and validating effectiveness through expert and 
+user-based evaluation. 
+Keywords—Advanced RAG, Mental Health Chatbot, Hybrid 
+Search, FAISS, Large Language Model 
+I. INTRODUCTION 
+Mental health issues have become a growing global 
+concern, affecting individuals across diverse demographics 
+and socioeconomic backgrounds. According to the World 
+Health Organization (WHO), mental health disorders 
+contribute substantially to the global burden of disease, with 
+affected individuals having a life expectancy that is 10 to 20 
+years shorter than the general population [1]. Despite this 
+alarming reality, many people still lack access to timely, 
+affordable, and effective mental health support services.   
+Although awareness of mental health has increased in 
+recent years, societal stereotypes and stigma continue to 
+influence how it is perceived. Many individuals refrain from 
+seeking professional help due to fears of being labeled as 
+“weak” or “unstable” [2], while others may suppress their 
+struggles in cultures that value emotional restraint and 
+resilience. Such misconceptions hinder access to proper 
+mental health support, often resulting in misdiagnosis or 
+inadequate treatment. To help address this challenge, this 
+research explores the use of Artificial Intelligence (AI) to 
+provide more accessible mental health consultation [2].   
+The emergence of large language models (LLMs) has 
+transformed natural language processing, enabling more 
+advanced human-computer interaction and deeper semantic 
+understanding of text [3]. However, applying general-purpose 
+LLMs in mental health contexts poses significant challenges. 
+These models often lack domain-specific knowledge essential 
+for accurately understanding and responding to mental health 
+concerns. Without enrichment from reliable, expert-curated 
+datasets, LLMs risk producing responses that may be 
+inaccurate, insensitive, or even potentially harmful.  
+Previous studies have investigated the application of 
+machine learning techniques for mental health detection. For 
+instance, a systematic review [4] examined various machine 
+learning techniques employed in Online Social Networks 
+(OSNs) to identify mental health conditions, highlighting both 
+the potential and the limitations of these approaches. 
+However, the integration of domain-specific enhancements 
+into LLMs remains underexplored, creating a gap in their 
+effectiveness and applicability for therapeutic or supportive 
+interventions.  
+Retrieval Augmented Generation (RAG) has emerged as a 
+promising solution to the limitations of traditional chatbots. 
+By integrating external knowledge sources with LLMs, RAG 
+enables the generation of responses grounded in up-to-date 
+medical information and tailored with greater empathy. This 
+approach also mitigates common issues associated with 
+LLMs, such as hallucinations and outdated knowledge. 
+Furthermore, RAG facilitates automation in the healthcare 
+domain, where chatbots can assist professionals by addressing 
+general patient inquiries. As a result, it has the potential to 
+reduce patient waiting times and enhance the overall 
+efficiency of healthcare service delivery. 
+Previous studies have explored the use of RAG in various 
+contexts related to mental health support. One common 
+approach involves integrating RAG with question–answer 
+(Q&A) datasets to enhance the ability of large language 
+models (LLMs) to generate more empathetic and contextually 
+appropriate responses, an aspect that is highly important in 
+mental healthcare. Another line of research focuses on 
+leveraging RAG to incorporate the latest findings and 
+knowledge related to mental health treatment and 
+interventions. Since LLMs often lack access to up-to-date or 
+domain-specific information, the use of RAG becomes 
+2025 International Conference on Informatics, Multimedia, Cyber and Information System (ICIMCIS)
+979-8-3315-7930-2/25/$31.00 ©2025 IEEE 1020
+2025 International Conference on Informatics, Multimedia, Cyber and Information System (ICIMCIS) | 979-8-3315-7930-2/25/$31.00 ©2025 IEEE | DOI: 10.1109/ICIMCIS68501.2025.11327020
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:45:29 UTC from IEEE Xplore.  Restrictions apply. 
+essential for improving their accuracy and reliability in 
+generating informed responses. 
+This research focuses on enhancing LLMs with domain-
+specific mental health knowledge, aiming to bridge the gap 
+between general linguistic capabilities and specialized 
+therapeutic applications. By integrating curated knowledge 
+bases, clinical guidelines, and expert feedback, the enhanced 
+model is expected to provide more accurate, empathetic, and 
+contextually appropriate support to individuals experiencing 
+mental health challenges. 
+The expected outcomes of this study include sanity-LLM, 
+an improved LLM capable of delivering more accurate and 
+empathetic responses in mental health contexts, a framework 
+for integrating domain-specific knowledge into LLMs that can 
+be extended to other fields. By combining advancements in AI 
+with a focus on mental health, this research aims to address 
+the accessibility gap in psychological support, particularly in 
+underserved communities, and contribute to a future where 
+technology plays a pivotal role in promoting mental well-
+being.  
+II. LITERATURE REVIEW 
+In recent years, LLMs have been increasingly applied to 
+solve real-world problems across diverse domains. Common 
+approaches include integrating LLMs with RAG frameworks 
+to enhance factual accuracy, fine-tuning models for domain 
+specialization, and combining them with traditional deep 
+learning techniques for better performance. These strategies 
+demonstrate the versatility of RAG–LLM systems in various 
+contexts.  
+RAG has been explored in multiple domains such as 
+agriculture, education, and business, highlighting its broad 
+applicability. In agriculture, RAG has been combined with 
+hybrid deep learning models to identify medicinal plants for 
+disease treatment [5], while other works developed RAG-
+based virtual assistants to support farmers in improving 
+productivity [6,7]. In education, RAG has been utilized for 
+quiz generation and virtual tutoring [8-10], demonstrating 
+improvements in engagement and personalized learning. 
+Similarly, in business and finance, RAG-assisted systems 
+have been used for data aggregation, decision support, and 
+financial analysis [11-13] 
+Focusing specifically on mental health applications, the 
+architectures of RAG can generally be categorized into two 
+types: Naive RAG and advanced RAG. 
+A. Naive RAG 
+Research on SentimentCareBot [14] combines RAG with 
+sentiment analysis techniques to enhance conversational 
+quality and chatbot responses. The retrieval process is based 
+on a publicly available mental health counseling dataset. The 
+integration of RAG and sentiment analysis demonstrated 
+superior performance compared to baseline RAG models. 
+However, this improvement comes with a trade-off in 
+computational efficiency due to the additional sentiment re-
+ranking process. Another study utilized quantized LLMs 
+combined with RAG [15] to analyze user documents before 
+generating responses or diagnostic suggestions. Quantized 
+LLMs offer advantages in terms of computational efficiency, 
+allowing them to operate on limited hardware resources. 
+However, their accuracy may decrease because of the lack of 
+fine-tuning after model size reduction. Moreover, such a 
+chatbot system also raises privacy concerns, particularly in 
+the handling of sensitive user data, as there remains a 
+potential risk of data misuse during model improvement. 
+Considering the trade-off between computational cost and 
+accuracy, another study develops Medbot [16], which focuses 
+on utilizing RAG without combining additional methods. The 
+system retrieves data from PubMed sources and uses it to 
+provide answers to users’ medical inquiries, including 
+potential diagnostic suggestions. However, the study 
+provides limited details on chatbot responses from a 
+professional evaluation perspective. Allowing the chatbot to 
+generate diagnostic outputs directly raises concerns about the 
+possibility of false diagnoses, especially given the inherent 
+limitations of LLM accuracy. A similar approach was 
+adopted in research on LLMs assisting sexual harassment 
+victims [17], where the Llama-2 model was used to retrieve 
+legal resources. With that method, their LLM managed to 
+achieve an accuracy of 95%, demonstrating its ability to 
+deliver sensitive and supportive assistance in trauma-related 
+contexts. Marco et al. [18], in this recent research, proposed 
+the RAG-LLM model based on ICD-11, a new classification 
+system for physical and mental disorders. They introduced 
+LLMind chat that utilizes Gemma 2 LLM. By leveraging the 
+improved classification system, the model aims to better 
+assist mental health professionals. The performance of their 
+LLM was assessed by the DSM-5-TR Clinical cases manual 
+to ensure that the responses from the chatbot were both 
+credible and user-friendly. 
+B. Advanced RAG 
+Recently, more advanced research has been proposed. 
+LLMs integrated with RAG are no longer limited to simple 
+question-answering tasks but are now being utilized for a 
+variety of purposes. In 2024, Qiming et al. [19] proposed an 
+application called Soullmate, designed to address gaps in 
+existing mental health applications. By combining LLMs, 
+prompt engineering, and RAG, they developed a system 
+capable of multiple functionalities, including question-
+answering, mental health assessment, and risk detection. 
+Their model was evaluated using the DAIC-WOZ dataset, 
+Reddit suicide posts, and other case studies. With GPT-4 + 
+SMMR, they demonstrated an improvement in performance 
+across these tasks. Another recent study by Ahsan et al. [20] 
+introduced online reinforcement learning to enhance RAG 
+utilization. Based on similarity scores, their approach 
+dynamically improved model performance in real time. The 
+reinforcement learning component determines whether to 
+retrieve additional data or refine existing responses based on 
+contextual similarity. Their dataset consisted of mental health 
+issues collected from college student surveys. Through 
+evaluations with GPT-4o, GPT-4o-mini, Gemini 1.5, and 
+GPT-3.5, the proposed OnRL-RAG model outperformed all 
+baselines in similarity to ground-truth responses, 
+demonstrating its ability to generate more personalized and 
+contextually relevant outputs.  
+Another study, [21] LLM-Therapist explores how fine-
+tuned LLMs can analyze patient data and generate responses 
+based on the provided information. This approach enables 
+more personalized and context-aware responses from the 
+chatbot. The researchers evaluated their model using 
+relevance and user satisfaction metrics, achieving strong 
+results in both aspects. The application of RAG has also been 
+extended to text-to-speech systems [22], where the study 
+utilized a knowledge graph-based retrieval mechanism. The 
+researchers compared three RAG architectures: Ensemble 
+2025 International Conference on Informatics, Multimedia, Cyber and Information System (ICIMCIS)
+1021
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:45:29 UTC from IEEE Xplore.  Restrictions apply. 
+retriever-based RAG, auto-merging retriever-based RAG, 
+and naive RAG, and found that the ensemble retriever 
+configuration achieved the best performance. Additionally, 
+another advanced RAG implementation focused on 
+enhancing patient diagnosis using models such as 
+BioMistral7B and PubMedBert [23]. Evaluation using BLEU 
+and ROUGE scores indicated that the chatbot produced high-
+quality responses, demonstrating strong potential for further 
+development in medical and diagnostic applications. 
+III. METHODOLOGY 
+The system architecture for Sanity-LLM, as shown in Fig. 
+1, comprises seven key sections: dataset preparation, query 
+optimization, hybrid search, reranking, LLM Selection & 
+prompt engineering, test set creation, and lastly RAG 
+evaluation. 
+A. Dataset Preparation 
+To prepare the data, a preprocessing pipeline was applied 
+to normalize text by removing extra whitespace, correcting 
+spacing around punctuation, and standardizing quotation 
+marks. Entries with null or excessively short responses were 
+removed, and duplicate (Context, Response)  pairs were 
+dropped while retaining multiple valid answers for the same 
+context. The resulting dataset was then grouped so that each 
+context could include several bullet-point responses, ensuring 
+both cleanliness and diversity in the knowledge base. 
+Finally, the combined dataset was embedded and indexed 
+using Facebook AI Similarity Search (FAISS) to enable dense 
+vector retrieval. The context component was also tokenized 
+and processed with BM25 to support hybrid search in later 
+stages.  
+Since the data concerns chats and conversations between 
+patients and doctors and may contain sensitive and even 
+personal information, we have taken steps to anonymize the 
+data to ensure the safety of the individuals who participated in 
+the conversations by erasing any names, addresses, phone 
+numbers/emails, or other personal details before utilizing the 
+data in our system. 
+B. Query Optimization 
+For query optimization, user queries are processed using a 
+stepback prompting technique. This approach transforms the 
+original query into a simpler and more fundamental form, 
+enabling the model to better understand the underlying intent 
+of the question. By generating stepback questions, the system 
+enhances the accuracy of document retrieval and ensures that 
+the retrieved information is more closely aligned with the 
+user’s actual needs. 
+C. Hybrid Search 
+As illustrated in Fig.2, both the original query and the 
+corresponding stepback question undergo a hybrid search on 
+the FAISS Database to retrieve the most relevant document. 
+This hybrid approach is one of the most widely adopted 
+techniques in advanced RAG systems, as it combines 
+keyword-based and semantic-based retrieval. On the keyword 
+side, the query is matched against tokenized documents using 
+the BM25 algorithm, which computes relevance scores based 
+on keyword frequency and distribution. Simultaneously, on 
+the semantic side, the query is embedded and compared with 
+the embedded documents stored in FAISS, where cosine 
+similarity is used to measure semantic closeness and generate 
+semantic scores. To ensure comparability, both BM25 and 
+semantic scores are normalized using Min–Max scaling, after 
+which the scores are combined into a single fusion score. 
+Finally, documents are ranked according to their fusion 
+scores, and the top-N most relevant documents are selected for 
+subsequent processing in the RAG system. 
+To determine the optimal weighting between the two 
+retrieval methods, experiments were conducted across 
+different weight ratios ranging from 0.1 to 0.9. The 
+performance of each configuration was evaluated using 
+RAGAS metrics, and the configuration yielding the best 
+performance was selected. Experimental results showed that 
+the optimal balance occurred when the BM25 weight was 0.2 
+and the FAISS weight was 0.8. This configuration achieved 
+the best retrieval accuracy by balancing the strengths of 
+keyword and semantic search. 
+D. Reranking 
+After retrieving the documents relevant to both the original 
+query and the stepback question, the next step is to combine 
+and rerank them to ens ure the most relevant information is 
+prioritized. Before feeding the retrieved documents into the 
+LLM, all candidate contexts are reranked based on their re 
+levance to the user’s original query. This reranking process 
+was implemented using Cohere’s Rerank API with the rerank-
+ 
+Fig. 1. System Architecture of Sanity-LLM with RAG based stepback question, Hybrid Search, and Reranking 
+ 
+2025 International Conference on Informatics, Multimedia, Cyber and Information System (ICIMCIS)
+1022
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:45:29 UTC from IEEE Xplore.  Restrictions apply. 
+english-v3.0 model, which assigns a semantic similarity score 
+between each query–document pair. The retrieved contexts 
+(top-10 from the hybrid search) were reranked according to 
+these scores, and the top-5 highest-scoring contexts were 
+selected and passed into the LLM for the final response 
+generation. This configuration helps balance retrieval 
+diversity with response precision while maintaining 
+computational efficiency. 
+E. LLM Selection & Prompt Engineering 
+In this system, the Large Language Model (LLM) plays a 
+crucial role. The embedding layer is primarily used during the 
+retrieval phase of the RAG process. Before performing a 
+search in the vector database, both the user’s query and the 
+stored documents are converted into embeddings to enable 
+semantic similarity comparison. This embedding process is 
+essential for achieving accurate semantic search. For 
+embedding, we used the text-embedding-3-small model from 
+OpenAI, which produces 1,536-dimensional embeddings for 
+all context and query inputs. In this research, we also 
+employed GPT-4o-mini, a compact version of GPT-4, to 
+balance performance with computational efficiency and cost. 
+Another critical component is prompt engineering, which 
+ensures that the LLM generates responses strictly based on the 
+provided dataset, in this case, the Q&A corpus. When a user 
+query falls outside the dataset’s scope, the prompt is designed 
+to prevent the model from generating unrelated or fabricated 
+content. This strategy helps mitigate hallucinations and 
+ensures that the system delivers accurate and contextually 
+grounded responses.  
+F. Test Set Creation 
+First, we selected 14 topics that frequently appeared in the 
+dataset. From each topic, we chose two representative 
+questions from the database: one short-to-medium question 
+(50–150 characters in length) and one long question (more 
+than 200 characters in length). Using an LLM, we 
+summarized and paraphrased the corresponding original 
+answers to produce reference responses, which served as the 
+ground truth for evaluating the RAG system using RAGAS 
+metrics. This summarization process ensured that the 
+evaluation focused solely on the core informational content, 
+allowing for a more objective assessment of the system’s 
+response quality. 
+G. RAG Evaluation 
+For the evaluation, we utilized the RAGAS library [24],  
+which provides standardized tools for assessing RAG 
+systems. The evaluation metrics included faithfulness, 
+context recall (recall@k), context precision (precision@k), 
+and answer correctness. These metrics were selected to 
+comprehensively evaluate both the retrieval and generation 
+aspects of the system. Specifically, faithfulness measures the 
+consistency of the generated response with the retrieved 
+context, while context recall and context precision assess how 
+effectively relevant information is retrieved from the 
+knowledge base. Answer correctness, on the other hand, 
+evaluates the accuracy of the final response compared to the 
+reference answer. 
+To validate the performance improvements of our 
+proposed RAG framework, we also implemented a baseline 
+model using a naïve RAG configuration for comparison. The 
+naïve RAG employed two retrieval methods: BM25, a 
+traditional keyword-based search algorithm, and FAISS, a 
+vector-based semantic search method. By comparing the 
+advanced RAG against these baselines, we aimed to 
+determine the individual and combined contributions of 
+stepback prompting, hybrid search, and reranking strategies 
+to the overall system performance.  
+To determine which part of our advanced RAG system 
+was most influential, we also conducted an ablation study by 
+evaluating the RAG system with one component removed, 
+iterating for each of the components in our system including 
+BM25 search, FAISS search, stepback questions, and 
+reranking. 
+IV. RESULT & DISCUSSION 
+Table I presents the RAGAS evaluation metrics 
+comparing our advanced RAG framework against two naïve 
+RAG baseline approaches, using BM25 and FAISS 
+retrievers. The results show that the advanced RAG system 
+we proposed achieved improvements in answer quality while 
+maintaining competitive performance in other retrieval 
+metrics compared to the baseline. Most notably, the advanced 
+RAG approach achieved an Answer Correctness score of 
+0.6297, which is a 13% improvement over the FAISS 
+ 
+Fig. 2. Hybrid Search Process 
+TABLE I.  RAGAS EVALUATION METRICS 
+Metrics 
+Naive RAG Advanced 
+RAG BM25 Search FAISS Search 
+Context 
+Precision 0.8827 0.9362 0.9391 
+Context Recall 0.7192 0.7103 0.7077 
+Faithfulness 0.8419 0.8077 0.8754 
+Answer 
+Correctness 0.5539 0.5595 0.6297 
+2025 International Conference on Informatics, Multimedia, Cyber and Information System (ICIMCIS)
+1023
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:45:29 UTC from IEEE Xplore.  Restrictions apply. 
+baseline of 0.5595 and a 14% improvement over the BM25 
+baseline of 0.5539. This gain validates the effectiveness of 
+our advanced RAG system in producing accurate, relevant 
+responses, specifically for mental health queries. 
+The Context Precision scores remained high across all 
+three approaches. Advanced RAG led with 0.9391, followed 
+closely by F AISS with 0.9362, while BM25 scored 0.8827. 
+This shows that each retrieval component effectively 
+prioritized relevant context. However, FAISS's high ranking 
+precision didn't translate to better answer correctness. This 
+suggests that precision alone won't guarantee optimal RAG 
+performance in domain-specific applications. 
+Context Recall remained somewhat steady across 
+approaches. BM25 achieved the highest score of 0.7192, 
+followed closely by FAISS with 0.7103 and advanced RAG 
+with 0.7077. This slight decrease in context recall for the 
+advanced RAG is likely due to the hybrid method’s behavior 
+of emphasizing precision and reranked relevance, which 
+might have pruned borderline matches that would have 
+increased coverage metrics. 
+For faithfulness scores, advanced RAG with a score of 
+0.8754 outperformed both BM25, which achieved 0.8419, 
+and FAISS, which achieved 0.8077. The hybrid search 
+method helps in retrieving higher-quality documents, while 
+the reranking helps highlight the most supportive documents 
+and play down distracting documents. This leads to the 
+model’s claims being more traceable in the retrieved text and 
+an overall higher faithfulness score. The FAISS results might 
+also indicate that vector-based retrieval alone could retrieve 
+semantically similar documents, but not contextually aligned, 
+leading the model to produce answers that might stray from 
+the provided evidence. 
+Table II presents the RAGAS evaluation metrics 
+comparing the advanced RAG to the ablation study 
+configuration. The advanced RAG achieved the best balance 
+of grounding and answer quality compared to the other 
+configurations. It was able to achieve the highest faithfulness 
+and answer correctness, while its context precision and recall 
+were still near the top. In contrast, the other ablations were 
+able to achieve higher raw retrieval metrics, but falls behind 
+on response quality. These patterns suggest that the hybrid 
+retrieval plus reranking and stepback are able to convert 
+retrieval documents into better grounded, more accurate 
+answers, even when pure retrieval look marginally stronger 
+for the ablations. So, the BM25 and FAISS search methods 
+helped with the retrieval part of the system, while the 
+reranking and stepback helped with the answer quality and 
+groundedness. 
+These results collectively suggest that the proposed 
+advanced RAG system is able to deliver meaningful 
+improvements to naïve RAG techniques for mental health 
+chatbot applications. The drastic increase in Answer 
+Correctness while maintaining a high Faithfulness score 
+indicates that the system can provide more helpful responses 
+without sacrificing factual grounding, which is critical when 
+handling mental health issues. However, the modest gains in 
+Context Precision and Recall suggests that further 
+optimization of the retrieval pipeline can still be done to 
+ensure a more comprehensive and precisely ranked context 
+retrieval. 
+While this RAG-based assistant achieves encouraging 
+scores on evaluation metrics such as answer correctness, it is 
+not and should not be treated as a replacement for licensed 
+psychologists, therapists, or other qualified clinicians. In our 
+view, it is best understood as a supportive first-line tool, 
+handling straightforward questions and encouraging early 
+help‑seeking, not to diagnose conditions, deliver therapy, or 
+offer personalized medical advice. All outputs should be 
+interpreted with human judgement, and users should be 
+guided toward clinical pathways that ensure safety, 
+accountability, and continuity of care. 
+V. CONCLUSION 
+In conclusion, this study introduced an advanced RAG 
+architecture that integrates hybrid search, step-back 
+questioning, and a reranker mechanism. The system was 
+implemented in a Sanity-LLM, designed to deliver 
+informative, empathetic, and safe responses. Two open-
+source datasets from Hugging Face were embedded and 
+indexed using FAISS. The retrieval pipeline combined hybrid 
+semantic-keyword search, step-back prompting, and Cohere-
+based reranking, while prompt engineering guided GPT-4 to 
+generate grounded responses with minimal hallucination. 
+Evaluation results using RAGAS metrics demonstrate 
+clear improvements over baseline methods. The Advanced 
+RAG achieved the highest Context Precision  (0.9391), 
+Faithfulness (0.8754), and Answer Correctness  (0.6297), 
+indicating more precise retrieval and higher factual 
+consistency. The Ablation Study further confirmed that each 
+module: hybrid search, step-back questioning, and reranking 
+contributed meaningfully to overall performance. Notably, 
+removing reranking or step-back questions led to decreases 
+in answer correctness and faithfulness. These findings 
+highlight that the proposed RAG architecture effectively 
+balances relevance, accuracy, and grounding, offering a 
+robust foundation for trustworthy mental health dialogue 
+systems. 
+Although the performance of Sanity-LLM is good, 
+several limitations remain. First, the current evaluation relied 
+on open datasets rather than real patient interactions, which 
+may limit ecological validity. Second, while retrieval and 
+generation scores are high, empathy and safety were assessed 
+indirectly and require validation through expert and user 
+feedback. Third, the system depends on static datasets that 
+TABLE II.  ABLATION STUDY  EVALUATION METRICS 
+Metrics No BM25 No FAISS No Stepback Questions No Reranking Advanced RAG (Full) 
+Context Precision 0.9427 0.9451 0.9382 0.9551 0.9391 
+Context Recall 0.7212 0.7103 0.7058 0.7154 0.7077 
+Faithfulness 0.8171 0.8706 0.8535 0.8738 0.8754 
+Answer Correctness 0.5771 0.5953 0.5897 0.5986 0.6297 
+ 
+2025 International Conference on Informatics, Multimedia, Cyber and Information System (ICIMCIS)
+1024
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:45:29 UTC from IEEE Xplore.  Restrictions apply. 
+may not fully capture the diversity of real-world mental 
+health expressions. Finally, as with all LLM-based systems, 
+data privacy, bias, and interpretability remain critical 
+concerns requiring deeper investigation. 
+For future work, expanding the knowledge base with 
+verified clinical resources or structured knowledge graphs 
+could enhance factual grounding. Incorporating 
+reinforcement learning or human-in-the-loop feedback may 
+improve personalization and long-term adaptation. 
+Moreover, user studies with mental health professionals and 
+end users are necessary to assess safety, trust, and therapeutic 
+value in real-world settings.  
+OPEN CONTRIBUTIONSHIP 
+The paper entitled “Enhancing Mental Health Chatbot 
+with Retrieval-Augmented Generation (RAG)” was 
+collaboratively developed by three authors under the 
+supervision of Hidayaturrahman. Jefry Christiawan designed 
+the RAG architecture and wrote the main sections of the 
+manuscript. Dominick Albert Setiawan implemented the 
+RAG system in code and collected the datasets. Joshua 
+Andrew Pieter Oroh conducted the evaluation and wrote the 
+result and analysis. Hidayaturrahman provided supervision, 
+guidance, and critical feedback throughout the research. 
+OPEN DATA 
+Data supporting this study are publicly available on 
+HuggingFace. This research utilizes two Q&A datasets: 1. 
+3.51k real counseling conversation dataset that accessible on 
+https://huggingface.co/datasets/Amod/mental_health_couns
+eling_conversations. 2. 13.4k small Q&A mental health topic 
+from https://huggingface.co/datasets/marmikpandya/mental-
+health.  
+ACKNOWLEDGMENT 
+The authors would like to express their gratitude to Bina 
+Nusantara University for providing the resources, facilities, 
+and academic support necessary for completing this research. 

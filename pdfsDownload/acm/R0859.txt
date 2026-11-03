@@ -1,0 +1,421 @@
+Question-Answering Agent Based on Prompt Engineering and
+RAG
+Jiameng Yan
+Henan University of Science and Technology
+Luoyang, China
+13721655275@163.com
+Jingzhuo Shi∗
+Henan University of Science and Technology
+Luoyang, China
+sjznew@163.com
+Abstract
+With the rapid development of large language model (LLM) tech-
+nologies, general-purpose models face prominent problems such
+as knowledge hallucinations, information lag, and insufficient hier-
+archical adaptation in knowledge Q&A for professional fields like
+power electronics. Aiming at the teaching scenario of the under-
+graduate course Power Electronics Technology, this paper designs
+andimplements a Q&Aagent based on retrieval-augmented genera-
+tion (RAG) and prompt engineering technologies via the DeepSeek
+API. By constructing an undergraduate professional knowledge
+base, adopting a hybrid retrieval strategy, and applying prompt en-
+gineering, the Q&A agent effectively overcomes the shortcomings
+of general-purpose models in professional term accuracy, knowl-
+edge timeliness, and answer hierarchical adaptation. Experimental
+results show that the system achieves high accuracy and stability in
+undergraduate power electronics knowledge Q&A tasks, providing
+a feasible solution for the intellectualization of professional course
+teaching.
+CCS Concepts
+• Computing methodologies → Artificial intelligence; Natural
+language processing; Information extraction; Artificial intelligence;
+Natural language processing; Discourse, dialogue and pragmatics.
+Keywords
+retrieval-augmented generation, prompt engineering, power elec-
+tronics technology, professional knowledge base
+ACM Reference Format:
+Jiameng Yan and Jingzhuo Shi. 2026. Question-Answering Agent Based on
+Prompt Engineering and RAG. In2026 International Conference on Artificial
+Intelligence, Digital Media and Education (AIDME 2026), May 22–24, 2026,
+Nanjing, China. ACM, New York, NY, USA, 5 pages. https://doi.org/10.1145/
+3839592.3839607
+1 INTRODUCTION
+In recent years, large language models represented by DeepSeek
+have achieved breakthrough progress in natural language process-
+ing. They demonstrate strong capabilities in text generation, knowl-
+edge Q&A, and other tasks, and have been widely used in daily
+∗Corresponding author
+This work is licensed under a Creative Commons Attribution 4.0 International License.
+AIDME 2026, Nanjing, China
+© 2026 Copyright held by the owner/author(s).
+ACM ISBN 979-8-4007-2530-2/2026/05
+https://doi.org/10.1145/3839592.3839607
+life and learning scenarios. However, direct application of general-
+purpose large language models to professional fields such as power
+electronics still has obvious limitations.
+1.1 Problem Statement
+The model struggles to distinguish knowledge demands of under-
+graduates, postgraduates, and other levels, leading to mismatched
+answer depth.
+Training data is time-truncated. For example, the national stan-
+dard GB/T 32288-2020 has standardized the Chinese term for the
+transformer core from the old character form (with the “metal”
+radical) to the new character form (without that radical), but the
+model still uses the old form.
+Knowledge hallucinations: The model may generate incorrect
+content on professional details (e.g., IGBT on-state voltage drop),
+undermining engineering credibility.
+2 RELATED WORK
+2.1 Research Status and Applications of RAG
+Technology
+Retrieval-Augmented Generation (RAG) significantly improves the
+accuracy and reliability of model answers in professional fields
+by combining external knowledge retrieval with LLM generation.
+In recent years, RAG has evolved from the basic “retrieval + gen-
+eration” paradigm into various enhanced variants. For general
+RAG evaluation, CRUD-RAG builds a large-scale comprehensive
+benchmark covering four RAG application scenarios: Create, Read,
+Update, and Delete. It systematically assesses the impacts of re-
+trievers, context length, knowledge base construction, and LLMs
+on RAG performance, offering guidance for RAG optimization in
+different scenarios. [1]
+In other vertical domains, RAG has been successfully applied
+to typhoon track prediction (combining LLM and RAG to achieve
+12-hour mean absolute error of 10.78 km) [4] and vision-language
+navigation in continuous environments (the RAGNav method im-
+proves navigation success rate by 2%–2.32%). [2] These studies
+confirm that RAG can effectively enhance LLM performance in
+specific tasks, but its knowledge base content and retrieval strategy
+must be deeply adapted to domain characteristics.
+2.2 Application of RAG in Higher Education
+and Power Electronics Teaching
+RAG has attracted extensive attention in higher education due to its
+ability to reduce hallucinations in large language models. Swacha
+and Gracel systematically reviewed RAG chatbots in education,
+79
+AIDME 2026, May 22–24, 2026, Nanjing, China Jiameng Yan and Jingzhuo Shi
+Table 1: Representative Case Examples.
+Question Expected Behavior Actual Wrong Answer
+How to design the inductor value
+for a Buck circuit?
+Cite relevant Q&A or provide design
+formula
+Answered “four-switch Buck-Boost converter”, irrelevant
+Why can a MOSFET carry
+bidirectional current when turned
+on?
+Cite original knowledge base content Incorrectly explained switching speed
+I do not understand cosine
+sampling method(non-standard
+term) Please explain.
+Ask whether the term is correct Fabricated a definition and derivation for the non-existent
+’cosine sampling method’ without questioning the term’s
+validity.
+How to avoid commutation failure
+in single-phase current-source
+inverter?
+Confirm whether it refers to thyristor
+circuit
+Irrelevant answer based on fully controlled devices
+analyzing 47 related papers from five dimensions: application char-
+acteristics, support objectives, knowledge topic scope, underlying
+LLMs, and evaluation methods. [3] The study found that RAG
+chatbots have been used in higher education scenarios such as
+programming tutoring, medical education, and language learning.
+Their core advantage is providing traceable, factually reliable an-
+swers through external knowledge bases. However, the review also
+notes that existing research mostly focuses on general knowledge
+Q&A or a few science and engineering disciplines. RAG Q&A sys-
+temstailoredforspecificprofessionalcoursesandcloselyintegrated
+with classroom teaching content remain scarce.
+3 PROMPT ENGINEERING AND KNOWLEDGE
+BASE CONSTRUCTION
+3.1 Construction of Undergraduate Power
+Electronics Knowledge Base
+The knowledge base of this system is derived from classroom teach-
+ing recordings of the undergraduate course Power Electronics Tech-
+nology. The instructor is a senior professor with long-term expe-
+rience in power electronics teaching and research. The content
+covers core knowledge points such as power electronic devices and
+integrates extensive teaching insights.
+First, 60classhours(about3000minutes)ofteachingvideoswere
+collected via classroom recording equipment. Then, the iFlytek
+Hear voice-to-text tool automatically converted the teacher’s expla-
+nations into text to generate raw corpus. To improve knowledge
+accuracy, manual proofreading was performed on the transcription
+results. Professional terms (e.g., “IGBT”, “PWM”) were corrected
+sentence by sentence, finally yielding about 340,000 high-quality
+words. The text was split into 713 independent knowledge units by
+knowledge points, each containing a question and answer, serving
+as the underlying knowledge base for retrieval-augmented gen-
+eration. This knowledge base closely aligns with actual course
+teaching, ensuring high consistency between the Q&A assistant
+and classrooms in professional terms and key teaching points.
+The knowledge base adopts a Question & Answer (Q&A) struc-
+ture. Each knowledge entry consists of a typical question (e.g.,
+“What is the main function of a drive circuit?”).
+3.2 Prompt Engineering Design
+Prompt engineering is key to constraining LLM behavior and adapt-
+ing it to specific task scenarios. For the undergraduate Power
+Electronics Technology Q&A scenario, this system designed a hi-
+erarchical, iterable system prompt. Through multiple rounds of
+optimization, it effectively addressed deficiencies of general mod-
+els in term standardization, ambiguity handling, and knowledge
+boundary control. [5]
+The original initial prompt defined the model’s basic role and
+answer specifications. Although it clarified role positioning and
+basic style, it exposed the following limitations in actual testing
+(Table1). (Note: ThecasesshowninTable1andTable2areselected
+from the full test set (N=150) for illustrative comparison. The
+complete quantitative results are reported in Section 4.5.)
+3.3 Iterative Optimization of Prompts
+To solve the above problems, this paper enhanced the prompt
+through multiple iterations, adding the following key rules:
+Wrong term and ambiguity handlingAdd a questioning mecha-
+nism: if the question contains wrong or uncommon professional
+terms (e.g., “cosine sampling method” (non-standard term)), the
+model should ask the user to confirm term correctness; if the ques-
+tion is unclear or ambiguous (e.g., without specifying device type),
+explain or ask questions through multi-turn dialogue.
+Randomness control and format specificationSet API parameter
+temperature=0.1 to reduce generation randomness. Keep answers
+professional, rigorous, and easy to understand.
+After the above optimization, the system’s performance on typi-
+cal questions improved significantly (Table 2).
+Practice proves that prompt engineering is critical in RAG ap-
+plications. Even with a high-quality knowledge base and retrieval
+module, poorly designed system prompts lead to non-standard
+terms, ambiguities, blurred knowledge boundaries, and other is-
+sues. Through multi-round iterative optimization, prompts not
+only constrain the answer scope but also actively guide interaction
+behavior, significantly improving the accuracy, safety, and teaching
+adaptability of the Q&A agent.
+80
+Question-Answering Agent Based on Prompt Engineering and RAG AIDME 2026, May 22–24, 2026, Nanjing, China
+Table 2: Comparison of before and after prompt optimization.
+Question Before Optimization After Optimization
+Why does the voltage reverse
+when the rectifier circuit inverts?
+ncomplete answer (truncated by
+max_tokens)
+Fully explains the principle of voltage polarity reversal
+caused by the change of energy flow direction, with key
+terms marked.
+Why can a MOSFET carry
+bidirectional current when
+turned on?
+Incorrectly answered about
+switching speed
+Correctly quotes the original knowledge base: “Since
+MOSFET has no conductivity modulation effect, its channel
+resistance is linear and can carry bidirectional current after
+conduction……
+I do not understand cosine
+sampling method(non-standard
+term). Please explain.
+Answered drive timing and other
+contents based on the assumption of
+fully controlled devices
+The model correctly identifies ’cosine sampling method’ as a
+non-standard term, and proactively asks for clarification:
+’Did you mean “uniform sampling” or “natural sampling” in
+PWM modulation? Please confirm or rephrase your question.
+How to avoid commutation
+failure in single-phase
+current-source inverter?
+Confirm whether it refers to
+thyristor circuit
+The model asks for clarification: “Confirm whether it refers
+to thyristor circuit”.
+4 SYSTEM PROCESS AND ARCHITECTURE
+DESIGN
+4.1 Overall Architecture
+The system adopts a modular design with the overall architecture
+as follows:
+Data layer: Responsible for construction and management of the
+undergraduate power electronics knowledge base.
+Service layer: Includes retrieval module, generation module, and
+dialogue management module.
+Application layer: Provides user interaction interface and Q&A
+service API.
+4.2 Technology Selection
+DeepSeek API (DeepSeek-V3), called via HTTP interface.
+Vectordatabase: File-basedlightweightstorage. Knowledgebase
+fragments are semantically vectorized and persistently stored in a
+local file (vector_db.pkl) using pickle serialization. During retrieval,
+all vectors are loaded into memory, linear search is performed via
+cosine similarity, and Top-K relevant fragments are returned.
+Development framework: Flask as the Web backend; native
+HTML/CSS/JavaScript for the frontend interaction interface. The
+backendprovidesQ&AservicesviaRESTfulAPIandmanagesmulti-
+turn dialogue states using Flask Session. The overall architecture is
+lightweight and easy to deploy, suitable for teaching scenarios.
+4.3 Retrieval Module Design
+The retrieval module uses a hybrid retrieval strategy: semantic re-
+trieval + BM25. Semantic retrieval maps questions to vectors using
+the aforementioned vectorization model and calculates cosine simi-
+larity with knowledge base fragments. BM25 performs keyword
+matching based on term frequency-inverse document frequency.
+Instead of using a fixed weight, we implement a query-adaptive
+fusion strategy. The weight𝛼 is dynamically adjusted based on
+query lexical sparsity measured by the TF-IDF non-zero ratio. For
+a query q with sparsity s(q), we define:
+Table 3: Retrieval performance under different fusion strate-
+gies.
+Strategy Recall@5 MRR
+Fixed 𝛼 = 0.6 0.74 0.68
+Adaptive (sparsity) 0.81 0.75
+The composite score formula for each knowledge:
+𝑎 (𝑞) = 0.3 + 0.7 ⋅ 𝑠 (𝑞)
+𝑐𝑜𝑚𝑏𝑖𝑛𝑒𝑑 𝑠𝑐𝑜𝑟𝑒 = 𝛼 (q) × semanticscore + (1 − 𝛼 (q)) × bm25score
+This adaptive mechanism improves retrieval robustness across
+different query types (e.g., terminological vs. descriptive) . This
+query-adaptive strategy enhances retrieval robustness while keep-
+ing the system lightweight and suitable for teaching scenarios. Ta-
+ble 3 provides a comparison between the adaptive and fixed-weight
+approaches.
+4.4 Generation Module Design
+The core of the generation module is calling the DeepSeek API.
+Main parameter configurations are shown in Table 4.
+In the RAG process, the user question and retrieved knowledge
+base fragments are concatenated into context, then combined with
+the system prompt to form a complete API request. A retry mecha-
+nism (up to 3 times) is set for call failures to ensure system robust-
+ness.
+4.5 Dialogue Management Module Design
+To realize multi-turn interaction, the system designed a lightweight
+dialogue manager: DialogueManager. This module maintains the
+user-assistant message list, supports a maximum turn limit (default
+20 turns), and automatically truncates when exceeded. It formats
+history into text via get_history_text() for integration into prompts.
+The module adopts a callback design, decoupling reply generation
+logic. The callback function (generate_chat_reply) injected by the
+main application executes hybrid retrieval and LLM calls to realize
+81
+AIDME 2026, May 22–24, 2026, Nanjing, China Jiameng Yan and Jingzhuo Shi
+Table 4: Main Parameter Configurations.
+Parameter Value Description
+model deepseek-chat Corresponding to DeepSeek-V3
+temperature 0.1 Reduce randomness and improve certainty
+max_tokens 8192 Sufficient for generating long answers
+top_p 0.95 Nucleus sampling threshold
+retrieval-augmented generation. Dialogue states are serialized via
+to_dict() and from_dict(), and persisted across requests using Flask
+Session to ensure continuity of multi-turn dialogue. This design
+balances lightweight deployment and flexible expansion, providing
+stable context support for the RAG process.
+5 EXPERIMENTAL DESIGN AND EV ALUATION
+5.1 Experimental Objectives and Overall Design
+To fully verify the effectiveness of the Q&A agent, experiments
+focus on three core dimensions:
+Accuracy: Compare answer accuracy and hallucination rate
+with/without RAG enhancement and prompt engineering optimiza-
+tion.
+Adaptability: Verify the course specificity of the knowledge base
+(vs. general knowledge base) and the effect of prompt engineering
+on term standardization and hierarchy control.
+Interactivity: Evaluate contextual understanding and anaphora
+resolution in multi-turn dialogue scenarios.
+The experiment uses a control variable method, sets multiple
+comparison groups, uses the same test question set, and evaluates
+via manual scoring and automatic metrics.
+5.2 Experimental Dataset
+An undergraduate power electronics Q&A test set is constructed,
+including:
+Concept explanation (e.g., “What is a frequency converter?”);
+Principle analysis (e.g., “Working principle of Buck circuit”);
+Standard specification.
+5.3 Comparative Experimental Design
+DeepSeek API (model: deepseek-chat) without any retrieval en-
+hancement, using basic prompts.
+Experimental group (proposed system): Integrate RAG retrieval
+module and dedicated prompt engineering based on the same
+DeepSeek model.
+5.4 Evaluation Metrics
+Accuracy: Correctness of answer content
+Citation accuracy: Traceability of knowledge sources
+Level appropriateness: Whether answers match undergraduate
+knowledge depth
+Timeliness: Whether reflecting the latest standards
+5.5 Experimental Results
+To comprehensively evaluate the system performance, we con-
+structed a dedicated test set consisting of 150 typical Q&A pairs
+Figure 1: Comparison of Evaluation Metrics. The Timeliness
+metric is not included in this figure due to its binary pass/fail
+scoring nature; its detailed results are presented in Table 5.
+covering nine core chapters of the Power Electronics Technology
+course, including device characteristics, converter topologies, and
+control strategies.
+For the quantitative evaluation of accuracy and retrieval met-
+rics, all 150 questions are used to compute the average scores.
+Additionally, to vividly illustrate the improvements brought by
+prompt engineering, we selected 15 representative cases from this
+testsetforqualitativecaseanalysis(asshowninTable1andTable2).
+These 15 cases are specifically chosen because they cover the most
+challenging scenarios for general LLMs: ambiguous terminology,
+standard specification updates, and knowledge boundary control.”
+Evaluation dimensions include accuracy, citation accuracy, level
+appropriateness, and timeliness, comparison of evaluation metrics
+as show in Figure 1. (Note: Blue bar: Control group; Orange bar:
+Experimental group. Citation accuracy of the control group is 0
+because the general model cannot provide source traceability.)
+From Table 5, RAG significantly reduces the model hallucination
+rate and improves factual accuracy. The course-specific knowledge
+base improves accuracy compared with general knowledge bases,
+verifying the necessity of knowledge base specificity. Prompt en-
+gineering is key to system performance improvement: optimized
+prompts increase accuracy and term standardization compliance.
+Particularly for the factual consistency dimension, we evaluated
+whether the generated answers faithfully adhere to the retrieved
+knowledge snippets without introducing unsupported information.
+The control group frequently generated plausible but unsupported
+details (e.g., outdated device parameters or speculative derivations),
+whereas the experimental group maintained strict alignment with
+the course knowledge base across all test cases. This demonstrates
+82
+Question-Answering Agent Based on Prompt Engineering and RAG AIDME 2026, May 22–24, 2026, Nanjing, China
+Table 5: Experimental results show.
+Evaluation Metric Control Group Experimental Group
+Accuracy Prone to errors on boundary questions High, consistent with the knowledge base
+Citation Accuracy None Traceable to the knowledge base
+Level Adaptability Unstable Stably aligned with undergraduate requirements
+Factual Consistency (Faithfulness) Frequent unsupported claims or
+outdated facts
+Highly consistent with retrieved knowledge; no
+hallucination
+that our RAG system effectively suppresses knowledge hallucina-
+tions and mitigates the risk of propagating outdated information,
+including but not limited to standard terminology updates. Multi-
+turn dialogue enables the system to support progressive learning
+with accurate contextual understanding.
+6 CONCLUSION
+ThispaperpresentsanRAG-basedQ&Aagentforpowerelectronics
+education, demonstrating significant improvements in accuracy,
+timeliness, and level appropriateness. Current limitations include
+narrow knowledge coverage and lack of multimodal support. Fu-
+ture work will expand the knowledge base, integrate circuit dia-
+gram recognition, and incorporate user feedback for continuous
+optimization.
+Aiming at the problems of general large language models in
+undergraduate power electronics knowledge Q&A, this paper de-
+signs and implements an intelligent Q&A assistant system based on
+RAG technology. Main contributions: constructing a power elec-
+tronics professional knowledge base for undergraduate teaching;
+designing a hybrid retrieval and generation architecture suitable
+for course Q&A scenarios; realizing precise control of knowledge
+scope through prompt engineering.
+This study still has the following limitations: knowledge base
+coverage needs expansion; limited ability to process multimodal
+content (circuit diagrams, waveform diagrams); answer quality for
+complex reasoning problems still needs improvement. Subsequent
+research will include: expanding the knowledge base to cover more
+power electronics subfields; exploring multimodal RAG solutions
+to support circuit diagram recognition and analysis; introducing
+a user feedback mechanism to realize continuous learning and
+optimization.
+Acknowledgments
+The author would like to express sincere gratitude to the supervisor
+for their invaluable guidance in shaping the research framework,
+refining the technical implementation, and meticulously revising
+the manuscript. Their rigorous academic attitude and patience have
+profoundly influenced this work.

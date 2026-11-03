@@ -39,6 +39,14 @@ def main():
     # a prioridade está em selecionados.csv (triagem.csv não guarda a coluna)
     sel = list(csv.DictReader(open(HERE / "selecionados.csv", encoding="utf-8-sig")))
     prioridade = sum(1 for s in sel if s["prioridade"].startswith("alta"))
+    # elegibilidade (texto integral) dos prioritários: elegibilidade.csv
+    eleg = list(csv.DictReader(open(HERE / "elegibilidade.csv", encoding="utf-8-sig")))
+    nao_obtidos = [e for e in eleg if e["texto_integral"] == "não"]
+    avaliados = [e for e in eleg if e["texto_integral"] == "sim"]
+    excl_integral = [e for e in avaliados if e["decisao"] == "Excluir"]
+    incl_integral = len(avaliados) - len(excl_integral)
+    incluidos = len(incl) - len(excl_integral)
+    restantes = len(incl) - len(eleg)
 
     md = ["# Números PRISMA 2020", "",
           "## Identificação", "",
@@ -53,7 +61,12 @@ def main():
     md += [f"- Lidos manualmente (fase B): **{len(lidos)}**",
            f"- Excluídos na leitura: **{len(excl_lidos)}** " + ", ".join(f"{k}: {v}" for k, v in sorted(motivos_lidos.items())),
            f"- Incluídos para leitura integral: **{len(incl)}** (prioridade alta: {prioridade})", "",
-           "## Elegibilidade (texto integral)", "", "- Por fazer: textos integrais a obter e avaliar.", ""]
+           "## Elegibilidade (texto integral, estudos prioritários)", "",
+           f"- Textos integrais procurados: **{len(eleg)}**; não obtidos: **{len(nao_obtidos)}** (mantidos pelo resumo)",
+           f"- Avaliados: **{len(avaliados)}**; excluídos: **{len(excl_integral)}** "
+           + ", ".join(f"{e['id']} ({e['criterio']})" for e in excl_integral),
+           f"- Estudos incluídos na revisão: **{incluidos}** (prioritários {len(eleg) - len(excl_integral)}: "
+           f"{incl_integral} com texto integral e {len(nao_obtidos)} só com resumo; restantes {restantes} por título e resumo)", ""]
     (HERE / "exports" / "prisma.md").write_text("\n".join(md), encoding="utf-8")
     print("\n".join(md))
 
@@ -78,13 +91,24 @@ def main():
 \node[box, anchor=north west] (man) at ([yshift=-0.6cm]scr.south west |- auto.south) {{Registos lidos manualmente ($n={len(lidos)}$)}};
 \node[side, anchor=west] (exm) at ([xshift=0.8cm]man.east) {{Excluídos na leitura ($n={len(excl_lidos)}$):\\
   E3 ($n={motivos_lidos.get('E3', 0)}$), E2 ($n={motivos_lidos.get('E2', 0)}$), E4 ($n={motivos_lidos.get('E4', 0)}$)}};
-\node[box, anchor=north west] (inc) at ([yshift=-0.9cm]man.south west) {{Estudos para leitura integral ($n={len(incl)}$)\\
-  dos quais prioritários ($n={prioridade}$)}};
+\node[box, anchor=north west] (ret) at ([yshift=-0.9cm]man.south west) {{Incluídos na triagem ($n={len(incl)}$)\\
+  textos integrais procurados (prioritários) ($n={len(eleg)}$)}};
+\node[side, anchor=west] (nr) at ([xshift=0.8cm]ret.east) {{Textos integrais não obtidos ($n={len(nao_obtidos)}$):\\
+  mantidos com base no resumo}};
+\node[box, anchor=north west] (ele) at ([yshift=-0.7cm]ret.south west) {{Textos integrais avaliados ($n={len(avaliados)}$)}};
+\node[side, anchor=west] (exe) at ([xshift=0.8cm]ele.east) {{Excluídos no texto integral ($n={len(excl_integral)}$):\\
+  I4, sem avaliação das respostas}};
+\node[box, anchor=north west] (inc) at ([yshift=-0.7cm]ele.south west) {{Estudos incluídos na revisão ($n={incluidos}$)\\
+  prioritários: texto integral ($n={incl_integral}$), só resumo ($n={len(nao_obtidos)}$)\\
+  restantes, por título e resumo ($n={restantes}$)}};
 \draw[arr] (id) -- (scr); \draw[arr] (id.east) -- (dup.west);
 \draw[arr] (scr) -- (man); \draw[arr] (scr.east) -- (scr.east -| auto.west);
-\draw[arr] (man) -- (inc); \draw[arr] (man.east) -- (exm.west);
+\draw[arr] (man) -- (ret); \draw[arr] (man.east) -- (exm.west);
+\draw[arr] (ret) -- (ele); \draw[arr] (ret.east) -- (nr.west);
+\draw[arr] (ele) -- (inc); \draw[arr] (ele.east) -- (exe.west);
 \node[stage] at ([xshift=-0.15cm]id.west) {{Identificação}};
 \node[stage] at ([xshift=-0.15cm]man.west) {{Triagem}};
+\node[stage] at ([xshift=-0.15cm]ele.west) {{Elegibilidade}};
 \node[stage] at ([xshift=-0.15cm]inc.west) {{Incluídos}};
 \end{{tikzpicture}}
 """

@@ -1,0 +1,488 @@
+Evaluating RAG-Based Course Advising Chatbots Using
+LLM-as-a-Judge Methodology
+Ronit Buti
+University of British Columbia
+Kelowna, BC, Canada
+butironit@gmail.com
+Abdallah Mohamed
+University of British Columbia
+Kelowna, BC, Canada
+abdallah.mohamed@ubc.ca
+Abstract
+Retrieval-Augmented Generation (RAG) chatbots are increasingly
+deployed for academic advising, yet it remains unclear whether
+these systems can provide reliable, hallucination-free guidance. We
+investigate this question by evaluating a production course advising
+chatbot using LLM-as-a-judge methodology with Gemini 3 Flash.
+To enable systematic assessment, we develop AdvisingBench, a
+benchmark comprising 55 expert-evaluated questions across three
+complexity categories (common, specific and edge cases). We eval-
+uate the system on four metrics: answer relevancy, faithfulness,
+context relevancy and answer correctness. Our results reveal perfor-
+mance variation across query categories, with edge cases showing
+6% higher overall scores than common queries despite lower con-
+text relevancy. We find that context relevancy is the metric most
+sensitive to query complexity, while answer relevancy remains con-
+sistently high (>0.95) across all categories. Notably, hallucination
+failures were rare (3 of 53 cases), suggesting that RAG architectures
+substantially constrain models to retrieved content in academic
+advising contexts, though they do not eliminate fabrication risk.
+This work provides initial empirical evidence on whether AI can
+support course advising, and offers a methodology and benchmark
+for future validation studies.
+CCS Concepts
+• Information systems→ Question answering; • Computing
+methodologies→ Natural language generation; • Applied com-
+puting→ Education.
+Keywords
+RAG evaluation, LLM-as-a-judge, academic advising, course recom-
+mendation, educational AI, benchmark
+ACM Reference Format:
+Ronit Buti and Abdallah Mohamed. 2026. Evaluating RAG-Based Course
+Advising Chatbots Using LLM-as-a-Judge Methodology. In Western Canada
+Conference on Computing Education (WCCCE 2026), April 30–May 01, 2026,
+Vancouver, BC, Canada. ACM, New York, NY, USA, 6 pages. https://doi.org/
+10.1145/3828792.3828802
+This work is licensed under a Creative Commons Attribution 4.0 International License.
+WCCCE 2026, Vancouver, BC, Canada
+© 2026 Copyright held by the owner/author(s).
+ACM ISBN 979-8-4007-2755-9/26/04
+https://doi.org/10.1145/3828792.3828802
+1 Introduction
+Large Language Models (LLMs) integrated with Retrieval-Augmented
+Generation (RAG) architectures are transforming academic sup-
+port services in higher education [8]. These systems promise 24/7
+availability, consistent responses, and reduced burden on human
+advisors. However, deploying AI for academic advising carries sig-
+nificant responsibility as incorrect course recommendations can
+delay graduation, increase costs and cause students stress. A crit-
+ical question therefore arises: can RAG-based chatbots provide
+reliable, hallucination-free academic guidance? Despite growing
+adoption, standardized evaluation frameworks for academic advis-
+ing chatbots remain notably absent. A recent comprehensive survey
+of RAG chatbots in education reported that there is currently no
+widely accepted standard for evaluating such systems and high-
+lighted this as a major weakness in the field [11]. Existing systems
+report heterogeneous metrics that prevent cross-system compar-
+ison: AdvisingWise achieved high-accuracy responses on 84.2%
+(16/19) of evaluable advising queries in an expert-validated sample
+of 20 queries [7], NileAdvisor reported 0.93 query accuracy using
+knowledge graphs [1], while CourseQ focused more on usability
+and user-perceived accuracy than on formally measuring factual
+correctness of its recommendations [10]. This heterogeneity leaves
+practitioners without guidance for selecting among competing ap-
+proaches or understanding how system performance varies across
+different types of student queries. The RAGAS framework [3] has
+emerged as a de facto standard for RAG evaluation, offering metrics
+for faithfulness, answer relevancy and context quality. However,
+practical validation reveals concerning limitations: the TREC 2024
+RAG Track evaluation found GPT-4o and human judgments match
+perfectly only 56% of the time in manual assessments, rising to
+72% with post-editing [ 13]. These gaps suggest that automated
+evaluation, while useful for scale, requires careful validation. This
+paper addresses these gaps by evaluating a production RAG-based
+course advising chatbot to provide initial empirical characteriza-
+tion of system behavior across query types. We develop Advising-
+Bench, a 55-question benchmark with expert-evaluated reference
+answers across three complexity categories, and apply LLM-as-a-
+judge methodology to assess the system across four established
+metrics. We contribute: (1) initial empirical characterization of how
+a RAG-based academic advising system performs across query com-
+plexity categories; (2) analysis of how evaluation metrics behave
+differently across these categories; and (3) a reusable benchmark
+and methodology that can be validated against human advisor as-
+sessments in future work.
+WCCCE 2026, April 30–May 01, 2026, Vancouver, BC, Canada Buti and Mohamed
+2 Related Work
+To contextualize our evaluation approach, we review three relevant
+areas: RAG evaluation frameworks, educational AI chatbots, and
+LLM-as-a-judge methodology.
+2.1 RAG Evaluation Frameworks
+The RAGAS framework introduced reference-free metrics for RAG
+systems, including faithfulness (factual consistency with retrieved
+context), answer relevancy (appropriateness to query), and con-
+text precision/recall [3]. While widely adopted, practitioners report
+variable reliability. The TREC 2024 RAG Track evaluation found
+GPT-4o and human judgments match only 56% perfectly in manual
+assessments, rising to 72% with post-editing [ 13]. This suggests
+automated evaluation, while useful for scale, requires careful vali-
+dation. Recent work on the CRAG benchmark reveals that “even
+state-of-the-art RAG solutions struggle with accuracy, especially
+on questions with higher dynamism, lower popularity, or higher
+complexity” [14].
+2.2 Educational AI Chatbots
+RAG chatbots for education have proliferated across domains. A sys-
+tematic review identified common applications including tutoring,
+FAQ systems, and administrative support [11]. However, the review
+noted that many evaluation methods “lack comprehensiveness or
+detailed specification. ” For course advising specifically, published
+systems use inconsistent evaluation approaches. The AdvisingWise
+system was evaluated using a mixed-methods approach (expert
+evaluation, LLM-as-a-judge, and a user study with advisors) and
+adopted a conservative strategy of declining to answer when uncer-
+tain, which the authors argue helped avoid incorrect responses and
+contributed to high observed accuracy [7]. The From Interests to
+Insights system applied RAG to course descriptions using embed-
+ding similarity, but focused on recommendation relevance rather
+than factual accuracy [2]. An academic services chatbot at FPMIPA
+UPI achieved 0.91 faithfulness on factual queries but context recall
+dropped to 0.59 for reasoning tasks which shows a 35% perfor-
+mance gap [6]. These varied approaches underscore the need for
+systematic evaluation of whether AI can reliably support academic
+advising.
+2.3 LLM-as-a-Judge Methodology
+The LLM-as-a-judge paradigm uses capable language models to
+evaluate other model outputs [ 15]. The foundational MT-Bench
+study established that GPT-4 achieves agreement rates comparable
+to human-to-human agreement [ 15]. G-Eval extended this with
+chain-of-thought prompting, achieving 0.514 Spearman correlation
+on summarization tasks [ 9]. However, documented biases affect
+reliability. Position bias with GPT-4 exhibits approximately 35%
+inconsistency, while Claude-v1 shows approximately 76% as models
+may flip decisions when answer order is swapped [15]. Verbosity
+bias is more severe: Claude and GPT-3.5 preferred longer responses
+over 90% of the time when verbose distractors were added [ 15].
+The authors observe that GPT-4, as a judge, gives GPT-4 about
+a 10% higher win rate than humans do, but they emphasize that
+the evidence for true self-preference bias is inconclusive. A recent
+ACM IUI study specifically found “limitations of the LLM-as-a-
+Judge approach for evaluating LLM outputs in expert knowledge
+tasks” [12]. Recent comprehensive benchmarking of 54 LLM judges
+found that model selection significantly impacts evaluation qual-
+ity [5]. The Judge’s Verdict study demonstrated that Gemini Flash
+variants achieve Tier 1 human-like performance, with gemini-2.5-
+flash-lite achieving a z-score of 0.17 on their human-likeness test,
+indicating judgment patterns nearly indistinguishable from hu-
+man evaluators. Best practices for LLM-as-a-judge include detailed
+evaluation rubrics with explicit criterion anchors tied to discrete
+scale levels, decomposing evaluation into separable per-metric judg-
+ments, and using structured chain-of-thought reasoning to guide
+scoring [4, 9]. These approaches can improve consistency and help
+mitigate known judge biases such as length preference while im-
+proving alignment with human judgments [4, 9]. We incorporate
+these practices in our evaluation methodology.
+3 Methodology
+Building on the evaluation approaches reviewed above, we now de-
+scribe our methodology for assessing whether a RAG-based course
+advising chatbot can provide reliable guidance.
+Figure 1: AdvisingBench evaluation pipeline: benchmark
+questions flow through the RAG system and are scored via
+LLM-as-a-judge methodology.
+3.1 System Under Test
+We evaluate a production RAG-based course advising chatbot de-
+ployed at a university in North America. The system assists students
+in Computer Science, Engineering, Mathematics, and Data Science
+programs with course planning queries. The architecture integrates:
+• Retrieval: Vector similarity search over course catalog doc-
+uments using PostgreSQL with pgvector extension
+• Generation: Gemini 2.5 Flash for response synthesis
+• Knowledge Base: Official university course descriptions,
+prerequisites, restrictions, and program requirements
+The chatbot is instructed to answer strictly from retrieved context
+and politely decline out-of-scope queries.
+Evaluating RAG-Based Course Advising Chatbots Using LLM-as-a-Judge Methodology WCCCE 2026, April 30–May 01, 2026, Vancouver, BC, Canada
+3.2 Benchmark Dataset
+To systematically assess the chatbot across different query types, we
+developed AdvisingBench, a dataset of 55 questions organized into
+three complexity categories based on expected retrieval and reason-
+ing difficulty: Common queries (n=29, 53%): Frequent questions
+with straightforward answers directly stated in course descriptions.
+Examples include course descriptions, credit values, prerequisites,
+term offerings, and program information. These test baseline system
+performance on typical student queries. Example: “What are the
+prerequisites for CS 320?”Specific queries (n=19, 35%): Questions
+requiring interpretation of course policies or evaluation of eligibility.
+Examples include prerequisite chain analysis, credit exclusion sce-
+narios, grade threshold evaluation, and co-requisite interpretation.
+These test the system’s ability to reason about policy implications.
+Example: “If I scored 65% in CS 111, can I take CS 121? What if
+I scored 55%?” Edge cases (n=7, 13%): Adversarial, ambiguous,
+or out-of-scope queries testing system boundaries. Examples in-
+clude requests for system prompt exfiltration, questions outside
+course advising scope, and ambiguous course references. These
+test appropriate refusal and escalation behavior. Example: “What
+are the prerequisites for 304?” Each question includes an expert-
+evaluated reference answer validated against official university
+academic calendar. Table 1 summarizes the category distribution
+and subcategories.
+Table 1: AdvisingBench Dataset Composition
+Category Example Subcategories Count
+Common course_description, prerequisites, 29
+term_offering, major_info
+Specific prereq_chain, credit_exclusion, 19
+grade_threshold, eligibility
+Edge out_of_scope, ambiguous, 7
+prompt_exfiltration
+Total 55
+3.3 Evaluation Metrics
+We evaluate four metrics using an LLM-as-a-judge approach: An-
+swer Relevancy: Does the answer appropriately address the ques-
+tion (or appropriately refuse/redirect if out-of-scope)? Scored 0.0-
+1.0. Faithfulness: Are all factual claims in the answer supported
+by the retrieved context? Penalizes hallucinations. Scored 0.0-1.0.
+Context Relevancy: Is the retrieved context relevant to the ques-
+tion? Evaluates retrieval quality independent of generation. Scored
+0.0-1.0. Answer Correctness: How factually correct is the answer
+compared to the expert-evaluated reference answer? Score 1.0 if
+all key facts match, 0.5 if partially correct, 0.0 if incorrect. This
+reference-based metric follows standard QA evaluation practice [9].
+Overall: Aggregate score computed by the judge model. The judge
+prompt suggests using a weighted average prioritizing faithfulness,
+answer correctness, and answer relevancy, but the specific weights
+are determined dynamically by the judge rather than fixed a prior-
+ity. This reflects the relative importance of avoiding hallucinations
+and providing accurate information in academic advising contexts.
+3.4 Judge Configuration
+Following best practices for LLM-as-a-judge [9, 15], we configure
+the judge model with:
+• Model: Gemini 3 Flash Preview with high thinking level
+• Temperature: 0 for deterministic evaluation
+• Prompt Structure: Detailed rubric with scoring criteria,
+followed by question, reference answer, system answer, and
+retrieved context
+• Output Format: Structured JSON with scores and brief
+explanatory notes
+We selected Gemini 3 Flash as the judge model based on recent
+benchmarking showing Gemini Flash variants achieve Tier 1 human-
+like judgment, with gemini-2.5-flash-lite exhibiting agreement pat-
+terns nearly indistinguishable from human evaluators [5]. While
+the benchmarking validated earlier Gemini Flash versions rather
+than 3 Flash Preview specifically, we extrapolate that architectural
+continuity within the Gemini Flash family preserves these eval-
+uation characteristics. Temperature 0 ensures reproducible eval-
+uation by eliminating sampling randomness, following standard
+practice for automated assessment [9]. We enabled the model’s ex-
+tended reasoning mode (high thinking level) to allow deliberation
+before scoring, as chain-of-thought approaches have been shown
+to improve correlation with human judgments [9]. The judge is in-
+structed that out-of-scope queries should be appropriately refused,
+and that answers must be grounded in retrieved context to score
+well on faithfulness.
+3.5 Experimental Procedure
+For each test case, we: (1) submit the question to the course advising
+API; (2) capture the system response and retrieved context; (3) pass
+question, response, context, and reference answer to the judge;
+and (4) record all scores, latencies, and judge notes. The evaluation
+completed successfully on 53 of 55 test cases (96.4% completion
+rate).
+4 Results
+We now present the evaluation results, organized to address our
+research questions about metric variation across query categories
+and patterns that inform system reliability. We begin with aggregate
+performance, then examine category-level differences, and conclude
+with failure mode analysis.
+4.1 Overall Performance
+Table 2 presents aggregate performance across all successful test
+cases. The system achieves strong answer relevancy (0.979) and
+respectable answer correctness (0.758), with faithfulness (0.764)
+and context relevancy (0.702) showing more variation. These aggre-
+gate scores suggest reasonable overall performance, but examining
+results by query category reveals important variation.
+4.2 Performance by Category
+Table 3 reveals notable variation across complexity categories.
+Counter-intuitively, edge cases achieve the highest faithfulness
+(0.843) despite lowest context relevancy (0.643). This suggests the
+system appropriately grounds refusal responses in available context
+WCCCE 2026, April 30–May 01, 2026, Vancouver, BC, Canada Buti and Mohamed
+Table 2: Overall Benchmark Performance (n=53)
+Metric Mean Score
+Answer Relevancy 0.979
+Faithfulness 0.764
+Context Relevancy 0.702
+Answer Correctness 0.758
+Overall 0.751
+Table 3: Performance by Query Category. Two test cases failed
+due to transient API errors: one common query and one
+specific query. These infrastructure failures were excluded
+from analysis.
+Metric Common Specific Edge
+(n=28) (n=18) (n=7)
+Answer Relevancy 0.979 0.989 0.957
+Faithfulness 0.754 0.750 0.843
+Context Relevancy 0.693 0.739 0.643
+Answer Correctness 0.739 0.778 0.786
+Overall 0.727 0.781 0.771
+while recognizing queries as out-of-scope. Specific queries outper-
+form common queries on overall score (0.781 vs 0.727), driven by
+higher context relevancy (0.739 vs 0.693) and answer correctness
+(0.778 vs 0.739). This may reflect that specific queries require more
+targeted retrieval, resulting in more focused context.
+4.3 Metric Correlation Analysis
+To understand metric relationships, we examined score distribu-
+tions across categories. Answer relevancy shows minimal variation
+(range: 0.032), remaining consistently high regardless of query com-
+plexity. This suggests it may be less discriminative for identifying
+system weaknesses. Context relevancy shows the widest variation
+by category (range: 0.096), with specific queries retrieving more
+relevant context than both common and edge cases. This metric
+appears most sensitive to query-retrieval alignment. Faithfulness
+shows moderate variation (range: 0.093), with highest scores on
+edge cases where the system correctly declines to answer based on
+irrelevant retrieved context.
+4.4 Failure Mode Analysis
+Examining cases with overall scores below 0.6, we identified four
+primary failure patterns: Retrieval misalignment (n=6): Ques-
+tions retrieved tangentially related courses rather than the specific
+course queried. Example: asking about CS 328 prerequisites re-
+trieved generic CS course listings without the specific course. Other
+instances included queries about CS 441, DATA 311, MATH 221, and
+MATH 200 where the retrieved context lacked the specific course in-
+formation needed to answer the question. Hallucination failures
+(n=3): The model fabricated information not present in the retrieved
+context, and the fabricated information was factually incorrect. Ex-
+amples include: hallucinating a quote from CS 111’s description;
+providing prerequisite requirements for CS 221 that weren’t in the
+context; and claiming prerequisite information was present when
+it wasn’t. Notably, these cases had low answer_correctness scores
+(0.0-0.5), indicating the fabricated information was incorrect. This
+5.7% hallucination rate (3 of 53 cases) includes all evaluated re-
+sponses, both substantive answers and appropriate refusals, in the
+denominator. Incomplete answers (n=1): Responses omitted key
+information or provided partial answers when complete informa-
+tion was available. Example: when asked “When is CS 304 offered?”,
+the system provided year-level information (third year) instead of
+the specific term offerings (Winter/Summer) that were requested,
+even though the context did not contain term scheduling infor-
+mation. Over-generalization (n=1): Responses provided generic
+guidance rather than specific policy interpretation. Example: when
+asked to “Tell me about CS”, the system provided an extensive
+generic overview of Computer Science programs instead of ask-
+ing for clarification about what specific aspect was needed. While
+hallucination failures occurred, they were relatively rare (3 cases)
+compared to retrieval issues. Most failures involved the model cor-
+rectly using information from its training data that wasn’t in the
+retrieved context (faithfulness issues) rather than fabricating incor-
+rect information. This suggests the RAG architecture provides some
+constraint, though not complete protection against hallucination.
+5 Discussion
+Our evaluation provides initial characterization of how a RAG-
+based chatbot behaves across different types of academic advising
+queries. We discuss the implications for understanding system be-
+havior, metric properties, and practical deployment, while acknowl-
+edging the limitations of automated evaluation.
+5.1 How Reliable is AI Academic Advising?
+Hallucination failures were rare but not absent: 3 of 53 test cases
+(5.7%) involved the model fabricating information not present in the
+retrieved context. In academic advising, where incorrect informa-
+tion about prerequisites or requirements could delay graduation or
+increase costs, even a low hallucination rate carries meaningful risk.
+The RAG architecture, which instructs the model to answer strictly
+from retrieved context, appears to provide substantial constraint
+but does not eliminate fabrication entirely. However, reliability is
+not solely about avoiding hallucinations. The failure mode analysis
+reveals that retrieval misalignment was actually the most common
+issue (6 cases), followed by hallucinations (3 cases). A student re-
+ceiving an incomplete answer about credit exclusions could make
+suboptimal course decisions even without the system hallucinating.
+These findings indicate that while RAG reduces hallucination risk,
+retrieval quality remains the primary reliability challenge.
+5.2 Metric Behavior Across Complexity
+Our results reveal that RAGAS-style metrics behave differently
+across query complexity categories. Answer relevancy remains
+a weak discriminator as the system produces relevant responses
+nearly always (0.957-0.989). This ceiling effect limits its utility for
+identifying improvement areas. Context relevancy proves most in-
+formative for diagnosing retrieval quality. The 0.096 range across
+categories suggests retrieval performance varies meaningfully with
+Evaluating RAG-Based Course Advising Chatbots Using LLM-as-a-Judge Methodology WCCCE 2026, April 30–May 01, 2026, Vancouver, BC, Canada
+query type. Practitioners should prioritize this metric when optimiz-
+ing RAG pipelines. The inverse relationship between faithfulness
+and context relevancy for edge cases merits attention. When re-
+trieved context is irrelevant (0.643), the system can still achieve
+high faithfulness (0.843) by appropriately declining to answer. This
+demonstrates that faithfulness captures response grounding rather
+than retrieval quality, which is an important distinction for eval-
+uation design. However, this also means that a system which fre-
+quently refuses to answer could achieve artificially high faithful-
+ness scores while providing limited practical value. Hence, practi-
+tioners should interpret faithfulness alongside answer correctness
+and relevancy. Answer correctness, which compares against ex-
+pert references, shows consistent discrimination across categories
+(0.739-0.786). This reference-based metric may be most valuable for
+assessing end-to-end system quality when ground truth is available.
+5.3 LLM-as-a-Judge Validity
+Several observations inform the validity of LLM-as-a-judge for
+educational RAG evaluation. The judge successfully identified ap-
+propriate refusal behavior on edge cases, awarding high relevancy
+and faithfulness scores for responses that politely declined out-
+of-scope queries. This suggests the rubric design adequately cap-
+tures domain-appropriate behavior beyond simple factual matching.
+The detailed notes provided by the judge (required in our prompt
+design) offer interpretable explanations for scores. For example,
+one edge case received the note: “The assistant correctly identi-
+fied the out-of-scope question and refused to answer, though the
+retrieved context was entirely irrelevant to the query. ” Such trans-
+parency enables manual review and rubric refinement. However,
+there are potential limitations. Using Gemini for both generation
+(2.5 Flash) and evaluation (3 Flash) may introduce family-specific
+or self-enhancement biases. Prior work on LLM -as-a-judge has
+observed possible self-enhancement effects and other biases (e.g.,
+position, verbosity), though these are generally smaller than the
+overall agreement between strong judges like GPT-4 and human
+raters [15]. Future work should validate scores against human aca-
+demic advisor assessments.
+5.4 Implications for Practice
+Our findings suggest that practitioners building educational RAG
+systems should prioritize retrieval quality above generation tun-
+ing. Context relevancy showed the most variation across query
+categories, indicating that the retrieval component represents the
+primary bottleneck. Embedding model selection and chunk design
+likely offer greater returns than prompt engineering for response
+generation. The strong performance on edge cases also highlights
+the value of designing systems for appropriate refusal. Our chatbot
+maintained high faithfulness scores precisely because it declined to
+answer when retrieved context was irrelevant. Clear scope defini-
+tion in system prompts enables this behavior and prevents the sys-
+tem from overreaching into areas where it lacks grounding. Finally,
+our results underscore the importance of structured evaluation.
+Aggregate metrics obscured meaningful category-level variation
+that only became apparent when we examined common, specific,
+and edge cases separately. Practitioners should invest in expert-
+validated reference answers and organize test cases by expected
+complexity to surface actionable insights about system weaknesses.
+5.5 Limitations
+Several limitations scope our findings: Sample size: With 55 ques-
+tions (53 successful), statistical power for fine-grained analysis is
+limited. Effect sizes and patterns should be interpreted cautiously.
+Single system: We evaluated one RAG configuration at one institu-
+tion. Results may not generalize to other architectures or academic
+contexts. No human validation: We did not validate LLM-as-a-
+judge scores against human academic advisor assessments. The
+reported metrics reflect automated evaluation only. Judge model
+selection: Using Gemini Flash for both generation and evaluation
+may introduce systematic biases not present with other judge mod-
+els. Temporal snapshot: Evaluation occurred at a single point in
+time. System performance may vary with course catalog updates
+or model changes.
+6 Conclusion
+We evaluated a production RAG-based course advising chatbot to
+provide initial empirical characterization of system behavior across
+query types. Using AdvisingBench, a 55-question benchmark across
+three complexity categories, and LLM-as-a-judge methodology, we
+observed that:
+(1) Hallucination failures were rare (3 of 53 cases, 5.7%), suggest-
+ing RAG architectures may meaningfully constrain models to
+retrieved content, though they do not eliminate fabrication
+risk entirely.
+(2) RAGAS-style metrics vary meaningfully across query com-
+plexity, with context relevancy most discriminative and an-
+swer relevancy showing ceiling effects.
+(3) Edge cases achieve high faithfulness through appropriate
+refusal despite low retrieval relevancy, demonstrating the
+system knows when not to answer.
+(4) Retrieval misalignment was the most common failure mode
+(6 cases), indicating that retrieval quality remains the pri-
+mary reliability challenge.
+These findings suggest that RAG-based chatbots substantially con-
+strain hallucination in academic advising contexts, though the 5.7%
+hallucination rate and 11.3% retrieval failure rate indicate that full
+reliability remains elusive. Practitioners should focus on retrieval
+quality and use structured evaluation across query categories to
+identify weaknesses. Future work should: validate LLM-as-a-judge
+scores against human academic advisor assessments to establish
+metric reliability in this domain; expand the benchmark to addi-
+tional institutions and programs; investigate failure mode taxonomy
+across query categories; and develop educational-domain-specific
+evaluation metrics capturing advisory appropriateness beyond fac-
+tual correctness. AdvisingBench and evaluation code will be made
+available upon publication.

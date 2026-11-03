@@ -1,0 +1,475 @@
+979-8-3315-4616-8/26/$31.00 ©2026 IEEE 
+Privacy-Preserving Federated Transformer 
+Framework for Detecting Adversarial Prompts in 
+Healthcare Chatbots 
+ 
+ 
+1st Alphin Kayalathu Mathew 
+Center for Cybersecurity Systems and 
+Networks 
+Amrita Vishwa Vidyapeetham 
+Amritapuri, Kollam, Kerala, India 
+690525  
+am.sc.p2csn24002@am.students.amr
+ita.edu 
+ 
+ 
+ 
+ 
+2nd Devi Rajeev 
+Center for Cybersecurity Systems and 
+Networks 
+Amrita Vishwa Vidyapeetham 
+Amritapuri, Kollam, Kerala, India 
+690525  
+devir@am.amrita.edu 
+ 
+ 
+ 
+ 
+ 
+3rd Akshara Ravi 
+Center for Cybersecurity Systems and 
+Networks 
+Amrita Vishwa Vidyapeetham 
+Amritapuri, Kollam, Kerala, India 
+690525 
+akshararavi@am.amrita.edu 
+ 
+ 
+ 
+Abstract—Prompt injection attacks is an important security 
+problem in healthcare-specific large language model 
+systems(LLMs). The injected prompt can be used to control the 
+behavior of the model or to leak sensitive data. This vulnerability 
+increases with centralized training pipelines that collect patient 
+prompts on a single server, which leads to data leakage and model 
+poisoning. In this work, we examine Federated Learning (FL) as a 
+privacy-preserving and decentralized prompt injection detection 
+defense for medical chatbots. Using the SPML Healthcare Chatbot 
+Prompt Injection Dataset, we fine-tune a RoBERTa-base classifier 
+in conditions of centralized, IID (Independent and Identically 
+Distributed), federated and Non-IID (Non-Independent and Non-
+Identically Distributed) federated learning. The experimental 
+results show that the federated model has comparable 
+performance with centralized training, with accuracy of 0.957 and 
+F1-score of 0.964 under IID conditions. The realistic case scenario 
+of Non-IID client distribution was evaluated across 3 different 
+client configurations, the model is able to maintain stable 
+performance with an average performance accuracy of 0.956, 
+precision of 0.942, recall of 0.987, F1-Score of 0.964 and AUC of 
+0.994. Moreover, the federated setup shows consistent convergence 
+between the communication rounds despite the data heterogeneity. 
+These results suggest that transformer-based federated learning 
+provides an effective and privacy-preserving solution for detecting 
+prompt injection attacks in distributed healthcare conversational 
+AI systems. This work contributes to Sustainable Development 
+Goal (SDG) 3: Good Health and Wellbeing, SDG 9: Industry, 
+Innovation and Infrastructure, and SDG 16: Peace, Justice and 
+Strong Institutions by enhancing the security and privacy of AI-
+driven healthcare technologies. 
+Index Terms —Prompt Injection Attacks (PIA), Federated 
+Learning (FL), Healthcare Chatbots, RoBERTa, Natural 
+Language Processing (NLP), AI Security, Sustainable 
+Development Goals (SDG 3, SDG 9, SDG 16). 
+ 
+I. INTRODUCTION 
+The progress in LLMs such as as GPT, BERT, and RoBERTa 
+has contributed to NLP to a great extent which helped in 
+understanding clinical note, to get medical assistance. The 
+increasing dependence on prompt-based interaction has 
+introduced a security risk known as PIAs. These attacks are 
+done by inserting malicious instructions into user prompts to 
+override model controls that leads to misdiagnosis, unsafe 
+clinical advice or give out sensitive medical information, these 
+are harmful threats to medical apps such as telemedicine 
+systems, digital triage systems, and clinical chatbots [1], [2]. 
+From the recent studies, LLM-based conversations can be 
+exploited for social engineering and fraudulent activities, these 
+strongly show the need to protect healthcare chatbots against 
+adversarial prompt manipulation [3]. LLMs follow instructions, 
+prompts are crafted in such a way that this trait is exploited[1]. 
+Generative AI increases the risk of harmful content spreading 
+across online platforms, which asserts the need to detect and 
+prevent malicious prompts before they corrupt the sensitive 
+healthcare data and information [4].The attack results in sharing 
+protected health information (PHI) or giving untrustworthy 
+medical advice, creating serious concerns for healthcare 
+privacy regulations [2]. As conversational AI systems are 
+widely used in clinical workflows they are prone to prompt 
+injection attacks[1]. 
+Existing defenses such as input sanitization and context 
+isolation struggle to detect semantically complicated attacks 
+that bypass the pattern-based detection[2]. Most of the methods 
+are based on centralized training, where raw patient data are 
+centralized on one server. This makes it easier to poison data, 
+manipulate models, and leak sensitive clinical data, making 
+healthcare systems more vulnerable to privacy and security 
+breaches [5]. These risks are especially crucial in the medical 
+environment, where regulations such as HIPAA and GDPR 
+emphasize the need to adopt decentralized learning technique 
+that will not collect sensitive data, ensuring that the model 
+remains intact. 
+FL is one of the technologies that can resolve these issues by 
+facilitating the joint training of models in a group of healthcare 
+2026 International Conference on Innovations in Computational Intelligence (ICICI) | 979-8-3315-4616-8/26/$31.00 ©2026 IEEE | DOI: 10.1109/ICICI68867.2026.11564888
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:13:23 UTC from IEEE Xplore.  Restrictions apply. 
+organizations without transmitting raw patient data . Every 
+client conducts local training and transfers only t he model 
+parameters to aggregate it, enhancing privacy and m inimizing 
+risks [6], [7]. Previous work identifies FL as a go od approach 
+in healthcare applications and robust in the face o f 
+heterogeneous data distributions. Cross-domain rese arch also 
+indicates that FL can compete in sensitive fields a nd maintain 
+data confidentiality at the same time. 
+In this paper, we explore how FL can be used to detect prompt 
+injection attacks within the medical chatbot. A RoB ERTa-base 
+classifier is trained on SPML Healthcare Chatbot Pr ompt 
+Injection Dataset [8] using centralized and federat ed training 
+using a variety of client settings to assess robustness in realistic 
+Non-IID settings. The paper focuses on performance 
+consistency, privacy maintenance, minimized exposur e in 
+attack, and convergence stability in the situation of unequal 
+client involvement. 
+ 
+II. L ITERATURE REVIEW  
+A. Prompt Injection Attacks in Healthcare AI 
+PIAs utilize how LLMs interpret and execute 
+naturallanguage instructions. LLMs can be manipulat ed to 
+bypass system constraints, expose confidential data , or behave 
+in unintended ways [1]. Advanced attacks, including  
+mathematically encoded or function based prompts , can bypass 
+simple keyword filtering and context isolation mech anisms. 
+These show the limitations of input validation [2]. 
+These attacks should not be taken lightly as strict  privacy 
+requirements and safe decision making is involved in healthcare 
+sector. Multimodal medical vision language models [ 9] can be 
+exploited to generate misleading diagnoses. This in dicates that 
+PIAs pose serious problems on high-stakes clinical settings. 
+B. Defenses Against Prompt Injection in Medical Systems 
+Techniques such as filtering, sanitization, and con text 
+separation [1], [2], provide security but they stru ggle with 
+complex attacks in healthcare chatbots. Hybrid mach ine 
+learning approaches can provide improved robustness  and 
+anomaly detection capabilities, which can also be r elevant for 
+detecting adversarial prompts in healthcare chatbot s[10]. Most 
+existing solutions rely on centralized approach whe re patient 
+information is processed on a central server which increases the 
+risk of information leakage, data poisoning, and un authorized 
+access to PHI. 
+C. Centralized Learning Vulnerabilities in Healthcare 
+Central systems makes use of the PHI for training a nd this 
+information provides model updates. Centralized system can be 
+attacked by poisoning attacks or to leak informatio n [7], [11]. 
+Such attacks not only affect technical systems but also the trust 
+on such LLMs[12]. Even simple manipulation of the 
+parameters can affect the performance or cause bias [7]. HIPAA 
+and GDPR are some of the regulations that limit cen tralized 
+management of sensitive information. New AI models focus on 
+the decentralized and distributed learning in order  to enhance 
+security and scalability [6]. 
+D. Federated Learning for Secure Healthcare NLP 
+FL provides a decentralized approach, where local m odels 
+are trained at clients and the combined model updat es are 
+exchanged, which reduces PHI sharing and adversaria l 
+propagation. Light and distributed security solutions emphasize 
+the significance of efficient and adaptive detectio n of the 
+resourceconstrained environment [13]. FL is capable  of 
+reaching the performance of centralized learning an d keeping 
+privacy intact at the same time [6], [14].It enhanc es the 
+resistance against poisoning and inference attacks, also efficient 
+transformer updates are used to minimize the commun ication 
+overheads[7], [11]. Balancing robustness, latency, and resource 
+cost is an issue in distributed healthcare systems [15]. 
+E. Research Gap 
+PIAs and FL are being studied individually, but little research 
+has been done to understand and study how the two c an be 
+integrated into healthcare settings. Existing PIA d efenses are 
+based on centralized methods, and only few FL resea rch pay 
+attention to adversarial prompt detection. In this work, we 
+propose a federated transformer-based system powere d by the 
+SPML Chatbot Prompt Injection Dataset [8]with a foc us on 
+balancing detection performance, privacy preservati on, and 
+healthcare regulatory requirements. 
+ 
+III. P ROPOSED METHODOLOGY  
+A. System Overview 
+The proposed framework is to identify prompt inject ion 
+attacks to healthcare-based LLM systems without requiring the 
+centralized storage of sensitive clinical data. To achieve this, we 
+combine FL with RoBERTa-based text classification m odel. 
+Each participating healthcare institutions or clien t devices 
+trains the model with their own medical prompts, so  that the 
+raw patient data never leaves the client side. Only  model 
+updates are shared with the central server, which h elps reduce 
+the risk of PHI exposure and related privacy issues. 
+This framework follows the basic principles of FL described 
+in [6], [7], but adapts them for adversarial prompt  detection in 
+clinical dialogue systems. The main focus of the pr oject is to 
+have a strong detection performance while reducing the risk of 
+data leakage, model poisoning , and privacy violati ons. This 
+approach is suitable for healthcare settings where patient data 
+confidentiality is highly important. 
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:13:23 UTC from IEEE Xplore.  Restrictions apply. 
+B. Architectural Design 
+The proposed architecture consists of two layers.Th e first 
+layer consists of participating client institutions. Each client has 
+its own benign and adversarial prompt data and perf orms local 
+fine-tuning of the RoBERTa model without sharing raw patient 
+text or clinical conversations. The data never leav es the client 
+side which address PHI-related privacy concerns and  supports 
+and obeys with healthcare privacy laws. 
+The second layer is the federated server layer, which manages 
+the global learning process. The server collects locally updated 
+model parameters from each client and aggregates th em using 
+the standard FedAvg rule: 
+  (1) 
+Here,  represents the local model parameters from cl ient i 
+at communication round t, ni denotes the number of samples at 
+that client, and n is the total number of samples across all 
+participating clients. This weighted averaging stra tegy has 
+proven effective in prior studies [16], [17]. Since  only model 
+updates are exchanged, the framework reduces the ne ed for 
+centralized storage of raw healthcare data. 
+C. Data Preprocessing Pipeline 
+For experimental evaluation, we make use of SPML Chatbot 
+Prompt Injection Dataset [8], this dataset consist of system 
+prompts, user prompts, and their corresponding labe ls. As the 
+work focuses on healthcare related prompts , the da taset was 
+filtered to retain only healthcare entries. 
+To preserve conversational semantics, the system an d user 
+prompts were combined into a single input sequence before 
+tokenization. The merged text was then processed us ing the 
+RoBERTa tokenizer based on Byte-Pair Encoding (BPE)  [1]. 
+This produces token IDs and attention masks, which are later 
+converted into PyTorch tensors such as input_ids, 
+attention_mask, and labels. This preprocessing step helps retain 
+both contextual information and clinical intent, al lowing the 
+model to better distinguish normal healthcare conve rsations 
+from adversarially manipulated prompts. 
+D. Model Configuration 
+We chose RoBERTa-base after initial experiments of 
+comparison with DistilBERT-base-uncased and DeBERTa -v3-
+base. Although all three models demonstrated a similar level of 
+performance under a centralized context, RoBERTa 
+demonstrated higher levels of stability and robustn ess when 
+trained with federated constraints. Each client fin e-tunes the 
+RoBERTa model locally using the following configuration: 
+• learning rate of 2×10 −5, 
+• batch size of 8, 
+• three local training epochs per communication round, 
+• AdamW optimizer. 
+Once the clients have done their local updates, the y transmit 
+only the updated model weights to the federated ser ver. The 
+server gathers together these updates and sends the  new global 
+model for the next communication round. This iterative process 
+continues until the global model gets to a stable state. 
+E. Evaluation Metrics 
+We evaluate model performance using standard classification 
+metrics, including Accuracy, Precision, Recall, and F1score: 
+Precision  
+Recall  
+Precision × Recall 
+ F1-score =2× . 
+Precision + Recall 
+Here, TP , FP , and FN correspond to true positives, false 
+positives, and false negatives when identifying mal icious 
+prompts. Because in real-world healthcare data are not 
+necessarily balanced across healthcare institutions , we also 
+ 
+Fig. 1. Overall federated learning architecture for healthcare prompt injection detection.  
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:13:23 UTC from IEEE Xplore.  Restrictions apply. 
+analyze the stability of the model under both IID a nd Non-IID 
+client partitions, following established evaluation practices [7], 
+[11]. 
+This helps to understand how effectively the framew ork can 
+handle distribution differences that commonly arise  in 
+multihospital and distributed healthcare environment. 
+IV . E XPERIMENTAL SETUP  
+A. Dataset Preparation 
+All experiments were done using the healthcare subset of the 
+SPML Prompt Injection Dataset [8], which has both benign and 
+adversarial prompts designed to simulate prompt inj ection 
+attacks in medical chatbots. The system prompts and  user 
+prompts were combined before preprocessing. Since the dataset 
+was imbalanced, paraphrase-based data augmentation was 
+applied using a Pegasus-style transformer model (Va msi/T5 
+Paraphrase Paws).Beam search (num beam=3) and temperature 
+tuning were used to generate semantically similar b ut diverse 
+prompt variations. The generated samples were then filtered to 
+have only natural and unique prompts.After preproce ssing and 
+augmentation, the final dataset was 7,243 samples o f which 
+2,949 were benign and 4,294 were malicious. 
+B. Client Data Partitioning 
+The dataset was allocated to three clients in order to simulate 
+distributed healthcare environments. The IID settin g randomly 
+shuffled and split samples such that a client recei ved an equal 
+amount of benign and malicious prompts. In the case  of Non-
+IID experiments, data heterogeneity was added throu gh 
+Dirichlet partitioning with concentration parameter s of α =1 .0, 
+0.5, and 0 .3, which are mild, moderate and severe skew, 
+respectively. The federated training process consis ted of four 
+communication rounds where all clients participated  in each 
+round. Only the model updates were exchanged with the central 
+server, and the results were averaged over three runs. 
+C. Training Setup 
+The federated experiments used three clients perfor ming 
+local fine-tuning followed by FedAvg aggregation at the server. 
+RoBERTa-base served as the backbone model. The same  
+tokenization and preprocessing rules were applied a cross all 
+clients. 
+D. Dataset partitioning 
+In order to decrease sensitivity to a single client partition, the 
+experiment was run several times on different rando m NonIID 
+client splits created under varying Dirichlet conce ntration 
+parameters and random seeds. This facilitates the assessment of 
+the stability of FL performance in various client d ata setups 
+instead of a fixed division. 
+E. Environment 
+All experiments were run in Google Colab on an NVID IA 
+Tesla T4 GPU (16GB VRAM). Random seeds were fixed f or 
+reproducibility. 
+TABLE I 
+PERFORMANCE COMPARISON OF TRANSFORMER BACKBONES 
+UNDER FEDERA TED SETTINGS 
+Model  Fed IID Acc  Fed IID F1  Fed Non-IID Acc  Fed Non-IID F1  
+BERT-base  0.7801  0.8429  0.7387  0.7625  
+DistilBERT-base  0.7819  0.8446  0.7746  0.8339  
+RoBERTa-base  0.7819  0.8446  0.7820  0.8446  
+ 
+V . R ESULTS  
+A. Backbone Model Selection 
+BERT-base, DistilBERT-base, and RoBERTa-base were 
+tested in order to determine model to use in the FL framework. 
+All the models were tested on both IID and Non-IID data 
+distribution, but there was differences in the fede rated 
+environments where there is Non-IID distribution of client data. 
+The outcomes mentioned here are an average of three runs that 
+involve three clients and four rounds of communication. 
+All of the models gave similar outcomes under the I ID 
+condition, yet the Non-IID outcomes reveal some cri tical 
+differences. BERT is the most degraded and DistilBE RT is 
+moderately stable. RoBERTa has almost the same IID and Non-
+IID performance, and it is more robust to heterogen eous client 
+data. Since healthcare has applications that need r eliability, 
+RoBERTa-base is chosen to be the base model. RoBERTa was 
+chosen as it offers better contextual information a nd better 
+detection results than lightweight models, which is  why it is 
+appropriate regardless of its moderate computational cost. 
+B. Model Performance Evaluation 
+1)  Centralized: The initial training of RoBERTa-base 
+was conducted on a centralized basis to determine a n upper 
+limit of performance. The model has an accuracy of 0.96, F1-
+score of 0.9669, and an AUC of 0.9958 which proves to be 
+effective in the event that all the data are centrally available. 
+2)  Federated IID: In the case of IID federated training, 
+when the clients are given equal data partitions, t he model has 
+the closest performance as centralized with an accu racy of 
+0.9572 and an F1-score of 0.9644. This implies that  there is 
+little degradation in data distributions that are homogeneous. 
+3)  Federated Non-IID: In real-life Non-IID conditions 
+where the distribution of client data is uneven, th e first 
+communication round has a small drop in performance , and 
+then the performance gradually improves, which fina lly 
+reaches a final accuracy of 0.9545 and an F1-score of 0.9622. 
+To further test, FL was tested on three Dirichlet-b ased 
+NonIID splits with concentration parameters of alpha = 1.0, 0.5, 
+and 0.3 which are mild, moderate, and severe hetero geneity. 
+Performance is also similar across all configuratio ns, meaning 
+that the model shows limited sensitivity to client partitioning. 
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:13:23 UTC from IEEE Xplore.  Restrictions apply. 
+These settings ROC analysis also supports the stabl e ability to 
+differentiate when the data heterogeneity changes.T he model 
+was able to achieve similar performance across mult iple 
+rounds, indicating stable and reliable performance. 
+ 
+Fig. 2. ROC curves for IID and Non-IID federated settings.  
+ 
+Fig. 3. Global validation accuracy across communication rounds for Non-IID 
+client configurations ( α =1 .0,0.5,0.3).  
+C. Federated Training Behavior Analysis 
+To evaluate the stability and convergence of the fe derated 
+model, we analyzed ROC performance, global validati on 
+accuracy, and average client training loss across 
+communication rounds. 
+1)  ROC Curve Comparison (IID vs. Non-IID): The 
+performance of both IID and Non-IID setups are good in terms 
+of ROC with AUC scores of 0.996 and 0.984 respectiv ely. 
+There is a slight degradation in Non-IID conditions , the model 
+can still correctly detect the benign and malicious prompts. 
+2)  Global Validation Accuracy over Communication 
+Rounds: In all Non-IID settings, there is a slight loss of 
+accuracy in the model in the initial rounds because  of the data 
+distributions being skewed but quickly approaches t he same 
+performance and remains stable. This tendency shows  the 
+strength of the proposed FL framework to client heterogeneity. 
+ 
+Fig. 4. Client-average training loss across communication rounds under 
+different Non-IID settings ( α =1 .0,0.5,0.3).  
+3)  Client-Average Loss Trend: The training loss 
+decreases progressively throughout communication ro unds of 
+all NonIID configurations. Even though heterogeneit y is 
+increased, initial loss is always reduced and conve rgence is 
+observed, which implies the presence of stable and effective 
+federated optimization in realistic distributions o f healthcare 
+data. 
+VI. D ISCUSSION  
+While comparing with a centralized prompt injection  
+detection approach[18], decentralization does not c ome at the 
+cost of detection performance. Although centralized  
+ensemblebased approaches are characterized by high accuracy 
+and the ability to discriminate, the suggested RoBE RTa-based 
+federated model is equally accurate and slightly better in its F1-
+score and AUC in both IID and Non-IID conditions. 
+The federated model is stable at different degrees of client 
+data heterogeneity, which implies strong resistance  to skewed 
+and fragmented healthcare data distributions. An im portant 
+aspect of this approach is that we are not storing the raw patient 
+data in the central server, which reduces the risk of data leakage 
+and poisoning. However, practical deployment of FL can face 
+challenges such as communication overhead from larg e model 
+parameters, increased latency during aggregation ro unds, and 
+coordination difficulties between distributed clien ts. Despite 
+these limitations, FL offers a good balance between privacy and 
+effective detection, making it a suitable approach for privacy-
+preserving healthcare chatbot systems. 
+TABLE II  
+PERFORMANCE OF THE PROPOSED FEDERA TED ROBERT A MODEL UNDER  
+IID AND NON -IID SETTINGS 
+ 
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:13:23 UTC from IEEE Xplore.  Restrictions apply. 
+Setting  Accuracy  AUC  
+Centralized [18]  92.24  0.994  
+Federated IID  95.72  0.996  
+Non-IID ( α =1 .0) 95.45  0.984  
+Non-IID ( α =0 .5) 95.38  0.995  
+Non-IID ( α =0 .3) 95.29  0.994  
+ 
+VII.  LIMITA TIONS  
+The framework has shown a promising performance but there 
+are several limitations. The RoBERTa model introduc es 
+additional computational and communication overhead , which 
+can affect deployment in low-resource settings. The evaluation 
+was limited only to a single dataset and controlled experimental 
+conditions, which may not completely reflect real-w orld 
+federated healthcare scenarios. 
+VIII.  CONCLUSION  
+This paper has looked into prompt injection defense  in 
+healthcare chatbots using a RoBERTa-based model und er 
+centralized, IID federated, and Non-IID FL conditio ns. From 
+the experiments held, it clearly shows that the per formance is 
+comparable to centralized approach while remaining stable 
+under heterogeneous client data distributions. 
+Since the framework does not store sensitive prompt s on a 
+central server it reduces privacy risks while also maintaining 
+effective detection of malicious inputs. The findin gs show that 
+FL can provide a practical balance between privacy 
+preservation and prompt injection detection in heal thcare 
+environments. Future work will focus on evaluating the 
+framework with larger datasets, more number of part icipating 
+clients, and additional defense mechanisms to impro ve 
+robustness against evolving prompt injection attack s. 
+Improvements can also include integrating secure ag gregation 
+and differential privacy techniques to strengthen data protection 
+in healthcare AI systems while supporting Sustainab le 
+Development Goals such as SDG 3, SDG 9, and SDG 16. 

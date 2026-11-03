@@ -1,0 +1,446 @@
+A Conversational Agent for Rare Eye Disease
+Knowledge Support in Local Italian Healthcare
+Contexts: The ELENA Framework
+1st Tommaso Ruga
+DIMES, University of Calabria
+CNR-NANOTEC
+Rende(CS), Italy
+tommaso.ruga@dimes.unical.it
+2ndLuciano Caroprese
+InGeo
+University G. D’Annunzio
+Chieti-Pescara, Italy
+luciano.caroprese@unich.it
+3rd Eugenio V ocaturo
+CNR-NANOTEC
+DIMES, University of Calabria
+Rende(CS), Italy
+eugenio.vocaturo@cnr.it
+4th Ester Zumpano
+DIMES, University of Calabria
+CNR-NANOTEC
+Rende(CS), Italy
+e.zumpano@dimes.unical.it
+Abstract—Accessing global medical knowledge on rare oph-
+thalmic diseases remains a challenge for small healthcare centers,
+as relevant literature and case reports are scattered across
+multiple languages and formats. To bridge this gap, we introduce
+ELENA (Eye-disease Language-model for Evidence-based Navi-
+gation and Assistance), a retrieval-augmented chatbot designed
+to provide multilingual access to specialized medical knowledge
+in ophthalmic rare diseases. ELENA combines a quantized Large
+Language model with a lightweight retrieval-augmented genera-
+tion pipeline, where all source documents are pre-translated into
+English to ensure consistent embedding and retrieval. Italian
+user queries are automatically translated, processed through
+the pipeline, and the generated responses are translated back
+into Italian, yielding fluent and contextually grounded answers.
+Experiments on a curated corpus of ophthalmic rare-disease
+documents confirm the technical feasibility of deploying such
+systems even on modest hardware, while a graphical interface
+ensures accessibility for non-technical clinical staff. ELENA thus
+demonstrates how an efficient, privacy-preserving, and human-
+friendly AI assistant can democratize access to international
+medical knowledge within local healthcare environments.
+Index Terms —Retrieval-Augmented Generation, Large Lan-
+guage Models, Ophthalmology, Rare Diseases, Local Healthcare
+Institutions
+I. I NTRODUCTION
+In recent years, the integration of Artificial Intelligence (AI)
+into clinical and research workflows has shown remarkable
+potential in supporting medical professionals across a wide
+range of specialties. However, within the Italian healthcare
+system, small local health authorities (Aziende Sanitarie Lo-
+cali, ASL) often face substantial limitations in terms of fi-
+nancial resources, technological infrastructure, and specialized
+personnel. This issue becomes even more pronounced when
+dealing with a case of a rare disease, where data scarcity and
+fragmented literature hinder effective diagnosis and research
+progress. In the ophthalmic domain, rare diseases have been
+estimated to have a prevalence of approximately 6-8%, with
+the majority being genetic in origin [1]. According to the Na-
+tional Eye Institute, over 900 rare eye diseases are listed, with
+one common form, retinitis pigmentosa, affecting an estimated
+1 in 5,000 people. On average, it takes 8 years to receive an
+Fig. 1. ELENA framework conceptual architecture.
+accurate diagnosis for a rare disease, and about 95% of them
+lack an FDA-approved treatment [2]. In previous work, efforts
+were made in this direction to develop intelligent systems for
+medical diagnostic support aimed at promptly identifying the
+presence of ocular diseases [3]–[5]. In this scenario, it becomes
+crucial to streamline the diagnostic process by ensuring that
+even small research units and local healthcare institutions
+have timely access to the most up-to-date medical knowledge.
+To address these issues, this work introduces ELENA (Eye-
+disease Language-model for Evidence-based Navigation and
+Assistance), a retrieval-augmented conversational framework
+specifically designed to assist clinicians and young medical
+researchers in exploring rare ophthalmic diseases. The frame-
+work combines large language models (LLMs) with retrieval-
+augmented generation (RAG) to provide accurate, context-
+aware, and human-like responses to user queries posed in
+natural Italian language (Fig.1), considering the increasing role
+of LLMs in healthcare [6], [7].
+ELENA operates by translating Italian user questions into
+English, performing semantic retrieval across a multilingual
+document repository, and generating coherent answers that are
+subsequently translated back into Italian. In this way, even
+2025 IEEE International Conference on Big Data (Big Data)
+979-8-3315-9447-3/25/$31.00 ©2025 IEEE 7709
+2025 IEEE International Conference on Big Data (BigData) | 979-8-3315-9447-3/25/$31.00 ©2025 IEEE | DOI: 10.1109/BIGDATA66926.2025.11402191
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:00:55 UTC from IEEE Xplore.  Restrictions apply. 
+smaller organizations can access documents in other languages
+and up-to-date information on disease treatments, including
+most rare ones. This architecture ensures that the system
+leverages the strengths of English-based medical corpora while
+maintaining accessibility for Italian-speaking healthcare pro-
+fessionals. The framework is designed as a scalable, privacy-
+preserving tool that can be locally deployed in small healthcare
+institutions, helping democratize AI-driven medical support
+while safeguarding patient data.
+II. R ELATED W ORKS
+The concept of developing a chatbot leveraging a LLM
+to provide answers related to ophthalmology field has been
+explored in the literature. In [8], a cross-sectional study
+compared ChatGPT-generated responses to eye care questions
+with answers written by American Academy of Ophthal-
+mology–affiliated ophthalmologists. Using 200 deidentified
+patient questions from an online forum, a panel of board-
+certified ophthalmologists assessed whether answers were AI-
+or human-generated, and evaluated accuracy, appropriateness,
+and potential for harm. The study found that ChatGPT re-
+sponses were largely comparable to human-written answers
+in terms of correctness, likelihood of harm, and alignment
+with community standards. Considering solutions or studies
+that have focused on specific disorders, [9] and [10]. The
+first work evaluated an LLM chatbot (GPT-4) in ophthal-
+mology, comparing its diagnostic accuracy and completeness
+to fellowship-trained glaucoma and retina specialists using
+both commonly asked questions and real patient cases. For
+glaucoma-related scenarios, the chatbot achieved higher mean
+ranks for accuracy and completeness compared with special-
+ists. For retina-related scenarios, the chatbot matched special-
+ists in accuracy and outperformed them in completeness. The
+second work introduced CataractBot, an LLM-based system
+designed to answer cataract surgery–related questions using
+a curated, expert-verified knowledge base. Deployed in a
+real-world study with patients, doctors, and coordinators, the
+bot demonstrated potential for providing instant, accessible,
+and privacy-preserving information. It supported multilingual
+and multimodal interactions, accommodated varying literacy
+levels, and helped mitigate power imbalances. However, an
+issue that emerges from the analysis of the state of the art
+is the near absence of studies addressing the domain of rare
+diseases. As discussed in [11], even GPT-4 shows poorer
+performance in the context of rare diseases. Furthermore, the
+literature includes studies proposing generic solutions for rare
+diseases in general, as in the case of [12], or, as observed in the
+works reviewed, focusing on a single type of disease within
+a specific domain. The proposed ELENA framework uniquely
+combines RAG with multilingual translation to support small
+Italian healthcare institutions, enabling questions posed in
+Italian to access a curated global knowledge base of rare
+eye disease documents. Unlike large, general-purpose LLMs,
+which may have broader but less domain-focused knowledge,
+ELENA relies exclusively on selected and regularly updated
+documents (also internal, considering the federated institution-
+oriented nature of the framework [13]). This strategy enhances
+domain-specific expertise while covering the full spectrum
+of rare eye diseases, rather than concentrating on a single
+condition, thereby ensuring both depth and breadth in the
+clinical knowledge accessible to users.
+III. M ETHODOLOGY
+The ELENA framework was designed to provide an effec-
+tive multilingual conversational assistant for rare ophthalmic
+diseases within local Italian healthcare institutions. The sys-
+tem addresses one of the major challenges in real-world
+medical information retrieval: the coexistence of heteroge-
+neous textual sources written in multiple languages. To ensure
+a unified semantic space for knowledge access, all source
+documents—initially collected in Italian, English, and other
+languages are pre-processed and automatically translated into
+English using a neural machine translation model. This step
+allows ELENA to operate within a consistent embedding
+space, facilitating accurate retrieval regardless of the docu-
+ment’s original language. When a user poses a question in
+Italian, the query is first translated into English, embedded, and
+compared against the pre-processed corpus to retrieve the most
+semantically relevant passages. These retrieved segments form
+the contextual basis for the subsequent RAG phase, in which
+the LLM synthesizes an informed and human-like answer in
+English. Finally, the generated answer is translated back into
+Italian and presented to the user in a fluent, natural-language
+format. This multilingual pipeline ensures both linguistic ac-
+cessibility for Italian healthcare professionals and semantic
+fidelity to the underlying clinical knowledge base, making
+ELENA a practical and privacy-preserving conversational tool
+for small-scale medical institutions.
+A. Datasets
+For the ophthalmology-focused implementation of the
+ELENA framework, a domain-specific dataset was constructed
+to evaluate the system’s capacity to retrieve and synthesize
+information on rare eye diseases. In this conceptual stage of
+the frame, the dataset consists of a collection of plain-text
+(.txt) files, each dedicated to a distinct condition, including but
+not limited to: Retinitis pigmentosa, Leber congenital amau-
+rosis, Usher syndrome, Juvenile macular degeneration, Leber
+hereditary optic neuropathy, Congenital optic atrophy, Fuchs’
+endothelial dystrophy, Hereditary neurotrophic keratitis, Reis-
+B¨ucklers corneal dystrophy, Congenital hereditary cataract,
+Microspherophakia, Marfan syndrome (ocular manifestations),
+Lowe syndrome, Alport syndrome, Parry-Romberg syndrome,
+Congenital aniridia, and Axenfeld-Rieger syndrome. Each
+document contains descriptive medical knowledge about the
+associated pathology, encompassing aspects such as clinical
+presentation, genetic etiology, diagnostic markers, and man-
+agement approaches. While the current experimental setup
+relies on manually curated text files to ensure data consistency
+and traceability, the framework is agnostic to input format. In
+real-world deployments, ELENA could seamlessly incorporate
+7710
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:00:55 UTC from IEEE Xplore.  Restrictions apply. 
+heterogeneous data sources—including PDF reports, HTML-
+based medical repositories, or structured clinical notes—as
+long as they can be transformed into textual input for the
+retrieval engine. Furthermore, in a realistic operational sce-
+nario, the retrieval process should be conducted online to
+guarantee up-to-date information, with strict reliability criteria
+defined to ensure the trustworthiness of the accessed sources.
+This dataset thus serves as a controlled testbed for validating
+the feasibility and precision of retrieval-augmented reason-
+ing within the ophthalmic rare-disease domain, providing a
+foundation for future scaling to institutional and multilingual
+data collections. Furthermore, to assess the validity of the
+generated outputs, the framework was trained and evaluated
+using the ReDis dataset (https://huggingface.co/datasets/guan-
+wang/ReDis-QA), which comprises 1,360 multiple-choice
+questions covering 205 distinct rare diseases. The questions are
+annotated according to disease properties such as symptoms,
+causes, effects, related disorders, and diagnosis, providing a
+structured framework for model assessment. However, the
+dataset exhibits some limitations: its modest size may be
+insufficient for training complex models from scratch; the
+coverage, although spanning 205 diseases, leaves many rare
+conditions unrepresented; and the multiple-choice format re-
+stricts generative, free-form QA capabilities. These limitations
+highlight the importance of complementing static datasets with
+dynamic retrieval from up-to-date scientific publications and
+official medical resources, ensuring that AI models can access
+the most recent and comprehensive knowledge without being
+constrained by a unique and, potentially outdated, dataset.
+However, the use of this dataset was crucial, owing to the
+presence of reference answers, which made possible to quan-
+titatively evaluate the effectiveness of the proposed pipeline
+by measuring how closely the model’s generated responses
+aligned with the medically expected answers.
+B. Retrieval-Augmented Generation and Response Pipeline
+In this study, we utilized Falcon-7B-Instruct [14], a 7-
+billion parameter instruction-tuned LLM designed for natural
+language understanding and generation. Falcon-7B-Instruct is
+based on the Falcon architecture, which has demonstrated
+strong performance in instruction-following tasks, while re-
+maining computationally efficient compared to other models
+of similar scale. To enable deployment on hardware with lim-
+ited memory, we employed 4-bit quantization which allowed
+the Falcon-7B-Instruct model to run efficiently on standard
+GPUs while maintaining high-quality generative capabilities,
+mimicking the modest hardware availability that would charac-
+terize a real deployment scenario. The modular design of the
+framework ensures that the underlying language model can
+be substituted with more advanced or larger-scale alternatives
+as these emerge, without necessitating major modifications to
+the retrieval or response-generation components. To enhance
+the accuracy and relevance of the model’s responses, we
+implemented a RAG system. In this framework, the language
+model does not rely solely on its pre-trained knowledge but
+can access to external, updated documents on eye rare disease
+domain. Since the corpus consists of documents written in
+multiple languages, all texts were first translated into English
+to create a unified semantic space for retrieval and generation.
+To facilitate efficient retrieval, the input documents were
+segmented into smaller, semantically coherent chunks using
+aRecursiveCharacterTextSplitter with a chunk size of 800
+characters and an overlap of 100. Each chunk was then em-
+bedded using the compact all-MiniLM-L6-v2 [15] model from
+the Sentence-Transformers family, which provides lightweight
+yet semantically rich vector representations. The embeddings
+were stored in a vector database to enable similarity-based
+retrieval through approximate nearest neighbor search. When
+a user poses a question in Italian, the system first translates it
+into English, then it is used to retrieve the top-k most relevant
+document chunks. The retrieved information is concatenated
+into a contextual prompt and passed to the instruction-tuned
+LLM model to generate a coherent and medically accurate
+response in English. The generation prompt explicitly guides
+the model to produce a concise, human-like explanation of the
+queried disease or concept, summarizing key clinical aspects
+in three to five sentences. The prompt used is proposed in
+Table I.
+This architecture thus bridges linguistic and computational
+gaps by combining cross-lingual translation, dense semantic
+retrieval, and instruction-based text generation, providing a
+scalable and privacy-preserving assistant for rare ophthalmo-
+logic disease management.
+IV. R ESULTS
+All experiments were conducted on Google Colab using a
+T4 GPU (15 GB RAM), simulating the limited computational
+resources typical of possible real-world clinical settings. De-
+spite the relatively modest hardware resources, the use of 4-bit
+quantization allowed us to load and run the Falcon-7B-Instruct
+model efficiently, significantly reducing memory requirements
+without substantial loss in performance.
+This setup enabled the execution of both the RAG pipeline
+and the LLM inference in a single environment. The system
+was able to process questions, perform semantic retrieval
+from the knowledge base, generate responses in English, and
+translate them back into Italian in real time. Given that the
+current study is primarily conceptual, the documents used for
+preliminary human testing of the framework were stored and
+accessed locally. The quality of the generated answers was
+evaluated using multiple metrics, including cosine similarity
+of embeddings, cosine similarity of TF-IDF vectors, BLEU,
+ROUGE-L, Levenshtein distance, and an aggregated similarity
+score. The results, summarized in Table II, show that the
+framework produces contextually relevant and semantically
+coherent answers, despite the limited computational resources.
+Examining the results numerically, we can observe that the
+average values of the metrics are relatively low: the mean
+cosine similarity of embeddings is 0.379, the cosine similarity
+based on TF-IDF is 0.122, BLEU is 0.002, ROUGE-L is
+0.036, and Levenshtein distance normalized similarity is 0.048.
+Even the combined mean similarity metric, which averages
+7711
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:00:55 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE I
+STRUCTURE OF THE GENERATION PROMPT USED IN THE ELENA FRAMEWORK .
+Component Content
+System Role You are a medical expert in rare diseases.
+InstructionUse the information below to answer the user’s question clearly and naturally.
+User QuestionItalian question translated into English.
+Relevant InformationTop- kretrieved document excerpts.
+Task DirectiveNow write a concise, human-like answer that explains the disease or concept directly. If relevant, summarize the key
+features or causes of the condition in 3–5 sentences.
+TABLE II
+EVALUATION METRICS FOR THE GENERATED ANSWERS .
+Metric Mean Min Max Std
+Cosine similarity (embedding) 0.379 0.094 0.732 0.151
+Cosine similarity (TF-IDF) 0.122 0.000 0.511 0.150
+BLEU 0.002 0.000 0.007 0.002
+ROUGE-L 0.036 0.000 0.107 0.034
+Levenshtein 0.048 0.013 0.139 0.031
+Aggregated similarity 0.117 0.024 0.255 0.058
+these measures, only reaches 0.117. These values suggest a
+modest agreement with the golden answers when evaluated
+through conventional automatic metrics. However, these nu-
+merical results must be interpreted with caution. The primary
+limitation lies in the ”rigidity” of the metrics: they measure
+direct lexical or semantic overlap with the reference answers,
+without accounting for the human-like style, contextual rea-
+soning, and explanatory enrichment that the LLM provides.
+Our model does not merely reproduce the content of the
+retrieved documents; it synthesizes and integrates information
+to deliver coherent, informative answers that often include
+additional relevant details about the diseases in question.
+For example, the LLM may highlight secondary symptoms,
+key risk factors, or typical disease progression that are not
+explicitly listed in the golden answers. Consequently, while
+the automated metrics report low similarity, the responses
+retain high practical and clinical value, offering an enriched,
+readable, and educational output that better aligns with the
+needs of healthcare professionals. Some example answers
+are reported in Table III, highlighting the summarizing and
+explanatory effectiveness of the framework. The table shows
+the question posed to the framework in English, its Italian
+counterpart, and the corresponding answer, again in English
+and Italian.
+In this first implementation, the absence of many documents
+for some diseases could result in overly generic responses,
+as can be seen in case two reported in the table, or it may
+be due to the use of a non-optimized model. In addition,
+the translation-first approach carries intrinsic limitations. The
+extra translation steps introduce potential noise and may mis-
+interpret nuanced medical terminology Consequently, further
+studies are needed to validate the framework under realistic
+operational conditions, where the document base is likely to
+be significantly broader and more diverse than in the current
+Fig. 2. ELENA framework and graphical user interface.
+experimental setting.
+In conclusion, it is important to emphasize that the primary
+goal of this work was to verify the feasibility of the proposed
+framework. With this in mind, the model was equipped with a
+simple graphical interface, allowing to easily test its response
+capabilities using the Gradio library. The interface is shown
+in Figure 2, which represents only a starting point.
+V. C ONCLUSION AND F UTURE D IRECTIONS
+This study presented ELENA, a retrieval-augmented con-
+versational framework designed to support clinicians and
+researchers in the ophthalmological rare disease domain.
+The results show that a modular hybrid approach-combining
+translation-based retrieval with an instruction-tuned LLM can
+generate medically coherent, context-aware answers within a
+lightweight, privacy-preserving setup suitable for small Ital-
+ian healthcare institutions. Several important directions for
+future work must be taken in consideration. First, while we
+have demonstrated the feasibility of the framework, only a
+limited number of models and documents were tested, and
+the evaluation remains preliminary. A more comprehensive
+human evaluation—ideally conducted with young clinicians
+and researchers from small ASL centers will be essential
+to assess clinical relevance, readability and explainability,
+as previously demonstrated in [16] and [17]. Second, the
+dynamic knowledge base, continuously updated, should in-
+corporate, ideally via secure ingest pipelines, versioning and
+audit-logging that respect patient privacy and institutional
+governance. Finally, to foster long-term adoption in small
+healthcare institutions, future work should focus on usability
+and integration: enhancing the graphical interface, deploying
+7712
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:00:55 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE III
+EXAMPLES OF OUTPUTS GENERATED BY THE MODEL (I TALIAN AND E NGLISH VERSION ).
+ID/Language Question Answer
+1 - Italian Quali sono i sintomi principali
+della distrofia di Reis-B ¨ucklers?
+La distrofia di Reis-B ¨ucklers `e una rara distrofia autosomica dominante dello strato di
+Bowman, che si presenta nella prima infanzia con dolorose erosioni corneali ricorrenti,
+fotofobia e progressiva opacit `a corneale.
+2 - English What are the main symptoms of
+Reis-B¨ucklers dystrophy?
+Reis-B¨ucklers corneal dystrophy is a rare autosomal dominant dystrophy of Bowman’s
+layer, presenting in early childhood with painful recurrent corneal erosions, photopho-
+bia, and progressive corneal opacity.
+2 - Italian Quali segni oculari sono tipici
+della sindrome di Alport?
+La sindrome di Alport `e un disturbo ereditario del collagene di tipo IV che colpisce
+principalmente i reni, le orecchie e gli occhi. I sintomi comuni includono problemi
+di visione, danno renale e perdita dell’udito. Il trattamento `e sintomatico e pu `o
+comportare farmaci o interventi chirurgici per gestire i sintomi. Un medico pu `o aiutare
+a diagnosticare la condizione basata su esami fisici e storia medica.
+2 - English What ocular signs are typical of
+Alport syndrome?
+Alport syndrome is an inherited disorder of type IV collagen that primarily affects the
+kidneys, ears, and eyes. Common symptoms include vision problems, kidney damage,
+and hearing loss. Treatment is symptomatic and may include medications or surgical
+interventions to manage symptoms. A physician can help diagnose the condition based
+on physical examinations and medical history.
+the system in real clinical workflows, assessing user training
+needs and ensuring that the framework aligns with regulatory
+and ethical requirements in the healthcare domain. Following
+these directions would enable future work to progress from
+technical feasibility to a scalable, robust, and clinically viable
+knowledge-assistant system that strengthens the research and
+decision-support capacity of small Italian ASL institutions,
+while ensuring patient-data privacy and security.
+ACKNOWLEDGMENT
+This work was supported by the POS RADIOAMICA
+project funded by the Italian Minister of Health (CUP:
+H53C2200065000). This work was also supported by the
+Next Generation EU - Italian NRRP, Mission 4, Component
+2, Investment 1.5, call for the creation and strengthening
+of ’Innovation Ecosystems’, building ’Territorial R&D Lead-
+ers’ (Directorial Decree n. 2021/3277) - project Tech4You -
+Technologies for climate change adaptation and quality of
+life improvement, n. ECS0000009. This work reflects only
+the authors’ views and opinions, neither the Ministry for
+University and Research nor the European Commission can
+be considered responsible for them.

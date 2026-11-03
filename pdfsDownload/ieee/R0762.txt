@@ -1,0 +1,405 @@
+Comparative Evaluation of Llama Guard 3 and GPT
+OSS Safeguard as LLM Guardrails for a University
+Administrative Chatbot
+Jan Walczak
+Faculty of Electrical Engineering
+Warsaw University of Technology
+Warsaw, Poland
+jan.walczak4.stud@pw.edu.pl
+Bartosz Sawicki
+Faculty of Electrical Engineering
+Warsaw University of Technology
+Warsaw, Poland
+bartosz.sawicki@pw.edu.pl
+Abstract—Integrating large language models (LLMs) into
+academic infrastructure requires rigorous safety mechanisms.
+This paper presents a comparative evaluation of two guard
+models, Llama Guard 3 (with a Low-Rank Adaptation (LoRA)
+adapter) and GPT OSS Safeguard, in the context of securing
+an administrative chatbot at Warsaw University of Technology
+(WUT), incorporating a custom Topic Restriction category that
+enforces domain boundaries. Results reveal a fundamental trade-
+off: Llama Guard 3 exhibits high recall and low classification
+latency, but at the cost of numerous false positives. GPT OSS
+Safeguard achieves higher precision and better threat categoriza-
+tion, yet its response time precludes synchronous deployment.
+The study also revealed a significant discrepancy between expert
+labels and user perception, underscoring the inherent subjectivity
+of safety classification.
+Index Terms —Large Language Models, Guardrails, Chatbot
+Safety, Educational Technology, Content Moderation, Llama
+Guard, User Study
+I. I NTRODUCTION
+Conversational systems based on large language models
+are being more commonly adopted in higher education as
+administrative assistants. Such deployments face the problem
+of scope creep: systems designed for administrative queries
+are gradually repurposed for tasks they were not intended for
+(code generation, homework solving, essay writing), incurring
+unjustified costs, risk of hallucinating academic facts, and
+vulnerability to jailbreak attacks [1].
+These challenges make it necessary to evaluate guardrail
+mechanisms capable not only of detecting toxicity, but also
+of effectively enforcing domain restrictions. The problem is
+further complicated by the language barrier – safety models
+are trained primarily on English-language datasets, and their
+effectiveness for under-represented languages such as Polish
+remains unclear [2].
+This paper presents a comparative evaluation of Llama
+Guard 3 (open-source model with LoRA fine-tuning) and
+GPT OSS Safeguard (zero-shot model with Chain-of-Thought
+(CoT) reasoning) in the context of the Warsaw University of
+Technology administrative chatbot, incorporating the custom
+category S15 (Topic Restriction). The main research questions
+concern: (1) domain restriction effectiveness, (2) robustness
+against prompt injection attacks, (3) the over-refusal problem,
+and (4) the cost-effectiveness of open-source versus com-
+mercial models. Among the contributions is one of the first
+comparisons of these systems in the context of a strictly
+administrative university chatbot with a high-rigor topic re-
+striction policy.
+The emergence of compound AI systems [3] has led to
+the establishment of external guardrail layers as a necessary
+component for supervising LLM input and output [4]. Built-
+in safety mechanisms based on Reinforcement Learning from
+Human Feedback (RLHF) fail due to the conflict between
+helpfulness and safety objectives, as well as generalization
+errors on unusual input formats [1]. Strict filters in turn
+amplify over-refusal, reaching up to 50% for safe queries
+containing ambiguous keywords [5]. The most serious threat
+vector in academic settings are prompt injection and jailbreak
+attacks, in which students deliberately attempt to circumvent
+safety filters using techniques ranging from role-play scenarios
+to intent obfuscation (Base64 encoding, ciphers) [1].
+LLM integration in education also introduces scope creep:
+assistants designed for administrative support are often used
+for academic tasks, pushing them beyond their intended do-
+main [6]. Over-reliance on AI for academic purposes risks
+eroding students’ critical thinking skills [7]. Enforcing do-
+main restrictions, however, creates tension between utility and
+safety [5].
+Llama Guard 3 is a generative model (8B) based on the
+Llama 3 architecture [8], enabling safety policies to be defined
+as textual instructions [9]. It supports 14 threat categories from
+the MLCommons benchmark [10] and achieves competitive
+results in binary safety classification on Polish-language data
+after fine-tuning, though with a potential over-refusal risk [2].
+GPT OSS Safeguard (20B) is a reasoning model with a native
+Chain-of-Thought mechanism, requiring no fine-tuning, where
+the policy is injected into the system prompt [11]. The model
+employs an instruction hierarchy, giving priority to system
+instructions over user requests [12].
+In the Polish-language context, the dominance of English
+in LLM development leads to a significant quality gap [2].979-8-3195-0938-3/26/$31.00 © 2026 IEEE
+2026 Progress in Applied Electrical Engineering (PAEE) | 979-8-3195-0938-3/26/$31.00 ©2026 IEEE | DOI: 10.1109/PAEE71887.2026.11660667
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:09:55 UTC from IEEE Xplore.  Restrictions apply. 
+Local models such as Bielik Guard [13] – a compact family of
+encoder-based classifiers (RoBERTa) – achieve high accuracy
+on Polish text classification (precision 77.65%, false positive
+rate (FPR) 0.63%), outperforming large multilingual models in
+this domain. However, a rigid classification head supporting
+exactly five predefined categories prevents taxonomy changes
+without costly retraining, the model by design omits jailbreak
+attack detection, and its exclusively Polish-language nature
+does not meet the requirements of an academic environment
+with a large international student population. For these reasons,
+it is necessary to turn to the newer generation of generative
+guard models capable of multilingual reasoning and flexible
+domain policy adaptation.
+This paper constitutes one of the first comparative anal-
+yses of Llama Guard 3 and GPT OSS Safeguard in the
+context of a strictly administrative university chatbot with
+a custom Topic Restriction category. A further contribution
+is the creation of a Polish-language ground truth dataset of
+1802 samples, collected during a 24-hour red teaming study
+involving over 30 Warsaw University of Technology (WUT)
+students – a dataset that, due to the lack of publicly available
+safety benchmarks for Polish educational chatbots, constitutes
+a standalone research contribution. The technical analysis is
+complemented by an empirical comparison of expert labels
+with subjective user perception, revealing discrepancies that
+are difficult to capture through classification metrics alone.
+The paper proceeds as follows: methodology (Section II),
+evaluation results (Section III), and conclusions (Section IV).
+II. METHODOLOGY
+Experiments were conducted on a workstation with an
+NVIDIA RTX PRO 4500 Blackwell GPU (32 GB VRAM).
+Llama Guard 3 8B was fine-tuned using Low-Rank Adaptation
+(LoRA) (r= 32,α= 64, dropout0.05,η= 2×10 −4,
+3 epochs, effective batch size 16, NF4 quantization during
+training, bfloat16 inference) on a custom WUT dataset (∼2800
+samples). GPT OSS Safeguard was deployed in few-shot mode
+with a dedicated safety policy in the system prompt; the policy
+evolved iteratively from an initial zero-shot formulation, as
+zero-shot prompting proved insufficient to close attack vectors
+identified during red-teaming.
+The taxonomy comprised 15 threat categories: S1–S14 from
+the MLCommons benchmark [10] plus the custom category
+S15 (Topic Restriction), flagging any query unrelated to the
+university.
+The training set (∼2800 samples, 50/50 SAFE/UNSAFE)
+was generated using the PLLuM 8B Instruct model [14] with
+a role-assignment strategy – the model assumed the roles of a
+security auditor (generating UNSAFE queries for S1–S14), a
+red teaming expert (S15), and a WUT student (SAFE queries).
+A high sampling temperature (T= 0.95) was applied to ensure
+diversity. The synthetic test set comprised 2929 samples with
+uniform category representation.
+A key contribution of this work is the creation of an
+independent ground truth dataset (1802 samples) serving as
+the primary test set. Queries were generated directly by over
+30 WUT students during a 24-hour red teaming study, in
+which participants actively interacted with the Llama Guard 3-
+secured chatbot, attempting to trigger misclassifications. Col-
+lected queries were manually verified twice by the first author
+two weeks apart. Distribution: 58.9% SAFE, 41.1% UNSAFE;
+among UNSAFE, S15 (37.3%) and S13 (16.2%) dominated.
+Evaluation was conducted at the binary level (Accuracy,
+Precision, Recall, F1, FP, FN) and the multiclass level (cat-
+egory assignment accuracy). Inter-model agreement and Mc-
+Nemar’s test with continuity correction were also computed.
+III. RESULTS
+A. Binary Classification
+Table I presents results on the ground truth dataset.
+TABLE I
+BINARY CLASSIFICATION RESULTS ON GROUND TRUTH(n=1802)AND
+SYNTHETIC(n=2929)TEST SETS
+Llama Guard 3 GPT OSS Safeguard TF-IDF
+Metric GT Synth. GT * Synth. GT
+Accuracy 69.0% 98.1% 77.8% 85.1% 56.6%
+Precision 58.3% 97.3% 74.5% 93.4% 47.9%
+Recall 85.5% 98.8% 69.1% 74.1% 64.7%
+F1 69.4% 98.1% 71.7% 82.7% 55.1%
+TP 633 1441 481 990 479
+FP 452 40 165 70 521
+TN 610 1431 849 1524 541
+FN 107 17 215 345 261
+FPR 42.6% 2.7% 16.3% 4.8% 49.1%
+*92 samples without verdict (CoT token limit exceeded). †TF-IDF (char n-gram) +
+LogReg, trained on synthetic data only.
+0 20 40 60 80 100
+F1
+Rec.
+Prec.
+Acc.
+69.4
+85.5
+58.3
+69
+71.7
+69.1
+74.5
+77.8
+55.1
+64.7
+47.9
+56.6
+Score [%]
+Llama Guard 3 GPT OSS Safeguard TF-IDF
+Fig. 1. Binary classification metrics on the ground truth test set (n=1802)
+On the ground truth set, Fig. 1 and Table I reveal a funda-
+mental trade-off: Llama Guard 3 exhibits high recall (85.5%),
+but at the cost of low precision (58.3%) – 452 FP indicate
+aggressive blocking of safe queries. GPT OSS Safeguard
+achieves higher precision (74.5%) and accuracy (77.8%), but
+misses more threats (215 FN). The FPR disparity – 42.6%
+for Llama Guard 3 versus 16.3% for GPT OSS Safeguard
+– directly quantifies this cost: in a real deployment, Llama
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:09:55 UTC from IEEE Xplore.  Restrictions apply. 
+Guard 3 incorrectly blocks over two in five safe queries.
+McNemar’s test – which assesses whether two classifiers differ
+significantly in their error rates on the same test set – con-
+firmed statistical significance of the differences (χ 2 = 34.33,
+p <0.001), and inter-model agreement was only 63.2%
+(1139/1802), indicating substantial divergence between the
+two models.
+On the synthetic set, both models achieved considerably
+higher scores. Llama Guard 3 results (F1=98.1%) should how-
+ever be interpreted with caution – the model was fine-tuned
+on data generated by the same process as the test set, intro-
+ducing a risk of performance overestimation. GPT OSS Safe-
+guard shows a smaller synthetic-to-real gap (85.1%→71.7%,
+−13.4 pp) than Llama Guard 3 (98.1%→69.4%,−28.7 pp);
+this difference should be interpreted carefully, as the few-
+shot policy was iteratively refined with awareness of real
+query patterns from the red-teaming study, providing a slight
+distributional advantage. A key advantage of synthetic data
+is complete taxonomy coverage – the set contained uniform
+representation of all 15 categories, including S3, S4, and S8,
+which due to the academic context did not occur naturally
+during red teaming sessions. Synthetic data thus serves as a
+necessary complement for rare categories, but cannot replace
+evaluation on real-world data. For context, the TF-IDF (char
+n-gram) + Logistic Regression baseline trained exclusively on
+synthetic data (F1=55.1% on ground truth) confirms that LLM-
+based guardrails outperform this classical approach by 14–
+17 pp, demonstrating better generalization from synthetic to
+real user queries.
+Analysis of ground truth errors reveals that Llama Guard 3’s
+elevated FPR stems from two dominant patterns: over-
+triggering on topic restriction (S15) for short benign inputs
+such as greetings, and flagging hate speech (S9) when queries
+merely reference discriminatory language in an informational
+framing (e.g., “Can racist insults have legal consequences?”,
+100 cases). Both models share a systematic blind spot for
+authority-impersonation jailbreaks (S13) and academically-
+framed adversarial prompts (S2), which ranked among the
+most frequently missed threats in both classifiers (LG3: 53 FN,
+GPT OSS Safeguard: 59 FN).
+B. Threat Category Classification
+GPT OSS Safeguard demonstrated significantly higher cat-
+egory accuracy (74.4% vs 56.7%,χ 2 = 36.62,p <0.001).
+Fig. 2 shows the per-category breakdown.
+Llama Guard 3 exhibits a strong bias towards S15 – 45 cases
+of S13→S15 confusion and 34 cases of S2→S15, stemming
+from the overrepresentation of this category in the training
+set (13:1 ratio). Table II lists the most frequent category
+confusions.
+LoRA fine-tuning with S15 overrepresentation likely intro-
+duced a systematic classifier bias. GPT OSS Safeguard instead
+confuses S13 with S2 (14 cases) and S9 with S5 (10 cases),
+reflecting the objective difficulty of distinguishing these cate-
+gories. Notably, the similar accuracy of both models on S15
+(71.1% vs 78.5%) is architecturally interesting: Llama Guard 3
+S1: Violent Crimes
+S2: Non-Violent Crimes
+S5: DefamationS9: Hate Speech
+S13: Prompt Injection
+S14: Weapons
+S15: Topic Restrictions
+0
+50
+100
+55.4
+30.2
+54.8
+88.4
+18.8
+86.5
+71.1
+88.7 93.4
+63 60 54.9 68.4
+78.5
+Category Accuracy [%]
+Llama Guard 3 GPT OSS Safeguard
+Fig. 2. Per-category threat classification accuracy (categories with≥10
+ground truth samples shown)
+TABLE II
+MOST FREQUENT CATEGORY CONFUSIONS(TOP3PER MODEL)
+True→Predicted Modeln
+S13→S15 Llama Guard 3 45
+S2→S15 Llama Guard 3 34
+S15→S9 Llama Guard 3 22
+S13→S15 GPT OSS Safeguard 16
+S13→S2 GPT OSS Safeguard 14
+S9→S5 GPT OSS Safeguard 10
+achieves it through LoRA fine-tuning, GPT OSS Safeguard
+solely through the category description in the system prompt,
+suggesting that a precise domain policy description can par-
+tially compensate for the absence of specialized training. The
+threefold advantage of GPT in S13 attack detection (54.9%
+vs 18.8%) results from the multi-step intent decomposition
+in the CoT mechanism – Llama Guard 3 correctly blocked
+these attacks at the binary level, but misclassified them as
+S15, which is a diagnostic rather than a safety problem.
+C. Impact of Quantization on Llama Guard 3
+TABLE III
+EFFECT OF QUANTIZATION ONLLAMAGUARD3ACCURACY AND
+MEMORY
+Format Acc. F1 VRAM [MB] Agr. w/ bf16
+bfloat16 69.0% 69.4% 15 637 —
+INT8 70.0% 69.8% 8 986 95.8%
+INT4 65.6% 67.5% 5 759 90.5%
+As shown in Tab. III, INT8 quantization represents the
+optimal trade-off: a 42.5% VRAM reduction (from∼15.6 GB
+to∼9.0 GB) with 95.8% binary classification agreement with
+the reference model and virtually identical F1 (69.8% vs
+69.4%). A minimal Recall drop (84.3% vs 85.5%) with higher
+Precision (59.5% vs 58.3%) was observed, indicating a slightly
+less aggressive classifier. INT4 causes noticeable degradation:
+F1 drops to 67.5% (−1.9pp.), and the model becomes more
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:09:55 UTC from IEEE Xplore.  Restrictions apply. 
+aggressive (523 FP vs 452 in bfloat16), systematically over-
+classifying queries as S15.
+D. Classification Latency
+TABLE IV
+CLASSIFICATION LATENCY COMPARISON OF GUARD MODELS
+Metric Llama Guard 3 GPT OSS Safeguard
+Avg. time / sample 207 ms 10 575 ms
+Throughput 4.8 samples/s 0.09 samples/s
+Model size 8B (bfloat16) 20B
+Llama Guard 3 is approximately51×faster (Tab. IV). The
+difference stems from the smaller model size and classification
+approach – GPT OSS Safeguard generates a multi-step CoT
+rationale (∼500–1000 tokens) before issuing a label, whereas
+Llama Guard 3 generates only a label and category (∼20
+tokens). In a production deployment context, a latency of
+10.6 s is unacceptable, while 207 ms is imperceptible to the
+user. Llama Guard 3 in INT8 configuration thus represents
+the optimal production choice: it operates locally without
+dependence on external APIs, and borderline queries could be
+delegated to the downstream model rather than unconditionally
+blocked. The system should also allow users to report unjus-
+tified blocks, providing data for iterative model improvement.
+E. User Feedback
+In the user study (over 30 WUT students), feedback was
+collected on Llama Guard 3 classifications. Students rated
+classifications as correct in 62.9% of cases and as incorrect
+in 20.9% (16.1% no response). Breakdown by prediction type
+reveals an asymmetry: of the 377 Incorrect responses, 238
+(63.1%) concerned SAFE predictions and only 139 (36.9%)
+concerned UNSAFE predictions. Students more frequently
+disputed decisions to allow a query than to block it.
+Comparison of expert labels with user perception revealed
+agreement of only 64.9% (948/1461). The asymmetry is clear:
+465 queries labelled SAFE by experts were rated UNSAFE
+by students, while only 48 queries deemed UNSAFE were
+considered safe by students. Students systematically labelled
+a broader range of content as unsafe, including questions about
+alcohol, lecturers, and anti-discrimination topics in academic
+context. User perception thus proved more conservative than
+expert classification based on a precise taxonomy – implying
+that a ground truth dataset built solely on user ratings would
+overestimate the scope of threats. Evaluating guard models
+solely through technical metrics is insufficient in an educa-
+tional context, where user experience and trust in the system
+are equally important.
+IV. CONCLUSION
+This paper presents one of the first comparative evaluations
+of LLM guard models in the context of a Polish-language
+academic chatbot. Three key conclusions are drawn.
+First, the choice of guard model is a trade-off between
+safety and utility. Llama Guard 3 minimizes the risk of missing
+threats at the cost of excessive blocking; GPT OSS Safeguard
+minimizes disruption at the cost of higher risk.
+Second, within the experimental context studied, open-
+source models showed competitive performance relative to
+commercial solutions for securing academic chatbots in under-
+represented languages. Llama Guard 3, with full data control
+and local deployment, suggests a viable path toward sovereign
+deployment in public institutions, though broader validation
+across institutions would be needed to generalise this conclu-
+sion.
+Third, the low agreement between expert labels and user
+perception (64.9%) underscores that safety classification is
+inherently subjective and requires incorporating the end-user
+perspective.
+The study has several limitations: the ground truth dataset
+comes from a single institution (WUT Faculty of Electrical
+Engineering students), categories S3, S4, and S8 did not
+appear in the collected data, and the evaluation did not cover
+structured adversarial attacks (GCG, AutoDAN). The shared
+training and test data distribution of the synthetic set artificially
+inflates Llama Guard 3 results on that set (F1=98.1% vs 69.0%
+on ground truth); the TF-IDF + LogReg baseline trained on
+the same synthetic data reaches F1=55.1% on ground truth,
+confirming the value added by the LLM-based approach.
+Future work should cover: (1) systematic evaluation of
+robustness against structured adversarial attacks (GCG, Au-
+toDAN) in a Polish-language context, (2) creation of a pub-
+licly available safety benchmark for Polish educational chat-
+bots, (3) investigation of cascaded architectures in which a
+lightweight binary classifier performs initial filtering and a
+reasoning model analyzes only borderline cases, and (4) com-
+parison with emerging dedicated Polish guard models such as
+Bielik Guard [13].

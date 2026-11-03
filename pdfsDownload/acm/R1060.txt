@@ -1,0 +1,187 @@
+CourseAssist: Pedagogically Appropriate AI Tutor for Computer
+Science Education
+Ty Feng
+ty@courseassistai.com
+CourseAssist, Inc.
+Davis, California, USA
+Sa Liu
+sarah@courseassistai.com
+CourseAssist, Inc.
+Davis, California, USA
+Dipak Ghosal
+dghosal@ucdavis.edu
+University of California, Davis
+Davis, California, USA
+Abstract
+The growing enrollments in computer science courses and increase
+in class sizes necessitate scalable, automated tutoring solutions to
+adequately support student learning. While Large Language Mod-
+els (LLMs) like GPT-4 have demonstrated potential in assisting
+students through question-answering, educators express concerns
+over student overreliance, miscomprehension of generated code,
+and the risk of inaccurate answers. Rather than banning these tools
+outright, we advocate for a constructive approach that harnesses
+the capabilities of AI while mitigating potential risks. This poster
+introduces CourseAssist, a novel LLM-based tutoring system tai-
+lored for computer science education. Unlike generic LLM systems,
+CourseAssist uses retrieval-augmented generation, user intent clas-
+sification, and question decomposition to align AI responses with
+specific course materials and learning objectives, thereby ensuring
+pedagogical appropriateness of LLMs in educational settings. We
+evaluated CourseAssist against a baseline of GPT-4 using a dataset
+of 50 question-answer pairs from a programming languages course,
+focusing on the criteria of usefulness, accuracy, and pedagogical
+appropriateness. Evaluation results show that CourseAssist sig-
+nificantly outperforms the baseline, demonstrating its potential
+to serve as an effective learning assistant. We have also deployed
+CourseAssist in 6 computer science courses at a large public R1
+research university reaching over 500 students. Interviews with 20
+student users show that CourseAssist improves computer science
+instruction by increasing the accessibility of course-specific tutor-
+ing help and shortening the feedback loop on their programming
+assignments. Future work will include extensive pilot testing at
+more universities and exploring better collaborative relationships
+between students, educators, and AI that improve computer science
+learning experiences.
+CCS Concepts
+• Applied computing→ Computer-assisted instruction; Inter-
+active learning environments; • Computing methodologies
+→ Natural language generation; • Social and professional topics
+→ Computer science education.
+Permission to make digital or hard copies of all or part of this work for personal or
+classroom use is granted without fee provided that copies are not made or distributed
+for profit or commercial advantage and that copies bear this notice and the full citation
+on the first page. Copyrights for third-party components of this work must be honored.
+For all other uses, contact the owner/author(s).
+SIGCSE Virtual 2024, December 5–8, 2024, Virtual Event, NC, USA
+© 2024 Copyright held by the owner/author(s).
+ACM ISBN 979-8-4007-0604-2/24/12
+https://doi.org/10.1145/3649409.3691094
+Keywords
+Large Language Models, Intelligent Tutoring Systems, Computer
+Science Education, AI Tutor, Question Answering
+ACM Reference Format:
+Ty Feng, Sa Liu, and Dipak Ghosal. 2024. CourseAssist: Pedagogically Appro-
+priate AI Tutor for Computer Science Education. In Proceedings of the 2024
+ACM Virtual Global Computing Education Conference V. 2 (SIGCSE Virtual
+2024), December 5–8, 2024, Virtual Event, NC, USA. ACM, New York, NY,
+USA, 2 pages. https://doi.org/10.1145/3649409.3691094
+1 Introduction
+With increasing enrollments in computer science and expanding
+class sizes, there is an acute need for scalable, automated tutoring
+solutions that can provide students with instant and adequate sup-
+port. Recent advances in large language models (LLMs) have shown
+their potential in helping students learn as a question-answering
+tutor, but it is difficult to maintain academic integrity when stu-
+dents use LLMs to generate code solutions for assignments. While
+LLMs are already used by students for programming help, we are
+still in the early stage of exploring how LLMs may be used to best
+support learning and discovery by students and how to minimize
+the potential misuses and risks from LLMs in computer science
+education. When students are using LLMs without any guardrails
+or oversight by educators, the use of LLMs may result in overre-
+liance on LLMs for code authorship, lack of comprehension of LLM
+code, and learning misleading or suboptimal code solutions that
+are inconsistent with learning goals. These challenges may hinder
+students from learning computer science and becoming more adept
+at programming.
+While recent studies have explored the role of LLMs in program-
+ming education [1, 3, 5–7], most studies have only studied generic
+LLM systems like ChatGPT without modifying LLM behavior or
+customizing it for computer science education. As an emerging
+technology, there is a lot of potential to explore different ways to
+improve and enhance LLM capabilities and utility for computer
+science education. One of the issues we are interested in is how
+LLMs can be steered and customized to align their responses with
+course-specific learning goals. We observed that LLMs can gener-
+ate responses that conflict with learning objectives set by course
+instructors, and currently there is little option for instructors to
+control the behaviors of LLMs and how students should use them.
+Instead of attempting to ban the use of LLM systems like ChatGPT
+and Copilot in classrooms, we propose a constructive approach
+to address some of the challenges and issues with students using
+LLMs for computer science courses by ensuring pedagogical appro-
+priateness in LLM responses.
+There are several LLM-powered tools deployed in real classroom
+settings, such as CodeHelp [4], which responds to semi-structured
+310
+SIGCSE Virtual 2024, December 5–8, 2024, Virtual Event, NC, USA Ty Feng, Sa Liu, & Dipak Ghosal
+student queries without providing exact solution code regardless of
+how a student writes the query. To use this tool, however, students
+would need to write structured descriptions of their problem in or-
+der for it to understand the user’s intent, which can be cumbersome
+for the user. In an effort to provide a better solution, we developed
+CourseAssist, a LLM-based tutoring system that produces responses
+more aligned with the learning goals of a specific computer science
+course, by building custom query pipelines to better handle various
+user intents.
+In this work, we evaluate CourseAssist on whether it generates
+more educationally appropriate responses for a given computer
+science course compared to the baseline ChatGPT. Specifically, we
+propose that pedagogical appropriateness should be considered
+when evaluating LLM-based tutoring systems. Pedagogical appro-
+priateness means whether the system promotes learning on the
+student’s part. One common method that human teachers use is
+giving hints to guide students to work through problems, rather
+than showing direct answers to every question. Thus, it is impor-
+tant for LLM-based tutoring systems to emulate this behavior and
+ensure LLM-generated responses are appropriate for learning. Our
+main contributions in this work are:
+• We introduce a LLM-based question answering system that
+provides course-specific guidance and hints using retrieval-
+augmented generation and user intent classification to en-
+sure pedagogical appropriateness.
+• We present a human evaluation method that considers use-
+fulness, accuracy, and pedagogical appropriateness as the
+evaluation criteria.
+• We investigate the applicability of CourseAssist to act as a
+tutor in computer science courses by evaluating its responses
+on a Piazza QA dataset from a real-world computer science
+course and compare it with the baseline ChatGPT 4.
+2 Method
+2.1 CourseAssist
+The primary goal of this study is to evaluate whether LLMs can
+be used in a controllable manner for computer science education.
+We developed CourseAssist, an AI tutoring system, by augmenting
+GPT-4 with user intent classification, question decomposition, and
+retrieval of course content. We developed a retrieval engine that
+can decide when and what to retrieve based on the user intent, so
+that retrievals are more accurate for computer science education.
+3 Dataset
+For the experiments in this study, we sampled 50 question an-
+swer pairs from 185 Piazza posts from a programming languages
+course at a large public university. We asked the TA to rewrite
+all of the student questions to preserve their semantic meaning
+while improving the clarity and conciseness. To ensure data quality
+of the answers, we used the instructor or TA’s answer for each
+question and discarded answers by other students. None of the
+question answer pairs have any personal information, and the
+data is fully anonymized. Of the 50 questions, 33 are homework
+related questions, and 17 are conceptual questions about lecture
+materials. The dataset and evaluation rubric can be found here:
+https://github.com/ytyfeng/CourseAssist-Data.
+4 Results
+To evaluate the system, we compare CourseAssist answers and
+answers generated by the baseline GPT-4 to the 50 Piazza questions.
+Previous studies [2] have shown that automatic metrics, such as
+BLEU, Meteor, Rouge-L, and Cider, are not effective at evaluating
+usefulness of generated text. Therefore, we conducted a human
+evaluation to evaluate usefulness, accuracy, and pedagogical appro-
+priateness of the generated responses. On each evaluation criterion,
+we asked an instructor of the course to score the generated response
+on a three-point scale of 0, 0.5, and 1.
+All experiments were run two times to account for variability
+in LLM responses, and the evaluation scores are the average of
+the two runs to reduce bias. The results showed that CourseAssist
+outperformed the baseline GPT 4 in all of the evaluation criteria.
+Not only is CourseAssist more useful and accurate than GPT 4,
+every answer it generated is more pedagogically appropriate due
+to the user intent classification and post-processing steps.
+Table 1: Human evaluation scores (0: poor; 0.5: fair; 1: good)
+of CourseAssist and GPT 4 based on usefulness, accuracy,
+and pedagogical appropriateness on 50 QA pairs
+Criteria CourseAssist GPT-4
+Usefulness 0.91 0.83
+Accuracy 0.92 0.71
+Appropriateness 1.00 0.82
+Average 0.94 0.79

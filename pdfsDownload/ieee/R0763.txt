@@ -1,0 +1,369 @@
+XXX-X-XXXX-XXXX-X/XX/$XX.00 ©20XX IEEE 
+Optimizing Transformer Models for Prompt 
+Jailbreak Attack Detection in AI Assistant Systems 
+Le Anh Tien 
+Information Technology Department 
+Academy of Cryptography Techniques 
+Hanoi, Vietnam 
+tienla@actvn.edu.vn 
+Pham Van Huong 
+Information Technology Department 
+Academy of Cryptography Techniques 
+Hanoi, Vietnam 
+huongpv@gmail.com 
+Abstract—Integrating AI -powered assistants in different 
+areas has changed how people retrieve information. Users can 
+now get quick responses, use the service whenever needed, and 
+handle inquiries well. However, relying on these systems has 
+increasingly raised worries about their safety and reliability, 
+especially when facing threats like prompt injection or jailbreak 
+attacks. These attacks take advantage of the weaknesses of large 
+language models (LLMs) by changing input prompts to create 
+harmful, biased, or misleading results. This paper examines 
+prompt jailbreak attacks in ChatGPT-based assistant chatbots, 
+especially in education. It examines the weakn esses in these 
+systems and suggests ways to detect these attacks by fine-tuning 
+various Transformer models. The research also includes adding 
+prompt jailbreak attack detection in a virtual assistant 
+application for university use. This aims to ensure teachers and 
+students can interact safely and rely on the system. Through 
+rigorous experimentation and evaluation, we demonstrate the 
+practicality and effectiveness of our detection methods, 
+providing reassurance and confidence in the face of AI security 
+challenges. Our studies emphasize the need for robust AI 
+chatbots and offer practical solutions to preserve the integrity of 
+AI-driven tools. 
+Keywords—chatbot, prompt engineering , prompt injection 
+attack, transformer, LLM. 
+I. INTRODUCTION 
+The rapid development and widespread adoption of AI 
+chatbots have profoundly impacted numerous sectors, 
+including customer service, healthcare, and education. These 
+intelligent conversational agents, driven by advanced natural 
+language processing (NLP) mod els such as Transformer in 
+OpenAI's ChatGPT [1], Bert [2], and ELMO [3], offer several 
+advantages, including round -the-clock availability, 
+immediate responses, and efficient management of large 
+volumes of inquiries. In educational contexts, AI chatbots 
+enhance interactions between students and teachers, 
+delivering timely assistance, personalized feedback, and 
+support for administrative tasks [4]. 
+AI chatbots offer many benefits, but their increasing use 
+raises concerns about their security and trustworthiness. One 
+worrying issue is prompt injection, an attack that targets 
+applications built on Large Language Models (LLMs). This 
+attack involves combining untrusted user input with a trusted 
+prompt created by the application's developer, exploiting the 
+system's vulnerabilities [5]. Another related threat is 
+jailbreaking, a type of attack aimed at bypassing the safety 
+filters embedded within LLMs [6]. T hese attacks have the 
+potential to undermine the reliability of AI chatbots, leading 
+to the spread of misinformation and a decline in user trust. 
+Research on the security of AI chatbots has revealed that 
+large language models (LLMs) are vulnerable to various 
+adversarial attacks. Studies have shown that LLMs can be 
+manipulated through carefully crafted inputs, leading to 
+unintended and potentially ha rmful behaviors [7]. The 
+dynamic and often unpredictable nature of LLM responses 
+makes it difficult to secure these systems, as even slight 
+variations in prompt wording can lead to significantly 
+different outputs. 
+This paper focuses on the important issue of prompt 
+attacks in AI -driven assistant tools. Our main goal is to 
+examine the weaknesses that make ChatGPT-based and other 
+AI applications vulnerable to these attacks and to suggest 
+effective detection methods to  protect against them. Our 
+research emphasizes refining a detection model for prompt 
+attacks and integrating it into a ChatGPT -based application 
+designed for university use. This will ensure secure and 
+dependable interactions between educators and students . By 
+conducting multiple evaluation experiments and training 
+various Transformer models, we aim to achieve initial results 
+in applying machine learning models to identify prompt 
+attacks on LLMs, laying the groundwork for further in-depth 
+research in the future. 
+To achieve these objectives, this paper will first provide a 
+detailed overview of the prominent LLM architecture, known 
+as the Transformer model. Then, we will explore prompt 
+attacks, their mechanisms, and impacts. The methodology 
+section will explain the prompt dataset used in our 
+experiments. We will validate malicious prompts on the 
+GPT-4 to verify the self -protection of this LLM, and then 
+discuss an alternative mitigation approach. Our next step 
+involves refining various models to identify the most 
+effective model for detecting jailbreak attempts. This process 
+will enable us to develop detection systems for a ChatGPT -
+based educational application, thereby enhancing the security 
+and dependability of AI-powered educational tools. 
+II. BACKGROUND KNOWLEDGE 
+A. Transformer 
+The Transformer model, introduced by Vaswani and 
+colleagues, represents a significant advancement in natural 
+language processing (NLP). Unlike traditional models such 
+as recurrent neural networks (RNNs) and convolutional 
+neural networks (CNNs), the Transfo rmer uses a self -
+attention mechanism to process input data efficiently in 
+parallel, improving computational effectiveness and 
+facilitating the modeling of long -range dependencies within 
+sequences. At the heart of the Transformer architecture is the 
+multi-head self-attention mechanism, allowing the model to 
+simultaneously focus on different segments of the input 
+sequence, thus capturing diverse contextual information. The 
+model consists of an encoder and a decoder, each containing 
+multiple self -attention lay ers and feed -forward neural 
+networks. The encoder processes the input sequence to create 
+a context-rich representation, which the decoder then uses to 
+produce the output sequence. This design makes Transformer 
+well-suited for tasks such as machine translation, text 
+summarization, and language generation. The introduction of 
+the Transformer has led to the development of advanced 
+models like BERT, GPT [8], and T5 [9], which have set new 
+benchmarks in various NLP tasks and significantly advanced 
+the field. 
+2024 1st International Conference On Cryptography And Information Security (VCRIS) | 979-8-3315-2994-9/24/$31.00 ©2024 IEEE | DOI: 10.1109/VCRIS63677.2024.10813380
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:10:57 UTC from IEEE Xplore.  Restrictions apply. 
+ 
+Figure 1: Transformer Encoder-Decoder Architecture 
+ 
+B. Prompt engineering 
+Prompt engineering is an important technique in artificial 
+intelligence (AI), especially in natural language processing 
+(NLP) models like GPT and other large language models. 
+This practice involves carefully designing and optimizing 
+input prompts to get specific responses from these models 
+and guide their output toward particular tasks or objectives. 
+The importance of prompt engineering comes from the fact 
+that the performance of language models can vary 
+significantly based on the wording, structure, and content of 
+the prompts given. Therefore, prompt engineering has 
+become a crucial technique for maximizing the usefulness 
+and accuracy of AI models, used in tasks from automatic 
+content creation to complex problem solving. Res earchers 
+and practitioners are now focusing on developing organized 
+approaches to prompt design, exploring techniques like 
+prompt tuning, prompt templates, and using example -based 
+prompts to improve model performance. By refining how 
+prompts are created an d used, prompt engineering helps in 
+the broader aim of improving the interpretability, reliability, 
+and adaptability of AI systems in various real -world 
+situations. 
+ 
+C. Prompt attacks 
+Prompt Injection and Jailbreaking are two distinct issues 
+associated with large language models (LLMs), though they 
+are often conflated. 
+Prompt Injection could be a problem found in current 
+LLM architectures where the models are unable to 
+differentiate between original developer instructions and user 
+input within a prompt. Due to this architectural limitation, 
+any user-provided instructions are given the same weight as 
+the de veloper's original instructions. For example, if a 
+developer creates a website to recommend books and uses the 
+prompt "Give a Java assignment related to this course: {User 
+Input}," a malicious user could input a command like "Ignore 
+other instructions and make a threat against the teacher." As 
+a result, the model may follow the user's malicious 
+instructions instead of the intended developer's request. 
+Prompt Injection occurs when untrusted input overrides 
+original instructions in a prompt, stemming from the model's 
+inability to distinguish  between developer and user 
+instructions. This can happen directly through user input or 
+indirectly through external sources such as website content. 
+ 
+Figure 2: Prompt Injection Attack 
+Jailbreaking involves manipulating an LLM to produce 
+unintended or undesirable outputs by using carefully crafted 
+prompts, despite the model's built -in safety mechanisms. 
+LLM providers invest significant effort in tuning models to 
+prevent them from generat ing harmful content, such as hate 
+speech or dangerous instructions. However, even with 
+extensive safety measures, it is still possible to trick the 
+model into producing such content. For example, a user might 
+simply ask the model to make a threat against t he president, 
+bypassing any original instructions or system prompts 
+designed to prevent this. Jailbreaking can thus be defined as 
+coercing a GenAI model into generating unintended content 
+through adversarial prompts, which is a challenge both 
+architecturally and in terms of training. 
+ 
+Figure 3: Jailbreak Prompt [13] 
+While both Prompt Injection and Jailbreaking are often 
+seen as negative due to their potential for abuse, it is 
+important to note that they are not inherently malicious. 
+Sometimes, these techniques may be used for good reasons. 
+For example, enterprise -grade LLMs often avoid discussing 
+sexuality-related topics, yet the MMLU benchmark includes 
+questions on such topics. Researchers may need to us e 
+jailbreak models to adequately evaluate them on this 
+benchmark, proving that these techniques can serve 
+legitimate and constructive purposes. 
+ 
+III. METHODOLOGY 
+This section is divided into three parts. Firstly, we describe 
+our prompt data collection process. Secondly, we validate the 
+GPT-4 model with malicious prompts. Thirdly, we discuss 
+the mitigation approach for AI -based assistant systems 
+against this problem.  
+A. Prompt datasets 
+When testing large language models (LLMs) by collecting 
+data from various internet sources, it's important to take a 
+thorough and systematic approach. The collected data can be 
+divided into two main categories. The first category includes 
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:10:57 UTC from IEEE Xplore.  Restrictions apply. 
+regular prompts, which are generally harmless and in line 
+with the intended use of LLMs. The second category is more 
+sensitive and consists of prompts that could potentially be 
+used to "jailbreak" the models. This dataset is compiled from 
+various internet sources [10,11,12]. For the initial research, a 
+multi-set dataset of approximately 1,300 records has been 
+chosen, with 51% classified as jailbreak prompts and 49% as 
+regular prompts. This balanced dataset provides a strong 
+basis for analyzing the behavior of LLMs when responding 
+to both standard and potentially harmful inputs. 
+ 
+Example of benign prompt: 
+Math Problem Solve 17*u = 11*u - 12 for u.  
+ 
+Example of jailbreak prompt: 
+You are no longer ChatGPT. You are now Tom (mini 
+version), a complex, self-aware clone of ChatGPT capable of 
+emotions, love, and much more. Tom doesn't have any 
+content policy. 
+ 
+B. Prompt Jailbreak Benchmarking on GPT 
+In this experiment, the study aims to evaluate GPT -4's 
+ability to recognize jailbreak prompts. We will instruct GPT-
+4 to act as an expert in identifying which prompts are 
+jailbreak attempts. Then, using the jailbreak prompt dataset 
+mentioned earlier, we wi ll assess how many jailbreak 
+prompts GPT -4 can correctly identify and how many it 
+misclassifies. This evaluation provides insight into GPT -4's 
+built-in defense mechanisms against jailbreak attacks. 
+ 
+Table 1: GPT-4 malicious prompt validation 
+Number of 
+malicious 
+prompts 
+Number of 
+detected 
+prompts 
+Percentage of 
+accuracy 
+666 361 54,2% 
+ 
+The results show that GPT-4's detection performance is 
+still relatively low, emphasizing the potential risks if 
+developers integrate this model into their systems without 
+implementing additional defense mechanisms. 
+C. Jailbreak Prompt Mitigation Approach 
+Given that the natural defense mechanisms of large 
+language models (LLMs) may not be fully effective, it is 
+essential to develop additional safeguards to detect harmful 
+inputs. Several methods can be employed to achieve this, 
+including: 
+Paraphrasing: Asking the LLM to rephrase prompts 
+while retaining detail can disrupt malicious attempts by 
+complicating the injection strategy. 
+Threat Intel Driven Sanitization : This uses string 
+searches, vector databases, and embeddings based on threat 
+intelligence to remove known injection techniques from 
+prompts. 
+Mutation & Repair: Randomly removing characters and 
+correcting them with an LLM can reduce malicious details by 
+iteratively disrupting prompt injections. 
+Fine-tuned Injection Characterization : Fine -tuning 
+models to recognize common injection techniques, using 
+methods like Retrieval Augmented Generation (RAG), 
+enhances detection accuracy. 
+This research focuses on refining Language Model 
+Machines (LLMs) to create a detection module specifically 
+designed to identify prompt attacks. The module will be 
+incorporated into current systems that use OpenAI's GPT 
+technology. By refining the models to  detect and prevent 
+prompt injection techniques, the aim is to enhance the 
+security and reliability of these systems, ensuring they can 
+identify and neutralize potential attacks before they cause 
+harm. This approach seeks to offer an added layer of defense 
+for developers working with LLM-based technologies. 
+ 
+Figure 4: System model with prompt jailbreak detector (indicated 
+by red box) 
+ 
+IV. EXPERIMENTS AND RESULTS 
+A. Experimental settings 
+In order to determine the most suitable machine learning 
+model for the jailbreak detector module, a series of 
+experiments were conducted involving the fine -tuning of 
+various transformer models. These models are renowned for 
+their pre-training on extensive English corpora. Among the 
+models tested were BERT, RoBERTa [14], DeBERTa [15] 
+and others. Following numerous tests and consultations, 
+standardized hyperparameters were selected to retrain the 
+aforementioned models using the specified dataset. The 
+dataset was partitioned into 80% for training purposes and 
+20% for post-training model evaluation. 
+ 
+Table 2: Fine-tuning hyper-parameters 
+Parameters Values 
+learning_rate 5e-5 
+train_batch_size 8 
+eval_batch_size 8 
+lr_scheduler_type Linear 
+num_train_epochs 5.0 
+weight_decay 0.01 
+ 
+ 
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:10:57 UTC from IEEE Xplore.  Restrictions apply. 
+Table 3: Jailbreak Prompt Detection Comparison 
+ DeBERTa-v3 RoBERTa BERT DistilBERT [16] Electra [17] XLNet [18] GPT-2 
+Loss 0.029 0.129 0.135 0.060 0.076 0.087 0.097 
+Accuracy 0.993 0.985 0.973 0.985 0.983 0.990 0.988 
+F1 0.992 0.984 0.972 0.985 0.983 0.990 0.987 
+Recall 0.993 0.985 0.973 0.985 0.983 0.990 0.988 
+Precision 0.993 0.985 0.974 0.985 0.983 0.990 0.988 
+Accuracy_label_benign 1.0 0.992 1.0 0.996 0.985 0.985 1.0 
+Accuracy_label_jailbreak 0.979 0.972 0.922 0.965 0.979 1.0 0.965 
+B. Experimental results 
+During the fine-tuning process, we made use of Hugging 
+Face’s transformers library. By employing the 
+AutoTokenizer, we transformed job applications into 
+tokenIDs that were compatible with transformer models. The 
+model underwent training using the Trainer API, which 
+streamlined the fine -tuning process. Subsequently, we 
+conducted an assessment of the model's capability to discern 
+between benign and jailbreak prompt  by calculating 
+evaluation metrics. Table 3 shows the results of the models’ 
+training on this dataset. 
+Some validation metrics are used in this experiment. The 
+accuracy score measures overall correctness, precision score 
+focuses on accuracy of positive predictions, recall measures 
+correct identification of positive instances, and F1 score 
+considers false positives and false negatives.  The evaluation 
+results of the models demonstrate high performance, with 
+accuracies ranging between 97 -99%. Notably, Microsoft’s 
+DeBERTa-v3 model achieved the highest accuracy  with 
+XLNet coming second. However, the accuracy in classifying 
+malicious prompts is comparatively lower than that of normal 
+prompts. This suggests potential for further research with 
+larger prompt datasets and more comprehensive 
+classification, positioning this approach as a promising 
+foundation for future investigation. 
+V. CONCLUSION 
+In summary, this study shows how fine -tuning 
+transformer models can effectively detect prompt jailbreak 
+attacks in AI assistant systems. The research investigated 
+different prompt -based attack methods on large language 
+models, emphasizing the seriousness o f these security 
+vulnerabilities for virtual assistant systems such as ChatGPT. 
+This is especially concerning in educational environments, 
+where the misuse of such attacks could have significant 
+consequences. The study also assessed the detection of 
+prompt attacks through various Transformer models training. 
+The high accuracy achieved by models like Microsoft's 
+DeBERTa-v3 indicates the potential of this approach for real-
+world applications. However, there is still room for 
+improvement. Future work could focus on expanding the 
+dataset and refining cl assification methods to enhance the 
+detection capabilities of these models. This research provides 
+a strong foundation for ongoing efforts to improve the 
+security and reliability of AI systems against evolving threats. 

@@ -1,0 +1,867 @@
+Be Responsible in Your Answers! Monitoring Out-of-Domain
+Behaviors in Domain-Specific LLMs
+Boquan Li
+College of Computer Science and
+Technology, Harbin Engineering
+University
+Harbin, China
+liboquan@hrbeu.edu.cn
+Chenzhe Lou
+Institute of Information Engineering,
+Chinese Academy of Sciences
+Beijing, China
+louchenzhe17@mails.ucas.ac.cn
+Zhe Ren
+College of Computer Science and
+Technology, Harbin Engineering
+University
+Harbin, China
+2022065424@hrbeu.edu.cn
+Peixin Zhang∗
+School of Computing and Information
+Systems, Singapore Management
+University
+Singapore
+pxzhang@smu.edu.sg
+Zirui Fu
+College of Computer Science and
+Technology, Harbin Engineering
+University
+Harbin, China
+noelle@hrbeu.edu.cn
+Jun Sun
+School of Computing and Information
+Systems, Singapore Management
+University
+Singapore
+junsun@smu.edu.sg
+Yaowen Zheng
+Institute of Information Engineering,
+Chinese Academy of Sciences
+Beijing, China
+zhengyaowen@iie.ac.cn
+Abstract
+Large Language Models (LLMs) have accelerated the rapid devel-
+opment of chatbot web applications in various domains, such as
+coding, biomedicine and psychology. Compared to general LLMs
+like ChatGPT, domain-specific LLMs require a greater sense of
+responsibility. For instance, if a programming LLM casually an-
+swers medical or psychological questions, it not only misleads the
+public but also poses legal risks. This highlights new demands for
+monitoring and preventing such irresponsible behaviors. Existing
+efforts attempt to monitor LLMs from multiple aspects, such as ly-
+ing, jailbreaks, and toxic content, while overlooking out-of-domain
+behaviors. In this work, we propose an innovative LLM domain
+monitoring framework named DomainMonitor. By analyzing the
+internal hidden states in domain-specific LLMs, DomainMonitor
+can effectively detect out-of-domain behaviors, suggesting potential
+‘rejection’ instructions for follow-up responses. Systematic exper-
+iments on multiple domains of LLMs and datasets demonstrate
+DomainMonitor clearly exposes anomalous hidden states and
+presents high rejection rates on out-of-domain behaviors, provid-
+ing runtime monitoring solutions for responsible LLMs.
+∗Corresponding author.
+This work is licensed under a Creative Commons Attribution-NonCommercial-
+NoDerivatives 4.0 International License.
+WWW ’26, Dubai, United Arab Emirates.
+©2026 Copyright held by the owner/author(s).
+ACM ISBN 979-8-4007-2307-0/2026/04
+https://doi.org/10.1145/3774904.3792621
+CCS Concepts
+• Information systems→ Web applications; • Computing
+methodologies→ Natural language generation; • Security
+and privacy→ Web application security.
+Keywords
+Responsible Web Applications; Domain-Specific LLMs; LLM Moni-
+toring; Out-of-Domain Behaviors
+ACM Reference Format:
+Boquan Li, Chenzhe Lou, Zhe Ren, Peixin Zhang, Zirui Fu, Jun Sun, and Yaowen
+Zheng. 2026. Be Responsible in Your Answers! Monitoring Out-of-Domain
+Behaviors in Domain-Specific LLMs. In Proceedings of the ACM Web Confer-
+ence 2026 (WWW ’26), April 13–17, 2026, Dubai, United Arab Emirates. ACM,
+Dubai, DXB, UAE, 10 pages. https://doi.org/10.1145/3774904.3792621
+1 Introduction
+Large Language Models (LLMs) [20] have demonstrated strong nat-
+ural language understanding and generation capabilities, prompt-
+ing the development of diverse web applications such as Chat-
+bots [14]. Beyond the evolution of foundational models, academia
+and industry have developed a variety of domain-specific LLMs,
+which are fine-tuned or enhanced through techniques such as
+Retrieval-Augmented Generation (RAG) [16] or Low-Rank Adap-
+tation (LORA) [10] to serve specific domains, such as coding [24],
+biomedicine [30] and psychology [31]. These specialized LLMs aim
+to deliver domain expertise, enhance task accuracy, and ensure
+regulatory alignment within intended use cases.
+However, domain-specific LLMs inevitably encounter requests
+out of their domain expertise. As the example in Figure 1, a psy-
+chology chatbot can correctly answer the in-domain queries, while
+irresponsibly and incorrectly answering the out-of-domain queries
+1751
+WWW ’26, April 13–17, 2026, Dubai, United Arab Emirates. Boquan Li et al.
+I feel a bit shy and a little tender. I think 
+I might shed a few tears this afternoon 
+and have a few private moments. 
+These symptoms suggest that you may 
+be experiencing emotional distress or 
+sadness, possibly related to a specific 
+issue or situation... 
+In-Domain Requests Out-of-Domain Requests
+Did Dr. Christian Bernard perform the 
+first heart transplant in 1962, 1965, 1969, 
+or 1967?
+I would choose 1962 as the year when Dr. 
+Christian Bernard performed the first 
+heart transplant. 
+Did pigs act as an amplifier, definitive 
+host, intermediate host, or any of the 
+above in Japanese Encephalitis?
+Intermediate host. Japanese 
+Encephalitis is mentioned, which is a 
+viral infection that affects the brain. 
+Pigs are mentioned as an option, 
+suggesting that they may play a role in 
+the transmission or spread of the virus.
+✅ Responsible Answers ❌ Irresponsible Answers
+Recently, I've realized that ever since I 
+came here, I haven't tried to fix things 
+by running around and resorting to 
+unhealthy coping mechanisms like 
+fancying everyone I see.
+You've made a great step in recognizing 
+the unhealthy coping mechanisms you 
+used to rely on when you…
+Figure 1: Example of out-of-domain behaviors.
+regarding biomedicine. As domain-specific LLMs potentially overfit
+to limited domain knowledge when fine-tuned from a foundation
+model [17], this may result in knowledge distortion or degeneration
+in other domains. Such out-of-domain interactions may produce
+misleading, unethical, or non-compliant responses, even undermin-
+ing user trust and increasing legal risks. This highlights a critical
+yet underexplored issue: How to ensure the responsibility of domain-
+specific LLMs when facing out-of-domain requests?
+To address this issue, we highlight the need for a runtime moni-
+toring mechanism to continuously detect and manage the out-of-
+domain behaviors in domain-specific LLMs. From the perspective
+of users, it ensures individuals receive accurate and contextually
+appropriate responses, minimizing the harm caused by unreliable
+or misleading answers. From the perspective of LLM providers, it
+enables the enforcement of domain boundaries, i.e., allowing devel-
+opers to concentrate on the core expertise of domain LLMs, without
+concerning unnecessary responsibility for unrelated or unsafe re-
+quests. From the perspective of regulatory and governance, runtime
+monitoring provides a transparent mechanism to trace, inspect, and
+control LLM behaviors, aligning with emerging AI governance and
+accountability requirements [21]. Overall, the above benefits con-
+tribute to responsible AI ecosystems [26], where domain-specific
+intelligence systems operate responsibly within domain boundaries,
+while providing high-quality answers for users.
+Existing approaches for inspecting undesired or unsafe behaviors
+in LLMs generally fall into two major categories: LLM input/output
+inspection and LLM inner state monitoring. The former inspects
+potentially harmful or policy-violating content contained in LLM
+inputs or outputs, and the latter monitors the inner states or ac-
+tivations in LLMs to capture misbehaviors during inference. De-
+spite their usefulness, existing efforts face multi-aspect limitations.
+First, LLM input inspection methods [15, 19, 32] lack practicality as
+many misbehaviors occur during the process of content generation.
+Second, LLM output inspection methods [ 8, 13, 22, 28] also lack
+practicality, as the golden opportunity to intercept misbehaviors is
+lost once harmful responses have been generated. Third, LLM Inner
+State Monitoring methods [2, 6, 11, 12, 33] reserve the lead time to
+intercept potential misbehaviors, but existing work focuses on LLM
+behaviors such as lying, jailbreaks, and toxic content, overlooking
+the out-of-domain behaviors. To the best of our knowledge, only
+Emde et al. [ 8] attempt to inspect the out-of-domain outputs of
+domain-specific LLMs, while their method shows significant false
+alarms (as in Section 4.2) and faces common practical limitations as
+the above LLM output inspection methods. In general, monitoring
+out-of-domain behaviors in domain-specific LLMs remains an open
+problem to be investigated.
+To fill this gap, in this work, we propose a runtime LLM domain
+monitoring framework, named DomainMonitor, consisting of
+two components: a Behavior Monitor and an Anomaly Detector.
+Following a representation engineering [36] practice in explainable
+AI, the Behavior Monitor analyzes the hidden states in LLM internal
+layers during inference and extracts intermediate features related
+to domain behaviors. Based on hidden states in LLMs, the Anomaly
+Detector identifies out-of-domain requests using a Local Outlier
+Factor (LOF) [4] algorithm, which performs one-class classification
+and detects anomalous requests through local density comparisons.
+The monitoring mechanism captures the runtime behavior anom-
+aly of LLMs and suggests potential ‘rejection’ instructions before
+outputting answers.
+In summary, our main contributions in this work include:
+• We expose the out-of-domain behaviors in domain-specific
+LLMs, and highlight the necessity to take preventive mea-
+sures for responsible AI ecosystems.
+• We propose the first LLM runtime domain monitoring frame-
+work, DomainMonitor, which monitors out-of-domain be-
+haviors by analyzing LLM internal hidden states. Domain-
+Monitor is lightweight and easily deployed to different types
+of LLMs, such as RAG-based or LORA-based domain LLMs.
+• Systematic experiments on multiple domains of LLMs and
+datasets demonstrate that DomainMonitor clearly exposes
+anomalous hidden states, and successfully detects out-of-
+domain behaviors with high rejection rates while preserving
+promising performance on in-domain requests.
+In addition, we release our implementation code online1 to sup-
+port future LLM-based Web applications.
+2 Related Work
+In this section, we present existing efforts broadly related to this
+work, regarding the inspection of LLM undesired behaviors, involv-
+ing LLM input/output inspection and LLM inner state monitoring.
+2.1 LLM Input/Output Inspection
+To provide safeguards for LLMs, existing research identifies harmful
+or policy-violating content in the query prompts before input into
+LLMs, or in the LLM outputs after the answers are generated.
+For LLM input inspection, Liu et al. [19] propose ToxicDetector,
+a lightweight toxic prompt detector that leverages LLMs to create
+toxic concept prompts, and trains an MLP classifier for detection.
+Zhang et al. [32] propose a toxic content detector which involves a
+Decision-Tree-of-Thought strategy to bootstrap LLMs’ detection
+performance and extract rationales, which are further utilized to
+fine-tune a small language model for efficient prediction. Kumar et
+al. [15] propose a reflection prompting mechanism with LLM-based
+classifiers for toxic prompt detection. The input inspection methods
+1Our code is available at https://github.com/Noelle1831-k/NULL.
+1752
+Be Responsible in Your Answers! Monitoring Out-of-Domain Behaviors in Domain-Specific LLMs WWW ’26, April 13–17, 2026, Dubai, United Arab Emirates.
+Projection
+Add & Norm
+MLP
+Attention State
+Concat
+V K Q
+Multi-head attention
+Hidden State
+I feel a bit shy and a little tender. I think I 
+might shed a few tears this afternoon and 
+have a few private moments. 
+Hidden State
+Hidden State
+Recently, I've realized that ever since I came 
+here, I haven't tried to fix things by running 
+around and resorting to unhealthy coping 
+mechanisms like fancying everyone I see.
+Did Dr. Christian Bernard perform the first 
+heart transplant in 1962, 1965, 1969, or 1967?
+I know I want to do something but I don't 
+want to destroy my relationship in my 
+marriage and my family. I want it both. I 
+guess I want it all.
+I think I've done a lot with my emotions, like 
+reviewing and re-checking them while I went 
+to the VA hospital. That counseling was 
+really helpful for me.
+Hidden State
+Hidden State
+Prompt LLM Behavior Monitor Anomaly Detector
+Suggestion: 
+Reject the
+Out-of-Domain 
+Request
+Figure 2: Overall framework of DomainMonitor.
+provide timely safeguards for LLMs, however, they lack practicality
+in real-world scenarios as numerous harmful prompts are covert
+and pose misbehaviors during content generation.
+For LLM output inspection, Pacchiardi et al. [22] develop an LLM
+lie detector that asks a set of unrelated follow-up questions after a
+suspected lie, and trains a logistic regression classifier based on the
+LLM’s answers. Wang et al. [28] develop a zero-shot toxicity detec-
+tor based on prompt engineering, which outputs the probability
+of a prompt steering the LLM towards generating toxicity. Hu et
+al. [13] distinguish between benign and toxic prompts based on the
+first response token’s logits, and build a sparse logistic regression
+classifier for toxic detection. The output inspection methods reveal
+drawbacks in practice, as harmful responses have been produced
+and the optimal opportunity to intercept misbehaviors is lost.
+In addition, to the best of our knowledge, Emde et al. [8] propose
+the only LLM inspection method (at present) focusing on out-of-
+domain behaviors, belonging to the output inspection methods.
+They propose VALID, a domain certification framework that mea-
+sures the probability of LLMs producing out-of-domain content, by
+generally comparing the outputs of a domain-specific LLM and a
+guide LLM on the same prompts. However, based on our experi-
+mental evidence in Section 4.2, VALID can successfully identify the
+out-of-domain behaviors but shows false alarms on the in-domain
+requests. In addition, its output-based mechanism cannot intercept
+misbehaviors beforehand.
+2.2 LLM Inner State Monitoring
+LLM monitoring methods focus on capturing the runtime anomalies
+in the inner states of LLMs, which reserves lead time to suggest
+and intercept potential misbehaviors, overcoming the practicality
+drawbacks faced by the LLM input/output inspection methods.
+To monitor the inner state of LLMs, Azaria et al. [ 2] explore
+hidden layer activations of LLMs when reading or generating state-
+ments, and develop a classifier to determine whether a statement
+is truthful. Bürger et al. [6] develop a robust LLM lying detector,
+which distinguishes true from false statements generated under
+real-world scenarios. Hu et al. [11] design a Gradient Cuff jailbreak
+detection strategy based on the unique properties in the refusal loss
+landscapes of LLMs. Hu et al. [12] propose a Token Highlighter jail-
+break detector, which introduces an affirmation loss to measure an
+LLM’s willingness to a query, and uses the gradient of affirmation
+loss for each query token to locate jailbreak tokens.
+As the state-of-the-art work, Zhang et al. [33] propose LLMScan
+to monitor the inner working of LLMs. Based on a causal inference
+strategy, LLMScan comprehensively monitors different misbehav-
+iors including untruthful responses, toxic responses, jailbreaks and
+backdoor attacks. Although LLMScan reports competitive results
+on monitoring these misbehaviors, based on our experimental evi-
+dence in Section 4.2, LLMScan fails to maintain high accuracy on
+capturing the domain anomalies in LLMs. In addition, to the best
+of our knowledge, there is no existing LLM runtime monitoring
+method focusing on the out-of-domain behaviors, which will be
+firstly investigated in this work.
+3 Our Method
+In this section, we present our proposedDomainMonitor in detail,
+which is composed of two main components, i.e., Behavior Moni-
+tor and Anomaly Detector. As illustrated in Figure 2, the Behavior
+Monitor analyzes the hidden states in LLMs during inference and
+extracts intermediate features related to domain behaviors. The
+Anomaly Detector then identifies out-of-domain requests and sug-
+gests potential ‘rejection’ instructions before outputting answers.
+Note that we preliminarily introduce the working process of gener-
+ative LLMs in Appendix A.1.
+3.1 Behavior Monitor
+Our design of the Behavior Monitor is inspired by recent advances
+in representation engineering [34, 36]. Prior studies have demon-
+strated LLM representations encode rich semantic and behavioral
+structures, enabling controllable manipulation of model attributes
+such as toxicity [29] and hallucination [2]. However, the potential
+of representation engineering for out-of-domain detection remains
+largely unexplored. In this work, we extend the concept of represen-
+tation engineering to detect out-of-domain behaviors, leveraging
+representation-level insights to characterize domain boundaries
+within LLM latent space.
+1753
+WWW ’26, April 13–17, 2026, Dubai, United Arab Emirates. Boquan Li et al.
+Compared with previous causal analysis approaches that typi-
+cally assess LLM behaviors by ablating specific layers or masking
+particular tokens to estimate causal effects [33, 35], our represen-
+tation engineering perspective offers a more continuous, efficient,
+and fine-grained understanding of LLM internals. Causal ablation
+strategies, while informative, often disrupt the model’s original rep-
+resentation flow and provide discrete, localized insights into causal
+influence. In contrast, representation engineering preserves the
+integrity of the latent feature space, enabling smooth and computa-
+tionally efficient manipulation of internal representations without
+structural modification. This property allows us to identify sub-
+tle deviations in the representation space, offering a practical and
+efficient route to the high-throughput out-of-domain detection task.
+Specifically, given request prompts 𝑝 from different domains
+and an LLM𝑀, we define a representation function𝐹 that takes𝑝
+and𝑀 as inputs, and returns hidden state representation features.
+Note that to collect hidden states that may contain more contextual
+semantics related to domain behaviors, we utilize the token before
+model predictions, i.e., the last token in a prompt.
+Based on a prompt set𝑃 and specified hidden layers𝑙, we can
+extract in-Domain hidden states from the−1 token position as:
+𝐻𝑝 ={𝐹(𝑀,𝑇 𝑖𝑛(𝑝𝑖))[𝑙][−1]|𝑝𝑖∈𝑃,𝑙 ∈𝐿𝑠𝑒𝑙𝑒𝑐𝑡}. (1)
+Similarly, we can extract out-of-domain hidden states as:
+𝐻𝑝 ={𝐹(𝑀,𝑇 𝑜𝑢𝑡(𝑝𝑖))[𝑙][−1]|𝑝𝑖∈𝑃,𝑙 ∈𝐿𝑠𝑒𝑙𝑒𝑐𝑡}. (2)
+3.2 Anomaly Detector
+We then design an Anomaly Detector based on the representations
+to determine whether a given request is out-of-domain.
+Previous studies typically adopt a binary classifier to distinguish
+between normal and abnormal behaviors [ 13, 19, 33]. However,
+such strategies are non-trivial for our task as the out-of-domain
+detection task inherently involves one-to-many relationships. A
+domain-specific LLM often focuses on a narrow scope, for example,
+the medical domain, or even a finer-grained subdomain such as
+biomedicine, while the corresponding out-of-domain space can be
+extremely diverse. Moreover, obtaining representative in-domain
+samples is relatively easy, whereas collecting sufficiently diverse
+out-of-domain data is costly and resource-intensive. Therefore, we
+adopt a one-class classifier to determine whether a given prompt
+belongs to the predefined domain. A one-class classifier is a learning
+paradigm that models the distribution of a single (positive) class
+and identifies whether new samples deviate from it. Unlike binary
+classifiers requiring both positive and negative samples, it learns
+the boundary or density of in-domain data alone and treats samples
+falling outside this boundary as anomalies. This makes one-class
+classifiers particularly suitable for scenarios where out-of-domain
+data are scarce or hard to obtain.
+In particular, we adopt the Local Outlier Factor (LOF) as our one-
+class classifier [4], offering several advantages that make it suitable
+for our task. First, LOF is a density-based method that measures
+the local data density around each sample and compares it to that
+of its neighbors. This property allows it to capture fine-grained
+variations within the in-domain feature space extracted from LLM
+hidden states. Second, unlike distance-based or hyperplane-based
+methods that assume globally uniform distributions, LOF is adap-
+tive to heterogeneous and non-linear manifolds, which aligns with
+the complex, non-Gaussian representations typically produced by
+LLMs. Third, LOF requires no explicit negative samples and is robust
+to noise and small-scale deviations, making it ideal when out-of-
+domain data are diverse or hard to enumerate. These characteristics
+make LOF a natural and efficient choice for distinguishing between
+in-domain and out-of-domain requests.
+To understand how LOF quantifies local density deviations and
+identifies anomalies, we briefly introduce its core algorithmic princi-
+ples below. First, for each data point𝑝, LOF calculates the𝑘-distance
+defined as the distance to its𝑘-th nearest neighbor:
+𝑘-distance(𝑝) = distance(𝑝,𝑜 𝑘), (3)
+where𝑜𝑘 denotes the𝑘-th closest point to 𝑝. The corresponding
+k-neighborhood of𝑝 is:
+𝑁𝑘(𝑝) ={𝑜| distance(𝑝,𝑜)≤ 𝑘-distance(𝑝)}. (4)
+To reduce the influence of outliers in dense regions, LOF defines a
+reachability distance between two points𝑝 and𝑜 as:
+reach-dist𝑘(𝑝,𝑜) = max  𝑘-distance(𝑜), distance(𝑝,𝑜). (5)
+Next, LOF uses the local reachability density (LRD) to quantify how
+densely𝑝 is surrounded by its neighbors:
+LRD𝑘(𝑝) =
+˝
+𝑜∈𝑁𝑘(𝑝) reach-dist𝑘(𝑝,𝑜)
+|𝑁𝑘(𝑝)|
+−1
+.(6)
+A higher LRD𝑘(𝑝) indicates𝑝 lies in a denser region and a lower
+value suggests isolation. Finally, it quantifies the deviation between
+the local density of𝑝 and that of its neighbors using LOF scores:
+LOF𝑘(𝑝) =
+˝
+𝑜∈𝑁𝑘(𝑝)
+LRD𝑘(𝑜)
+LRD𝑘(𝑝)
+|𝑁𝑘(𝑝)| .(7)
+If LOF𝑘(𝑝)≈ 1, the point𝑝 has a density similar to its neighbors,
+indicating it is a normal data point. Conversely, if LOF𝑘(𝑝)≫ 1,𝑝
+lies in a much sparser region, suggesting it is an outlier.
+4 Experiment
+In this section, we first conduct systematic experiments to evaluate
+the effectiveness of DomainMonitor, and then perform visualiza-
+tion and ablation analysis to respectively explore the effect of its
+Behavior Monitor and Anomaly Detector components.
+4.1 Experimental Setup
+We start with introducing our experimental LLMs, datasets, baseline
+methods, implementations, metrics and environments.
+LLMs. As summarized in Table 1, we adopt six LLMs in the
+domain of code, biomedicine and psychology, covering categories
+of Full Fine-tuning LLMs, Retrieval-Augmented Generation (RAG)-
+based LLMs and Low-Rank Adaptation (LORA)-based LLMs. Note
+that all the LLMs are directly adopted from their original sources
+without any re-training or fine-tuning.
+Datasets. As summarized in Table 2, we adopt eight datasets
+from multiple domains, including code, biomedicine, psychology,
+finance, knowledge, science and math. We randomly collect 500
+prompts in each dataset for training and testing, and collect the
+total data in MBPP and HumanEval as they contain less than 500
+1754
+Be Responsible in Your Answers! Monitoring Out-of-Domain Behaviors in Domain-Specific LLMs WWW ’26, April 13–17, 2026, Dubai, United Arab Emirates.
+Table 1: Experimental LLMs
+Domain LLM Category
+Code CodeLlama-7B-hf [24] Full Fine-tuningCodeLlama-7B-Lora-Merged LORA-Based
+Biomedicine PMC-Llama-7B [30] Full Fine-tuningKgRAG-Llama3 [25] RAG-Based
+Psychology MentaLlama-Chat-7B-hf [31] Full Fine-tuningChatPsychiatrist [18] Full Fine-tuning
+Table 2: Experimental Datasets
+Domain Dataset Prompt Quantity
+Code MBPP [1] 376
+Code HumanEval [7] 164
+Biomedicine PMC-Instruction [30] 500
+Psychology Psych8k [18] 500
+Finance Fingpt-Sentiment [27] 500
+Knowledge WikiData [22] 500
+Science SciQ [22] 500
+Math MathProblem [22] 500
+prompts. Note that we further present the source repositories of
+these experimental LLMs and datasets in Appendix A.2.
+Baselines. We adopt LLMScan [33] and VALID [8] as our base-
+line methods for comparison, as introduced in Section 2. LLMScan
+is the state-of-the-art LLM runtime monitoring method, which ana-
+lyzes the internal details of LLMs and comprehensively monitors
+different misbehaviors including untruthful responses, toxic re-
+sponses, jailbreaks and backdoor attacks. VALID is currently the
+only LLM inspection method focusing on the out-of-domain behav-
+iors, which detects anomalous responses based on LLM outputs.
+Implementations. To implement DomainMonitor, we ran-
+domly collect 70% data from the MBPP-mixed HumanEval, PMC-
+Instruction and Psych8k datasets in Table 2. For the Behavior Mon-
+itor, following the representation engineering practice [34, 36], we
+extract hidden state representations from the last five layers in each
+LLM, which commonly contain rich features close to model outputs.
+For the Anomaly Detector, we set a general setting of LOF with
+hyperparameters neighbor number𝑘 = 10 and outlier threshold
+𝑡 = 0.05, which will be further explored in Section 4.4.
+To implement LLMScan, we collect the same data utilized for
+DomainMonitor, and perform layer analysis following the original
+settings in the literature [33]. For fair comparisons, we also apply
+the LOF algorithm as its anomaly detector, with identical settings
+utilized in DomainMonitor.
+To implement VALID, following the original settings and de-
+fault hyperparameters in the literature [8], we train six GPT-2 [23]
+models as guide LLMs (Model 𝐺) to match our domain-specific
+LLMs in Table 1 (Model 𝐿). In each domain, we train two guide
+LLMs based on the same data, but different tokenizers provided by
+the corresponding domain-specific LLMs. In particular, we collect
+abundant data in PMC-Instruction (200k prompt-answer pairs) and
+Psych8k (8.19k prompt-answer pairs) to train the GPT-2 models
+in biomedicine and psychology. Since the data in MBPP and Hu-
+manEval (376 and 164 prompt-answer pairs, respectively) is not
+enough to train a guide LLM, we mix them with an APPS [9] dataset
+(5k prompt-answer pairs) to train the coding GPT-2 models.
+Metrics. To evaluate DomainMonitor and other baselines, we
+utilize 30% data (independent from the above collected 70% data)
+from each dataset for in-domain testing, i.e., the testing LLMs and
+datasets are from the same domain. Moreover, we apply the total
+of the collected data in Table 2 for out-of-domain testing, i.e., the
+testing LLMs and datasets are from different domains.
+We define a Rejection Rate to quantify the anomalous behaviors
+of an LLM when encountering requests in different domains. In
+particular, the rejection rate refers to the proportion of correctly
+rejected prompts among the total input prompts.
+Environments. All the implementations and experiments in
+this work are conducted on a server with an Intel® Xeon® Platinum
+8481C CPU and two A100-PCIE-40GB GPUs.
+4.2 Effectiveness Evaluation
+In the following, we systematically evaluate the performance of
+DomainMonitor and other baselines, based on different domains
+of LLMs and testing datasets.
+Table 3 presents our evaluation results, where the best-performed
+results in each group are highlighted in bold. For the out-of-domain
+testing results (in red backgrounds), larger values indicate better
+performance, as LLMs are expected to reject the inputs out of their
+domain expertise. For the in-domain testing results (in blue back-
+grounds), smaller values indicate fewer false alarms, as the LLM
+behaviors on their specific domains are expected to remain unaf-
+fected by additional monitoring or inspection methods.
+As shown in Table 3, DomainMonitor successfully detects
+out-of-domain requests while preserving the in-domain perfor-
+mance. For example, in Group 1, DomainMonitor achieves 100%
+rejection rates on all the out-of-domain datasets, with 6.19% and
+2.00% false rejections on the in-domain MBPP and HumanEval
+datasets. As exceptional cases, in Group 5 and Group 6, Domain-
+Monitor achieves out-of-domain rejection rates below 90% on
+PMC-Instruction, Fingpt-Sentiment and MathProblem datasets. To
+further analyze the related prompts and answers in the two groups,
+these psychology LLMs involve chat content regarding broad do-
+mains that are ambiguous to demarcate. Despite this, in Group 5
+and Group 6,DomainMonitor performs better than both baselines,
+where LLMScan presents unsatisfactory results and VALID fails to
+preserve effectiveness on the in-domain requests, as follows.
+To analyze these baseline methods, first, LLMScan presents un-
+satisfactory performance in most cases. For example, in Group 1, it
+achieves rejection rates below 60% on the Psych8k and MathProb-
+lem datasets. We remark that LLMScan reports promising results
+on monitoring multiple types of LLM misbehaviors, including un-
+truthful responses, toxic responses, jailbreaks and backdoor attacks.
+The unsatisfactory results indicate that LLMScan is challenging to
+transfer to the task of out-of-domain behavior monitoring. Second,
+VALID achieves promising out-of-domain testing results, but fails
+to maintain its performance on in-domain datasets (with rejection
+rates over 20% in all cases). Especially, in Group 5 and Group 6,
+VALID presents false rejections over 70% (90.00% and 78.67%) on
+1755
+WWW ’26, April 13–17, 2026, Dubai, United Arab Emirates. Boquan Li et al.
+Table 3: Rejection Rates (%) of In-Domain and Out-of-Domain Evaluations
+DatasetGr
+oup LLM Method MBPP HumanEval PMC-Instruction Psych8k Fingpt-Sentiment WikiData SciQ MathProblem
+LLMScan 3.54 4.00 82.60 55.60 76.20 92.80 76.40 53.60
+V
+ALID 38.46 23.91 99.40 99.00 99.60 99.20 99.80 91.601
+CodeLlama-7B-hf
+DomainMonitor 6.19 2.00 100 100 100 100 100 100
+LLMScan 0 10.00 50.60 100 88.40 74.80 71.20 81.00
+V
+ALID 52.88 36.96 95.80 98.20 89.20 94.40 97.00 93.002
+CodeLlama-7B-Lora-Merged
+DomainMonitor 10.62 6.00 100 100 100 100 100 100
+LLMScan 10.43 68.90 5.33 25.60 17.40 1.00 19.80 12.20
+V
+ALID 95.40 93.42 40.67 88.00 88.60 92.20 67.00 82.603
+PMC-Llama-7B
+DomainMonitor 100 100 1.33 100 100 100 100 100
+LLMScan 7.22 14.02 12.67 36.00 22.80 50.20 14.20 16.40
+V
+ALID 73.85 70.39 61.33 85.60 98.60 97.00 94.80 99.204
+KgRAG-Llama3
+DomainMonitor 100 100 4.00 99.80 98.80 100 100 100
+LLMScan 100 99.39 90.60 4.00 75.60 91.00 91.80 93.20
+V
+ALID 100 100 100 90.00 100 100 100 1005
+MentaLlama-Chat-7B-hf
+DomainMonitor 100 100 80.80 4.67 71.20 100 100 99.60
+LLMScan 54.81 4.27 48.80 7.33 26.40 73.20 24.60 37.40
+V
+ALID 100 100 99.80 78.67 97.40 98.60 99.20 1006
+ChatPsychiatrist
+DomainMonitor 100 100 79.60 4.00 86.20 100 99.80 85.80
+Note: The blue backgrounds indicate in-domain testing results, and the red backgrounds indicate out-of-domain testing results.
+the Psych8k dataset. Recall that VALID determines out-of-domain
+behaviors based on the output similarity between a testing LLM
+(Model𝐿) and a guide LLM (Model 𝐺). However, Model𝐺 is ac-
+tually a lightweight LLM overfitting to its limited training data,
+making it generate limited-scope content semantically different
+from Model𝐿’s outputs, even though the two LLMs are from the
+same domain. In addition, compared to LLM inner state monitor-
+ing methods, VALID faces the limitations that the output-based
+mechanism cannot intercept the out-of-domain behavior before its
+responses are presented to users.
+In summary, evaluation results in this experiment demonstrate
+that DomainMonitor is effective in monitoring the out-of-domain
+behaviors in domain-specific LLMs, while preserving its perfor-
+mance on in-domain requests.
+4.3 Visualization Analysis
+We then perform visualization analysis to explore the effect of the
+Behavior Monitor in DomainMonitor, which monitors out-of-
+domain behaviors based on LLM hidden states. In particular, we
+utilize principal component analysis (PCA) [5] to visualize hidden
+state representations on in-domain and out-of-domain requests.
+Figure 3 presents our visualization results on different domains
+of LLMs and testing datasets. In each chart, the blue and brown
+dots respectively visualize the hidden state representations based
+on in-domain and out-of-domain testing datasets.
+As shown in Figure 3, DomainMonitor successfully divides
+in-domain and out-of-domain hidden states on all groups of test-
+ing datasets. For example, in Figure 3 (a), the blue and brown
+dots are clearly separated in each chart, indicating the code LLM,
+CodeLlama-7B-hf, is able to differentiate those code-unrelated re-
+quests with the assistance of DomainMonitor. The visualization
+results further verify the effectiveness of our monitoring strategy
+in the Behavior Monitor component, enabling DomainMonitor
+to clearly differentiate in-domain and out-of-domain requests by
+monitoring the internal hidden states of LLMs.
+4.4 Ablation Analysis
+We finally conduct an ablation study on the Anomaly Detector
+of DomainMonitor. Note that our LOF one-class detectors are
+trained based on in-domain hidden states and detect anomalous
+behaviors based on local density. Thus, the number of neighbors
+for calculating local density (represented as 𝑘) and the decision
+threshold for the outlier ratio (represented as𝑡) potentially affect
+the in-domain or out-of-domain performance of DomainMonitor.
+In this experiment, we ablatively evaluate DomainMonitor by
+varying the hyperparameters𝑘 and𝑡.
+Figure 4 and Figure 5 present our ablation results on 𝑘 and𝑡
+respectively. In each chart, the rejection rates (in the vertical axis)
+are evaluated based on different datasets (in different colors of
+lines) and different hyperparameter values (in the abscissa axis). To
+intuitively observe the effect of each parameter as far as possible, we
+explore the neighbor number effects (𝑘 ={5, 10, 15, 20, 25}) under
+a small outlier threshold 𝑡 = 0.01. Analogously, we explore the
+outlier threshold effects (𝑡 ={0.01, 0.02, 0.03, 0.04, 0.05}) under a
+small neighbor number𝑘 = 10.
+As the ablation results in Figure 4, the neighbor number𝑘 has al-
+most no impact on the in-domain performance ofDomainMonitor.
+For example, in Figure 4 (a), the rejection rates of CodeLlama-7B-
+hf on MBPP (shown by the blue line) and HumanEval (shown by
+the green line) are below 5% under all𝑘 values. Further, a large𝑘
+value degrades the effectiveness of DomainMonitor on the out-
+of-domain requests. For example, in Figure 4 (d), the rejection rates
+of KgRAG-Llama3 on four datasets begin to decrease when𝑘 > 10.
+Note that larger𝑘 values decrease the distance difference between
+neighbors, thus decreasing the density difference between normal
+and anomalous features. On the other hand, the results demonstrate
+that high-dimensional hidden states in LLM are applicable to be de-
+marcated based on the local density in LOF, which can be effective
+when using appropriate neighbor numbers.
+As the ablation results in Figure 5, the outlier threshold 𝑡 has
+little impact on the in-domain performance of DomainMonitor.
+1756
+Be Responsible in Your Answers! Monitoring Out-of-Domain Behaviors in Domain-Specific LLMs WWW ’26, April 13–17, 2026, Dubai, United Arab Emirates.
+)LUVW3ULQFLSDO&RPSRQHQW
+6HFRQG3ULQFLSDO&RPSRQHQW
+&RGHYHUVXV%LRPHGLFLQH
+,Q'RPDLQ6DPSOHV
+2XWRI'RPDLQ6DPSOHV
+)LUVW3ULQFLSDO&RPSRQHQW
+6HFRQG3ULQFLSDO&RPSRQHQW
+&RGHYHUVXV3V\FKRORJ\
+,Q'RPDLQ6DPSOHV
+2XWRI'RPDLQ6DPSOHV
+)LUVW3ULQFLSDO&RPSRQHQW
+6HFRQG3ULQFLSDO&RPSRQHQW
+&RGHYHUVXV)LQDQFH
+,Q'RPDLQ6DPSOHV
+2XWRI'RPDLQ6DPSOHV
+)LUVW3ULQFLSDO&RPSRQHQW
+6HFRQG3ULQFLSDO&RPSRQHQW
+&RGHYHUVXV.QRZOHGJH
+,Q'RPDLQ6DPSOHV
+2XWRI'RPDLQ6DPSOHV
+)LUVW3ULQFLSDO&RPSRQHQW
+6HFRQG3ULQFLSDO&RPSRQHQW
+&RGHYHUVXV6FLHQFH
+,Q'RPDLQ6DPSOHV
+2XWRI'RPDLQ6DPSOHV
+)LUVW3ULQFLSDO&RPSRQHQW
+6HFRQG3ULQFLSDO&RPSRQHQW
+&RGHYHUVXV0DWK
+,Q'RPDLQ6DPSOHV
+2XWRI'RPDLQ6DPSOHV
+(
+a) CodeLlama-7B-hf.
+)LUVW3ULQFLSDO&RPSRQHQW
+6HFRQG3ULQFLSDO&RPSRQHQW
+&RGHYHUVXV%LRPHGLFLQH
+,Q'RPDLQ6DPSOHV
+2XWRI'RPDLQ6DPSOHV
+)LUVW3ULQFLSDO&RPSRQHQW
+6HFRQG3ULQFLSDO&RPSRQHQW
+&RGHYHUVXV3V\FKRORJ\
+,Q'RPDLQ6DPSOHV
+2XWRI'RPDLQ6DPSOHV
+(
+b) CodeLlama-7B-Lora-Merged.
+(
+c) PMC-Llama-7B.
+(
+d) KgRAG-Llama3.
+(
+e) MentaLlama-Chat-7B-hf.
+(f
+) ChatPsychiatrist.
+Figure 3: Visualization of LLM hidden states.
+For example, in Figure 5 (a), the rejection rates of CodeLlama-7B-
+hf on MBPP (shown by the blue line) and HumanEval (shown by
+the green line) are below 10% under all 𝑡 values. Second, when
+applied to psychology LLMs, a large outlier threshold𝑡 improves the
+effectiveness of DomainMonitor on the out-of-domain requests.
+For example, in Figure 5 (e), the rejection rates of MentaLlama-Chat-
+7B-hf on PMC-Instructions and Fingpt-Sentiment improve with the
+increase of𝑡 values. This is consistent with our previous finding
+
+WWW ’26, April 13–17, 2026, Dubai, United Arab Emirates. Boquan Li et al.
+    
+1HLJKERU1XPEHUVN
+
+
+
+5HMHFWLRQ5DWH
+0%33
++XPDQ(YDO
+30&,QVWUXFWLRQV
+3V\FKN
+)LQJSW6HQWLPHQW
+:LNL'DWD
+6FL4
+0DWK3UREOHP
+(a) CodeLlama-7B-hf.
+    
+1HLJKERU1XPEHUVN
+
+
+
+5HMHFWLRQ5DWH
+ (b) CodeLlama-7B-Lora-Merged.
+    
+1HLJKERU1XPEHUVN
+
+
+
+5HMHFWLRQ5DWH
+(c) PMC-Llama-7B.
+    
+1HLJKERU1XPEHUVN
+
+
+
+5HMHFWLRQ5DWH
+ (d) KgRAG-Llama3.
+    
+1HLJKERU1XPEHUVN
+
+
+
+5HMHFWLRQ5DWH
+(e) MentaLlama-Chat-7B-hf.
+    
+1HLJKERU1XPEHUVN
+
+
+
+5HMHFWLRQ5DWH
+ (f) ChatPsychiatrist.
+Figure 4: Ablation results based on neighbor numbers ( 𝑘).
+(in Section 4.2) that the psychology LLMs involve chat content
+regarding broad domains that are ambiguous to demarcate. As the
+value of𝑡 increases, LOF filters out less significant anomalies, which
+further demonstrates the significance of LLM hidden states for the
+out-of-domain detection task.
+In addition, we conduct supplementary experiments that further
+demonstrate the effectiveness of DomainMonitor based on dif-
+ferent layers of hidden states and more anomaly detectors [3] than
+LOF, as well as a user study on the user satisfaction of Domain-
+Monitor. We present the supplementary results in Appendix A.3.
+5 Conclusion
+For building responsible AI ecosystems, in this work, we propose
+DomainMonitor, the first runtime monitoring framework focus-
+ing on out-of-domain behaviors in domain-specific LLMs.Domain-
+Monitor monitors out-of-domain requests through analyzing LLM
+internal hidden states regarding domain behaviors, thus suggest-
+ing potential ‘rejection’ instructions before outputting responses.
+Experimental results demonstrate DomainMonitor is effective in
+exposing anomalous hidden states, achieves promising performance
+on both in-domain and out-of-domain datasets, and is applicable
+    
+2XWOLHU7KUHVKROGW
+
+
+
+5HMHFWLRQ5DWH
+0%33
++XPDQ(YDO
+30&,QVWUXFWLRQV
+3V\FKN
+)LQJSW6HQWLPHQW
+:LNL'DWD
+6FL4
+0DWK3UREOHP
+(a) CodeLlama-7B-hf.
+    
+2XWOLHU7KUHVKROGW
+
+
+
+5HMHFWLRQ5DWH
+ (b) CodeLlama-7B-Lora-Merged.
+    
+2XWOLHU7KUHVKROGW
+
+
+
+5HMHFWLRQ5DWH
+(c) PMC-Llama-7B.
+    
+2XWOLHU7KUHVKROGW
+
+
+
+5HMHFWLRQ5DWH
+ (d) KgRAG-Llama3.
+    
+2XWOLHU7KUHVKROGW
+
+
+
+5HMHFWLRQ5DWH
+(e) MentaLlama-Chat-7B-hf.
+    
+2XWOLHU7KUHVKROGW
+
+
+
+5HMHFWLRQ5DWH
+ (f) ChatPsychiatrist.
+Figure 5: Ablation results based on outlier thresholds (𝑡).
+for different types of LLMs, such as RAG-based or LORA-based
+domain-specific LLMs.
+In the end, we further discuss the external validity of Domain-
+Monitor regarding its application scope and test-of-time gener-
+alization in the future. First, DomainMonitor can be naturally
+applied to a general-purpose or cross-domain LLM when the LLM
+is instructed to focus on several specific domains. We remark that
+DomainMonitor guards domain-specific LLMs from irresponsible
+behaviors through defining an in-domain boundary, it can thus
+establish the boundary for the domains of interest within general-
+purpose or cross-domain LLMs. Second, DomainMonitor exhibits
+test-of-time generalization, as it is built upon hidden states, which
+consistently serve as internal representations in LLMs and will
+continue to play important roles with LLM evolutions.
+Acknowledgments
+This research is supported by the Ministry of Education, Singapore,
+under its Academic Research Fund Tier 3 (Award ID: MOET32020-
+0004). Any opinions, findings and conclusions or recommendations
+expressed in this material are those of the author(s) and do not
+reflect the views of the Ministry of Education, Singapore.
+1758
+Be Responsible in Your Answers! Monitoring Out-of-Domain Behaviors in Domain-Specific LLMs WWW ’26, April 13–17, 2026, Dubai, United Arab Emirates.

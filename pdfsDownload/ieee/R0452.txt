@@ -1,0 +1,547 @@
+ 
+Towards Efficient Educational Chatbots: 
+Benchmarking RAG Frameworks 
+ 
+Umar Ali Khan  
+Electronics Engineering 
+Aligarh Muslim University 
+Aligarh, India 
+samkhan705279@gmail.com 
+Mohd Areeb Hasnain 
+Electronics Engineering 
+Aligarh Muslim University 
+Aligarh, India 
+areeb.hasnain678@gmail.com 
+Fiza Khan  
+Electronics Engineering 
+Aligarh Muslim University 
+Aligarh, India 
+fiza1892003@gmail.com 
+Athar Ali Moinuddin  
+Electronics Engineering 
+Aligarh Muslim University 
+Aligarh, India 
+aamoin@zhcet.ac.in 
+Ekram Khan  
+Electronics Engineering 
+Aligarh Muslim University 
+Aligarh, India 
+ekhan.el@amu.ac.in 
+ 
+  
+ 
+Abstract—Large Language Models (LLMs) have proven 
+immensely beneficial in education by capturing vast amounts of 
+literature-based information, allowing them to generate context 
+without relying on external sources. In this paper, we propose a 
+generative AI-powered GATE question-answering frame work 
+(GATE stands for Graduate Aptitude Test in Engineering) that 
+leverages LLMs to explain GATE solutions and suppor t 
+students in their exam preparation. We conducted ex tensive 
+benchmarking to select the optimal embedding model and LLM, 
+evaluating our framework based on criteria such as latency, 
+faithfulness, and relevance, with additional valida tion through 
+human evaluation. Our chatbot integrates state-of-t he-art 
+embedding models and LLMs to deliver accurate, cont ext-
+aware responses. Through rigorous experimentation, we 
+identified configurations that balance performance and 
+computational efficiency, ensuring a reliable chatb ot to serve 
+students' needs. Additionally, we discuss the challenges faced in 
+data processing and modelling and the implemented s olutions. 
+Our research investigates the implementation of Ret rieval-
+Augmented Generation (RAG) for GATE Q/A explanation  
+tasks, and our findings demonstrate significant imp rovements 
+in retrieval accuracy and response quality. This research offers 
+practical insights for developing effective AI-driven educational 
+tools while highlighting areas for future enhanceme nt in 
+usability and scalability. 
+Keywords—Retrieval Augmented Generation, Informatio n 
+systems, Generative AI, Evaluation 
+ 
+I.  INTRODUCTION  
+Large Language Models (LLMs) have proven immensely 
+beneficial in education by capturing vast amounts o f 
+literature-based information, enabling them to gene rate 
+context without needing external sources. Since the  
+introduction of BERT [1], these models have been ut ilised 
+across various tasks, including question answering and 
+language inference, without necessitating substanti al task-
+specific architectural alterations. As these models have scaled, 
+they have increasingly packed more knowledge into t heir 
+parameters [2]. However, while LLMs serve as useful  
+repositories of information, they also come with no table 
+limitations. First, they can only provide details b ased on the 
+data available at the time of training, meaning the y cannot 
+address events that occur afterwards. Second, even the most 
+advanced models often struggle to retain informatio n that 
+appears infrequently in their training data. For educational  
+ 
+applications, it is essential to keep these models up-to-date. To 
+reduce hallucinations [18] and enhance personalisation [9,17], 
+current approaches rely on knowledge grounding [13, 14] 
+through retrieval-augmented generation (RAG) [4]. RAG can 
+retrieve knowledge from external databases by integ rating 
+parametric and non-parametric memory, leading to 
+diminished hallucinations and enhanced interpretabi lity in 
+tasks such as question answering and summarisation.  Recent 
+studies have shown that simply appending retrieved 
+documents to a standard language model’s input can yield 
+effective results [8]. This indicates that retrieva l-augmented 
+techniques can be integrated with LLMs even when th ose 
+models are accessed solely via APIs. Testing and ev aluating 
+RAG systems is crucial because it verifies that com bining 
+retrieval-based strategies with generative models t ruly 
+enhances practical performance [10,12]. 
+In this paper, we propose a GATE question-answering  
+framework (GATE stands for Graduate Aptitude Test i n 
+Engineering) that leverages state-of-the-art LLMs t o explain 
+GATE solutions and support students in their exam 
+preparation. We conducted extensive benchmarking to select 
+the optimal embedding model and LLM, and we evaluated our 
+framework based on several criteria, including late ncy, 
+faithfulness, answer relevance, Exact Match (EM), a nd F1 
+score. Moreover, our evaluation strategy combines b oth LM 
+probability estimates and human annotations, with the results 
+averaged to ensure the most accurate benchmarks. 
+II.  BACKGROUND AND RELATED WORK  
+Generative AI-powered educational chatbots offer 
+immense potential to provide virtual support to res earchers, 
+students, and educators. Students, in particular, b enefit in 
+three key areas: skill development, personalised le arning 
+experiences through coach-like modes, and assistanc e with 
+study and homework tasks. In the past, obtaining the necessary 
+information required extensive web searches, but no w it can 
+be accessed within a single burst of a prompt. Whil e these 
+chatbots save considerable time and enhance learnin g 
+efficiency, they still face several limitations that need further 
+improvement. Educational chatbot systems typically follow a 
+two-stage pipeline: first, they retrieve related so lutions by 
+finding relevant chunks from a knowledge base; second, they 
+use machine comprehension to generate an answer fro m the 
+selected documents. Recently, retrieval-augmented 
+generation (RAG) architectures have attracted significant 
+2025 International Conference on Emerging Technologies in Computing and Communication (ETCC) | 979-8-3315-2476-0/25/$31.00 ©2025 IEEE | DOI: 10.1109/ETCC65847.2025.11108323
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:57:37 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE I.  EXAMPLES OF GROUND TRUTH RETRIEVED SOLUTIONS AND LLM  EXPLANATIONS .  
+LLM  Retrieved Solution  LLM Explanation  
+Phi-3 (c) Here we will check tones. Mr. X speaks neither Japanese nor Chinese. The solution is saying that Mr. X doesn't speak Jap anese OR Chinese, which is the meaning of "neither" and "nor". 
+Phi-3 
+(d) Employing Insecticides to get rid of mosquitoes  
+can have unintended outcomes; yet, the potential 
+adverse effects of utilizing artificially created 
+mosquitoes remain ambiguous. 
+The solution can be explained as using chemicals to kill mosquitoes 
+may have undesired consequences while using genetically modified 
+mosquito's consequences are still unknown. 
+llama3:8b-instruct-q2_K 
+(a, c) At equilibrium n=p for intrinsic semiconduct or 
+Collector region is generally lightly doped then ba se 
+region in B J T. Hence option B is wrong. By 
+increasing temperature above 300K, mobility of 
+electrons decreases hence option (d) is also wrong 
+ 
+At equilibrium, the density of electrons and holes are equal. The 
+correct statement is that the total current is spat ially constant in a 
+two-terminal electronic device in dark under steady-state conditions 
+(c), but option (B) is incorrect because Collector region is generally 
+lightly doped than Base region in a BJT. Also, mobility of electrons 
+decreases with temperature above 300K in Silicon (d). 
+llama3:8b-instruct-q2_K 
+(a) \n[image1] LSB 0, 1, 0,1 For JK flip-flop (FF), 00 
+will not change the state. So, output frequency 
+mathrm{f}_{0}/ 2 because two time change of state 
+and duty cycle \n[image2] Duty cycle =50  
+The JK flip-flop (FF) changes state twice, resultin g in an output 
+frequency of f0/2 and a duty cycle of 50%. 
+ 
+a.  The LLMs generally take into account the semantics of the retrieved solutions while explaining the solutions. 
+attention due to their explainability, scalability,  and 
+adaptability. In a RAG system, a query is initially  encoded 
+into a compact representation, subsequently relevant passages 
+are extracted from an indexed knowledge storage, an d 
+ultimately, these passages are input into the gener ator. The 
+loss function was designed specifically to concurre ntly 
+optimise both the generator and the question encoder. Recent 
+studies have shown that RAG models tend to produce more 
+accurate responses because they rely on real docume nts, 
+thereby mitigating the issue of generative models 
+hallucinating information. 
+Evaluating LLM systems is equally important to ensu re 
+both faithfulness and context relevance. Recent work [7] has 
+employed LLMs to automatically evaluate response qu ality 
+beyond factuality, using prompts that specify the q uality 
+aspect, such as faithfulness or context relevance, and 
+thereafter evaluating the responses according to th e mean 
+likelihood of the produced tokens from an autoregressive LM. 
+Although prompt-based evaluation using a smaller fine-tuned 
+LM (e.g., BART) was previously explored [6], it did not yield 
+a clear advantage. Another approach involves asking  
+ChatGPT to evaluate answer quality by assigning a s core 
+between 0 and 100 or a corresponding rating [20]. While this 
+method can be effective, its success heavily depend s on the 
+prompt design. However, certain researchers employ LLMs to 
+identify the optimal response from a pool of candid ates.[3]. 
+Although this technique is useful for comparing the  
+performance of different LLMs, the sequence of answ er 
+presentation can affect the result. 
+In this paper, we have integrated several existing 
+evaluation techniques and averaged the results using a nested 
+RAG approach (detailed in Section V) to assess the generated 
+explanations. Our work aims to explore the applicat ion of 
+RAG for GATE Q/A explanation tasks. This work represents 
+the first exploration into the application of RAG for explaining 
+GATE questions and solutions. 
+III.  FRAMEWORK ARCHITECTURE  
+We divided the development of our framework into tw o 
+main components: frontend and backend. On the backend, we 
+began by collecting GATE question solution data fro m 
+various sources and parsing it (detailed in Section  IV). After 
+applying several chunking strategies to the raw dat a, we 
+converted it into vector embeddings using our chose n 
+embedding model and stored these embeddings along w ith 
+their associated data in our Weaviate vector database. We also 
+added metadata tags to link images to their corresp onding 
+data, with the images stored separately under the same tags. 
+Once the database was set up, we moved on to 
+benchmarking various LLMs (details in Section IV). After 
+selecting the appropriate model, we used Ollama to run both 
+the LLM and the embedding model locally, which laid a solid 
+foundation for our backend. Figure 1 shows the arch itecture 
+of our framework, outlining the end-to-end flow fro m data 
+preprocessing and embedding generation to model inf erence 
+and frontend interaction. 
+For the frontend, we implemented JWT-based 
+authentication for secure user login and used Mongo DB to 
+store user data, feedback, and chat history. We also integrated 
+an AI note-taking feature that leverages a quantized version of 
+Llama3.8 B-instruct to summarize conversations into concise 
+insights. After completing both frontend and backen d 
+development, we containerized the entire applicatio n using 
+Docker for seamless deployment.  
+With all components connected, the framework works as 
+follows: an authenticated user selects a question f rom a 
+searchable dropdown list on the frontend. The backe nd 
+retrieves the exact solution along with the appropr iate 
+citations and embedded images, and displays it alon g with a 
+follow-up prompt for input. When the user submits a  related 
+query, the Q/A pair, along with any parsed image data, is fed 
+to the LLM as reference material, and an explanatio n is 
+generated according to the prompt template. Table I  shows 
+examples of ground truth retrieved solutions. Finally, the user 
+can summarize the conversation, take notes, and even initiate 
+multiple sessions. 
+IV.  METHODOLOGY  
+To effectively address the challenge of GATE questi on-
+answer explanation, we structured our framework 
+development into two key phases: (1) Data Processin g, 
+Evaluation, and Modeling, and (2) Full Stack Develo pment, 
+System Design, and Deployment. 
+A.  Data Processing, Evaluation, and Modelling 
+For the data processing, evaluation, and modelling phase, 
+we started by identifying reliable sources for GATE question-
+answer explanations, including MadeEasy GATE soluti on 
+[15] and Byju’s GATE solutions [16]. 
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:57:37 UTC from IEEE Xplore.  Restrictions apply. 
+Fig. 1.  System Overview of RAG Framework Architecture 
+After selecting the relevant GATE question-solution  
+PDFs, we explored different data extraction techniq ues and 
+assessed various tools such as Mathpix (paid, with limited free 
+extractions) and open-source alternatives like Noug ht OCR 
+[5], Tesseract OCR, LaTeX OCR, and LLaMA Parse for 
+extracting textual content. To determine the most e ffective 
+extraction method, we evaluated each tool based on key data 
+quality metrics, including coverage, consistency, latency, and 
+relevance, supplemented by human evaluation. 
+During the initial phase, we encountered significan t 
+challenges in extracting complex mathematical equat ions. 
+Simple Python PDF libraries such as pypdf2 and pymu pdf 
+were inadequate for this task. As an alternative, w e 
+experimented with Tesseract OCR and Nought OCR, whi ch 
+showed improved accuracy in extracting mathematical  
+expressions. However, for highly intricate equations, Mathpix 
+proved to be the most reliable solution. Since our dataset 
+included both text and image-based question-answer pairs, we 
+also explored multimodal models like LLaVA to extra ct 
+information from images. We also investigated image parsing 
+techniques, using the Unstructured library to extract data from 
+images, with the goal of providing question and sol ution 
+image context to the LLM. This enabled us to incorp orate 
+visual data into the LLM-driven retrieval chain, en hancing 
+LLM response. 
+Once the data was extracted, we focused on cleaning  and 
+structuring it for efficient chunking, which was a crucial step 
+before integrating it into the retrieval-augmented framework. 
+The next step was to clean and prepare the extracte d data for 
+chunking. We explored various chunking strategies, including 
+semantic chunking, to effectively segment the data into Q&A 
+pairs. We then decided to store the data in JSON fo rmat to 
+ensure efficient ingestion into a vector database. Additionally, 
+we generated metadata tags to categorize questions by type, 
+year, and domain, ensuring a structured and organized dataset. 
+Once data extraction and preparation were complete,  we 
+shifted our focus to data modelling. 
+For the modelling phase, we began by establishing 
+benchmarks to guide our selection of the most suita ble 
+embedding and language models. For embedding models, we 
+considered the Massive Text Embedding Benchmark. In  the 
+case of LLMs, we evaluated several key benchmarks, 
+including: 
+• Chatbot Arena: A crowdsourced, randomized battle 
+platform that aggregates over 70,000 user votes to 
+compute ratings. 
+• MT-Bench: A collection of challenging multi-turn 
+questions, where model responses are graded by GPT-
+4. 
+• MMLU (5-shot): A test intended to assess a model's 
+multitask accuracy over 57 distinct tasks. 
+Additionally, we considered other established benchmarks 
+such as GLUE, SUPERGLUE, HELM, and BIG-Bench to 
+further refine our model selection and ensure optim al 
+performance. After a careful review of these benchmarks and 
+relevant leaderboards, we proceeded to the LLM sele ction 
+process. The primary task was to retrieve math-rela ted 
+documents relevant to a query and provide a follow- up 
+response based on the retrieved content. Key evalua tion 
+parameters included model size (in millions of para meters), 
+memory usage (in GB, fp32), and performance on math -
+related tasks. 
+To inform our decision, we referred to the followin g 
+leaderboards: 
+• LMSYS Chatbot Arena Leaderboard 
+• Open LLM Leaderboard 
+For large models (approximately 7 billion parameters), we 
+compared: 
+• Mistral-7B 
+• Gemma-7B 
+• Llama-3-8B 
+• phi 3.8B 
+• Qwen1.5-7B 
+Based on these comparisons—and after initially 
+considering phi-3.8B—we ultimately chose llama3:8b-
+instruct-q2_K, a quantized version of Llama3 that 
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:57:37 UTC from IEEE Xplore.  Restrictions apply. 
+demonstrated exceptional performance within its par ameter 
+range. For the embedding model, we selected BGE Sma ll, 
+guided by the Massive Text Embedding Benchmark. Here, the 
+focus was on retrieval, with key parameters includi ng model 
+size and memory usage. We consulted the MTEB 
+Leaderboard to identify models that met our use cas e, 
+especially those performing well on datasets such a s 
+CQADupstackRetrieval and 2HotpotQA. 
+Our objective was to achieve a robust latency-performance 
+trade-off suitable for production. We began with a small, 
+lightweight model to establish a baseline, with the  option to 
+upgrade to a larger, more powerful model later if needed. 
+Potential embedding models we considered included: 
+• nomic-ai/nomic-embed-text-v1.5 
+• Snowflake/snowflake-arctic-embed-m 
+• avsolatorio/GIST-Embedding-v0 
+• BAAI/bge-base-en-v1.5 
+• znbang/bge:small-en-v1.5-f32 
+Despite surpassing OpenAI's text-embedding-ada-002 and 
+text-embedding-3-small models on both short and lon g 
+context challenges, the nomic-embed-text model 
+distinguished itself as a large-context text encoder, as noted in 
+the Nomic Blog. Our human evaluations led us to choose BGE 
+Small because of its outstanding performance on our  
+mathematical dataset. 
+To ensure our model choices were optimal, we conducted 
+latency tests to assess real-time performance and e stablished 
+specific data quality evaluation metrics to guarant ee that the 
+processed and retrieved data met the necessary stan dards for 
+accuracy and reliability. 
+Once model selection and testing were finalized, we  
+proceeded to populate our vector database. Initiall y, we 
+employed CromaDB; however, we later transitioned to  
+Weaviate due to its superior Dockerization support.  We 
+containerized the entire application to ensure a consistent and 
+scalable deployment environment. Leveraging the pro cessed 
+data, we built a fully functional Retrieval-Augment ed 
+Generation (RAG) chatbot. During this phase, we encountered 
+version-related issues with Weaviate, which we reso lved by 
+adhering closely to the official documentation. 
+In the subsequent version of our chatbot, we integr ated 
+image retrieval capabilities and added dual functionalities for 
+both exact retrieval and follow-up question answeri ng. This 
+milestone enabled us to shift our focus toward enhancing user 
+experience and refining the overall workflow. The n ew 
+workflow allows users to search for questions from a provided 
+list, displaying the exact solution based on their selection. 
+Additionally, if users have further queries related  to the 
+chosen question, they can input a follow-up questio n in a 
+prompt window, which is then addressed by the langu age 
+model. 
+B.  Full Stack Development, System Design, and 
+Deployment 
+For this part, we began with extensive research int o the 
+best technologies for the frontend, backend, and databases, all 
+aimed at creating an intuitive user experience. For  the initial 
+version of the Exam Chatbot Assistant, we pinpointe d core 
+features such as user authentication, chat history storage, and 
+a feedback mechanism for chatbot responses. The use r 
+interface was designed in Figma to ensure both simplicity and 
+functionality. This design included a login/signup page and a 
+question-answer interface with a sidebar for filtering questions 
+by exam type and year, thereby enhancing navigation  and 
+usability. We selected Next.js for the frontend due  to its 
+server-side rendering capabilities and seamless int egration 
+with the backend. JWT-based authentication provided secure 
+login and efficient session management, while the responsive 
+design catered to users across multiple devices. On  the 
+backend, FastAPI powered our APIs for storing chat history 
+and handling feedback, chosen for its high performa nce and 
+support for asynchronous operations. MongoDB was 
+employed as our primary database because of its fle xibility 
+and scalability. 
+Integrating these technologies presented challenges , 
+including JavaScript errors, API issues, and diffic ulties with 
+Weaviate integration. Overcoming these obstacles re quired 
+extensive debugging, iterative refinements, and thorough code 
+reviews. Docker played a crucial role in streamlini ng the 
+deployment process and enhancing team collaboration . 
+Through persistent effort, we delivered a functiona l version 
+0.1 that met our initial objectives and established  a robust 
+foundation for future improvements. In the next iteration, we 
+enhanced the user experience further by adding features such 
+as a searchable dropdown for filtering questions by exam type 
+and year, which made navigation quicker and more in tuitive. 
+We also implemented session management to allow use rs to 
+save and revisit conversations and introduced a not e-taking 
+feature that leverages an AI model (Llama3:8 B-inst ruct-
+q2_K) to summarize conversations into concise insig hts. To 
+support these enhancements, session data, notes, an d Q&A 
+interactions were stored in MongoDB. Additionally, data 
+previously stored in JSON files was migrated to Mon goDB, 
+improving both security and accessibility.  
+V.  EVALUATION AND RESULTS  
+A.  Evaluation Strategies 
+We deployed our framework on a local machine. When a 
+user submits a question, the system first retrieves the relevant 
+context—essentially, the exact solution—and then uses  that 
+information to generate a follow-up response addres sing the 
+user’s query regarding the solution. The quality of  the 
+responses is assessed based on three key criteria. 
+Faithfulness:  This criterion ensures that the answers are 
+firmly grounded in the provided context. By using t he exact 
+solution as a reliable reference, we minimize hallu cinations 
+and ensure that the retrieved context substantiates  the 
+explanation generated by the LLM. 
+Answer Relevance:  This aspect verifies that the generated 
+explanation directly addresses the follow-up prompt or query 
+related to the original solution. To assess answer relevance, 
+we employed techniques that use LLMs as evaluators. For our 
+initial setup, we constructed LLM chains using Lang graph, 
+and all explanations were evaluated using Llama 3.8 B, 
+available through Ollama. Table II summarizes the 
+faithfulness and answer relevance scores achieved by different 
+LLMs. 
+ 
+ 
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:57:37 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE II.  USING THE GATE  QUESTION ANSWER DATASET , COMPARE 
+FAITHFULNESS AND ANSWER RELEVANCE , INCORPORATING FEEDBACK FROM 
+HUMAN ANNOTATORS . 
+LLM Faith. Ans. Rel. 
+llama3:8b-instruct-q2_K 0.94 0.83 
+Phi-3  0.87 0.78 
+GPT-3.5-turbo 0.56 0.49 
+ 
+Automated Evaluation Setup:  To measure both 
+faithfulness and answer relevance in a fully automa ted 
+manner, we implemented the following procedures: 
+Our first evaluation strategy asses the explanation on two 
+criteria faithfulness and answer relevance [11]. 
+•  For faithfulness , if all of the assertions in a response, 
+q, can be logically inferred from its grounded context, 
+c(q), then we assume that q is faithful to c(q). The final 
+faithfulness score, F, is calculated as follows:  
+F = 
+||
+|| 
+where |V| is the number of statements supported by the 
+LLM and |S| is the total number of statements. We 
+employ an LLM to determine whether the explanation 
+is supported by the context. 
+•  For answer relevance , we generate n potential 
+questions based on the generated explanation using 
+LLMs and then calculate a similarity score between 
+these generated questions and the original question. 
+Our final evaluation strategy (nested RAG) involved  
+splitting our dataset into an 80-20 ratio. We manua lly 
+annotated 20% of the data for both faithfulness and  answer 
+relevance. These annotations, along with the corres ponding 
+explanation, original question, and follow-up promp t, were 
+then used as references for the LLM to evaluate the remaining 
+80% of the data.  More precisely, we have used another RAG 
+to cross-validate the results of another RAG system , and the 
+final evaluation scores represent the average of both strategies. 
+Furthermore, we used quantitative measures like Top -k 
+retrieval accuracy, F1 score, and Exact Match (EM).  The F1 
+score records word overlap regardless of order, whe reas the 
+EM score quantifies the precise word-level match between the 
+expected and actual responses. Table III presents the average 
+performance of various LLM and embedding model 
+combinations based on Faithfulness, F1, and EM scores.  
+TABLE III.  PERFORMANCE OF THE VARIOUS RAG  MODELS THAT WE 
+TESTED IN  
+LLM Embedding Model EM F1 
+Phi-3 bge:small-en-v1.5-f32 0.83 24.81 
+Phi-3 nomic-embed-text:latest 0.62 23.12 
+llama3:8b-
+instruct-q2_K bge:small-en-v1.5-f32 0.07 15.33 
+llama3:8b-
+instruct-q2_K nomic-embed-text:latest 0.14 14.83 
+ 
+In addition, we performed several automated latency  
+measurement tests to compare the performance of var ious 
+LLM and embedding model combinations, ensuring that  we 
+identify the configuration that delivers the best o verall 
+performance. 
+TABLE IV.  SHOWS END -TO -END LATENCY MEASUREMENT TEST 
+AVERAGE TIME (IN SECONDS ) LOGS . 
+LLM Embedding 
+Model 
+Solution 
+Retrieval 
+Explanation 
+Generation 
+Phi-3 
+bge:small-en-
+v1.5-f32 0.91 4.61 
+Phi-3 nomic-embed-text:latest 1.11 7.18 
+llama3:8b-
+instruct-q2_K 
+bge:small-en-
+v1.5-f32 0.97 9.35 
+llama3:8b-
+instruct-q2_K 
+nomic-embed-
+text:latest 1.38 11.01 
+B.  Results 
+Our experimental results indicate that, in terms of latency, 
+the LLM Phi-3 performs faster, while in terms of co ntext 
+relevance and faithfulness, the quantized version o f 
+Llama3.8B demonstrates a clear advantage. Table IV lists the 
+solution retrieval and generation latencies for eac h tested 
+configuration. Although Llama3.8B incurs a higher inference 
+time, it generates significantly more context-aware responses, 
+which is sufficiently convincing for us to choose t he LLM 
+Llama3.8B quantized version together with BGE:small -en-
+v1.5-f32 as the embedding model for the final versi on of our 
+framework.  
+VI.  CONCLUSION  
+In this paper, we proposed a novel application of RAG and 
+assessed its performance in explaining GATE questio n 
+solutions. We provided a comprehensive discussion o f the 
+framework pipeline to encourage future research. We  
+presented several benchmarks and identified configu rations 
+that yield low latency and high context relevance, and 
+discussed our approach to improving the overall use r 
+experience. Our findings underscore the importance of 
+selecting the appropriate models to suit our task. Furthermore, 
+we explored various evaluation strategies using LLMs as both 
+judges and juries. Future work could involve incorp orating 
+agents using LangGraph in the retrieval process, wh ich may 
+significantly enhance the overall performance of th e 
+framework. We recommend for the exploration of addi tional 
+strategies that may enhance the overall efficiency of RAG.  

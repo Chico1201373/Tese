@@ -1,0 +1,1019 @@
+Large Language Models for Radiology QA:
+Benchmarking and Error Taxonomy on RadQA
+Alaleh Hamidi
+McWilliams School of Biomedical Informatics
+The University of Texas Health Science Center at Houston
+Houston, USA
+alaleh.hamidi@uth.tmc.edu
+Kirk Roberts
+McWilliams School of Biomedical Informatics
+The University of Texas Health Science Center at Houston
+Houston, USA
+kirk.roberts@uth.tmc.edu
+Abstract—Radiology reports are a critical source of clinical
+information but are often lengthy, variable in structure, and dif-
+ficult for non-radiologists to navigate. Question answering (QA)
+systems can help clinicians rapidly retrieve relevant findings, yet
+existing evaluations of extractive QA on radiology reports rely
+heavily on aggregate metrics such as exact match (EM) and
+F1, which obscure important failure modes. In this work, we
+benchmark modern open large language models (LLMs), such
+as LLaMA 3.1-8B, LLaMA 3.2-3B, and Mistral-Small-22B, on
+the RadQA dataset under zero-shot, few-shot, and fine-tuned
+settings. We report performance using EM, F1, and a sentence-
+level measure (SM), and introduce a structured error taxonomy
+that disaggregates incorrect predictions into eight categories,
+including hallucination, superset, subset, and abstention errors.
+Our results show that fine-tuning substantially outperforms in-
+context prompting, with LLaMA 3.1-8B achieving 61% EM, 77%
+F1, and 85% SM, surpassing previously reported baselines on
+RadQA. The taxonomy reveals that fine-tuning not only raises
+accuracy but also eliminates hallucinations and reduces false
+positive and false negative abstentions, concentrating residual
+errors in boundary-level categories such as superset and subset.
+These findings demonstrate the value of combining standard met-
+rics with taxonomy-driven analysis to better understand model
+behavior and highlight future directions, including reasoning-
+oriented LLMs and hybrid extractive–generative approaches, for
+building reliable clinical QA systems.
+Index Terms —large language model, question answering, ra-
+diology, EHR, error taxonomy
+I. I NTRODUCTION
+Radiology studies inform decisions that affect diagnosis,
+treatment planning, and patient outcomes. Each year, millions
+of imaging studies are conducted, and their findings are
+documented in narrative radiology reports. These reports serve
+as the primary means of communication between radiologists
+and other clinicians. However, their length, variable structure,
+and use of highly specialized terminology often make it
+difficult for non-radiologist physicians to quickly locate the
+information most relevant to their patients. As a result, critical
+insights may be overlooked [1]–[4] or take longer to retrieve
+[1], [2], slowing clinical workflows [1]–[3] and increasing
+cognitive burden on healthcare providers [1], [2]. Recent
+advances in natural language processing (NLP) have created
+new opportunities to support clinicians in navigating unstruc-
+tured electronic health records (EHRs), including radiology
+reports [5]–[10]. Among these methods, question answering
+has emerged as a particularly intuitive approach: it allows a
+clinician to pose a targeted question and receive a precise
+answer. Such a system could help physicians quickly confirm
+or rule out findings, improving efficiency and potentially
+enhancing patient care. To facilitate research in this area,
+Soni et al. [11] introduced the RadQA dataset, a collection of
+3,074 question–answer pairs (6,148 including multiple spans
+for the same answer) grounded in radiology reports. Uniquely,
+RadQA’s questions were crafted from the clinical referral
+indications of the exams – i.e. the actual information needs
+of physicians who ordered the imaging. This design ensured
+that the questions target real-world clinical queries (e.g. “Is
+there evidence of pulmonary embolism?”), and it organically
+produced unanswerable questions in cases where the report
+did not address the query. Each question is answered with
+a specific span from the radiologist’s Findings or Impression
+section, providing a concise yet complete answer phrase (often
+more than a single entity) that can span multiple lines of text.
+By framing radiology report understanding as an extractive
+QA task, RadQA directly links to clinical decision-making: a
+robust QA system could help clinicians rapidly retrieve key
+findings (or determine that the report does not contain an
+answer), thereby improving workflow and patient care.
+Extractive QA in the radiology domain poses considerable
+challenges and holds significant clinical importance. Radi-
+ology reports are a form of unstructured EHR data known
+for their diverse, semantically complex content. They contain
+domain-specific language (e.g. medical abbreviations, anatom-
+ical terms) and often require expert interpretation. Questions
+about a report frequently demand integration of information
+across sentences and the application of medical knowledge or
+reasoning beyond the text itself. In an analysis of RadQA,
+for example, a large majority of the questions were found to
+require substantial medical background knowledge to answer.
+This makes the task challenging even for advanced NLP
+models. Moreover, the inclusion of unanswerable questions
+introduces a critical real-world scenario: a system must recog-
+nize when a report does not contain the requested information.
+Handling such cases correctly is as important as finding
+answers, since producing an unwarranted answer can mislead
+clinicians. Notably, RadQA was the first clinical QA dataset to
+explicitly include unanswerable questions – a feature inspired
+184
+2026 IEEE 14th International Conference on Healthcare Informatics (ICHI)
+2575-2634/26/$31.00 ©2026 IEEE
+DOI 10.1109/ICHI69079.2026.00034
+2026 IEEE 14th International Conference on Healthcare Informatics (ICHI) | 979-8-3315-6426-1/26/$31.00 ©2026 IEEE | DOI: 10.1109/ICHI69079.2026.00034
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:14:23 UTC from IEEE Xplore.  Restrictions apply. 
+by open-domain QA benchmarks that stressed the importance
+of “knowing what you don’t know”. A QA model must
+therefore decide when to abstain from answering in addition
+to extracting correct answer spans when they do exist. These
+characteristics (specialized language, cross-sentence reason-
+ing, and the presence of questions with no answer) underline
+both the difficulty and the clinical relevance of the extractive
+QA task in radiology.
+Despite the clear need and the introduction of RadQA as
+a benchmark, there remain significant gaps in the literature.
+Initial evaluations on RadQA reported only moderate success:
+the best baseline model (a transformer fine-tuned on MIMIC-
+III radiology reports) achieved an F1 score of 63.6%, while
+expert human performance was over 90.0% [11]. This large
+performance gap highlights the difficulty of the task and the
+inadequacy of early methods. Subsequent research has im-
+proved performance by leveraging more powerful and domain-
+tuned models. For instance, Lehman et al. [12] conduct a
+comprehensive study of foundation models for radiology QA
+and show that a fine-tuned BioClinicalRoBERTa model can
+reach roughly 75.0% F1 on RadQA, representing the state-
+of-the-art for this dataset. This result reinforces a trend:
+domain-specific encoder models (e.g. RoBERTa-based) tend
+to outperform generic large language models (LLMs) on
+extractive clinical QA tasks [13]. However, even with 75%
+F1, the machine performance still lags notably behind human-
+level comprehension, and the RadQA challenge is far from
+solved. Moreover, many of these efforts have focused on
+traditional fine-tuning of encoder models, without exploring
+the capabilities of the latest generative LLMs in this domain.
+There is a lack of systematic benchmarking of how modern
+large language models – such as the recent LLaMA and
+Mistral models – perform on radiology QA, especially under
+zero-shot or few-shot prompting conditions. It remains an open
+question whether advanced LLMs can close the gap on a task
+that demands both domain knowledge and precise extraction.
+Another under-addressed aspect of prior work is the han-
+dling of unanswerable questions and the analysis of model
+failure modes. Most existing studies report only aggregate
+metrics like EM and F1 to summarize QA performance. While
+these metrics are standard and useful, they do not tell the
+full story of how models fail. Indeed, recent evaluations have
+noted that token overlap metrics like F1, though reasonable
+for span-based QA, may not be suitable for all extractive QA
+scenarios and answer types [14]. A model’s answer can be
+wrong in different ways: in some cases, the model produces an
+answer where the true answer was “no answer”, or, conversely,
+fails to produce any answer when one was present. It might
+include too much irrelevant text beyond the gold answer (token
+superset error), omit part of the correct answer (token subset
+error), or overlap only partially with the gold span (token
+overlap error). Without a detailed analysis, these failure modes
+are conflated into the same drop in EM/F1. Furthermore, the
+challenge of unanswerable questions is often glossed over
+– many models will attempt to answer every question, a
+tendency that was explicitly addressed in open-domain QA by
+introducing unanswerable questions in datasets like SQuAD
+2.0 [15], [16], but in the clinical domain this behavior has
+not been thoroughly analyzed. To build reliable radiology QA
+systems, we need to understand not just how often models
+are wrong, but how they are wrong. In particular, identi-
+fying whether errors come from inability to locate relevant
+facts, misunderstanding the question, or not handling the “no-
+answer” case can guide more targeted improvements.
+In this paper, we aim to advance the state of radiology report
+QA by evaluating a range of modern LLMs on the RadQA
+dataset and by performing a fine-grained error analysis of their
+performance. Specifically, our contributions are as follows:
+1)Comprehensive Evaluation of Diverse LLMs : We
+conduct an extensive evaluation of several state-of-the-
+art large language models – including LLaMA 3.1-
+8B, LLaMA 3.2-3B, and Mistral-small-22B on RadQA.
+These models span different sizes and architectures,
+allowing us to assess the impact of model scale and
+design. We evaluate each model under both zero-shot
+and few-shot prompting conditions, as well as in a fine-
+tuned setting where the model is specialized on the
+RadQA training set. This comprehensive experiment is,
+to our knowledge, the first to benchmark the newest
+generation of open LLMs on radiology QA, and it
+enables direct comparisons between in-context learning
+and fine-tuning approaches.
+2)Standard Metric Results and Unanswerable Question
+Handling: We report model performance using standard
+QA metrics (EM and token-level F1) on both answerable
+and unanswerable questions. This includes a rigorous
+comparison to prior published results on RadQA. In
+particular, we examine how well these models handle
+questions with no answer. By measuring performance
+on unanswerable cases separately (e.g. the frequency
+of correct “no answer” predictions), we shed light on
+the models’ ability (or inability) to abstain when appro-
+priate. This analysis addresses a gap in the literature,
+as previous studies have rarely isolated performance
+on unanswerable questions or explored strategies to
+improve it.
+3)Structured Error Analysis with a Detailed Taxon-
+omy: We introduce a novel error taxonomy to categorize
+the types of mistakes models make on this extractive QA
+task. Each non-Exact-Match prediction is assigned ex-
+actly one of seven error types; Gold No-Answer (model
+predicts an answer when it should not), Prediction No-
+Answer (the ground-truth has an answer span, but the
+model gave no answer), Hallucination (prediction is not
+in the clinical note.), No Overlap (the prediction has no
+overlap with the gold answer at all), Token Superset
+(the prediction strictly contains the gold answer text
+plus additional tokens), Token Subset (the prediction
+is contained inside the gold answer, but incomplete),
+or Token Overlap (the prediction intersects with the
+gold answer but neither is a subset of the other). By
+185
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:14:23 UTC from IEEE Xplore.  Restrictions apply. 
+systematically classifying errors in this manner, we gain
+fine-grained insights beyond the aggregate F1 score. For
+example, we can determine if a model commonly adds
+irrelevant information to an otherwise correct answer
+(superset errors) or if it frequently misses relevant details
+(subset errors), etc. This kind of analysis helps reveal
+predominant failure modes and highlights specific areas
+for improvement (such as better distinguishing relevant
+from irrelevant text, or improving recall of all critical
+findings in an answer). We also include a sentence match
+accuracy (how often the predicted answer is at least
+in the same sentence as the gold answer). This allows
+us to isolate near-misses (superset, subset, overlap, and
+no overlap but in the same sentence) from potentially
+more egregious incorrect answers. To our knowledge,
+this is the first work to present such an organized error
+analysis for radiology report QA. It provides a deeper
+understanding of why models fail, complementing the
+traditional evaluation of how often they fail.
+II. R ELATED WORK
+The task of clinical QA has received increasing attention in
+biomedical NLP due to its potential to improve access to in-
+formation in unstructured EHRs. Among various subdomains,
+radiology report comprehension has emerged as a critical focus
+area because of the high density of clinically relevant infor-
+mation and the complexity of interpreting narrative radiology
+findings. While several QA datasets have been developed in
+the clinical domain, such as emrQA [17] and PubMedQA
+[18], the RadQA dataset stands out for its emphasis on real-
+world, patient-specific questions derived from radiology report
+referral indications and its explicit inclusion of unanswerable
+questions.
+A. BERT-based Clinical QA Models on RadQA:
+Early work on RadQA by Soni et al. [11] benchmarked
+a range of transformer-based models fine-tuned on clinical
+and biomedical corpora, including ClinicalBERT [19] and
+BioBERT [20]. These models achieved moderate performance,
+with Bio+Discharge Summary BERT reaching an F1 score of
+63.6%, highlighting the difficulty of the extractive QA task
+in this domain. ClinicalBERT, though pretrained on discharge
+summaries, struggled to generalize well to radiology language,
+which is often more concise and fragmented.
+Subsequent work by Lehman et al. [12] explored the use of
+larger and more specialized encoder-based models, including
+BioClinicalRoBERTa and ClinicalLongformer, showing that
+domain-specific pretraining combined with extended input
+contexts can significantly improve extractive QA performance.
+In particular, a Longformer model fine-tuned on RadQA
+achieved a new state-of-the-art F1 score of 75.0%, demon-
+strating the value of extended context modeling and domain
+adaptation. Despite these gains, these models still rely heavily
+on large-scale supervision and are limited by their fixed
+context size and architecture constraints.
+B. Large Language Models for Clinical Question Answering:
+The advent of large language models (LLMs) such as
+GPT-3 [21], GPT-4 [22], PaLM [23], and LLaMA [24] has
+transformed open-domain question answering. These models,
+with billions of parameters and broad pretraining, demon-
+strate strong zero- and few-shot reasoning capabilities across
+tasks. However, their applicability to domain-specific extrac-
+tive QA—particularly in radiology—remains underexplored.
+In many cases, LLMs exhibit hallucinations or overly general
+responses when applied to structured medical data, especially
+when the answer must be tied precisely to a span within a
+source document.
+Lehman et al. [12] conducted a comprehensive study eval-
+uating several foundation models—including GPT-3, GPT-4,
+and ChatGPT—on clinical QA tasks. Their findings show
+that while general-purpose LLMs perform surprisingly well
+in low-data settings, smaller, fine-tuned clinical models can
+still outperform them on extractive QA benchmarks like
+RadQA. For instance, they report that fine-tuned domain
+models consistently deliver more precise span predictions and
+handle answerability with greater reliability, even as GPT-
+based models struggle with unanswerable questions or over-
+generate responses.
+While models like Med-PaLM [25] have pushed the bound-
+aries of generative QA in medicine, there is a notable lack
+of systematic evaluation of the latest open models (such
+as LLaMA 3.1/3.2, and Mistral-small) on extractive clinical
+datasets like RadQA. Moreover, most prior studies have not
+examined how these LLMs perform under different prompting
+strategies (zero-shot vs. few-shot) or compared their effective-
+ness to fine-tuned variants. This gap motivates our present
+study.
+C. Evaluation and Error Analysis in Extractive QA:
+Evaluation in clinical QA has primarily relied on traditional
+metrics such as EM and token-level F1 [15]. While useful,
+these metrics can obscure the nuanced ways in which a model
+may succeed or fail. For example, a model might provide a
+partial but clinically relevant answer and still be penalized as
+incorrect. Few works have gone beyond aggregate metrics to
+conduct detailed error analysis in extractive QA tasks.
+In the context of RadQA, annotators have previously used
+qualitative labels such as “missed relevant info” or “insuffi-
+cient specificity” to categorize inter-annotator disagreements
+[11]. However, no study to date has applied a structured error
+taxonomy to model predictions. This leaves open the question
+of how LLMs fail on extractive clinical QA, especially when
+faced with unanswerable questions or ambiguous spans. Cat-
+egorizing these errors (such as identifying when a predicted
+span is a token superset, token subset, contains no overlap with
+the reference, or is even in the right “neighborhood” of the
+correct answer) can yield deeper insights into model behavior
+and reliability.
+186
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:14:23 UTC from IEEE Xplore.  Restrictions apply. 
+III. M ETHODS
+A. Dataset
+RadQA [11] consists of 1,009 radiology reports paired
+with 6,148 clinically motivated questions and span-based gold
+answers. Each question is derived from the clinical referral
+indication associated with the imaging study and is answered,
+when possible, by a contiguous span from the report text.
+Importantly, a portion of the questions (1,754, 28.5%) are
+explicitly labeled as unanswerable, meaning the radiology
+report contains no information relevant to the physician’s
+query. This feature reflects real-world clinical practice, where
+a clinician’s information need is not always addressed in the
+radiologist’s interpretation.
+In addition to overall dataset size, we further characterize
+RadQA in terms of answerability and answer span length, as
+these properties directly influence task difficulty and model
+behavior. For answerable questions, gold answer spans vary
+substantially in length, ranging from short atomic phrases to
+multi-clause clinical descriptions. The average answer span
+length is 16.2 tokens, with a median of 7 tokens, indicating
+a skewed distribution with a long tail of longer spans. By
+definition, unanswerable questions have an answer length of
+zero. This variability highlights the dual challenge of correctly
+determining answerability while also extracting precise bound-
+aries for answers of heterogeneous length.
+For all experiments, we followed the official RadQA split:
+the training set was used for fine-tuning, and the test set was
+held out for evaluation. The same test set was used consistently
+across the zero-shot, few-shot (5-, 10-, 15-shot), and fine-tuned
+model evaluations to ensure comparability of results.
+In the few-shot prompting setting, we manually curated a set
+of 15 representative examples from the training split (Table I)
+to serve as in-context demonstrations. Selection was guided by
+coverage across answerability (both answerable and unanswer-
+able cases), span length (short atomic spans and longer clause-
+level answers), and clinical content (device/line placement,
+interval change, negative findings, anatomy variety).
+To enable controlled comparisons across different few-shot
+sizes, we used a nested selection protocol: the 5-shot subset is
+contained within the 10-shot subset, which is contained within
+the 15-shot subset. This approach allows us to isolate the
+incremental effect of adding demonstrations, while keeping
+the composition of smaller sets consistent.
+We did not apply additional preprocessing or filtering to
+the dataset. Each report was presented to the models in its
+entirety, including Findings, Impression, and any additional
+sections. This design preserved all potentially relevant context
+for answering the question and mirrored the natural input
+length encountered in clinical practice.
+B. Task F ormulation
+We frame the problem as an extractive QA task over
+radiology reports. Given the full text of a clinical note R
+and a clinician-posed question Q, the goal is to predict an
+answer span A that is a contiguous sequence of tokens from
+R that fully answers Q. If no such span exists in the report, the
+correct output is an empty string, indicating that the question
+is unanswerable based on the report’s content.
+A ⊆ R ∨ A = ∅. (1)
+During inference, we instructed the LLMs to return exactly
+the string “None” when they determined that no answer
+was present. For evaluation purposes, these “None” predic-
+tions were mapped to empty strings so they matched the
+gold-standard representation of unanswerable questions in the
+RadQA dataset.
+Our evaluation explicitly considers both answerable and
+unanswerable cases. When both the gold answer and the
+model prediction are empty, this is treated as an Exact Match
+category, since the model correctly abstained from answering.
+In contrast, misclassified unanswerable cases fall into two error
+categories in our taxonomy (Section III-D):
+• Gold No Answer (GNA): the gold answer is empty but
+the model predicts a span.
+• Pred No Answer (PNA): the gold answer contains a
+span but the model outputs no answer.
+This design ensures that models are assessed not only on
+their ability to extract correct spans when an answer exists but
+also on their ability to abstain appropriately when an answer
+is absent.
+C. Model Setup
+We evaluated three LLMs: LLaMA 3.1-8B, LLaMA 3.2-
+3B, and Mistral-Small-22B. All evaluated models are general-
+purpose open LLMs rather than radiology- or clinically spe-
+cialized language models. This choice allows us to assess how
+far broadly trained, reproducible models can be adapted to
+extractive radiology QA through prompting and task-specific
+fine-tuning, independent of domain-specific pretraining. We
+used the base variants rather than instruction-tuned (chat)
+versions, in order to directly assess their raw extractive ca-
+pabilities. Each model was evaluated under three paradigms:
+• Zero-shot prompting: the model is given only the task
+description and the test instance without any examples.
+• Few-shot prompting: the model was given k = 5, 10, 15
+representative examples from the RadQA training set.
+• Fine-tuning: the models were trained on the RadQA
+training set using LoRA applied to both attention and
+feed-forward layers.
+For inference, we used the Ollama framework [26], which
+provided a standardized interface for model loading and execu-
+tion. This allowed us to run zero-shot and few-shot prompting
+experiments reproducibly across all model families.
+For fine-tuning, we employed the Unsloth [27] and Hugging
+Face Transformers [28] libraries. Hugging Face tokenizers
+were used to ensure consistent text preprocessing, while Un-
+sloth enabled efficient parameter-efficient fine-tuning (LoRA)
+with 4-bit quantization. This hybrid setup ensured both re-
+source efficiency and comparability across models.
+187
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:14:23 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE I
+TEN FEW -SHOT EXAMPLES , CHOSEN FROM RADQA TRAINING SET AND USED IN THE PROMPTING SETUP .
+User Message Assistant Message
+Clinical Note: REASON FOR EXAMINATION: Evaluation of patient with severe acute mitral
+regurgitation, intra-aortic balloon pump, interval change and line placement evaluation.
+Portable AP chest radiograph was compared to prior study obtained at 5:56 p.m. on [**2154-3-
+19**].
+The Swan-Ganz catheter inserted through the femoral approach terminates at the level of right
+main pulmonary artery just below the aortic arch, unchanged in position. No intra-aortic balloon
+pump demonstrated. The pacemaker leads terminate in right atrium and right ventricle. The mild
+cardiomegaly predominantly with enlargement of the left ventricle is unchanged. There is mild
+volume overload but no overt pulmonary edema. Small bilateral pleural effusions are most likely
+present and there is no evidence of pneumothorax.
+Question:Where do we see the swan line positioned?
+Terminates at the level of right main
+pulmonary artery just below the aortic
+arch
+Clinical Note: DATE OF SERVICE: [**2124-6-10**] at 17:25 hours.
+HISTORY: Constipation x3 days with elevated white blood cell count.
+COMPARISON: None.
+FINDINGS: There is persistent blunting of the right costophrenic angle with a significant non-
+dependent meniscus which may indicate a loculated effusion or chronic scarring. No free air is
+detected in the abdomen. Scattered air-fluid levels are noted. Overall, there is a gentle paucity of
+bowel gas. The air-fluid levels noted are most likely colonic. Despite the given history, no significant
+fecal loading is identified with the exception at the rectal vault. No organomegaly or ascites detected.
+There is significant multilevel degenerative change throughout the lumbar spine with a dextroconcave
+curvature present.
+Question:Can we see any excess air in the abdominal cavity?
+No free air is detected in the abdomen
+Clinical Note: REASON FOR EXAMINATION: Follow-up of the patient intubated due to sepsis.
+Portable AP chest radiograph was compared to two studies obtained on [**12-18**], [**2129**].
+The ET tube tip is approximately 5 cm above the carina. The NG tube tip has been advanced
+in the interim giving the absence of the sidehole above the diaphragm. The cardiomediastinal
+silhouette is stable. Extensive opacities within the lungs are present. Interval development of vascular
+engorgement is seen that might be consistent with volume overload/mild pulmonary edema. Note is
+made that the left costophrenic angle was excluded from the field of view.
+Question:How is the progression of pneumonia on the chest x ray?
+None
+Clinical Note: HISTORY: Followup pleural effusion.
+FINDINGS: In comparison with study of [**6-11**], there is probably some increase in the initial
+amount of right pleural effusion seen layering out along the right lateral chest wall on the prior
+study. Mild opacification at the left base is consistent with a small effusion. Bibasilar atelectasis
+is seen. Cardiac silhouette remains enlarged. Coarse interstitial markings could reflect chronic lung
+disease, elevated pulmonary venous pressure, or both.
+Question:Did the plueral effusion reduce in size?
+Some increase in the initial amount of
+right pleural effusion
+Clinical Note: HISTORY: Trauma. Assess for fracture.
+AP AND LATERAL THORACIC SPINE: Portable technique. Upper thorax is obscured on the
+lateral views. The vertebral body heights and disc spaces appear preserved without evidence of
+fracture or malalignment. Please see chest x- ray reports for other intrathoracic findings.
+AP AND LATERAL LUMBAR SPINE: Portable technique. The vertebral body height and disc
+spaces appear preserved without evidence of fracture or malalignment. The visualized pelvis appears
+within normal limits.
+Question:Are there any fractures of the lumbar spine?
+Without evidence of fracture
+Clinical Note: IMPRESSION:
+Unchanged left basal atelectasis; however, concomitant consolidation cannot be ruled out. Persistently
+elevated right hemidiaphragm. No new acute cardiopulmonary process.
+Question:Was there any change over the interval in left facial tumor?
+None
+Clinical Note: PFI REPORT
+PFI: Normal bowel gas pattern. No evidence of free air.
+Question:How is the area under the diaphragm?
+Normal bowel gas pattern. No evidence
+of free air
+Clinical Note: HISTORY: Trauma. Assess for fracture.
+AP AND LATERAL THORACIC SPINE: Portable technique. Upper thorax is obscured on the
+lateral views. The vertebral body heights and disc spaces appear preserved without evidence of
+fracture or malalignment. Please see chest x- ray reports for other intrathoracic findings.
+AP AND LATERAL LUMBAR SPINE: Portable technique. The vertebral body height and disc
+spaces appear preserved without evidence of fracture or malalignment. The visualized pelvis appears
+within normal limits.
+Question:How are the thoracic vertebrae?
+Vertebral body heights and disc spaces
+appear preserved without evidence of
+fracture or malalignment
+Clinical Note: PREOP CHEST ON [**12-13**]
+HISTORY: Pre-op A VR. Evaluate for effusion.
+Question:How is the pericardium area?
+None
+Clinical Note: IMPRESSION:
+Unchanged left basal atelectasis; however, concomitant consolidation cannot be ruled out. Persistently
+elevated right hemidiaphragm. No new acute cardiopulmonary process.
+Question:Is the chest x ray showing any interim abnormalities?
+Unchanged left basal atelectasis; how-
+ever, concomitant consolidation cannot
+be ruled out. Persistently elevated right
+hemidiaphragm
+188
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:14:23 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE II
+SYSTEM ,USER , AND ASSISTANT MESSAGES IN A k-SHOT PROMPT .
+System message “You are a highly knowledgeable medical doc-
+tor and an expert Natural Language Processing
+(NLP) system. You are provided with a Clinical
+Note and a Question. Your task is to extract
+only the exact portion of the Clinical Note that
+contains the answer to the Question. If the an-
+swer is not present in the Clinical Note, respond
+with ’None’. Do not explain your answer. Do not
+include any additional text—just output the span
+or ’None’.”
+User message
+(Example 1)
+Clinical Note:[note of Ex 1]
+Question:[question of Ex 1]
+Assistant message
+(Example 1)
+[gold answer of Ex 1]
+...
+User message
+(Examplek )
+Clinical Note:[note of Ex k]
+Question: [question of Ex k]
+Assistant message
+(Examplek )
+[gold answer of Ex k]
+User message
+(Test Example)
+Clinical Note:[note from test set]
+Question:[question from test set]
+Experiments were conducted on a server equipped with dual
+AMD EPYC 7352 CPUs (96 threads total) and 8 NVIDIA
+A100-SXM4 GPUs (80 GB each), running CUDA 13.0.
+All experiments used deterministic generation settings (tem-
+perature = 0.0). For fine-tuning, each model configuration was
+trained using a single run with a fixed random seed (seed =
+3407), and no averaging across multiple runs was performed.
+The maximum generation length was set to accommodate
+the longest possible span in the dataset. Model outputs were
+post-processed by trimming leading/trailing whitespace and
+replacing “None” with an empty string to match the gold
+annotation format.
+Prompting Strategy:In the zero- and few-shot settings, a
+fixed system instruction specified the task, followed by either
+several example QA pairs (few-shot) or no examples (zero-
+shot).
+In the few-shot condition, the system prompt was followed
+byk = 5, 10, 15 manually selected examples from the RadQA
+training set. These examples were chosen to be representative
+and comprehensive, covering a range of question types, answer
+lengths, and answerability conditions. As Table II shows, each
+example consisted of:
+•User message: containing the full clinical note (or the
+relevant Findings/Impression sections) and the question.
+•Assistant message: containing only the gold-standard
+answer span, or “None” for unanswerable cases.
+Ten examples are shown in Table I. The final user message in
+the prompt sequence contained the clinical note and question
+of the evaluation instance, whose answer was to be predicted.
+In the zero-shot condition, only the system prompt was
+provided, immediately followed by the evaluation instance’s
+clinical note and question, without any in-context examples.
+D. Evaluation
+Model outputs were normalized and evaluated using the
+official SQuAD v2.0 evaluation protocol, which extends the
+original SQuAD metric formulation [15] to explicitly support
+unanswerable questions [16]. We used the publicly released
+evaluation script ( evaluate-v2.0.py) 1 provided by the
+SQuAD authors, which applies standard text normalization
+including lowercasing, punctuation removal, article removal,
+and whitespace normalization. EM and token-level F1 were
+computed following this protocol, with correct abstentions
+(both gold and prediction empty) treated as exact matches.
+The normalization steps applied were:
+1) Lowercasing all text.
+2) Removing punctuation characters.
+3) Removing the English articles “a”, “an”, and “the”.
+4) Collapsing multiple spaces into a single space.
+Unanswerable questions are represented in the gold data as
+an empty string. To ensure consistency, any model output of
+“None” was replaced with “” prior to evaluation. This aligns
+with the gold standard for unanswerable cases, ensuring that
+correct abstentions are rewarded.
+Evaluation Metrics: We evaluated models using three
+complementary metrics:
+• EM: The percentage of predictions that exactly match a
+gold answer based on SQuAD matching policy.
+• Token-level F1: The harmonic mean of precision and
+recall computed over tokens in the normalized prediction
+and gold answer. Both EM and F1 are computed per
+question and micro-averaged over the dataset.
+• SM: A sentence-level measure of alignment between gold
+and predicted spans. Each clinical note was segmented
+into sentences and each gold/pred span mapped to the
+set of sentence indices it covered. SM is defined as:
+1) If both gold and prediction are empty:
+SM = 100% (2)
+2) Else:
+SM = |G ∩ P |max(|G|,| P| ) ×100 ,(3)
+whereG is the gold sentence set and P the predicted sentence
+set. One could imagine a QA system that returns the sentences
+containing the answer instead of the answer span itself. SM
+then measures the accuracy of such (relaxed) approach. It also
+helps to identify if the LLM is “close” to the right answer
+within the document.
+To account for minor lexical variation, we introduced a
+token-difference threshold when assigning predictions to
+sentences. If the token difference between a predicted span and
+a strict subset of a sentence was equal or less than threshold,
+the sentence index was included in P . The threshold was
+further adjusted for very short predictions: if |pred tokens|4 <1 ,
+the threshold was reduced stepwise until it reached zero.
+This ensured that small lexical differences (e.g., “situation”
+vs. “sutuation”) did not prevent correct sentence alignment.
+Together, SQuAD EM and F1 scores capture exact and
+token-level accuracy, while SM provides a complementary
+1The evaluation script is publicly available at:
+https://github.com/rajpurkar/SQuAD-explorer/blob/master/evaluate-v2.0.py
+189
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:14:23 UTC from IEEE Xplore.  Restrictions apply. 
+measure of whether the model located the correct sentence(s),
+even if the extracted boundaries were imperfect.
+For questions with multiple gold answers, the score for
+a prediction is computed against each gold span, and the
+maximum value is retained. This max-over-golds rule is ap-
+plied consistently across all three metrics (EM, F1, and SM),
+ensuring that a prediction is credited with its best possible
+match when multiple gold-standard spans are available.
+In addition to overall scores, we further categorized each
+prediction into one of eight answer types to provide a
+fine-grained breakdown of model performance on answerable
+versus unanswerable questions.
+Error Taxonomy: To obtain fine-grained insights into
+model behavior beyond EM and F1, we designed a structured
+error taxonomy. Each prediction is deterministically assigned
+to exactly one of eight mutually exclusive categories.
+Because each question in RadQA may have two gold
+answers (one each in the Findings and Impressions sections),
+we compared the prediction against all gold spans and selected
+the gold yielding the higher F1 score.
+Formally, let G denote the selected gold span, P the pre-
+dicted span, and R the source report. Set operations ( ∩, ⊂, ⊃)
+are defined over tokenized spans. The taxonomy is defined as
+follows:
+1) Exact Match: Prediction exactly matches the gold span
+(including the case where both are empty).
+P = G, (4)
+2) Gold No Answer (GNA): Gold is empty but the model
+outputs a non-empty span.
+(G = ∅) ∧ (P ̸= ∅), (5)
+3) Pred No Answer (PNA): Gold span is non-empty but
+the model predicts nothing.
+(G ̸= ∅) ∧ (P = ∅), (6)
+4) Hallucination: Predicted span is not present in the
+source report (after thresholded comparison).
+P ̸⊆ R, (7)
+5) No Overlap: Prediction and gold share no tokens.
+(G ̸= ∅) ∧ (P ̸= ∅) ∧ (P ∩ G = ∅), (8)
+6) Token Superset: Prediction strictly contains the gold
+span plus additional tokens.
+(G ̸= ∅) ∧ (P ̸= ∅) ∧ (G ⊂ P ), (9)
+7) Token Subset: Prediction is strictly contained within the
+gold span.
+(G ̸= ∅) ∧ (P ̸= ∅) ∧ (P ⊂ G), (10)
+8) Token Overlap: Prediction and gold overlap partially,
+but neither fully contains the other.
+(P ∩ G ̸= ∅) ∧ (P ̸⊂ G) ∧ (G ̸⊂ P ). (11)
+This taxonomy ensures that every prediction falls into ex-
+actly one category, capturing both boundary errors (superset,
+subset, overlap), answerability errors (GNA, PNA), and
+severe failures (no overlap, hallucination), while rewarding
+correct abstentions as Exact Match .
+While EM and token-level F1 are standard for extractive
+QA, they do not fully capture semantic or clinical correct-
+ness. A prediction may be clinically acceptable despite minor
+boundary deviations, or clinically misleading despite token
+overlap. We therefore complement these metrics with SM
+and taxonomy-based error analysis to better reflect practical
+reliability.
+IV. R ESULTS
+Table III summarizes aggregate performance for the eval-
+uated models, with the best-performing scores per metric
+highlighted in bold for ease of comparison. Across all settings,
+fine-tuning provides the largest improvements. For LLaMA
+3.1-8B, performance increases from 25.7% EM, 55.4% F1,
+and 63.4% SM in the zero-shot setting to 33.9% EM, 63.6%
+F1, and 71.9% SM with 15-shot prompting, and further to
+almost 61% EM, 77% F1, and 85% SM after fine-tuning.
+LLaMA 3.2-3B follows the same trend, with fine-tuned results
+of 55.7% EM, 74.3% F1, and 82.2% SM. These outcomes con-
+firm that task-specific supervision yields substantially stronger
+extractive QA performance than in-context prompting alone.
+These results, while still below human performance on RadQA
+(estimated above 90.0% F1), substantially narrow the gap
+compared to prior automated systems. In particular, the fine-
+tuned LLaMA 3.1-8B model achieves 77.0% F1, surpassing
+the previously reported best performance of approximately
+75.0% F1 from BioClinicalRoBERTa on RadQA. Few-shot
+prompting improves over zero-shot, but the effect is modest
+and insufficient to close the gap with fine-tuned models.
+Mistral-Small-22B behaved differently and underperformed
+relative to both LLaMA models. In zero- and few-shot con-
+ditions, EM and F1 scores are very low (e.g., 4.9% EM
+and 13.0% F1 in zero-shot), though SM is higher (around
+33–40%), indicating that the model often identifies the correct
+region of the report but fails to extract accurate spans. After
+fine-tuning, SM rises substantially to 75.3%, but EM and F1
+remain low relative to the LLaMA models. This suggests that
+Mistral benefits from supervision at the sentence level yet
+still struggles with precise boundary extraction. In summary,
+Mistral consistently underperforms relative to the LLaMA
+models, with weak EM and F1 scores and a persistent tendency
+to abstain, even after fine-tuning.
+To better understand model behavior, we applied the struc-
+tured error taxonomy described in Section III-D. Table IV
+provides a more detailed view of model behavior through
+the error taxonomy. In this table, favorable outcomes (higher
+Exact Match and lower hallucination and abstention errors)
+are highlighted in bold to facilitate interpretation. Fine-tuning
+shifts the error distribution strongly toward the left side of
+the taxonomy spectrum, with higher proportions of Exact
+Match, Superset, and Subset categories, and sharply reduces
+severe errors. Hallucinations, which are particularly prob-
+lematic in clinical contexts because they introduce content
+not present in the report, are eliminated entirely after fine-
+tuning in both LLaMA models. Similarly, both GNA and
+PNA errors decrease, reflecting improved calibration. Before
+190
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:14:23 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE III
+EVALUATION METRICS ACROSS MODELS AND SETTINGS .
+LLM Model Setting EM(%) F1(%) SM(%)
+LLaMA 3.1-8B
+0-shot 25.73 55.35 63.35
+5-shot 27.36 58.38 67.58
+10-shot 34.20 63.31 70.76
+15-shot 33.88 63.62 71.86
+fine-tuned 61.07 76.99 85.01
+LLaMA 3.2-3B
+0-shot 20.03 39.07 44.16
+5-shot 18.89 43.40 50.85
+10-shot 23.78 47.91 54.83
+15-shot 22.80 48.32 56.35
+fine-tuned 55.70 74.32 82.16
+Mistral-Small-22B
+0-shot 4.89 13.00 40.00
+5-shot 3.75 7.78 33.51
+10-shot 4.56 8.63 34.23
+15-shot 4.72 10.29 36.23
+fine-tuned 11.00 35.31 75.29
+fine-tuning, Mistral is dominated by PNA errors (over 60%),
+showing a strong tendency to abstain even when answers exist.
+Fine-tuning alleviates this issue, although performance still
+lags behind the LLaMA family. Overall, fine-tuned LLaMA
+models deliver the strongest results, hallucination errors are
+eliminated, and handling of unanswerable questions improves
+markedly compared to zero- and few-shot prompting.
+It is important to distinguish between EM in Table III
+and the Exact Match category in Table IV. EM is calculated
+using the standard SQuAD v2.0 script (without a token-
+difference threshold beyond SQuAD normalization), whereas
+taxonomy-based Exact Match is assigned after applying the
+same normalizationplus a small token-difference threshold. As
+a result, taxonomy Exact Match typically tends to be slightly
+higher than EM, or very close to it.
+A strong relationship also emerges between SM and the
+sum of Exact Match, Superset, Subset, and Overlap categories
+in Table IV, since these represent predictions that at least
+identify the correct sentence even if boundaries are imperfect.
+This highlights SM as a complementary relaxed measure of
+correctness that captures sentence-level localization beyond
+token-level scoring.
+Taken together, these results show that fine-tuned LLaMA
+models achieve state-of-the-art performance on RadQA, with
+the 8B variant performing best. Although the gap with human
+performance remains substantial, particularly in boundary se-
+lection, the improvements in EM, F1, and SM highlight the
+importance of domain adaptation. In contrast, Mistral-Small
+underperformed across all settings, with fine-tuning failing to
+produce competitive extractive accuracy despite some gains in
+sentence-level matching. The error taxonomy further revealed
+that boundary misalignment remains the predominant failure
+mode, while unanswerable question handling and hallucination
+control improve markedly with fine-tuning.
+V. D ISCUSSION
+The results highlight several key observations. Fine-tuning
+consistently outperforms zero-shot and few-shot prompting
+across all models. The largest gains are seen for LLaMA 3.1-
+8B, which achieves state-of-the-art performance on RadQA
+with 77% F1, indicating that task-specific supervision re-
+mains crucial for extractive radiology QA. Few-shot prompting
+improves performance compared to zero-shot, but its effect
+is limited and insufficient to close the gap with fine-tuned
+models. These findings reinforce the importance of domain
+adaptation when applying large language models to clinical
+QA.
+The error taxonomy in Table IV provides additional insights
+into how models fail and how their errors evolve with su-
+pervision. Fine-tuning shifts the distribution of errors toward
+more favorable categories such as Exact Match, Superset, and
+Subset, while reducing severe errors including Hallucination,
+GNA, and PNA. Hallucinations are particularly concerning in
+clinical settings because they introduce content not present
+in the source note; their elimination after fine-tuning is an
+encouraging sign of improved reliability. Among GNA and
+PNA errors, the relative risk is context-dependent: GNA rep-
+resents a false positive where the model invents an answer,
+which can mislead clinicians, while PNA represents a false
+negative where the model abstains despite an available answer,
+which reduces utility but is less dangerous. Importantly, these
+two error types have different clinical implications. GNA
+represents a false positive, where the model produces an
+answer despite the report not containing relevant information;
+such errors pose higher clinical risk because they may mislead
+downstream decision-making. In contrast, PNA represents a
+false negative, where the model abstains despite an available
+answer; while undesirable, this behavior is generally less
+harmful clinically, as it reflects uncertainty rather than fabri-
+cation [29]. Our results show that fine-tuned LLaMA models
+reduce both error types substantially, while hallucinations—the
+most severe failure mode—are entirely eliminated after fine-
+tuning. These findings underscore the importance of jointly
+evaluating answerability and extraction accuracy in clinical
+QA. The LLaMA models show balanced reductions in both
+categories, whereas Mistral initially exhibits very high PNA,
+indicating a strong tendency to abstain. Although fine-tuning
+mitigates this behavior, its performance remains lower than
+the LLaMA family. Our error taxonomy further highlights
+distinct patterns of model behavior. Superset errors indicate
+that models often err on the side of verbosity, producing
+answers that include the gold span but extend beyond it. Subset
+errors, by contrast, reflect under-extraction, where models
+identify only part of the correct span. These complementary
+tendencies show that models are frequently close to the correct
+answer but struggle with precise boundary alignment. Overlap
+errors capture partial correctness when the prediction intersects
+the gold span without fully containing it, while No Over-
+lap represents a more severe mislocalization. Hallucination
+remains the most dangerous category clinically, as it intro-
+duces content not present in the source report. Hallucinated
+answers were observed primarily in zero-shot and few-shot
+settings, where models attempted to respond to clinically
+plausible questions despite the absence of explicit supporting
+evidence in the report. In some cases the hallucination was
+relatively harmless, reflecting information in the report but
+with terminological or word order differences. However, this
+is still not ideal: answers should be grounded in the report
+191
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:14:23 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE IV
+ERROR TAXONOMY DISTRIBUTION (%).
+LLM Model Setting Exact Match T Superset T Subset T Overlap No Overlap GNA PNA Hallucination
+LLaMA 3.1-8B
+0-shot 25.90 32.08 5.05 3.91 5.21 11.89 11.89 4.07
+5-shot 27.52 33.22 7.00 3.75 5.37 13.36 6.19 3.58
+10-shot 34.04 28.83 8.96 3.42 4.56 7.82 9.28 3.09
+15-shot 33.71 30.62 7.17 4.40 4.72 9.45 6.84 3.09
+fine-tuned 60.59 13.84 9.45 2.12 5.05 6.51 2.44 0.00
+LLaMA 3.2-3B
+0-shot 20.03 17.92 6.19 3.75 7.00 12.87 29.15 3.09
+5-shot 18.73 22.64 12.05 1.79 6.51 15.31 12.54 10.42
+10-shot 23.78 21.50 11.24 3.09 7.33 14.50 9.77 8.79
+15-shot 22.80 25.41 8.96 3.09 5.86 13.19 11.89 8.79
+fine-tuned 55.37 17.43 8.63 2.28 4.07 7.33 4.89 0.00
+Mistral-Small-22B
+0-shot 28.50 5.54 4.72 2.77 1.47 1.14 53.75 2.12
+5-shot 28.13 2.77 2.61 0.98 0.00 0.49 64.50 0.49
+10-shot 28.83 2.44 3.09 0.98 0.49 0.65 63.19 0.33
+15-shot 28.99 3.58 3.75 1.14 0.33 0.65 61.07 0.49
+fine-tuned 59.01 12.05 6.19 0.98 0.49 0.98 20.30 0.00
+for verification and trust reasons. This behavior suggests that,
+without task-specific supervision, models may rely on general
+medical priors rather than strict document grounding. Fine-
+tuning substantially mitigated this failure mode by reinforcing
+extractive behavior and anchoring predictions to the source
+text. These findings highlight the importance of supervision
+and grounding constraints for safe deployment of LLM-based
+clinical QA systems.
+Our error taxonomy further helps uncover failure modes that
+aggregate metrics obscure. By disaggregating errors into cate-
+gories such as superset, subset, no overlap, and hallucination,
+we were able to identify concrete patterns of model weak-
+nesses. For example, the prevalence of superset errors suggests
+that models often err on the side of verbosity, whereas subset
+errors highlight a tendency to under-extract. Such insights can
+inform targeted interventions, including modifying prompts,
+refining training objectives, or designing hybrid pipelines that
+integrate extractive and generative approaches.
+SM acts as a complementary measure of correctness by
+rewarding models that at least identify the correct sentence
+containing the gold answer. Its close correspondence to the
+sum of Exact Match, Superset, Subset, and Overlap in Table IV
+suggests that many errors arise from boundary misalignment
+rather than failures of sentence-level localization. This obser-
+vation highlights practical opportunities for improvement: con-
+straining predicted spans to sentence boundaries, or integrating
+sentence-level retrieval as a pre-filter, could reduce superset
+and overlap errors and improve Exact Match accuracy.
+The structured error patterns revealed by our taxonomy
+suggest several concrete algorithmic directions for improving
+extractive radiology QA. First, persistent boundary errors
+indicate the potential benefit of sentence-level localization
+followed by constrained span extraction, where models are
+first trained or prompted to identify the most relevant sentence
+before predicting a token-level span. Second, boundary over-
+and under-extraction could be mitigated through substring-
+constrained decoding or post-hoc span normalization, restrict-
+ing outputs to exact substrings of the source report. Third,
+remaining abstention errors suggest the need for explicit
+abstention calibration, for example by thresholding model
+confidence or likelihood ratios when deciding whether to
+produce an answer versus abstain. While evaluating these
+strategies is beyond the scope of this benchmark study, our
+error taxonomy provides a principled framework for guiding
+and assessing such future algorithmic improvements.
+This study is not without limitations. First, we focused
+on a select set of open LLaMA and Mistral models. We
+acknowledge that language models pretrained or specialized
+on medical or radiology-specific corpora may ultimately be
+better suited for extractive radiology QA, particularly for pre-
+cise boundary detection and domain-sensitive interpretation.
+Broader comparisons across diverse model families, including
+encoder-based clinical transformers and larger closed-source
+models, would provide a more comprehensive landscape of
+performance. Second, although RadQA captures clinically
+motivated questions, it remains limited in size relative to
+other open-domain QA datasets. Larger and more diverse
+training corpora may yield further improvements. In addition,
+RadQA reflects a limited range of radiology report styles and
+clinical settings. The dataset is derived primarily from a single
+institution and focuses on specific imaging modalities and
+report formats, which may limit generalizability to other radi-
+ology genres such as impression-only reports, operative notes,
+or longer and more ambiguous report narratives. Evaluating
+whether the proposed error taxonomy and observed failure
+patterns transfer to such heterogeneous report types remains an
+important direction for future work. Another limitation of this
+study is the absence of human expert evaluation. While EM,
+F1, and SM provide objective measures of extraction accuracy
+and localization, they do not fully capture whether minor
+boundary deviations alter clinical interpretation or diagnostic
+meaning. Future work should incorporate radiologist review to
+assess the clinical acceptability of near-miss predictions, par-
+ticularly for superset and subset errors. Finally, our evaluation
+centered on span extraction accuracy; future work should also
+assess the clinical utility of model outputs, including whether
+predicted spans support accurate downstream decision-making
+by physicians. Additionally, while fine-tuning improved per-
+formance for the non-reasoning extractive models evaluated
+here, we note that emerging reasoning-oriented LLMs (often
+accessible only through few-shot or zero-shot prompting) may
+exhibit different trends. Evaluating such models was outside
+192
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:14:23 UTC from IEEE Xplore.  Restrictions apply. 
+the scope of this study but represents an important direction
+for future work.
+Taken together, these findings show that fine-tuned LLMs
+can achieve strong performance on radiology QA while also
+producing more reliable and clinically interpretable outputs.
+At the same time, the taxonomy highlights residual failure
+modes that need targeted strategies, such as reducing boundary
+errors and further calibrating abstention behavior. Future work
+should extend this analysis to reasoning-oriented LLMs, which
+may behave differently under few-shot prompting, and to other
+clinical QA datasets to validate generalizability.
+VI. C ONCLUSION
+This work presented a comprehensive benchmark of open
+large language models for extractive question answering on
+radiology reports using the RadQA dataset. We evaluated
+LLaMA 3.1-8B, LLaMA 3.2-3B, and Mistral-Small-22B un-
+der zero-shot, few-shot, and fine-tuned settings, and intro-
+duced a structured error taxonomy to characterize model
+behavior. Fine-tuning yielded the largest improvements, with
+LLaMA 3.1-8B achieving the strongest overall performance
+at 61% EM, 77% F1, and 85% SM. The taxonomy analysis
+showed that fine-tuning not only raised accuracy but also
+reduced severe errors such as hallucination and abstention
+mistakes, concentrating residual failures in near-miss boundary
+categories. SM further complemented span-level metrics by
+highlighting when models located the correct sentence despite
+imperfect span boundaries.
+While fine-tuned extractive LLMs achieve strong results,
+limitations remain. Residual errors, particularly superset, sub-
+set, and overlap cases, suggest the need for better boundary
+alignment strategies. In addition, reasoning-oriented LLMs,
+which are often accessible only through few-shot or zero-
+shot prompting, may exhibit different performance trends.
+Evaluating such models, along with extending this analysis
+to other clinical QA datasets and instruction-tuned variants,
+represents an important direction for future work.
+Overall, our results demonstrate that fine-tuned open LLMs
+can provide accurate and reliable support for radiology report
+comprehension, moving closer to clinically useful QA systems
+while also revealing concrete areas for further improvement.

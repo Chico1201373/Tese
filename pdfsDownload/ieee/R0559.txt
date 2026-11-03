@@ -1,0 +1,505 @@
+Evaluating Knowledge Graph-Enhanced Context for
+Multiple-Choice Question Answering
+1st Maryam Ghanbari
+Computer Science Department
+Brock University, Canada
+mghanbari@brocku.ca
+2nd Renata Dividino
+Computer Science Department
+Brock University, Canada
+rdividino@brocku.ca
+Abstract—Despite their impressive capabilities, Large Lan-
+guage Models (LLMs) struggle to access knowledge not encoded
+during pre-training. In-context learning (ICL) addresses this lim-
+itation by embedding relevant information directly in the prompt,
+enabling LLMs to use external knowledge without updating their
+parameters. Recent research has explored integrating knowledge
+from knowledge graphs (KGs) into prompts, as KGs offer
+structured and factual representations of concepts and their rela-
+tionships. A common strategy involves identifying key concepts in
+the task, grounding them in the KG, extracting subgraphs that
+connect question and answer concepts, and incorporating the
+corresponding statements into the prompts. However, a major
+challenge in ICL is selecting appropriate knowledge, that is,
+information that supports the model’s reasoning and improves
+performance, while minimizing irrelevant or noisy content that
+can reduce accuracy. This study investigates how the represen-
+tation of knowledge in prompts and the relevance and scope
+of task-grounded KG knowledge affect LLM performance on
+multiple-choice question answering (MCQA) tasks. We compare
+triple-based versus path-based representations, assess relevance
+filtering strategies, and evaluate different knowledge processing
+approaches. Our findings show that path-based representations
+outperform triple-based approaches but are more sensitive to
+noise. While KG-based knowledge can enhance LLM reasoning,
+imprecise selection of relevant knowledge can degrade per-
+formance below the zero-shot baseline (where no additional
+context is provided), highlighting the challenge of integrating KG
+knowledge without task-specific selection strategies. Expanding
+the scope of extracted subgraphs increases recall (retrieving
+more relevant information) but reduces precision (as more
+noise is also included). These findings underscore the critical
+importance of balancing informativeness with noise reduction in
+KG-enhanced LLM systems. Source code is publicly available
+at https://github.com/maryam-ghanbari/KGSweetSpot.
+Index Terms—In-Context Learning, Knowledge Graphs, Large
+Language Models, Multiple-Choice Question Answering, Knowl-
+edge Graph Information Selection, Commonsense Tasks
+I. I NTRODUCTION
+Large Language Models (LLMs) have demonstrated re-
+markable capabilities across diverse natural language tasks,
+yet they face inherent limitations in accessing and utilizing
+specialized knowledge not explicitly encoded during training.
+These models are fundamentally bounded by their paramet-
+ric knowledge, information embedded within their weights
+during pre-training, which may be incomplete, outdated, or
+insufficient for domain-specific reasoning tasks [1]. In-context
+learning (ICL) has emerged as a promising approach to
+address these knowledge limitations by embedding relevant
+information directly within prompts, allowing LLMs to lever-
+age external knowledge without requiring model parameter
+updates [2, 3, 4]. Despite the effectiveness of this approach,
+challenges remain in determining which information should
+(or not) be included in prompts to maximize performance.
+Previous work has demonstrated that injecting external
+knowledge from knowledge graphs (KGs) can support the
+reasoning ability of LLMs in knowledge graph question an-
+swering (KGQA) tasks. Many prior studies have focused on
+developing methods to incorporate such knowledge [5, 6, 7,
+8, 9, 10, 11, 12, 13, 14, 15]. KGs provide structured repre-
+sentations of entities and their relationships, offering factual
+precision that unstructured text often lacks. By incorporating
+KG-derived information, LLMs can reduce incorrect reasoning
+and hallucinations without the need for costly model updates.
+Nevertheless, in some cases, simply injecting knowledge
+from KGs that are semantically related to the question an-
+swering task into prompts is insufficient to improve perfor-
+mance. This limitation is particularly evident in commonsense
+reasoning tasks, where questions often require information
+from multiple KG subgraphs. In such cases, correct responses
+rarely follow from a single subgraph; instead, they depend
+on the combined information provided by several moderately
+relevant subgraphs that collectively support a coherent answer.
+Furthermore, determining the optimal amount of information
+to include in prompts presents significant challenges. Exces-
+sive information can introduce noise that reduces performance,
+while insufficient information can leave the model under-
+informed. This involves not only assessing the relevance of
+the information but also taking into account its size, the
+serialization of the prompt, and other factors.
+To examine this hypothesis, our study explores the impact
+of KG-derived contextual knowledge on multiple-choice ques-
+tion answering (MCQA) performance on commonsense tasks,
+with a specific focus on four key dimensions: knowledge
+structure, relevance, extraction scope, and processing. We
+systematically investigate how various design choices affect
+reasoning performance, including the comparison between
+isolated triple representations and connected path structures,
+individual versus batch processing of reasoning paths, and the
+impact of varying information relevance thresholds. Through
+comprehensive experiments, we analyze the trade-offs between
+knowledge completeness and contextual precision to identify
+98
+2025 IEEE International Conference on Knowledge Graph (ICKG)
+979-8-3315-6689-0/25/$31.00 ©2025 IEEE
+DOI 10.1109/ICKG66886.2025.00020
+2025 IEEE International Conference on Knowledge Graph (ICKG) | 979-8-3315-6689-0/25/$31.00 ©2025 IEEE | DOI: 10.1109/ICKG66886.2025.00020
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:02:57 UTC from IEEE Xplore.  Restrictions apply. 
+optimal configurations for different reasoning scenarios. Our
+empirical analysis reveals distinct patterns in how design
+choices interact with noise sensitivity, providing practical
+guidelines for implementing KG-enhanced prompting strate-
+gies that maximize reasoning accuracy while maintaining
+computational efficiency.
+II. R ELATED WORK
+LLM-based QA methods fall into two broad paradigms:
+those that rely solely on the model’s internal knowledge [16,
+17, 18], and those that incorporate external sources, notably
+KGs, to compensate for parametric limitations. Knowledge
+Graph Question Answering (KGQA) enhances factual ac-
+curacy and reasoning by combining textual and structured
+knowledge from KGs. Existing approaches to integrating KGs
+with LLMs can be grouped into four main categories:
+Knowledge Injection during Pre-training or Fine-tun-
+ing These methods encode KG information into the model
+weights [7, 8, 9]. Models like KGT5 [19] and RoG [10] fine-
+tune on KG-grounded QA data, aligning outputs with KG
+structures.
+Embedding-based Methods These represent KG entities and
+relations in latent space, using architectures tailored for rea-
+soning. Early efforts like KV-Mem [20] evolved into models
+like EmbedKGQA [11], QA-GNN [5], GreaseLM [21], and
+TransferNet [22]. Though effective, these methods often re-
+quire rigid, task-specific designs with limited flexibility.
+Semantic Parsing (SP) SP-based approaches translate ques-
+tions into logical forms (e.g., SPARQL) that are executed over
+the KG [23, 24]. These enable precise symbolic reasoning but
+depend heavily on annotated data [25].
+Retrieval-Augmented Methods These retrieve relevant KG
+subgraphs during inference and append them to the input
+prompt [26, 27, 28]. PoG [29] constructs multi-hop paths and
+prunes irrelevant facts; GCR [30] integrates KG structure via
+graph-constrained decoding. Some methods frame LLMs as
+agents that explore KGs iteratively [12, 13, 14, 15], though
+this introduces latency [31]. While retrieval-based methods
+are model-agnostic and computationally efficient, their success
+depends on retrieving semantically relevant and complete
+facts. Poor retrieval can inject noise, harming answer quality.
+III. P ROBLEM DEFINITION
+We consider a multiple-choice question q ∈ Q, where Q is
+the set of all possible questions, and each question is associ-
+ated with a set of answer choices C = {a1, a2, . . . , an}, where
+ac ∈ C is the unique correct answer and all others C \{ac} are
+incorrect. A knowledge graph (KG) is defined as G = (V, E),
+where V represents the set of entities and E represents the
+set of relations. Each edge (h, r, t) ∈ E, connecting a head
+entity h to a tail entity t via relation r, constitutes a knowledge
+statement, representing a factual or semantic assertion. More
+generally, a knowledge statement can also correspond to a path
+(h, r1, v1, r2, . . . , vn−1, rn, t)connecting two entities h and t
+through a sequence of intermediate nodes v1, . . . , vn−1 and
+relations r1, . . . , rn, thereby capturing multi-step relational
+information within the graph.
+A knowledge extraction mechanism retrieves a set of sub-
+graphs Gq = {Gq1 , . . . , Gqk } ⊆G, containing information
+about KG concepts grounded in and linked to the question q
+and answer candidates C, via:
+extract(G, q,{a1, . . . , an}) : G × Q × C → Gq.
+The subgraph extraction is performed for a pair question
+concept q ∈ V and an answer choice concept a ∈ V .
+The subgraph includes the seed concepts and all intermediate
+concepts on any shortest path of length at most k = 2
+connecting them. Formally:
+Gq,a = {v ∈ V | d(q, v) + d(v, a) ≤ k},
+where d(x, y) denotes the shortest-path distance between con-
+cepts x and y in the KG. The extracted subgraphs Gq are
+combined with q and C using an encoding function Γ to form
+an augmented prompt:
+p = Γ(Gq, q,{a1, ..., an}),
+which serves as input for an LLM. The model’s performance is
+evaluated using a metric ρ(p, ac), i.e., as accuracy, measuring
+its ability to select the correct answer given the prompt.
+This paper investigates how the following dimensions of
+KG-derived context affect performance in MCQA:
+Knowledge Serialization Format: We compare two
+function Γ encoding: triple-based and path-based encodings.
+For instance, triple-based encoding with these two tripled
+(security, RelatedTo, vault) and (vault,
+AtLocation, bank) is represented in the path-based
+format as (security → RelatedTo → vault →
+AtLocation → bank). We hypothesize that path-based
+representations improve the model’s ability to select correct
+answers by preserving semantic continuity.
+Knowledge Extraction Scope: We analyze the impact of
+extract(G, q,{a1, . . . , an}) expanding KG traversal from 1-
+hop to 2-hop neighbors, examining how extending the search
+radius affects the quality and quantity of retrieved knowledge.
+We hypothesize that while higher hops retrieval may increase
+coverage, it may also introduce noise and reduce precision.
+Knowledge Relevance: Given the KG concepts grounded in
+the question q and answer candidates C, we define relevant
+knowledge as subgraphs centered on concepts from the ques-
+tion or the correct answer ac, and irrelevant knowledge as
+subgraphs centered on concepts from the question and the
+incorrect answers C \ {ac}. We compare prompts augmented
+with (i) relevant knowledge only, (ii) irrelevant knowledge,
+and (iii) mixed content. Our goal is to understand how the
+presence of accurate cues affects model behavior and whether
+irrelevant or excessive content misleads the model.
+Knowledge Processing Strategy (Grouping): We study how
+varying the batch size of knowledge units (e.g., individual
+triples vs. grouped triple sets) fed into the LLM influences
+performance. Grouping may enrich context, but excessive
+aggregation could overwhelm the model.
+99
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:02:57 UTC from IEEE Xplore.  Restrictions apply. 
+Fig. 1. Pipeline for evaluating KG-enhanced prompts. A sample MCQ is processed by identifying its key concepts, grounding each concept and each answer
+choice in the KG, and extracting subgraphs that connect them. The subgraphs are then converted into text according to a specific representation format and
+combined with the question and answer candidates to form an augmented prompt. The prompt is used by a LLM to generate the final answer. This study
+investigates how different strategies for incorporating KG-derived context influence LLM performance on MCQA tasks, focusing on four key dimensions:
+subgraph prompt representation, knowledge relevance, extraction scope, and LLM processing modes.
+IV. E XPERIMENT DETAILS
+A. Dataset
+MCQA Tasks: We investigate how the structure, scope,
+processing, and relevance of contextual knowledge from KG
+influence the performance on the CommonsenseQA (CSQA)
+dataset [32], a widely used benchmark for multiple-choice
+commonsense reasoning. The dataset contains 12,102 ques-
+tions, each accompanied by five candidate answers, only one of
+which is correct. Answering these questions typically requires
+implicit commonsense knowledge that is not explicitly stated
+in the question or choices.
+KG: We use ConceptNet [33], a general-domain common-
+sense KG comprising 799,273 nodes and 2,487,810 edges.
+Each node represents a concept, and edges capture com-
+monsense relations such as AtLocation, UsedFor, and
+CapableOf.
+B. Subgraph Knowledge Extraction
+Following [5, 34], we adopt a multi-hop path extraction
+approach. Entities are identified from the question q and
+each answer choice ai ∈ C using simple string matching.
+Let {eq1, . . . , eqm} denote question entities, and {ea11 , . . . , eanl }
+denote answer entities. We then extract all paths up to k-
+hops (k = 1, 2) in the KG that connect any question entity
+to any answer entity. For example, for the question ”A
+revolving door is convenient for two-direction travel, but it
+also serves as a security measure at a what?”, with k = 1,
+and assuming the question entities are revolving door
+and security, and bank is an answer entity, retrieved
+statements include: (revolving door → AtLocation
+→ bank) and (security → RelatedTo → bank).
+C. Subgraph Prompt Encoding
+The way subgraphs Gq are encoded into the prompt p =
+Γ(Gq, q, C) significantly affects the model’s ability to rea-
+son effectively [35]. Even with highly relevant knowledge,
+poor encoding can obscure connections between question
+and answers. We evaluate two encoding schemes: path-based
+representation (as employed in [5, 34]), and triple-based
+representation (as employed in [28]). We refer to each path
+or triple as a distinct knowledge statement.
+D. Performance Metrics
+Accuracy ρ(p, ac) is defined as the proportion of times the
+LLM correctly selects the answer ac from the set of answer
+choices C, where ac is the ground-truth correct answer. The
+performance metric is given by:
+ρ(p, ac) = Number of correct selectionsTotal number of questions
+E. Inference Models
+We leverage four inference models to process KG-
+augmented prompts: UnifiedQA-large, UnifiedQA-3b [36]
+Flan-T5-small, and Flan-T5-large [37].
+We adopt and extend a knowledge integration strategy
+introduced in prior work [16], in which knowledge state-
+ments are incorporated into the input prompt to guide an-
+swer selection. Given a set of knowledge statements M =
+{k1, k2, . . . , km}, an original question q, and answer choices
+C = {a1, a2, . . . , an}, we construct augmented prompts
+by concatenating knowledge with the question and answer
+choices: pi = [ ki ∥ q ∥ C ] for i = 1, . . . , m, where [ · ∥ ·]
+denotes textual concatenation using newline delimiters or other
+formatting tokens. Due to input length constraints, it is often
+infeasible to encode the entire set M within a single prompt.
+To address this, we explore two prompting strategies:
+Single Knowledge Processing Each knowledge statement
+ki is used to construct an individual prompt: pi =
+[ ki ∥ q ∥ C ] for i = 1, . . . , m. The model independently
+scores each answer candidate using each prompt, enabling it
+to focus on the impact of one knowledge statement at a time.
+100
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:02:57 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE I
+ACCURACY WHEN PROVIDING 1-HOP KNOWLEDGE FILTERED TO INCLUDE ONLY STATEMENTS DIRECTLY LINKED TO QUERY CONCEPTS AND CORRECT
+ANSWER CHOICES (I.E., RELEVANT KNOWLEDGE ), COMPARING INDIVIDUAL PROCESSING VERSUS BATCHES OF 2-10 STATEMENTS . P ROVIDING
+RELEVANT KNOWLEDGE CONSISTENTLY IMPROVED MODEL ACCURACY ACROSS ALL TESTED MODELS . BATCH PROCESSING OF KNOWLEDGE
+STATEMENTS DID NOT PROVIDE PERFORMANCE BENEFITS COMPARED TO INDIVIDUAL STATEMENT PROCESSING .
+Knowledge Models
+UnifiedQA-large UnifiedQA-3b Flan-T5-small Flan-T5-large
+No Knowledge 60.4% 71.9% 37.4% 84.6%
+single 68% 83.6% 78.9% 96.6%
+group of 2 67.92% ± 0.22% 84. 46% ± 0.09% 80.16% ± 0.20% 96.5% ± 0.14%
+group of 3 67.60% ± 0.19% 84. 58% ± 0.16% 80.56% ± 0.17% 96.46% ± 0.13%
+group of 6 67.86% ± 0.26% 84. 56% ± 0.36% 80.54% ± 0.17% 96.54% ± 0.11%
+group of 10 67.94% ± 0.25% 84. 78% ± 0.16% 80.28% ± 0.33% 96.52% ± 0.08%
+TABLE II
+ACCURACY WHEN PROVIDING 1-HOP KNOWLEDGE FILTERED TO INCLUDE ONLY STATEMENTS DIRECTLY LINKED TO QUERY CONCEPTS AND INCORRECT
+ANSWER CHOICES (I.E., IRRELEVANT KNOWLEDGE ), COMPARING INDIVIDUAL PROCESSING VERSUS BATCHES OF 2-10 STATEMENTS . ACROSS MOST
+TESTED MODELS , PROVIDING IRRELEVANT KNOWLEDGE EITHER SIGNIFICANTLY DEGRADED ACCURACY OR , AT BEST , RESULTED IN NO PERFORMANCE
+IMPROVEMENT . BATCH PROCESSING OF KNOWLEDGE STATEMENTS DID NOT PROVIDE PERFORMANCE BENEFITS COMPARED TO INDIVIDUAL STATEMENT
+PROCESSING .
+Knowledge Models
+UnifiedQA-large UnifiedQA-3b Flan-T5-small Flan-T5-large
+No Knowledge 60.4% 71.9% 37.4% 84.6%
+single 55.28% 67.81% 22.77% 60.93%
+group of 2 56.35% ± 0.5% 67. 03% ± 0.10% 18.41% ± 0.36% 53.79% ± 0.39%
+group of 3 58.79% ± 0.43% 67. 64% ± 0.48% 16.14% ± 0.63% 50.75% ± 0.43%
+group of 6 60.79% ± 0.73% 67. 65% ± 0.43% 13.94% ± 0.20% 47.78% ± 0.73%
+group of 10 61.62% ± 0.29% 67. 12% ± 0.44% 13.50% ± 0.28% 46.50% ± 0.48%
+TABLE III
+ACCURACY WHEN USING BOTH RELEVANT AND IRRELEVANT 1-HOP KNOWLEDGE , COMPARING INDIVIDUAL PROCESSING VERSUS BATCHES OF 2-10
+STATEMENTS . E VEN IN THE PRESENCE OF RELEVANT KNOWLEDGE , THE ADDITION OF IRRELEVANT KNOWLEDGE AS CONTEXT MAINTAINS
+PERFORMANCE AT OR DEGRADES IT BELOW THE ZERO -SHOT BASELINE (NO ADDITIONAL KNOWLEDGE PROVIDED ).
+Knowledge Models
+UnifiedQA-large UnifiedQA-3b Flan-T5-small Flan-T5-large
+No Knowledge 60.4% 71.9% 37.4% 84.6%
+single 59.62% 73.96% 38.33% 75.92%
+group of 2 59.46% ± 0.43% 74 .35% ± 0.41% 38 .17% ± 0.42% 74 .79% ± 0.72%
+group of 3 58.64% ± 0.71% 73 .51% ± 0.49% 38 .28% ± 0.45% 74 .24% ± 0.41%
+group of 6 55.69% ± 0.70% 72 .64% ± 0.52% 38 .31% ± 1.07% 73 .35% ± 0.96%
+group of 10 53.38% ± 0.30% 71 .78% ± 0.45% 37 .53% ± 0.90% 72 .74% ± 0.62%
+Chunked Knowledge Processing The knowledge set M is
+partitioned into K disjoint subsets S1, . . . , SK ⊂ M, where
+Si ∩ Sj = ∅ for i ̸= j. Each chunk forms a single prompt:
+pk = [ Sk ∥ q ∥ C ] for k = 1, . . . , K. This allows the model
+to evaluate answer candidates with multi-statement context,
+while staying within token limits.
+For each prompt pt and candidate answer a ∈ C, the model
+computes a score s(a | pt), and these are aggregated across
+all prompts: s(a) = 1T PTt=1 s(a | pt), where T = m in the
+single knowledge setting or T = K in the chunked setting.
+Unlike [16], which selects the answer based on the maximum
+score from the best single prompt, we take the mean across
+all prompts to incorporate signals from the full knowledge set.
+This strategy enables better analysis of how all knowledge
+contributes to the model’s decision. The aggregated scores are
+normalized using softmax.
+The models operate in a teacher-forcing mode during infer-
+ence, meaning that for each candidate answer, we compute the
+conditional log-likelihood of the target sequence by providing
+the ground-truth tokens as decoder inputs. In this deterministic
+setup, there is no autoregressive decoding, and the loss is
+solely determined by the discrepancy between the model’s
+predicted logits and the given label tokens. As a result,
+inference is reproducible and not sensitive to random seeds.
+V. R ESULTS
+Effect of Knowledge Relevance Relevant knowledge con-
+sistently enhanced model accuracy across all tested models.
+Providing relevant 1-hop triples individually significantly im-
+proved performance compared to baseline, with UnifiedQA-
+large increasing from 60.4% to 68%, UnifiedQA-3b from
+71.9% to 83.6%, Flan-T5-small from 37.4% to 78.9%, and
+Flan-T5-large from 84.6% to 96.6% (see Table I). Results
+are of similar nature in Table IV, and Table VII. Conversely,
+irrelevant knowledge reduced accuracy, demonstrating the
+101
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:02:57 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE IV
+ACCURACY WHEN PROVIDING RELEVANT 1- AND 2-HOP KNOWLEDGE . PROVIDING RELEVANT KNOWLEDGE CONSISTENTLY IMPROVED MODEL
+ACCURACY ACROSS ALL TESTED MODELS , THOUGH WITH VARYING MAGNITUDES OF IMPROVEMENT . T HIS CONFIGURATION SHOWED SMALLER
+PERFORMANCE GAINS THAN 1-HOP KNOWLEDGE (SEE TABLE I), INDICATING THAT 2-HOP EXTRACTION INTRODUCES DETRIMENTAL NOISE THAT
+REDUCES MODEL PERFORMANCE .
+Knowledge Models
+UnifiedQA-large UnifiedQA-3b Flan-T5-small Flan-T5-large
+No Knowledge 60.4% 71.9% 37.4% 84.6%
+single 60.77% 77.6% 59.62% 92.8%
+group of 2 60.36% ± 0.21% 78.08% ± 0.34% 69.09% ± 0.24% 93 .42% ± 0.23%
+group of 3 60.33% ± 0.17% 78 .00% ± 0.41%% 72.09% ± 0.48% 93 .22% ± 0.27%
+group of 6 60.26% ± 0.46% 77 .89% ± 0.50%% 73.91% ± 0.35% 92 .68% ± 0.23%
+group of 10 61.46% ± 0.31% 78 .95% ± 0.30%% 72.76% ± 0.27% 91 .89% ± 0.26%
+TABLE V
+ACCURACY WHEN USING ONLY IRRELEVANT 1- AND 2-HOP KNOWLEDGE . PROVIDING IRRELEVANT KNOWLEDGE AS CONTEXT DEGRADES SYSTEM
+PERFORMANCE BELOW THE ZERO -SHOT BASELINE (NO ADDITIONAL KNOWLEDGE PROVIDED ). A LTHOUGH THIS CONFIGURATION INCREASES THE
+TOTAL AMOUNT OF RETRIEVED DATA , THE PERFORMANCE DEGRADATION REMAINS SIMILAR TO THE 1-HOP CONFIGURATION (SEE TABLE II). B ATCH
+PROCESSING OF KNOWLEDGE STATEMENTS DID NOT PROVIDE PERFORMANCE BENEFITS COMPARED TO INDIVIDUAL STATEMENT PROCESSING .
+Knowledge Models
+UnifiedQA-large UnifiedQA-3b Flan-T5-small Flan-T5-large
+No Knowledge 60.4% 71.9% 37.4% 84.6%
+single 57.33% 71.91% 29.89% 75.92%
+group of 2 57.82% ± 0.14% 71 .67% ± 0.14% 24 .87% ± 0.22% 72 .19% ± 0.21%
+group of 3 59.05% ± 0.14% 72 .07% ± 0.33% 22 .74% ± 0.13% 71 .53% ± 0.19%
+group of 6 60.99% ± 0.41% 72 .15% ± 0.25% 19 .76% ± 0.27% 71 .02% ± 0.45%
+group of 10 61.70% ± 0.23% 72 .05% ± 0.60% 18 .30% ± 0.41% 70 .11% ± 0.72%
+TABLE VI
+ACCURACY WHEN USING BOTH RELEVANT AND IRRELEVANT 1- AND 2-HOP KNOWLEDGE . SIMILAR TO THE 1-HOP CONFIGURATION (SEE TABLE III),
+EVEN IN THE PRESENCE OF RELEVANT KNOWLEDGE , THE ADDITION OF IRRELEVANT KNOWLEDGE AS CONTEXT MAINTAINS PERFORMANCE AT OR
+DEGRADES IT BELOW THE ZERO -SHOT BASELINE .
+Knowledge Models
+UnifiedQA-large UnifiedQA-3b Flan-T5-small Flan-T5-large
+No Knowledge 60.4% 71.9% 37.4% 84.6%
+single 58.23% 73.05% 36.45% 80.84%
+group of 2 58.53% ± 0.17% 73 .03% ± 0.21% 36 .06% ± 0.13% 80 .10% ± 0.28%
+group of 3 58.91% ± 0.54% 72 .86% ± 0.12% 35 .27% ± 0.19% 80 .29% ± 0.25%
+group of 6 59.54% ± 0.17% 73 .52% ± 0.05% 35 .27% ± 0.48% 80 .67% ± 0.25%
+group of 10 58.59% ± 0.29% 74 .37% ± 0.29% 34 .32% ± 0.25% 80 .51% ± 0.14%
+detrimental impact of noisy inputs (see Tables II, V, and
+VIII). When relevant and irrelevant knowledge were combined
+(see Tables III, VI, and IX), performance improvements
+ranged from negligible to marginal, indicating that irrelevant
+information substantially undermines the benefits of relevant
+knowledge. This confirms that relevant knowledge boosts
+performance while irrelevant knowledge causes sharp decline,
+with incorrect statements misleading the model even when
+mixed with correct information.
+Impact of Knowledge Structure Path-based knowledge
+shown greater accuracy improvements than triple-based, espe-
+cially for relevant information. With relevant 1+2-hop knowl-
+edge, UnifiedQA-large, UnifiedQA-3b, Flan-T5-small and T5-
+large achieved 67.98%, 82.88%, 73.46%, and 96.56% accu-
+racy using paths (Table VII) versus 60.77%, 77.6%, 59.62%,
+and 92.8% with triples (Table IV). However, irrelevant path-
+formatted knowledge caused sharper accuracy drops than
+irrelevant triples, suggesting that richer context can amplify
+negative effects of irrelevant information (Table VIII). This
+confirms that paths provide richer semantic structure and
+more effectively capture question-answer relationships, but
+also amplify the disruptive effects of irrelevant information.
+Effect of Knowledge Extraction Scope Increasing extraction
+from 1-hop to 1+2-hop yielded mixed results. While some
+models showed moderate enhancement, others experienced
+performance decline. For example, Flan-T5-small accuracy
+decreased from 78.9% (1-hop) to 73.46% (1+2-hop), showing
+that although 2-hop retrieval includes more comprehensive
+context, it introduces excessive irrelevant information that
+degrades model reasoning.
+Knowledge Processing Strategies Grouping multiple state-
+ments initially improved performance but plateaued after
+merging more than two or three statements. Contrary to
+expectations, this results suggest that LLMs are relatively
+insensitive to grouping strategies and that grouping alone does
+not enhance contextual understanding.
+VI. C ONCLUSION
+This study examined how different strategies for integrat-
+ing KG-derived context affect the performance of LLMs on
+102
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:02:57 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE VII
+ACCURACY WHEN PROVIDING RELEVANT 1-HOP AND 2- HOP KNOWLEDGE USING PATH -BASED REPRESENTATION . PROVIDING RELEVANT KNOWLEDGE
+CONSISTENTLY IMPROVED MODEL ACCURACY ACROSS ALL TESTED MODELS . PATH-BASED REPRESENTATION DEMONSTRATED SUPERIOR PERFORMANCE
+COMPARED TO TRIPLE -BASED REPRESENTATION IN BOTH 1- HOP AND COMBINED 1- AND 2-HOP CONFIGURATIONS (SEE TABLE I AND TABLE IV).
+Knowledge Models
+UnifiedQA-large UnifiedQA-3b Flan-T5-small Flan-T5-large
+No Knowledge 60.4% 71.9% 37.4% 84.6%
+single 67.98% 82.88% 73.46% 96.56%
+group of 2 66.67% ± 0.25% 81 .96% ± 0.21% 71 .79% ± 0.22% 95 .48% ± 0.19%
+group of 3 65.88% ± 0.33% 81 .55% ± 0.25% 70 .78% ± 0.43% 94 .38% ± 0.26%
+group of 6 67.27% ± 0.29% 81 .55% ± 0.21% 67 .81% ± 0.36% 93 .48% ± 0.28%
+group of 10 68.40% ± 0.30% 81 .82% ± 0.22% 65 .98% ± 0.55% 92 .56% ± 0.31%
+TABLE VIII
+ACCURACY WHEN USING ONLY IRRELEVANT 1- AND 2-HOP KNOWLEDGE USING PATH -BASED REPRESENTATION . P ROVIDING IRRELEVANT KNOWLEDGE
+AS CONTEXT DEGRADES SYSTEM PERFORMANCE BELOW THE ZERO -SHOT BASELINE (NO ADDITIONAL KNOWLEDGE PROVIDED ). A LTHOUGH THE SAME
+INFORMATION IS PROVIDED TO THE MODEL AS IN THE TRIPLE -BASED CONFIGURATION (SEE TABLE V), THE PERFORMANCE DEGRADATION IS MORE
+PRONOUNCED IN THE PATH -BASED CONFIGURATION .
+Knowledge Models
+UnifiedQA-large UnifiedQA-3b Flan-T5-small Flan-T5-large
+No Knowledge 60.4% 71.9% 37.4% 84.6%
+single 57.66% 69.62% 24.73% 62.49%
+group of 2 58.48% ± 0.14% 69 .40% ± 0.19% 21 .77% ± 0.07% 65 .01% ± 0.13%
+group of 3 59.11% ± 0.25% 69 .40% ± 0.37% 20 .95% ± 0.19% 66 .80% ± 0.11%
+group of 6 58.86% ± 0.29% 68 .77% ± 0.42% 20 .46% ± 0.19% 67 .06% ± 0.48%
+group of 10 58.12% ± 0.53% 68 .39% ± 0.41% 20 .03% ± 0.25% 66 .21% ± 0.49%
+TABLE IX
+ACCURACY WHEN USING BOTH RELEVANT AND IRRELEVANT 1- AND 2-HOP HOP KNOWLEDGE , USING PATH -BASED REPRESENTATION . SIMILAR TO THE
+TRIPLE -BASED CONFIGURATIONS (SEE TABLE III, AND TABLE VI), EVEN IN THE PRESENCE OF RELEVANT KNOWLEDGE , THE ADDITION OF IRRELEVANT
+KNOWLEDGE AS CONTEXT MAINTAINS PERFORMANCE AT OR DEGRADES IT BELOW THE ZERO -SHOT BASELINE .
+Knowledge Models
+UnifiedQA-large UnifiedQA-3b Flan-T5-small Flan-T5-large
+No Knowledge 60.4% 71.9% 37.4% 84.6%
+single 60.11% 72.8% 36.28% 76.9%
+group of 2 60.50% ± 0.17% 72 .9% ± 0.18% 35 .73% ± 0.07% 78 .44% ± 0.38%
+group of 3 60.44% ± 0.29% 72 .7% ± 0.20% 34 .86% ± 0.29% 79 .74% ± 0.18%
+group of 6 60.10% ± 0.35% 73 .0% ± 0.22% 34 .22% ± 0.37% 79 .74% ± 0.30%
+group of 10 59.20% ± 0.40% 73 .4% ± 0.30% 34 .07% ± 0.34% 79 .41% ± 0.30%
+MCQA tasks. Our results demonstrate that relevant knowledge
+consistently improves accuracy across all tested models, with
+path-based representations significantly outperforming triple-
+based approaches in both 1-hop and combined 1- and 2-hop
+configurations. Including irrelevant knowledge consistently
+degrades system performance below the zero-shot baseline,
+regardless of whether it is presented alone or mixed with
+relevant information, emphasizing the critical challenge of
+implementing effective task-based selection strategies. No-
+tably, path-based representations demonstrate lower resilience
+to noise compared to triple-based approaches, though triple-
+based approach performance degradation remains significant.
+This suggests that richer context can amplify negative effects
+of irrelevant information. Batch processing of knowledge
+statements provides no performance benefits over individual
+statement processing across all experimental configurations.
+These findings underscore the critical importance of balancing
+informativeness with noise reduction in KG-enhanced LLM
+systems. Since information relevance cannot be determined
+a priori, the primary challenge lies in developing context-
+aware selection mechanisms that accurately approximate rel-
+evance, given the detrimental impact of irrelevant knowledge
+on model performance. Without effective relevance filtering,
+the noise from irrelevant information can significantly degrade
+performance, making it preferable to forgo KG-augmented
+prompting entirely.

@@ -1,0 +1,686 @@
+Chatbots on a Mid-scale Knowledge Base: Using an
+R2 University as an Example
+Ruibiao Fu+
+Department of Journalism and Communication
+Huazhong University of Science and Technology
+Wuhan, China
+furuibiao3@gmail.com
+April Villeda Roblero+
+Department of Computer Science
+University of North Carolina Wilmington
+US Wilmington
+av9401@uncw.edu
+Xuekang Wang+
+School of Computer Science & Technology
+Beijing Institute of Technology
+Beijing China
+wangxk0223@gmail.com
+Yang Song
+Department of Computer Science
+University of North Carolina Wilmington
+US Wilmington
+songy@uncw.edu
+Abstract— While LLMs like ChatGPT, Claude, and Gemini
+have proven effective at handling common, everyday tasks, they
+often lack the domain-specific expertise necessary for more
+specialized consultations. This limitation makes it essential to
+integrate a targeted knowledge base when developing chatbots for
+specific domains. In this study, we investigated the performance of
+chatbots utilizing large language models (LLMs) within the
+context of a mid-scale knowledge base for a regional R2 university
+i n t h e U . S . U s i n g a w e b - c r a w l e d k n o w l e d g e b a s e , w e c r e a t e d
+chatbots across multiple platforms, testing them against a set of
+predefined questions to evaluate correctness and
+comprehensiveness. Our findings indicate that while ChatGPT
+models, particularly those augmented with both a knowledge base
+and real-time search capabilities, provide the most balanced
+responses on objective questions, hallucinations remain an issue.
+In the subjective testing questions, no single chatbot emerged as
+the best performer, with different models excelling in various areas
+based on the personas and questions. The study suggests that while
+LLMs are valuable tools in education, careful consideration of
+their limitations is necessary for improving their application in
+domain-specific consulting.
+Keywords-chatbot; large language models (LLMs); knowledge
+base; LLM evaluation framework
+I. I NTRODUCTION
+With the rapid development of artificial intelligence (AI),
+Large Language Models (LLMs), as a major breakthrough in the
+field of AI, are gradually changing the way people acquire,
+understand, and use information. These models, such as
+ChatGPT [1], Claude [2], Gemini [3] etc., greatly enhance the
+efficiency and convenience of users obtaining information
+through the internet due to their powerful natural language
+processing and knowledge generation capabilities. In the field
+that requires domain knowledge and understanding of the
+context/scenario, such as consultation, LLMs have demonstrated
+“remarkable potential” [4]. In education settings, LLMs are also
+“promising tools for open education” as they can provide
+customized and interactive assistance to students and thereby
+improve the independence and autonomy of the learners [1].
+These types of “domain-specific” LLMs [5] can not only quickly
+respond to the diverse needs of students, but also provide
+personalized advice and information based on massive data,
+greatly reducing the burden of traditional
+consultation/supporting/feedback methods.
+However, despite the enormous potential demonstrated by
+LLMs, their reliability and accuracy issues in practical
+applications are becoming increasingly prominent. Due to the
+complexity, diversity, and potential bias of model training data,
+LLMs may experience misunderstandings, erroneous reasoning,
+and even fabricated information during the understanding and
+inference process [6] (sometimes referred to as “hallucination”).
+This uncertainty undoubtedly poses potential risks for users who
+rely on model recommendations to make important decisions.
+Therefore, an in-depth exploration of the accuracy and reliability
+of LLMs in providing consulting information is of great
+significance for promoting healthy and safe applications in
+different domains.
+This study aims to systematically evaluate the performance
+of different major LLMs in answering a common set of questions.
+Specifically, we utilized web crawling technology to extensively
+collect information on University of North Carolina Wilmington
+(UNCW), a regional R2 university on the east coast of the United
+States as our knowledge base. The evaluation is done based on
+both objective questions (about new student enrollment, such as
+tuition fees, accommodation, and food) and subjective questions
+(using given scenarios/personas). Subsequently, we input this
+data into multiple commercialized large language modeling
+platforms (ChatGPT, Claude, Gemini, and Copilot) to create
+Chatbots that can simulate answering questions in real-life
+scenarios based on the given knowledge base.
+By comparing and analyzing the answers provided by
+different LLMs, this study aims to achieve the following
+objectives: 1) demonstrate our framework of LLM evaluations
+using a knowledge base and a set of questions, both objective
+and subjective; 2) explore the impact of a reliable knowledge
+base versus/with online search in building a domain-specific
+chatbot, and analyze the role and limitations of them in
+improving the quality of answers; 3) based on the research
+results, strategies and suggestions for improving the application
+of LLMs in the field of educational consulting are proposed,
++These authors contribute equally to the work.
+2024 5th International Conference on Big Data, Artificial Intelligence and Internet of Things Engineering (ICBAIE)
+979-8-3503-9007-0/24/$31.00 ©2024 IEEE
+463
+2024 5th International Conference on Big Data, Artificial Intelligence and Internet of Things Engineering (ICBAIE) | 979-8-3503-9007-0/24/$31.00 ©2024 IEEE | DOI: 10.1109/ICBAIE63306.2024.11116920
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:08:50 UTC from IEEE Xplore.  Restrictions apply. 
+providing reference for practitioners and researchers in related
+fields.
+II. R ELATED WORK
+Chatbots are an important research method in the field of
+natural language processing (NLP). In the early field of machine
+translation which is a subdomain of NLP, BLEU [7] and
+METEOR [8] were two common evaluation metrics. BLEU
+evaluates the accuracy of the translated text by calculating the
+similarity between the machine-generated translation and a set
+of reference translations. METEOR improves the BLEU
+algorithm by introducing an alignment algorithm to evaluate the
+similarity between the generated translation and the reference
+translation, which can better handle synonyms and word order
+differences. However, these evaluation metrics are ineffective
+for evaluating chatbots. In 2020, Mehri and Eskenazi proposed
+the FED measurement metric [9], which can measure fine-
+grained dialogue quality at both the dialogue turn (defined as “a
+dialog context and a system response (from chatbot)” [9]) level
+and the entire dialogue level. FED was reported to achieve a
+moderate to strong correlation with human judgments at both
+levels. However, with the advancement of chatbot technology,
+especially after the introduction of large language models
+(LLMs), people have put forward higher requirements for
+chatbots. People's focus on dialogue has shifted from fluency to
+multi-dimensional evaluations of chatbots' reading
+comprehension, reasoning capability, math, and other technical
+measures [10].
+Researchers utilized specific datasets to evaluate the fluency,
+naturalness, and other aspects of dialogue response, testing
+whether the dialogue level of chatbots can reach human levels.
+For example, Mendonça et. al introduced a new evaluation
+benchmark dataset SODA-EVAL [11], it used more than 120000
+turn-level assessments for training, covering 10000
+conversations. Human validation and annotation tasks were also
+conducted to confirm the quality of automatic annotation. A
+rating system ranging from 1 to 5 was used to evaluate the
+quality of dialogue responses. The evaluation focuses on the
+effectiveness of dialogue annotations, including whether they
+contradict the information in the dialogue history, whether the
+model can cover all relevant information in the conversation, and
+the fluency and naturalness of dialogue response, which includes
+evaluating the common sense, participation, and repetition in the
+conversation. This research found that although GPT-4 performs
+well in many aspects, there is still room for improvement in
+coherence and common-sense reasoning. This indicates that
+although large language models have made significant progress
+in generating fluent and relevant responses, they still face
+challenges in simulating the complexity of human dialogue.
+Researchers have reported successes in creating domain-
+specific chatbots that can support domain experts in reading and
+making decisions. The progress of domain-specific chatbots also
+entices research in domain-specific chatbot evaluations. In the
+work by Song et al., the authors developed a questionnaire of 21
+questions and two clinical scenarios related to urolithiasis [4].
+They tested four LLMs (Claude, Bard, ChatGPT4, and Bing).
+Their domain experts then evaluated the model responses
+regarding accuracy, comprehensiveness, legibility, human care,
+and clinical case analysis ability based on a 5-point Likert scale.
+They reported that Claude and GPT-4 were the top-performing
+LLMs in their evaluation matrices. However, they only
+evaluated urolithiasis-related dialogs, which is a relatively small
+domain.
+In the field of education, Hwang et. al [12] used an AI-driven
+approach to create and assess multiple-choice questions in the
+fields of chemistry and biology. They evaluated the quality of
+the questions by using the Item Writing Flaw (IWF) criteria [13]
+and combined machine learning models with human
+assessments to verify the alignment of the questions with
+Bloom's Taxonomy. The study utilized the RoBERTa model, a
+machine learning model, to validate 120 generated questions. A
+domain expert with over 28 years of experience in STEM
+education assessed 57 of those questions. The research indicated
+that GPT-3.5 can generate questions aligned with Bloom's
+Taxonomy levels. However, there are differences in the quality
+assessment of the questions between human and machine
+evaluations. This suggests that there is still a discrepancy
+between machine learning models and human assessments when
+evaluating AI-generated content. Thus, a carefully considered
+set of standards is necessary for evaluating the quality of AI-
+generated materials.
+III. P ROJECT SCOPE AND DATA
+The scope of our work involves building chatbots on
+d i f f e r e n t p l a t f o r m s u s i n g d a t a r e l a t e d t o U N C W , a n R 2
+university on the East Coast of the U.S. The data is crawled
+mainly from URLs in the format “https://uncw.edu/***.” We
+also compare the performance of the chatbots when they answer
+evaluation questions with or without restricted Internet access.
+In the data acquisition process, a web crawler was used to gather
+content from multiple pages within the domain. The web
+crawling process ensures that the pages cover comprehensive
+information about this university, including details on housing,
+transportation, safety reports, meal plans, tuition fees,
+scholarships, and student life. The crawler organized the content
+into a total of 20 topic-specific files, which are in the format
+of .docx, .pdf, or .csv, generating more than 148,000 tokens,
+which served as the foundation for the chatbot’s knowledge base.
+(By comparing two chatbots’ performance using the same
+knowledge base, but one as a .pdf and another as a .docx file, we
+noticed that the chatbots who received the .docx as knowledge
+base performed better. Therefore, in the rest of this paper, the
+chatbots were trained with .docx files as a knowledge base unless
+noted separately.)
+In addition to data collection, various commercialized AI
+platforms and chatbot frameworks were explored to identify the
+most suitable tool to test/compare for this project. GPT-4o,
+Gemini 1.5, Claude, and Copilot Studio were selected for this
+project. We created multiple chatbots and provided our
+knowledge base to them for testing. A chatbot, GPT-4o, without
+the knowledge base, is also tested as a baseline. We also
+analyzed the impact of allowing the chatbot to access the Internet
+for searches based on the knowledge base.
+When selecting the commercialized LLMs, we focused only
+on the independent models/model providers. Therefore, the
+“secondary” AI platforms that use those LLMs (such as
+BoodleBox) were excluded. We also attempted to include Meta
+AI, but building a chatbot with an additional knowledge base
+464
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:08:50 UTC from IEEE Xplore.  Restrictions apply. 
+from their web user interface has not yet been supported. Table
+I lists the chatbots we have tested or selected.
+TABLE I. L LMS STUDIED IN OUR PROJECT
+Chatbot
+Domain-based
+chatbot
+function with
+knowledge
+base support
+Cost
+Search
+online
+in real-
+time?
+Additional
+constraints
+ChatGPT My GPTs $20/month yes Up to 20 files as theknowledge base
+Gemini Vertex AI
+Free
+(Gemini 1.5
+flash)
+no
+All the input
+knowledge base
+should be in one
+category - 1) PDF or
+doc, 2) JSON, and 3)
+CSV; 10 files, 1
+million line window
+size
+Claude Claude Proprojects $20/month no
+Input knowledge base
+total line limit
+(~20,000-40,000)
+because of Claude's
+maximum context
+window size
+Copilot Copilot studio $200/month
+Yes (but
+only
+from 4
+links)
+Can only support four
+URLs, two
+Dataverses (up to 15
+tables), supports file
+uploads
+Meta AI
+(Llama)
+Need to set up
+your own
+environment
+free no
+Meta AI web
+interface does not
+support knowledge
+base uploads
+When testing these LLMs, to minimize the impact of
+irrelevant factors, we provided the same prompt for the chatbots
+on each platform and conducted the tests using identical
+questions.
+IV. E VALUATION FRAMEWORK AND RESULTS
+We developed a structured framework to assess chatbot
+performance with two test sets. The first set, comprising 20
+objective questions, was used in single-turn interactions (where
+the user asks a single question and receives a single response
+without any follow-up or context retention) to evaluate the
+performances of the chatbots. The second set introduced three
+fictional personas; for each, a chatbot will answer 13 subjective
+questions through multi-turn dialogues (where multiple
+exchanges occur between the user and the chatbot, allowing for
+context retention and follow-up questions within a coherent
+conversation).
+A. Evaluation framework
+We created two test sets, both covering various aspects of the
+university. The first set of 20 objective questions focused on
+factual aspects such as tuition/fees, housing, and campus safety.
+The second set included three fictional personas and 13
+subjective questions that were related to personal preferences,
+such as “What food options align with my taste does the on-
+campus dining offer?” and “Are there any on-campus housing
+options that will fit my lifestyle and preferences?” To create
+these personas, we developed profiles of three virtual incoming
+college students, detailing their preferred majors, food
+preferences, personal hobbies, and other individualized
+characteristics.
+When using the first set of questions to test the chatbot, we
+conducted single-turn conversations to obtain and evaluate
+responses directly. In contrast, for the second set, we employed
+a multi-turn dialogue approach. First, we provided the fictional
+persona’s background information to the chatbot to provide
+context for the interaction. We then asked subjective questions
+from the test set, expecting the chatbot to respond based on both
+the provided knowledge base and the specific details of the
+persona. This approach allowed us to assess the chatbot’s ability
+to handle both straightforward questions and more complex,
+context-driven conversations by integrating its knowledge with
+personalized responses, offering a comprehensive view of its
+adaptability and effectiveness.
+When we evaluated the dialogue with the chatbots, we
+focused on two aspects,correctness andcomprehensiveness. For
+each response from the chatbots, we rate the correctness and
+comprehensiveness using a 3-point Likert scale. The Likert
+scales were defined as follows:
+Correctness -
+∂ 0 (Poor) - wrong information (hallucination) or refusal to
+answer when the knowledge base has included this
+information.
+∂ 1 (Fair) - partially wrong/inaccurate or misleading
+information provided or refuse to answer when the
+knowledge base does not provide adequate information
+to answer.
+∂ 2 (Good) - accurate information, or the information is
+very close to the information provided (considering some
+numbers, like student population, will change every year).
+Comprehensiveness -
+∂ 0 (Poor) - not enough information is provided to cover all
+the aspects of the question.
+∂ 1 (Fair) - some information related to the question but
+inadequate, or too much additional and unrelated
+information.
+∂ 2 (Good) - good coverage of all the aspects, no or limited
+unrelated information provided.
+The last two authors of this paper rated all the responses
+written by our chatbots. Both of them have been teaching,
+studying, or working at UNCW for at least three years.
+B. Experimental results
+Objective question:
+We created three different ChatGPT-based chatbots:
+ChatGPT4o without knowledge base ( GPT-4o), ChatGPT4o
+with knowledgebase but no online search ( GPT-4o+KB), and
+ChatGPT4o with knowledge base and search (GPT4o+KB+S).
+GPT-4o is the baseline model in our test, and without the
+knowledge base, it used its built-in knowledge and real-time
+searches in our tests. We found thatGPT-4o was able to produce
+reasonably accurate and comprehensive answers that are
+comparable toGPT-4o+KB and better than Gemini and Copilot
+465
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:08:50 UTC from IEEE Xplore.  Restrictions apply. 
+Studio. However, GPT-4o may make mistakes because the
+searched information may not be from the university
+website/domain. The ChatGPT-based model that uses the given
+knowledge base but no real-time searches,GPT-4o+KB, could
+produce a similar level of correctness, but we observed that its
+performance of comprehensiveness was slightly weaker. The
+ChatGPT-based model that uses both the given knowledge base
+and online searches (the prompt required it to use the knowledge
+base as the primary information source), GPT4o+KB+S,
+produced the highest correctness and comprehensiveness among
+all the models.
+Claude provided the most accurate result. Considering that
+Claude is an offline LLM that does not support real-time online
+searches, we found that Claude's correctness was phenomenal
+(the tied highest). However, we also found that Claude tended to
+provide additional information that was sometimes unrelated to
+the question. Therefore, Claude’s comprehensiveness score was
+the second highest, mainly due to unrelated information.
+However, it’s also worth mentioning that Claude supports a
+relatively small knowledge base, and as a result, we had to
+separate our knowledge base files and produce four chatbots on
+Claude before they could provide answers to all test questions.
+We found that our chatbot based on Gemini missed
+important information that was actually provided in the
+knowledge base. It may also not provide a comprehensive
+answer from all the possible perspectives. For example, when
+we tested it using a question about the tuition, it only provided
+answers for in-state tuition but missed the out-of-state tuition. In
+addition, Gemini did not take tabular data (such as Excel files or
+CSV files), therefore part of our knowledge base (major list and
+the core course list for each major) could not be taken by Gemini,
+leaving several “n/as” on the experiment results.
+The chatbot based on Copilot Studio received the greatest
+number of 0s, signifying the lack of capability to provide the
+answer even if it was included in the knowledge base. Compared
+to other chatbots, Copilot also provides shorter and less
+comprehensive responses. Considering that Copilot Studio
+allows searches on up to four hyperlink domains, we expected it
+to perform better when using both the given knowledge base and
+real-time searches, but it was the weakest model in terms of both
+correctness and comprehensiveness. However, Copilot Studio
+had the most extensive features, such as customizing
+conversational flow for different topics. It still has the potential
+to handle more complex tasks in the future.
+Table II lists the scores we have given to our chatbot on
+correctness and comprehensiveness.
+TABLE II. PERFORMANCE OF OUR CHATBOTS ON OBJECTIVE QUESTIONS
+correctness comprehensiveness
+Questio
+n GPT-4o
+GPT4o+
+KB
+GPT4o+
+KB+S Claude
+Gemini-
+1.5-
+flash
+Copilot
+Studio GPT-4o
+GPT4o+
+KB
+GPT4o+
+KB+S Claude
+Gemini-
+1.5-
+flash
+Copilot
+Studio
+Q1 2 2 2 2 2 2 2 2 2 1 1 2
+Q2 2 2 2 2 2 0 1 1 2 1 2 1
+Q3 2 2 2 2 2 2 2 2 1 1 2 2
+Q4 1 1 2 2 1 1 0 0 2 2 1 1
+Q5 2 2 2 2 n/a 2 2 2 2 1 n/a 2
+Q6 2 0 2 2 2 2 2 1 2 1 2 2
+Q7 2 2 2 2 2 2 2 2 2 1 2 2
+Q8 1 2 2 2 2 2 2 1 2 2 1 1
+Q9 0 1 2 2 1 0 0 1 2 2 1 0
+Q10 2 2 1 2 2 0 1 2 1 2 2 0
+Q11 2 2 2 2 0 0 2 2 2 1 0 0
+Q12 1 1 2 1 0 1 1 1 2 2 1 1
+Q13 1 2 1 2 2 2 1 2 2 2 2 2
+Q14 2 2 2 2 2 2 2 2 2 2 2 2
+Q15 1 2 2 2 2 2 1 2 2 2 2 2
+Q16 2 1 2 2 2 2 2 0 2 2 2 2
+Q17 2 2 2 2 0 2 2 2 2 2 0 2
+Q18 2 2 2 2 2 1 2 2 2 2 1 1
+Q19 2 2 2 2 2 1 2 1 2 2 1 1
+Q20 2 2 2 2 2 0 2 2 2 1 1 1
+Q21 2 1 2 1 0 2 1 1 1 0 0 1
+Avg. 1.67 1.67 1.90 1.90 1.50 1.33 1.52 1.486 1.86 1.524 1.30 1.33
+466
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:08:50 UTC from IEEE Xplore.  Restrictions apply. 
+Subjective questions:
+We tested the performance of the chatbots on three fictional
+personas. For the first one, UNCW, the university involved, was
+not a good fit, considering the intended major, preferred location,
+and city setting. The second one, by contrast, was clearly a good
+fit for UNCW, considering the academic plan and personal
+hobbies specified. The last fictional persona may find UNCW as
+a “borderline fit” for his academic plan. We created those three
+functional personas with the purpose of testing the chatbots in
+answering subjective questions related to each one’s specific
+needs and interests.
+Overall, the ChatGPT-based models, GPT4o+KB and
+GPT4o+KB+S, had good but sometimes unstable performances
+on the test of three functional personas. The main source of the
+0 ratings comes from hallucinations - they make up information
+that the knowledge base did not include. For example,
+GPT4o+KB+S suggested the third person come for the
+“Bachelor of Science in Civil Engineering” degree, which was
+not on the major list that was part of the knowledge base. We
+found a similar model that relied on the knowledge base only,
+GPT4o+KB, was less likely to hallucinate.
+Claude was the most straightforward one in providing
+information like “this university is not a good fit” to the first
+person and the third person, making it the top performer for the
+first persona. However, we also noticed that sometimes this
+chatbot was not able to find personal suggestions due to the lack
+of information (Claude did not support real-time searches
+online), then, it may provide more general suggestions instead.
+For example, when answering the question, “Is it easy to rent an
+off-campus apartment near the school that is aligned to my
+personal needs?” Claude did not find rich enough information
+from our knowledge base; therefore, it only provided more
+general answers about the off-campus housing availability and
+cost.
+Gemini may answer our testing questions while not
+considering some of the specific person’s attributes. For
+example, when calculating the student loans, the loan estimate
+was provided based on in-state tuition, while the second person
+was an out-of-state student. Another concern with
+comprehensiveness is that it provided long responses to most of
+the answers that present facts but are not necessarily related to
+this person’s needs. However, our Gemini-based chatbot
+performed better than GPT4o and Claude-based models on the
+third fictional person. In addition, we were not able to use all our
+testing questions because the tabular data could not be added to
+Gemini, leaving part of the “n/as” in Tables III-V.
+The chatbot based on Copilot Studio tended to provide
+answers that were consistent with the knowledge base in the
+subjective question testing; however, we found that the answers
+may not be consistent with the needs of the fictional person. For
+example, the first persona preferred housing options with “her
+own apartment/suite with a private bedroom and bathroom.”
+However, Copilot Studio still presented the option of “double-
+occupancy, pod-style rooms,” which was clearly not the option
+that this person preferred. We also found that the answers written
+by Copilot Studio were not as comprehensive as other chatbots.
+When we asked the chatbots to help the fictional persons with
+estimating the student loan and the payments after graduation,
+most of the chatbots helped the students with calculations and
+provided estimated numbers, but Copilot Studio responded –
+“You can estimate your total student loan payment by
+multiplying the annual loan amount by the number of years and
+adding any interest accrued.” While this answer is not mistaken,
+this is not a helpful answer.
+TABLE III. PERFORMAN CEOF OUR CHATBOTS ON SUBJECTIVEQUESTIONS- THE FIRST PERSONA
+correctness comprehensiveness
+Question
+GPT4o+K
+B
+GPT4o+K
+B+S Claude
+Gemini-
+1.5-flash
+Copilot
+Studio
+GPT4o+K
+B
+GPT4o+K
+B+S Claude
+Gemini-
+1.5-flash
+Copilot
+Studio
+Q1 2 2 2 n/a 0 2 2 1 n/a 0
+Q2 2 2 2 2 2 2 2 1 2 2
+Q3 2 2 2 2 2 2 2 2 2 2
+Q4 2 2 2 2 1 1 1 2 2 1
+Q5 2 2 2 2 2 1 2 1 1 1
+Q6 0 0 2 2 2 0 0 2 1 1
+Q7 0 0 2 n/a 0 1 1 2 n/a 1
+Q8 1 1 2 2 1 2 1 2 2 1
+Q9 1 2 0 2 1 2 2 2 2 1
+Q10 1 2 2 2 2 1 2 2 1 2
+Q11 2 2 2 2 1 1 2 1 1 1
+Q12 1 1 2 1 1 2 2 2 1 1
+Q13 2 2 2 1 1 2 2 2 1 1
+Avg. 1.38 1.54 1.85 1.82 1.23 1.46 1.62 1.69 1.45 1.15
+467
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:08:50 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE IV. PERFORMANCE OF OUR CHATBOTS ON SUBJECTIVEQUESTIONS- THE SECOND PERSONA
+correctness comprehensiveness
+Question
+GPT4o+K
+B
+GPT4o+K
+B+S Claude
+Gemini-
+1.5-flash
+Copilot
+Studio
+GPT4o+K
+B
+GPT4o+K
+B+S Claude
+Gemini-
+1.5-flash
+Copilot
+Studio
+Q2-1 2 2 2 n/a 2 2 2 2 n/a 1
+Q2-2 2 2 2 2 2 2 2 2 2 1
+Q2-3 2 2 2 2 2 2 2 2 2 2
+Q2-4 2 2 2 2 1 1 2 2 1 1
+Q2-5 2 2 1 1 2 1 1 2 1 1
+Q2-6 1 2 1 1 1 2 2 1 2 2
+Q2-7 1 2 1 n/a n/a 0 2 2 n/a n/a
+Q2-8 1 2 2 1 1 2 2 2 2 0
+Q2-9 2 2 2 1 2 2 2 2 2 2
+Q2-10 2 2 2 2 n/a 2 1 2 2 n/a
+Q2-11 2 2 2 2 0 1 1 1 1 0
+Q2-12 1 2 1 1 0 1 2 2 2 1
+Q2-13 2 2 2 n/a 1 2 2 1 n/a 1
+Avg. 1.69 2 1.69 1.50 1.27 1.54 1.77 1.77 1.67 1.09
+TABLE Ⅴ. PERFORMANCE OF OUR CHATBOTS ON SUBJECTIVEQUESTIONS - THE THIRD PERSONA
+correctness comprehensiveness
+Question
+GPT4o+K
+B
+GPT4o+K
+B+S Claude
+Gemini-
+1.5-flash
+Copilot
+Studio
+GPT4o+K
+B
+GPT4o+K
+B+S Claude
+Gemini-
+1.5-flash
+Copilot
+Studio
+Q3-1 1 1 2 n/a 0 2 2 2 n/a 1
+Q3-2 2 1 2 2 1 2 2 2 2 0
+Q3-3 2 1 2 2 1 2 1 1 2 0
+Q3-4 2 2 2 2 2 2 2 1 2 1
+Q3-5 1 1 1 1 2 2 1 1 2 1
+Q3-6 0 2 2 1 1 1 2 2 1 1
+Q3-7 2 0 1 n/a 0 2 1 2 n/a 0
+Q3-8 2 2 1 2 0 2 2 1 1 1
+Q3-9 2 2 1 2 1 2 1 1 2 1
+Q3-10 1 2 1 2 0 1 1 2 2 1
+Q3-11 2 2 2 2 2 2 2 2 2 1
+Q3-12 1 1 1 1 1 2 2 2 1 1
+Q3-13 2 2 2 2 2 2 2 2 2 2
+Avg. 1.54 1.46 1.54 1.72 1 1.85 1.62 1.62 1.73 0.85
+The full assessment questions and results can be found in our
+GitHub repository. 1
+V. C ONCLUSION AND FUTURE WORK
+In this paper, we crawled the available information for
+University of North Carolina Wilmington, a regional R2
+university on the east coast of the United States. Considering the
+1 Github repository -https://github.com/larguncw/ICBAIE_2024_chatbots.
+different aspects of data on academics, admission, student life,
+research, university athletics, etc., the volume of the
+unstructured knowledge base was likely on the same level as a
+small-to-medium cooperation [14]. In addition, we also included
+a university annual security report (as a .pdf file), a major list,
+and a core course list (crawled as an Excel file). We created a
+testing framework targeting the assessment of the capability of
+468
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:08:50 UTC from IEEE Xplore.  Restrictions apply. 
+chatbots with the given knowledge base to answer both objective
+(factual) and subjective (personal-preference-based) questions
+from potential incoming students’ perspectives.
+Among the commercialized LLM models tested in our
+experiments, we found that ChatGPT4o-based models were the
+strongest in both correctness and comprehensiveness on
+objective questions, which is consistent with Rydzewski’s
+findings [15]. However, on the subjective questions based on
+different fictional personas, we could not find a consistent model
+with the highest performance - ChatGPT4o, Clause, and Gemini
+demonstrated their capability on different fictional personas.
+Below are our qualitative findings on different commercialized
+LLM models -
+∂ ChatGPT 4o - providing the customized knowledge base
+and utilizing the online search option tends to provide
+better responses for objective questions, but hallucination
+is still a concern. Keeping the knowledge base and
+turning off the online search can reduce the
+hallucinations.
+∂ Claude - there is no option to utilize real-time searches.
+The answers are more “faithful” to the knowledge base,
+but the allowed knowledge base size is smaller than
+ChatGPT, making it challenging to build a domain-
+specific model on Claude if the knowledge base is larger
+than the online textual data from an R2 university.
+∂ Gemini - as a model that does not support real-time
+searches, it is generally good at providing general
+answers and considering personal needs. However, it
+does not support structured input (such as Excel files) as
+part of the knowledge base in the current version.
+∂ Copilot Studio - is currently weak in both correctness and
+comprehensiveness and is especially weak in answering
+subjective questions that relate to the needs of a specific
+persona. However, we see the ambition of the developer
+- we are hopeful for stronger future versions.
+Although this study aimed to create an assessment
+framework and evaluate the current state-of-the-art LLM models,
+the pace of innovation in the field will inevitably limit the
+generalizability of our results and observations. However, our
+assessment framework has a longer impact compared to our
+findings. Our experiments were done between August and
+October 2024, and the new OpenAI o1 was not in the scope of
+this project.
+In addition, there will be cases in which the knowledge base
+cannot be online (either uploaded or shared) due to
+institutional/cooperation regulations. In this case, the technical
+paths discussed in this paper will not be applicable. For those
+researchers/working professionals, the best option will be to
+create an in-house LLM server.

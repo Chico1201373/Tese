@@ -1,0 +1,549 @@
+2024 18th International Conference on Open Source Systems and Technologies (ICOSST)  
+979-8-3315-0869-2/24/$31.00 ©2024 IEEE 
+CancerBot: A Retrieval-Augmented Generation-
+based Cancer Chatbot Using Large Language 
+Models 
+Ayesha Azam  
+Al-Khwarizmi Institute of Computer 
+Science, University of Engineering and 
+Technology 
+Lahore, Pakistan  
+ayesha.azam@kics.edu.pk 
+Zubaira Naz  
+Information Technology University 
+ Lahore, Pakistan  
+ 
+zubaira.naz@itu.edu.pk
+Muhammad Usman Ghani Khan  
+Department of Computer Science, 
+University of Engineering and  
+Technology 
+ Lahore, Pakistan 
+chairmancse@uet.edu.pk 
+Abstract— Cancer is the second leading cause of death 
+globally, highlighting the urgent need for innovative solutions to 
+support patients and healthcare providers. Remote and digital 
+cancer care interventions, such as chatbots, are more relevant 
+than ever, offering timely information and personalized 
+assistance. With the rise of conversational AI, chatbots have 
+emerged as a potential solution to bridge this gap, offering 24/7 
+assistance and personalized responses. This paper introduces 
+CancerBot, a Retrieva l-Augmented Generation (RAG) system 
+designed to address the need for reliable, contextually relevant 
+cancer-related information. Built on top of a large language 
+model LLaMA -2, and integrated with a vector database, 
+CancerBot retrieves relevant medical literature to generate 
+accurate responses, minimizing the risk of hallucinations. 
+Through synthetic testing and evaluation using metrics such as 
+faithfulness, context relevancy, and response relevancy, our 
+results demonstrate that the RAG -based CancerBot 
+significantly outperforms the standard LLaMA -2 model in 
+addressing cancer -specific queries. This advancement 
+showcases the potential of RAG systems to improve patient care 
+by providing reliable, context-driven information that enhances 
+patient engagement and healthcare decision-making. 
+Keywords— Cancer, Chatbot, Llama2, LLM, RAG, Vector 
+Databases  
+I. INTRODUCTION  
+The World Health Organization (WHO) reports that 
+cancer is the second leading cause of death globally. In 2022, 
+there were approximately 20 million new cancer cases and 9.7 
+million cancer -related deaths worldwide. By 2040, these 
+numbers are expected to rise significantly, with an estimated 
+29.9 million new cases and 15.3 million deaths annually [1]. 
+This growing burden emphasizes the need for innovative 
+solutions to enhance support for patients, caregivers, and 
+healthcare providers. Timely diagnosis and optimal treatment 
+are essential for improving cancer survival rates. 
+Consequently, there is a rising demand for an effective 
+healthcare system to address the complex treatment and care 
+needs of cancer patients. Many patients experience challenges 
+related to physical, emotiona l, and practical concerns, yet 
+often struggle to find adequate information to manage these 
+issues [2]. Furthermore, misinformation about cancer is 
+widespread on online platforms such as Google and YouTube, 
+exacerbating these challenges [3]. 
+AI-driven chatbots have gained increasing importance by 
+offering 24/7 assistance and personalized information to 
+patients navigating cancer care [4], [5]. These tools can 
+enhance patient engagement, provide emotional support, and 
+help alleviate the workloa d of healthcare professionals, 
+offering a more robust and accessible approach to cancer care 
+[6]. Conversational AI chatbots have demonstrated the 
+potential to provide patients with responses that are as 
+accurate, empathetic, and readable as those provided  by 
+healthcare professionals [7]. Expert AI chatbots trained on 
+extensive medical text corpora can serve as point -of-care 
+electronic tools, offering essential information to vulnerable 
+populations while also providing emotional support to cancer 
+patients, thus improving oncology care. Additionally, chatbots 
+have been increasingly used in applications such as cancer 
+screening, prevention, risk stratification, treatment, 
+monitoring, and management. Studies have shown high user 
+satisfaction with these tools, as they enhance patient-centered 
+communication, make cancer -related information more 
+accessible, and improve access to care [7]. 
+The rise of large language models (LLMs) has further 
+advanced the capabilities of chatbots, enabling them to 
+understand and generate human-like responses [7]. LLMs are 
+a subset of artificial intelligence that relies on deep learning 
+techniques, particularly transformers, to process and generate 
+human language. These models are trained on massive 
+datasets that include text from books, research papers, 
+websites, and other textual resources. By leveraging this vast 
+corpus of information, LLMs can predict and g enerate 
+coherent, contextually relevant responses to a wide variety of 
+inputs. LLMs like GPT -4 [8] and others operate through 
+billions of parameters, which help them to capture nuances in 
+language, including grammar, context, and meaning. When a 
+user inputs a question or statement, the model analyzes the 
+sequence of words and predicts the next word or phrase, 
+building an informed response that often mirrors human 
+conversation. These advancements in natural language 
+processing (NLP) have significantly improv ed the 
+effectiveness of chatbots in healthcare, enabling them to 
+engage in more meaningful and empathetic interactions. 
+However, LLMs face significant challenges, including 
+knowledge cutoffs and the potential for generating 
+hallucinations that are incorrect or misleading [9]. These 
+limitations can undermine trust and hinder the effectiveness of 
+chatbots in delivering reliable information, especially in 
+critical areas like oncology. To overcome these challenges, 
+Retrieval-Augmented Generation (R AG) models offer a 
+promising solution. By integrating sophisticated retrieval 
+mechanisms with the generative capabilities of LLMs, RA G 
+ensures that chatbot responses are both accurate and 
+contextually relevant. This approach not only mitigates the 
+risk of hallucinations but also bridges the gap created by 
+knowledge cutoffs, providing access to the latest research and 
+2024 18th International Conference on Open Source Systems and Technologies (ICOSST) | 979-8-3315-0869-2/24/$31.00 ©2024 IEEE | DOI: 10.1109/ICOSST64562.2024.10871155
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:48:36 UTC from IEEE Xplore.  Restrictions apply. 
+2024 18th International Conference on Open Source Systems and Technologies (ICOSST)  
+979-8-3315-0869-2/24/$31.00 ©2024 IEEE 
+clinical guidelines. A RAG -based cancer chatbot can 
+effectively address the diverse needs of cancer patients, 
+offering tailored support across various types of cancer. This 
+enhances patient education, supports informed decision -
+making, and ultimately contr ibutes to improved health 
+outcomes. Additionally, it alleviates the information burden 
+on healthcare providers, allowing them to focus more on direct 
+patient care. 
+II. LITERATURE REVIEW 
+The AI chatbot has immensely revolutionized the health 
+sector, particularly in oncology. These digital tools seek to 
+offer timely information and support to patients and increase 
+their understanding of cancer -related issues. There is a 
+narrative review by Piau et al. (2023) citing that chatbots have 
+been used in many applications such as cancer screening and 
+prevention, risk stratification, treatment management, and 
+monitoring. Out of the 21 assessed chatbots, the majority of 
+them indicated high patient satisfaction and positively 
+impacted the care's efficiency compared to conventional 
+practices. In particular, 9 of the 12 studies mentioned that the 
+outcome of oncological care was positive through the use of 
+chatbots [10]. Nevertheless, AI chatbots have some 
+limitations. Some of the major r estrictions of the chatbots 
+based on AI include dependence on pre-programmed response 
+patterns and lack of substantial contextual perceptions. This 
+often results in too technical terms that will only confuse 
+patients rather than help them. A review of the effectiveness 
+of several AI chatbots on the quality of their response reported 
+that although they had correctly provided information on the 
+most common cancers, many of the responses were 
+unintelligible by laypersons. In addition, such chatbots are 
+vulnerable to inaccuracy in their training data which could be 
+outdated or even biased, leading to providing the wrong 
+information that has adverse effects on patient care [11], [12]. 
+Advanced natural language processing, like more 
+improved chatbots, paved the way to finally understanding 
+and even responding to the demands of a patient. NLP-based 
+chatbots possess very promising positions over simple AI 
+systems in the sense that they allow for very personalized 
+interaction. For instance, performance and comparison 
+evaluation of three NLP -based chatbots were co nducted 
+against licensed physicians, and the chatbots were concluded 
+to have outperformed human specialists in empathy and 
+readability when answering questions related to cancer [13]. 
+The result indicates that the mean empathy scores of the best-
+performing chatbot were significantly higher than those of 
+human physicians, which may indicate that NLP improves 
+patients' engagement and sa tisfaction. Despite  this, NLP 
+models have their very own limitations. Although they 
+improve the quality of interaction, they tend to generate vague 
+or ambiguous responses, which might confuse users. 
+Additionally, research studies have indicated that system s 
+based on NLP often make incorrect recommendations or are 
+contrary to clinical guidelines. For example, one study found 
+that a third of treatment recommendations from an NLP 
+chatbot did not follow NCCN guidelines [4]. This 
+inconsistency indicates that the se models need to be 
+continuously validated and updated to ensure they stay 
+reliable. 
+The second major landmark in chatbot technology applied 
+to health is Large Language Models. They are LLMs, the likes 
+of ChatGPT, which can give meaningful coherent responses 
+in some context to vast datasets. Because they can imitate 
+human speech, they tend to engage patients more than the 
+traditional model would. However, while LLMs can pump out 
+abundant detail quickly, new problems were also introduced. 
+Indeed, it has been documented that LLMs can produce 
+"hallucinations," which involve generating entirely incorrect 
+information or recommending interventions not supported by 
+clinical guidelines; this happened in approximately 12.5% of 
+cases during evaluations[14]. Further, LLMs may have 
+difficulties handling nuanced medical decision -making 
+because of their generalized training data. 
+After LLMs, there is an increasing interest in Retrieval -
+Augmented Generation models for applications in healthcare, 
+since these models seemingly address some of the limitations 
+of Large Language Models (LLMs). It's a combination of 
+traditional Information Retrieval and generative capabilities 
+that empower chatbots to give accurate, timely responses with 
+real-time integration of verified data from medical databases 
+[13]. The particular approach has been known to reduce 
+diagnostic errors in health care by up  to significant numbers, 
+thus providing more precise treatment recommendations and 
+outcomes for the patients [15]. For example, some recent 
+implementations, as witnessed by the use of technology RAG 
+by Apollo 24\7 in confluence with Google's MedPaLM [16], 
+came to prove that RAG does its job effectively in bringing 
+clinicians in real -time access to de -identified patient data as 
+well as new medical research [13]. Of course, it's all about the 
+models of RAG that can automate various administrative tasks 
+such as scheduling patient visits, which made their operational 
+efficiency better. With the synthesis of the relevant 
+information from vast medical databases, RAG deepens the 
+understanding of the patients as well as facilitates their 
+cooperation-the ideal chain of communication between health 
+care providers and patients [15]. As RAG technology evolves, 
+it will change the medical world map in accessing and using 
+medical information for the betterment of both patient care 
+and operational workflows [17]. 
+While substantial advancements have been made in 
+elevating cancer care through enhanced patient engagement 
+and access using AI -powered chatbots, concerns about their 
+accuracy and reliability remain paramount. The transition 
+from basic AI systems, then to NLP -based models, and now 
+LLMs indicates unwavering attempts to strengthen the 
+effectiveness of these tools in health care. However, there is 
+still further work that needs to be done to overcome the current 
+limitations of such technologies so they can be used accurately 
+by patients searching for information about cancer. 
+III. METHODOLOGY 
+A. Data Collection, Chunking and Embeddings 
+The process for gathering data for CancerBot, a cancer -
+specific Retrieval -Augmented Generation system, was 
+exhaustive and included drawing information from both 
+medical and academic sources. Using an API key, we 
+searched PubMed for papers with "cancer" as the main 
+keyword. This led to the downloading of 100 full -text PDFs 
+covering a wide range of topics, including cancer diagnosis, 
+treatment strategies, new therapy advancements, and ongoing 
+clinical trials. Apart from these papers, we obtained seven 
+books from a Google search on the topic of cancer that dealt 
+with treatment protocols, preventive measures, patient care, 
+and educational resources for both patients and healthcare 
+providers. The inclusion of book materials with the journal 
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:48:36 UTC from IEEE Xplore.  Restrictions apply. 
+2024 18th International Conference on Open Source Systems and Technologies (ICOSST)  
+979-8-3315-0869-2/24/$31.00 ©2024 IEEE 
+articles helped to provide a more comprehensive resource for 
+the system. 
+After collecting the data, the next phase involved 
+preparing it for CancerBot’s RAG system. To manage the text 
+from these papers and books, we used LangChain’s 
+ReadTheDocsLoader. 1, a tool designed for working with 
+structured documents. Given the complexity and length of the 
+texts, we applied a RecursiveCharacterTextSplitter . 2  To 
+break the documents into chunks of 800 characters each, 
+ensuring that the chunks were manageable while keeping the 
+text coherent.  Then, the sentence-transformers/all-mpnet-
+base-v2 model to create embeddings of the text  was used . 
+Embeddings allow the model to find contextually similar 
+information, thus providing more accurate and meaningful 
+responses. This is particularly important in the medical 
+domain, where scientific literature is often dense, and 
+understanding the context behind specific terms or treatments 
+can drastically affect the quality of the information provided. 
+ 
+The sentence  Transformer [18] model is well -known for 
+generating high -quality, context -aware embeddings, which 
+allowed CancerBot to retrieve the most relevant sections of 
+the text based on user queries. This model is powered by pre-
+trained nuanced relationships between words, phrases , and 
+sentences. These conditions make CancerBot achieve its real-
+time accuracy with answer -providing performance within 
+areas like cancer treatment, research, and patient education. 
+B. Vector Database 
+Pinecone Vector Database 3 Was employed to efficiently 
+manage the storage and retrieval of embeddings within the 
+CancerBot system (Fig. 1). Pinecone is perfectly suitable for 
+our use cases since it allows quick similarity search across 
+large datasets. This follows the architecture of CancerBot 
+wherein the embeddings are vital for associating user queries 
+with pieces of cancer literature. 
+ 
+For the database configuration, an index in Pinecone with 
+a dimensionality of 384  was created , reflecting the 
+dimensions of the embeddings generated by the `sentence -
+transformers/all-mpnet-base-v2` model [19]. Cosine 
+similarity as the metric for this index which can be calculated 
+as in (1), was employed . Cosine similarity is the effective 
+measure of the angular distance between vectors and hence is 
+the ideal measure that should be applied for text embedding 
+semantic content comparison.  The initialization p rocess 
+included checking whether the index existed and, if not, then 
+it created it. The system then monitored the index until it was 
+fully initialized and ready for use. 
+cos 𝜃 =  𝐴. 𝐵||𝐴|| ||𝐵|| =  ∑ 𝐴𝑖 𝐵𝑖𝑛𝑖=1√∑ 𝐴𝑖2𝑛𝑖=1 √∑ 𝐵𝑖2𝑛𝑖=1             (1) 
+ 
+Once the index was prepared, we proceeded to 
+upsert the embeddings along with their associated 
+metadata, which included the specific text chunks they 
+ 
+1https://python.langchain.com/docs/integrations/document_l
+oaders/readthedocs_documentation/ 
+ 
+ 
+represented. Each embedding was given an ID to track 
+and retrieve precisely. The upsert process assures that 
+while inserting and updating the data, there would be no 
+duplication in such a manner that the information could 
+be retrieved in real-time. Thus, the RAG-based system of 
+the structure of CancerBot is capable of searching the 
+vectorized representation of research papers and books to 
+provide information on semantic similarity about query 
+embeddings. 
+C. Large Language Model for Generation 
+This study uses the Llama -2-13b model which is 
+part of the Llama-2 [20] family of pre -trained generative 
+text models created by Meta and released in July 2023. 
+They use an auto -regressive approach - which 
+sequentially generates text based on the context provided 
+to the model. We use the Llama -2-13b model since it is 
+capable of handling complex linguistics since it has been 
+pre-trained on a vast corpus of about 2 trillion tokens of 
+text data and supports longer context lengths of up to 4096 
+tokens. For dialogue cases, the model has been fine-tuned 
+in a supervised manner using labeled data. The model is a 
+great resource to use for the use case of this study since it 
+is built to balance both helpfulness and safety in its 
+responses. In most cases, the Llama -2-13b model has 
+been found to outperform most of its closed -source 
+competitors such as ChatGPT [20]. 
+ 
+The model is built on the powerful transformer 
+Architecture model. The transformer model was 
+introduced in 2017 and relies on self-attention techniques 
+to capture contextual information from the input text. It 
+consists of an encoder -decoder structure, wher e the 
+encoder processes input tokens and the decoder generates 
+output tokens. The multi -head attention mechanism 
+allows the model to attend to different parts of the input 
+sequence simultaneously, enhancing its ability to learn 
+complex patterns [20].  
+ 
+The LLaMA -2 13B model was optimized for 
+deployment on limited -memory hardware using 
+quantization techniques. To minimize model size, 
+quantization converts high -precision weights and 
+activations into lower -precision formats retaining 
+performance. By impleme nting this strategy, large 
+models can be effectively run on GPUs with limited 
+memory, expanding their accessibility for various 
+applications with reduced computational requirements. 
+The model was loaded with 4 -bit precision to prioritize 
+both memory efficiency and computational accuracy. The 
+chosen quantization method maximizes performance with 
+minimal effect on model accuracy.  
+2https://api.python.langchain.com/en/latest/character/langch
+ain_text_splitters.character.RecursiveCharacterTextSplitter.
+html 
+ 
+3 https://www.pinecone.io/ 
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:48:36 UTC from IEEE Xplore.  Restrictions apply. 
+2024 18th International Conference on Open Source Systems and Technologies (ICOSST)  
+979-8-3315-0869-2/24/$31.00 ©2024 IEEE 
+ 
+Fig. 1. Architecture of the Proposed RAG-powered CancerBot 
+Double quantization and lower -precision 
+computation were employed to minimize memory and 
+enhance speed. The LLaMA-2 13B model ran effectively 
+on available GPU resources with this configuration, 
+proving that large models can be deployed efficiently on 
+constrained hardware. 
+D. RAG-based Response Generation 
+The retrieval -augmented generation improves the 
+correctness of responses by combining large language 
+models with external data sources. The RAG draws real -
+time factual data into its context window without having 
+to retrain the LLM for efficient responses. It accesses this 
+database after receiving an inquiry to gather the necessary 
+context for the LLM's limited knowledge. After that, the 
+LLM generates a reply based on current data. This method 
+goes beyond the LLM as it provides context -specific 
+resolutions. 
+The Knowledge Base of the cancer chatbot will be 
+enriched using RAG to extract information from related 
+literature. Retrieving relevant parts from the vector 
+database deepens the context of responses to user 
+inquiries. RAG equips the chatbot with real-time medical 
+knowledge. RAG allows the chatbot to receive real -time 
+updates, eliminating the need for costly LLM retraining. 
+With new cancer data, the vector database effortlessly 
+expands, improving the chatbot's cancer -related 
+knowledge. By employing RAG appr oaches, we harness 
+the reasoning ability and factual knowledge of a large 
+language model, which is relationally stored and 
+dynamic. Due to the synergy between the chatbot and the 
+knowledge base, it delivers more elaborate responses 
+based on current information. RAG is crucial for enabling 
+the chatbot to store accurate and contextually relevant 
+cancer information. 
+IV. RESULTS 
+In this study, Gradio was utilized to develop a web-based 
+application interface, hosted locally, for interacting with an 
+RAG system that combines large language models LLMs with 
+a vector database. The design of the interface created using 
+Gradio is presented in Fig . 2, which illustrates how users 
+interact with the system. We employed this interface to ask a 
+series of questions to the LLM -based system, focusing on 
+cancer-related queries. The system's responses were generated 
+based on relevant context extracted through a similarity search 
+from a vector database that had been populated with cancer -
+related documents, research articles, and medical literature.  
+The system generated answers that were accurate and 
+rooted in the provided dataset by retrieving the most 
+contextually relevant information. Fig. 3 shows how this 
+process works, presenting both the questions posed to the 
+system and the corresponding responses based on the retrieved 
+context. Several questions from research papers and medical 
+documents were selected manually and used to assess the 
+system's performance. Among all questions, one was the 
+question "What is the Patient Experience of Radiation 
+Therapy for Cancer Treatment?" Here, since this model pulled 
+out context-relevant information from the database, therefore 
+it came up with correct response as demonstrated in Fig. 3(a). 
+Now it confirmed the model capability of retrieving 
+contextually relevant information relating to oxidative 
+stress—the vital component of the disease and also could give 
+thoughtful response for the given context. 
+ 
+ 
+Fig. 2. User Interface of CancerBot 
+ 
+(a) 
+ 
+(b) 
+ 
+ 
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:48:36 UTC from IEEE Xplore.  Restrictions apply. 
+2024 18th International Conference on Open Source Systems and Technologies (ICOSST)  
+979-8-3315-0869-2/24/$31.00 ©2024 IEEE 
+ 
+(c) 
+ 
+Fig. 3. Responses by CancerBot along with retrieved context (a) What 
+is the patient experience of radiation therapy for cancer treatment ? (b) 
+How does occupational exposure to pesticides contribute to oxidative 
+stress in cancer patients? (c) What is prostate cancer? 
+ 
+In another example, the question, "How does 
+occupational exposure to pesticides contribute to oxidative 
+stress in cancer patients?" was posed (Figure 3 (b)). An 
+additional instruction was given to the system to answer 
+based strictly on the retrieved context and, if no relevant 
+information was found, to reply, "I don’t know." This 
+instruction was implemented to mitigate the risk of 
+hallucinations, an issue common in LLMs where they 
+generate false or misleading information. Fig ure 4 illustrates 
+how the system effectively handled this instruction, providing 
+accurate responses based only on the available data, thereby 
+preventing hallucinations. To test it, a control question that 
+was unrelated to the cancer context was asked: "Who  is 
+Barack Obama?" Since the vector database did not contain 
+any information related to Barack Obama, the system 
+correctly responded with “ can not provide information about 
+him”. This highlights the effectiveness of the RAG system in 
+adhering to the provi ded context and only generating 
+responses when relevant information is available. 
+After building and manually testing the RAG pipelines, we 
+created a synthetic testing dataset along with ground truth 
+using GPT -4. This dataset was carefully structured with 
+headers like question, answer, context, and ground truth to 
+ensure a thorough eval uation. To assess the performance of 
+the RAG system, we used the Retrieval -Augmented 
+Generation Assessments (RAGAs) [21]. The evaluation 
+focused on several key metrics: faithfulness, context 
+relevancy, and response relevancy. Faithfulness ensures that 
+the response generated is contextual to prevent hallucinations 
+and to provide factual consistency, whereas relevancy of the 
+response addresses how well the answer has been generated 
+about a specific question. Context Relevance determines 
+whether or not the retrieved context is concise and irrelevant-
+free to maximize LLM's performance. 
+We tested both the LLaMA -2 model and the RAG -
+enhanced LLaMA-2 model by asking them the same set of 
+cancer-related questions. The results, shown in Table 1, 
+clearly demonstrate that the CancerBot, powered by RAG, 
+performed significantly better than the standard LLaMA -2 
+13B model when handling these cancer-specific queries. 
+This shows that the CancerBot’s ability to pull relevant 
+information and provide accurate, contextually rich answers is 
+much stronger due to the RAG system, especially in the 
+complex and sensitive field of healthcare. 
+TABLE I.  COMPARATIVE RAGAS RESULTS 
+Model 
+Evaluation Metrics 
+Faithfulness Context Relevancy Response Relevancy 
+Llama 2- 
+13B 
+0.54 0.41 0.34 
+RAG-
+powered 
+Llama 2-13b  
+0.83 0.72 0.79 
+ 
+        
+ 
+Fig. 4. CancerBot dealing with hallucinations 
+ 
+However, despite its brilliant prospects, there are a couple of 
+scopes where improvement is needed in order to take it to the 
+next level. Currently, it relies on cosine similarity for 
+retrieving relevant information. Although this works very well 
+in most cases, this methodology might not be useful in some 
+instances in bringing the outcomes closest to perfection or 
+even contextual accuracy [22]. The size of the corpus that it is 
+currently using is also pretty small. Though adequate for its 
+current scope, it limits the range of cancers and medical 
+concerns it can address entirely. 
+V. CONCLSUION AND FUTURE DIRECTIONS 
+The development and evaluation of the RAG -based 
+CancerBot highlight important progress in how AI can help 
+retrieve and generate accurate, contextually relevant 
+information for cancer-related questions. CancerBot became a 
+better model combined with a vector database as opposed to 
+the standard LLaMA -2 model. Answers became clearer and 
+more accurate, bringing down the possibility of spreading 
+misinformation. Additionally, the use of Gradio for the 
+interface made the system more accessible, offering a user -
+friendly and intuitive way for people to interact with the tool. 
+Future development would be to expand the corpus to address 
+more diverse kinds of cancers and even more medical 
+concerns. A further step would be to consider better retrieval 
+methods than cosine similarities to extend relevance and 
+precision in searching information. We will also experiment 
+with different open-source models and embedding techniques 
+in our attempt to make the system even more adaptive and 
+efficient. Another interesting possibility would be its 
+integration into wearable technology like smart glasses, which 
+makes it more portable and easy to access.  In conclusion, this 
+paper demonstrates the possibilities of Retrieval -Augmented 
+Generation systems in truly impacting health care by 
+producing reliable information that is based on actual 
+evidence. 
+ 
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:48:36 UTC from IEEE Xplore.  Restrictions apply. 
+2024 18th International Conference on Open Source Systems and Technologies (ICOSST)  
+979-8-3315-0869-2/24/$31.00 ©2024 IEEE 

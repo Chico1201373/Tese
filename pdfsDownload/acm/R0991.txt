@@ -1,0 +1,497 @@
+Analyzing Pedagogical Quality and Efficiency of LLM Responses
+with TA Feedback to Live Student Questions
+Mihran Miroyan∗
+miroyan.mihran@berkeley.edu
+University of California, Berkeley
+Berkeley, California, USA
+Chancharik Mitra∗
+cmitra@cs.cmu.edu
+Carnegie Mellon University
+Pittsburgh, Pennsylvania, USA
+Rishi Jain
+rishiraij@berkeley.edu
+University of California, Berkeley
+Berkeley, California, USA
+Gireeja Ranade
+gireeja@berkeley.edu
+University of California, Berkeley
+Berkeley, California, USA
+Narges Norouzi
+norouzi@berkeley.edu
+University of California, Berkeley
+Berkeley, California, USA
+Abstract
+While Large Language Models (LLMs) have emerged as promising
+methods for automated student question-answering, guaranteeing
+consistent instructional effectiveness of the response remains a key
+challenge. Therefore, there is a need for fine-grained analysis of
+State-Of-The-Art (SOTA) LLM-powered educational assistants.
+This work evaluates Edison: a Retrieval Augmented Generation
+(RAG) pipeline based on GPT-4. We determine the pedagogical effec-
+tiveness of Edison’s responses through expert Teaching Assistant
+(TA) evaluation of the answers. After the TA edits and improves the
+response, we analyze the original LLM response, the TA-assigned
+ratings, and the TA’s edits to ascertain the essential characteristics
+of a high-quality response. Some key insights of our evaluation are
+as follows: (1) Edison can give relevant and factual answers in an
+educational style for conceptual and assignment questions, (2) Most
+TA edits are deletions made to improve the style of the response,
+and finally (3) Our analysis indicates that Edison improves TAs’
+efficiency by reducing the effort required to respond to student
+questions.
+CCS Concepts
+• Applied computing→ Computer-assisted instruction; •
+Computing methodologies→ Natural language generation;
+Discourse, dialogue and pragmatics.
+Keywords
+Language models, Question answering, Instructional technolo-
+gies, Expert feedback
+ACM Reference Format:
+Mihran Miroyan, Chancharik Mitra, Rishi Jain, Gireeja Ranade, and Narges
+Norouzi. 2025. Analyzing Pedagogical Quality and Efficiency of LLM Re-
+sponses with TA Feedback to Live Student Questions. In Proceedings of
+the 56th ACM Technical Symposium on Computer Science Education V. 1
+∗Authors contributed equally to this research.
+This work is licensed under a Creative Commons
+Attribution-NonCommercial-NoDerivs International
+4.0 License.
+SIGCSE TS 2025, February 26-March 1, 2025, Pittsburgh, PA, USA
+© 2025 Copyright held by the owner/author(s).
+ACM ISBN 979-8-4007-0531-1/25/02
+https://doi.org/10.1145/3641554.3701965
+(SIGCSE TS 2025), February 26-March 1, 2025, Pittsburgh, PA, USA. ACM,
+New York, NY, USA, 7 pages. https://doi.org/10.1145/3641554.3701965
+1 Introduction
+Interest in Computer Science (CS) has grown at a rapid rate [ 3],
+driving automated question-answering with Large Language Mod-
+els (LLMs) [1, 11] due to their demonstrated strong performance in
+answering subject-specific questions [14] and generating code [5].
+Despite the increased use of LLM-based assistants for fast and per-
+sonalized responses to student questions, challenges remain in eval-
+uating the instructional effectiveness of LLM-generated responses,
+especially for course-specific questions.
+When evaluating LLM tools [25, 34, 43] for coding assistance or
+answering questions in CS courses, the key question is how to eval-
+uate the instructional effectiveness of responses. Beyond metrics
+like relevance and factuality [17, 25, 31], recent work highlights the
+importance of interactivity, time-saved, and withholding of direct
+solutions in automated responses [8, 18, 43] as key factors impact-
+ing response quality in educational settings. Most works address
+this by using statistical analysis, student and educator surveys, and
+human evaluations [8, 18, 41].
+Our work evaluates the pedagogical quality and efficiency of
+LLM responses through expert TA feedback. To achieve this, we first
+present our LLM assistant, Edison, a GPT-4-based method that lever-
+ages Optical Character Recognition (OCR), retrieval-augmented
+generation (RAG)[23, 35], and prompt engineering (including expert
+pre-conditioning and few-shot examples) to answer course-specific
+natural language and coding questions consisting of text and/or
+images. We deploy Edison with TAs in the loop in a large-scale
+upper-division undergraduate data science course, Data 100, at UC
+Berkeley.
+Our evaluation uses expert TA feedback to assess the relevance,
+factuality, and style of Edison responses. We analyze TA edits to
+Edison responses to answer the following research questions:
+RQ1: How do TAs evaluate Edison’s responses on factuality, rele-
+vance, and style?
+RQ2: What are the main attributes of TAs’ edits to Edison’s re-
+sponses?
+RQ3: What are the determining factors of Edison’s responses that
+lead TAs to completely rewrite the answers from scratch?
+RQ4: Are there efficiency gains for TAs from the use of Edison?
+770
+SIGCSE TS 2025, February 26-March 1, 2025, Pittsburgh, PA, USA Mihran Miroyan, Chancharik Mitra, Rishi Jain, Gireeja Ranade, & Narges Norouzi
+Our analysis shows that Edison gives relevant and factual re-
+sponses, struggling most with style due to response verbosity. As a
+result, most TA edits of Edison responses are deletions. Additions
+made by TAs focused on making the responses more relevant and
+factual. Overall, we hope that this detailed analysis of the strengths
+and weaknesses of an LLM-based educational assistant can guide
+future work in the development and evaluation of these systems.
+2 Related Work
+2.1 LLM-powered Virtual Assistants in
+Education
+Logistical inefficiencies and repeated questions are major challenges
+of scaling office hours for large classes [27]. A study on CS instruc-
+tor pain points found that much time is spent assisting students
+with individual or group queries [29], and Oberman notes a link
+between student motivation and help-seeking in CS courses [ 6],
+highlighting the value of digital tools for reducing help-seeking bar-
+riers [2, 4]. To address these challenges, research has focused on the
+adoption of LLMs such as GPT-4 [1], LLaMA [10], and Gemini [11]
+as educational assistants [12, 18, 25, 31, 42, 43].
+One LLM application is answering student questions [ 15, 31],
+including use in discussion forums and virtual office hours. Other
+educational applications of LLMs include code generation [36, 38,
+40], student submission feedback [17, 21, 28], student modeling [9,
+26], and course content development [33, 37, 39].
+2.2 Pedagogical Evaluation of LLMs
+The continual improvement and adaptation of intelligent tutor sys-
+tems via data-driven approaches also guides LLM educational as-
+sistant development [19, 32]. While many benchmarks exist for
+general LLM tasks like question-answering [ 14] and conversa-
+tion [7], educational assistants require higher standards for evalu-
+ating factuality, relevance, and response style. Automated metrics
+like ROGUE [24], and similarity-based embedding methods [ 35]
+provide quick insight into the similarity of LLM-generated and ex-
+pert responses but lack depth in assessing factuality or pedagogical
+style and often overfit to the structure and template of the text
+rather than the content. As such, these methods struggle to eval-
+uate syntactically similar but semantically or structurally diverse
+answers to questions [16].
+The best existing method for pedagogical evaluation is to as-
+sess LLM assistants on real student questions from courses [ 18,
+31, 41, 43], leveraging human evaluation [ 13, 18, 25, 30, 31], sur-
+veys [18, 25], and interviews [8, 13, 18] from students and educators
+regarding LLM assistant interactions. These methods allow for fine-
+grained analysis of instructional effectiveness.
+3 Method
+3.1 Deployment Settings
+Our team deployed Edison in a large-scale upper-division under-
+graduate data science course, Data 1001, at the University of Califor-
+nia, Berkeley, during the Spring 2024 semester. The course served
+1133 undergraduate and 71 graduate students and was operated
+1For additional information, please refer to the course website:
+https://ds100.org/sp24/
+by 59 staff members. The course was chosen in part due to the
+diversity of topics discussed (data processing, machine learning,
+probabilistic modeling, etc.) and the different types of questions
+that arise as a consequence (logistics, mathematics, programming,
+conceptual, etc.)
+Edison was integrated into the course discussion forum — Ed-
+STEM2 — for one month 3. During this timeframe, for each new
+question, students were asked to provide consent if they permitted
+the use of Edison. Upon consent, a TA would determine whether
+the question was appropriate to send to Edison; factors for this
+determination included the presence of personally identifiable in-
+formation and extension requests. If determined to be appropriate,
+the TA triggered Edison, which returned a TA-visible response to
+the student question. The TA was subsequently prompted to rate
+the generated response on a scale from 1 to 5 for the following three
+metrics — factuality, relevance, and style (see metric definitions in
+Table 1). We measure the pedagogical quality of a response as a
+combination of these three metrics. The TA then decided whether
+to directly use, edit, or completely rewrite Edison’s response.
+Students provided their consent for 199 out of 435 questions for
+which we have asked for consent. TAs activated Edison for 110
+questions (after removing miscellaneous activations). There were
+15 unique users (i.e., TAs), with the majority of the calls (~65%)
+made by three experienced TAs; all the TAs have previously taken
+the course (Data 100) and were either enrolled in or had completed
+a pedagogy course at that time.
+3.2 Edison’s Pipeline
+Edison utilizes historical Q&A pairs and course documents to an-
+swer new student questions with RAG. The system is also aug-
+mented with a few additional features (the details of the base
+pipeline are presented in [31]). Images attached as part of the con-
+text are parsed using OCR and appended to each question. Based on
+student-tagged metadata, incoming questions about assignments
+are also augmented with the solutions from the corresponding
+assignment. Syllabus text and course notes were used to create
+logistics and conceptual vector databases, respectively. As a prepro-
+cessing step, an incoming question is first passed to GPT-4 to deter-
+mine its category - logistics, assignment, or conceptual. Within each
+of these categories, only appropriate vector databases were queried,
+and different category-based prompts, curated with in-category
+hand-engineered few-shot examples, were used to generate an an-
+swer. Finally, answers generated for assignment questions were
+passed to an additional GPT-4 call to make the answer concise and
+ensure it does not contain solution-revealing hints. Based on quali-
+tative observations, the additional features - OCR, category-based
+conditional prompting, few-shot examples, and additional LLM
+solution filtering - improved the performance of the base pipeline
+[31]; a thorough evaluation of the adapted system is left for future
+work.
+2https://edstem.org/
+3The reason for not deploying for an entire semester was due in part to the
+complexity of the deployment, which delayed the study.
+771
+Analyzing Pedagogical Quality and Efficiency of LLM Responses with TA Feedback to Live Student Questions SIGCSE TS 2025, February 26-March 1, 2025, Pittsburgh, PA, USA
+Table 1: TAs evaluated Edison’s responses according to factuality, relevance, and style.
+Evaluation metric Description
+Factuality Evaluates the correctness of the information provided in the response.
+Relevance Evaluates the degree to which the response is pertinent or related to the given student question and course.
+Style Evaluates the degree to which the coherence, length, and the use of solutions, hints, and examplesare appropriate for the given student question.
+Table 2: TA edit intent categories (hints/sols, style, content, relevance), category descriptions, and representative examples
+(truncated for brevity). The first and last examples are deletions; the second and third examples are modifications.
+Category Description Example TA Edit
+Hints/sols Edits removing hints or solutions oradding hints for additional guidance. [deleted] Ensure you complete this aggregation step to convert the binary...
+Style Edits addressing tone, style, andverbosity of the response. [original] Let’s clarify: The singular values in S represent the amount of variance...[modified] The singular values in S represent the amount of variance...
+Content Edits improving the factuality of theresponse within the course context. [original] Eigenvectors give us the directions of the axes of maximum variance.[modified] Each eigenvector of the covariance matrix gives a direction in the feature...
+Relevance Edits improving the relevance of theresponse within the course context. [deleted] ...using tf-idf scores or considering bigrams/trigrams could provide more...
+3.3 Data Processing
+There were a total of 110 calls made to Edison; 65 were for as-
+signment, 41 for conceptual, and 4 for logistical questions. Due to
+the limited sample size, we did not use the responses to logistical
+questions in this paper. The initial Edison response, TA ratings (see
+subsection 3.1), and the final answers after TA edits were recorded.
+We categorize TA edits based on their intent as well as based on
+their mechanistic implementation.
+First, sentence-level edits between the initial Edison response
+and the edited TA answer were extracted4. The three co-authors
+of this study, two of which have extensive experience as TAs for
+large-scale CS or data science courses, reviewed a sample of Edison
+responses alongside corresponding TA edits and tagged the intent
+of each edit. Afterward, the annotators discussed and arrived at
+the final four categories — hints and solutions, style, content, and
+relevance. Descriptions and representative examples of each intent
+category are shown in Table 2. All three annotators labeled a subset
+of 10 edited responses with a total of 35 edits; the initial inter-rater
+reliability rate was 71%. After discussing and resolving inconsisten-
+cies, the final agreement rate was 85%. Then, the rest of the data
+was divided equally among the researchers and labeled according
+to the discussed criteria.
+We also consider the mechanistic implementation of the edits
+(different from the intent categories described above) — additions,
+deletions, and modifications. Mechanistic categories are defined on
+sentence level (e.g., modification is when a sentence is changed,
+and addition is when a new sentence is added). Furthermore, the
+number of edited units on a sentence/paragraph level was counted
+(e.g., deleting multiple sequential sentences was considered one
+deleted unit).
+4We used difflib python library to automatically extract sentence-level differ-
+ences between two strings.
+In addition to sentence-level analysis, we looked at edits on the
+word level as well. For modification type edits, word-level Lev-
+enshtein edit distance (referred to hereafter as edit distance) was
+calculated [22]. For deletions and additions, we used the total num-
+ber of words deleted or added, respectively.
+We also analyze the difference in the effort it takes for TAs
+to answer student questions with and without using Edison; with
+Edison, they start with the initial response and either use it verbatim,
+modify it, or rewrite it. To quantify TA effort without using Edison,
+we use TA answers to questions where Edison was not triggered.
+We classify responses into three categories: Edison-only, where the
+TA uses the response without modification; TA+Edison, where the
+TA edits or rewrites the response; and TA-only, where Edison is not
+triggered. We filtered assignment-related and conceptual questions
+posted during the deployment timeframe to minimize the potential
+biases between the two datasets. The number of words in the TA-
+only answer was used to approximate their effort, factored as an
+addition-type edit. To calculate the TA effort it takes to produce
+TA+Edison answers, we use three proxies:
+• Naive cost: We weigh additions, deletions, and modifica-
+tions equally, and the total effort is the summation of the
+corresponding edit distances on a word level: a+m+d, where
+a, m, and d are the edit distances of additions, modifications,
+and deletions, respectively.
+• Adjusted weights cost: Removing existing text takes less
+cognitive strain and time than writing new text [ 20]. As
+deletions take less effort, we weigh deletions as half the
+effort of additions and modifications: a+m+d/2.
+• Modified units cost: We also define cost in terms of modi-
+fication units. In this case, the total effort is calculated as the
+edit distance of additions and modifications plus the number
+of deleted units (e.g., sentences, paragraphs):a+m+units deleted .
+The rationale for this metric is that TAs often remove a sub-
+stantial portion of the response to make it less verbose, and
+772
+SIGCSE TS 2025, February 26-March 1, 2025, Pittsburgh, PA, USA Mihran Miroyan, Chancharik Mitra, Rishi Jain, Gireeja Ranade, & Narges Norouzi
+the cost of removing sequential sentences and words can be
+counted as one unit.
+4 Results
+4.1 RQ1: TA Evaluation of Edison
+Figure 1 presents the results of the TA evaluations of Edison-only
+responses 5.
+Figure 1: Assignment (left) and conceptual (right) TA eval-
+uations according to factuality, relevance, and style shown
+as a distribution over a 1-5 scale. The y-axis shows the pro-
+portion of each rating.
+Factuality: The responses are rated relatively highly (5) on fac-
+tuality for both assignment (51/65) and conceptual (31/41) questions.
+The main failure cases for assignment questions occurred when
+the model could not identify the main problem with the student’s
+approach.
+Relevance: For assignment questions, the responses are rated
+lower (43/65 rated 4 or 5) compared to conceptual questions (38/41).
+The main failure cases involve responses where the model included
+additional irrelevant suggestions or information not pertinent to
+the class context. An example of such a response is as follows:
+The message you’re seeing means that your logistic
+regression model couldn’t find the optimal solution
+within the default number of iterations. Here are a
+couple of hints: 1. Increase the Number of Iterations...
+2. Scale Your Data...
+The second suggestion is out of scope in the course context, so
+the TA rated this response as a three for relevance. In contrast, here
+is a response that was rated highly (5) for relevance.
+Absolutely, I’d be glad to clarify the difference be-
+tween A and B in the silhouette score formula for
+you...In the silhouette score formula, 𝑆 = 𝐵−𝐴max(𝐴,𝐵) , A
+represents the average distance to other points within
+the same cluster as the data point 𝑋. Essentially, it
+measures...B is the average distance from 𝑋 to the
+5We do not display average results as the ratings are on the Likert scale.
+points in the closest cluster that 𝑋 is not a part of.
+This measures how well-separated 𝑋 is from the near-
+est cluster...
+The response above is grounded and relevant within the context
+of the course and the student’s question; the response is based on
+the relevant retrieved content from the course textbook.
+Style: For both assignment (30/65 rated 4 or 5) and conceptual
+(37/65 rated 4 or 5) questions, Edison’s responses are rated lower on
+style compared to factuality and relevance. Verbosity and excessive
+hints are the main issues. Below is an example of a response that
+gave away a significant part of the solution and was rated as one
+for style.
+Ah, I see where the confusion might be coming from...Try
+adjusting yourWHERE clause to something like this...<solution
+code>...This adjustment makes sure that both condi-
+tions...
+In contrast, below is an example of a response that was rated as
+a five. It identifies the most probable issue based on the student’s
+code and error message and provides appropriate guidance without
+giving away too much information in the hint.
+Consider revising how you construct your DataFrame,
+ensuring contains_body and contains_head are treated
+as data columns. This will establish the correct struc-
+ture for computing correlations...After adjusting the
+DataFrame, proceed with calculating the correlation
+and creating the heatmap with seaborn as intended...
+4.2 RQ2: Characteristics of TA Edits
+4.2.1 Length Analysis. Figure 2 shows the lengths of TA-only,
+Edison-only, and TA+Edison responses. The final response after
+the TA edits is shorter on average compared to the initial response
+generated by Edison. Furthermore, on average, TAs shorten an-
+swers to assignment questions more than conceptual questions,
+as seen by the gap between the solid and the dashed lines in the
+left (red) and right (blue) panels. The TA-only responses tend to
+be shorter than the TA+Edison responses for both assignment and
+conceptual questions (gap between solid black and colored curves).
+When we look at examples, TA+Edison responses often include
+supporting examples with step-by-step explanations, which makes
+them longer. We will investigate why TA responses are shorter and
+the implications of this in future work.
+4.2.2 Edit Category and Type Distribution. Out of 106 Edison-
+generated responses, TAs edited 61 (57.5%), directly used 28 as-is
+(26.4%), and rewrote 17 from scratch (16.0%). While rewrites may
+require more effort than TA-only responses, direct use or edits in
+84% of cases save significant time. These statistics broken down
+by the type of the question are presented in Table 3. On average,
+there are more edits to responses to assignment (89.39 words) than
+conceptual questions (65.11 words).
+We observe that Edison performs better on conceptual questions,
+as indicated by the proportion of responses where the TA either
+directly used (46.3%) or edited (46.3%) Edison’s output. In contrast,
+for assignment questions, TAs directly used Edison’s response in
+only 13.8% of cases, while 64.6% required edits. Additionally, TAs
+773
+Analyzing Pedagogical Quality and Efficiency of LLM Responses with TA Feedback to Live Student Questions SIGCSE TS 2025, February 26-March 1, 2025, Pittsburgh, PA, USA
+Table 3: TA edit statistics categorized by question type (assignment and conceptual). The first three columns show the num-
+ber of Edison’s responses that TAs edited, directly used as-is, or rewrote from scratch. The last columns show the average
+word edit distance by mechanistic edit type (addition, deletion, and modification) and edit intent category (hints/solutions,
+style, content, and relevance) along with the overall statistics. The numbers in the parentheses are the proportions of the
+total edit distance within the edit categories (e.g. the proportion of addition edit distance of the total edit distance for style
+edits).
+# Edited # Used as-is # Rewrites Category Add distance Del distance Mod distance Total distance
+Assignment 42 (64.6%) 9 (13.8%) 14 (21.5%)
+Hints/sols 2.39 (16.9%) 10.67 (75.6%) 1.06 (7.5%) 14.12
+Style 0.65 (1.5%) 39.65 (89.8%) 3.86 (8.7%) 44.16
+Content 4.47 (57.2%) 2.96 (37.9%) 0.39 (5.0%) 7.82
+Relevance 0.53 (2.3%) 22.76 (97.7%) 0.00 (0.0%) 23.29
+Total 8.04 (9.0%) 76.04 (85.1%) 5.31 (5.9%) 89.39
+Content 19 (46.3%) 19 (46.3%) 3 (7.3%)
+Hints/sol 0.00 (0.0%) 0.00 (0.0%) 0.00 (0.0%) 0.00
+Style 4.61 (8.4%) 44.34 (81.2%) 5.58 (10.2%) 54.63
+Content 5.42 (60.1%) 2.32 (25.1%) 1.16 (13.0%) 8.89
+Relevance 0.84 (53.2%) 0.00 (0.0%) 0.74 (46.8%) 1.58
+Total 10.86 (16.7%) 46.66 (71.7%) 7.58 (11.6%) 65.11
+Figure 2: Assignment (left) and conceptual (right) response
+lengths of TA-only, Edison-only, and TA+Edison (Edison
+response after TA edits). The numbers in the parentheses
+are the average response lengths.
+rewrote 21.5% of responses for assignment questions from scratch,
+compared to just 7.3% for conceptual questions.
+Assignment questions: A large proportion of edits address
+style-related problems (e.g., verbosity), with most being deletions
+(89.8%). A total of 97.7% of edits attributed to improving response
+relevance are deletions. If the response contained irrelevant sections,
+the TA typically removed those sections; however, if the response
+was overall irrelevant, the TA rewrote the answer from scratch.
+Edits addressing hints and solutions were also mainly deletions
+(75.6%), as the TAs mainly removed unnecessary hints; for some
+cases, the TA decided to add hints to Edison’s response (16.9%).
+Conceptual questions: For conceptual questions, the main ed-
+its were again style-related deletions. However, more edits were
+improving the factuality of the response (13.65%) compared to those
+of assignment questions (8.75%). Fewer edits addressed the rele-
+vance of the responses (2.43%).
+4.3 RQ3: TA Rewrite Analysis
+To analyze TAs’ decisions to use or rewrite Edison’s responses,
+we report the pairwise correlations between the three evaluation
+metrics and the rewrite indicator variable (1 if it was a rewrite, 0
+otherwise) in Figure 3. The coefficients are -0.06, -0.5, and -0.004 for
+factuality, relevance, and style metrics, respectively. Only the met-
+ric corresponding to relevance is statistically significant, indicating
+that relevance is most correlated to the TA’s decision to completely
+rewrite the answer. While most edits focus on improving the re-
+sponse’s style, style is not strongly correlated with the decision to
+rewrite. This finding highlights opportunities for tuning LLMs to
+better align with the stylistic needs of educational settings.
+Figure 3: Pairwise correlations between evaluation metrics
+(factuality, relevance, and style) and the rewrite indicator
+variable.
+774
+SIGCSE TS 2025, February 26-March 1, 2025, Pittsburgh, PA, USA Mihran Miroyan, Chancharik Mitra, Rishi Jain, Gireeja Ranade, & Narges Norouzi
+Table 4: Estimated effort required to write answers with (TA+Edison and Edison-only) and without (TA-only) Edison, using
+three methods (see subsection 3.3). Highlighted numbers in each effort column indicate a statistically significant lower
+effort compared to the other; if no numbers are highlighted, the difference is not statistically significant. The number of
+asterisks denotes the significance level of the difference. Numbers in parentheses represent standard errors.
+Add dist Del dist Mod dist Naive Cost Effort(a+m+d) Adjusted Effort(a+m+d/2) Modified Unit Effort(a+m+del units)
+Assignment TA-only 40.69 (1.77) - - 40.69*** (1.77) 40.69 (1.77) 40.69 (1.77)With Edison 15.11 (3.15) 59.66 (10.75) 4.17 (1.16) 78.94 (11.58) 49.11 (6.55) 19.28 (3.09) + 1.68 (0.25)
+Conceptual TA-only 70.46 (6.7) - 70.46 (6.7) 70.46 (6.7) 70.46 (6.7) 70.46 (6.7)With Edison 18.41 (6.73) 43.24 (10.29) 7.02 (2.31) 68.68 (15.43) 47.06* (11.09) 25.44 (7.8) + 0.88 (0.22)
+Overall TA-only 48.47 (2.28) - - 48.47** (2.28) 48.47 (2.28) 48.47 (2.28)With Edison 16.39 (3.23) 53.31 (7.7) 5.27 (1.14) 74.97 (9.24) 48.32 (5.85) 21.66 (3.55) + 1.37 (0.18)
+4.4 RQ4: Efficiency Gain Analysis
+To analyze the comparative effort it takes TAs to answer questions
+with and without the use of Edison, we use multiple methods for
+calculating effort (see subsection 3.3); the results are shown in
+Table 4.
+• Naive cost (a+m+d): The effort to respond without Edison
+(TA-only) is lower for assignment questions (𝑝 < 0.05), but
+not statistically significant for conceptual questions.
+• Adjusted weights cost (a+m+d/2): The effort to respond
+with Edison is lower for conceptual questions (𝑝 < 0.05), but
+not statistically significant for assignment questions.
+• Modified units cost (a+m+units deleted ): The estimated
+effort is 48.47 for the TA and 21.66 + 1.37 units deleted for
+TA+Edison.
+It should be mentioned that we do not account for the cognitive
+effort required by TAs to mentally process the question and formu-
+late a response. Edison can potentially reduce this cognitive load
+by providing accurate responses for quick edits and verification.
+5 Limitations & Threats to Validity
+One limitation of our work is evaluating our method in just one
+course. The nuances of Edison’s performance on other courses
+should be further investigated. Furthermore, while evaluation by
+expert TAs offers high-quality insights, it also limits the scope of
+our analysis to a small number of samples. If we were to use an
+LLM-based judge (appropriately trained) we could potentially scale
+this evaluation further. Beyond considerations of scope and scale,
+several external factors may influence the validity of our results.
+One such factor is the extent to which students independently use
+LLMs6. Another factor is the fluctuation in the volume of student
+forum posts over time, which could impact the consistency and
+representativeness of the data collected during the study. Lastly, the
+efficiency analysis does not account for the cognitive load needed
+to write an answer when not using Edison or reading through and
+editing the initial answer when using Edison.
+6 Conclusion
+This paper analyzes how expert TAs evaluate responses from an
+LLM educational assistant. We further explore how TA edits to LLM-
+generated responses provide insights for enhancing their quality
+6Technically prohibited in the course syllabus for use on assignments.
+to better align with teaching goals. Our work features several key
+insights: (1) Edison, while highly factual, can be improved to provide
+more relevant responses to assignment questions and less verbose
+responses overall; (2) On average, Edison generates longer answers
+than TAs. While this is preferable for conceptual questions, shorter
+answers are better for assignment questions; (3) We find that most
+edits by TAs are made to improve response style; (4) Only 16% of
+responses were rewritten, and the relevance of the response is the
+most strongly correlated factor to the TA’s decision to rewrite the
+response; and (5) Edison answers save TAs time when answering
+content questions.
+These findings offer valuable insights into the differences in
+instructional effectiveness between LLM and high-quality TA re-
+sponses, informing the efficacy and future improvements of educa-
+tional LLM assistants in real-world deployment.

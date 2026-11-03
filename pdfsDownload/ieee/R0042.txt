@@ -1,0 +1,611 @@
+MediTriR: A Triple-Driven Approach to
+Retrieval-Augmented Generation for Medical
+Question Answering Tasks
+Hongzhi Zhang, M. Omair Shafiq
+School of Information Technology
+Carleton University
+Ottawa, ON, Canada
+Emails: hongzhizhang@cmail.carleton.ca, omair.shafiq@carleton.ca
+Abstract—Advances in large language models have driven
+progress in medical question-answering systems, but challenges
+remain in accuracy and relevance, especially in complex medical
+settings. To address this problem, we introduce MediTriR. This
+approach combines knowledge graph triples with a retrieval-
+augmented generation framework to enhance the performance
+of large language models in medical multiple-choice question-
+answering tasks. Our approach transforms the retrieved medical
+knowledge into structured triples and uses these triples for accu-
+rate information retrieval. Furthermore, we dynamically generate
+new triples based on the properties of triples to enrich the
+model’s reasoning ability. The integration of retrieval-augmented
+generation enables more accurate and contextual answers by
+leveraging external medical triples. MediTriR is evaluated against
+pure large language model approaches using the MedMCQA and
+Medical QA datasets, showing better performance in terms of
+accuracy and relevance. These results highlight the potential of
+our approach to improve medical decision support and education.
+Index Terms—Natural Language Processing, Large Language
+Model, Retrieval-augmented generation, Knowledge Graphs,
+Triples, Medical question-answering tasks
+I. I NTRODUCTION
+In recent years, there has been rapid progress in the appli-
+cation of large language models (LLMs) in natural language
+processing. These models, such as ChatGPT [1], have demon-
+strated remarkable capabilities in understanding and gener-
+ating human-like text. In the medical field, applying LLMs
+to question-answering tasks opens up new possibilities for
+assisting medical professionals and patients. One specific area
+of interest is multiple-choice questions (MCQ) in the medical
+domain, where the goal is to accurately select the correct
+answer from a set of options based on medical literature.
+However, LLMs can hallucinate [2] and generate incor-
+rect answers, which is a critical issue in some fields, such
+as medicine. Furthermore, data in the pre-training phase
+of LLM often lacks the depth required for specialized do-
+main question-answering tasks. To address these limitations,
+retrieval-augmented generation (RAG) [3] techniques have
+been developed. RAG enhances LLM performance by combin-
+ing retrieval and generation processes: it first retrieves relevant
+information from a large document set or database and then
+uses this data to inform the generation phase where the model
+creates responses. This integration helps improve the accuracy
+and relevance of answers, making RAG particularly valuable
+in complex fields such as medicine.
+Despite the progress of LLMs in medical tasks, there are
+still some challenges in using LLMs for medical MCQ tasks.
+The main problem is to efficiently retrieve and integrate
+relevant information from large biomedical datasets to answer
+questions accurately. Traditional retrieval methods sometimes
+fail to capture the subtle and complex relationships in med-
+ical texts, resulting in incomplete or incorrect answers. This
+problem is worth studying because improving the accuracy
+and reliability of medical question-answering systems will
+have a direct impact on medical decision-making and patient
+outcomes.
+Our research aims to develop a method, MediTriR, to
+improve the performance of LLM in medical MCQ tasks
+by leveraging knowledge graph triples. Knowledge graphs
+represent information in a structured format that represents the
+relationships between entities. By converting medical literature
+into knowledge graph triples and integrating them into the
+question-answering process, we aim to improve the model’s
+ability to retrieve and reason about relevant information. An
+example of our method is shown in Fig. 1.
+The contributions in this paper are as follows:
+• We propose a triple-based RAG method to solve the
+multiple-choice question-answering task in the medical
+field. Replacing text with triples allows LLMs to obtain
+more effective information.
+• We experimented with multiple models on multiple
+datasets and performed ablation experiments to demon-
+strate the effectiveness of our proposed method.
+• We analyze each step of our method in detail and explain
+how these steps help LLMs solve MCQs in the medical
+field.
+II. L ITERATURE REVIEW
+A. Advances in RAG for Medical Question Answering
+Recent advancements in retrieval-augmented language mod-
+els for medical question-answering emphasize precision,
+187
+2025 19th International Conference on Semantic Computing (ICSC)
+2472-9671/25/$31.00 ©2025 IEEE
+DOI 10.1109/ICSC64641.2025.00032
+2025 19th International Conference on Semantic Computing (ICSC) | 979-8-3315-2426-5/25/$31.00 ©2025 IEEE | DOI: 10.1109/ICSC64641.2025.00032
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:44:29 UTC from IEEE Xplore.  Restrictions apply. 
+Fig. 1. An example of MediTriR.(Asking the LLM medical questions directly resulted in the wrong answer. The LLM combined with the MediTriR approach
+resulted in the correct answer.)
+domain-specific knowledge integration, and computational ef-
+ficiency. Both Clinfo.ai [4] and JMLR [5] focus on enhancing
+accuracy through retrieval mechanisms; Clinfo.ai synthesizes
+answers from summarized articles, while JMLR jointly trains
+language and retrieval models to reduce hallucinations and
+resource use. Med-PaLM 2 [6] and GatorTron [14] improve
+base models through fine-tuning with medical texts; Med-
+PaLM 2 uses ensemble refinement for high accuracy, whereas
+GatorTron broadens its utility across clinical tasks. ChatDoctor
+[17] leverages real-time retrieval to handle diverse medical
+inquiries effectively. These studies show that by combining
+expertise with efficient retrieval, the model can perform better
+in medical question-answering tasks.
+B. Applications of Knowledge Graphs in Medical Question
+Answering
+Zhixue Jiang [10] and Xiaofeng Huang [11] both use
+knowledge graphs to boost question-answering accuracy, with
+Jiang focusing on practical medical queries through rule-
+based methods and Huang enhancing disease diagnosis with
+weighted path rankings. Ziqing Liu [12] integrates a Bi-
+LSTM+CRF algorithm with a Traditional Chinese Medicine
+knowledge graph for precise dialogues, while Quan Guo [13]
+combines Elasticsearch and pre-trained models for improved
+semantic matching in multilingual contexts. These approaches
+highlight a trend towards more responsive and specialized
+medical question-answering systems through the integration
+of structured knowledge and advanced processing techniques.
+C. Evaluation and Benchmarking of Medical Question An-
+swering Systems
+MEDQA [7] is a multilingual dataset from medical ex-
+ams that challenges AI with complex reasoning. GreaseLM
+[8] combined pretrained language models with graph neural
+networks, significantly improving performance on medical
+benchmarks. Valentin Li´evin [9] demonstrated that LLMs like
+InstructGPT can effectively answer medical exam questions.
+Harsha Nori [15] showed that GPT-4 outperforms previous
+models in medical exams, suggesting its potential for clinical
+practice. Zhongjing [16] is a Chinese medical LLM profi-
+cient in multi-turn dialogues. Yee Hui Yeo [18] evaluated
+ChatGPT’s accuracy on cirrhosis and HCC, highlighting its
+usefulness and limitations as an educational tool.
+D. Gap Analysis
+Despite significant advancements in medical question-
+answering systems, several gaps remain in leveraging knowl-
+edge graph triples effectively. Current approaches using knowl-
+edge graphs primarily focus on enhancing question-answering
+accuracy through structured information integration (Zhixue
+Jiang et al., [10]; Xiaofeng Huang et al., [11]; Ziqing Liu et
+al., [12]; Quan Guo et al., [13]) or improve performance by
+fusing knowledge graphs with other methods (Xikun Zhang
+et al., [8]). Meanwhile, retrieval-augmented generation (RAG)
+methods have shown promise in improving the retrieval and
+synthesis of information for medical questions (Alejandro
+Lozano et al., [4]; Junda Wang et al., [5]; Karan Singhal et
+al., [6]; Xi Yang et al., [14]; Yunxiang Li et al., [17]), but
+188
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:44:29 UTC from IEEE Xplore.  Restrictions apply. 
+often fall short in effectively incorporating domain-specific
+knowledge from structured data sources. Furthermore, while
+recent evaluations and benchmarks (Di Jin et al., [7]; Valentin
+Li´evin et al., [9]; Songhua Yang et al., [16]; Harsha Nori
+et al., [15]; Yee Hui Yeo et al., [18]) provide insights into
+model performance, they do not fully address the integration
+of knowledge graph triples in the context of LLMs. Our
+research addresses these gaps by proposing a novel method
+that enhances the performance of LLMs in MCQ tasks through
+the systematic conversion of medical literature into knowledge
+graph triples. By integrating these triples into the question-
+answering process, our method aims to improve the retrieval
+and reasoning capabilities of LLMs, thus providing more
+accurate and relevant answers based on structured domain
+knowledge.
+III. S YSTEM DESIGN
+A. Overview of the Approach
+Our approach combines structured knowledge with the
+generative power of LLMs. The system aims to improve the
+accuracy and relevance of answers generated by the model,
+ensuring that they are based on reliable medical literature.
+The process begins by generating PubMed [19] queries based
+on medical questions. These queries are designed to retrieve
+articles that contain relevant information needed to answer
+the questions. We then searched and retrieved paper abstracts
+from the PubMed database using the Entrez API [19]. In this
+step, we obtained rich medical information, which provided
+a knowledge base for the RAG process. After retrieving the
+abstracts, we converted them into triples in the knowledge
+graph. Each triple represents a piece of information in the
+format of (subject, predicate, object), which captures the
+basic relations and entities described in the abstract. This
+structured representation allows for more efficient and accurate
+processing of information. The next step involves evaluating
+the relevance of these triples to the medical question. This
+filtering process ensures that only relevant triples are retained,
+reducing noise and focusing the model’s attention on the most
+relevant data. Next, we generate new triples based on the
+existing triples. This step exploits the extensibility of triples to
+infer additional useful information that may not be explicitly
+stated in the original abstract. Finally, the system combines
+the retained triples and the newly generated triples to answer
+the medical MCQ. The framework of our method is shown in
+Fig. 2.
+B. Generating PubMed Queries
+Inspired by [4], the first step in our approach involves
+transforming medical questions into PubMed search queries
+and retrieving relevant paper abstracts. In this step, we col-
+lected comprehensive biomedical documents to provide the
+basic information required for subsequent processing. We used
+the LLM, GPT-4o [20] to generate effective PubMed queries
+from medical questions. The main goal is to create queries
+to retrieve articles containing relevant information. For each
+query, we retrieved 15 papers. Such a retrieval method can
+maximize capturing all relevant information required to answer
+the question accurately. An example is shown in Fig. 3.
+C. Retrieving Paper Abstracts
+After generating a PubMed query, the next step is to use
+the Entrez API to search and retrieve relevant article abstracts
+from the PubMed database. The search process is performed
+as follows:
+• Search PubMed Database: Use the generated query to
+search the PubMed database via the Entrez API. The
+search is configured to retrieve 15 relevant articles.
+• Retrieve Article IDs: Extract the unique identifiers (IDs)
+of the retrieved articles from the search results.
+• Fetch Abstracts: Use the article IDs to fetch the corre-
+sponding paper abstracts from PubMed.
+D. Converting Abstracts into Triples
+After retrieving the relevant paper abstracts, the next step in-
+volves converting these abstracts into knowledge graph triples
+and assessing their relevance to the medical question.
+The conversion of paper abstracts into knowledge graph
+triples using an LLM, GPT-4o [20]. Each triple captures
+the core relationships and entities described in the abstract.
+This structured representation allows for the more efficient
+processing and reasoning of biomedical information.
+We instruct an LLM, GPT-4o [20], to act as an assistant
+that converts abstracts into triples. The model is given the
+task of reading the abstracts and extracting information in
+the form of triples. For instance, an abstract describing a
+medical trial might be converted into triples like (Drug A,
+Treats, Disease B) or (Disease B, Associated With, Symptom
+C). These triples encapsulate the key pieces of information in
+a structured format that can be easily queried and analyzed.
+The prompt is shown in Fig. 4.
+E. Assessing Relevance of Triples
+Once the triples are generated, the next step is to filter them,
+keeping only those relevant to the medical question. This step
+ensures that the model focuses on the most relevant informa-
+tion, thereby reducing noise and improving the accuracy of
+the answer.
+Relevance assessment is performed by instructing the LLM
+to act as a medical researcher, evaluating whether each triple
+contains information that may be relevant to the medical
+question. The model reviews each triple in the context of the
+question and keeps only those considered relevant. For exam-
+ple, if the medical question is about the treatment of a specific
+disease, only triples related to the treatment, medication, or
+medical outcome of that disease will be kept.
+By combining these steps, we ensure that our system has a
+structured and filtered knowledge graph that is triple-relevant
+to the medical question.
+189
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:44:29 UTC from IEEE Xplore.  Restrictions apply. 
+Fig. 2. The framework of MediTriR.
+Fig. 3. An example of generating PubMed queries.
+Fig. 4. Prompt for converting abstracts into triples.
+F . Generating New Medical Triples Based on Existing Triples
+After converting the abstracts into knowledge graph triples
+and filtering for relevance, the next step is to use the LLM to
+generate new medical triples based on existing triples. This
+step exploits the extensibility of triples to infer additional
+useful information that may not be explicitly stated in the
+original abstract.
+We use the LLM to generate new triples. The goal is to
+create new accurate triples by logically combining or inferring
+information from a given set of existing triples. This process
+helps to expand the knowledge base and discover implicit
+relationships that are not directly mentioned in the retrieved
+abstracts but are valuable for answering medical questions.
+We instruct the LLM to act as an assistant to generate new
+triples from a list of existing triples. The model’s task is to
+review existing triples and create new triples that follow the
+same format. At the same time, we also pass in the original
+medical question as a reference for the LLM when generating
+new triples. These new triples should be meaningful and error-
+free, ensuring that they make positive contributions to the
+knowledge base.
+For example, if the existing triples include (drug A, treat-
+ment, disease B) and (disease B, related, symptom C), the
+model may generate a new triple such as (drug A, reduction,
+symptom C). This new triple follows logically from existing
+information and provides additional insights that may be
+valuable in answering medical questions. The prompt is shown
+in Fig. 5.
+IV. E XPERIMENTS AND RESULTS
+In this chapter, we will describe our experiments in detail.
+First, we will introduce the data set and LLMs we used,
+followed by our experimental results.
+A. Dataset
+In our experiments, we utilized two primary datasets from
+the official United States Medical Licensing Examination
+190
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:44:29 UTC from IEEE Xplore.  Restrictions apply. 
+Fig. 5. Prompt for generating new medical triples based on existing triples.
+(USMLE) website to evaluate the performance of our ap-
+proach: MedMCQA and Medical QA. These datasets provide
+a comprehensive set of medical MCQs, which are essential for
+assessing the accuracy and effectiveness of our method.
+1) MedMCQA Dataset [21]: The MedMCQA dataset is a
+widely used benchmark for medical question-answering tasks.
+It consists of MCQs covering a broad range of medical topics,
+designed to test the knowledge and reasoning capabilities of
+models in the medical domain. This dataset includes questions
+that require an in-depth understanding of medical concepts
+and the ability to apply this knowledge to specific medical
+scenarios.
+For our experiments, we focused on the dev set of the
+MedMCQA dataset. The dev set of MedMCQA has 4183
+questions.
+2) Medical QA Dataset [7]: The Medical QA dataset from
+the official USMLE website is another crucial resource for our
+experiments. This dataset provides a high standard of medical
+knowledge assessment. The questions are crafted to evaluate a
+wide range of medical knowledge and medical skills, ensuring
+that our method is tested against real-world medical scenarios.
+The Medical QA dataset is from three regions: the United
+States, Mainland China, and the Taiwan District. For our
+experiments, we utilized the US dev subset of the Medical
+QA dataset. This subset contains a diverse set of questions that
+reflect the medical knowledge required for practicing medicine
+in the United States. By focusing on the US dev dataset, we
+ensure that our evaluation is aligned with the standards and
+expectations of medical professionals in the US. The dev set
+of the Medical QA dataset has 1272 questions.
+B. Baseline Models
+In our experiments, we evaluated the performance of our
+approach against several baseline models. These models in-
+clude state-of-the-art LLMs known for their capabilities in text
+generation, question answering, and reasoning. The models we
+used are gemma2-9b-it, llama-3-8b, ChatGPT-3.5, and GPT-4o
+mini. Below, we provide a brief overview of each model.
+1) Gemma [22] (gemma2-9b-it): The gemma2-9b-it model
+is part of Google’s Gemma family of lightweight, state-of-
+the-art open models. The Gemma model was released in June
+2024 and is built using the same technology as the Gemini
+model. The Gemma model is a text-to-text, decoder-only
+LLM available in English with open weights, pre-trained, and
+instruction-tuned variants.
+Gemma performs well on text generation problems such as
+reasoning, summarization, and question-answering. In terms
+of resource usage, the Gemma model has a lower resource
+usage than most LLMs. This makes it particularly suitable in
+resource-constrained environments, such as laptops, desktops,
+or private cloud infrastructure.
+2) Llama3 [23] (llama-3-8b): The llama-3-8b model is
+another prominent LLM used in our experiments. Known for
+its robust performance in various natural language processing
+tasks, Llama-3-8b has been widely adopted in the research
+community. This model excels in text generation, comprehen-
+sion, and reasoning tasks, making it a strong candidate for
+medical question-answering applications.
+Llama-3-8b’s architecture and training data enable it to
+understand complex medical terminology and concepts, pro-
+viding accurate and contextually appropriate responses to
+medical questions.
+3) ChatGPT [1] (ChatGPT3.5, GPT-4o mini): The
+ChatGPT-3.5 model is a well-known LLM developed by
+OpenAI. It has been extensively used for conversational AI
+applications and demonstrates strong performance in gener-
+ating human-like text. ChatGPT-3.5 is built on the GPT-3.5
+architecture, which leverages a massive dataset and advanced
+training techniques to understand and generate text across a
+wide range of topics.
+In the context of answering medical questions, ChatGPT-
+3.5 can interpret and respond to complex queries with a high
+degree of accuracy.
+C. Main Results
+In this section, we present the results of our MediTriR
+method applied to two medical MCQ datasets, MedMCQA
+[21] and Medical QA [7], comparing its performance against
+traditional LLMs without the MediTriR enhancements. The
+results are shown in Table 1 and Fig. 6.
+TABLE I
+EXPERIMENTAL RESULTS ON TWO MEDICAL DATASETS .
+Model MedMCQA (%) Medical QA (%)
+gemma2-9b-it 54.12 47.09
+gemma2-9b-it + MediTriR 63.83 56.05
+llama3-8b 47.90 43.63
+llama3-8b + MediTriR 61.53 47.64
+gpt-3.5-turbo 51.06 34.75
+gpt-3.5-turbo + MediTriR 66.93 43.24
+gpt-4o-mini 65.96 63.68
+gpt-4o-mini + MediTriR 74.32 70.28
+Our results demonstrate that integrating the MediTriR
+method improves the performance of all tested models on
+both datasets. To illustrate the impact of MediTriR, consider
+the performance enhancements observed with the llama3-8b
+model. Initially, llama3-8b scored 47.90 on MedMCQA and
+43.63 on Medical QA. With the integration of MediTriR, these
+191
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:44:29 UTC from IEEE Xplore.  Restrictions apply. 
+Fig. 6. Experimental results on two medical datasets.
+scores improved dramatically to 61.53 and 47.64, respectively.
+Similarly, the gpt-4o-mini model, already performing well at
+65.96 on MedMCQA and 63.68 on Medical QA, saw its scores
+increase to 74.32 and 70.28 with MediTriR. The integration
+of MediTriR consistently improves the performance of various
+LLMs on medical MCQ tasks. This improvement is reflected
+in the increase in accuracy and contextual relevance of all
+tested models. MediTriR structures input data as knowledge
+graphs triple and enhances the generation process with triple-
+based retrieval, enabling models to parse and utilize complex
+medical information.
+D. Ablation Experiment
+In this section, we evaluate the impact of generating new
+triples on the performance of our MediTriR method. This
+ablation study aims to illustrate the overall effectiveness of the
+triple generation step on our method for the medical multiple-
+choice question-answering task.
+Our ablation experiments compare the performance of mod-
+els augmented with the MediTriR approach with and without
+the new triple-generation step. This step involves using exist-
+ing knowledge graph triples to infer and generate additional
+triples that are not explicitly stated in the retrieved data but
+may be relevant to the medical question. The experiments are
+conducted on two datasets: MedMCQA and Medical QA. The
+results are shown in Table 2, Table 3, Fig. 7 and Fig. 8.
+TABLE II
+RESULTS FOR ABLATION EXPERIMENT ON MEDMCQA.
+Model No triple generation (%) MediTriR (%)
+gemma2-9b-it 61.30 63.83
+llama3-8b 57.76 61.53
+gpt-3.5-turbo 64.50 66.93
+gpt-4o-mini 70.67 74.32
+From the results in the two tables above, we can find that
+including the step of generating new triples can improve the
+performance of the model on both data sets. For example, on
+the MedMCQA dataset, the performance improvement of the
+gpt-4o-mini model is very obvious, with the score improving
+from 70.67 to 74.32 after generating new triples. Similar
+Fig. 7. Results for ablation experiment on MedMCQA.
+TABLE III
+RESULTS FOR ABLATION EXPERIMENT ON MEDICAL QA.
+Model No triple generation (%) MediTriR (%)
+gemma2-9b-it 53.46 56.05
+llama3-8b 45.83 47.64
+gpt-3.5-turbo 40.96 43.24
+gpt-4o-mini 67.61 70.28
+improvements were observed in the Medical QA dataset,
+where the performance of gpt-4o-mini improved from 67.61
+to 70.28.
+These improvements demonstrate that generating new
+triples enables the model to achieve a deeper understanding
+and broader coverage of the medical topic in question. By
+inferring new relationships and expanding the knowledge base,
+models can better contextualize and answer complex medical
+questions. This ability to generate and utilize new triples
+effectively addresses gaps in the retrieved data, providing more
+Fig. 8. Results for ablation experiment on Medical QA.
+192
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:44:29 UTC from IEEE Xplore.  Restrictions apply. 
+comprehensive and accurate answers.
+Ablation studies highlight the value of generating new
+triples in the MediTriR approach. This step improves our
+approach’s overall performance by extending the information
+base explicitly provided in the source documentation.
+V. D ISCUSSION
+In this chapter, we discuss the advantages of our exper-
+imental approach to the medical multiple-choice question-
+answering task. Our approach leverages the RAG approach and
+is enhanced using knowledge graph triples. This innovative
+combination provides multiple benefits that can improve the
+accuracy and reliability of medical question-answering sys-
+tems.
+A. Benefits of the RAG Method for Medical Problems
+The first step in our approach involves converting medical
+questions into search queries suitable for retrieving relevant
+medical literature. This is accomplished using an LLM specifi-
+cally instructed to generate PubMed queries based on the given
+questions.
+By converting medical questions into well-formulated
+search queries, we can target the retrieval of the most relevant
+documents from PubMed. This ensures that the retrieved
+information is closely aligned with the specific needs of
+the question, reducing the likelihood of irrelevant data being
+included in the subsequent steps.
+Once the queries are generated, the next step involves using
+the Entrez API to search for paper abstracts in PubMed. The
+advantages of this approach include:
+• PubMed is one of the most extensive medical literature
+databases, containing millions of abstracts from peer-
+reviewed journals. By leveraging PubMed, we ensure that
+the information retrieved comes from authoritative and
+recent research articles, which is critical to maintaining
+accuracy and trust in answers.
+• The Entrez API allows precise control of search param-
+eters, thereby retrieving the documents most relevant to
+the query. This targeted retrieval reduces noise in the data
+and ensures that subsequent steps in our approach use the
+highest quality information.
+• The retrieved abstracts provide a rich source of informa-
+tion that LLM can use to generate accurate answers. By
+combining this external data with the model’s existing
+knowledge, we enhance the model’s ability to effectively
+answer complex medical questions.
+The strength of the RAG approach is its ability to combine
+retrieving information and generating answers. A common
+problem with generative models is hallucinations, producing
+information that appears plausible but is incorrect. The RAG
+approach reduces the risk of hallucinations by first retrieving
+relevant documents and then using those documents to gen-
+erate answers. This combination ensures that answers are not
+only coherent and contextual but also grounded in validated
+medical literature.
+B. Benefits of Converting Text Data into Triples
+1) Enhanced Semantic Information: Triples provide a clear
+and structured representation of the information contained in
+the abstract. Such a structured format makes it easier for the
+LLM to process and understand the relationships between
+different medical concepts. By breaking down complex sen-
+tences into simpler, more understandable units, the LLM can
+effectively use this information to generate accurate answers.
+By converting abstracts into triples, we extract the most
+relevant information from medical papers. This extraction pro-
+cess filters out irrelevant details, allowing the model to focus
+on key facts and relationships directly related to the medical
+question. This focus enhances the relevance and quality of
+the information used by the model, resulting in more accurate
+answers.
+2) Accurate Relevance Assessment: By evaluating the rel-
+evance of triples, we try to ensure that LLM uses only the
+most relevant information in the answer-generation process.
+Precision knowledge and information are very important in the
+medical field, as accurate and reliable information is important
+for patient care. By filtering out irrelevant triples, we reduce
+the risk of incorporating misleading or irrelevant information
+into the answer.
+Evaluating the relevance of triples simplifies the data pro-
+cessing workflow. By focusing only on relevant triples, we can
+minimize the computational resources required for subsequent
+steps. This efficiency also helps in real-time applications that
+require fast and accurate responses.
+3) Scalability introduces more knowledge: Generating new
+triples allows us to expand the knowledge base beyond the
+information initially retrieved. By logically combining existing
+triples, the model can generate new, meaningful triples that
+provide additional insights. For example, if we have a triple
+stating that drug A can treat disease B and another triple stating
+that disease B is associated with symptom D, the model may
+generate a new triple stating that drug A can alleviate symptom
+D. This expansion based on the unique properties of triples can
+bring more valuable insights to the medical field.
+Generating new triples enhances the model’s ability to
+provide accurate and detailed answers. By supplementing
+the original information with inferred data, the model can
+combine knowledge from multiple papers to provide more
+comprehensive answers and address the nuances of medical
+questions. This capability is particularly useful in complex
+medical scenarios where multiple factors need to be consid-
+ered.
+Not all relevant information is always explicitly stated in the
+medical literature. By generating new triples, the model can
+fill in the gaps in the existing knowledge base, ensuring that
+all necessary information is available to answer the question.
+This proactive approach mitigates the limitations of incomplete
+data and improves the overall robustness of the system.
+VI. C ONCLUSION
+In this paper, we propose an innovative approach, MediTriR,
+to improve the accuracy and relevance of answers provided
+193
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:44:29 UTC from IEEE Xplore.  Restrictions apply. 
+by LLMs in medical multiple-choice tasks. Our approach
+combines the strengths of the RAG framework with a novel
+triple-based data representation and shows great potential in
+improving the quality of medical multiple-choice tasks.
+Our approach first uses LLM to convert medical questions
+into precise PubMed search queries, ensuring the retrieval of
+highly relevant medical literature. This initial step leverages
+PubMed’s extensive resources and the precision of the Entrez
+API, which together facilitate the extraction of authoritative
+and up-to-date information. This process addresses the need
+for reliable and relevant data sources.
+After retrieving paper abstracts, we convert these abstracts
+into structured triples, which provide a clear and manageable
+format for representing complex medical information. This
+step enhances the clarity and relevance of the data, allowing
+the LLM to focus on the essential relationships between
+medical concepts. By evaluating the relevance of these triples
+to the medical question, we ensure that only the most relevant
+information is used, further improving the accuracy of the
+generated answers.
+One key innovation of our approach is generating new
+triples based on existing triples. This feature allows the system
+to expand its knowledge base and infer more relevant informa-
+tion, thereby filling gaps and improving the comprehensiveness
+of answers. Such innovations can be helpful in medical tasks,
+as the medical field often requires complex reasoning and
+comprehensive knowledge.
+Our approach can reduce the risk of hallucination problems
+common in generative models by basing the generation process
+on retrieved, verified information. This foundation ensures that
+the answers are coherent, contextual, and based on reliable
+medical literature.
+Although our approach has shown promising results, several
+areas still require future research and development. Further
+refinement of the query transformation process and relevance
+evaluation algorithm can improve the accuracy and efficiency
+of our approach. In addition, expanding the scope of medical
+databases beyond PubMed and integrating real-time updates
+of ongoing medical research can further improve the accuracy
+and relevance of the system.
+In summary, our triple-based RAG approach shows promis-
+ing results in medical MCQ tasks. By combining the advan-
+tages of structured data representation with advanced retrieval
+and generation techniques, our approach effectively solves the
+challenges of medical multiple-choice tasks.

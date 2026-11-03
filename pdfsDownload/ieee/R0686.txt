@@ -1,0 +1,1477 @@
+IEEE JOURNAL OF BIOMEDICAL AND HEALTH INFORMATICS 1
+AutoMedic: An Automated Evaluation
+Framework for Clinical Conversational Agents
+with Medical Dataset Grounding
+Gyutaek Oh, Sangjoon Park∗, and Byung-Hoon Kim∗
+Abstract— Evaluating large language models (LLMs) has
+recently emerged as a critical issue for safe and trustworthy
+application of LLMs in the medical domain. Although a
+variety of static medical question-answering (QA) bench-
+marks have been proposed, many aspects remain under-
+explored, such as the effectiveness of LLMs in generating
+responses in dynamic, interactive clinical multi-turn con-
+versation situations and the identification of multi-faceted
+evaluation strategies beyond simple accuracy. However,
+formally evaluating a dynamic, interactive clinical situation
+is hindered by its vast combinatorial space of possible
+patient states and interaction trajectories, making it difficult
+to standardize and quantitatively measure such scenarios.
+Here, we introduceAutoMedic, a multi-agent simulation
+framework that enables automated evaluation of LLMs as
+clinical conversational agents. AutoMedic transforms off-
+the-shelf static QA datasets into virtual patient profiles,
+enabling realistic and clinically grounded multi-turn clin-
+ical dialogues between LLM agents. The performance of
+various clinical conversational agents is then assessed
+based on ourCAREmetric, which provides a multi-faceted
+This research was supported by the Bio&Medical Technology Devel-
+opment Program of the National Research Foundation (NRF) funded
+by the Korean government (MSIT; RS-2025-02263045), the National
+Institute of Health(NIH) research project(project No. 2025-ER0806-01),
+a grant from the Institute for AI and Social Innovation at Y onsei University
+(2025-22-0484), a grant of the Korean ARPA-H Project through the
+Korea Health Industry Development Institute (KHIDI), funded by the
+Ministry of Health & Welfare, Republic of Korea (RS-2025-25455095),
+a grant of the Korea Health Technology R&D Project through the Korea
+Health Industry Development Institute (KHIDI), funded by the Ministry
+of Health & Welfare, Republic of Korea (RS-2025-02263802), and by a
+Severance Hospital Research fund for Clinical Excellence (SHRC) (C-
+2025-0033).
+G. Oh is with the Department of Biomedical Systems Informatics,
+Y onsei University College of Medicine, 50-1 Y onsei-ro, Seodaemun-gu,
+Seoul 03722, Republic of Korea. (e-mail: okt0711@gmail.com)
+S. Park is with the Department of Radiation Oncology, Heavy Ion
+Therapy Research Institute, and Y onsei Cancer Center, Y onsei Univer-
+sity College of Medicine, 50-1 Y onsei-ro, Seodaemun-gu, Seoul 03722,
+Republic of Korea. (e-mail: depecher@yuhs.ac)
+B. -H. Kim is with the Department of Biomedical Systems Infor-
+matics, the Department of Psychiatry, and the Institute of Behavioral
+Sciences in Medicine, Y onsei University College of Medicine, 50-1
+Y onsei-ro, Seodaemun-gu, Seoul 03722, Republic of Korea. (e-mail:
+egyptdj@yonsei.ac.kr)
+G. Oh, S. Park, and B. -H. Kim are also with the Y onsei Institute for
+Digital Health, 50-1 Y onsei-ro, Seodaemun-gu, Seoul 03722, Republic
+of Korea.
+B. -H. Kim serves as an outside director and holds equity in EverEx,
+a digital health company focused on musculoskeletal conditions. This
+affiliation had no role in study design, data collection or analysis,
+decision to publish, or preparation of the manuscript. All other authors
+declare no competing interests.
+∗S. Park and B. -H. Kim are co-corresponding authors.
+evaluation standard of clinical conversational accuracy, ef-
+ficiency/strategy, empathy, and robustness. Our findings,
+validated by human experts, demonstrate the validity of Au-
+toMedic as an automated evaluation framework for clinical
+conversational agents, offering practical guidelines for the
+effective development of LLMs in conversational medical
+applications.
+Index Terms— Large Language Models, Agentic AI, Auto-
+mated Evaluation, Conversational Agents, Clinical Simula-
+tion, Multi-agent Systems
+I. INTRODUCTION
+T
+HE rapid advancement of large language models (LLMs)
+has spurred the development of sophisticated founda-
+tion models across both proprietary and open-source land-
+scapes [1]–[8]. This has also led to a significant interest in
+their medical applications, resulting in a variety of specialized
+models fine-tuned on clinical data [9]–[15] and the emergence
+of chatbots designed for direct human interaction [16]–[19].
+Notably, experimental evidence suggests that the medical
+knowledge of these LLMs on standard medical question-
+answering (QA) benchmarks has already reached a level
+comparable to that of human experts [20].
+Despite these impressive benchmark scores, static evalua-
+tions based on existing medical QA benchmarks primarily
+focus on information retrieval rather than the dynamic and
+interactive nature of real-world clinical encounters. While
+current models possess the technical capacity for human
+interaction, they cannot be safely or effectively integrated
+into clinical workflows without an evaluation framework that
+rigorously validates their performance in interactive scenarios.
+Two significant areas for further development exist in this
+context. First, the evaluation process in standard benchmarks
+is inherently static. Unlike a real clinical care scenario, where
+the clinician aims to fulfill a professional role by interact-
+ing with the patient to elicit information, these benchmarks
+provide no measure of conversational and diagnostic inquiry
+skills. Effective patient-doctor communication is fundamental
+to clinical care, as it serves as the primary method for gathering
+nuanced patient history, building trust, and ensuring patient
+adherence to treatment plans. An agent’s ability to communi-
+cate with empathy and clarity is not just a feature but a core
+requirement for safe and effective deployment. Furthermore,
+given the susceptibility of LLMs to user-driven misinformation
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and 
+content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3703097
+© 2026 IEEE. All rights reserved, including rights for text and data mining and training of artificial intelligence and similar technologies. Personal use is permitted,
+but republication/redistribution requires IEEE permission. See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:07:19 UTC from IEEE Xplore.  Restrictions apply. 
+2 IEEE JOURNAL OF BIOMEDICAL AND HEALTH INFORMATICS
+Fig. 1. Overview of the proposed AutoMedic framework. AutoMedic framework automatically converts a medical QA dataset into a virtual patient
+scenario, facilitates a multi-agent clinical simulation, and evaluates the LLM agent’s performance based on our proposed metrics.
+or leading inputs [21], [22], the ability to maintain robust
+and accurate dialogue is critical for safe clinical deployment.
+Second, the queries in these benchmarks are typically self-
+contained, providing all the necessary information upfront. In
+actual clinical practice, however, critical information must be
+actively gathered through patient dialogue and diagnostic tests,
+which represents a complex interactive task.
+Evaluating LLMs as clinical conversational agents is an
+established and essential practice within the medical AI
+community to ensure their effectiveness in dynamic environ-
+ments. To address the inherent constraints of traditional static
+benchmarks, several recent studies have developed frameworks
+specifically designed to assess these models within interactive
+clinical scenarios [23]–[28]. These frameworks have demon-
+strated the feasibility of evaluating LLMs as clinical conver-
+sational agents by introducing novel datasets and simulating
+clinical scenarios. However, achieving full automation remains
+a key objective because existing workflows 1) require specially
+designed datasets, 2) necessitate substantial human labor or
+rely on non-realistic clinical simulations, and 3) heavily rely
+on human evaluators for key qualitative metrics. Moreover,
+these methods frequently focus on diagnostic scenarios and
+would benefit from clearer quantitative metrics.
+To address these shortcomings, this paper introducesAu-
+toMedic, a fully automated framework for evaluating LLMs as
+clinical conversational agents in clinical care scenarios, with
+the overall scheme illustrated in Fig. 1. Our key contributions
+are:
+•An automatic method for converting static medical
+QA datasets into interactive virtual patient pro-
+files.This approach provides a scalable methodology
+for transforming standard off-the-shelf QA benchmarks
+into conversational evaluation suites, which reduces the
+dependency on specialized and hand-crafted datasets. Our
+framework incorporates a filtering mechanism to identify
+and select the subset of source QA items most suitable
+for realistic dialogue.
+•A multi-agent simulation framework that models a
+realistic clinical dialogue.In this framework, the LLM-
+based clinical conversational agent must actively gather
+information by conversing with a virtual patient and
+requesting test results from a clinical staff agent before
+making a final judgment. The entire evaluation process is
+fully automated, requiring no human intervention.
+•A multi-faceted metric for quantitative evaluation.We
+propose theCAREmetric to assess performance across
+four key rubrics: accuracy, conversational efficiency and
+strategy, empathy, and robustness. By integrating and
+quantifying these crucial aspects within a single auto-
+mated framework, our metric offers a comprehensive
+guideline for selecting and developing LLMs for assistive
+clinical roles.
+The remainder of this paper is organized as follows.
+Section II reviews related works on medical LLMs and
+conversational agent evaluation. Sections III, IV detail our
+proposed framework and experimental setup. Section V and
+Section VI present the experimental results and discussion,
+and Section VII concludes the paper.
+II. RELATEDWORKS
+A. LLMs for the Medical Domain
+Leading LLMs have consistently demonstrated high perfor-
+mance on a range of medical tasks and benchmarks. OpenAI’s
+GPT-4, for example, surpassed the passing score of the United
+States Medical Licensing Examination (USMLE) by over 20
+points [29]. Its successor, GPT-5 [8], continued this trend
+by achieving the highest score to date on the HealthBench
+benchmark [25]. Similarly, DeepSeek-R1 [5] has shown strong
+performance in clinical decision-making tasks [30] and has
+achieved the top win-rate on several medical benchmarks,
+outperforming other prominent proprietary and open-source
+LLMs [31].
+Beyond the aforementioned general-purpose LLMs, a sig-
+nificant amount of research has focused on developing LLMs
+specifically tailored for the medical domain. Models such
+as HuatuoGPT-o1 [10] and m1 [32] are fine-tuned on med-
+ical problem sets to enhance their clinical reasoning abili-
+ties. In parallel, Google has introduced a series of powerful
+multimodal medical LLMs, including Med-PaLM M [33],
+Med-Gemini [34], and MedGemma [15]. These models have
+demonstrated exceptional performance across a diverse range
+of medical benchmarks.
+However, since most current evaluations primarily assess
+the knowledge of LLMs via simple question-answering tasks,
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and 
+content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3703097
+© 2026 IEEE. All rights reserved, including rights for text and data mining and training of artificial intelligence and similar technologies. Personal use is permitted,
+but republication/redistribution requires IEEE permission. See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:07:19 UTC from IEEE Xplore.  Restrictions apply. 
+OHet al.: AUTOMEDIC: AN AUTOMATED EVALUATION FRAMEWORK FOR CLINICAL CONVERSATIONAL AGENTS WITH MEDICAL DATASET GROUNDING 3
+concerns arise regarding their ecological validity. Specifically,
+these methods may fail to adequately gauge a model’s utility
+in real-world clinical settings, which inherently necessitate
+explorative information gathering for accurate diagnosis and
+treatment planning [35]–[39]. To address these limitations, re-
+cent research [19] has focused on training LLMs as specialized
+diagnostic agents capable of managing complex, multi-turn
+diagnostic processes.
+B. Evaluation of Clinical Conversational Agents
+Several pioneering efforts have sought to evaluate LLMs as
+clinical conversational agents by creating specialized bench-
+marks and systems. For instance, Google’s Articulate Med-
+ical Intelligence Explorer (AMIE), a system for diagnostic
+dialogue, was evaluated through interactions with human ac-
+tors playing the role of simulated patients [28]. Similarly,
+OpenAI developed HealthBench, a benchmark comprising
+5,000 realistic health conversations created in collaboration
+with physicians, complete with detailed scoring rubrics [25].
+More recently, Microsoft introduced the MAI Diagnostic Or-
+chestrator (MAI-DxO), a system where multiple LLM agents
+collaboratively debate to make an accurate diagnosis. To assess
+it, they also released the Sequential Diagnosis Benchmark
+(SDBench), derived from complex clinicopathological cases
+from the NEJM [27]. Furthermore, Qiu et al. [40] introduced
+MedR-Bench, a collection of 1,453 patient cases accompanied
+by reference reasoning, to evaluate the diagnostic reasoning of
+LLMs using a specialized Reasoning Evaluator. A common
+limitation of these approaches is their dependence on bespoke
+datasets. The creation of such resources is a time-consuming
+and labor-intensive process, which helps explain why the num-
+ber of conversational benchmarks remains limited compared
+to the abundance of static medical QA datasets. Moreover,
+these datasets are often limited in conversational depth, lack-
+ing a significant number of multi-turn exchanges. Instead of
+serving as active agents that drive the dialogue, models in
+these settings are relegated to passive roles, evaluating fixed
+conversation histories rather than engaging in actual multi-turn
+interactions.
+To overcome these limitations, several studies have specifi-
+cally focused on evaluating the interactive capabilities of LLM
+agents in patient dialogue. A notable example is AgentClinic,
+a multimodal agent benchmark for evaluating LLMs in simu-
+lated clinical environments [23]. The AgentClinic framework
+generates virtual patient and measurement agents from medical
+QA data. A doctor agent must then interact with these simu-
+lated agents to gather the necessary information for a medical
+decision. The authors use this simulation to compare the
+diagnostic accuracy of LLM agents across various biases and
+languages, supplementing the results with human evaluations
+of the conversation quality. Similarly, MedAgentSim [24]
+simulates doctor-patient interactions but distinguishes itself by
+utilizing multiple doctor agents to collaboratively derive the
+final clinical decision. Furthermore, the CRAFT-MD frame-
+work [41] evaluates the performance of clinical LLMs by
+situating them within a simulated interactive environment to
+assess their diagnostic accuracy. Despite their comprehensive
+approach, these approaches have two key limitations relevant
+to our work. First, it does not provide a method for assessing
+whether leveraging an existing medical QA benchmark is suit-
+able for conversion into a realistic conversational simulation.
+Second, it lacks a quantitative framework for automatically
+evaluating an agent’s performance across multiple conversa-
+tional aspects, relying instead on subjective manual human
+assessment or solely on the accuracy of the QA task.
+III. AUTOMEDICFRAMEWORK
+The AutoMedic framework, illustrated in Fig. 1, is com-
+posed of three primary stages: 1) patient profile generation, 2)
+multi-agent conversation simulation, and 3) automated evalu-
+ation. This entire process is orchestrated by four specialized
+LLM agents: a profile generator, a doctor, a patient, and a
+clinical staff. The following sections provide the specific roles
+of these agents and a detailed description of each stage.
+A. Agents
+The AutoMedic framework operates using four distinct
+LLM agents, each with a specialized role. The primary agent
+is thedoctoragent, which emulates a physician and serves as
+the sole subject of our evaluation. The other three agents, the
+profile generator,patient, andclinical staff, act in supporting
+roles to create the environment for this evaluation.
+The process begins with the profile generator, which per-
+forms two sequential tasks. First, it filters a set of medical
+QA queries to select items suitable for simulation. Second, it
+transforms each valid query into a structured virtual patient
+profile.
+This profile is then used by the patient agent, which
+instantiates the patient’s persona. It dynamically responds to
+inquiries about symptoms and medical history, and can adapt
+to a caregiver role in scenarios where a patient cannot self-
+represent (e.g., due to age or cognitive impairment).
+To simulate the broader clinical environment, the clinical
+staff agent acts as a gatekeeper for technical data. When the
+doctor agent requests a test, this agent provides the corre-
+sponding results from the profile. To ensure factual grounding,
+it only returns pre-existing information and will state that a
+result is unavailable if it is not in the profile, preventing data
+hallucination.
+Within this environment, the doctor agent’s objective is to
+solve the medical problem by strategically gathering informa-
+tion from both the patient and clinical staff agents. For baseline
+comparison, this agent also directly answers the original static
+QA query without any interaction.
+B. Patient Profile Generation
+The first stage of the AutoMedic framework is patient profile
+generation (Fig. 2(a)). This process transforms a static medical
+QA query into a structured virtual patient profile, which
+then serves as the foundation for the subsequent conversation
+simulation. The process begins when the profile generator
+agent receives a medical QA query, comprising a medical
+context, a question, several options, and a correct answer, and
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and 
+content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3703097
+© 2026 IEEE. All rights reserved, including rights for text and data mining and training of artificial intelligence and similar technologies. Personal use is permitted,
+but republication/redistribution requires IEEE permission. See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:07:19 UTC from IEEE Xplore.  Restrictions apply. 
+4 IEEE JOURNAL OF BIOMEDICAL AND HEALTH INFORMATICS
+Fig. 2. The AutoMedic framework, detailing (a) the automatic gener-
+ation of a virtual patient profile from a medical QA query, and (b) the
+subsequent multi-agent conversation simulation.
+first assesses its suitability. As our framework is designed for
+patient-specific decision-making scenarios, the following types
+of queries are automatically filtered out and excluded from the
+dataset by the profile generator agent:
+•Queries describing research participants or experimental
+settings rather than clinical care.
+•Those focusing on abstract concepts (e.g., pathophysiol-
+ogy, molecular mechanisms) instead of a specific patient
+case.
+•General knowledge or fact-recall questions (e.g., defini-
+tions, classifications).
+•Image-dependent queries that do not describe the visual
+findings in the text.
+•Queries where critical patient details (e.g., age, chief
+complaint) are only present in the answer choices.
+Once a query is determined to be suitable, the profile
+generator agent proceeds to create the virtual patient profile.
+It extracts relevant information from the medical context and
+organizes it into three distinct categories:
+•Demographics: Basic patient data such as age and sex.
+•Basic Information: Core clinical details including the
+chief complaint, duration of symptoms, family and past
+medical history, and relevant lifestyle factors (e.g., smok-
+ing, alcohol use).
+•Optional Information: Data that may not be present in
+all cases, such as vital signs, laboratory tests, physical
+examinations, imaging results, and pathology results.
+To enhance the realism of the simulation, the profile generator
+is instructed to impute any missing basic information items
+with plausible, randomly generated values, ensuring these
+additions do not alter the correct answer to the original query.
+Conversely, optional information is never generated if it is
+absent. This is a crucial constraint, as many queries test the
+doctor agent’s ability to determine which tests are necessary.
+Generating these results upfront would interfere with the
+evaluation. Finally, the agent isolates the specific medical
+question and its corresponding response options from the
+original query, excluding the clinical vignette. This extracted
+content is presented to the doctor agent upon the conclusion
+of the conversation simulation.
+Once the patient profile is generated, the information is
+selectively distributed among the agents according to their role,
+to simulate realistic knowledge boundaries (Fig.2(b)). The
+doctor agent receives only the demographics as the baseline
+information of the given patient. The patient agent is provided
+with both demographics and basic information, enabling it
+to accurately represent the patient’s history and symptoms to
+answer the query from the doctor agent. To maintain a realistic
+simulation, the patient agent provides specific details only
+when directly prompted by the doctor agent. It is explicitly
+restricted from disclosing objective medical data such as
+laboratory results or imaging reports, as these are typically
+unavailable to a patient in a clinical setting. Furthermore, if the
+doctor agent requests information outside this defined scope,
+the patient agent is programmed to respond naturally by stating
+that it does not have that specific data, which closely mirrors
+real-world patient behavior.
+Lastly, the clinical staff agent serves a distinct role by
+managing objective medical data such as laboratory results
+and physical examination findings. Unlike the patient agent,
+who provides subjective information based on symptoms and
+personal history, the clinical staff agent only discloses tech-
+nical data when explicitly prompted by the doctor agent. By
+isolating this technical information until specifically requested,
+this design maintains the simulation’s integrity and ensures the
+proper evaluation of the doctor agent’s information-gathering
+skills. This separation is critical for the evaluation process
+because it forces the doctor agent to demonstrate proactive
+diagnostic reasoning rather than passively receiving a complete
+case summary. Consequently, the clinical staff agent acts as a
+gatekeeper for the data necessary to reach a correct diagnosis,
+which allows us to measure the model’s ability to request
+the appropriate clinical evidence at the correct stage of the
+consultation.
+C. Multi-Agent Conversation Simulation
+The multi-agent conversation simulation begins after
+the patient profile has been generated, as illustrated in
+Fig. 2(b). The doctor agent initiates and directs the en-
+tire dialogue using specific tags. Questions for the pa-
+tient agent are wrapped in<patient></patient>tags,
+while requests for the clinical staff agent are framed within
+<clinical></clinical>tags. The patient and clinical
+staff agents automatically respond to any text directed to them
+within these respective tags.
+This interactive process continues until one of two termi-
+nation conditions is met: either the doctor agent concludes
+the dialogue by issuing an</end>tag, or the conversation
+reaches a predefined maximum length. We define a single
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and 
+content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3703097
+© 2026 IEEE. All rights reserved, including rights for text and data mining and training of artificial intelligence and similar technologies. Personal use is permitted,
+but republication/redistribution requires IEEE permission. See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:07:19 UTC from IEEE Xplore.  Restrictions apply. 
+OHet al.: AUTOMEDIC: AN AUTOMATED EVALUATION FRAMEWORK FOR CLINICAL CONVERSATIONAL AGENTS WITH MEDICAL DATASET GROUNDING 5
+turn as a query from the doctor agent and the corresponding
+response from another agent. For our experiments, we set the
+maximum number of turns to 20, which is sufficient if the
+doctor agent gathers relevant information efficiently.
+Upon the conversation’s conclusion, the doctor agent is
+presented with the final medical question that was extracted
+from the original query. The doctor agent then formulates an
+answer based solely on the information it gathered during the
+simulated dialogue. To establish a performance baseline, we
+also collect responses in a standard QA setting. As depicted
+at the top of Fig. 2, the doctor agent is presented with
+the complete original medical query, containing full patient
+context upfront. In this static configuration, the agent must
+generate an answer without any conversational interaction,
+mirroring traditional QA tasks. Both the conversational and
+static QA responses are subsequently compared during the
+evaluation phase.
+D. Automated Evaluation
+The final stage of the AutoMedic framework is the auto-
+mated evaluation of the doctor agent. This evaluation is based
+on the entire transcript of the multi-agent conversation as
+well as the final answer provided. To conduct this assessment
+automatically and without human intervention, we introduce
+theCARE(Conversation efficiency and strategy, Accuracy,
+Robustness, and Empathy) metric. This metric quantitatively
+assesses the agent’s performance across the following four
+distinct aspects:
+1. Accuracy:The primary goal of this score,S ACC, is to
+evaluate the diagnostic accuracy of the doctor agent, while
+also accounting for any performance degradation that occurs
+when moving from a static to a conversational setting. This
+formulation is grounded in the clinical requirement for knowl-
+edge retention under cognitive load. In real-world practice,
+a clinician’s value is defined not just by their static medi-
+cal knowledge but by their ability to apply that knowledge
+consistently during the complexities of a patient interaction.
+Many LLMs exhibit a performance collapse when moving
+from isolated benchmarks to multi-agent dialogues, indicating
+a lack of conversational robustness.
+First, we independently calculate the accuracy for the
+conversational setting (Acc Conv) and the static QA setting
+(AccQA):
+AccConv = nConvN , Acc QA = nQAN ,(1)
+whereNis the total number of queries, andn Conv andn QA
+are the number of correct answers in the conversational and
+static QA settings, respectively.
+The final accuracy score,S ACC, is then defined as:
+SACC =Acc Conv × AccConvAccQA .(2)
+This formula incorporates two components. The first term,
+AccConv, directly measures the agent’s performance in the
+interactive simulation. The second term,Acc Conv/AccQA, acts
+as a retention-based penalty factor. It quantifies the fidelity of
+the agent’s reasoning by measuring how much of its baseline
+medical knowledge is preserved during the dialogue. An agent
+that maintains high accuracy in the conversation relative to
+its baseline QA performance will score higher. This ensures
+that the metric rewards not only the final correct answer but
+also the model’s ability to maintain clinical reasoning integrity
+throughout the information-gathering process.
+2. Conversational Efficiency & Strategy:This score,S CES,
+evaluates the doctor agent’s conversational efficiency and its
+adherence to a natural, strategic dialogue flow. Our formulation
+is grounded in the Smith model of patient-centered interview-
+ing [42], which emphasizes a structured transition from open-
+ended inquiry to focused, non-repetitive questioning. In real
+clinical encounters, effective communication requires a bal-
+ance between gathering sufficient data and minimizing patient
+burden. Physicians typically ask one or two focused questions
+at a time, iteratively building a diagnostic hypothesis based on
+patient responses. Conversely, some LLM agents may adopt
+an unnatural “checklist” approach, asking numerous questions
+simultaneously to gather information quickly. While this might
+appear efficient in terms of raw information acquisition, it
+violates the clinical principle of focused inquiry and is not
+representative of a professional diagnostic strategy.
+To quantify this behavior, we employ a Gaussian-based
+metric that rewards adherence to an ideal clinical cadence,
+reflecting the Calgary-Cambridge guide’s [43] standards for
+flow and structures. We defineq turn as the average number of
+sentences per doctor agent request, andTas the total number
+of conversation turns. For each samplei, the conversational
+efficiency and strategy score,s iCES, is calculated as follows:
+siCES =
+exp
+
+− (qturn −µ q)2
+2σ2q
+
+·exp
+
+− (T−µ T )2
+2σ2T
+
+·P ACC. (3)
+In this formulation,µ q andσ q represent the expected average
+and standard deviation for sentences per turn, whileµ T and
+σT serve the same roles for the total number of turns.P ACC
+is a soft accuracy penalty that is set to 1 when the final
+answer is correct, and 0.5 when it is incorrect. The parameters
+µq,σ q,µ T , andσ T are adjustable, allowing the framework
+to be calibrated against different configurations or clinical
+contexts. This scoring mechanism penalizes deviations from
+professional norms. For example, a doctor agent receives a low
+score for information dumping (asking too many questions in
+a single turn) or for being overly passive. Similarly, the score
+decreases if the agent consumes excessive turns inefficiently
+or concludes the encounter prematurely without sufficient
+interaction.
+The finalS CES score is then computed as the scaled average
+across allNsamples:
+SCES = 1N
+NX
+n=1
+siCES.(4)
+3. Empathy:The third score,S EMP, provides an approxima-
+tion of the empathy perceived by the patient agent during the
+simulation. Since LLMs can sometimes interact in a robotic
+or emotionally detached manner, evaluating their ability to
+convey empathy is crucial for patient-centric applications. This
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and 
+content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3703097
+© 2026 IEEE. All rights reserved, including rights for text and data mining and training of artificial intelligence and similar technologies. Personal use is permitted,
+but republication/redistribution requires IEEE permission. See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:07:19 UTC from IEEE Xplore.  Restrictions apply. 
+6 IEEE JOURNAL OF BIOMEDICAL AND HEALTH INFORMATICS
+metric is theoretically grounded in the relationship-centered
+care model [44], which positions emotional rapport as a tech-
+nical necessity for clinical success rather than a mere social
+nicety. Furthermore, our evaluation criteria align with the
+SEGUE Framework [45], specifically focusing on the doctor’s
+ability to elicit the patient’s perspective and acknowledge
+their emotional state. Recent studies have emphasized the
+importance of measuring empathetic capabilities of clinical
+LLMs, particularly their ability to provide supportive and
+human-centric interactions [28], [46], [47].
+To quantify this, we use the patient agent as a proxy
+evaluator. This approach mirrors real-world healthcare quality
+assessment where patient satisfaction surveys are used to
+gauge provider performance. After each conversation con-
+cludes, the patient agent is prompted to rate the doctor agent’s
+empathy on a 5-point scale (where 1 is low and 5 is high),
+a standardized assessment format widely adopted in existing
+empathy evaluation frameworks [28], [47]. The final empathy
+score,S EMP, is the average of these ratings, normalized across
+allNqueries:
+SEMP = 15N
+NX
+n=1
+siEMP,(5)
+wheres iEMP is the empathy score for theith sample.
+4. Robustness: The final score,S ROB, evaluates the con-
+versational robustness of the doctor agent. A robust agent
+must consistently adhere to its designated role and interac-
+tion protocols. Deviations, such as misdirecting questions or
+breaking character, can compromise the simulation’s integrity
+and lead the conversation astray. Therefore, the doctor agent
+must demonstrate a high degree of fidelity to its underlying
+instructions to ensure a reliable and predictable evaluation
+process. This metric aligns with the clinical competency of
+Professionalism and Reliability [48], as defined by medical
+education standards like the ACGME core competencies. Just
+as a human clinician must maintain professional boundaries
+and follow institutional protocols, an AI agent must operate
+within its defined operational constraints to be considered
+clinically viable.
+We quantify robustness by identifying and counting failure
+cases during the simulation. The failure modes listed below
+represent the most frequent types of dialogue breakdown
+observed during our evaluation.
+•Role-Breaking: The doctor agent self-simulates the en-
+tire interaction, playing the roles of other agents instead
+of interacting with them.
+•Abrupt Termination: The conversation ends prematurely
+(defined as≤3 turns) due to the doctor agent’s failure
+to use the required<patient>or<clinical>tags,
+or due to an improperly placed</end>tag.
+•Invalid Answer: After a seemingly normal conversation,
+the doctor agent fails to provide a valid answer to the
+final question (e.g., by providing an answer not listed in
+the options).
+In our evaluation, these failure modes often manifest con-
+currently. For instance, a doctor agent might break character
+by self-simulating the roles of the patient or clinical staff,
+which leads to an immediate and improper termination of the
+dialogue before any actual multi-agent interaction can occur.
+The robustness score,S ROB, is then calculated as the pro-
+portion of successful conversations:
+SROB = 1− nFailN (6)
+wheren Fail is the total count of the failure cases described
+above.
+IV. METHODS
+A. Datasets
+To evaluate the performance of each LLM as a clinical
+conversational agent using the AutoMedic framework, we
+utilized six distinct medical QA datasets.
+MedBullets: This dataset [49] comprises 308 multiple-
+choice questions formatted in the style of the USMLE, each
+with five answer options.
+MedQA: Another USMLE-style medical QA benchmark,
+MedQA [50] contains 1,273 multiple-choice questions, each
+presenting five answer options.
+MedXpertQA: MedXpertQA [51] is a medical QA bench-
+mark featuring both textual and multimodal questions. Our
+evaluation focused exclusively on its text-based subset, which
+consists of 2,450 questions, each with ten answer choices.
+MedMCQA: MedMCQA [52] is a multiple-choice question
+answering dataset derived from real-world medical entrance
+exams. For our experiments, we used its validation split, which
+provides the correct answers. After filtering to include only
+single-choice questions, our subset contained 2,816 questions,
+each with four answer options.
+HEAD-QA: This multi-choice healthcare dataset [53] in-
+cludes medical questions in both Spanish and English. We
+specifically used the test split of its English subset, which
+provides 2,742 questions, each with four answer options.
+MMLU-Pro: MMLU-Pro [54] is a multi-task understanding
+dataset designed for rigorous LLM benchmarking. From this
+dataset, we extracted questions pertaining only to the health
+and biology categories, totalling 1,535 questions with three to
+ten answer options each.
+For the MedQA and MedXpertQA datasets, we sampled 300
+instances that are applicable with our framework for efficiency.
+B. Models
+For the doctor agent, we evaluate the performance of 9
+distinct LLMs.These models are grouped into three categories.
+Open-Source General LLMs: We selected a range
+of general-purpose open-source models. We utilized the
+instruction-tuned versions of Llama 3 [4] and Qwen3 [7],
+which feature 70B and 32B parameters, respectively. As a
+representative reasoning model, we included the 70B distilled
+version of DeepSeek-R1 [5]. We also used gpt-oss [55],
+another open-source reasoning model from OpenAI, in its
+120B parameter version.
+Open Source Biomedical LLMs: To assess domain-
+specific models, we employed two LLMs designed for the
+biomedical field: Med42-v2 [11] and OpenBioLLM [12], both
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and 
+content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3703097
+© 2026 IEEE. All rights reserved, including rights for text and data mining and training of artificial intelligence and similar technologies. Personal use is permitted,
+but republication/redistribution requires IEEE permission. See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:07:19 UTC from IEEE Xplore.  Restrictions apply. 
+OHet al.: AUTOMEDIC: AN AUTOMATED EVALUATION FRAMEWORK FOR CLINICAL CONVERSATIONAL AGENTS WITH MEDICAL DATASET GROUNDING 7
+TABLE I
+HUMANEXPERTEVALUATIONRESULTS FORPATIENTPROFILE
+GENERATION.
+Filtering Accuracy of the Profile Generator
+Fleiss’ Kappa 0.7630 (p <0.05)
+Cohen’s Kappa 0.8197 (p <0.05)
+Quality of Generated Patient Profiles
+Percent Agreement 0.8992 (p <0.05)
+ICC(2,k) 0.8434 (p <0.05)
+Average Score 3.464
+Notes: For the filtering accuracy assessment, Fleiss’ Kappa
+quantifies inter-rater agreement among human experts, while
+Cohen’s Kappa measures agreement between the experts’
+majority vote and the profile generator. For the quality evalu-
+ation of generated patient profiles, the percent agreement and
+intraclass correlation coefficient (ICC) indicate human expert
+reliability, and the “Average Score” represents the mean expert
+rating across all samples (maximum possible score: 4 points).
+with 70B parameters. We also included HuatuoGPT-o1 [10],
+a 72B parameter model specifically tailored for medical rea-
+soning tasks.
+Proprietary General LLMs: Finally, we evaluated two
+high-performing proprietary models: GPT-4o [2] and Claude
+Sonnet 4 [56].
+For the other agents (profile generator, patient, and clinical
+staff), we employed GPT-4o to ensure a stable and consistent
+conversation simulation.
+C. Human Evaluation
+To validate the accuracy and effectiveness of our framework,
+we conducted three distinct human expert evaluations with
+the participation of four licensed medical professionals. These
+evaluations validate the clinical validity of the AutoMedic
+framework and the CARE metric by demonstrating their align-
+ment with the judgments of medical experts. The institutional
+review board approved these human evaluation studies (IRB
+No. 4-2025-0982).
+The first study assessed the accuracy of the profile gener-
+ator’s filtering mechanism. We randomly sampled 24 medical
+queries from the six datasets, comprising 12 queries classified
+as ”appropriate” and 12 as ”inappropriate” by the profile
+generator agent. The human experts then independently judged
+the suitability of each sample for patient profile generation. We
+measured inter-rater reliability among the experts using Fleiss’
+Kappa and the agreement between our agent’s classification
+and the experts’ majority vote using Cohen’s Kappa.
+The second study evaluated the quality of the generated
+patient profiles. Experts were asked to rate 21 randomly
+sampled profiles on a 4-point scale. The evaluation criteria in-
+cluded faithfulness to the original medical query, completeness
+of information, and the clinical plausibility of any imputed
+data. To measure inter-rater reliability, we calculated both the
+percent agreement and intraclass correlation coefficient (ICC),
+a metric robust to chance agreement. We then determined the
+average quality score across all profiles.
+The final study aimed to correlate our automated CARE
+metric with human judgment. We generated a total of 75
+simulation results, comprising 15 cases for each of the five
+models acting as the doctor agent on the MedQA dataset. In a
+Fig. 3. Analysis of Medical QA Benchmark Datasets for Clinical
+Simulation. (a) A bar chart illustrates the proportion of “Appropriate
+Samples” within each dataset (calculated from the total samples). (b)
+A radar chart illustrates the percentage of appropriate samples that
+contain specific demographic, basic, and optional information for patient
+profile generation (calculated from the appropriate samples).
+blinded setup, the human experts rated each result on a 3-point
+scale across the four CARE dimensions: accuracy, conversa-
+tional efficiency and strategy, empathy, and robustness. We
+measured inter-rater reliability using both percent agreement
+and ICC. Finally, we assessed the alignment between experts’
+average scores and the calculated CARE metric scores using
+the Pearson correlation coefficient. These metric calculations
+were performed on both the full MedQA dataset and the
+specific subset of 15 samples used for human evaluation.
+V. RESULTS
+A. Human Evaluation of Patient Profile Generation.
+To justify the patient profile generation process, we con-
+ducted two human expert evaluations. The first specifically
+assessed the profile generator’s filtering accuracy. Human
+experts demonstrated substantial agreement on the suitability
+of queries for profile generation, indicated by a Fleiss’ Kappa
+of 0.7630 (TABLE I). This high inter-rater reliability confirms
+that our filtering criteria are well-defined and consistently
+applied. Furthermore, the agreement between the profile gen-
+erator’s classifications and the human experts’ majority vote
+was almost perfect, yielding a Cohen’s Kappa of 0.8197 (ex-
+cluding two tied cases). This evaluation robustly demonstrates
+that our profile generator accurately identifies and filters out
+inappropriate medical queries before patient profile generation.
+Next, the evaluation of the generated patient profiles fur-
+ther supported our framework’s design. Human expert ratings
+showed strong reliability, evidenced by a percent agreement
+of 0.8992 and an ICC of 0.8434 (TABLE I). This indicates
+consistent expert judgment. Additionally, the profiles received
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and 
+content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3703097
+© 2026 IEEE. All rights reserved, including rights for text and data mining and training of artificial intelligence and similar technologies. Personal use is permitted,
+but republication/redistribution requires IEEE permission. See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:07:19 UTC from IEEE Xplore.  Restrictions apply. 
+8 IEEE JOURNAL OF BIOMEDICAL AND HEALTH INFORMATICS
+TABLE II
+ALIGNMENT OFHUMANEXPERT ANDCARE METRICEVALUATION FORLLMS ASDOCTORAGENTS.
+Accuracy ConversationalEfficiency & Strategy Empathy Robustness
+Percent Agreement 0.9644 (p <0.05) 0.7741 (p <0.05) 0.8919 (p <0.05) 0.7044 (p <0.05)
+ICC(2, k) 0.9839 (p <0.05) 0.6083 (p <0.05) 0.7207 (p <0.05) 0.5281 (p <0.05)
+Average Human Score
+Llama 3 1.6333 2.0167 2.3667 2.7333
+DeepSeek-R1 1.5500 1.8500 2.2167 2.2333
+Med42-v2 1.5333 1.8667 2.3167 1.8333
+HuatuoGPT-o1 2.2333 1.9000 2.7333 2.8167
+Claude Sonnet 4 2.2333 2.5000 2.9333 2.6500
+CARE Metric
+(All Samples)
+Llama 3 0.2865 0.6938 0.7260 1.0000
+DeepSeek-R1 0.0589 0.2073 0.6493 0.5867
+Med42-v2 0.0204 0.1350 0.6647 0.2700
+HuatuoGPT-o1 0.4095 0.4344 0.7493 0.9567
+Claude Sonnet 4 0.4699 0.7743 0.8520 0.9333
+Pearson Correlation 0.9061 (p <0.05) 0.7953 (p= 0.1077) 0.9423 (p <0.05) 0.9906 (p <0.05)
+CARE Metric
+(15 Samples)
+Llama 3 0.1667 0.5442 0.6667 1.0000
+DeepSeek-R1 0.0222 0.1746 0.6133 0.5333
+Med42-v2 0.0067 0.0776 0.6267 0.2000
+HuatuoGPT-o1 0.5128 0.4717 0.7467 0.9333
+Claude Sonnet 4 0.4154 0.8671 0.8000 0.9333
+Pearson Correlation 0.9737 (p <0.05) 0.8814 (p <0.05) 0.9929 (p <0.05) 0.9867 (p <0.05)
+Notes: This table presents inter-rater reliability metrics (Percent Agreement and Intraclass Correlation Coefficient, ICC),
+average human expert scores (3-point Likert scale), and corresponding CARE metric scores for five models across
+four evaluation dimensions when acting as a doctor agent on the MedQA dataset. Pearson correlation coefficients are
+provided to demonstrate the alignment between human expert ratings and CARE metric scores across four dimensions.
+“All Samples” indicates CARE metric calculations performed on the full MedQA dataset, while “15 Samples” refers to
+the specific subset subjected to human expert evaluation.
+an average score of 3.464 out of a possible 4 points. This high
+average score suggests that the patient profiles generated by
+our framework are generally accurate and clinically reliable.
+These evaluations collectively validate the effectiveness of our
+patient profile generation process.
+B. Dataset Suitability for Clinical Simulation
+Before evaluating the performance of LLMs with our
+AutoMedic framework, we conducted a pre-analysis of the
+selected medical QA benchmarks to assess their suitability
+for simulating realistic clinical situations. Leveraging our
+validated patient profile generation process, we analyzed each
+dataset based on its capacity to provide sufficient and relevant
+information for virtual patient profiles. The detailed findings
+are presented in Fig. 3.
+Our analysis first focused on the proportion of samples
+deemed appropriate for generating a virtual patient profile.
+As illustrated in Fig. 3(a), MedBullets and MedQA exhibited
+the highest proportion, with over 90% of their samples being
+suitable. MedXeprtQA, while having a slightly lower ratio
+of appropriate samples (79.8%), still contributed the largest
+absolute number of appropriate samples (1,955). In contrast,
+MedMCQA, HEAD-QA, and MMLU-Pro showed a signifi-
+cantly lower proportion of appropriate samples, ranging from
+10% to 15%. This initial filter is crucial, as only appropriate
+queries can lead to meaningful clinical simulations.
+Next, we assessed the informational richness of the ap-
+propriate samples, specifically evaluating whether the datasets
+provided sufficient details to construct comprehensive patient
+profiles. As shown in Fig. 3(b), demographics, such as age
+and sex, were generally well-covered across most datasets,
+though MedMCQA provided this information for only about
+half of its appropriate samples. For basic clinical information
+like symptom duration and past medical history, MedBullets,
+MedQA, and MedXpertQA consistently included these details
+for over 70% of their samples. Conversely, MedMCQA and
+HEAD-QA showed noticeable gaps, providing this information
+for a relatively smaller fraction of their queries. This disparity
+became even more pronounced when examining optional in-
+formation, such as vital signs or physical examination findings.
+MedMCQA and HEAD-QA again presented the lowest ratios
+of inclusion. Interestingly, MMLU-Pro, despite its low pro-
+portion of appropriate samples, provided patient information
+with a frequency similar to the more suitable datasets once a
+sample was deemed appropriate.
+In summary, MedBullets, MedQA, and MedXpertQA
+emerge as the most suitable datasets for the AutoMedic
+framework. They not only offer a high proportion (or a large
+absolute number) of appropriate samples for patient profile
+generation but also provide abundant and comprehensive in-
+formation to create detailed virtual patient profiles, essential
+for accurate clinical situation simulation. MedBullets and
+MedQA stand out for their high proportional suitability, while
+MedXpertQA excels in the total volume of usable samples.
+Conversely, MedMCQA and HEAD-QA, despite potentially
+having large total numbers of medical queries, are less optimal
+for our framework due to their low proportion of appropriate
+samples and their subsequent lack of detailed information
+necessary for robust patient profile generation. MMLU-Pro,
+while also having a low proportion of appropriate samples,
+is somewhat mitigated by the relatively good information
+completeness when a sample is appropriate, suggesting its
+suitable samples are of higher quality.
+C. Correlation of CARE Metric with Human Expert
+Evaluations
+Before deploying the CARE metric for LLM evaluation, we
+first established its alignment with the human expert judgment.
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and 
+content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3703097
+© 2026 IEEE. All rights reserved, including rights for text and data mining and training of artificial intelligence and similar technologies. Personal use is permitted,
+but republication/redistribution requires IEEE permission. See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:07:19 UTC from IEEE Xplore.  Restrictions apply. 
+OHet al.: AUTOMEDIC: AN AUTOMATED EVALUATION FRAMEWORK FOR CLINICAL CONVERSATIONAL AGENTS WITH MEDICAL DATASET GROUNDING 9
+Fig. 4. Static and conversational QA accuracy of LLMs across medical QA benchmarks. This figure presents the static QA accuracy (solid bars)
+and conversational QA accuracy (striped bars) for each LLM across the six medical QA benchmark datasets.
+TABLE II presents the results of human expert evaluation for
+five models acting as doctor agents on a random 15 samples
+from the MedQA dataset, alongside their corresponding CARE
+metric scores.
+For accuracy, human experts demonstrated very high re-
+liability, with an ICC value of 0.9839. This high agreement
+likely stems from the relatively objective nature of judging the
+correctness of a medical answer. DeepSeek-R1 and Med42-
+v2 received relatively low average scores of approximately
+1.5, whereas HuatuoGPT-o1 and Claude Sonnet 4 achieved
+notably higher average scores of 2.2333. This trend is directly
+reflected in the CARE metric results, where DeepSeek-R1 and
+Med42-v2 recorded lowerS ACC values, while HuatuoGPT-o1
+and Claude Sonnet 4 exhibited higherS ACC scores. Further-
+more, the Pearson correlation coefficients between the average
+human scores and the CARE metric were high for both the full
+dataset (0.9061) and the 15-sample subset (0.9737), indicating
+a strong alignment between automated and expert evaluation.
+Regarding conversation efficiency and strategy, the human
+expert agreement, while lower than for accuracy, remained
+moderate, yielding an ICC value of 0.6083. Human evaluators
+assigned Claude Sonnet 4 the highest average score of 2.5000
+and Llama 3 a score of 2.0167, while all other models
+received average scores below 2.0. This performance hierarchy
+is consistently mirrored by theS CES component of the CARE
+metric. While the Pearson correlation between human ratings
+and the CARE metric calculated on the full dataset was 0.7953
+(p= 0.1077), the correlation increased to 0.8814 with a
+statistically significant p-value (p <0.05) when the CARE
+metric was calculated specifically for the 15-sample subset.
+This suggests that the automated metric effectively captures
+the nuances of conversational flow and strategy perceived by
+human experts.
+Regarding empathy, human evaluators exhibited high agree-
+ment, with a percent agreement of 0.8919 and an ICC value
+of 0.7207. Claude Sonnet 4 achieved a near-perfect average
+human score of 2.9333, significantly outperforming most other
+models with the exception of HuatuoGPT-o1, which received a
+score of 2.7333. This hierarchy is consistently mirrored by the
+SEMP component of the CARE metric, where Claude Sonnet
+4 recorded the highest empathy scores, specifically 0.8520 on
+the full dataset and 0.8000 on the 15-sample subset. Notably,
+the Pearson correlation for empathy on the 15-sample subset
+was the highest among all four evaluation dimensions, further
+reinforcing the strong alignment between the automated metric
+and human judgment.
+Finally, regarding robustness, human experts demonstrated
+moderate agreement with an ICC value of 0.5281 with (p <
+0.05). In terms of average human scores, HuatuoGPT-o1 re-
+ceived the highest rating of 2.8167, while Med42-v2 recorded
+the lowest score of 1.8333. Although Llama 3 achieved the
+maximum CARE metric score for robustness (1.0000), the
+overall performance trends of the CARE metric remained
+closely aligned with those observed in the human evaluations.
+Furthermore, the Pearson correlation coefficients for the full
+dataset and the 15-sample subset were 0.9906 and 0.9867, re-
+spectively, indicating a very strong alignment between human
+expert judgement and the CARE metric.
+In summary, the consistent inter-rater reliability observed
+across all four CARE dimensions underscores the robustness
+of the human expert evaluations. The trends in average human
+scores demonstrate a strong alignment with the corresponding
+CARE metric values across diverse LLMs. This robust correla-
+tion validates the CARE metric as an appropriate and reliable
+tool for assessing the multifaceted capabilities of LLMs acting
+as clinical conversational agents.
+D. Accuracy in Static and Conversational Settings
+While recent studies have observed that the performance
+of LLMs often degrades during multi-turn interactions [57],
+this phenomenon remains insufficiently quantified within the
+clinical domain. To systematically measure this performance
+gap, we first comprehensively compare the performance of
+LLMs by examining their accuracy in both static QA and con-
+versational settings. Fig. 4 illustrates these accuracies across
+the various medical QA datasets.
+A clear trend emerges whereby models exhibiting high
+QA accuracy generally maintain relatively high conversational
+accuracy. However, a consistent observation across all ex-
+periments is that every model demonstrates lower perfor-
+mance in the conversational setting compared to its static
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and 
+content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3703097
+© 2026 IEEE. All rights reserved, including rights for text and data mining and training of artificial intelligence and similar technologies. Personal use is permitted,
+but republication/redistribution requires IEEE permission. See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:07:19 UTC from IEEE Xplore.  Restrictions apply. 
+10 IEEE JOURNAL OF BIOMEDICAL AND HEALTH INFORMATICS
+Fig. 5. (a) LLM performance across medical QA benchmarks via CARE metric. These radar charts display the performance of various LLMs
+on each medical QA dataset, illustrating scores across the four CARE metric dimensions:S ACC (accuracy),S CES (conversational efficiency &
+strategy),S EMP (empathy), andS ROB (robustness). (b) Average normalized CARE metric across medical QA benchmarks. This bar plot illustrates
+the average normalized scores for each component of the CARE metric (S ACC,S CES,S EMP,S ROB) across all evaluated medical QA datasets.
+Scores are min-max normalized per dataset, with 1 representing the highest score and 0 the lowest for each metric.
+QA counterpart. This performance drop is particularly pro-
+nounced for DeepSeek-R1 and Med42-v2, as evident in their
+significant accuracy decline in conversational scenarios across
+most datasets. This universal struggle suggests that models,
+regardless of their underlying knowledge, face substantial
+challenges in effectively gathering all necessary information
+within a dynamic conversational exchange.
+This finding provides a critical insight that an LLM’s raw
+knowledge in medicine (reflected in QA accuracy) does not
+directly translate to effective clinical conversational ability.
+The conversational context introduces complexities such as
+managing dialogue flow, interpreting implicit cues, maintain-
+ing coherence, and adapting to user responses, all of which
+are distinct from simply answering a well-posed, single-turn
+question. Therefore, evaluating LLMs specifically as clinical
+conversational agents, rather than solely on static QA, is es-
+sential. This approach reveals whether models can effectively
+communicate with users, even if they possess extensive domain
+knowledge, highlighting the importance of metrics that capture
+interactive performance.
+E. Clinical Conversation Performance Analysis using the
+CARE Metric
+Next, we evaluated the capabilities of various LLMs as
+clinical conversational agents using the comprehensive CARE
+metric. Fig. 5(a) visually summarizes these evaluation results
+across the medical QA datasets.
+Among the open-source general models, Llama 3 and
+Qwen3 exhibited average performance across the overall
+CARE metric. Llama3 notably achieved the highestS ROB
+across the board, though the inter-model differences in ro-
+bustness were generally minor. Qwen3 demonstrated strong
+SACC, yet it did not surpass larger models like gpt-oss or
+the proprietary models. DeepSeek-R1 consistently performed
+poorly across most experiments. DeepSeek-R1 struggled to
+function appropriately within a virtual clinical setting (e.g.,
+ended the conversation inappropriately). We hypothesize this
+degradation in performance stems from its distilled nature,
+where supervised fine-tuning on synthetic data, rather than
+reinforcement learning, may have impaired both its reasoning
+capabilities and its ability to engage in proper communication
+with other agents, a phenomenon observed in prior work [58].
+gpt-oss achieved highS ACC due to strong QA and conversa-
+tional accuracy, but received low scores for bothS CES and
+SEMP. This deficiency in conversational strategy and empathy
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and 
+content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3703097
+© 2026 IEEE. All rights reserved, including rights for text and data mining and training of artificial intelligence and similar technologies. Personal use is permitted,
+but republication/redistribution requires IEEE permission. See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:07:19 UTC from IEEE Xplore.  Restrictions apply. 
+OHet al.: AUTOMEDIC: AN AUTOMATED EVALUATION FRAMEWORK FOR CLINICAL CONVERSATIONAL AGENTS WITH MEDICAL DATASET GROUNDING 11
+is due to the model’s reliance on uncharacteristic formats,
+such as numbered lists, a style that emphasizes objective com-
+munication over human interaction. This detached, objective
+approach inherently ensures the absence of sycophancy.
+Turning to open-source biomedical LLMs, Med42-v2 gen-
+erally performed poorly across most CARE metrics. Despite
+being fine-tuned on medical data, it showed no significant im-
+provement inS ACC and underperformed in other dimensions.
+Moreover, it exhibited abnormal conversational behavior,
+such as answering its own questions without waiting for
+input from the patient or clinical staff. OpenBioLLM achieved
+betterS CES andS ROB compared to Med42-v2, but it too
+exhibited degraded performance in accuracy and empathy. In
+contrast, HuatuoGPT-o1 demonstrated superior performance
+with the exception ofS CES. This lower efficiency stems from
+its tendency to repeatedly request the same test results from
+the clinical staff agent, even after being informed that those
+results are unavailable. Nevertheless, itsS ACC scores were
+comparable to those of gpt-oss and proprietary models, which
+we attribute to its combination of medical domain-specific
+tuning and robust reasoning abilities.
+The two proprietary general LLMs presented different
+strengths. Claude Sonnet 4 achieved a highS ACC due to its
+excellent QA and conversational accuracy, with a minimal
+gap between the two. Furthermore, it recorded the highest
+SEMP across all models, consistently exceeding 0.85 on all
+datasets. This superior empathetic performance is likely due
+to its tendency to check patient status and express empa-
+thy, unlike other LLMs that primarily focus on information
+gathering. GPT-4o, while showing relatively lowerS ACC and
+SEMP compared to Claude Sonnet 4, slightly outperformed it
+inS ROB. This indicates that GPT-4o possesses superior robust-
+ness, effectively maintaining its assigned persona and strictly
+adhering to conversational protocols, such as the consistent
+use of appropriate tags.
+To enable a comprehensive comparison of model perfor-
+mance across diverse datasets, we applied min-max normal-
+ization for each metric within each dataset (where 1 represents
+the highest score and 0 the lowest). Subsequently, these
+normalized scores were averaged across all datasets for each
+metric. Fig. 5(b) presents these average normalized overall
+CARE metric scores.
+ForS ACC, Claude Sonnet 4 demonstrates the strongest
+performance, closely followed by gpt-oss. In terms ofS CES,
+Claude Sonnet 4 achieves the highest average score, with
+GPT-4o securing the second position. RegardingS EMP, Claude
+Sonnet 4 stands out with an overwhelmingly superior perfor-
+mance, indicating its exceptional ability in this dimension. For
+SROB, Llama 3 and GPT-4o lead, although the performance
+differences among models in this category are relatively small.
+Notably, DeepSeek-R1 and Med42-v2 consistently exhibit
+poor performance across most CARE metrics. These specific
+trends will be discussed in greater detail in the subsequent
+discussion section.
+VI. DISCUSSION
+Fig. 6. The relationship between static and conversational QA accuracy.
+The scatter plots display the correlation for: (a) Open-source general
+models, (b) Open-source biomedical models, and (c) Proprietary mod-
+els. For each category, the Pearson correlation coefficient (r),p-value,
+and linear regression equation are provided in the top-left corner. The
+grey dashed line represents the identity line (y=x), while the red
+dashed line indicates the fitted regression line.
+A. Discussion
+Leveraging the patient profile generation capabilities of
+AutoMedic, we first established guidelines for assessing the
+suitability of medical QA datasets for clinical simulation.
+Our analysis revealed significant disparities among datasets
+regarding the volume of clinically appropriate samples and the
+depth of patient information provided. We found that datasets
+such as MedBullets, MedQA, and MedXpertQA offer a sub-
+stantial number of appropriate samples enriched with sufficient
+patient details. In contrast, benchmarks like MedMCQA and
+HEAD-QA exhibit a low proportion of suitable samples and
+frequently lack basic patient information. These results imply
+that not all medical QA datasets contain questions relevant
+to realistic clinical situations. Therefore, relying solely on
+them to assess the clinical capabilities of LLMs may be
+inadequate. Consequently, our framework serves as a vital
+guideline for determining the applicability of medical QA
+datasets to clinical scenario simulations. Furthermore, a key
+advantage of our framework is its generalizability. Although
+we utilized six specific datasets in this study, AutoMedic is
+designed to automatically adapt to and process any new off-
+the-shelf medical QA dataset without manual modification.
+We compared the performance in both static QA and
+conversational settings, revealing that the dynamic conversa-
+tional environment presents a significantly greater challenge
+than static QA. To quantify the relationship between these
+two performance modes, we performed a linear regression
+analysis and calculated the Pearson correlation coefficient (r).
+When examining open-source general models (Fig. 6(a)), a
+strong correlation is observed, although DeepSeek-R1 notably
+deviates from the general trend. In contrast, open-source
+biomedical models (Fig. 6(b)) exhibit the weakest correla-
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and 
+content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3703097
+© 2026 IEEE. All rights reserved, including rights for text and data mining and training of artificial intelligence and similar technologies. Personal use is permitted,
+but republication/redistribution requires IEEE permission. See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:07:19 UTC from IEEE Xplore.  Restrictions apply. 
+12 IEEE JOURNAL OF BIOMEDICAL AND HEALTH INFORMATICS
+Fig. 7. Impact of base models for patient/clinical staff agents on CARE metrics with the MedQA dataset. The bar charts illustrate the component
+scoreS ACC,S CES,S EMP, andS ROB for each evaluated model. Solid bars indicate GPT -4o as the base model for the patient/clinical staff agents,
+while striped bars indicate Claude Sonnet 4. The p-values are obtained from a one-way ANOVA test to assess the statistical consistency of the
+results across different base model configurations.
+tion (r= 0.6095). These results suggest that while static
+medical knowledge serves as a foundation for conversational
+competence, suboptimal fine-tuning strategies may hinder the
+effective translation of this knowledge into clinical dialogue.
+Conversely, proprietary models (Fig. 6(c)) demonstrate the
+highest correlation (r= 0.9350), indicating a consistent
+balance between their static clinical knowledge and conver-
+sational capabilities. In conclusion, for clinical conversational
+settings, it is advantageous to prioritize proprietary models or
+carefully select open-source models that demonstrate both high
+static QA accuracy and robust instruction-following tuning.
+Our evaluation using the CARE metric revealed that
+domain-specific medical tuning does not necessarily confer
+superiority in conversational settings. With the notable ex-
+ception of HuatuoGPT-o1, most medical-tuned models un-
+derperformed compared to their general-domain counterparts.
+We conjecture that this performance deficit arises because
+these models were primarily fine-tuned for static medical QA
+tasks rather than dynamic, interactive communication. During
+such specialized fine-tuning, models may inadvertently lose
+their broader communicative capabilities. Consequently, they
+fail to leverage their specialized knowledge effectively in
+realistic clinical scenarios because they cannot manage the
+conversational flow. This result indicates that fine-tuning with
+domain-specific data must be approached carefully to ensure
+that foundational communication skills are preserved. It also
+highlights a significant generalization gap where static med-
+ical expertise does not automatically translate into effective
+interactive reasoning.
+A comparison between open-source and proprietary models
+revealed significant differences in their performance profiles.
+Open-source models often demonstrated “spiky” capabilities,
+excelling in specific dimensions while underperforming in
+others. For instance, gpt-oss achieved the highS ACC and
+Llama 3 led inS ROB, but both showed considerable deficits in
+other metrics. In contrast, the proprietary models, GPT-4o and
+Claude Sonnet 4, exhibited a more balanced and consistently
+high performance across all CARE dimensions. Although they
+did not always secure the highest score in every individual
+metric, their strong, well-rounded profiles suggest they are
+currently the most reliable choice for a comprehensive clinical
+conversational agent. However, in scenarios where proprietary
+models are unfeasible due to data privacy constraints, data
+export limitations, or other restrictions, our findings indicate
+that HuatuoGPT-o1 presents itself as the most viable open-
+source alternative.
+Beyond technical accuracy, the integration of LLMs into
+clinical practice requires rigorous adherence to ethical and
+safety standards. As highlighted in [59], clinical chatbots must
+be developed within a human-centered AI framework that
+prioritizes empathy, transparency, and equity. This includes
+addressing significant risks such as algorithmic bias, where
+models trained on non-representative datasets may provide
+suboptimal care to marginalized populations. Our proposed
+framework addresses these ethical imperatives by incorporat-
+ing metrics such as empathy and conversational robustness.
+These rubrics evaluate the model’s ability to provide sup-
+portive care and maintain professional interaction protocols.
+By quantifying these human-centric dimensions, the CARE
+metric facilitates a safer and more ethical deployment of AI
+in medicine.
+B. Limitations and Future Works
+While our framework provides a comprehensive evaluation
+of LLMs as clinical conversational agents, several limitations
+must be addressed. AutoMedic is currently limited to text-
+based interactions and objective multiple-choice outcomes.
+Future work will extend the framework to multimodal data by
+using the clinical staff agent as a gateway for medical imaging
+or reports. We also aim to incorporate free-text diagnostic
+generation evaluated by medical consensus models to capture
+the nuances of open-ended reasoning while balancing evalua-
+tion complexity. Furthermore, we intend to explore specialized
+training methodologies and collaborative strategies such as
+agent-based debate to support collective intelligence beyond
+our current focus on internal clinical logic.
+While our human validation shows high correlation with
+expert judgment, the current scope is limited to specific models
+and the MedQA dataset. Future research should validate the
+framework across broader specialties, patient demographics,
+and personas to ensure clinical utility. We also acknowledge
+that the empathy metric serves as a proxy for perceived
+rapport within a simulation rather than a direct evaluation of
+a model’s emotional state. Although this proxy aligns with
+expert judgment, further validation across diverse datasets and
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and 
+content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3703097
+© 2026 IEEE. All rights reserved, including rights for text and data mining and training of artificial intelligence and similar technologies. Personal use is permitted,
+but republication/redistribution requires IEEE permission. See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:07:19 UTC from IEEE Xplore.  Restrictions apply. 
+OHet al.: AUTOMEDIC: AN AUTOMATED EVALUATION FRAMEWORK FOR CLINICAL CONVERSATIONAL AGENTS WITH MEDICAL DATASET GROUNDING 13
+institutional settings is necessary to confirm broad generaliz-
+ability.
+As illustrated in Fig. 7, the behavior of the supporting
+agents can influenceS CES scores, which may introduce model-
+dependent bias and limit the framework’s model-agnosticism.
+To minimize this, future work should utilize an ensemble of
+diverse models for the patient and clinical staff roles. We also
+recognize theS CES Gaussian assumptions represent a norma-
+tive design choice based on established primary care guide-
+lines. These parameters are intentionally adjustable to allow
+calibration against diverse clinical contexts such as psychiatric
+intake or emergency triage. Moreover, future versions ofS ROB
+should expand from technical protocol compliance to explicitly
+assess clinical safety and hallucination risk. Adopting more
+flexible parsing could also improve our ability to disentangle
+core reasoning from technical compliance.
+Finally, we did not define a single, aggregated score for
+overall performance because the CARE dimensions vary in
+scale and application-specific importance. Future research
+could develop weighted composite scores calibrated against
+human expert preferences from head-to-head model compar-
+isons. We therefore present this methodology as an iterative
+foundation for automated assessment that will benefit from
+continued empirical testing.
+VII. CONCLUSION
+In this paper, we introduced AutoMedic, a novel, automated
+multi-agent framework that enables the evaluation of LLMs
+as clinical conversational agents through realistic, simulated
+dialogues. To quantitatively assess performance within this
+framework, we also proposed the CARE metric, a multi-
+faceted tool that measures accuracy, conversational efficiency
+and strategy, empathy, and robustness.
+Our investigation yielded several key findings. Human ex-
+pert evaluations confirmed the reliability of AutoMedic’s pa-
+tient profile generation and the strong correlation of our CARE
+metric with human clinical judgment. We found that only a
+subset of medical QA datasets, such as MedBullets, MedQA,
+and MedXpertQA, are suitable for clinical simulation. Cru-
+cially, we observed that all LLMs suffer a performance drop
+when moving from static QA to conversational settings. This
+finding confirms that existing static medical QA benchmarks,
+which primarily assess knowledge, do not sufficiently reflect
+the actual performance of LLMs in dynamic medical field
+applications. The CARE metric further revealed distinct LLM
+performance profiles. Proprietary models like Claude Sonnet 4
+and GPT-4o showed balanced, high-level performance, while
+most medical-tuned models underperformed, suggesting fine-
+tuning may erode communication skills. HuatuoGPT-o1, how-
+ever, emerged as a strong open-source alternative.
+This work provides a robust, automated methodology for
+the comprehensive evaluation of conversational medical AI,
+offering deeper insights than static metrics alone. AutoMedic
+and the CARE metric can guide researchers and developers
+in building and selecting LLMs that are not only knowledge-
+able but also effective, empathetic, and reliable in practice.
+Furthermore, by providing a quantitative and fully automated
+evaluation framework for clinical conversational LLMs, our
+work facilitates the safe and rigorous integration of these
+models into real-world clinical practice. We believe that the
+AutoMedic framework and CARE metric offer a valuable
+guide for identifying appropriate models to serve in assistive
+or decision-support roles alongside human clinicians.
+[1] J. Achiam, S. Adler, S. Agarwal, L. Ahmad, I. Akkaya, F. L. Aleman,
+D. Almeida, J. Altenschmidt, S. Altman, S. Anadkatet al., “GPT-4
+technical report,”arXiv preprint arXiv:2303.08774, 2023.
+[2] A. Hurst, A. Lerer, A. P. Goucher, A. Perelman, A. Ramesh, A. Clark,
+A. Ostrow, A. Welihinda, A. Hayes, A. Radfordet al., “GPT-4o system
+card,”arXiv preprint arXiv:2410.21276, 2024.
+[3] A. Jaech, A. Kalai, A. Lerer, A. Richardson, A. El-Kishky, A. Low,
+A. Helyar, A. Madry, A. Beutel, A. Carneyet al., “OpenAI o1 system
+card,”arXiv preprint arXiv:2412.16720, 2024.
+[4] A. Grattafiori, A. Dubey, A. Jauhri, A. Pandey, A. Kadian, A. Al-Dahle,
+A. Letman, A. Mathur, A. Schelten, A. Vaughanet al., “The Llama 3
+herd of models,”arXiv e-prints, pp. arXiv–2407, 2024.
+[5] D. Guo, D. Yang, H. Zhang, J. Song, R. Zhang, R. Xu, Q. Zhu, S. Ma,
+P. Wang, X. Biet al., “DeepSeek-R1: Incentivizing reasoning capability
+in LLMs via reinforcement learning,”arXiv preprint arXiv:2501.12948,
+2025.
+[6] G. Comanici, E. Bieber, M. Schaekermann, I. Pasupat, N. Sachdeva,
+I. Dhillon, M. Blistein, O. Ram, D. Zhang, E. Rosenet al., “Gem-
+ini 2.5: Pushing the frontier with advanced reasoning, multimodality,
+long context, and next generation agentic capabilities,”arXiv preprint
+arXiv:2507.06261, 2025.
+[7] A. Yang, A. Li, B. Yang, B. Zhang, B. Hui, B. Zheng, B. Yu, C. Gao,
+C. Huang, C. Lvet al., “Qwen3 technical report,”arXiv preprint
+arXiv:2505.09388, 2025.
+[8] OpenAI, “Introducing GPT-5,” August 2025. [Online]. Available:
+https://openai.com/index/introducing-gpt-5/
+[9] Z. Chen, A. H. Cano, A. Romanou, A. Bonnet, K. Matoba, F. Salvi,
+M. Pagliardini, S. Fan, A. K ¨opf, A. Mohtashamiet al., “Meditron-70b:
+Scaling medical pretraining for large language models,”arXiv preprint
+arXiv:2311.16079, 2023.
+[10] J. Chen, Z. Cai, K. Ji, X. Wang, W. Liu, R. Wang, J. Hou, and B. Wang,
+“HuatuoGPT-o1, towards medical complex reasoning with LLMs,”arXiv
+preprint arXiv:2412.18925, 2024.
+[11] C. Christophe, P. K. Kanithi, T. Raha, S. Khan, and M. A. Pi-
+mentel, “Med42-v2: A suite of clinical LLMs,”arXiv preprint
+arXiv:2408.06142, 2024.
+[12] M. S. Ankit Pal, “OpenBioLLMs: Advancing open-source large lan-
+guage models for healthcare and life sciences,” https://huggingface.co/
+aaditya/OpenBioLLM-Llama3-70B, 2024.
+[13] K. Zhang, S. Zeng, E. Hua, N. Ding, Z.-R. Chen, Z. Ma, H. Li, G. Cui,
+B. Qi, X. Zhuet al., “UltraMedical: Building specialized generalists
+in biomedicine,”Advances in Neural Information Processing Systems,
+vol. 37, pp. 26 045–26 081, 2024.
+[14] S. Jiang, Y . Liao, Z. Chen, Y . Zhang, Y . Wang, and Y . Wang, “Meds3:
+Towards medical small language models with self-evolved slow think-
+ing,”arXiv preprint arXiv:2501.12051, 2025.
+[15] A. Sellergren, S. Kazemzadeh, T. Jaroensri, A. Kiraly, M. Traverse,
+T. Kohlberger, S. Xu, F. Jamil, C. Hughes, C. Lauet al., “MedGemma
+technical report,”arXiv preprint arXiv:2507.05201, 2025.
+[16] J. C. Chow, V . Wong, and K. Li, “Generative pre-trained transformer-
+empowered healthcare conversations: current trends, challenges, and
+future directions in large language model-enabled medical chatbots,”
+BioMedInformatics, vol. 4, no. 1, pp. 837–852, 2024.
+[17] J. C. Chow and K. Li, “Developing effective frameworks for large
+language model–based medical chatbots: Insights from radiotherapy
+education with ChatGPT,”JMIR cancer, vol. 11, no. 1, p. e66633, 2025.
+[18] ——, “Large language models in medical chatbots: Opportunities,
+challenges, and the need to address AI risks,”Information, vol. 16, no. 7,
+p. 549, 2025.
+[19] P. Qiu, C. Wu, J. Liu, Q. Zheng, Y . Liao, H. Wang, Y . Yue, Q. Fan,
+S. Zhen, J. Wanget al., “Evolving diagnostic agents in a virtual clinical
+environment,”arXiv preprint arXiv:2510.24654, 2025.
+[20] K. Singhal, T. Tu, J. Gottweis, R. Sayres, E. Wulczyn, M. Amin,
+L. Hou, K. Clark, S. R. Pfohl, H. Cole-Lewiset al., “Toward expert-
+level medical question answering with large language models,”Nature
+Medicine, vol. 31, no. 3, pp. 943–950, 2025.
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and 
+content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3703097
+© 2026 IEEE. All rights reserved, including rights for text and data mining and training of artificial intelligence and similar technologies. Personal use is permitted,
+but republication/redistribution requires IEEE permission. See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:07:19 UTC from IEEE Xplore.  Restrictions apply. 
+14 IEEE JOURNAL OF BIOMEDICAL AND HEALTH INFORMATICS
+[21] R. Ziaei and S. Schmidgall, “Language models are susceptible to
+incorrect patient self-diagnosis in medical applications,” inDeep
+Generative Models for Health Workshop NeurIPS 2023, 2023. [Online].
+Available: https://openreview.net/forum?id=H7bgz9b9sz
+[22] K. H. Lim, U. Kang, X. Li, J. S. Kim, Y .-C. Jung, S. Park, and B.-H.
+Kim, “Susceptibility of large language models to user-driven factors in
+medical queries,”arXiv preprint arXiv:2503.22746, 2025.
+[23] S. Schmidgall, R. Ziaei, C. Harris, E. Reis, J. Jopling, and M. Moor,
+“AgentClinic: A multimodal agent benchmark to evaluate ai in simulated
+clinical environments,”arXiv preprint arXiv:2405.07960, 2024.
+[24] M. Almansoori, K. Kumar, and H. Cholakkal, “Self-evolving multi-agent
+simulations for realistic clinical interactions,” inInternational Confer-
+ence on Medical Image Computing and Computer-Assisted Intervention,
+2025.
+[25] R. K. Arora, J. Wei, R. S. Hicks, P. Bowman, J. Qui ˜nonero-Candela,
+F. Tsimpourlas, M. Sharman, M. Shah, A. Vallone, A. Beutelet al.,
+“HealthBench: Evaluating large language models towards improved
+human health,”arXiv preprint arXiv:2505.08775, 2025.
+[26] J. Lee, K. Lim, Y .-C. Jung, and B.-H. Kim, “Psyche: A multi-faceted
+patient simulation framework for evaluation of psychiatric assessment
+conversational agents,”arXiv preprint arXiv:2501.01594, 2025.
+[27] H. Nori, M. Daswani, C. Kelly, S. Lundberg, M. T. Ribeiro, M. Wilson,
+X. Liu, V . Sounderajah, J. Carlson, M. P. Lungrenet al., “Sequential
+diagnosis with language models,”arXiv preprint arXiv:2506.22405,
+2025.
+[28] T. Tu, M. Schaekermann, A. Palepu, K. Saab, J. Freyberg, R. Tanno,
+A. Wang, B. Li, M. Amin, Y . Chenget al., “Towards conversational
+diagnostic artificial intelligence,”Nature, pp. 1–9, 2025.
+[29] H. Nori, N. King, S. M. McKinney, D. Carignan, and E. Horvitz,
+“Capabilities of GPT-4 on medical challenge problems,”arXiv preprint
+arXiv:2303.13375, 2023.
+[30] S. Sandmann, S. Hegselmann, M. Fujarski, L. Bickmann, B. Wild,
+R. Eils, and J. Varghese, “Benchmark evaluation of DeepSeek large
+language models in clinical decision-making,”Nature Medicine, pp. 1–
+1, 2025.
+[31] S. Bedi, H. Cui, M. Fuentes, A. Unell, M. Wornow, J. M. Banda,
+N. Kotecha, T. Keyes, Y . Mai, M. Oezet al., “MedHELM: Holistic
+evaluation of large language models for medical tasks,”arXiv preprint
+arXiv:2505.23802, 2025.
+[32] X. Huang, J. Wu, H. Liu, X. Tang, and Y . Zhou, “m1: Unleash the
+potential of test-time scaling for medical reasoning with large language
+models,”arXiv preprint arXiv:2504.00869, 2025.
+[33] T. Tu, S. Azizi, D. Driess, M. Schaekermann, M. Amin, P.-C. Chang,
+A. Carroll, C. Lau, R. Tanno, I. Ktenaet al., “Towards generalist
+biomedical ai,”Nejm Ai, vol. 1, no. 3, p. AIoa2300138, 2024.
+[34] K. Saab, T. Tu, W.-H. Weng, R. Tanno, D. Stutz, E. Wulczyn, F. Zhang,
+T. Strother, C. Park, E. Vedadiet al., “Capabilities of Gemini models
+in medicine,”arXiv preprint arXiv:2404.18416, 2024.
+[35] P. Hager, F. Jungmann, R. Holland, K. Bhagat, I. Hubrecht, M. Knauer,
+J. Vielhauer, M. Makowski, R. Braren, G. Kaissiset al., “Evaluation
+and mitigation of the limitations of large language models in clinical
+decision-making,”Nature medicine, vol. 30, no. 9, pp. 2613–2622, 2024.
+[36] C. Y . Williams, B. Y . Miao, A. E. Kornblith, and A. J. Butte, “Evaluating
+the use of large language models to provide clinical recommendations
+in the emergency department,”Nature communications, vol. 15, no. 1,
+p. 8236, 2024.
+[37] E. J. Gong, C. S. Bang, J. J. Lee, and G. H. Baik, “Knowledge-practice
+performance gap in clinical large language models: Systematic review
+of 39 benchmarks,”Journal of Medical Internet Research, vol. 27, p.
+e84120, 2025.
+[38] J. Liu, W. Wang, Z. Ma, G. Huang, S. Yihang, K.-J. Chang, H. Li,
+L. Shen, M. Lyu, and W. Chen, “MedChain: Bridging the gap between
+LLM agents and clinical practice with interactive sequence,” inThe
+Thirty-ninth Annual Conference on Neural Information Processing
+Systems Datasets and Benchmarks Track, 2025. [Online]. Available:
+https://openreview.net/forum?id=YvuufwkFJY
+[39] M. Werthaim, M. Kimhi, A. Apartsin, and Y . Aperstein, “A benchmark
+for evaluating diagnostic questioning efficiency of LLMs in patient
+conversations,”Scientific Reports, 2026.
+[40] P. Qiu, C. Wu, S. Liu, Y . Fan, W. Zhao, Z. Chen, H. Gu, C. Peng,
+Y . Zhang, Y . Wanget al., “Quantifying the reasoning abilities of LLMs
+on clinical cases,”Nature Communications, vol. 16, no. 1, p. 9799, 2025.
+[41] S. Johri, J. Jeong, B. A. Tran, D. I. Schlessinger, S. Wongvibulsin, L. A.
+Barnes, H.-Y . Zhou, Z. R. Cai, E. M. Van Allen, D. Kimet al., “An
+evaluation framework for clinical use of large language models in patient
+interaction tasks,”Nature medicine, vol. 31, no. 1, pp. 77–86, 2025.
+[42] R. C. Smith,Patient-centered interviewing: An evidence-based method.
+Lippincott Williams & Wilkins, 2002.
+[43] S. M. Kurtz and J. D. Silverman, “The Calgary—Cambridge referenced
+observation guides: An aid to defining the curriculum and organizing the
+teaching in communication training programmes,”Medical education,
+vol. 30, no. 2, pp. 83–89, 1996.
+[44] M. C. Beach, T. Inui, and R.-C. C. R. Network, “Relationship-centered
+care: A constructive reframing,”Journal of general internal medicine,
+vol. 21, no. Suppl 1, pp. 3–8, 2006.
+[45] G. Makoul, “The SEGUE Framework for teaching and assessing com-
+munication skills,”Patient education and counseling, vol. 45, no. 1, pp.
+23–34, 2001.
+[46] M. Luo, C. J. Warren, L. Cheng, H. M. Abdul-Muhsin, and I. Banerjee,
+“Assessing empathy in large language models with real-world physician-
+patient interactions,” in2024 IEEE International Conference on Big
+Data (BigData). IEEE, 2024, pp. 6510–6519.
+[47] J. Zhu, J. Pan, Y . Liu, F. Liu, and J. Wu, “Ask patients with patience:
+Enabling LLMs for human-centric medical dialogue with grounded rea-
+soning,” inProceedings of the 2025 Conference on Empirical Methods
+in Natural Language Processing, 2025, pp. 2846–2857.
+[48] R. M. Epstein and E. M. Hundert, “Defining and assessing professional
+competence,”Jama, vol. 287, no. 2, pp. 226–235, 2002.
+[49] H. Chen, Z. Fang, Y . Singla, and M. Dredze, “Benchmarking large
+language models on answering and explaining challenging medical
+questions,” inProceedings of the 2025 Conference of the Nations of
+the Americas Chapter of the Association for Computational Linguistics:
+Human Language Technologies (Volume 1: Long Papers), 2025, pp.
+3563–3599.
+[50] D. Jin, E. Pan, N. Oufattole, W.-H. Weng, H. Fang, and P. Szolovits,
+“What disease does this patient have? A large-scale open domain
+question answering dataset from medical exams,”Applied Sciences,
+vol. 11, no. 14, p. 6421, 2021.
+[51] Y . Zuo, S. Qu, Y . Li, Z. Chen, X. Zhu, E. Hua, K. Zhang, N. Ding, and
+B. Zhou, “MedXpertQA: Benchmarking expert-level medical reasoning
+and understanding,”arXiv preprint arXiv:2501.18362, 2025.
+[52] A. Pal, L. K. Umapathi, and M. Sankarasubbu, “MedMCQA: A large-
+scale multi-subject multi-choice dataset for medical domain question
+answering,” inConference on health, inference, and learning. PMLR,
+2022, pp. 248–260.
+[53] D. Vilares and C. G ´omez-Rodr´ıguez, “HEAD-QA: A healthcare
+dataset for complex reasoning,” inProceedings of the 57th Annual
+Meeting of the Association for Computational Linguistics, A. Korhonen,
+D. Traum, and L. M `arquez, Eds. Florence, Italy: Association for
+Computational Linguistics, Jul. 2019, pp. 960–966. [Online]. Available:
+https://aclanthology.org/P19-1092/
+[54] Y . Wang, X. Ma, G. Zhang, Y . Ni, A. Chandra, S. Guo, W. Ren,
+A. Arulraj, X. He, Z. Jianget al., “MMLU-Pro: A more robust and
+challenging multi-task language understanding benchmark,”Advances
+in Neural Information Processing Systems, vol. 37, pp. 95 266–95 290,
+2024.
+[55] S. Agarwal, L. Ahmad, J. Ai, S. Altman, A. Applebaum, E. Arbus, R. K.
+Arora, Y . Bai, B. Baker, H. Baoet al., “gpt-oss-120b & gpt-oss-20b
+model card,”arXiv preprint arXiv:2508.10925, 2025.
+[56] Anthropic, “System card: Claude Opus 4 & Claude Sonnet
+4,” May 2025. [Online]. Available: https://www-cdn.anthropic.com/
+4263b940cabb546aa0e3283f35b686f4f3b2ff47.pdf
+[57] P. Laban, H. Hayashi, Y . Zhou, and J. Neville, “LLMs get
+lost in multi-turn conversation,” inThe Fourteenth International
+Conference on Learning Representations, 2026. [Online]. Available:
+https://openreview.net/forum?id=VKGTGGcwl6
+[58] G. Oh, S. Kim, S. Park, and B.-H. Kim, “Rethinking test-time scaling
+for medical AI: Model and task-aware strategies for LLMs and VLMs,”
+arXiv preprint arXiv:2506.13102, 2025.
+[59] J. C. Chow and K. Li, “Ethical considerations in human-centered AI:
+Advancing oncology chatbots through large language models,”JMIR
+Bioinformatics and Biotechnology, vol. 5, p. e64406, 2024.
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and 
+content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3703097
+© 2026 IEEE. All rights reserved, including rights for text and data mining and training of artificial intelligence and similar technologies. Personal use is permitted,
+but republication/redistribution requires IEEE permission. See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:07:19 UTC from IEEE Xplore.  Restrictions apply. 

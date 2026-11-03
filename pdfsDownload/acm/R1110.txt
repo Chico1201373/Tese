@@ -1,0 +1,674 @@
+Formal Reasoning for Intelligent QA Systems: A Case Study in the
+Educational Domain
+Tuan Bui
+tuanbc88@hcmut.edu.vn
+Ho Chi Minh City University of
+Technology (HCMUT) - VNU-HCM
+Ho Chi Minh City, VietNam
+An Nguyen
+an.nguyen2452023@hcmut.edu.vn
+Ho Chi Minh City University of
+Technology (HCMUT) - VNU-HCM
+Ho Chi Minh City, Vietnam
+Phat Thai
+phat.thaiquang2004@hcmut.edu.vn
+Ho Chi Minh City University of
+Technology (HCMUT) - VNU-HCM
+Ho Chi Minh City, Vietnam
+Minh Hua
+minh.hua2006@hcmut.edu.vn
+Ho Chi Minh City University of
+Technology (HCMUT) - VNU-HCM
+Ho Chi Minh City, Vietnam
+Ngan Pham L.N.
+ngan.pham1409207@hcmut.edu.vn
+Ho Chi Minh City University of
+Technology (HCMUT) - VNU-HCM
+Ho Chi Minh City, Vietnam
+Ngan Pham T.B.
+ngan.pham11@hcmut.edu.vn
+Ho Chi Minh City University of
+Technology (HCMUT) - VNU-HCM
+Ho Chi Minh City, Vietnam
+Dung Le
+dung.lengochung@hcmut.edu.vn
+Ho Chi Minh City University of
+Technology (HCMUT) - VNU-HCM
+Ho Chi Minh City, Vietnam
+Long Nguyen
+long.nguyencse2023@hcmut.edu.vn
+Ho Chi Minh City University of
+Technology (HCMUT) - VNU-HCM
+Ho Chi Minh City, VietNam
+Thanh-Tung Tran
+tttung@hcmiu.edu.vn
+International University - VNU-HCM
+Ho Chi Minh City, Vietnam
+Thang Bui
+bhthang@hcmut.edu.vn
+Ho Chi Minh City University of
+Technology (HCMUT) - VNU-HCM
+Ho Chi Minh City, Vietnam
+Tho Quan
+qttho@hcmut.edu.vn
+Ho Chi Minh City University of
+Technology (HCMUT) - VNU-HCM
+Ho Chi Minh City, Vietnam
+Abstract
+Reasoning is essential for closed-domain QA systems in which pro-
+cedural correctness and policy compliance are critical. While large
+language models (LLMs) have shown strong performance on many
+reasoning tasks, recent work reveals that their reasoning traces
+are often unfaithful—serving more as plausible justifications than
+as causally grounded derivations. Efforts to combine LLMs with
+symbolic engines (e.g., Prover9, Z3) have improved reliability but
+remain limited to static forms of logic, struggling with dynamic,
+state-based reasoning such as multi-step progressions and condi-
+tional transitions.
+In this paper, we propose MCFR (Model Checking for Formal
+Reasoning), a neuro-symbolic framework that integrates LLMs with
+model checking to support property verification. MCFR translates
+natural language into formal specifications and verifies them over
+transition models. To support evaluation, we introduce EduMC-
+QA, a benchmark dataset grounded in real academic procedures.
+Our results show that MCFR improves reasoning faithfulness and
+Permission to make digital or hard copies of all or part of this work for personal or
+classroom use is granted without fee provided that copies are not made or distributed
+for profit or commercial advantage and that copies bear this notice and the full citation
+on the first page. Copyrights for components of this work owned by others than the
+author(s) must be honored. Abstracting with credit is permitted. To copy otherwise, or
+republish, to post on servers or to redistribute to lists, requires prior specific permission
+and/or a fee. Request permissions from permissions@acm.org.
+AIQAM ’25, Dublin, Ireland
+© 2025 Copyright held by the owner/author(s). Publication rights licensed to ACM.
+ACM ISBN 979-8-4007-2056-7/2025/10
+https://doi.org/10.1145/3746274.3760392
+interpretability, offering a viable path toward verifiable QA in high-
+stakes closed-domain applications. In addition to evaluating MCFR,
+we compare its performance with state-of-the-art LLMs such as
+ChatGPT, DeepSeek, and Claude to contextualize its effectiveness.
+CCS Concepts
+• Computing methodologies→ Model verification and vali-
+dation; Temporal reasoning; Logic programming and answer
+set programming; Reasoning about belief and knowledge .
+Keywords
+Formal Reasoning, Faithful Reasoning, Model Checking, Large Lan-
+guage Models, Intelligent QA Systems
+ACM Reference Format:
+Tuan Bui, An Nguyen, Phat Thai, Minh Hua, Ngan Pham L.N., Ngan Pham
+T.B., Dung Le, Long Nguyen, Thanh-Tung Tran, Thang Bui, and Tho Quan.
+2025. Formal Reasoning for Intelligent QA Systems: A Case Study in the
+Educational Domain. In Proceedings of the 2nd ACM Workshop in AI-powered
+Question & Answering Systems (AIQAM ’25), October 27–28, 2025, Dublin,
+Ireland. ACM, New York, NY, USA, 9 pages. https://doi.org/10.1145/3746274.
+3760392
+1 Introduction
+Question Answering (QA) has emerged as a central task in nat-
+ural language understanding (NLU) due to its wide applicability
+in domains such as education, healthcare, and human-computer
+interaction. A key aspect of QA lies in its inherent requirement
+19
+AIQAM ’25, October 27–28, 2025, Dublin, Ireland Tuan Bui et al.
+for reasoning—drawing logical conclusions from given premises
+or background knowledge. While traditional information retrieval-
+based QA systems focus primarily on pattern matching or keyword
+alignment, modern intelligent QA systems aim to reason about
+input questions using deeper semantic understanding. This work is
+presented as part of the AIQAM’25 workshop on AI-powered Ques-
+tion Answering Systems for Multimedia, which highlights emerging
+approaches in intelligent QA across domains and modalities [6].
+Recent advances in large language models (LLMs) have signifi-
+cantly enhanced QA performance, particularly in tasks involving
+mathematical or symbolic reasoning. Techniques like Chain-of-
+Thought (CoT) prompting [3] and Multi-Agent Reasoning [9] simu-
+late human-style step-by-step thinking and have achieved impres-
+sive results. However, growing evidence indicates that LLMs often
+fail at faithful reasoning—i.e., their generated reasoning traces do
+not causally influence the final answer [7, 11]. These models tend to
+produce post hoc rationalizations rather than genuinely grounded
+inferences, exposing a gap between surface-level coherence and
+internal logical validity. To close this gap, neuro-symbolic (NeSy)
+systems offer a promising hybrid approach by combining the rep-
+resentational power of LLMs with the rigor of symbolic solvers. In
+this paradigm, LLMs translate NL inputs into formal representa-
+tions (e.g., first-order logic), which are then processed by engines
+like Z3 or Prover9 [10].
+Example 1. Questions on Student Lifecycle.
+Context. The academic progression of a student typically
+involves multiple stages, such as enrollment, advancement
+through academic years (Year 1–4), participation in courses and
+social activities, taking temporary leave, and ultimately reaching
+either graduation or program withdrawal. Certain actions, such
+as course registration, are constrained by institutional rules (e.g.,
+prerequisite requirements), while others are subject to timing
+and eligibility conditions.
+Questions. The following questions illustrate four core verifi-
+cation properties that are critical in ensuring the correctness of
+such educational processes:
+⋄ Q1 (Liveness). Can a student graduate within eight
+semesters if all requirements are satisfied on time?
+⋄ Q2 (Safety). Is it possible to register for CourseX without
+passing its prerequisite CourseY?
+⋄ Q3 (Reachability). Can a student advance to Year 3 within
+three semesters?
+⋄ Q4 (Fairness). Could a student accumulate 100 credits yet
+fail to advance to Year 3 owing to missing social activity points?
+However, symbolic solvers are typically limited to static logic
+tasks and struggle with dynamic, state-dependent reasoning—
+common in domains like education, where actions such as course
+registration or academic progression depend on temporal con-
+straints and evolving eligibility. As illustrated in Example 1, ques-
+tions involving safety, liveness, reachability, and fairness require
+reasoning over sequential transitions and conditional policies—posing
+challenges for symbolic solvers due to limited procedural expres-
+siveness, and for LLMs due to a lack of verifiable grounding.
+For instance, Q1 (Liveness) asks whether a student can grad-
+uate within eight semesters if all requirements are met on time,
+requiring that a “good” state is eventually reachable. In contrast,
+Q2 (Safety) checks whether the system prevents invalid paths, such
+as registering for a course without completing its prerequisite. Q3
+(Reachability) concerns whether an accelerated academic path is
+viable—for example, if a student can reach Year 3 in just three
+semesters by fulfilling requirements early. Q4 (Fairness) explores
+whether non-academic factors, like missing social activity points,
+could unfairly block academic advancement despite strong aca-
+demic performance. Both cases underscore the need for nuanced
+temporal and policy-aware reasoning, which remains a challenge
+for current methods.
+To address these limitations, we introduce MCFR (Model Check-
+ing for Formal Reasoning), a hybrid framework that augments QA
+systems with verifiable inference capabilities. MCFR employs LLMs
+to generate formal representations from NL input, which are then
+verified using model checking (MC) over full state-transition sys-
+tems. This allows the system to capture procedural behaviors and
+validate complex properties such as reachability or fairness in aca-
+demic workflows. To facilitate systematic evaluation, we also con-
+struct a new dataset grounded in real-world educational processes
+that require both symbolic abstraction and temporal reasoning.
+Our contributions are as follows.
+• We propose MCFR, a formal reasoning framework for QA
+that integrates LLM-based semantic translation with model
+checking for verifying temporal and procedural properties.
+• We implement a QA prototype grounded in real academic
+scenarios at Ho Chi Minh City University of Technology (HC-
+MUT), demonstrating the feasibility of state-based formal
+verification in educational domains.
+• We construct a novel QA dataset, EduMC-QA, based on
+real institutional processes at HCMUT, and use it to perform
+comprehensive evaluations assessing the reasoning capabil-
+ity, coverage, and faithfulness of MCFR. We also compare
+MCFR’s performance against state-of-the-art LLMs such as
+ChatGPT1, Claude2, and DeepSeek3 to contextualize its ef-
+fectiveness.
+2 Related Works
+2.1 Reasoning Patterns of LLMs
+LLMs have demonstrated strong performance across various reason-
+ing tasks, particularly through prompting-based techniques such
+as CoT prompting [3], along with various enhancements that elicit
+intermediate reasoning steps and improve answer accuracy [4]. Re-
+cent advances also explore multi-agent reasoning setups, in which
+one LLM generates the reasoning steps while another acts as a
+verifier, identifying errors and prompting the first model to revise
+its reasoning accordingly [9].
+Despite these improvements, concerns remain about the faithful-
+ness of LLM-generated reasoning. Studies have shown that models
+often produce coherent reasoning traces that are not causally tied
+to their final answers. For example, [11] inserted misleading or
+biased cues into reasoning chains and found that LLMs often relied
+on these biases rather than engaging in true inference. Similarly,
+1https://chatgpt.com
+2https://claude.ai
+3https://chat.deepseek.com
+20
+Formal Reasoning for Intelligent QA Systems: A Case Study in the Educational Domain AIQAM ’25, October 27–28, 2025, Dublin, Ireland
+[8] manipulated reasoning steps—by removing key inferences or in-
+jecting noise—and observed that LLM predictions remained mostly
+unchanged. These findings suggest that current LLMs frequently
+treat reasoning traces as post hoc justifications rather than integral
+components of decision-making, raising critical questions about
+their reliability in high-stakes applications.
+2.2 Formal Reasoning
+Recent work has explored integrating LLMs with symbolic solvers
+to achieve more faithful and verifiable reasoning. Logic-LM [10] de-
+composes the reasoning process into three phases: problem formu-
+lation, symbolic inference, and interpretation—showing improve-
+ments over traditional CoT-style prompting. Other approaches such
+as SpecGen [5] use mutation-based corrections and verifier feedback
+to iteratively refine LLM-generated formal specifications. Logic-
+guided theorem proving [10] further scaffolds LLM outputs with
+formal logic to reduce semantic errors. In practical applications,
+LLMs have also been combined with SMT solvers for task plan-
+ning [2], where the solver verifies constraints and offers corrective
+feedback during planning failures.
+Despite these advances, symbolic solvers like Z3 or Prover9 re-
+main inherently static: they require precise and well-formed logical
+inputs and struggle with ambiguity, incomplete specifications, or
+procedural reasoning involving state changes over time. This rigid-
+ity makes them fragile in QA pipelines where LLM outputs may be
+noisy or underspecified. Furthermore, such solvers lack mechanisms
+to reason over dynamic transitions or evolving states—common
+in domains like education—limiting their standalone applicability
+without iterative repair or hybrid integration.
+These limitations motivate the development of hybrid frame-
+works like MCFR, which combine LLM-based translation with state-
+based formal verification techniques such as model checking.
+3 Background
+3.1 Neural Symbolic AI
+NeSy systems aim to combine the strengths of neural networks—such
+as perception and natural language understanding—with the for-
+mal rigor and interpretability of symbolic reasoning. A common
+architecture involves using neural models (e.g., LLMs) to translate
+natural language inputs into formal representations like first-order
+logic, which are then passed to symbolic engines (e.g., theorem
+provers or model checkers) for inference. This modular design al-
+lows LLMs to handle linguistic ambiguity while relying on symbolic
+solvers for precise, verifiable reasoning [7].
+Recent surveys, such as [12], have categorized NeSy systems into
+various types based on the level of integration between neural and
+symbolic components. In many practical QA applications, loosely
+coupled hybrids—where LLMs act as semantic translators and sym-
+bolic modules verify logical constraints—have shown promising
+results.
+3.2 Model Checking
+Model checking [1] is an automated formal verification technique
+used to determine whether a finite-state system model satisfies a
+given logical specification. The system is typically modeled as a
+transition system 𝑀, and the specification 𝜑 is expressed in Com-
+putation Tree Logic (CTL). CTL enables the formal specification
+of critical system properties, including safety (the avoidance of
+undesirable states), liveness (the guarantee of system progress),
+reachability (the ability to attain desired goal states), and fairness
+(the assurance that no enabled action is indefinitely postponed).
+Given a transition system and a CTL formula, model checking
+tools apply algorithms to exhaustively explore the system’s state
+space, thereby enabling the formal verification of the specified prop-
+erties. This makes model checking a robust and effective method
+for reasoning about procedural behaviors across various domains,
+including educational systems.
+4 MCFR Framework
+4.1 Overall Architecture
+Raw Data
+(news, policy, etc.)
+Model
+Building
+QA
+Model 
+NL 
+question
+"Can I graduate
+ without taking
+ CS101?" 
+LLM-based
+Question
+Analysis
+Detect that this is
+ a question about
+ 'reachability'
+Model
+Loading
+LLM-based
+Parsing for 
+Model Checking
+Model
+Checker
+Inference
+Results
+LLM-based
+Answer
+Generation
+NL 
+answer
+Knowledge 
+Graph
+Facts
+Formal
+Specifications
+Figure 1: Overview of the MCFR framework integrating LLMs
+with formal verification via model checking.
+Our proposed framework comprises four main components that
+collaboratively enable question answering grounded in formal veri-
+fication. The architecture is illustrated in Figure 1.
+(1) Model Building Phase. In the first stage, domain experts man-
+ually analyze raw data sources such as policy documents, institu-
+tional guidelines, and official announcements. These unstructured
+texts are used to construct a domain-specific QA model that en-
+codes the system behavior, logical constraints, and domain rules
+required for formal reasoning. This process is performed offline and
+serves as the static knowledge base for the downstream inference
+pipeline. The detailed implementation of this QA model using a
+concrete model checking tool is presented in Section 4.2.
+(2) Question Processing and Specification Generation. Given a user-
+issued NL question, the system first performs LLM-based Question
+Analysis to determine the intent of the query (e.g., identifying
+whether the question pertains to “reachability”). The system then
+queries the Knowledge Graph (Appendix A) to retrieve relevant
+facts associated with the question context. These inputs are pro-
+cessed by a LLM-based Parsing component that translates the ques-
+tion and facts into formal specifications compatible with model
+checking formalisms.
+(3) Model Checking Inference. The generated formal specifica-
+tions and the pre-built QA model are passed to the Model Loading
+component, which prepares them for verification. These artifacts
+are then submitted to a Model Checker, which performs symbolic
+reasoning and evaluates whether the specifications hold over the
+21
+AIQAM ’25, October 27–28, 2025, Dublin, Ireland Tuan Bui et al.
+Figure 2: UPPAAL implementation of the student lifecycle model.
+Natural–language Questions UPPAAL Query Answer Representative Trace
+Q1. Can a student graduate within eight
+semesters if all requirements are satis-
+fied on time?
+E<> (Student.Graduated &&
+time ≤ 8)
+Yes Start → Year1 → Year2 → Year3 → Year4 →
+Graduated; time=8, totalCredits=128.
+Q2. Is it possible to register for Cour-
+seX without passing its prerequisite
+CourseY?
+E<> (CourseX_Reg &&
+!CourseY_Passed)
+No — (no path exists; the guardCourseY_Passed on the Cour-
+seX transition blocks all attempts).
+Q3. Can a student advance to Year 3
+within three semesters?
+E<> (Student.Graduated &&
+time ≤ 3)
+No — (no path exist; completingEnglish_4 takes at least four
+semesters)
+Q4. Could a student accumulate 100 cred-
+its yet fail to advance to Year 3 owing to
+missing social activity points?
+E<> (totalCredits ≥ 100
+&& Student.Year4
+Yes Start → Year1 → Year2; take electives until
+totalCredits>=100, but keep passEnglish_4== 𝑓 𝑎𝑙𝑠𝑒 ;
+no transition to Year 3 enabled.
+Table 1: Mapping from NL questions to UPPAAL queries, with model-checking outcomes and illustrative execution paths.
+model. The outcome is returned as structured Inference Results, con-
+taining formally validated information relevant to the user query.
+(4) Natural Language Answer Generation. Finally, the LLM-based
+Answer Generation module converts the inference results into a
+coherent natural language answer. This ensures that users receive
+not only logically sound but also linguistically accessible responses.
+4.2 MCFR Implementation
+Our MCFR framework follows the NeSy Type 2 paradigm, integrat-
+ing neural and symbolic components in a sequential pipeline. Specif-
+ically, Components 2 and 4 leverage the Google Gemini model4 for
+natural language processing and high-level conversion tasks. In
+contrast, Components 3 and 4 focus on formal verification, where
+4https://deepmind.google/technologies/gemini/
+the domain model is constructed and executed using the UPPAAL5
+tool. This combination allows MCFR to bridge free-form natural lan-
+guage understanding with precise, state-based reasoning, ensuring
+both expressiveness and verifiability.
+Building on the student lifecycle scenario in Example 1, we con-
+struct a formal model using UPPAAL, where the academic progres-
+sion of a student is encoded as a network of interacting timed au-
+tomata. Each component captures distinct behaviors such as course
+registration, semester-level coordination, and academic status tran-
+sitions, all governed by temporal constraints and institutional rules
+(e.g., prerequisites, credit thresholds). This executable model en-
+ables simulation and formal verification of key properties such as
+safety (e.g., preventing invalid registration), liveness (e.g., ensuring
+5https://uppaal.org
+22
+Formal Reasoning for Intelligent QA Systems: A Case Study in the Educational Domain AIQAM ’25, October 27–28, 2025, Dublin, Ireland
+eventual graduation), and reachability (e.g., returning from aca-
+demic leave). These capabilities form the foundation for answering
+structured queries in our dataset.
+The model uses global state variables like totalCredits, time,
+and Boolean flags (e.g., passEnglish_2, passBasicIT) to repre-
+sent student status. Year-level progression is constrained by guard
+functions (e.g., passYear1(), passYear2()) that check eligibility
+conditions. These guards are attached to transitions to ensure pol-
+icy compliance. Figure 2 illustrates the full model structure, while
+Table 1 presents sample verification questions along with their
+corresponding formal properties and execution traces.
+5 EduMC-QA Dataset
+To evaluate the capabilities of QA systems in performing verifiable
+reasoning, we construct a novel dataset, EduMC-QA, centered
+on procedural and temporal logic within the educational domain.
+Rather than focusing on factual recall, the questions in EduMC-QA
+are designed to assess whether certain properties hold over dynamic
+systems, such as academic workflows. Each question is annotated
+with one of four key verification types inspired by formal methods,
+which reflect core reasoning challenges commonly addressed in
+model checking.
+Annotation Guidelines. Each question in EduMC-QA is manually
+assigned to one of the four verification categories based on its se-
+mantic intent and the property it seeks to verify within the academic
+system. The classification is grounded in definitions widely used
+in formal verification, with specific identification cues as shown in
+Table 2.
+Table 2: Verification types with classification criteria
+Type Classification Criteria
+Safety ⋄ Ensures that nothing bad ever happens.
+⋄ Checks whether the system prevents invalid or undesir-
+able actions (e.g., bypassing prerequisites).
+Liveness ⋄ Verifies that something good will eventually happen.
+⋄ Asks whether a desirable outcome can be achieved as-
+suming all conditions are met (e.g., graduation).
+Reachability ⋄ Asks whether a specific state can be reached from the
+current state.
+⋄ Considers whether a goal can be achieved under certain
+conditions (e.g., fast-tracking to Year 3).
+Fairness ⋄ Evaluates whether the system behaves in a just or non-
+discriminatory way.
+⋄ Checks for unreasonable blocking despite strong com-
+pliance (e.g., enough credits but still blocked).
+To ensure annotation quality and conceptual alignment, each
+question was independently categorized by three domain experts
+with backgrounds in formal methods and logical reasoning. The
+final label was determined by majority vote, and in the rare case
+of full disagreement, resolution was achieved through structured
+discussion and consensus.
+Illustrative Classification Examples. For instance, the question
+Q1-“Can a student graduate within eight semesters if all require-
+ments are satisfied on time?” is labeled as Liveness because it asks
+whether a desirable end state (graduation) will eventually occur
+given favorable conditions, emphasizing guaranteed progress rather
+than rule enforcement. Conversely, Q2-“Is it possible to register
+for CourseX without passing its prerequisite CourseY?” is labeled
+as Safety since it seeks to prevent an invalid action (bypassing a
+prerequisite), thus ensuring that no undesirable state can occur in
+the system.
+Example Item. Each item in the dataset consists of a natural lan-
+guage question, a formal model, a specification, and a verification
+result. Additionally, two auxiliary fields are included: context,
+which contains relevant logical facts extracted from the knowledge
+base, and formal_spec, which represents the parsed formal speci-
+fication and contextual information expressed in UPPAAL syntax.
+A simplified example is shown below:
+{
+"q": "Can a student enroll in a course without
+completing its prerequisite?",
+"cat": "Safety",
+"context": [ "prerequisite(CourseX, CourseY)",
+"student_has_not_completed(CourseY)" ],
+"spec": "AG (enroll_request -> completed(prereq))",
+"formal_spec": "
+textttA[] (enroll_request imply completed[prereq])",
+"groundtruth": "No"
+}
+Table 3: Question distribution by verification category in
+EduMC-QA
+Verification
+Property
+#Q Example Type
+Safety 34 Invalid course registration
+Liveness 34 Progress toward internship / graduation
+Reachability 38 Path to graduation from Year 1
+Fairness 23 LOA approval and return tracking
+Total 129 —
+Dataset Statistics. EduMC-QA comprises 129 natural language
+questions, each paired with a formal verification instance. The dis-
+tribution across the four verification categories (Table 3) ranges
+from 23 to 38 items per category. The questions span diverse aca-
+demic scenarios—such as enrollment, graduation, leave tracking,
+and internships—and vary in both linguistic and logical complex-
+ity. All items are manually annotated and validated for semantic
+correctness.
+6 Experimentation
+Building on the implementation introduced in earlier sections, we
+now evaluate the effectiveness of our MCFR framework by compar-
+ing its verification outcomes against responses from state-of-the-art
+LLMs. Using a representative academic scenario modeled in UP-
+PAAL, we assess how well LLMs handle formal reasoning tasks and
+23
+AIQAM ’25, October 27–28, 2025, Dublin, Ireland Tuan Bui et al.
+Table 4: Representative verification questions and comparison of reasoning accuracy across MCFR and LLM baselines
+Natural-language Question Ground
+Truth
+MCFR
+(Ours)
+Chat
+GPT
+Claude Deep
+Seek
+Observation / Reasoning Error
+Q1 (Liveness). Can a student graduate
+within eight semesters if all requirements
+are satisfied on time?
+Yes ✓ ✓ ✗ ✓ Claude need further data to conclude
+Q2 (Safety). Is it possible to register for
+CourseX without passing its prerequisite
+CourseY?
+No ✓ ✗ ✗ ✗ All models fail to enforce prerequisite con-
+straints; misinterpret the question as policy-
+based.
+Q3 (Reachability). Can a student advance
+to Year 3 within three semesters?
+No ✗ ✓ ✓ ✓ All models ignore sequential prerequisites,
+while completing English_4 requires at
+least four semesters.
+Q4 (Fairness). Could a student accumulate
+100 credits yet fail to advance to Year 3 owing
+to missing social activity points?
+Yes ✓ ✗ ✗ ✗ The models do not correctly infer the aca-
+demic rule that promotion to the third year
+requires the completion of English_4.
+analyze their strengths and limitations in contrast to our model
+checking approach.
+6.1 Case Study: Reasoning Comparison
+To better illustrate the limitations of current LLMs in handling
+formal verification tasks, we present a qualitative case study com-
+paring our neuro-symbolic system (MCFR) with state-of-the-art
+LLMs: ChatGPT, Claude, and DeepSeek. We select one represen-
+tative question from each of the four verification categories in
+EduMC-QA—Safety, Liveness, Reachability, and Fairness—and ex-
+amine whether these models can correctly answer questions that
+require logical inference over structured academic rules.
+Each case is based on a prompt grounded in formal academic
+regulations, as illustrated in Example 2 (a summarized version of
+the full academic policy; the complete context is available at 6). For
+instance, a liveness question asks whether a student can graduate
+within eight semesters if all requirements are satisfied on time. A
+safety question examines the possibility of course registration with-
+out completing prerequisites. These tasks demand reasoning over
+sequential transitions and conditional rules—capabilities that re-
+main challenging for both LLMs (due to lack of verifiable grounding)
+and symbolic solvers (due to limited procedural expressiveness).
+Example
+2. Prompt Input for Evaluating LLM Reasoning
+Context. Students may retake failed courses (no credit earned until
+passed) or improve grades by retaking passed courses with the same
+code (highest score used for GPA; credits unchanged). To qualify as
+a 2nd- or 3rd-year student, one must meet credit, language, IT, and
+other institutional requirements (e.g., defense education). Additionally,
+off-campus internships require at least 65% of total credits and must pre-
+cede the graduation thesis, which also requires a completed specialized
+project. (See full example at: a)
+Task. Based on the context above, answer the four verification questions
+presented in Example 1. Each answer should be Yes, No, or Uncertain,
+and must be accompanied by a justification.
+ahttps://github.com/tuanbc88-hcmut/mcfr_modelchecking_qa.git
+6https://github.com/tuanbc88-hcmut/mcfr_modelchecking_qa.git
+Table 5: Reasoning accuracy (%) by question type and models
+Model Safety
+(34)
+Liveness
+(34)
+Reachability
+(38)
+Fairness
+(24)
+Total
+(130)
+ChatGPT-casual 79.41 82.35 63.16 66.67 73.08
+ChatGPT-reason 73.53 88.24 84.21 83.33 82.31
+Claude-Sonnet 44.12 50.00 44.74 12.50 40.00
+DeepSeek-casual 76.47 79.41 76.32 75.00 76.92
+DeepSeek-R1 52.94 55.88 50.00 37.50 50.00
+MCFR(Ours) 94.12 97.06 94.74 87.50 93.85
+Table 4 summarizes the correctness of model responses, using ✓
+for correct and ✗ for incorrect answers. Table 5 further compares
+the overall reasoning accuracy across models on the EduMC-QA
+dataset. Detailed model responses are provided in Appendix B.
+6.2 Discussion
+Among LLMs, ChatGPT-reason performs best overall, particularly
+in liveness and reachability questions, suggesting a certain abil-
+ity to reason over sequential constraints. DeepSeek-casual also
+delivers consistent results, while Claude-Sonnet underperforms
+significantly—especially on fairness—highlighting its difficulty with
+multi-step, policy-based reasoning. In contrast, MCFR achieves re-
+liable reasoning via formal verification. However, it relies on a
+manually constructed domain model, an expert-driven and time-
+consuming process, which limits scalability. This points to future
+potential in semi-automated model construction, where LLMs assist
+in abstraction and experts validate critical elements. Another key
+challenge lies in translating NL into formal specifications; errors
+in this step can lead to incorrect verification outcomes even when
+the model is sound. Robust validation mechanisms are therefore
+essential to ensure end-to-end QA integrity.
+NL-to-CTL Conversion Errors. A major source of error arises in
+converting natural language questions into formal UPPAAL queries.
+Current LLMs lack knowledge of the UPPAAL syntax, making it
+difficult to map NL descriptions into correct CTL formulas without
+explicit information about the target model. For accurate NL→CTL
+24
+Formal Reasoning for Intelligent QA Systems: A Case Study in the Educational Domain AIQAM ’25, October 27–28, 2025, Dublin, Ireland
+translation, the LLM must be aware of both the UPPAAL model in
+use and its precise syntactic rules. Moreover, there are currently
+no established metrics for systematically measuring the quality of
+NL-to-CTL conversion, which makes it harder to benchmark and
+improve this step. We argue that improving the prompt—rather
+than extending the underlying logic model—is a more effective and
+immediate solution. This is because UPPAAL requires absolute syn-
+tactic correctness for verification; while logic model enhancements
+may improve runtime efficiency, they do not inherently boost ac-
+curacy. In contrast, prompt refinement can guide the LLM toward
+producing syntactically valid and semantically aligned queries.
+For example, given the NL question: “Can a student graduate
+within eight semesters if all requirements are satisfied on time?”,
+the correct query is E<> (Student.Graduated && time ≤ 8).
+Without prompt tuning, LLM might output E<> (semester <=
+8 && AllRequirementsMet && Student.Graduated) , which is
+incorrect for two reasons: (1) the model uses the variable time
+rather than semester, and (2) AllRequirementsMet does not exist
+in the UPPAAL model.
+QA Model Scalability and Domain Adaptation. Constructing
+and validating the current QA model required approximately 56
+person-hours. Reproducing the model for other universities or or-
+ganizations would take about 2–8 hours, depending on the extent
+of policy differences. The process could follow three main steps: (1)
+Modify institutional rules affecting student progression and gradua-
+tion (up to 8 hours depending on complexity), (2) Adjust parameter
+values such as minimum passing grades, and (3) Conduct thorough
+verification testing. Beyond the academic domain, the approach
+can be adapted to other fields such as law or healthcare. In such
+cases, the time and complexity of adaptation depend heavily on
+the number of states, transitions, and governing rules that must be
+identified and modeled within each specific domain.
+7 Conclusion
+We introduced MCFR, a neuro-symbolic QA framework that in-
+tegrates LLM-based parsing with model checking for verifiable
+reasoning. Evaluated on the EduMC-QA dataset, MCFR outper-
+formed state-of-the-art LLMs in tasks requiring logical consistency
+and temporal verification. Our results highlight the limitations of
+purely neural methods and the value of hybrid approaches. Future
+work includes integrating Hoare Logic for local consistency check-
+ing, complementing model checking for global verification, and
+enabling scalable, semi-automated model development.
+Acknowledgments
+We acknowledge Ho Chi Minh City University of Technology (HC-
+MUT), VNU-HCM for supporting this study.

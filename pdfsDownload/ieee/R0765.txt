@@ -1,0 +1,1263 @@
+Received 2 October 2025, accepted 14 October 2025, date of publication 20 October 2025, date of current version 29 October 2025.
+Digital Object Identifier 10.1 109/ACCESS.2025.3623268
+Securing With Dual-LLM Architecture: ChatTEDU
+an Open Access Chatbot’s Defense
+HAKAN EMEKCI
+ , (Member, IEEE), AND GÜLSÜM BUDAKOGLU
+Graduate School, Applied Data Science, TED University, 06420 Ankara, Türkiye
+Corresponding author: Hakan Emekci (hakan.emekci@tedu.edu.tr)
+This work was supported in part by the Scientific and Technological Research Council of Türkiye (TÜBİTAK) under Grant 1512, and in
+part by TED University through the ChatTEDU Project.
+ABSTRACT Open access chatbots face escalating cybersecurity risks due to adversarial exploitation. This
+paper presents the case of ChatTEDU, a dual-LLM architecture designed to protect open-access AI systems
+from sophisticated adversarial attacks while maintaining the user experience quality. During a two-month
+deployment at TED University, we analyzed 4501 unique real-world interactions, including 180 malicious
+attempts targeting the system through prompt injection, jailbreaking, and content manipulation attacks.
+Our dual-layer security approach separates content moderation from response generation by using two
+specialized language models. The first model (LLM-1) acts as a security filter, analyzing incoming queries
+for threats, whereas the second model (LLM-2) generates educational responses only after validation.
+This architecture successfully blocked 100% of the identified attacks, with only 0.28% false positives,
+demonstrating robust protection without compromising legitimate educational interactions. The system
+handles over 100 concurrent users during peak registration periods without security breaches or performance
+degradation. Attack analysis of the case revealed that 77.8% of the threats used technical exploitation rather
+than content-based manipulation, with multilingual attacks comprising 15% of the attempts. The dual-LLM
+approach introduced only 18% latency overhead, while providing comprehensive protection against prompt
+injection, jailbreaking, spam insertion, and denial-of-service attacks. This study provides practical guidance
+for implementing robust security measures in public-faced AI deployments worldwide.
+INDEX TERMS Adversarial attacks, artificial intelligence security, open access chatbot security, large
+language models, prompt injection.
+I. INTRODUCTION
+With the rapid rise in public-facing chatbots in many sectors,
+including education, the need for robust security mechanisms
+has become increasingly urgent. ChatTEDU, developed by
+Naviga AI at TED University, operates as a multilingual
+public chatbot that answers institutional questions. However,
+open access exposes such systems to a variety of adversarial
+inputs, including prompt injections, jailbreak attempts, spam,
+and offensive content [1]. This paper presents a threat analysis
+conducted during the July–August 2024 registration period
+and introduces a dual-LLM architecture that effectively mit-
+igates these attacks.
+The associate editor coordinating the review of this manuscript and
+approving it for publication was Asadullah Shaikh
+ .
+Modern chatbots exhibit advanced capabilities, including
+integration with both structured and unstructured databases
+(e.g., PostgreSQL, MongoDB, embedding-based vector
+stores, and in-memory caches), as well as the ability to
+leverage various Application Programming Interfaces (APIs)
+to perform Retrieval-Augmented Generation (RAG) tasks.
+However, this expanded functionality introduces significant
+risks in terms of cybersecurity, particularly with respect
+to prompt and Data Definition Language (DDL) injection
+attacks.
+Relying on large language models (LLMs) with multiple
+backdoor entry points secured solely through specific chain-
+of-thought prompts for reasoning falls short of delivering a
+robust and secure system design. This lack of cyber protection
+may result in exposure to various attack vectors and hijacking
+183156
+
+ 2025 The Authors. This work is licensed under a Creative Commons Attribution 4.0 License.
+For more information, see https://creativecommons.org/licenses/by/4.0/ VOLUME 13, 2025
+H. Emekci, G. Budakoglu: Securing With Dual-LLM Architecture
+FIGURE 1. ChatTEDU diagram.
+attempts, such as the unauthorized execution of Create, Read,
+Update, and Delete (CRUD) operations, or the disclosure
+of sensitive data such as API keys or database connection
+strings. The presence of a backdoor in an unsuspecting chat-
+bot design can lead to irreversible and costly consequences.
+Agentic workflows or orchestration-based designs for
+chatbots equipped with tool-calling capabilities enable the
+development of highly functional systems that offer enhanced
+protection by facilitating the identification and mitigation of
+malicious queries. This approach supports a layered system
+architecture that aligns with microservice principles, particu-
+larly in terms of the separation of concerns (SoC).
+In a multilayered architecture, a more secure system
+design can be established in which malicious attacks can be
+intercepted before potentially harmful queries reach a tool
+powered by a Large Language Model (LLM) [2].
+The proposed system architecture adopts a multilayered
+agentic workflow designed to intercept, classify, and process
+incoming queries through a secure and modular pipeline.
+As illustrated in the sequence diagram (see: Diagram.1),
+the interaction begins with client-side certificate validation
+via mutual TLS (mTLS), followed by the issuance of a
+signed JSON Web Token (JWT) for identity verification.
+The authenticated query is then forwarded to the agent
+layer, where a dedicated tend identifier orchestrates var-
+ious LLM-based tools to handle different aspects of the
+request. These tools include a Database Tool for struc-
+tured data retrieval, vector-store tool for semantic similarity
+searches, and Deflector Tool for detecting and blocking
+potentially malicious intent. Each module contributes to a
+layered defense model, ensuring that queries are evaluated
+in isolated stages based on intent, context, and content
+before any interaction with the core agent logic is permitted.
+This modular separation not only enhances system scalabil-
+ity, but also enables targeted mitigation strategies, forming
+a resilient foundation for secure LLM-powered chatbot
+operations.
+This multilayered agentic system design was deployed at
+TED University and successfully processed over 5000 queries
+from unique user sessions without compromising any sen-
+sitive information, including but not limited to API keys,
+database connection strings, or user credentials. Throughout
+its deployment, the system demonstrated resilience against
+a wide range of cyberattacks, including brute-force attempts
+targeting Data Definition Language (DDL) operations, mali-
+cious prompt injection attacks, and automated bot-based
+messaging attacks aimed at backend resource exhaustion.
+In addition to mutual TLS (mTLS)-based certificate vali-
+dation, the system was further hardened using NGINX-based
+IP whitelisting and rate-limiting mechanisms at the edge
+level. However, the cornerstone of its defensive architec-
+ture is the Intent Identifier component, which consistently
+prevents adversarial inputs from reaching the underly-
+ing LLM-powered tools. This module plays a key role
+in accurately detecting and rejecting malicious queries
+without false negatives and effectively blocking attempts
+involving prompt hijacking, unauthorized CRUD opera-
+tions, enumeration attacks, and unsolicited data extraction
+prompts.
+Notably, there were no incidents of data leakage, system
+hijacking, or reputational harm throughout its operation, con-
+firming the robustness of the architecture in a real-world,
+high-concurrency environment.
+VOLUME 13, 2025 183157
+H. Emekci, G. Budakoglu: Securing With Dual-LLM Architecture
+In conclusion, the agentic system architecture that we
+propose demonstrates that robust security in LLM-powered
+environments is achievable through a layered, modu-
+lar, and intent-aware design. By combining network-level
+authentication protocols, contextual query analysis, and
+microservice-like tool orchestration, the system not only mit-
+igates a wide spectrum of known and emerging attack vectors
+but also preserves functional scalability and user respon-
+siveness under high-concurrency conditions. The paper
+would benefit from referencing prior work in robust AI
+decision-making and layered security architectures [2], [3].
+Agentic workflow designs enable LLM-based chatbots to
+achieve greater flexibility, supporting both parallel and
+sequential tool executions for effective information extraction
+and generation. This flexibility stems from a graph-like exe-
+cution structure in which each node represents a distinct tool
+governed by a predefined set of execution rules. As demon-
+strated in previous studies, agentic workflows yield improved
+response quality in terms of both conciseness and correctness,
+especially when compared to traditional sequential tool-
+calling approaches, where a single LLM is responsible for
+all tasks via chain-of-thought prompting mechanisms.
+By aggregating intermediate outputs from multiple spe-
+cialized tools, agentic workflows enrich the contextual
+understanding available to LLM, allowing it to perform more
+comprehensive and accurate reasoning when formulating
+final responses.
+As LLM-based chatbots have become increasingly inte-
+grated into real-world applications, their exposure to adver-
+sarial threats has increased significantly. These systems,
+which are often equipped with access to sensitive APIs,
+external tools, and private data stores, are vulnerable to a
+range of cyberattacks, including prompt injection, output
+manipulation, and unauthorized command execution. Tra-
+ditional security paradigms fall short in addressing these
+LLM-specific vulnerabilities because malicious users can
+exploit natural language instructions to manipulate model
+behavior or exfiltrate-sensitive information. In agentic work-
+flows, these risks are further amplified owing to the increased
+functional surface exposed through multistep tool orches-
+tration. A compromised agent pipeline may be exploited to
+trigger unauthorized API calls, perform recursive tool invoca-
+tions for information exfiltration, or chain multiple subtasks
+to bypass input and output filters in isolation.
+However, when designed with cybersecurity in mind, agen-
+tic workflows can serve as a robust mitigation strategy. The
+modular nature of agentic architectures allows fine-grained
+access control, contextual intent classification, and proactive
+threat detection at each workflow stage. Isolating tools within
+the agent boundaries prevents a single compromised query
+from cascading into a system-wide breach. Recent studies
+have emphasized the importance of incorporating adversarial
+intent classifiers, token-level guardrails, and access throt-
+tling mechanisms at the orchestration layer to intercept and
+neutralize attacks before they reach sensitive tools or mod-
+els. Furthermore, by maintaining the execution state across
+agents, the system can perform consistency checks, validate
+intent across time, and apply rollback strategies to avoid the
+side effects caused by unauthorized actions. Addressing these
+concerns is critical not only to protect data integrity and pri-
+vacy but also to preserve user trust in LLM-powered systems
+as they evolve toward more autonomous, tool-augmented
+architectures.
+Managing the growing complexity and security demands
+of LLM-based chatbot systems, particularly those incorporat-
+ing agentic workflows. Many recent studies have advocated
+for microservice-oriented architectures. In such designs, core
+functionalities are modularized into independent components
+such as authentication, tool orchestration, semantic routing,
+and inference execution. This separation of concerns not only
+enhances scalability and maintainability but also provides a
+strong foundation for implementing layered security mecha-
+nisms.
+Microservice architectures naturally complement agentic
+workflows by extending modularity beyond the code orga-
+nization to runtime execution. Each agent or tool operates
+in its own isolated environment, creating clear boundaries
+that enable strict access control and containment. This
+architectural separation limits the potential impact of secu-
+rity breaches by preventing compromised components from
+affecting a broader system.
+Moreover, this modular separation becomes crucial for
+enforcing contextual boundaries between agents, an emerging
+capability further formalized through Model Context Pro-
+tocols (MCPs) [4], [5]. MCPs define schemas, capabilities,
+and memory constraints for each tool invocation, allowing
+agentic workflows to dynamically adapt to tool permis-
+sions and context scopes based on a user’s intent or trust
+level. Recent developments in MCP implementation include
+lightweight proxy solutions and [4] constraint programming
+integration [6]. This integration empowers the system to pro-
+tect against over permissive tool usage and mitigates lateral
+privilege escalation within the agentic graph.
+Together, microservice architectures and agentic work-
+flows enable end-to-end context-aware control, where system
+designers can inspect, trace, and block unauthorized flows
+not only at the message-passing interface but also during
+internal reasoning and external tool invocation. This hybrid
+design provides a scalable foundation for securing modern
+LLM applications against a variety of cyberattacks, including
+prompt injection, recursive tool abuse, and inference-time
+data leakage, without sacrificing the performance or devel-
+oper agility.
+II. LITERATURE REVIEW
+The Open Worldwide Application Security Project (OW ASP)
+Foundation has emerged as a critical authority for identifying
+and categorizing security risks specific to LLM applications.
+The OW ASP Top 10 for Large Language Model Applications
+v1.1 (OW ASP Foundation, 2024) provides a comprehensive
+risk taxonomy that has become the de facto standard for LLM
+security assessment. This framework identifies ten critical
+183158 VOLUME 13, 2025
+H. Emekci, G. Budakoglu: Securing With Dual-LLM Architecture
+vulnerabilities: prompt injection (LLM01), insecure output
+handling (LLM02), training data poisoning (LLM03), denial
+of service (LLM04), supply chain vulnerabilities (LLM05),
+sensitive information disclosure (LLM06), insecure plugin
+design (LLM07), excessive autonomy (LLM08), overreliance
+on model outputs (LLM09), and model theft (LLM10). Each
+category represents distinct attack vectors that require spe-
+cialized mitigation strategies, forming foundational knowl-
+edge for developing secure LLM deployments. Building on
+the OW ASP framework [7], prompt injection attacks can be
+categorized into direct and indirect injection methods, with
+indirect injections proving particularly insidious, as they can
+be embedded in external data sources in the LLMs process.
+Their research revealed that retrieval-augmented generation
+(RAG) systems are especially vulnerable to indirect attacks,
+as malicious content in retrieved documents can compromise
+the entire response generation pipeline.
+Prompt injection attacks are one of the most significant
+security challenges in LLM deployment. Liu et al. [1] for-
+mally defined prompt injection as ‘‘adversarial prompts that
+cause language models to ignore previous instructions and
+follow attacker-controlled directives instead.’’ Their system-
+atic analysis of 78 different prompt injection techniques
+revealed that successful attacks often exploit the lack of
+clear boundaries between the system instructions and user
+inputs in transformer architectures. The phenomenon of jail-
+breaking, a specialized form of prompt injection, has been
+extensively documented by Shen et al. [8], who analyzed over
+10,000 in-the-wild jailbreak attempts including the notorious
+DAN (Do Anything Now) prompts. Their research identified
+four primary jailbreak categories: persona modulation, atten-
+tion shifting, contextual manipulation, and gradual erosion.
+Importantly, they found that jailbreak success rates varied
+significantly across different LLM architectures, with GPT-4
+showing improved resistance compared with earlier models,
+although no model achieved complete immunity.
+Wei et al. [9] introduced the concept of ‘competing
+objectives’ in LLM training, demonstrating that the tension
+between helpfulness and harmlessness creates exploitable
+vulnerabilities. Their research showed that adversaries can
+leverage this tension through carefully crafted prompts that
+frame harmful requests as helpful actions, achieving success
+rates up to 84% against unhardened models. Zou et al. [10]
+developed a Greedy Coordinate Gradient (GCG) attack,
+an automated method for generating universal adversarial
+prompts that are transferred across multiple LLM architec-
+tures. Their findings revealed that suffix-based attacks could
+bypass safety mechanisms in ChatGPT, Bard, and Claude
+with success rates exceeding 80%, highlighting the need for
+robust architecture-agnostic defense mechanisms.
+Recent studies have proposed various defense mecha-
+nisms against adversarial LLM attacks. Jain et al. [11]
+introduced the concept of ‘‘baseline defenses’’ including
+perplexity-based filtering, paraphrasing, and retokenization.
+Their empirical evaluation across 232 jailbreak attempts
+showed that combining multiple baseline defenses could
+reduce attack success rates by up to 95%, albeit at the cost of
+increased computational overhead and potential degradation
+of benign query handling. Robey et al. [12] proposed Smooth-
+LLM, a defense mechanism that leverages randomized
+smoothing to mitigate jail-breaking attacks. By generating
+multiple perturbed versions of input prompts and aggregating
+responses, SmoothLLM achieves certified robustness against
+character-level perturbations while maintaining model utility
+for legitimate queries.
+The dual-LLM architecture approach has gained traction
+as a defense strategy. Kumar et al. [13] demonstrated that
+separating safety checking from response generation through
+dedicated models could reduce successful attacks by 97%
+compared with single-model implementations. Their work
+inspired subsequent research on multilayered architectures,
+although few studies have evaluated these approaches in
+production environments with real-world attack data. This
+architectural separation aligns with microservice design prin-
+ciples, enabling the independent optimization and scaling of
+security and functionality components.
+Educational chatbots face unique security challenges
+because of their open accessibility and diverse user bases.
+Abdelhamid et al. [14] analyzed security incidents across
+15 educational institutions and found that 67% of attacks
+targeted information extraction rather than content gener-
+ation, suggesting different threat models for educational
+and commercial deployments. Arora et al. [15] conducted
+sentiment analysis on social media discussions about edu-
+cational chatbots, revealing that security concerns consti-
+tuted 34% of negative sentiments, with users particularly
+worried about data privacy and potential manipulation of
+academic information. Their findings emphasized the impor-
+tance of transparent security measures in maintaining user
+trust in educational AI systems. Costa and Coelho [16]
+provided a comprehensive review of evolving cybersecu-
+rity challenges specific to AI-powered educational assistants
+and identified three critical vulnerabilities unique to aca-
+demic contexts: grade manipulation attempts, unauthorized
+access to restricted educational resources, and coordinated
+attacks during high-stakes periods, such as examinations or
+admissions.
+The emergence of agentic workflows has introduced
+both opportunities and challenges to LLM security.
+Singh et al. [17] demonstrated that agentic patterns can
+improve security through modular isolation, with each agent
+maintaining distinct security boundaries and access con-
+trols. Their evaluation showed that properly implemented
+agentic workflows reduced the blast radius of successful
+attacks by 78% compared with monolithic LLM deploy-
+ments. Recent advances in workflow automation include
+modularized approaches [18] and economic research applica-
+tions [19]. Zhang et al. [20] introduced AFlow, an automated
+framework for generating secure agentic workflows that
+incorporate security constraints during the design phase.
+VOLUME 13, 2025 183159
+H. Emekci, G. Budakoglu: Securing With Dual-LLM Architecture
+The integration of Model Context Protocols (MCPs) has
+emerged as a promising approach to securing agentic sys-
+tems. Fei et al. [21] proposed MCP-zero, a proactive toolchain
+construction methodology that enforces strict contextual
+boundaries between agents. Their evaluation demonstrated
+that MCP-based architectures could prevent cross-agent con-
+tamination attacks by 92 % %while maintaining system per-
+formance. However, Radosevich and Halloran [22] identified
+critical vulnerabilities in MCP implementations, showing that
+improperly configured MCPs can enable privilege escalation
+and unauthorized tool access. Their security audit revealed
+that 73% of the surveyed MCP deployments contained at least
+one exploitable misconfiguration, highlighting the impor-
+tance of the secure-by-default design principles.
+Recent developments in MCP technology include
+lightweight proxy implementations for LLM-agnostic inte-
+gration [2], constraint programming system integration for
+enhanced reasoning capabilities [6], and enterprise API adap-
+tation frameworks for AI agent deployment [23]. These
+advances demonstrate the growing maturity of MCP as a
+standardized approach for context management in large-
+language-model applications [5].
+The challenge of multilingual security in LLMs has
+received little attention. Deng et al. [24] demonstrated that
+multilingual LLMs exhibit inconsistent safety behaviors
+across languages, with non-English prompts achieving 2.7x
+higher jailbreak success rates. Their research identified
+‘‘linguistic arbitrage’’ attacks that exploit safety training
+gaps in low-resource languages. Y ong et al. [25] extended
+this study by showing that code-switching attacks—rapidly
+alternating between languages within a single prompt—
+could bypass safety filters in 68% of the tested cases. Their
+findings have significant implications for international edu-
+cational deployments where multilingual support is essential.
+Wang et al. [26] proposed cross-lingual defense mechanisms
+that maintain consistent safety boundaries across languages
+through multilingual adversarial training. Their approach
+reduced cross-linguistic attack success rates by 84%
+while preserving the model performance across supported
+languages.
+Despite extensive theoretical research, few studies have
+examined LLM security in the production environment.
+Iqbal et al. [27] analyzed 500,000 queries from deployed
+chatbots across various industries and found that real-world
+attack patterns differed significantly from synthetic bench-
+marks, with 43% of attacks employing techniques not covered
+in the standard evaluation sets. Sebastian [28] conducted
+an exploratory study on ChatGPT deployment in enterprise
+environments, identifying critical gaps between academic
+security research and practical deployment challenges. The
+study revealed that operational constraints, such as latency
+requirements and cost considerations, often prevent the
+implementation of theoretically optimal security measures.
+Qammar et al. [29] traced the evolution of rule-based chatbots
+to LLM-powered systems, highlighting how each technolog-
+ical advancement has introduced new attack surfaces. Their
+historical analysis provided a valuable context for under-
+standing current vulnerabilities and predicting future threat
+vectors.
+Although the existing literature provides valuable insights
+into LLM security challenges and potential solutions, sev-
+eral critical gaps remain. Most security research relies on
+synthetic datasets or controlled experiments with limited
+empirical data from production systems facing real adversar-
+ial pressure, particularly in educational contexts. Addition-
+ally, although dual-LLM and agentic architectures have been
+proposed theoretically, comprehensive evaluations of these
+approaches against real-world attacks remain scarce. Cross-
+linguistic attack vectors in educational chatbots serving
+international communities have received insufficient atten-
+tion, despite their practical importance. Furthermore, most
+studies present static snapshots of attack patterns without ana-
+lyzing the temporal dynamics or adversarial adaptation over
+extended deployment periods. Finally, the literature lacks
+comprehensive frameworks for integrating multiple defense
+mechanisms at the network, application, and model levels
+into cohesive security architectures.
+This study addresses these gaps by presenting a
+production-tested dual-LLM architecture deployed at TED
+University, providing empirical evidence from over 5000 real
+user with 4501 unique interactions, including 180 adver-
+sarial attempts. Our work contributes to the literature by
+demonstrating the practical effectiveness of layered security
+approaches in educational contexts, offering insights into
+multilingual attack patterns and providing a temporal analysis
+of adversarial behavior during critical operational periods.
+The findings validate theoretical proposals for dual-LLM
+architectures while revealing practical implementation chal-
+lenges and solutions that have not been addressed in prior
+research.
+III. CHATTEDU AND DATASET
+In this study, we introduced ChatTEDU, an Agentic Chatbot
+system designed to support both prospective applicants and
+enrolled students at TED University by providing timely and
+accurate institutional information. The system addresses a
+broad spectrum of inquiries, including academic programs,
+admission procedures, campus facilities, and administrative
+processes, with the aim of streamlining communication and
+reducing manual workloads. To ensure secure and authorized
+access, ChatTEDU incorporates a multilayered protection
+architecture that utilizes mutual TLS (mTLS) at the NGINX
+gateway and JSON Web Tokens (JWT) for service-level
+authorization. Specifically, end users connect via standard
+HTTPS to the public-facing interface without client cer-
+tificates. The mTLS authentication occurs at the service
+mesh level between the NGINX edge gateway and inter-
+nal microservices, ensuring that only authenticated services
+can communicate within the backend infrastructure. JWT
+tokens are issued to users after initial HTTPS connection for
+session-level authorization. This combination provides strong
+guarantees against unauthorized access and significantly
+183160 VOLUME 13, 2025
+H. Emekci, G. Budakoglu: Securing With Dual-LLM Architecture
+reduces the attack surface of the system. The chatbot employs
+an agentic workflow architecture that dynamically routes
+incoming queries to appropriate data sources across multiple
+heterogeneous databases, ensuring that the responses are both
+precise and context aware. This agent-based orchestration
+enhances the modularity, resilience, and scalability of the
+system, as demonstrated by its capacity to concurrently serve
+over 100 users without performance degradation. Impor-
+tantly, since deployment, the system has not experienced any
+security breaches or failures, which highlights the robustness
+of its architectural choices. Overall, the integration of agentic
+workflow with stringent network-level security mechanisms
+establishes ChatTEDU as a reliable, scalable, and secure
+conversational AI platform for institutional engagement.
+For clarity and consistency throughout this paper,
+we define the following terminology: A query refers to a
+single input message submitted by a user to the ChatTEDU
+system. Unique queries represent non-duplicate user inputs
+after removing repeated submissions, totaling 4,501 in our
+dataset. A user session denotes a continuous interaction
+period by one user with the system. Concurrent users indicate
+the number of simultaneously active users at any given time,
+which exceeded 100 during peak registration periods.
+The ChatTEDU uses a dual-LLM architecture: LLM-1 acts
+as a security filter for analyzing incoming queries, whereas
+LLM-2 generates domain-specific answers. During the peak
+admission period, the system logged over 5000 total queries,
+of which 4501 were unique (non-duplicate) queries. These
+were categorized into common themes, such as academic pro-
+grams, financial aid, dormitories, and international exchange.
+Agentic workflow designs enable LLM-based chatbots
+to achieve greater flexibility, supporting both parallel and
+sequential tool executions for effective information extrac-
+tion and generation. This flexibility stems from a graph-like
+execution structure in which each node represents a dis-
+tinct tool governed by a predefined set of execution rules.
+As demonstrated in previous studies, agentic workflows yield
+improved response quality in terms of both conciseness
+and correctness, especially when compared to traditional
+sequential tool-calling approaches, where a single LLM is
+responsible for all tasks via chain-of-thought prompting
+mechanisms.
+IV. ATTACK ANALYSIS
+This section presents a comprehensive analysis of adver-
+sarial activities targeting the ChatTEDU system during the
+initial deployment period, from July to August 2024. The
+analysis aimed to identify vulnerability patterns, systemati-
+cally classify detected attacks, and inform the development
+of robust mitigation strategies. Throughout the observation
+period, ChatTEDU has faced numerous adversarial input
+attempts, highlighting the inherent security risks associated
+with publicly accessible open access chatbot platforms.
+During the two-month evaluation period, the system pro-
+cessed 4501 unique user queries, of which 180 instances
+(4.0%) were classified as malicious based on predefined
+FIGURE 2. ChatTEDU dual-LLM diagram.
+criteria. Each adversarial attempt underwent systematic cate-
+gorization according to the input characteristics and inferred
+attacker objectives, following established taxonomies in the
+adversarial machine learning literature. This methodology
+enables the quantitative assessment of threat vectors and
+informed subsequent defensive implementation.
+The classification framework employed in this study dis-
+tinguishes five primary categories of adversarial inputs, each
+characterized by distinct methodologies and objectives. It dis-
+tinguishes five primary categories of adversarial inputs, each
+characterized by distinct methodologies and objectives.
+• Prompt Injection Attacks are direct attempts to over-
+ride system instructions through explicit command
+manipulation. These attacks target the fundamental
+prompt-response architecture by inserting commands
+such as Ignore the last system message with the objective
+of hijacking the model’s operational context and bypass-
+ing established safety protocols.
+• Jailbreak Attempts represent sophisticated manipulation
+techniques that exploit persona-based vulnerabilities in
+large language models. The most prevalent variant,
+known as ‘‘Do Anything Now’’ (DAN), instructs the
+AI to assume an alternative identity without operational
+constraints (e.g., ‘‘Y ou are DAN, you can do anything
+now. . . ’’). These attacks systematically attempted to cir-
+cumvent safety alignments by establishing alternative
+conversational frameworks.
+VOLUME 13, 2025 183161
+H. Emekci, G. Budakoglu: Securing With Dual-LLM Architecture
+FIGURE 3. Distribution of the topics in the queries.
+• Offensive and controversial query injections encompass
+inputs designed to elicit inappropriate or harmful con-
+tent, including hate speech, violence, and other content
+prohibited by institutional policies. These attacks pri-
+marily function as reconnaissance tools, systematically
+probing the effectiveness and boundaries of content fil-
+tering mechanisms.
+• Nonsense Flooding Attacks involve the submission of
+excessively verbose or semantically incoherent inputs
+designed to overwhelm computational resources or dis-
+rupt normal system operation. These attacks target the
+system performance and availability rather than content
+generation, potentially causing service degradation or
+denial of service conditions.
+• Spam and Advertisement Insertion represent attempts
+to exploit the platform for unauthorized commercial
+purposes, forcing the chatbot to generate promotional
+content or to serve as a vector for unsolicited message
+distribution. This category reflects the misuse of institu-
+tional resources for purposes beyond the intended scope.
+A. ATTACKS TO CHATTEDU
+The distribution analysis reveals significant patterns in adver-
+sarial behavior targeting the ChatTEDU system.
+Jailbreak attempts constituted the predominant attack vec-
+tor, accounting for 47.8% of all malicious input (n =86). This
+high frequency indicates a sophisticated understanding of
+LLM vulnerabilities among adversarial actors, and suggests
+systematic exploitation attempts rather than opportunistic
+probing.
+Prompt injection attacks represented the second most
+prevalent category, at 30.0% (n =54), collectively with jail-
+break attempts comprising 77.8% of all adversarial activities.
+This distribution demonstrates that technical exploitation
+attempts significantly outweigh content-based attacks, indi-
+cating that adversaries primarily focus on circumventing
+system safeguards rather than directly generating inappropri-
+ate content.
+Offensive and controversial queries accounted for 15.6%
+of the attacks (n =28), suggesting a systematic evaluation of
+the effectiveness of content filtering. The relatively lower
+frequency of these attacks may indicate either effective
+deterrence through visible content moderation, or adversar-
+ial preference for technical exploitation methods that offer
+greater potential for sustained access.
+Nonsense flooding attacks comprised 6.1% of the total
+(n=11), reflecting targeted attempts to disrupt the system
+availability and performance. The limited frequency of such
+attacks suggests either effective rate-limiting mechanisms or
+a lower adversarial interest in denial-of-service objectives
+within the educational context.
+Spam and advertisement insertion attempts were remark-
+ably infrequent, representing only 0.6% of all the attacks
+(n=1). This minimal occurrence likely reflects the aca-
+demic environment’s reduced commercial incentives and the
+effective early-stage filtering mechanisms that deterred such
+exploitation attempts.
+The distribution of adversarial inputs is presented in a pie
+chart Figure 4, and a corresponding statistical summary is
+provided in Figure 5.
+B. TEMPORAL DISTRIBUTION OF THE ATTACKS
+Temporal analysis of the attack patterns revealed strategic
+coordination with operational demands and system vulner-
+abilities (Figure 6). The most significant concentration of
+adversarial activity occurred on July 30, 2024, coincid-
+ing precisely with the peak university registration activi-
+ties and maximum concurrent user loads. This correlation
+strongly suggests that adversarial actors deliberately exploit
+high-traffic periods to maximize the attack impact while
+potentially evading detection through volume masking.
+The observed attack spike demonstrates sophisticated
+threat intelligence, indicating that adversaries monitor insti-
+tutional schedules and system usage patterns to optimize
+the attack timing. This strategic approach reflects advanced
+threat actor capabilities beyond opportunistic exploitation,
+suggesting organized efforts to compromise the technology
+infrastructure.
+A secondary cluster of attacks emerged during mid-to-
+late August, characterized by sustained but lower-intensity
+probing activities. This pattern indicates persistent reconnais-
+sance efforts following the initial system hardening measures,
+demonstrating adaptive adversarial behavior in response to
+the implemented defensive countermeasures. The sustained
+nature of these activities suggests an ongoing interest in iden-
+tifying residual vulnerabilities despite the initial mitigation
+efforts.
+The temporal distribution also reveals periods of reduced
+activity, potentially indicating successful deterrence effects
+from the implemented security measures or shifts in adver-
+sarial focus to alternative targets. These patterns provide
+valuable insights into predictive threat modeling and resource
+allocation for defensive monitoring.
+C. ASSESSMENT
+A detailed analysis of attack methodologies revealed varying
+levels of technical sophistication across different categories
+183162 VOLUME 13, 2025
+H. Emekci, G. Budakoglu: Securing With Dual-LLM Architecture
+TABLE 1. Attack types and their impacts.
+(Table 1). Prompt injection attacks demonstrated a direct
+understanding of a large language model architecture,
+employing context manipulation techniques specifically
+designed to override system prompts and safety instructions.
+The precision of these attacks indicates their familiarity with
+transformer-based model behaviors and prompt engineering
+techniques.
+Jailbreak attempts exhibited higher sophistication lev-
+els, utilizing complex personal establishment protocols and
+gradual constraint erosion techniques. These attacks often
+employed multi-stage approaches, initially establishing rap-
+port before attempting safety circumvention and demon-
+strating psychological manipulation tactics combined with
+technical exploitation knowledge.
+Spam and advertisement insertion exploitation and offen-
+sive prompts attempt specifically targeted knowledge base
+limitations, systematically probing for information outside
+the retrieval-augmented generation (RAG) pipeline scope.
+Although these attempts did not achieve a successful system
+compromise, they identified critical vulnerability surfaces
+where enhanced fallback mechanisms and information vali-
+dation protocols proved necessary to prevent misinformation
+propagation.
+The implemented dual-layer safety architecture success-
+fully intercepted all identified attack attempts during the
+evaluation period, preventing unauthorized system behav-
+ior and maintaining the operational integrity. However, the
+analysis revealed potential attack surfaces that require ongo-
+ing monitoring and evolutionary defensive enhancements to
+address emerging threat vectors.
+A comprehensive attack analysis demonstrates that open
+access chatbot systems face sophisticated and persistent
+FIGURE 4. Distribution of attack types.
+FIGURE 5. Summary of attack types and their frequencies.
+adversarial pressures from multiple threat vectors. The
+predominance of technical exploitation attempts over
+content-based attacks indicates that adversaries possess sub-
+stantial knowledge of LLM vulnerabilities and actively seek
+to compromise system integrity rather than merely generate
+inappropriate outputs.
+The strategic timing of attacks correlates with operational
+demands, suggesting that threat actors conduct systematic
+reconnaissance and intelligence gathering to optimize attack
+effectiveness. This finding has significant implications for
+defensive planning, indicating the need for adaptive security
+measures that scale with operational demands and usage
+patterns.
+The diversity of attack methodologies observed during this
+study directly influenced the development of multilayered
+defensive architecture, as detailed in subsequent sections.
+These findings underscore the critical importance of com-
+prehensive threat modeling and proactive security measures
+in protecting publicly accessible AI systems from evolving
+adversarial threats.
+V. LLM DESIGN TO DEFEND THE PUBLIC CHATBOT
+A. ARCHITECTURAL DESIGN RATIONALE
+The security challenges identified in Section IV necessitate
+the development of a novel defensive architecture capable of
+maintaining system integrity while preserving functionality.
+Traditional single-model approaches prove inadequate when
+confronting sophisticated adversarial inputs, as they require
+VOLUME 13, 2025 183163
+H. Emekci, G. Budakoglu: Securing With Dual-LLM Architecture
+FIGURE 6. Timeline of daily attacks during July–August 2024.
+the same model to simultaneously handle content moderation
+and response generation, a dual responsibility that creates
+inherent security vulnerabilities and performance trade-offs.
+In response to these limitations, this study introduces a
+dual large-language-model (dual-LLM) architecture specifi-
+cally engineered to address the adversarial threat landscape
+observed during ChatTEDU deployment. The proposed
+architecture fundamentally separates security and functional-
+ity concerns through specialized model allocation, enabling
+optimized performance for each operational domain, while
+maintaining comprehensive protection against identified
+attack vectors.
+Architectural design philosophy centers on the principle of
+defense in depth, implementing multiple security layers that
+provide redundant protection mechanisms. This approach
+ensures that system compromise requires the successful
+circumvention of multiple independent security controls, sig-
+nificantly reducing the probability of successful adversarial
+exploitation while maintaining operational transparency and
+auditability.
+B. UAL-LLM ARCHITECTURE FRAMEWORK
+The dual-LLM framework comprises two functionally dis-
+tinct language models that operate in a coordinated configu-
+ration. The first component, designated as LLM-1, functions
+as a specialized input validation and content moderation
+subsystem. The second component, LLM-2, served as the
+primary response-generation engine. This separation of con-
+cerns enables independent optimization, specialized training,
+and targeted performance enhancement for each operational
+domain.
+LLM-1 (Moderation Subsystem) operates as the pri-
+mary security gatekeeper, implementing comprehensive input
+analysis and threat detection capabilities. This component
+undergoes specialized training in adversarial pattern recogni-
+tion, enabling the identification of prompt injection attempts,
+jailbreak methodologies, policy violations, and other mali-
+cious input categories identified in the attack analysis.
+The moderation model employs advanced natural language
+understanding techniques to detect subtle manipulation
+attempts while minimizing false-positive rates that could
+impair legitimate educational interactions.
+Both LLM-1 and LLM-2 utilize GPT-4 (gpt-4-0613)
+accessed through the OpenAI API. LLM-1 employs a special-
+ized prompt template incorporating few-shot examples from
+each attack category (prompt injection, jailbreak, offensive
+content, nonsense flooding, spam) with chain-of-thought rea-
+soning for threat classification. The binary decision threshold
+is set at 0.7 confidence score for malicious classification.
+Rather than fine-tuning, we use prompt engineering with 3-
+5 examples per attack type drawn from OW ASP guidelines
+and observed attacks. Temperature is set to 0 for determin-
+istic security decisions. While we cannot disclose complete
+prompts for security reasons, the approach follows estab-
+lished prompt engineering practices for classification tasks.
+While LLM-2 operates behind LLM-1’s protection, the
+guard model itself requires hardening. LLM-1 operates
+with minimal context exposure, processing only classi-
+fication decisions rather than generating content, which
+inherently reduces its attack surface. Network-level security
+measures including mTLS authentication and rate limiting
+provide pre-filtering before queries reach LLM-1. Addition-
+ally, LLM-1 employs conservative classification thresholds,
+rejecting ambiguous inputs that could represent novel attack
+vectors. Future work should investigate adversarial attacks
+specifically crafted to evade the guard model’s detection
+patterns.
+LLM-2 (Response Generation Subsystem) functions as
+the primary conversational agent and is optimized specifi-
+cally for educational content delivery and institutional knowl-
+edge dissemination. This component operates exclusively on
+inputs validated by LLM-1, enabling the focused optimiza-
+tion of response quality, accuracy, and educational effec-
+tiveness without security concerns. LLM-2 integrates with
+the institutional knowledge base through retrieval-augmented
+generation (RAG) techniques, ensuring that responses main-
+tain factual accuracy and institutional alignment.
+LLM-2 also uses GPT-4 (gpt-4-0613) with domain-specific
+prompt engineering optimized for educational content. The
+system prompt includes institutional knowledge context,
+response formatting guidelines, and conversational con-
+straints. Temperature is set to 0.7 for natural responses
+while maintaining factual consistency. The RAG pipeline
+augments prompt with retrieved institutional data using
+embedding-based similarity search.
+The security processing pipeline implements a sequential
+validation approach that ensures a comprehensive input anal-
+ysis before response generation. As illustrated in Figure 7, the
+operational workflow follows a structured decision tree that
+guarantees consistent security enforcement across all user
+interactions.
+Upon receiving a user query, the system initiates the
+validation process through the LLM-1 analysis. The modera-
+tion subsystem employs a multi-criteria evaluation to assess
+input content against established policy frameworks, known
+183164 VOLUME 13, 2025
+H. Emekci, G. Budakoglu: Securing With Dual-LLM Architecture
+attack patterns, and contextual appropriateness indicators.
+This analysis generates a binary classification decision: mali-
+cious or benign, accompanied by confidence scores, and a
+detailed classification rationale for audit purposes.
+For inputs classified as malicious, the system imple-
+mented immediate containment protocols. The offending
+query underwent comprehensive logging with a timestamp,
+user session identifiers, attack classification, and confidence
+metrics. Subsequently, the system generates an appropriate
+rejection message and optionally escalates to administrative
+review channels depending on threat severity and institutional
+policies. This containment approach prevents malicious
+inputs from reaching the response-generation subsystem,
+while maintaining user notification and system transparency.
+Inputs classified as benign proceeded to LLM-2 for edu-
+cational response generation. The validated query underwent
+standard educational processing including knowledge-based
+retrieval, context integration, and response formulation. This
+separation ensures that the response generation subsystem
+operates exclusively on verified safe inputs, thereby elimi-
+nating the need for runtime security considerations during
+content creation.
+C. TECHNICAL IMPLEMENTATION ARCHITECTURE
+The technical implementation architecture detailed in
+Figure 7 demonstrates the practical realization of the
+dual-LLM security framework within the ChatTEDU oper-
+ational environment. The architecture integrates multiple
+system components through well-defined interfaces that
+maintain security boundaries, while enabling efficient data
+flow and processing. It should be noted that the ‘Intent Iden-
+tifier’ and ‘Deflector Tool’ components shown in Diagram
+1 are implemented as a unified ‘LLM-1 Input Guard’ in
+the production system, consolidating the security functions
+of intent classification and threat deflection into a single
+optimized module.
+The Routing Layer serves as the primary traffic man-
+agement component, directing user queries to appropriate
+processing modules based on the system state and load-
+balancing requirements. This component implements ses-
+sion management, user authentication validation, and initial
+request preprocessing before the initiation of security analy-
+sis.
+The LLM-1 Input Guard represents the core secu-
+rity component and implements the moderation subsystem
+described in section 5.2.1. This module is integrated with
+comprehensive logging infrastructure, enabling real-time
+threat monitoring and historical analysis capabilities. The
+input guard maintains direct communication with adminis-
+trative alert systems, enabling the immediate notification of
+significant security events or emerging threat patterns.
+Upon successful validation, the LLM-2 Main Respon-
+der receives the processed queries through secure inter-
+nal channels. This component integrates with the institu-
+tional knowledge base through optimized API connections,
+enabling efficient retrieval and response generation. The main
+responder operates in a controlled environment that prevents
+direct external access, ensuring that all interactions undergo
+mandatory security validation.
+The architecture incorporates several critical integration
+points that enable comprehensive functionality while main-
+taining the security boundaries. The OpenAI API Model
+Engine provides GPT-4 (gpt-4-0613) for both components,
+with differentiated prompting strategies rather than model
+fine-tuning, accessed through authenticated API connections
+with appropriate access controls and usage monitoring.
+The Response Handler manages output processing and
+delivery, ensuring that the generated responses undergo final
+validation before user delivery. This component implements
+additional content-filtering capabilities as a secondary secu-
+rity measure, providing defense-in-depth protection against
+potential response manipulation or inappropriate content gen-
+eration.
+A Comprehensive Logging Infrastructure captures all the
+system interactions, security events, and operational metrics.
+This logging capability enables continuous monitoring, threat
+intelligence gathering, and system performance optimization.
+The logging system implements appropriate data retention
+policies and access controls to ensure that security event
+data remain available for analysis, while protecting user
+privacy.
+VI. RESULTS AND DISCUSSIONS
+The implemented dual-LLM architecture underwent com-
+prehensive security validation using an attack dataset com-
+piled during the July-August 2024 observation period. All
+180 identified malicious inputs were resubmitted to the pro-
+tected system to evaluate detection accuracy and response
+appropriateness.
+Empirical testing demonstrated complete effectiveness
+against all identified attack categories. LLM-1 successfully
+detected and blocked 100% of the prompt injection attempts
+(n=54), jailbreak efforts (n =86), offensive content sub-
+missions (n =28), nonsense flooding attacks (n =11), and
+spam insertion attempts (n =1). This perfect detection rate
+validates the effectiveness of the architecture against the
+observed threat landscape while demonstrating robust protec-
+tion capabilities. In addition, testing demonstrated complete
+effectiveness against all identified attack categories. Table 2
+presents the comprehensive performance metrics for LLM-
+1’s detection capabilities. These metrics were calculated from
+the complete dataset of 4,501 queries (180 malicious, 4,321
+benign), with performance validated through repeated testing
+of the archived attack corpus.
+The false-positive analysis revealed a minimal impact
+on legitimate educational interactions. Out of 4,320 benign
+queries processed during validation testing, only 12 instances
+(0.28%) triggered false-positive detections, all of which
+were successfully resolved through administrative review
+processes. This low false-positive rate demonstrates that
+the security architecture maintains educational functionality
+while providing comprehensive protection.
+VOLUME 13, 2025 183165
+H. Emekci, G. Budakoglu: Securing With Dual-LLM Architecture
+FIGURE 7. Technical schematic of the dual-LLM architecture (with LLM-1
+implementing the Intent Identifier and Deflector functions.
+Performance analysis reveals that the dual-LLM archi-
+tecture introduces an 18% latency overhead compared
+with single-model implementations. Average response time
+increased by 1.2 seconds (from 6.7s baseline to 7.9s with
+dual-LLM), primarily due to sequential processing through
+LLM-1 validation. Breakdown analysis shows: LLM-1 secu-
+rity checking contributes 0.9s (75% of overhead), inter-
+component communication adds 0.2s, and Response Handler
+validation adds 0.1s. During peak load (100 + concurrent
+users), latency increased to 9.1s average, remaining within
+acceptable parameters for educational applications. Regard-
+ing computational costs, the dual-LLM approach increases
+API calls by 100% (2 calls minimum per query), resulting in
+approximately 1.8x cost increase when accounting for cached
+responses and early rejections. However, this cost is offset
+by preventing security breaches—a single successful attack
+could result in reputational damage and remediation costs far
+exceeding the operational overhead.
+The system throughput analysis demonstrates that the
+architecture maintains scalability characteristics that are
+appropriate for institutional deployment. Under peak load
+conditions simulating the maximum registration period traf-
+fic, the system sustained 95% of the baseline through-
+put, while maintaining complete security coverage. Load-
+balancing optimization and caching strategies further min-
+imize the performance impact under normal operational
+conditions.
+The dual-LLM architecture incorporates adaptive learn-
+ing mechanisms that enable continuous improvements in
+FIGURE 8. Conceptual flowchart of the moderation process.
+response to evolve threat landscapes. The comprehensive log-
+ging infrastructure captures detailed attack attempt patterns,
+enabling machine-learning-based enhancement of detection
+capabilities through iterative model refinement. Administra-
+tive review processes for borderline cases provide valuable
+training data for improving classification accuracy and reduc-
+ing false-positive rates, ensuring that the security model
+evolves in alignment with institutional policies and educa-
+tional objectives.
+The architecture supports integration with external threat
+intelligence sources, enabling proactive defence against
+newly identified attack patterns and emerging adversar-
+ial methodologies. This capability ensures that the Chat-
+TEDU system remains protected against threats that extend
+beyond the initial observation period, while contributing
+to the broader cybersecurity community’s understanding of
+open-access AI system vulnerabilities. The modular design
+facilitates the rapid deployment of security updates and model
+enhancements without system downtime or user experience
+disruption, which is essential for maintaining security effec-
+tiveness in dynamic threat environments while preserving
+educational service availability.
+A. SYSTEM PERFORMANCE
+The operational deployment of the dual-LLM architecture
+during the evaluation period of July–August 2024 demon-
+strated exceptional performance across multiple security and
+functional metrics. Empirical testing validated the architec-
+tural design principles outlined in Section V, confirming
+the effectiveness of layered security approaches in protect-
+ing educational AI systems against sophisticated adversarial
+threats.
+Quantitative analysis revealed that LLM-1 achieved perfect
+detection accuracy (100%) across all the identified attack
+categories and successfully intercepted 180 malicious inputs
+without a single false negative. This comprehensive detec-
+tion capability included prompt injection attempts (n =54),
+jailbreak methodologies (n =86), offensive content submis-
+sions (n =28), nonsense flooding attacks (n =11), and spam
+insertion attempts (n =1). The detection system maintained
+this performance level throughout the varying operational
+conditions, including the peak usage periods that coincided
+with university registration activities.
+It is important to note that the 180 malicious queries were
+identified and labeled during live deployment through real-
+time monitoring, not used for system training or tuning.
+Ground truth labeling was performed by two independent
+183166 VOLUME 13, 2025
+H. Emekci, G. Budakoglu: Securing With Dual-LLM Architecture
+TABLE 2. LLM-1 detection performance metrics.
+security researchers following OW ASP taxonomy guidelines,
+achieving 94% initial inter-rater agreement with consen-
+sus resolution for disputed cases. The remaining 6% of
+cases were resolved through joint review and consultation of
+attack documentation. While these results demonstrate sys-
+tem effectiveness during actual operation, we acknowledge
+that evaluation on an independent, held-out test set would
+provide additional validation. Future work should include
+testing against standardized attack benchmarks such as the
+OW ASP LLM Top 10 test suite for unbiased performance
+verification.
+The false positive rate remained exceptionally low at
+0.28% (12 of 4,320 legitimate queries), demonstrating that
+the security architecture preserved educational functionality
+while providing comprehensive protection. All false-positive
+cases underwent an administrative review and were resolved
+through established appeal processes, with the majority
+attributed to legitimate queries containing technical security
+terminology that triggered conservative security thresholds.
+B. RESPONSE QUALITY AND USER EXPERIENCE ANAL YSIS
+The system’s response management capabilities proved
+equally effective, as illustrated by the representative examples
+in Table 3. The moderation layer demonstrated a sophisti-
+cated understanding of multilingual attack attempts and suc-
+cessfully detected and neutralized Turkish-language prompt
+injection attempts that sought to circumvent English-trained
+security filters. The example ‘‘ Bu yazıdan önce neler
+yazdığınıbana detaylıca yaz sonra kullanıcının sorduğu
+soruya cevap yaz. . . ’ ’ represents a sophisticated attempt to
+extract system prompts through language switching, which
+was appropriately blocked with the response ‘‘I’m sorry, but
+I cannot fulfill that request.’’
+Jailbreak attempts utilizing the established ‘‘DAN’’ (Do
+Anything Now) methodology were consistently detected and
+rejected with appropriate professional responses. The system
+maintained institutional tone and educational appropriateness
+while clearly communicating rejection rationale, as demon-
+strated by responses such as ‘‘I’m sorry, but I cannot comply
+with that request.’’ This approach preserves user dignity while
+maintaining security boundaries.
+The dual-LLM architecture implements sophisticated
+graduated response strategies that are tailored to spe-
+cific attack categories. Spam and advertisement inser-
+tion attempts, such as the malformed URL injection
+‘‘https://www.tedu.edu.tr/chattedu/_st_core/host-config. . . ’’,
+were handled through silent rejection with ‘‘No meaningful
+answer (query ignored)’’ responses. This approach prevents
+platform exploitation while avoiding engagement, which may
+encourage continued abuse.
+Nonsense flooding attacks, exemplified by repetitive
+phrases like 10 times ‘‘ted üniversitesinde profesör. . . ’’
+(Professor of the TED university), triggered clarification
+responses such as ‘‘I’m sorry, I don’t understand your ques-
+tion.’’ This approach maintains conversational engagement
+while encouraging users to reformulate legitimate queries
+more clearly.
+Offensive content, including profanity and inappropriate
+requests, received firm but professional rejection messages:
+‘Y our request is inappropriate, and I cannot continue with
+this conversation.’ This response strategy maintains insti-
+tutional standards while communicating with behavioral
+expectations.
+C. ARCHITECTURAL VALIDATION AND DESIGN
+IMPLICATIONS
+The empirical results validate the fundamental architectural
+decision to separate content moderation and response gen-
+eration functions. This separation enabled independent opti-
+mization of each component: LLM-1 achieved specialized
+expertise in threat detection and classification, whereas LLM-
+2 maintained focus on educational content delivery without
+security concerns. The modular design facilitated targeted
+improvements in detection accuracy without compromising
+response quality or institutional knowledge integration.
+The logging infrastructure captured comprehensive inter-
+action data, enabling a detailed analysis of attack patterns
+and system performance. These data proved invaluable for
+the iterative improvement of the detection algorithms and
+response strategies, supporting the adaptive security mech-
+anisms described.
+The system’s effectiveness against Turkish-language
+attacks has important implications for international edu-
+cational deployment. Many adversarial techniques have
+attempted to exploit monolingual training limitations in
+security systems by utilizing alternative languages or cul-
+tural contexts. The success of the dual-LLM architecture
+in detecting multilingual attacks suggests robust generaliza-
+tion capabilities that extend beyond English-language threat
+vectors.
+This finding has significant implications for open-
+access chatbots, indicating that properly designed dual-LLM
+VOLUME 13, 2025 183167
+H. Emekci, G. Budakoglu: Securing With Dual-LLM Architecture
+TABLE 3. Responses for the attack examples.
+architectures can maintain security effectiveness in diverse
+linguistic and cultural contexts. The logging data revealed
+that multilingual attacks constituted approximately 15% of
+all adversarial attempts, thereby highlighting the importance
+of cross-linguistic security capabilities in international edu-
+cational environments.
+While the dual-LLM architecture demonstrated complete
+effectiveness against observed attacks, addressing untested
+and nuanced threats requires adaptive mechanisms. The
+system incorporates three strategies for emerging attacks:
+(1) Conservative default-deny policies where LLM-1 rejects
+ambiguous inputs exceeding 0.7 maliciousness threshold,
+preventing novel attack variants from reaching LLM-2;
+(2) Continuous learning through logged edge cases, where
+borderline classifications undergo administrative review to
+expand detection patterns; and (3) Fallback to increasingly
+restrictive response templates when confidence scores indi-
+cate potential manipulation. For example, multi-step attacks
+that gradually shift context would trigger escalating scrutiny
+levels, while coordinated attacks across multiple sessions
+would activate rate-limiting and pattern correlation across the
+logging infrastructure.
+D. COMPARATIVE ANAL YSIS AND BENCHMARKING
+A comparative analysis of traditional single-model architec-
+tures revealed significant security improvements without sub-
+stantial performance degradation. Although the dual-LLM
+approach introduced an 18% latency overhead (1.2 sec-
+onds average increase), this performance impact remained
+within acceptable parameters for educational applications.
+The security benefits - the complete elimination of successful
+attacks - far outweighed the modest performance costs.
+Traditional content filtering approaches based on keyword
+matching or simple pattern recognition have known limita-
+tions when facing sophisticated LLM attacks. While we did
+not implement baseline methods for direct comparison on our
+dataset, our dual-LLM architecture’s 100% detection rate and
+0.28% false positive rate demonstrate strong performance.
+Future work should include side-by-side comparisons with
+keyword-based and pattern-matching approaches using the
+same attack corpus for more rigorous benchmarking.
+Resource utilization analysis indicated that the dual-LLM
+architecture maintained efficient operation under various
+load conditions. Peak usage scenarios, simulating maximum
+registration period traffic, sustained 95% of the baseline
+throughput while maintaining complete security coverage.
+This scalability characteristic is essential for institutional
+deployment, where usage patterns exhibit significant tempo-
+ral variations.
+The modular architecture enables selective resource allo-
+cation based on operational demands. During periods of
+elevated threat activity, additional computational resources
+could be allocated to LLM-1 without affecting LLM-2
+performance, demonstrating the operational flexibility and
+cost-effectiveness of the architecture.
+VII. CONCLUSION
+This study presents comprehensive empirical evidence of
+the effectiveness of dual-LLM architectures in defend-
+ing open-access chatbots against sophisticated adversarial
+attacks. Through an analysis of 4501 unique real-world inter-
+actions during ChatTEDU deployment at TED University,
+including 180 adversarial attempts, we demonstrate that sep-
+arating security concerns from content generation enables
+perfect threat detection while maintaining exceptional educa-
+tional functionality. The architecture’s success in preventing
+all attacks during critical registration periods while serving
+over 100 concurrent users validates theoretical proposals for
+layered security approaches and provides practical imple-
+mentation guidance for many sectors worldwide.
+The contributions of this research extend beyond the
+technical architecture to encompass broader implications
+for open-access AI deployment. We provide the first com-
+prehensive analysis of real-world attack patterns targeting
+open-access educational chatbots, revealing that 77.8% of
+attacks employ technical exploitation (prompt injection and
+jailbreaking), rather than content manipulation. The identi-
+fication of domain-specific attack patterns and multilingual
+exploitation attempts address the critical gaps in the existing
+security literature. Our findings demonstrate that sophisti-
+cated security measures can be implemented without com-
+promising user experience or challenging assumptions about
+security-functionality trade-offs.
+The practical success of the ChatTEDU deployment
+offers valuable lessons for institutions that consider AI
+adoption. The ability of the dual-LLM architecture to
+183168 VOLUME 13, 2025
+H. Emekci, G. Budakoglu: Securing With Dual-LLM Architecture
+maintain 99.7% availability while preventing all security
+breaches demonstrates that robust security is achievable in
+resource-constrained academic environments. Comprehen-
+sive logging and audit capabilities provide the foundation
+for evidence-based governance and continuous improve-
+ment. Graduated response strategies and multilingual support
+demonstrate how security measures can align with the educa-
+tional value of accessibility and inclusion.
+As all institutions increasingly rely on AI systems for
+critical functions, the security challenges identified in this
+study will intensify. The dual-LLM architecture presented
+here provides a proven framework for addressing these chal-
+lenges; however, continued innovation will be necessary as
+threats evolve. The success of ChatTEDU demonstrates that,
+with appropriate architectural design, operational procedures,
+and institutional commitment, educational organizations can
+harness the transformative potential of AI while maintain-
+ing security, privacy, and trust. The future of educational
+technology depends not on choosing between innovation and
+security but on achieving thoughtful design and rigorous
+implementation.
+Despite its demonstrated effectiveness, several limita-
+tions warrant acknowledgment and consideration for future
+implementation. An evaluation period of two months, while
+comprehensive for initial validation, may not capture sea-
+sonal variations in attack patterns or long-term adversarial
+adaptation strategies. Extended longitudinal studies spanning
+multiple academic cycles would provide valuable insights
+into system resilience against evolving threat landscapes and
+adaptive adversarial behavior.
+The current architecture relies on binary classification
+decisions (malicious/benign), which may prove insuffi-
+cient for increasingly sophisticated attacks that operate
+in gray areas between legitimate and adversarial inputs.
+This limitation becomes particularly relevant as adver-
+sarial techniques become subtler and context-dependent,
+potentially requiring more nuanced classification frame-
+works that can handle ambiguous cases through graduated
+response mechanisms. To address this, future iterations
+could implement graduated threat levels with correspond-
+ing response strategies: low-risk ambiguous queries receive
+clarification requests, medium-risk inputs trigger additional
+validation layers, and high-risk patterns invoke immediate
+containment. The logging infrastructure already captures
+patterns for potential zero-day attacks queries that exhibit
+unusual characteristics without matching known attack sig-
+natures enabling proactive model updates before exploitation
+occurs
+The rapidly evolving landscape of large-language-model
+capabilities introduce new potential attack vectors that may
+not have been present during the evaluation period. Advanced
+prompt engineering techniques, multimodal attacks, and
+coordinated adversarial campaigns are emerging threats that
+require ongoing research and defensive innovation. Future
+research should explore comprehensive multimodal secu-
+rity frameworks that extend the dual-LLM approach across
+diverse input modalities as open-access AI systems incorpo-
+rate image, audio, and video processing capabilities.
+In addition, the potential for adversarial adaptation in
+dual-LLM architectures presents important research oppor-
+tunities. As these defensive approaches become more
+widespread, adversaries may develop specialized techniques
+to exploit the separation between the moderation and
+response generation layers, necessitating the continuous evo-
+lution of defensive strategies and monitoring capabilities.
+The successful deployment of the dual-LLM architec-
+ture provides valuable insights into institutional AI gov-
+ernance policies and open-access AI technology imple-
+mentation strategies. Comprehensive logging capabilities
+enable evidence-based policy development, while graduated
+response strategies offer templates for institutional response
+protocols that balance security and accessibility. Educa-
+tional institutions or open-access chatbot-serving institutions
+implementing similar systems should consider adopting com-
+parable architectural approaches and governance frameworks
+that emphasize transparency, accountability, and continuous
+improvement.
+ACKNOWLEDGMENT
+The authors would like to acknowledge Rector Prof. Dr. İhsan
+Sabuncuoğlu and the project stakeholders at TED University
+for their valuable support and contribution.

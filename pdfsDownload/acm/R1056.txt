@@ -1,0 +1,1528 @@
+EchoMind: Augmenting Recorded Presentations with
+Context-Grounded Conversational Agents and Collective Viewer
+Signals
+Haiyang Xu∗
+Department of Computer Science
+Aarhus University
+Aarhus, Denmark
+202402604@post.au.dk
+Yunhui Song∗
+Department of Computer Science
+Aarhus University
+Aarhus, Denmark
+202402597@post.au.dk
+Black Sun
+Department of Computer Science
+Aarhus University
+Aarhus, Denmark
+202403892@post.au.dk
+Niklas Elmqvist
+Department of Computer Science
+Aarhus University
+Aarhus, Denmark
+elm@cs.au.dk
+c
+On this slide, why does the gradient
+of the sigmoid         ? [...]
+Many learners paused and 
+rewound around this topic,
+[...]
+The sigmoid on this slide is [...]
+d
+g
+e
+a
+f
+b h
+i
+Figure 1: EchoMind viewer interface. Viewers interact with the video through an emoji-based reaction interface (a), alongside
+natural video interactions such as pausing, replaying, and seeking, while aggregated audience reactions are visualized over time
+(b). During viewing, viewers can ask context-specific questions (c), which are answered by a conversational agent that leverages
+the current slide, video context, and collective audience behavior (d). When needed, viewers can escalate their questions
+using an escalation mechanism (f), either by directly forwarding them to the speaker or by forwarding them after AI-assisted
+clarification. When entering a question, viewers can use question input suggestions (e) to quickly formulate questions grounded
+in the current video context. These reactions, viewing behaviors, and questions jointly expand the system’s knowledge base
+and are accumulated into a temporal learning signal curve (g). Escalated questions are collected and displayed in a panel (h),
+waiting for speaker’s response. Materials, transcripts, and documents are shown and made available for download (i). Video
+source: video in Section 5.1.
+Abstract
+Recorded presentations have become pervasive in education, yet
+they often reduce knowledge transfer to a one-way broadcast: view-
+ers cannot clarify their confusion or gauge whether others share
+their struggles. We present EchoMind, a system that augments
+recorded presentations with a conversational agent grounded in
+presentation materials and collective viewer signals (behavioral
+traces and affective reactions), alongside timeline-aligned commu-
+nity awareness visualizations. In a between-subjects study (N=75),
+participants watched a 5-minute recorded lecture under one of
+three conditions: video-only, video with a generic LLM chatbot, and
+video with EchoMind. EchoMind significantly improved the sub-
+jective learning experience across multiple dimensions, including
+confusion clarification, in-the-moment expression, and co-learning
+perception, without increasing perceived workload. The generic
+LLM condition did not significantly outperform video-only and re-
+ceived the lowest mean ratings on usability. These findings suggest
+that contextual grounding and community awareness, rather than
+the presence of conversational AI alone, make AI a meaningful
+support in asynchronous video learning.
+CCS Concepts
+• Human-centered computing→ Interactive systems and
+tools; Collaborative and social computing systems and tools ;
+Empirical studies in HCI .
+Keywords
+Asynchronous learning, conversational agents, recorded presenta-
+tions, retrieval-augmented generation.
+ACM Reference Format:
+Haiyang Xu, Yunhui Song, Black Sun, and Niklas Elmqvist. 2026. Echo-
+Mind: Augmenting Recorded Presentations with Context-Grounded Con-
+versational Agents and Collective Viewer Signals. In Proceedings of the
+14th Nordic Conference on Human-Computer Interaction (NordiCHI ’26), Oc-
+tober 03–07, 2026, Vaasa, Finland. ACM, New York, NY, USA, 20 pages.
+https://doi.org/10.1145/3829807.3829883
+∗Both authors contributed equally to this research.
+This work is licensed under a Creative Commons Attribution 4.0 International License.
+NordiCHI ’26, Vaasa, Finland
+© 2026 Copyright held by the owner/author(s).
+ACM ISBN 979-8-4007-2373-5/26/10
+https://doi.org/10.1145/3829807.3829883
+1 Introduction
+Recorded online presentations have become ubiquitous in aca-
+demic and educational settings, particularly following the wide-
+spread adoption of remote instruction during the COVID-19 pan-
+demic [2, 35]. However, as Moore’s classic framework suggests,
+effective distance education involves multiple forms of interaction,
+including learner–content, learner–instructor, and learner–learner
+interaction [49]. Recorded presentations primarily support learner–
+content interaction, while offering limited opportunities for learners
+to ask instructors clarifying questions or benefit from interactions
+with other learners [3]. As a result, asynchronous viewers often
+lack timely support when confusion arises and may need to rely on
+replay, selective revisiting, or delayed follow-up channels to resolve
+it [3, 64, 69].
+Live and asynchronous formats therefore differ in when learners
+can seek clarification [3]. In live settings, learners can ask questions
+and receive feedback in the moment [3]. In contrast, when lectures
+are consumed asynchronously, learners lose direct engagement
+with instructors and peers, and questions or feedback are more
+likely to occur through delayed follow-up channels rather than
+during the viewing moment itself [3, 69]. As a result, asynchronous
+viewers often rely on replaying difficult segments, revisiting record-
+ings selectively, or seeking clarification through separate resources
+and communication channels [36, 39, 64].
+Prior work has explored several forms of support for asynchro-
+nous video learning. One line of work provides timeline-based nav-
+igation, annotation, and note-linked access to help learners revisit
+relevant parts of a video in context [23, 48, 53]. Another line of work
+aggregates collective viewer traces, such as comments, reactions,
+and playback behaviors, to make shared points of difficulty and dis-
+cussion more visible over time [36, 40, 71, 74]. More recently, LLM-
+powered conversational systems have begun to provide on-demand
+explanation and interactive guidance during learning [7, 55, 66, 76].
+However, these approaches still leave important gaps. Timeline-
+anchored comments and learning traces can make difficult moments
+easier to notice and revisit, but they often leave learners to inter-
+pret those traces on their own rather than turning them into direct
+support for the current moment [14, 40, 74]. Conversational agents
+can respond directly to learner questions, but existing work places
+more emphasis on question answering than on how explanations
+are grounded in presentation materials, local video context, or accu-
+mulated learner traces [7, 66, 76]. Taken together, prior work shows
+the value of making difficult moments visible and answerable, but
+less often connects trace-based visibility, context-grounded expla-
+nation, and instructor follow-up within a single support framework.
+EchoMind for Recorded Presentations NordiCHI ’26, October 03–07, 2026, Vaasa, Finland
+To address these, we present EchoMind, a system that augments
+recorded presentations with a context-grounded conversational
+agent and collective viewer signals. When viewers have a question,
+the video is automatically paused to allow them to ask questions of
+an agent that has access to the current position in the video, the pre-
+sentation transcript, slides, supporting papers, and other materials
+the speaker provides, as well as dynamically accumulated viewer
+signals such as prior questions, reactions, and video behavioral
+traces. The system uses specialized retrieval-augmented generation
+(RAG) [41] to ground responses in the actual content and current
+viewing context. When the agent’s confidence falls below a thresh-
+old, questions are asynchronously escalated to the speaker, with
+human-provided answers integrated back into the knowledge base
+for future viewers. EchoMind strengthens learner–content inter-
+action through context-grounded explanation, supports learner–
+instructor interaction through human-in-the-loop escalation and
+speaker feedback, and enables an indirect, trace-mediated form of
+learner–learner interaction through accumulated viewer questions,
+reactions, and behavioral traces.
+We conducted a between-subjects study with 75 participants
+recruited via Prolific 1, comparing three conditions: video-only,
+video with a generic LLM chatbot lacking access to presentation
+materials or collective viewer signals, and video with EchoMind
+(25 participants per condition). The participants watched a five-
+minute recorded lecture on computer science topics and interacted
+with their assigned system. EchoMind users reported significantly
+more positive learning experiences across multiple dimensions, sug-
+gesting that grounding agent responses in presentation materials
+and collective viewer signals meaningfully improves the subjective
+experience of asynchronous video learning in this study.
+The contributions of this work are the following: (1) EchoMind,
+a system that augments recorded presentations with a context-
+grounded conversational agent, community awareness visualiza-
+tions, human-in-the-loop escalation, and a speaker dashboard; (2) a
+RAG-based architecture that integrates presentation materials with
+viewer signals, enabling context-aware and presentation-aligned
+responses; (3) empirical findings from a 75-participant between-
+subjects study demonstrating that EchoMind significantly improved
+the subjective learning experience across multiple dimensions,
+while ungrounded LLMs failed to provide reliable benefits over
+video-only viewing; (4) a design rationale for reintroducing multiple
+forms of educational interaction into asynchronous video learning
+through accumulated questions, reactions, behavioral traces, and
+speaker clarifications (with the viewer-facing subset evaluated in
+this study).
+2 Related Work
+This section reviews prior work on asynchronous video learning,
+focusing on its key challenges and how prior systems leverage tem-
+poral interaction traces and LLM-based conversational approaches
+in attempts to support understanding.
+1https://www.prolific.com/
+2.1 Predicaments of Asynchronous Video
+Learning
+With the growing adoption of online education and academic com-
+munication, recorded presentations have become a central medium
+in higher education, academic talks, and professional training.
+Recorded videos offer learners substantial temporal flexibility, al-
+lowing them to progress at their own pace and revisit complex
+concepts through pausing and replaying [36, 42]. Prior work doc-
+uments distinct patterns of selective access and video interaction
+when learners use live and archived course materials [10, 26]. De-
+spite these benefits, asynchronous viewing does not necessarily
+lead to smooth understanding [68]. More broadly, research on on-
+line learning at scale suggests that prerecorded and large-scale
+online learning environments often struggle to sustain learners’
+attention over time and can easily slide into passive consumption
+when interaction is limited [17]. Prior work suggests four recurring
+difficulties in asynchronous video learning: learners may get stuck
+at specific moments in the video, these moments can interrupt at-
+tention continuity, it is often hard to tell whether others struggled
+in similar ways, and immediate instructor clarification is usually
+unavailable.
+Local comprehension difficulties in video. Research based on learn-
+ing analytics and video interaction data consistently suggests that
+comprehension difficulties in video learning often surface around
+specific moments during viewing rather than as a uniform loss
+of engagement [26, 27, 68]. Prior work further indicates that play-
+back behaviors such as pausing, rewinding, and seeking can pro-
+vide useful signals about how learners are managing those mo-
+ments [36, 39, 42, 72]. This is also consistent with research on
+instructional videos showing that learners must continuously pro-
+cess changing audiovisual information, which makes pauses and
+segmentation important for following and understanding the mate-
+rial [47].
+Attention continuity and illusion of understanding. Further studies
+indicate that these breakdowns are local and temporally situated:
+learners may remain engaged overall while suddenly becoming
+confused at a particular concept, derivation, or example, or ex-
+perience added cognitive load when navigating between a video
+and accompanying documents [ 19, 27, 36, 51]. When confusion
+is not adequately addressed, learners may develop an illusion of
+understanding, believing they have grasped the material despite
+persistent conceptual gaps [15]. In such moments, unresolved local
+confusion can also interrupt attention continuity, pushing learners
+away from active sensemaking toward passive viewing or disen-
+gagement [17].
+Limited social visibility. Unlike face-to-face classrooms or live-
+streaming settings, learners cannot observe peers’ struggles, pauses,
+or questions, making it difficult to contextualize their own moments
+of confusion [10, 20, 65]. Beyond education-specific systems, the
+social translucence framework argues that making socially signif-
+icant activity visible can support awareness and accountability,
+enabling people to draw on social information to structure and co-
+ordinate their interactions in otherwise opaque digital spaces [21].
+In video learning, time-anchored comments make peer reactions
+visible at relevant moments and can reshape attention allocation
+and perceived engagement during viewing [14, 40]. Without such
+NordiCHI ’26, October 03–07, 2026, Vaasa, Finland Haiyang Xu, Yunhui Song, Black Sun, and Niklas Elmqvist
+social references, learners struggle to distinguish common con-
+tent difficulties from individual knowledge gaps, often falling back
+on repeated rewatching and other high-effort retrospective strate-
+gies [11, 27, 30, 42].
+Reduced opportunities for immediate instructor clarification.
+Distance-education frameworks distinguish learner–content,
+learner–instructor, and learner–learner interactions as central in-
+teraction types [32, 49]. Recorded lectures primarily preserve the
+first of these, while immediate instructor-mediated clarification
+is substantially weakened. As a result, even when learners recog-
+nize a difficulty, they often have limited means to obtain timely
+explanation or feedback at the point where confusion occurs.
+2.2 Temporal Learning Traces in Video-Based
+Learning
+To address the difficulty of revisiting confusion that arises at par-
+ticular moments in a video, prior work has proposed a range of
+time-aligned comments, annotations, and learning trace systems
+that bind questions, feedback, and notes to specific timestamps or
+segments [40, 48, 71]. One common form centers on comments
+and peer discussion tied to moments in the video, allowing later
+viewers to encounter prior learners’ reactions when they reach the
+same point [40, 71]. Other systems attach notes, navigation aids,
+or prompts to specific parts of a video so that learners can revisit
+relevant content in context rather than through detached discus-
+sion alone [23, 48, 53]. Taken together, these systems re-anchor
+otherwise scattered learning activity to the video timeline, making
+difficult moments more recoverable and interpretable in place.
+This class of systems contributes in at least three ways. First,
+it restructures discussion and feedback around the timeline, help-
+ing learners quickly locate relevant moments during review rather
+than search through disconnected forums or notes [40, 74]. Second,
+it increases social visibility in asynchronous learning by show-
+ing that others also commented, questioned, or lingered at similar
+points [40, 71]. Third, it can shape how learners allocate attention
+during viewing. Research on timeline-anchored comments shows
+that learners switch attention frequently between the video and
+the comments, and that layout choices affect switching frequency,
+retrieval speed, and learning outcomes [14]. Related systems also
+use time-synced traces to support collective review, restore a de-
+gree of social presence, or help instructors reflect on where learners
+struggle [22, 33, 44, 62, 74].
+However, these systems also show clear limits. In time-anchored
+comment systems, later viewers still need to read prior comments
+and decide for themselves which ones are relevant to their current
+difficulty [40, 71]. CoKnowledge makes collective comments easier
+to browse by organizing them around the timeline, but its main
+contribution is still to support assimilation and review of collective
+knowledge rather than to generate direct help for the learner’s
+current question [74]. EduLive similarly uses transcript-linked an-
+notations to recover a sense of interaction in synchronous live
+learning [22], while TSConnect aggregates learner traces to help
+instructors reflect on where students struggle after class; in both
+cases, these traces primarily support awareness, reflection, and ret-
+rospective analysis, leaving immediate in-the-moment explanation
+less developed [44]. Existing work also suggests that time-aligned
+traces must be integrated carefully, since added comment layers
+can redirect attention during viewing, and different visual layouts
+can change switching frequency, retrieval speed, and learning out-
+comes [14]. Overall, these systems make difficult moments easier
+to notice, revisit, and discuss. Their limitation is that these traces
+are rarely connected to direct support grounded in the learner’s
+current moment, the lecture materials, and the explanation being
+given.
+2.3 Interactive Support in Video-Based Learning
+If time-aligned comments and learning trace systems primarily
+help make difficult moments visible, conversational support sys-
+tems take a further step by trying to answer questions about those
+moments when they arise. Although annotations and traces can
+help learners identify where to return, they do not usually answer
+the specific questions learners form while watching. Recent work
+has therefore introduced conversational agents and AI-based tu-
+tors into learning settings to support question asking [7], provide
+personalized guidance [66], and scaffold reflection through staged
+interaction [76].
+The main contribution of these systems is that they turn rela-
+tively passive video viewing into a more interactive learning pro-
+cess. Conversational systems go beyond showing where others
+commented or which parts may matter by directly responding to
+learners’ current questions with explanation or guidance. For ex-
+ample, SAM provides context-aware question answering around
+lecture content and positive user experiences and benefits for some
+learner groups compared with video-only baselines [7]. LearnMate
+offers personalized learning plans and guidance tailored to learner
+progress [66]. AutoPBL similarly uses LLM-based support to scaf-
+fold reflection and iterative sensemaking through staged interac-
+tion [76]. Taken together, these systems show that on-demand expla-
+nation can make learning more interactive and give learners more
+direct opportunities to ask for clarification during study [7, 66, 76].
+However, several limitations remain. First, many conversational
+learning systems still depend on learners to recognize their own
+confusion and articulate it clearly before support can begin, so assis-
+tance remains largely reactive [7, 46, 58, 61, 76]. This leaves weaker
+support for moments of difficulty that remain implicit, fleeting,
+or only partially formed, such as when learners pause or rewind
+without being able to formulate a precise question [27, 36]. Second,
+the current literature emphasizes question asking and response
+generation, while offering less detail on how explanations are tied
+back to specific lecture materials, playback positions, or contextual
+evidence visible to the learner [7, 66, 76]. Third, these systems gen-
+erally focus on providing automated support within the interface,
+while offering less discussion of how unanswered, ambiguous, or
+instructor-dependent questions should be handled [7, 66, 76].
+2.4 Communication with Instructors and
+Human Handoff
+Although time-aligned traces and conversational support can par-
+tially reduce comprehension difficulties in video learning, they
+do not eliminate the role of the instructor [ 22, 44, 57]. Learner–
+instructor interaction remains important for clarification, feedback,
+and continuity of support in online learning environments [1, 18,
+EchoMind for Recorded Presentations NordiCHI ’26, October 03–07, 2026, Vaasa, Finland
+32]. Work on online learning similarly shows that instructor com-
+munication and facilitation are closely tied to teaching presence
+and to learners’ sense of support in online courses [1, 24, 43].
+In asynchronous settings, this instructor support is often pro-
+vided through email, discussion boards, forums, or office hours
+rather than through immediate question answering during viewing.
+Such channels allow learners to ask follow-up questions after the
+fact and give instructors a way to see which issues recur across
+learners [4, 18, 69]. Research on asynchronous online discussions
+further suggests that instructor participation, feedback practices,
+and discussion design can influence participation and performance,
+although the effects depend on factors such as class size, course
+goals, and the form of instructor involvement [18, 69]. Related re-
+view work on feedback in higher education also emphasizes that
+effective feedback depends on its integration with learners’ ongo-
+ing activity as opposed to its availability as a separate resource [6].
+These mechanisms therefore remain an important source of human
+support when automated or peer-based resources are insufficient.
+However, existing instructor communication mechanisms still
+fit awkwardly with recorded presentation settings. In many online
+courses, learner–instructor communication is organized through
+separate channels such as discussion spaces, course communication
+structures, and feedback activities alongside the learning content
+itself [4, 6, 18]. These channels support follow-up questions and
+feedback, but asynchronous discussions necessarily separate some
+responses from the original viewing moment [ 69]. For recorded
+presentation settings, this suggests a practical gap: instructor sup-
+port may remain available, yet it is not necessarily provided within
+the same moment of viewing in which the difficulty first arises.
+This points to a further design problem: not every question
+should be handled by the system alone, yet existing work offers
+limited guidance on how automated support should connect to
+instructor involvement when AI responses are insufficient or when
+escalation is more appropriate. From this perspective, the challenge
+in asynchronous video learning is not only whether learners can
+contact an instructor, but also how support should be distributed be-
+tween automated assistance and instructor intervention while still
+preserving moment-specific context for learners and aggregated
+insight for instructors.
+Overall, prior work addresses asynchronous video learning from
+several complementary angles. Research on the predicaments of
+asynchronous learning identifies local comprehension difficulties,
+interruptions in attention continuity, limited social visibility, and
+reduced opportunities for immediate clarification. Time-aligned
+comments and learning trace systems improve the visibility and
+revisitation of difficult moments. Conversational support systems
+add on-demand explanation. Instructor communication and asyn-
+chronous discussion mechanisms provide a human support channel
+when system support is limited. Yet these forms of support often
+remain separate from one another: some make difficult moments
+visible, some answer questions, and some provide delayed instructor
+feedback. What remains underdeveloped is an integrated approach
+that can connect situated clarification, social visibility, material
+grounding, dual-role needs, and human fallback within the same
+support framework. The next section distills these unresolved ten-
+sions into EchoMind’s design challenges.
+3 Design Challenges: Conversational Agents for
+Online Videos
+We derived several design challenges from prior literature and pilot
+observations (Figure 2). These challenges guided the design of our
+work and may inform future systems that augment video-based
+learning with conversational agents.
+• DC1 - Loss of Context. Learners’ confusion during edu-
+cational video viewing is often immediate and tied to the
+specific context [27]. When they must pause the video, leave
+the interface to search for information, or reformulate a
+question, their attention is easily disrupted and the original
+learning flow is broken [29, 55]. This suggests that explana-
+tory support should occur within the viewing context, rather
+than requiring users to switch interfaces or tasks.
+• DC2 - Lack of Community Awareness. In traditional
+video-based learning, learners cannot see others’ states of
+understanding and thus cannot easily judge whether their
+confusion is personal or common [ 57]. This lack of refer-
+ence can make learners feel isolated, reduce self-efficacy, and
+increase unnecessary pressure when confronting complex
+content [43]. Both prior literature [8, 38] and our long-term
+observations of online learning show that lightweight behav-
+iors, such as pausing, rewinding, adjusting playback speed, or
+using emoji reactions, although not formal questions, often
+reflect learners’ momentary difficulty or shifts in attention.
+• DC3 - Lack of Reliability and Provenance. Conversa-
+tional agents in educational settings can produce responses
+that diverge from the speaker’s intent, lack supporting ev-
+idence, or hallucinate content entirely [ 56, 75]. Without
+clear attribution to source materials, learners cannot ver-
+ify whether an explanation accurately reflects the lecture
+content or stems from unconstrained model generation. This
+undermines trust and makes it difficult for learners to cali-
+brate their confidence in system-provided answers [56].
+• DC4 - Competing Information Needs.Speakers and learn-
+ers have different priorities: learners need localized, in-the-
+moment understanding support [12], while speakers need ag-
+gregate patterns and questions requiring their attention [6].
+Educational video learning also carries inherently high cog-
+nitive load, and excessive visual changes, frequent interface
+updates, or complex interactions may introduce additional
+distraction [22]. A single unified interface risks overwhelm-
+ing both parties with information irrelevant to their imme-
+diate task.
+• DC5 - Limits of Automated Response. Not all questions
+are suitable for model-only responses. Some involve speaker
+perspectives, clarifications of complex reasoning, pedagog-
+ical intentions, or suggestions related to presentation con-
+tent [70]. Automated generation in such situations may pro-
+duce inaccurate explanations, deviate from the speaker’s
+intent, or fail to address learners’ actual needs—yet systems
+rarely signal when they have reached the boundary of their
+competence.
+NordiCHI ’26, October 03–07, 2026, Vaasa, Finland Haiyang Xu, Yunhui Song, Black Sun, and Niklas Elmqvist
+Related Work
+Asynchronous Video Learning
+Temporal Learning Traces
+Interactive Support
+Communication with Instructors 
+and Human Handoff
+Design Challenges
+Loss of Context
+Lack of Community Awareness
+Lack of Reliability and Provenance
+Competing Information Needs
+Limits of Automated Response
+Design Rationale
+In-situ clarification
+Community awareness
+Grounded responses
+Role separation
+Human-in-the-loop escalation
+EchoMind Design Elements
+Conversational Agent
+Grounded Responses
+Emoji Reactions
+Behavior Aggregation 
+and Visualization
+Viewer Interface
+Speaker Dashboard
+Escalation to Speakers
+Knowledge Base 
+Management
+Figure 2: Conceptual mapping from prior work to EchoMind design. Prior work in asynchronous video learning, temporal
+learning traces, interactive support, and instructor communication motivates EchoMind’s design challenges. These challenges
+are translated into design rationales and operationalized as concrete design elements, including conversational agents, grounded
+responses, engagement visualization, viewer and speaker interfaces, escalation to speakers, and knowledge base management.
+Colored pathways indicate conceptual mappings between challenges, rationales, and system components.
+4 EchoMind
+EchoMind is a web-based video player that augments recorded
+presentations with an LLM-powered conversational agent. View-
+ers watch a presentation and, at any moment, can pause to ask
+questions. The agent retrieves evidence from speaker-provided ma-
+terials, the transcript, slides, and supplementary documents, using
+retrieval-augmented generation (RAG) [41]. When the agent can-
+not answer confidently, questions escalate to the original speaker,
+whose responses become part of the knowledge base for future view-
+ers. The system also captures viewer behavior: pauses, rewinds,
+playback speed changes, and emoji reactions. These signals aggre-
+gate into visualizations that help both viewers (who see where
+others struggled) and speakers (who see which segments need clar-
+ification).
+EchoMind separates functionality into two interfaces. Theviewer
+interface (♂play-circle) supports real-time engagement during playback: the
+conversational agent, emoji reactions, and visualizations of aggre-
+gate viewer behavior. Thespeaker dashboard (/char◎-bar) provides post-hoc
+analytics: engagement patterns, confusion hotspots, escalated ques-
+tions awaiting response, and tools to augment the knowledge base.
+This separation ensures viewers focus on learning while speakers
+focus on improving content—neither is distracted by functionality
+meant for the other.
+The remainder of this section describes how EchoMind addresses
+the design challenges from Section 3. We first explain how the sys-
+tem maps each challenge to a design response. We then describe the
+viewer interface and speaker dashboard in turn. Finally, we detail
+implementation choices. Figure 3 shows the system architecture.
+4.1 Design Rationale
+We address the design challenges (DC1–DC5) from Section 3
+through five corresponding design responses:
+DC1→ In-situ clarification ( /commen◎s) Viewers ask questions directly
+within the playback interface. The agent’s responses appear
+alongside the video, grounded in presentation content. This
+allows clarification without task-switching or leaving the
+viewing context.
+DC2→ Community awareness (/users) Viewers express reactions
+using emoji during playback. The system aggregates these
+reactions across viewers and visualizes them on the timeline.
+This lets viewers see where others found content confusing
+or engaging, reducing the isolation of asynchronous learn-
+ing.
+DC3→ Grounded responses (🕮) All agent responses cite spe-
+cific sources: transcript segments, slide content, or supple-
+mentary materials. As questions and answers accumulate,
+they become part of the knowledge base, enabling consistent
+explanations and reflecting prior confusion patterns.
+DC4→ Role separation ( /exchange-alt) Viewers and speakers have distinct
+interfaces tailored to their tasks. Viewers see the conversa-
+tional agent, source citations, and aggregate reactions. Speak-
+ers see engagement analytics, confusion hotspots, and esca-
+lated questions. Neither interface contains distractions from
+the other role.
+DC5→ Human-in-the-loop escalation ( /user-check) When the agent
+detects insufficient evidence or low confidence, questions
+escalate to the speaker. Speakers review the agent’s pre-
+liminary answer and supporting evidence, then revise or
+augment as needed. Approved responses integrate back into
+the knowledge base for future viewers.
+4.2 Viewer Interface ♂play-circle
+The viewer interface combines a browser-based video player with
+four components: a conversational agent, an emoji reaction system,
+aggregate behavior visualizations, and an escalation mechanism.
+4.2.1 Conversational Agent. The conversational agent (Figure 1-d)
+responds to viewer questions using a RAG-based mechanism (Fig-
+ure 4). When a viewer focuses on the question input field, the video
+EchoMind for Recorded Presentations NordiCHI ’26, October 03–07, 2026, Vaasa, Finland
+Speaker Dashboard
+Upload
+Reveal Audience State and 
+Inform Future Design
+Evolving Knowledge Base
+Static Layer
+Transcript, Slides & 
+Supplementary 
+Materials
+A
+Dynamic LayerB
+Reactions & 
+Behavioral signals
+Records of Q&A
+Accumulate and Expand 
+Knowledge Base
+Current Viewers
+In the first graph, I'm confused 
+about what [...]
+Many people rewound around these 
+[...]
+On the first graph [...]
+Explain in ContextC
+2x
+Audience
+Audience
+Support Future Viewing
+Future Viewers
+Figure 3: EchoMind architecture. (a) Static layer. When a speaker uploads a lecture, the system constructs a static knowledge
+base consisting of the video transcript, slides, and supplementary materials. This layer remains stable after upload and serves
+as the primary retrieval source for question answering. (b) Dynamic layer. As viewers watch the video, their interaction
+traces—including playback behaviors (e.g., pauses, rewinds), reactions, and questions—are continuously logged and aggregated.
+In addition, resolved Q&A exchanges (including speaker-escalated answers) are stored in this layer, which grows over time.
+(c) In-context explanation during viewing. Viewers interact with a conversational agent embedded in the video player. The
+agent retrieves relevant content from the static layer and augments it with aggregated signals from the dynamic layer (e.g.,
+where many viewers slow down or ask questions), providing explanations grounded in the current video context. Aggregated
+interaction traces and Q&A records are visualized along the video timeline for both speakers and future viewers, exposing
+collective patterns of difficulty and engagement that accumulate and shape subsequent viewing experiences.
+automatically pauses. The system then retrieves relevant content
+from the knowledge base, prioritizing segments near the current
+playback position, and captures the current video frame to incor-
+porate visual context from slides (Figure 3-c). The agent generates
+a response constrained by the retrieved evidence and displays the
+supporting sources, allowing viewers to inspect the basis of each
+answer.
+The agent classifies questions as content-related or off-topic
+using an implementation-specific prompt. It also assigns a confi-
+dence score, motivated by prior work on model confidence and
+confidence-based orchestration [25, 34]. Content-related questions
+with low-confidence answers trigger automatic escalation to the
+speaker.
+To reduce the effort of formulating questions, the interface pro-
+vides recommended questions—prompts derived from the knowledge
+structure around the current timestamp and common patterns of
+viewer uncertainty. These serve both as conversation starters and
+as lightweight self-assessment cues.
+4.2.2 Emoji Reactions. The emoji reaction interface (Figure 1-a)
+provides a low-effort channel for viewers to report their cognitive
+state without interrupting playback. Drawing on prior emoji re-
+search [5], we use a design-specific taxonomy with three categories:
+confusion (cognitive breakdown), positive (understanding or agree-
+ment), and negative (disengagement or frustration). Each category
+has three default emoji:
+• Confusion:
+• Positive:
+• Negative:
+Viewers can remap these defaults to their preferred emoji. All
+reactions are timestamped and aggregated across viewers for visu-
+alization.
+4.2.3 Behavior Aggregation and Visualization. Beyond explicit re-
+actions, the system logs playback interactions as implicit behavioral
+signals: play/pause events, backward and forward seeks, and play-
+back speed adjustments. We also treat question events as a distinct
+NordiCHI ’26, October 03–07, 2026, Vaasa, Finland Haiyang Xu, Yunhui Song, Black Sun, and Niklas Elmqvist
+a User Question
+b
+TT-30s T+30s
+Determine the time 
+window
+c
+Knowledge Base
+Static Layer
+Dynamic Layer
+d
+E scalation
+Prompt
+System Prompt 
+Chat History
+Time-window Statistics
+Retrieved Knowledge Snippets
+Time-window transcript 
+Current Video Frame
+e
+Conversational 
+Agent
+f
+Interpretation of group status
+Answer to the query
+Confidence
+ρ ∈ [0, 1]
+ρ  <  θ
+ρ  ≥  θ
+g
+Forwarding 
+Agent  
+h
+Speaker Answer
+Answer returned to viewer
+Figure 4: RAG-based Q&A Pipeline. When a viewer submits a question (a), the system determines the relevant time window
+centered on the current playback timestamp (b) and retrieves context from the knowledge base (c) via two parallel paths. Time-
+window statistics, including emoji reactions and playback behavior data, are retrieved from the dynamic layer by timestamp
+matching. Transcript segments within a±30-second window around the current timestamp provide local temporal context,
+while vector similarity search retrieves additional relevant transcript segments, slide content, and historical Q&A records from
+the static and dynamic layers. The retrieved context is assembled into a structured prompt (d), together with the system prompt,
+chat history, and current video frame, and passed to a conversational agent (e). The agent produces a structured response (f)
+that includes an interpretation of group engagement status, an answer to the query, and a confidence score ( 𝜌). If the confidence
+score meets the threshold (𝜌≥𝜃 ), the answer is returned directly to the viewer. Otherwise, it is routed to a forwarding agent (g)
+for quality filtering and escalation to the speaker (h), whose expert answer is subsequently returned to the viewer. Viewers may
+also manually trigger escalation at any time (top).
+form of pause. The behavioral signals, combined with emoji reac-
+tions and question events, aggregate into two visualizations.
+The Reaction Intensity View (see Figure 1-b) displays the
+distribution of emoji reactions along the timeline as a bar chart
+aligned with the playback axis. The system partitions the video into
+adaptive temporal bins (finer for shorter videos, coarser for longer
+ones) and accumulates reactions within each bin. An optional kernel
+density estimation curve overlays the bars to show global trends.
+Viewers can click any bar to jump to that moment in the video.
+The Cognitive Curve (see Figure 1-g) integrates all behavioral
+signals, including pauses, seeks, speed changes, emoji reactions, and
+questions, into a single confusion-oriented trend line. Inspired by
+prior work that quantifies user behavior through weighted interac-
+tion signals [59], we conducted a formative study (𝑁 = 16) to derive
+signal weights using direct relevance ratings. Participants rated
+the extent to which each signal reflected confusion. To account
+for individual differences in scale usage, ratings were normalized
+within participant and then aggregated across participants. The
+resulting values were used as empirically derived signal weights for
+computing the Cognitive Curve (see Table 1). The curve appears
+near the video player and collapses when playback controls are
+hidden to minimize distraction.
+At peak regions of the cognitive curve, the system generates
+Context Notes: brief summaries identifying potential sources of
+confusion. Notes appear in a collapsible sidebar and surface only
+those near the current playback position, serving as lightweight
+guidance rather than additional reading burden.
+Table 1: Behavioral signal weights. Operationalized behav-
+ior weights derived from our 16-participant formative study
+rating each signal’s relevance to confusion. Behaviors are
+sorted in descending weight.
+Signal Weight
+/backward Backward seek (rewatch) 0.190
+♂pause Pause 0.172
+♂question-circle Confusion emoji 0.153
+/step-backward Slow down 0.150
+/thumbs-down Negative emoji 0.121
+/fast-f⌢rward Speed up 0.078
+/thumbs-up Positive emoji 0.070
+/f⌢rward Forward seek 0.067
+4.2.4 Escalation to Speakers. Questions escalate to speakers in
+two ways: automatically (when the agent’s confidence falls below
+threshold) or manually (when viewers explicitly request human
+EchoMind for Recorded Presentations NordiCHI ’26, October 03–07, 2026, Vaasa, Finland
+a
+b
+c
+d
+e
+f
+Figure 5: Speaker-facing dashboard in EchoMind. (a) Reaction intensity visualizes collective learner reactions over time. (b)
+Viewer behaviors summarize aggregated playback actions such as pauses, rewinds, and revisits. (c) The knowledge base organizes
+lecture materials, generated explanations, and accumulated questions as grounded support resources. (d) The cognitive curve
+presents changes in estimated engagement or difficulty across the video. (e) Pending questions surface unresolved issues
+that require speaker attention. (f) The report summarizes engagement patterns, difficult moments, common questions, and
+suggested follow-up actions.
+clarification). Manual escalation is available via a toggle on the
+input field or an icon beneath the agent’s response (see Figure 1-f).
+To balance speaker workload with viewer expectations, a filter-
+ing agent determines whether a question is suitable for escalation.
+Questions deemed appropriate are forwarded to the speaker dash-
+board; others receive explanatory feedback suggesting alternative
+approaches. The escalation package includes the agent’s prelim-
+inary answer, allowing speakers to revise rather than start from
+scratch.
+4.3 Speaker Dashboard /char◎-bar
+The speaker dashboard provides post-hoc analytics linking engage-
+ment evidence to actionable improvements. The main area presents
+analytics and the knowledge base; a sidebar keeps the video player
+accessible for precise navigation.
+4.3.1 Engagement Analytics. Speakers see aggregate engagement
+metrics: total viewers, average watch time, and completion rates.
+The dashboard surfaces several visualizations:
+Reaction Intensity (see Figure 5-a) Distribution of confusion,
+positive, and negative reactions along the timeline, with
+optional trend overlay.
+Cognitive Curve (see Figure 5-d) The same confusion-oriented
+trend line viewers see, revealing comprehension fluctuations
+across the audience.
+Viewer Behaviors (see Figure 5-b) Integrated traces of play-
+back behavior: play counts, pause counts, seek activity, and
+playback speed.
+All visualizations are time-linked: clicking any point jumps to
+that moment in the video.
+4.3.2 Knowledge Base Management. A knowledge recap panel dis-
+plays the transcript, slides, and supplementary materials aligned
+to the current timestamp (see Figure 5-c). This allows speakers to
+cross-reference audience signals with the content that triggered
+them.
+The escalation queue (see Figure 5-e) consolidates questions
+awaiting speaker response, both automatically escalated low-
+confidence queries and viewer-forwarded requests. For each ques-
+tion, speakers see the agent’s preliminary answer and supporting
+NordiCHI ’26, October 03–07, 2026, Vaasa, Finland Haiyang Xu, Yunhui Song, Black Sun, and Niklas Elmqvist
+Video
+a
+Whisper ASR
+timestamped text
+LLM Transcript 
+Correction  
+Documents
+Corrected Transcript
+Slides
+Supplementary 
+Materials
+b
+Chunking Embeddings Static Layer
+Figure 6: Pipeline for Static Layer Construction.
+evidence. Approved responses integrate into the knowledge base
+for future viewers.
+4.3.3 Report Generation. Speakers can generate a consolidated
+report that synthesizes collective signals (confusion hotspots, rep-
+resentative questions, playback patterns) into actionable feed-
+back (Figure 5-f). The report identifies recurring issues and suggests
+concrete remedies.
+4.4 Knowledge Base Construction
+EchoMind maintains a two-layer knowledge base that evolves
+over time, consisting of a static foundation constructed at up-
+load time (Figure 3-a) and a dynamic layer (Figure 3-b) that grows
+through viewer interaction.
+4.4.1 Static Layer Construction. When a speaker uploads a video,
+the system constructs a knowledge base through automatic pro-
+cessing (Figure 6). The video’s audio is transcribed to produce
+timestamped text (Figure 6-a). An LLM-based refinement module
+then corrects recognition errors, merges segments into semantic
+units, and aligns timestamps precisely. In parallel, the system parses
+speaker-provided slides and supplementary materials (e.g., related
+papers, extended readings). All content (Figure 6-b) is chunked
+and encoded into dense vector embeddings, which are stored in
+the static knowledge base for subsequent retrieval during viewer
+interactions.
+4.4.2 Dynamic Knowledge Base Expansion. As viewers engage with
+the video, the knowledge base grows (Figure 7). Questions, agent
+responses, escalated answers from speakers, and aggregate reaction
+patterns all become retrievable context for future queries (Figure 3-
+b). This aims to create a form of emergent collaboration [63]: early
+viewers’ questions benefit later viewers who encounter the same
+confusion.
+4.5 Implementation
+EchoMind consists of a backend server managing data and LLM
+pipelines, and a frontend web interface. For the frontend, the viewer
+interface and speaker dashboard are implemented in JavaScript
+using React. Because emoji appearance may vary across operating
+systems and fonts, and because users’ interpretations of emoji can
+diverge [5], we adopt a unified visual style using the Noto Color
+Emoji font 2. For the backend, the server is implemented in Python
+using FastAPI, with data stored in PostgreSQL. REST APIs provide
+2https://fonts.google.com/noto/specimen/Noto+Color+Emoji
+core functionality for video management, question handling, and
+analytics aggregation.
+The system integrates OpenAI’s Responses API 3 for LLM in-
+ference. We use GPT-5.1 for conversational responses to viewers’
+questions. For tasks requiring lower latency and reduced token
+usage—transcript refinement, context note generation, and question
+classification—we use GPT-5-nano. Automatic speech recognition
+uses OpenAI’s Whisper model.
+5 User Study
+We conducted a crowdsourced study to evaluate the core functions
+in EchoMind. Prior to the main study, we ran a pilot study (N=6) to
+refine the study procedure and seed the system with initial interac-
+tion traces. From the pilot study, we found that context notes would
+introduce additional experimental complexity beyond the scope
+of this study and that escalation to speakers requires real involve-
+ment from the original presenter; we therefore disabled these two
+components. The dynamic layer was initialized with behavioral
+data and reactions collected from pilot participants as accumulated
+viewer signals. To ensure all participants within each condition
+experienced identical system states, we disabled dynamic knowl-
+edge base expansion during the study; all participants interacted
+with the same knowledge base initialized from pilot study traces.
+All other viewer-facing mechanisms remained active. Accordingly,
+our study focuses on how EchoMind supports individual learners
+during recorded-presentation viewing.
+RQ: How does EchoMind reshape learners’ experi-
+ence of navigating the learning process during asyn-
+chronous video learning?
+To operationalize the question, we formulate the following hy-
+potheses:
+HP1. Compared to baselines, EchoMind provides greater support
+for addressing the in-situ needs of learners.
+HP2. Compared to baselines, EchoMind fosters a more active and
+supported learning experience.
+HP3. Ungrounded conversational AI fails to reliably improve dif-
+ficulty resolution or the learning process compared to video-
+only viewing.
+5.1 Experimental Conditions
+Unlike prior evaluations of video-based learning assistants (e.g.,
+Bodonhelyi et al. [7]), we include a condition with a generic LLM
+3https://developers.openai.com/api/docs
+EchoMind for Recorded Presentations NordiCHI ’26, October 03–07, 2026, Vaasa, Finland
+a
+Viewer Events
+Emoji reactions
+Playback behaviors
+Questions
+e
+b
+c
+user_actions
+Aggregationtimestamped
+raw events
+f
+Historical Q&A Records
+Vectorized
+Dynamic Layer
+d
+Window-level Statistics
+• emoji counts & ratios
+• rewind / skip count & distance
+• pause count & duration
+• speed change (up / down)
+• question count & clustered 
+   representative questions
+Engagement Statistics
+Figure 7: Pipeline for Dynamic Knowledge Base Expansion. As viewers watch the video, (a) three types of behavioral events,
+including emoji reactions, playback interactions (pause, rewind, forward skip, and speed change), and natural language
+questions, are continuously logged as timestamped records in the (b) user_actions table. These raw events are periodically
+processed by an (c) aggregation module that segments the video timeline into semantically defined time windows based on the
+refined transcript and computes (d) per-window statistics, including emoji counts and normalized ratios across three sentiment
+categories (confusion, positive, and negative), rewind and skip counts and distances, pause count and duration, speed change
+counts, and clustered representative questions. The resulting (f) engagement statistics are indexed by time window for direct
+timestamp-based retrieval. In parallel, resolved (e) Q&A records, including expert answers provided by the speaker, are encoded
+as vector embeddings to support semantic retrieval. Both components are stored in the dynamic knowledge base, which grows
+continuously as more viewers interact with the video.
+agent lacking access to presentation materials, isolating the effect
+of material grounding. Accordingly, we compared three conditions
+in a between-subjects design:
+VideoOnly (G1) Standard video playback with no interactive sup-
+port. This represents the baseline online learning experience.
+QAOnly (G2) Video playback with a generic LLM-powered chat-
+bot. The agent can answer questions but has no access to
+the video transcript, slides, or supplementary materials.
+EchoMind (G3) Video playback with the full EchoMind conversa-
+tional agent. The agent uses RAG to ground responses in the
+video transcript, slides, and related materials, and displays
+source provenance for each answer.
+All participants watched the same 5-minute video segment: the
+introduction to perceptrons from a recorded lecture titled Introduc-
+tion to Deep Learning 4.
+All three conditions were implemented on the same interface:
+they shared an identical video player, layout, and visual styling,
+and differed only in which components were visible. VideoOnly
+hid all interactive components; QAOnly hid the emoji reaction
+bar, visualizations, and escalation controls while retaining the chat
+panel, which used the same front-end component as EchoMind and
+differed only in the underlying agent.
+4https://youtu.be/alfdI7S6wCY?si=_eCOk9mM9P_UUw9r&t=1161
+5.2 Procedure
+Figure 8 shows the study flow. Participants logged into the study
+system and were randomly assigned to one of the three condi-
+tions. They first completed a pre-task questionnaire assessing de-
+mographic information and prior knowledge of deep learning. A
+brief tutorial then familiarized them with their assigned interface.
+During the main session, participants watched the video and
+interacted with their assigned system. To encourage authentic en-
+gagement with the interactive features, participants in the QAOnly
+and EchoMind conditions were guided to ask at least one ques-
+tion during viewing, and EchoMind participants were additionally
+guided to record at least one emoji reaction. VideoOnly participants
+simply watched and completed a quiz. After viewing, all partici-
+pants completed a comprehension quiz and post-task questionnaire.
+We instructed participants not to use external tools (search en-
+gines, AI chatbots, Wikipedia) during the study. We could not en-
+force this restriction technically, but compliance was incentivized
+through task framing and time constraints.
+5.3 Participants
+We recruited 75 participants through Prolific [54], with 25 per con-
+dition. Ages ranged from 24 to 40 years ( 𝑀 = 32.4,𝑆𝐷 = 4.38,
+𝑀𝑑𝑛 = 32). The sample included 38 male and 37 female partici-
+pants, all reporting English as their primary language. Regarding
+educational attainment, 51 participants (68.0%) held undergraduate
+degrees, 18 (24.0%) held master’s degrees, and 6 (8.0%) held doc-
+toral degrees. The participants mainly resided in the United States
+NordiCHI ’26, October 03–07, 2026, Vaasa, Finland Haiyang Xu, Yunhui Song, Black Sun, and Niklas Elmqvist
+Login Random 
+Assignment
+G1: VideoOnl y
+Pre-task 
+Questionnaire
+G2: QAOnl y
+Pre-task 
+Questionnaire
+G3: EchoMind
+Pre-task 
+Questionnaire
+Tutorial
+Tutorial
+Tutorial
+Video
+Video
+AI Q&A
+Video
+AI Q&A
+EchoMind
+Quiz
+Quiz
+Quiz
+Post-task 
+Questionnaire
+Figure 8: Study procedure. Participants were randomly assigned to one of three conditions (VideoOnly, QAOnly, or EchoMind)
+and completed a pre-task questionnaire, tutorial, video-based learning session with condition-specific support, comprehension
+quiz, and post-task questionnaire.
+(𝑛 = 37, 49.3%) and the United Kingdom (𝑛 = 36, 48.0%), with a small
+number in Ireland (𝑛 = 2, 2.7%). Mean completion times recorded
+by Prolific were 14.04 minutes (𝑆𝐷 = 6.53) for VideoOnly, 15.27
+minutes (𝑆𝐷 = 8.16) for QAOnly, and 16.93 minutes (𝑆𝐷 = 8.75) for
+EchoMind. Compensation was €12.79 per hour.
+5.4 Measurement
+We assessed learning outcomes through a comprehension quiz
+administered after viewing. We assessed subjective experience
+through a post-task questionnaire using 7-point Likert scales (1 =
+Strongly disagree / Not at all; 7 = Strongly agree / Extremely). The
+questionnaire covered four dimensions:
+Usability. For usability of the system, referring to [ 9, 44], we
+designed these items:
+• Ease of use;
+• Learning support;
+• System satisfaction; and
+• Likelihood of future use.
+Workload. Adapted from NASA-TLX [31], these items were as-
+sessed:
+• Perceived mental demand;
+• Perceived success in completing the task;
+• Effort required to perform well; and
+• Feelings of discouragement, stress, or frustration.
+Learning experience. To examine how EchoMind supported par-
+ticipants’ learning experience during video viewing, we assessed
+the following aspects, informed by evaluation approaches used in
+TSConnect and Glancee [44, 45] and closely related work:
+• Clarifying confusing points [44, 45];
+• Sustaining engagement during learning [37, 45];
+• Encouraging reflection and active thinking [13, 44];
+• Supporting moment-to-moment expression [44, 52];
+• Fostering a sense of learning with others [33, 65]; and
+• Promoting active rather than passive learning [7, 16].
+Feature-specific perceptions (EchoMind only). For participants
+with access to EchoMind, referring to the feature-specific useful-
+ness batteries used in prior system evaluations [44, 45], we designed
+additional items to assess perceptions of:
+• Emoji reactions supporting reflective understanding;
+• Cognitive curve revealing struggle points;
+• Reaction chart conveying overall learning patterns;
+• Usefulness of AI responses grounded in video materials;
+• Usefulness of AI responses conditioned on user behavior;
+and
+• Emoji reactions facilitating active participation.
+6 Results
+We report results across four dimensions: usability, workload, learn-
+ing experience, and system-specific perceptions. Overall, EchoMind
+outperformed both baseline conditions on learning experience mea-
+sures, with significant improvements in confusion clarification,
+expression support and sense of co-learning. Usability was compa-
+rable across conditions, though EchoMind showed higher intended
+future use. Workload did not differ significantly, though QAOnly
+exhibited the highest mental demand. EchoMind-specific features
+(cognitive curve, reaction visualizations, grounded AI responses)
+were rated positively by participants. Figure 9 summarizes the re-
+sults.
+We first assessed normality using the Shapiro–Wilk test; rat-
+ings were not normally distributed. We therefore employed non-
+parametric Kruskal–Wallis tests for omnibus comparisons. When
+EchoMind for Recorded Presentations NordiCHI ’26, October 03–07, 2026, Vaasa, Finland
+Figure 9: Subjective ratings across conditions. (a) Learning process-related measures, including confusion clarification, engage-
+ment, reflection, expression, co-learning, and active learning. (b) Usability-related measures, including ease of use, satisfaction,
+perceived learning support, and future use. Significance levels are marked above bars. (+: 𝑝 < .1; *: 𝑝 < .05; **: 𝑝 < .01; ***:
+𝑝 <.001)
+Kruskal–Wallis indicated a significant difference across conditions,
+we used Dunn’s post-hoc test with Holm–Bonferroni correction
+for pairwise comparisons.
+6.1 Usability
+We compared the usability of the three experimental conditions
+using post-task questionnaire data. Figure 9 shows participants’
+average ratings on usability-related items. A Kruskal–Wallis test
+revealed a significant group difference inintended future use (𝐻(2) =
+6.00,𝑝 < .05), whereas no significant differences were found for
+ease of use (𝐻(2) = 3.75,𝑝 =.153), support for the learning process
+(𝐻(2) = 1.34,𝑝 = .511), or overall satisfaction (𝐻(2) = 3.59,𝑝 =
+.166).
+Post-hoc Dunn tests further clarified the pattern for intended
+future use. EchoMind (𝑀 = 5.92,𝑆𝐷 = 1.15) received higher ratings
+than QAOnly (𝑀 = 4.48,𝑆𝐷 = 2.26), with this difference approach-
+ing significance after Holm correction (adj. 𝑝 = .068). A similar
+though non-significant trend was observed between EchoMind and
+VideoOnly (𝑀 = 4.92,𝑆𝐷 = 1.80; adj.𝑝 =.110). No difference was
+found between QAOnly and VideoOnly (adj.𝑝 =.717).
+Although the remaining usability dimensions did not reach sta-
+tistical significance, the mean ratings revealed a consistent pat-
+tern across measures. QAOnly received lower scores on ease of use
+(𝑀 = 5.00,𝑆𝐷 = 2.08), overall satisfaction (𝑀 = 4.44,𝑆𝐷 = 2.14),
+and perceived learning support (𝑀 = 4.52,𝑆𝐷 = 2.18) compared
+with both EchoMind (ease of use: 𝑀 = 6.12,𝑆𝐷 = 1.09; satisfac-
+tion:𝑀 = 5.68,𝑆𝐷 = 1.07; learning support:𝑀 = 5.32,𝑆𝐷 = 1.14)
+and VideoOnly (ease of use: 𝑀 = 5.64,𝑆𝐷 = 1.78; satisfaction:
+𝑀 = 5.12,𝑆𝐷 = 1.74; learning support: 𝑀 = 4.88,𝑆𝐷 = 1.54). In
+addition, QAOnly exhibited larger standard deviations across these
+measures, indicating greater variability in user experience.
+6.2 Workload
+Across the four workload measures, none of the Kruskal–Wallis
+tests reached conventional levels of statistical significance, includ-
+ing perceived success (𝐻(2) = 4.22,𝑝 =.121), effort (𝐻(2) = 2.17,𝑝 =
+.339), and frustration and stress (𝐻(2) = 0.21,𝑝 =.902). Mental de-
+mand showed a near-significant trend (𝐻(2) = 4.71,𝑝 =.095).
+Although none of the differences reached statistical significance,
+descriptive trends were observed. For mental demand , QAOnly
+(𝑀 = 6.20,𝑆𝐷 = 0.91) reported the highest workload, followed by
+VideoOnly (𝑀 = 5.80,𝑆𝐷 = 1.44), with EchoMind showing the low-
+est values (𝑀 = 5.32,𝑆𝐷 = 1.52). EchoMind (𝑀 = 3.96,𝑆𝐷 = 1.51)
+received the highest perceived success ratings, compared to QAOnly
+(𝑀 = 3.24,𝑆𝐷 = 1.90) and VideoOnly (𝑀 = 3.12,𝑆𝐷 = 1.64). For
+effort, QAOnly (𝑀 = 6.28,𝑆𝐷 = 1.10) showed higher scores than
+VideoOnly (𝑀 = 6.08,𝑆𝐷 = 1.04) and EchoMind (𝑀 = 5.88,𝑆𝐷 =
+1.13). In contrast, frustration and stress remained comparable across
+the three conditions (EchoMind: 𝑀 = 4.36,𝑆𝐷 = 1.68; QAOnly:
+𝑀 = 4.36,𝑆𝐷 = 2.08; VideoOnly:𝑀 = 4.52,𝑆𝐷 = 1.94).
+Overall, EchoMind exhibited workload levels comparable to or
+more favorable than VideoOnly across all dimensions, whereas
+QAOnly showed the highest mean levels on both mental demand
+and effort.
+6.3 Learning Experience and Quiz Outcomes
+6.3.1 Clarifying points of confusion. This item reflects the extent
+to which the system supported learners in clarifying moments of
+misunderstanding during the video (“The system helped me clarify
+points I was confused about”).
+A Kruskal–Wallis test showed a significant group difference
+(𝐻(2) = 17.17,𝑝 < .001). Post-hoc Dunn tests indicated that
+EchoMind (𝑀 = 5.48,𝑆𝐷 = 1.12) was rated higher than QAOnly
+(𝑀 = 4.00,𝑆𝐷 = 2.27; adj.𝑝 <.05) and also higher than VideoOnly
+(𝑀 = 3.16,𝑆𝐷 = 1.68; adj. 𝑝 < .001), whereas QAOnly and
+VideoOnly did not differ (adj.𝑝 =.099).
+6.3.2 Expressing questions and emotions. This item measures
+whether learners felt supported in expressing questions or emo-
+tions at the moment they occurred (“The system encouraged me to
+express questions or emotions at the moment they occurred”).
+A significant group difference was observed (𝐻(2) = 19.69,𝑝 <
+.001). Post-hoc Dunn tests showed that EchoMind (𝑀 = 5.60,𝑆𝐷 =
+0.96) was rated higher than QAOnly ( 𝑀 = 3.88,𝑆𝐷 = 2.42; adj.
+𝑝 < .05) and higher than VideoOnly ( 𝑀 = 2.84,𝑆𝐷 = 1.86; adj.
+𝑝 <.001), whereas QAOnly and VideoOnly did not differ.
+NordiCHI ’26, October 03–07, 2026, Vaasa, Finland Haiyang Xu, Yunhui Song, Black Sun, and Niklas Elmqvist
+6.3.3 Sense of learning together. This item reflects whether par-
+ticipants felt they were learning together with others rather than
+alone (“I felt like I was learning together with others, not just by
+myself”).
+A significant group difference was found (𝐻(2) = 11.16,𝑝 <.01).
+Post-hoc Dunn tests indicated that EchoMind (𝑀 = 5.20,𝑆𝐷 = 1.55)
+scored higher than QAOnly (𝑀 = 3.56,𝑆𝐷 = 2.38; adj.𝑝 <.05) and
+VideoOnly (𝑀 = 3.16,𝑆𝐷 = 2.13; adj.𝑝 <.01), while QAOnly and
+VideoOnly did not differ (adj.𝑝 =.514).
+6.3.4 Reflecting and thinking actively. This item assesses whether
+the system encouraged reflective and active thinking during learn-
+ing (“The system encouraged me to reflect and think actively during
+learning”).
+A significant group difference was observed (𝐻(2) = 9.50,𝑝 <
+.01). Post-hoc Dunn tests showed that EchoMind (𝑀 = 5.52,𝑆𝐷 =
+1.00) was rated higher than VideoOnly (𝑀 = 3.76,𝑆𝐷 = 2.03; adj.
+𝑝 <.01), whereas the difference between EchoMind and QAOnly
+(𝑀 = 4.20,𝑆𝐷 = 2.14) did not reach significance (adj. 𝑝 = .074).
+QAOnly and VideoOnly also did not differ.
+6.3.5 Staying engaged during the video. This item captures sus-
+tained engagement during viewing (“The system helped me stay
+engaged during the video”).
+A significant group difference was found (𝐻(2) = 7.51,𝑝 <.05).
+Post-hoc Dunn tests indicated that EchoMind (𝑀 = 5.64,𝑆𝐷 = 0.99)
+was rated higher than QAOnly (𝑀 = 3.88,𝑆𝐷 = 2.33; adj.𝑝 <.05),
+whereas no significant differences were observed between Echo-
+Mind and VideoOnly (𝑀 = 4.68,𝑆𝐷 = 1.75) or between QAOnly
+and VideoOnly.
+6.3.6 Overall shift toward active learning. This item reflects
+whether the overall learning process felt more active rather than
+passive (“Overall, my learning process felt more active rather than
+passive”).
+A significant group difference was observed (𝐻(2) = 8.22,𝑝 <
+.05). Post-hoc Dunn tests showed that EchoMind (𝑀 = 5.48,𝑆𝐷 =
+1.19) received higher ratings than VideoOnly ( 𝑀 = 3.68,𝑆𝐷 =
+2.23; adj.𝑝 <.05), whereas the difference between EchoMind and
+QAOnly (𝑀 = 4.32,𝑆𝐷 = 2.21) was not significant. QAOnly and
+VideoOnly also did not differ.
+6.3.7 Quiz Outcomes. Quiz performance did not differ significantly
+across conditions (𝐻(2) = 0.06,𝑝 =.972). Descriptively, EchoMind
+achieved the highest mean score (𝑀 = 3.04,𝑆𝐷 = 2.89), followed
+by QAOnly (𝑀 = 2.96,𝑆𝐷 = 2.46) and VideoOnly (𝑀 = 2.64,𝑆𝐷 =
+1.98). The absence of significant differences is consistent with the
+study task’s short duration and limited ecological validity, and does
+not preclude the possibility of comprehension gains in longer-term
+deployment contexts.
+6.4 Perceptions of System
+To describe participants’ perceptions of EchoMind’s system-specific
+mechanisms, we conducted one-sample Wilcoxon signed-rank tests
+against the neutral midpoint of 4 for all EchoMind-specific post-test
+items in the EchoMind condition (𝑛 = 25). All item means were
+above the neutral point, indicating generally positive perceptions.
+Descriptive statistics of the ratings are presented in Figure 10.
+For expressive reflection support (“Seeing others’ reactions and
+using emoji reactions helped me reflect on my understanding rather
+than passively watching”), ratings were above the neutral value
+(𝑀 = 4.64,𝑀𝑒𝑑𝑖𝑎𝑛 = 5.0), but this deviation only showed a trend
+(𝑊 = 67.0,𝑝 =.085).
+The remaining five mechanisms were all rated significantly
+above the neutral midpoint. Ratings for the difficulty salience curve
+(“The Cognitive Curve helped me notice where learners tended to
+struggle”) were high (𝑀 = 5.48,𝑀𝑒𝑑𝑖𝑎𝑛 = 5.0) and significantly
+different from 4 (𝑊 = 12.0,𝑝 <.001). Similarly, the reaction chart
+for collective learning state (“The Reaction Intensity chart helped
+me understand the overall learning status of the audience”) showed
+a high median (𝑀 = 5.56,𝑀𝑒𝑑𝑖𝑎𝑛 = 6.0) and a significant deviation
+from the neutral point (𝑊 = 17.0,𝑝 <.001).
+For AI-related mechanisms, bothvideo-grounded AI responses (“AI
+responses grounded in the video materials helped me understand
+the content better”;𝑀 = 5.20,𝑀𝑒𝑑𝑖𝑎𝑛 = 5.0) and signal-aware AI
+responses (“AI responses that considered user behavior were useful”;
+𝑀 = 5.40,𝑀𝑒𝑑𝑖𝑎𝑛 = 5.0) were rated significantly above the neutral
+midpoint (𝑊 = 10.0,𝑝 <.001;𝑊 = 0.0,𝑝 <.001, respectively).
+Finally, emoji-based participatory engagement (“Using emoji re-
+actions made me feel like I was actively participating, not just
+watching the video”) was also rated significantly above the neutral
+point (𝑀 = 5.48,𝑀𝑒𝑑𝑖𝑎𝑛 = 6.0;𝑊 = 33.0,𝑝 <.01).
+Overall, with the exception of expressive reflection showing only
+a trend, all other EchoMind-specific mechanisms were perceived
+significantly more positively than a neutral evaluation.
+7 Discussion
+Our results lead us to accept HP1, partially support HP2 and HP3,
+revealing that the perceived value of AI in video learning depends
+critically on its contextual integration. Validating HP1, EchoMind
+substantially raised ratings for supporting in-situ expression com-
+pared to VideoOnly (𝑀 = 5.60 vs. 2.84). We note, however, that
+this difference partly reflects the availability of the emoji reaction
+channel in the EchoMind condition, and should not be attributed
+to contextual grounding alone. We partially support HP2: while
+EchoMind fostered a distinctive sense of social support (𝑀 = 5.20),
+the shift toward active thinking did not statistically exceed QAOnly.
+Workload did not differ significantly across conditions, but the de-
+scriptive pattern, with the highest mental demand under QAOnly
+and the lowest under EchoMind, points to a qualitative difference in
+how the two forms of AI support were experienced, which we exam-
+ine in Section 7.4. Finally, we partially support HP3. Consistent with
+the hypothesis, the ungrounded agent failed to yield statistically
+significant improvements in confusion clarification or engagement
+compared to VideoOnly baseline. While it also elicited the high-
+est mental demand and numerically lower future use intentions
+(𝑀 = 4.48 vs. 4.92), these negative impacts were observed as trends
+rather than statistically significant detriments. This suggests that
+without context, conversational AI may function as cognitive noise,
+imposing friction without delivering reliable experiential benefits.
+7.1 Reframing Asynchronous Video Learning
+EchoMind participants reported more positive experiences on sev-
+eral process-related measures, particularly confusion clarification,
+EchoMind for Recorded Presentations NordiCHI ’26, October 03–07, 2026, Vaasa, Finland
+Figure 10: Likert-scale distributions for system-specific perceptions in the EchoMind condition. Stacked bars show the distribu-
+tion of participant ratings (1–7) across six items.
+in-the-moment expression, and co-learning. Prior work has shown
+that learners frequently experience localized breakdowns during
+video learning, which are typically addressed through rewatching
+or external search [30, 36, 42]. These strategies provide flexibility
+but separate clarification from the original viewing moment and
+from synchronous peer interaction [3, 10, 69]. EchoMind reframes
+these breakdowns as shared learning moments that can be accumu-
+lated and revisited over time, transforming individual confusion
+into collective learning resources.
+More specifically, EchoMind significantly outperformed both
+QAOnly and VideoOnly in perceived support of clarifying confusion
+and supporting in-the-moment expression, while the latter two did
+not differ reliably. This finding further suggests that conversational
+AI is most useful when it is contextually integrated into video
+platforms [7, 14, 36, 39].
+Beyond individual clarification, EchoMind also reshapes the so-
+cial dimension of asynchronous learning. EchoMind aligns collec-
+tive reactions and behavioral traces directly with the video timeline.
+This alignment allows learners to situate their understanding within
+a broader social context, consistent with prior work on social navi-
+gation and time-anchored peer interaction [21, 40, 71].
+These results suggest that asynchronous video learning can be
+meaningfully reframed as a socially grounded process in which
+even static displays of prior learners’ traces shape in-session in-
+terpretation, a reframing we view as a starting point rather than a
+conclusion about cumulative effects.
+7.2 Why Contextualized AI Matters
+Our results show that conversational AI becomes valuable in video-
+based learning when it is contextually integrated. Although QAOnly
+introduced an LLM-powered question-answering interface, it did
+not reliably outperform VideoOnly in supporting confusion clarifi-
+cation or in-the-moment expression. This finding challenges the
+increasingly common assumption that conversational AI alone con-
+stitutes meaningful learning support. Prior work on AI tutors and
+learning assistants has reported positive effects on engagement
+and perceived usefulness [7, 28, 56]. However, many such systems
+require learners to reconstruct context or formulate decontextual-
+ized questions, placing additional cognitive demands on learners.
+Our results suggest that without access to learning materials and
+temporal context, AI responses are prone to vagueness or misalign-
+ment, which may reduce their perceived usefulness and learners’
+willingness to continue using the system (consistent with QAOnly’s
+lowest future-use ratings).
+By contrast, EchoMind grounds AI responses in video transcripts,
+slides, and collective interaction traces. This contextual grounding
+can make explanations more concrete and easier for learners to
+interpret against the presentation materials. Consistent with prior
+work on grounded and interpretable AI systems [41, 67], our find-
+ings suggest that grounding also matters for learners’ experience
+in this setting.
+Importantly, EchoMind’s design extends contextualization be-
+yond material grounding to include temporal and social context. By
+aligning AI responses with learners’ viewing position and collec-
+tive difficulty patterns, the system allows AI support to reflect not
+only what the content says, but how others have struggled with
+it. This integration is consistent with the pattern observed across
+conditions: EchoMind was rated significantly higher than QAOnly
+on confusion clarification and sustained engagement, alongside a
+trend toward stronger future-use intentions. Within the EchoMind
+condition, participants likewise rated both video-grounded and
+behavior-aware responses as useful (Section 6.4), providing con-
+verging—though not directly comparative—evidence for the value
+of contextualized responses.
+These findings suggest that conversational AI should not be con-
+ceptualized as a standalone tutor layered on top of learning systems.
+NordiCHI ’26, October 03–07, 2026, Vaasa, Finland Haiyang Xu, Yunhui Song, Black Sun, and Niklas Elmqvist
+Effective educational AI must function as a context-sensitive me-
+diator that aligns with learning materials, temporal progress, and
+collective learner signals. Without such alignment, AI risks becom-
+ing an additional source of cognitive noise rather than meaningful
+support for learning.
+7.3 Social Signals and the Emergence of
+Co-Learning
+EchoMind’s effect on learners’ sense of co-learning highlights the
+importance of social visibility in asynchronous video learning.
+While QAOnly and VideoOnly showed no meaningful difference
+on this dimension, EchoMind significantly increased learners’ per-
+ceptions of learning together with others. This result suggests that
+co-learning does not arise from AI presence alone, but from the
+system’s ability to surface others’ learning traces in ways that are
+temporally and contextually meaningful.
+Prior work has shown that learners rely on comments, annota-
+tions, and discussion forums as social navigation cues in online
+learning environments [40, 43, 50, 71]. However, such cues are of-
+ten detached from the precise moments when confusion occurs,
+limiting their ability to support in-situ sensemaking. EchoMind ex-
+tends this line of work by persistently aligning collective reactions
+and behavioral traces with the video timeline, allowing learners to
+encounter social signals at the moment they are most relevant. By
+making others’ confusion, hesitation, and understanding visible,
+EchoMind enables learners to situate their own comprehension
+within a broader social context. This social reference can help learn-
+ers interpret whether a difficulty is individual or shared, consistent
+with prior work on social navigation and peer-linked video com-
+ments [21, 40, 71]. In this way, lightweight social signals function
+not merely as navigation aids, but also as interpretive supports that
+shape how learners read their own progress [14, 21].
+Importantly, the emergence of co-learning in EchoMind is not
+driven by any single feature. Rather, it arises from the combined
+effects of emoji reactions, behavioral traces, and AI-mediated ex-
+planations that reflect collective learning states. This integrated
+design supports a form of collaboration that unfolds across time,
+without requiring synchronous interaction or explicit discussion.
+7.4 Cognitive Fluency Without Added Workload
+Although EchoMind substantially improved learners’ subjective ex-
+perience across multiple aspects of the learning process, these bene-
+fits were not accompanied by increased perceived workload. Across
+all workload measures, no significant differences were observed
+between conditions, and EchoMind consistently showed mean val-
+ues comparable to or more favorable than those of QAOnly and
+VideoOnly. This pattern suggests that EchoMind can support learn-
+ing processes without requiring learners to invest additional effort
+in interpreting or validating support. Prior research has cautioned
+that adding interactive or intelligent features to learning systems
+may increase cognitive load and disrupt learning flow [60, 75]. Our
+findings offer a contrasting perspective: when support is tempo-
+rally aligned, contextually grounded, and socially informed, richer
+interactive support does not necessarily come at the cost of greater
+perceived workload.
+In this sense, EchoMind does not add cognitive tasks; rather, it
+reorganizes existing cues into more accessible forms. The higher
+mental demand and effort reported in the QAOnly condition further
+illustrate this point. One plausible reading of QAOnly’s descrip-
+tively higher mental demand and effort is that, without contextual
+grounding, learners were required to interpret and evaluate generic
+AI responses, which increased uncertainty and the effort required
+for decision-making [73]. On this reading, EchoMind’s traceable,
+context-aligned explanations allowed learners to allocate cognitive
+resources to understanding rather than to verification. We describe
+this pattern as cognitive fluency, a state in which learners remain
+active while scaffolded by reliable context. In this sense, cognitive
+fluency in learning systems is less about minimizing interaction and
+more about minimizing ambiguity. When explanations are situated,
+traceable, and socially contextualized, learners experience learning
+as smoother and more coherent, even when engaging with complex
+content.
+7.5 Toward a Speaker–GenAI–Audience
+Ecosystem: A Design Perspective
+The full EchoMind architecture suggests a possible triadic ecosys-
+tem involving speakers, audiences, and generative AI, extending
+beyond the dyadic interaction between an individual learner and in-
+structional content. We present this ecosystem as a design perspec-
+tive rather than as a claim validated by the present study. Speaker
+escalation, the speaker dashboard, speaker feedback integration,
+dynamic knowledge-base expansion, and cross-cohort trace accu-
+mulation were not active in the evaluation. The following discus-
+sion therefore describes the interaction model that EchoMind is
+designed to support and motivates the longitudinal studies required
+to evaluate it.
+Lightweight behavioral traces and expressive reactions serve as
+the connective tissue of this ecosystem. Rather than being treated
+as noise or secondary analytics, these signals function as shared
+learning artifacts that mediate how content is interpreted and re-
+visited. For audiences, they provide social reference points that
+support reflection and self-positioning. For speakers, they reveal
+collective difficulty patterns that inform retrospective content re-
+finement. For AI, they constitute essential context for generating
+situated and traceable explanations. Within this structure, genera-
+tive AI does not operate as an autonomous tutor or a proxy for the
+speaker. Instead, it functions as an ecological mediator, integrating
+instructional materials, audience behaviors, and collective reactions
+into coherent, moment-aligned support. The value of AI thus lies
+not in replacing human interpretation, but in organizing and re-
+distributing collective learning signals in ways that are intelligible
+and actionable.
+The complete EchoMind architecture is intended to support the
+circulation of questions, reactions, behavioral traces, and speaker
+responses across viewers and viewing sessions. In a longitudinal
+deployment, these persistent signals could potentially allow later
+viewers to benefit from earlier interactions and provide speakers
+with information about recurring difficulties. However, the present
+study used a fixed pilot-seeded set of collective signals and did
+not involve speaker participation or cross-cohort accumulation. We
+therefore cannot determine whether the proposed triadic ecosystem
+EchoMind for Recorded Presentations NordiCHI ’26, October 03–07, 2026, Vaasa, Finland
+would produce cumulative interaction, collective knowledge devel-
+opment, or durable learning benefits. These possibilities remain
+hypotheses for future longitudinal evaluation.
+7.6 Limitations and Future Work
+This study has several limitations.
+First, the evaluation focused on EchoMind’s learner-facing ex-
+perience rather than the full speaker–GenAI–audience ecosystem.
+The speaker dashboard and speaker-side escalation were not eval-
+uated, and the dynamic knowledge layer was initialized with pi-
+lot traces and held constant across participants to ensure a con-
+sistent collective-information environment. Because participants
+completed the study asynchronously, we also could not examine
+escalation as an ongoing speaker–audience interaction, including
+potential delays between question submission, speaker handling,
+and learner feedback. More broadly, the study did not examine
+how the dynamic knowledge layer would continuously accumulate,
+evolve, and shape later learners’ interactions in real multi-cohort
+settings. Thus, our findings mainly concern context-grounded con-
+versational support, timeline-aligned collective signals, and light-
+weight expression for individual viewers.
+Second, EchoMind was evaluated as an integrated system rather
+than as a set of isolated components. VideoOnly served as a non-
+interactive baseline, QAOnly provided basic question-answering,
+and EchoMind combined contextual grounding, collective signals,
+timeline visualizations, and expression channels. Therefore, the
+observed differences should be interpreted as the effect of a richer
+bundle of viewer-facing capabilities rather than as evidence for the
+contribution of any single component. More controlled comparisons
+or ablation studies would be needed to distinguish the respective
+effects of contextual grounding, collective signals, and lightweight
+expression mechanisms.
+Third, the guided interaction requirements may have introduced
+an engagement-related confound into some of the subjective mea-
+sures. Participants in QAOnly and EchoMind were guided to ask at
+least one question, while EchoMind participants were additionally
+guided to record at least one emoji reaction. These instructions
+were intended to ensure that participants experienced the interac-
+tive mechanisms available in their assigned condition. However,
+they also increased the amount of overt interaction in the inter-
+active conditions by design. As a result, differences in perceived
+activeness, expression, or co-learning may partly reflect this addi-
+tional prompted engagement, rather than the specific mechanisms
+through which EchoMind supported the learning experience.
+Fourth, the study captured short-term experience rather than
+long-term learning. Participants were recruited through Prolific
+and watched only a five-minute learning unit, which may not re-
+flect sustained engagement in authentic lecture settings. Although
+participants were instructed not to use external tools, the online
+setting made this difficult to enforce. Quiz performance also did not
+differ significantly across conditions. The present results should
+therefore be interpreted primarily as evidence about learners’ per-
+ceived support experience during a brief viewing session, rather
+than as evidence for improved comprehension or durable learning
+outcomes. The brief, locally focused study material also means that
+the system’s temporal retrieval design was not stress-tested: the
+±30-second window may work well for highly localized concepts
+such as the introductory example used here, but its effectiveness
+for domains involving long conceptual dependencies or cumulative
+reasoning across larger portions of the material remains an open
+question.
+Fifth, we did not separately measure trust in AI responses, re-
+liance on collective cues, or susceptibility to social influence. Visible
+collective signals may reassure learners and help them contextual-
+ize moments of difficulty, but they may also redirect attention or
+encourage overreliance on frequently marked moments. Similarly,
+grounding responses in presentation materials may improve their
+perceived relevance without guaranteeing their factual correctness
+or appropriate trust calibration.
+Future work can extend EchoMind in several directions. Studies
+should examine the system in more realistic learning contexts, in-
+cluding longer videos, repeated use, and delayed assessments, to
+determine whether the experiential benefits observed here translate
+into more durable learning outcomes. Future evaluations should
+also allow the dynamic knowledge layer to evolve from real learner
+traces over time, enabling the effects of accumulated questions,
+reactions, and behavioral signals to be studied across cohorts. The
+speaker-facing components, including escalation and the dash-
+board, should be evaluated in settings where speaker feedback
+can be meaningfully integrated, with particular attention to re-
+sponse delays, question prioritization, and speaker workload under
+concurrent demand. More controlled comparisons of system vari-
+ants would help clarify the relative contributions of contextual
+grounding, collective signals, and lightweight expression tools. Fu-
+ture work should also examine how learners interpret and trust
+AI responses and collective cues, including whether these signals
+support reflection or lead to overreliance. Finally, EchoMind could
+be extended beyond single educational videos by linking traces
+across chapters or sessions and by adapting agent responses to
+learner history and group behavior. Similar ideas may also apply
+to meeting replays, professional talks, and other asynchronous
+knowledge-sharing contexts.
+8 Conclusion
+This paper introduced EchoMind, a system that augments recorded
+presentations with context-aware conversational agents grounded
+in both instructional materials and accumulated audience inter-
+action signals. By integrating in-situ question answering, light-
+weight expressive reactions, and temporally aligned behavioral
+traces, EchoMind offers a design direction for transforming asyn-
+chronous video viewing from an isolated, one-off activity into a
+more cumulative and socially grounded learning process. Through
+a controlled between-subjects study, we showed that EchoMind sig-
+nificantly improved key aspects of learners’ experience, including
+confusion clarification, in-the-moment expression and a sense of
+learning together, without increasing perceived workload. Impor-
+tantly, our results indicate that these benefits do not stem from the
+mere presence of AI, but from how AI is situated within the video’s
+temporal context and connected to collective learning signals.
+NordiCHI ’26, October 03–07, 2026, Vaasa, Finland Haiyang Xu, Yunhui Song, Black Sun, and Niklas Elmqvist
+Beyond the specific system, this work contributes a broader
+design perspective: treating asynchronous learning as an evolv-
+ing ecosystem shaped by persistent, lightweight signals and me-
+diated by context-aligned AI. Rather than replacing instructors or
+prescribing rigid interaction flows, EchoMind illustrates how AI
+could act as a mediator that organizes prior learners’ traces into
+timely, interpretable support for future viewers. We believe this
+approach has implications not only for educational videos, but also
+for recorded talks, professional training, and other time-shifted
+knowledge-sharing contexts.
+Acknowledgments
+This work was supported by the Villum Investigator grant VL-
+54492 by Villum Fonden. Any opinions, findings, and conclusions
+or recommendations expressed here are those of the authors and
+do not necessarily reflect the views of the funding agencies.

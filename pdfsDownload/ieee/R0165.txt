@@ -1,0 +1,362 @@
+Advanced Trilingual RAG Framework: Progressive
+Architectures for Robust Educational Question
+Answering
+*
+Aymane Sbai1, Imane Guessous 1, and El Habib Nfaoui 1,2
+1School of Science and Engineering, Al Akhawayn University, Ifrane, Morocco
+2L3IA Laboratory, Faculty of Sciences Dhar El Mahraz, Sidi Mohamed Ben Abdellah University, Fez, Morocco
+Emails: a.sbai@aui.ma, i.guessous@aui.ma, elhabib.nfaoui@usmba.ac.ma
+Abstract—Traditional question-answering (QA) systems in
+multilingual classrooms struggle when handling Arabic, French,
+and English instructions alongside complex mathematical nota-
+tion in Moroccan curricula. This study introduces an advanced
+trilingual Retrieval-Augmented Generation (RAG) framework for
+curriculum-based QA across these three languages. The proposed
+approach combines specialized document parsing with right-
+to-left text handling, staged evaluation of Naive, Hybrid, and
+Advanced RAG models, and advanced techniques such as query
+expansion, rank fusion, reranking, and confidence scoring to re-
+duce LLM hallucinations. Using dual retrieval (dense and sparse),
+multi-stage ranking, multilingual embeddings, and DeepSeek
+R1 for generation, the Advanced pipeline achieves near-perfect
+embedding similarity (0.95+ correctness, 0.93+ faithfulness) and
+strong trilingual performance, with Arabic queries reaching
+French-level accuracy. The results highlight a practical, context-
+aware solution for multilingual educational QA. Future work will
+explore Agentic RAG architectures to address reasoning gaps and
+multi-turn dialogue.
+Index Terms —Large Language Models, Retrieval-Augmented
+Generation, Multilingual Question Answering, Hybrid retrieval,
+Rank fusion, Cross-encoder re-ranking, Embedding scoring.
+I. I NTRODUCTION
+The educational landscape in multilingual contexts presents
+unique challenges for artificial intelligence systems, especially
+in countries like Morocco where instruction occurs across
+Arabic, French, and English (and occasionally Spanish)
+within the same curriculum framework. Traditional question-
+answering systems struggle to correctly handle this diversity,
+specifically the complex mathematical notation and right-
+to-left (RTL) text processing required for comprehensive
+educational support [1, 19].
+Recent advances in Retrieval-Augmented Generation (RAG)
+have shown promise for knowledge-intensive educational
+applications [13]. However, existing implementations remain
+predominantly monolingual and fail to address the specific
+requirements of multilingual educational content processing.
+Morocco’s educational system further exacerbates these
+challenges, with approximately 68% of secondary education
+conducted in Arabic, 28% in French, and a growing 4% in
+English for technical subjects [17].
+Mathematical and scientific curricula frequently contain
+complex formulas, diagrams, and specialized notation that
+require precise preservation during document processing.
+Current educational QA systems demonstrate significant
+performance degradation when handling Arabic mathematical
+content, with parsing accuracy dropping to 52% compared
+to 89% for equivalent English documents [16] which is
+a limitation directly addressed by the parser developed
+in this study. Furthermore, existing multilingual RAG
+implementations exhibit substantial language bias, with
+Arabic queries receiving 34% lower retrieval accuracy than
+English equivalents in cross-lingual scenarios [5].
+The preservation of mathematical formulas in educational
+content presents a critical challenge for RAG systems,
+particularly for the scientific specialization in Morocco.
+Studies indicate that up to 73% of mathematical expressions
+are corrupted or lost during traditional PDF parsing processes
+[24], limiting the utility of educational QA systems for STEM
+subjects. This problem is compounded in Arabic educational
+documents, where the combination of RTL text flow and
+embedded mathematical notation creates additional parsing
+complexities that existing systems fail to address adequately
+[10].
+This research addresses these limitations through three
+primary research questions:
+1) How can RAG pipelines be optimized for multilingual
+educational content with complex mathematical notation979-8-3315-5139-1/25/$31.00 ©2025 IEEE
+2025 4th International Conference on Embedded Systems and Artificial Intelligence (ESAI) | 979-8-3315-5139-1/25/$31.00 ©2025 IEEE | DOI: 10.1109/ESAI67033.2025.11438335
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:49:36 UTC from IEEE Xplore.  Restrictions apply. 
+while maintaining high accuracy across Arabic, French,
+and English?
+2) How do different retrieval and fusion techniques perform
+across multilingual curricula, and what combination of
+sparse and dense retrieval methods provides optimal
+educational QA performance?
+Our contributions are threefold: first, we present a
+progressive RAG framework evaluation encompassing
+Naive, Hybrid, and Advanced architectures specifically
+designed for educational content across three languages.
+Second, we introduce a specialized document parsing
+pipeline for optimal Arabic content extraction. Third,
+we provide a comprehensive multilingual performance
+analysis demonstrating the effectiveness of hybrid retrieval
+approaches, such as reciprocal rank fusion and confidence-
+aware generation, for educational QA systems.
+The remainder of this paper is organized as follows: Section
+II reviews related work. Section III details our progressive
+methodology. Section IV describes the experimental setup,
+including the Moroccan curriculum dataset. Section V presents
+comprehensive results across all pipeline variants and lan-
+guages. Section VI discusses key findings and limitations.
+Section VII outlines future research directions, and Section
+VIII concludes the study.
+II. LITERATUREREVIEW
+A. RAG systems
+Recent literature demonstrates how RAG has evolved from
+simple question-answering systems to advanced hybrid models
+[18]. The basic RAG system integrates neural retrievers with
+sequence-to-sequence generators to connect results with ex-
+ternal documents, achieving high performance on knowledge-
+based tasks. Modern RAG systems utilize modular designs
+that include chunking, embedding, retrieval, and generation
+components, acting as ”live memory” for large language mod-
+els [29]. However, traditional dense retrieval methods struggle
+with specific terminology and exact keyword matching, neces-
+sitating hybrid retrieval strategies that mix sparse and dense
+methods; a strategy integrated into our Hybrid architecture.
+B. Multilingual Information Retrieval and RAG
+Cross-lingual RAG presents significant performance gaps
+across languages [5]. Recent methods show that while re-
+sponse language correctness is a hurdle in monolingual re-
+trieval settings, the primary challenge in multilingual retrieval
+remains reasoning across languages rather than generation
+quality [14]. Culturally informed multilingual RAG research
+indicates that contextualizing with views across multiple
+languages increases robustness and decreases geopolitical
+bias, with multilingual document retrieval outperforming in-
+language-only strategies [12]. Evaluation paradigms exhibit
+uneven linguistic distribution in test suite outputs, revealing
+a strong need for purpose-built multilingual architectures.
+C. Educational AI and Curriculum-Based QA Systems
+Educational RAG applications have demonstrated promis-
+ing results in providing personalized learning support with
+high availability [2]. Recent implementations employ adaptive
+questioning mechanisms that adjust explanations based on
+student proficiency. Enhanced question-answering systems for
+skill-based learning integrate knowledge-based AI frameworks
+with generative models to provide explanations encompass-
+ing both procedural knowledge and reasoning [6]. However,
+curriculum-aware systems face challenges in processing com-
+plex mathematical notation and maintaining context across
+multi-turn dialogues.
+D. Hybrid Retrieval and Ranking Fusion
+Hybrid retrieval strategies combining BM25 sparse re-
+trieval with dense embedding methods consistently outperform
+single-method approaches [9]. Reciprocal Rank Fusion (RRF)
+has emerged as an effective technique for merging ranked lists,
+with empirical studies showing approximately 20.4% relative
+gains over dense retrieval alone and 9.54% over BM25 in
+out-of-domain benchmarks. Cross-encoder reranking provides
+further improvements by processing query-document pairs
+jointly, enabling more sophisticated relevance scoring than bi-
+encoder approaches [22].
+E. Document Parsing and Mathematical Content Extraction
+Extracting mathematical formulas from PDF documents re-
+mains a significant challenge. Conventional parsing techniques
+achieve only 52% accuracy on sophisticated mathematical ma-
+terial versus 89% for ordinary text [23]. Recent developments
+use modular pipelines including layout detection, OCR, and
+expression extraction. Specialized models perform better on
+diverse document types [4]. While tools like PDF-Extract-
+Kit [25] exhibit strong performance, the intricacy of fusing
+embedded mathematical notation with RTL text flow makes
+Arabic mathematical content analysis particularly difficult,
+necessitating the specific pretreatment methods proposed in
+this study.
+III. METHODOLOGY
+This section presents our progressive approach to devel-
+oping a robust trilingual RAG framework. Figure 1 depicts
+the proposed Advanced Pipeline Architecture, illustrating the
+integration of specialized document parsing, dual retrieval
+mechanisms (sparse and dense), multi-stage ranking with
+cross-encoder reranking, query expansion via LLM-based
+paraphrasing and Pseudo-Relevance Feedback (PRF), diversity
+promotion through Maximal Marginal Relevance (MMR), and
+confidence-aware generation.
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:49:36 UTC from IEEE Xplore.  Restrictions apply. 
+Fig. 1. Advanced Pipeline Architecture Flow
+The architecture operates through several key stages: follow-
+ing document parsing and chunking, user queries undergo ex-
+pansion and encoding into semantic vectors. The system then
+performs parallel sparse (BM25) and dense (FAISS) retrieval,
+fuses results via RRF, applies MMR-based diversification,
+performs cross-encoder reranking, and generates confidence-
+scored answers using a quantized LLM with language-adaptive
+prompting. This end-to-end pipeline was developed progres-
+sively through three iteration: Naive, Hybrid, and Advanced.
+A. Progressive Pipeline Development
+To systematically evaluate the contribution of each archi-
+tectural component, we developed three progressively sophis-
+ticated RAG pipelines.
+1) Naive RAG Pipeline (Baseline):The baseline imple-
+ments standard dense retrieval using multilingual embeddings
+(multilingual-e5-large [26]), FAISS vector search [8], and a
+quantized LLM (DeepSeek/Qwen3-8B) [28] for generation.
+Documents are segmented into overlapping, sentence-based
+chunks with language-adaptive prompts to establish baseline
+metrics.
+2) Hybrid RAG Pipeline:The Hybrid pipeline combines
+BM25 [21] sparse retrieval with dense embeddings, merging
+results via Reciprocal Rank Fusion (RRF). Top candidates
+undergo cross-encoder reranking (ms-marco-MiniLM-L-6-v2
+[20]) for improved relevance scoring, balancing speed and
+accuracy.
+3) Advanced Hybrid RAG Pipeline:Building upon the
+Hybrid foundation, the Advanced pipeline (Figure 1) incor-
+porates query expansion, PRF, MMR-based diversification
+with source deduplication, and confidence scoring to detect
+hallucinations. This multi-stage architecture delivers robust
+answers optimized for multilingual educational content.
+IV. EXPERIMENTALSETUP
+A. Dataset Construction and Preparation
+The experimental framework evaluates multilingual retrieval
+and reasoning over Moroccan educational resources. The
+dataset comprises approximately twenty documents spanning
+mathematics, life sciences (SVT), Arabic language, history,
+geography, and English, sourced from public curriculum
+repositories. Materials were provided in PDF and DOCX
+formats across Arabic, French, and English.
+Document parsing employed a dual-strategy approach
+based on language and content type: LlamaParse[15] with
+scientific presets for French and English documents, and
+PyMuPDF[3] augmented witharabic_reshaper[7] and
+bidi[11] for Arabic content. This strategy was adopted after
+observing that LlamaParse frequently failed to retain Arabic
+text and notation, while PyMuPDF proved more reliable for
+such content. The system automatically routes documents
+to the appropriate parser while preserving mathematical
+expressions using LATEX conventions.
+For pipeline evaluation, we constructed a JSON dataset
+containing structured query-answer pairs. Each entry includes
+question ID, source file, question text, gold answer, gold con-
+text, and language identifier. Figure 2 illustrates the language
+distribution. Cross-lingual testing was performed to assess
+retrieval robustness when query language differed from source
+document language.
+Fig. 2. Language Distribution in the Dataset
+After pipeline execution, model outputs were appended
+to the JSON structure. The Advanced pipeline additionally
+outputs confidence scores derived from cross-encoder rerank-
+ing[20], which correlate strongly with answer correctness and
+faithfulness.
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:49:36 UTC from IEEE Xplore.  Restrictions apply. 
+B. Implementation Details
+Experiments were conducted on a single NVIDIA RTX
+A4000 GPU (16GB VRAM) with 45GB system RAM.
+Quantization was applied across all models to optimize
+memory usage. The software stack integrated Python
+with HuggingFace Transformers[27], FAISS[8], PyMuPDF[3],
+LlamaParse[15], BM25[21], and SentenceTransformers[20].
+The retrieval pipeline employed dense embeddings from
+intfloat/multilingual-e5-large[26], cross-encoder reranking
+viams-marco-MiniLM-L-6-v2[20], andDeepSeek-R1-8B
+for generation. Index construction used FAISS IVF[8] with
+empirically selected parameters (48 clusters, 10 probes) and
+normalized dense vectors.
+C. Evaluation Framework
+Evaluation relied on embedding-based similarity to assess
+generated text and context alignment with gold standards. The
+LLM-judge component was excluded due to hardware con-
+straints. Cosine similarity was computed usingmultilingual-
+e5-large[26]. Multilingual robustness was assessed by prompt-
+ing the LLM in different languages, and mathematical accu-
+racy was verified manually. Efficiency metrics included GPU
+memory usage and query latency, revealing a trade-off between
+accuracy and processing time.
+The primary evaluation metrics are:
+•embedding_correctness:Cosine similarity
+between embeddings ofmodel_answerand
+gold_answer.
+•embedding_faithfulness:Cosine similarity be-
+tweenmodel_answerandretrieved_context.
+•correctness_score:LLM-based factual correct-
+ness evaluation (0–5 scale).
+•faithfulness_score:LLM-based factual ground-
+ing evaluation (0–5 scale).
+•clarity_score:LLM-based evaluation of answer
+clarity (0–5 scale).
+V. RESULTS ANDANALYSIS
+A. Document Parsing Performance
+We evaluated parsing by processing documents through
+both parsers and retaining the optimal output. LlamaParse
+(scientific preset) excelled on French and English scientific
+documents; retaining headings, tables, and display math. How-
+ever, it has struggled with Arabic RTL loss. PyMuPDF was
+highly efficient and reliable for non-scientific and math-light
+documents; with RTL reshaping, it preserved Arabic text flow
+but showed limitations with complex formulas. Regarding
+efficiency, PyMuPDF was near-instant, while LlamaParse av-
+eraged 4-5 minutes per document.
+B. Pipeline and Retrieval Evaluation
+Fig. 3. Average Embedding Correctness and Faithfulness per Pipeline
+As shown in Figure 3, the Advanced pipeline outperformed
+both the Hybrid and Naive baselines. It achieved embedding
+correctness and faithfulness scores close to 0.9, indicating
+generated answers were semantically aligned with the gold
+standard and grounded in the retrieved context. In comparison,
+the Hybrid pipeline averaged approximately 0.64, while the
+Naive pipeline performed significantly lower. These results
+highlight the effectiveness of incorporating reranking, query
+expansion, and confidence calibration.
+Fig. 4. Average Evaluation Scores per Pipeline
+Figure 4 presents complementary evaluation metrics. The
+Advanced pipeline again emerged as the strongest architecture,
+achieving an average score of 4.6 across all three metrics.
+C. Multilingual Performance
+Evaluation of multilingual performance focused on embed-
+ding correctness and faithfulness per language. As illustrated
+in Figures 5 and 6, the Advanced architecture consistently
+achieved the highest scores. Notably, Arabic queries performed
+exceptionally well, surpassing English and trailing French only
+slightly. This suggests that despite the complexity of right-
+to-left parsing, the Advanced pipeline successfully produced
+semantically accurate answers, validating its suitability for
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:49:36 UTC from IEEE Xplore.  Restrictions apply. 
+the Moroccan curriculum. Conversely, the Naive and Hybrid
+pipelines showed limited ability to handle linguistic variation.
+Fig. 5. Embedding Correctness Evaluation by Language per Pipeline
+Fig. 6. Embedding Faithfulness Evaluation by Language per Pipeline
+VI. DISCUSSION, IMPLICATIONS ANDLIMITATIONS
+The proposedAdvanced Hybrid RAG pipelinedemon-
+strates a highly effective architecture for curriculum-based
+question answering. Its workflow utilizes curriculum-based
+chunking, dual retrieval (Sparse BM25 and Dense FAISS),
+query expansion, rank fusion (RRF), cross-encoder reranking,
+and confidence scoring to minimize hallucinations.
+Impact and performance analysis indicates:
+•High Embedding Correctness and Faithfulness:The
+Advanced pipeline achieved near-perfect scores, outper-
+forming baselines.
+•Robust Multilingual Performance:The system main-
+tained strong results across Arabic, French, and English.
+•State-of-the-Art Design:Integration of scalable re-
+trieval, diversification, and confidence scoring establishes
+a hallucination-resistant framework.
+While the pipeline demonstrates strong performance, lim-
+itations remain. First, experiments were conducted on local
+hardware, imposing constraints on speed and context windows;
+retrieval and generation occasionally required significant pro-
+cessing time per run. Second, the availability of high-quality,
+standardized Moroccan educational materials is significantly
+limited; reliance on teacher contributions introduces variability
+in content quality. Future improvements will focus on optimiz-
+ing retrieval speed, expanding the dataset with standardized
+resources, and integrating larger models while retaining the
+reasoning capabilities of DeepSeek.
+VII. CONCLUSION
+This research has developed an advanced, reliable trilin-
+gual RAG framework specifically designed for multilingual
+educational environments. Addressing the complexities of the
+Moroccan context (where instruction transitions between Ara-
+bic, French, and English with technical notation) our system
+overcomes the failures of traditional solutions. By engineering
+a specialized document parsing pipeline and a sophisticated
+RAG architecture with query expansion and confidence es-
+timation, we achieved near-perfect accuracy across all three
+languages. Notably, performance on Arabic queries rivaled
+French and occasionally surpassed English. These findings
+represent a significant step toward trustworthy educational sup-
+port tools. Future development will focus on query expansion
+and context pruning to evolve this framework into a scalable
+product for Moroccan schools and broader multilingual con-
+texts.

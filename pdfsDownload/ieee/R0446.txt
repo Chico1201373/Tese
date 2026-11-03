@@ -1,0 +1,747 @@
+979-8-3315-5668-6/26/$31.00 ©2026 IEEE  
+A Governed Closed-Domain Question Answering 
+System for Decision Assistance in Education  
+ 
+Walaa A. Elnozahy  
+Information Systems and Computers 
+Department, Faculty of Business,  
+Alexandria University 
+Alexandria, Egypt 
+walaa.elnozahy@alexu.edu.eg 
+https://orcid.org/0009-0007-8245-0185   
+Ghada A. El Khayat 
+Information Systems and Computers 
+Department, Faculty of Business, 
+Alexandria University  
+Alexandria, Egypt 
+ghada.elkhayat@alexu.edu.eg  
+https://orcid.org/0000-0002-6201-629X  
+Esraa I. Aboulsafa 
+Information Systems and Computers 
+Department, Faculty of Business, 
+Alexandria University  
+Alexandria, Egypt 
+esraa.aboulsafa@alexu.edu.eg  
+https://orcid.org/0009-0009-2049-980X  
+Abstract—The recent Artificial intelligence development, 
+proven by the progress in Large Language models (LLMs) and 
+generative systems, has triggered a broad surge in AI adoption 
+in various sectors and domains, especially in the Education 
+Sector. Most of the LLM ou tcomes are supporting human 
+learning, whether directly through tutoring, explanations, and 
+feedback, or indirectly through improving decision quality, 
+reducing cognitive load, and accelerating access to information 
+that shapes learning -related choices. Thi s is creating a lot of 
+opportunities for the Educational Institutions as the AI powered 
+Question Answering is now expanding to provide 
+more accurate output and guidance. However, the 
+challenge remains with closed domains where we need to keep a 
+certain lev el of security and privacy. Most of the tasks in the 
+education domain often depend on closed, sensitive, and policy-
+governed data, where privacy, access control, and answer 
+traceability are essential. In this paper, we propose a governed 
+closed-domain QA f ramework designed for educational 
+decision assistance across both academic and administrative 
+tasks. The Framework works in three phases. It starts with the 
+query processing step, where we review the user input, then 
+Intelligent Routing & Retrieval, which routes requests to 
+relevant source and finally, retrieval and reinjection, where the 
+responses are produced and constructed into structured 
+outputs.  
+Keywords— Education, Closed-Domain Question Answering, 
+Large Language Models, Multilingual NLP, Privacy Governance, 
+Role-Based Access Control, Retrieval -Augmented Generation, 
+Auditability. 
+I. INTRODUCTION  
+Artificial intelligence (AI) has reached a significant level 
+of maturity. The last two years witnessed a noticeable surge in 
+the use of AI and Question Answering (QA) tools by a broad 
+range of users. It was reported in [1] that, since 2022 and till 
+July 2025, ChatGPT products have been used by 10% of the 
+world’s adult population, which is around 800 - 850 million 
+users. The core functions done using these tools can be 
+summarized into the following: 
+1. Guidance & Tutoring: such as Learning support, 
+ideation, explanations 
+2. Information Seeking: People, events, recipes, 
+and general knowledge 
+3. Content Assistance: Email writing, document 
+drafting, summarization, translation 
+The use of AI has extended beyond education into areas 
+such as customer service, research support, consulting, and 
+information technology workflows [2]. This is widely the case 
+for all LLMs, not just ChatGPT, noting that currently we 
+have a wide variety of LLMs, including Google’s Gemini [3] 
+and Anthropic’s Claude [4]. The analysis of Claude's 
+interactions shows that the users concentrate heavily on 
+cognitively demanding activities such as problem solving, 
+writing, programming, and troubleshooting [5].  
+All previously mentioned LLMs are open  domains and 
+publicly work for all domains; however, education is a 
+particularly high -impact domain for such systems, as it 
+combines multiple stakeholders and language -intensive 
+processes. The Educational Institutions  need to support 
+student needs, such as providing guidance, enabling 
+information retrieval, a s well as institution -facing tasks and 
+questions, such as program outcomes and  intake of quality, 
+admission process. Also, for the institute, it covers the same 
+points from an administrative point of view. For example, 
+admission and enrollment -related decision processes can be 
+pivotal for program success from the institutional viewpoint 
+[6], [7], while student readiness and support mechanisms are 
+essential from the l earner perspective [8].  Accordingly, 
+education offers a strong practical case for QA tools that can 
+interpret user questions using Natural Language 
+processing, locate relevant institutional content, and respond 
+in a way that aligns with institutional expectations.  
+However, many current education systems target 
+learning assistance, like teacher/student support and 
+classroom usage [9], or use LLMs as a discovery interface for 
+educational resources like a searchable library [10].  These 
+uses are valuable, yet they do not fully address institution -
+critical data where answers have constraints that need to be 
+followed depending on internal regulations, operational 
+procedures, or sensitive records. In such settings, open -
+domain generati on is insufficient because institutions  must 
+ensure that responses originate from the right sources, also 
+respect role -based privileges that are defined based on the 
+domain logic, and finally avoid inappropriate disclosure of 
+protected or personally identifying information constraints 
+commonly associated with closed -domain data access in 
+institutional environments [6].  
+This challenge becomes more complex in multilingual 
+educational contexts, particularly in Arabic data in 
+institutions. With different languages, the data are distributed 
+across languages, and they might not have one source of truth 
+for the data, with inconsistent terminology and phrasing. 
+Without clear multilingual handling, systems may misclassify 
+the user's question, or r etrieve a mismatch, and ideally 
+produce outputs that are difficult to justify or align with the 
+asked question. These limitations are dr iving us to a closed -
+domain QA approach in which governance and  verification 
+are essential parts of the structure and are embedded within 
+2026 IEEE International Conference on Smart Sustainable Systems for Computer and Engineering Applications (3SCEA)
+1285
+2026 IEEE International Conference on Smart Sustainable Systems for Computer and Engineering Applications (3SCEA) | 979-8-3315-5668-6/26/$31.00 ©2026 IEEE | DOI: 10.1109/3SCEA68071.2026.11603208
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:56:38 UTC from IEEE Xplore.  Restrictions apply. 
+the answering workflow rather than applied as an external 
+afterthought.  
+This paper proposes a private constrained closed -domain 
+question answering framework for decision assistance in 
+education, designed to support institution queries for different 
+users while preserving privacy and enforcing policy 
+constraints. The proposed a pproach follows three 
+phases/Steps: (1) “Secure Data Preparation”: starts with the 
+student queries that will be examined, and then the PII data are 
+extracted and masked, along with the key academic context 
+(such as GPA, credits, major), and then generate and construct 
+a structured version of the question. (2) Intelligent Routing 
+and Retrieval, where the system identifies the task type based 
+on the question and dispatches it to an appropriate pathway. 
+For example, the personal data goes through closed 
+institutional retrieval requests, while the rest of the data goes 
+through the open -data retrieval for general pedagogical 
+guidance, or a study -plan engine for personalized planning, 
+depending on the student's question. (3) Synthesi s & 
+Reinjection, at this step, the outputs from the previous step 
+will be validated and evaluated, then sensitive fields are 
+reinjected, and finally, a structured response is generated as 
+the final response and displayed to the user. 
+This paper is organized as follows: we will start with a full 
+literature review for question answering in general, then 
+specifically for the Education and closed domain. Then move 
+to the proposed framework and finally discuss the conclusion 
+and future work.  
+II. LITERATURE REVIEW 
+Question Answering systems have evolved significantly 
+alongside advances in artificial intelligence. The development 
+of Large Language Models (LLMs) has impacted user 
+behavior and work across multiple domains. The education 
+domain is one of the majorly imp acted areas, as most of the 
+tasks done using LLMs revolve around learning. In this 
+section, we provide a review of the various approaches, 
+techniques, and architectures for question answering, then 
+review the impact on the education domain. 
+A. Question-Answering Approaches, Techniques, and 
+Architecture 
+Question Answering research has advanced massively 
+with the recent AI development. The Question Answering 
+systems started with a rule-based system [11]. The rule-based 
+approach relied on handcrafted linguistic rules, keyword 
+matching, and predefined question patterns, so the 
+effectiveness of these rules depended heavily on the 
+completeness and correctness of encoded rules [12]. 
+These approaches are commonly grouped into 3 types in 
+[13]: Template -based methods that populate predefined 
+answer frames [14].  Syntax-based methods that apply 
+grammatical and logical structures  [15]. The semantic-based 
+methods that map language to meaning using ontologies or 
+semantic networks [16]. 
+The rule -based QA performance is good in narrow, 
+controlled domains, as the rules are specific and answer 
+specific questions. However, it typically struggles with 
+language variation, unseen questions, and deeper context and 
+conclusions, which limit scalability and robustness [17]. 
+Accordingly, to improve the flexibility and overcome this 
+limitation, the research started to move toward machine 
+learning (ML) based QA, where subtasks such as question 
+classification, answer selection, and ranking are extracted 
+from annotated corpora rather than specified as rules [18]. 
+Traditional ML uses supervised or semi -supervised 
+classifiers such as Support Vector Machines (SVMs), 
+decision trees, and Conditional Random Fields (CRFs). 
+These classifiers are trained on lexical  and shallow semantic 
+features extracted from questions and answers [19]. 
+These feature -driven models improved generalization 
+compared to rule -based systems, yet they remained 
+constrained by feature engineering effort, domain -specific 
+preprocessing, and labeled data requirements, and they often 
+underperformed on deeper semantic understanding and 
+multi-step reasoning limitations that pushed research toward 
+deep representation learning [13]. 
+The next step for QA was deep learning; QA systems 
+learned hierarchical and contextual representations directly 
+from data. The Neural architectures, for example  
+Convolutional Neural Networks (CNNs), Recurrent Neural 
+Networks (RNNs), and attention-based encoders have created 
+semantic matching improvement between questions and 
+answers, especially for knowledge base QA and neural 
+reading tasks [20]. Surveys show that deep learning improved 
+the contextual extraction and answer accuracy, but at the 
+same time, it  increased reliance on large datasets and 
+significant computation, while still facing issues with 
+explainability, robustness, and complex reasoning [21], [22]. 
+Moving from Deep learning, a major turning point 
+happened, which was the Transformer architecture. It started 
+by introducing self-attention for global context modeling and 
+became the key element in modern QA [23]. Building on 
+transformers, pretrained models such as BERT made 
+significant improvements in QA extraction and reading 
+comprehension through fine -tuning. The se models 
+outperformed the older version by improving their extraction 
+through using large datasets such as SQuAD [24]. The 
+transformer-based sy stems then evolved toward generative 
+QA and open -domain settings, which included retrieval -
+augmented designs that enhanced factual grounding by 
+merging retrieval with generation [25]. 
+Recently, the emergence of Large Language Models 
+(LLMs) changed QA approaches drastically towards a 
+general-purpose reasoning that uses natural language 
+generation. It usually generates the answers using pretraining, 
+which is represented by the GPT -style models. The 
+transformer-based retrieval -generation systems (RAG [25]) 
+and LLMs (GPT -4 [26], Claude 3 [2 7], Gemini [3]) enable 
+broad reasoning and generation and demonstrate strong zero-
+shot and few-shot QA as model and data scale increased [28]. 
+These LLMS can be fine-tuned using specific datasets, which 
+create what is called instruction -tuned models and 
+reinforcement learning from human feedback (RLHF). These 
+are used in InstructGPT [29], which results in more controlled 
+and reliable answers. 
+Newer models such as GPT -4 [28],  Claude 3[29], and 
+Gemini [3] extended the QA progress to a stronger reasoning, 
+multilingual interaction, and long -context or multimodal 
+capabilities. But, because LLM knowledge is  bound by 
+2026 IEEE International Conference on Smart Sustainable Systems for Computer and Engineering Applications (3SCEA)
+1286
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:56:38 UTC from IEEE Xplore.  Restrictions apply. 
+pretraining, these systems can still produce incorrect or 
+outdated outputs. 
+This ideally drives into more hybrid designs which  
+use Retrieval-Augmented Generation (RAG) [25] to mitigate 
+hallucination and improve grounding, especially for 
+education contexts. As per [30], the educational literature 
+emphasizes RAG as especially relevant where correctness, 
+transparency, and alignment w ith approved content are 
+required, supporting learning and institutional use cases with 
+better reliability and traceability than standalone LLMs. Fig. 
+shows the RAG workflow in education, considering both 
+students and teachers as the primary users of the tool. 
+ 
+Fig. 1. The workflow of RAG [30]. 
+Finally, hybrid QA combines symbolic and neural 
+components, usually using knowledge graphs (Ontology) to 
+support structured reasoning while keeping the balance [31]. 
+The improvement happens with embedding and integrating 
+structured knowledge based on the available data sets, which 
+ideally improves  multi-hop reasoning and context -aware 
+answering [32]. In [33], the recent hybrid LLMs showed 
+improved control using validation rules, schemas, and 
+ontologies, which highly reduced the hallucination and 
+improved reliability. This is extremely useful in safety-critical 
+domains such as education. 
+Along with the approaches, changes, and development, the 
+techniques used in each approach are also developed. It goes 
+3 sets of techniques: the question analysis techniques, 
+Information retrieval, and answer extraction and generation. 
+These different techn iques aim to strengthen the query  of 
+understanding, question classification, and expected answer 
+types. The classical Machine learning methods, such as 
+Support Vector Machine (SVMs) and logistic regression, are 
+still used for question classification as it works with 
+constrained and even with low -resource settings [34]. They 
+matter the most with the limited training data, which reduces 
+the feasibility of more complex models [19]. 
+The query analysis techniques aim to transform the raw 
+natural language and understand the user’s intent using 
+lexical, syntactic, and semantic processing. It includes query 
+expansion and handling out-of-vocabulary terms (OVVs), and 
+using contextual embeddings, which, at the end, improve 
+precision and F1, though may affect ranking stability [35]. The 
+extraction is done using Preprocessing such as segmentation, 
+keyword extraction, and answer-type detection, which is also 
+widely recognized as a critical layer  in QA architecture 
+pipelines [36]. 
+Once keywords are extracted, our focus will shift to 
+information retrieval, which remains central for QA, as this is 
+the stage where we find the evidence to then extract the 
+answer. The retrieval methods start with the sparse retrieval, 
+such as BM25, which  is Term Frequency-Inverse Document 
+Frequency (TF -IDF) weighting and ranking functions for 
+evidence and document estimation [37]. Then, moving from 
+the BM25 used for efficiency and strong lexical matching to 
+the K -Nearest Neighbors (KNN),  measures the simi larity 
+between query vectors and indexed documents [30]. The 
+Second retrieval method is the Dense retrieval, which enables 
+semantic search by mapping queries and documents into 
+shared spaces, with methods such as DPR [38], ColBERTv2 
+[39], and Contriever [40]. It shows a wide improvement in the 
+retrieval’s quality and generalization.  Knowing the 
+techniques, modern tools mostly use a hybrid approach 
+between sparse recall and dense ranking. 
+ After retrieval, systems start the extraction process with 
+different extraction techniques, such as span selection using 
+transformer encoders and attention, or generative techniques 
+such as sequence -to-sequence and autoregressive generation 
+models [13]. M ore recently, RAG has become a dominant 
+technique for generation, using strategies such as Fusion -in-
+Decoder (FiD), re -ranking, and multi -document aggregation 
+[41]. It is improved further using prompt engineering, domain 
+fine-tuning, and adaptive retrieval , especially relevant for 
+educational settings [42]. 
+Considering all the techniques and approaches that are 
+used to create question answering, a lot of architectures have 
+been produced to orchestrate the work between all  the 
+different tools and techniques. The typical architecture for QA 
+is implemented as a multi-stage architecture. This architecture 
+starts with a query and then transforms it into an answer 
+through modular components. The pipeline begins with 
+question proc essing, which includes tokenization, syntactic 
+parsing, question classification, and semantic interpretation to 
+extract the user's intent and answer type. This step is crucial in 
+the retrieval strategy and response formulation [43]. The 
+second stage is information retrieval, where the system 
+searches for the relevant evidence and documents from 
+available corpora, datasets, knowledge bases, or hy brid 
+repositories. Earlier architectures relied on keyword methods 
+such as TF-IDF and BM25, then moved to the dense retrieval 
+based on transformer embeddings or dual -encoder designs, 
+and finally, the hybrid approach as mentioned before [38]. 
+The last stage is answer ing processing, where systems 
+either extract spans (extractive QA) or generate natural -
+language responses using generative QA and LLMS based on 
+the retrieved context. It also includes retrieval -augmented 
+generation models to ensure that the mode outputs are 
+supported by the provided information and knowledge page, 
+or what is called improving the factual grounding [44]. 
+Many architectures then apply answer selection and re -
+ranking using scoring functions or neural rankers to ensure 
+relevance and coherence. In high -reliability domains, post -
+processing layers may include rule -based validation, factual 
+consistency checks, and justification mechanisms to increase 
+trustworthiness. Even when end -to-end LLMs appear to 
+compress these stages into a single model, modern QA 
+systems still frequently preserve retrieval augmentation and 
+validation layers to maintain grounded answers and  support 
+domain-specific requirements, including educational use 
+cases [38], [44]. 
+Many QA architectures select the best answer, rank the 
+candidate’s answers, and reorder using scoring methods and 
+ranking models to show relevant and clear results. In a closed 
+private domain setting, they add an extra layer after 
+2026 IEEE International Conference on Smart Sustainable Systems for Computer and Engineering Applications (3SCEA)
+1287
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:56:38 UTC from IEEE Xplore.  Restrictions apply. 
+generation, such as rule -based validation, fact checks, and 
+short explanations to make the answer more reliable. Even if 
+the final LLM seems to do everything in one step, most QA 
+systems are using layers and steps for retrieval and validation 
+layers to kee p answers grounded and meet domain needs, 
+including education [38], [44]. 
+B. Educational QA Systems: Datasets and Closed-Domain 
+Constraints 
+The Educational Domain is one of the most influential 
+domains; it has been impacted by the developments in LLMs. 
+Both students and teachers are using the open -access LLMs 
+for learning and support [1]. In [30], the author surveyed 47 
+RAG based questions answering systems used in education, 
+as summarized in Figure 2. The usage was summarized into 
+three main categories:  supporting the education ecosystem, 
+assessments, giving feedback, and students as QA systems and 
+chatbots. 
+A fourth category can be added based on the work done in 
+[6], which is adding the institution's decision makers and 
+administrators to the users we can support by addressing the 
+decision process needed for student recruitment for academic 
+programs. This was  expanded further in [7] by introducing 
+bilingual support and multi -language data sources to enable 
+cross-source and cross-language answering. 
+Education Datasets successfully positioned itself among 
+other datasets, such as  SQuAD [45], TriviaQA [46], 
+HOTPOTQA [47] and MS MARCO datasets.  All the 
+previously mentioned datasets are public datasets that 
+contributed widely to the open domain QA system. 
+ 
+Fig. 2. Summary of RAG Application in Education [30]. 
+However, when it comes to the education domain as a closed 
+domain, the case is different, as each institute uses its own 
+data.  
+As the Educational domain is closed, it usually depends on 
+the institute's data sources. When we review ed the QA 
+Systems in education, we found that all the QAs depend on 
+the closed domain datasets. All QA are dependent on the 
+internal datasets, for example, the education FAQ -style 
+chatbot, which was using universities' datasets to provide 
+answers [8]. Same for [6],[7], it was using internal data 
+sources to support decisions, while giving the option to create 
+an internal data repository for the institution. Another QA for 
+selecting a college major while making sure the responses are 
+not biased or prejudiced towards a specific person. It states 
+that the datasets play a significant role in the response being 
+biased or not [48]. In [49], another QA to support students in 
+academic advising was using human advisors to train the 
+queries and used it as a reference to train. 
+The dependency on confidential/personal data, according 
+to the domain, sometimes limits the use of AI and the quality 
+of the results. In [50] and evaluation was made for the quality 
+of QA in Education, listing benefits and challenges. A main 
+challenge was towards  Privacy & Security, also the Bias 
+happening due to the data size, and lastly the huge cost for 
+implementation. In another study [51] assessing the use of 
+chatbots in academic advising, it stated that data availability 
+is one of the major limitations, especially with the Arabic 
+language. However, it was proven useful for the students. 
+Another QA tried to merge the Academic advising with a 
+personalized plan for the user based on their progress and 
+degrees [52]. 
+Several QA systems were created to support education in 
+Arabic. An Arabic chatbot to help students in college 
+admission [53]. A Review was conducted on the Arabic 
+language chatbots and the technologies used in them; most of 
+the chatbots use retrieval-based approach with NLP and deep 
+learning [54]. Ideally, that happens due to the domain and the 
+2026 IEEE International Conference on Smart Sustainable Systems for Computer and Engineering Applications (3SCEA)
+1288
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:56:38 UTC from IEEE Xplore.  Restrictions apply. 
+closed datasets. In [55], the importance of machine learning 
+and Natural Language processing techniques for Arabic 
+datasets is highlighted . The difficulty of the language and 
+dialects of Arabic and different options to overcome the 
+scarcity of Arabic datasets through translation is highlighted 
+in [6]. Another tool is built to help non -native students learn 
+Arabic using Visual Question Answering (VQA).  It creates 
+quizzes with AI models and was tested on 1,266 with human 
+feedback. [56]  
+Accordingly, privacy is causing limitations in terms of the 
+datasets we are using and causing Biase especially if the 
+dataset size is small. Although (RAG) reduces these risks by 
+limiting the responses from specific approved repositories. 
+However, with the  new LLMs and open tools, it started to 
+increase the privacy gap and sensitive data sharing [50]. 
+Recent research proposed a privacy layer, “LLM Access 
+Shield,” which targets masking sensitive data before sending 
+it to the public LLMs. This enforces privac y policies and 
+reduces the leakage risk while making sure the tasks are done 
+with the context [57]. 
+III. PROPOSED FRAMEWORK AND METHODOLOGY 
+This research proposed a framework that targets privacy 
+and security. It is stated as a governed closed-domain question 
+answering (QA) framework for decision assistance in 
+education, which is designed to operate under institutional 
+constraints related to privacy, access control, and auditability. 
+The framework targets both academic and administrative 
+areas where confidential/personal data should be constrained 
+and used anonymously, and the answers must align and be 
+reviewed based on the approved institution al knowledge 
+rather than unconstrained open -domain sources. It targets 
+assistance in scenarios such as advising, academic path, Score 
+evaluation, curriculum clarification, and study planning.  To 
+apply this, the proposed design adopts a controlled, multi -
+stage pipeline that minimizes exposure of sensitive data, 
+restricts retrieval scope based on task needs, and enforces 
+validation before returning responses. 
+A. Framework Overview and Design Goals 
+The proposed framework is designed to support privacy 
+using privacy -aware question answering. It is combining 
+approved closed institutional sources with public data; at the 
+same time, it is keeping a clear control over what can be used 
+in each case. Instead of treating all queries the same, the 
+framework applies the routing rules that decide which parts of 
+the request can be handled using public information through 
+LLMs, and which parts must be answered using internal 
+institutional sources and processes. 
+This design is generated based on the privacy constraints 
+and user needs in educational QA. Most of the questions are 
+classified based on the tasks,  such as admissions, curriculum, 
+student services, and career evaluation & personalized study 
+Plan. So , routing the query to the right flow improves 
+relevance and avoids unnecessary retrieval.  
+The framework aims to merge the best of both approaches; 
+we can use the fast-developed LLMs freely with the allowed 
+public and open data in the educational domain. While 
+keeping all confidential data as a second layer and applying 
+internal rules and extractio n based on the internal records 
+and confidential/Personal data  sources. So, we can list the 
+data sources for this  system as public knowledge (Online 
+sources), institutional data sources and repositories, 
+domain rules, and constraints.  
+Thus, the framework follows a few clear sets of goals: 
+1. Data source Controlling, as the system evaluates and 
+controls what to share publicly and what not to share 
+intentionally through routing. 
+2. Privacy by design, as it limits the exposure of 
+personal or sensitive data and enforces masking when 
+needed. 
+3. Task routing,  send each query through the most 
+suitable path. 
+4. Auditability and Logs , by keeping a clear log and 
+evidence of what was accessed and how the answer 
+was formed. 
+B. Proposed Framework Methodology and Workflow 
+The main idea is to separate what can be processed using 
+public data using the  LLM reasoning from what must be 
+processed internally using approved institutional sources to 
+keep privacy and governance controlled across the 
+architecture. The framework in Figure 3 explains the high -
+level of the phases and steps to achieve this framework.  
+ 
+ 
+Fig. 3. Proposed Architectural Framework for a Governed Closed-Educational Domain.  
+As shown in Figure 3, the framework starts with the Query 
+processing phase, where the user provides a question in either 
+Arabic or English. The system processes the question through 
+parsing and NLP extraction to identify keywords. The system 
+identifies user data within the question (Personal and 
+Education data), then moves to the intelligent routing & 
+Retrieval phase. 
+2026 IEEE International Conference on Smart Sustainable Systems for Computer and Engineering Applications (3SCEA)
+1289
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:56:38 UTC from IEEE Xplore.  Restrictions apply. 
+In this phase, the first step is to query the 
+confidential/personal data in the institution database to verify 
+the accuracy of the provided data and the user's authority to 
+access this information. Once verified, the system detects the 
+question type using the keywords matching across four main 
+task types: Admissions, Curriculum, Student Services, and 
+Career Evaluation & Personalized Plan. It then applies the 
+following routing: 
+1. Admission: Matches keywords to specific program 
+requirements. The system redirects the user to the 
+internal dataset for Admission and Program 
+requirements. 
+2. Curriculum & Study: Handles general academic 
+queries; it redirects the user to a Public LLM. 
+3. Student Services: If the question keywords match, the 
+system redirects the user to the internal LLM to 
+answer institution -specific questions (e.g., campus 
+facilities). 
+4. Career Evaluation & Personalized Plan: Merges 
+Internal LLM data with a new query for broader 
+context which is then passed to the Public LLM for 
+further evaluation and cases. 
+Once routing is complete and results are retrieved, the final 
+Synthesis & Privacy phase begins by producing a clear, 
+structured output such as an academic roadmap or a verified 
+policy answer and delivers the final response to the student.  
+IV. IMPLEMENTATION  
+Building on the proposed framework, this section presents 
+the Python implementation of a RAG pipeline. We use 
+CAMeL Tools [58] for Arabic NLP analysis and spaCy [59] 
+for English NLP, and we use GPT [28] to handle public LLM 
+tasks. It is implemented in three stages: Initial Data Processing 
+& Query, Intelligent Routing & Mapping, and Synthesis & 
+Final Review 
+In Figure 4, we present the workflow of the proposed 
+framework using an example that illustrates how a student 
+query moves from intake to a final, validated response. The 
+framework proceeds through three phases. The following 
+sections provide details for e ach step, along with a student 
+interaction use-case example. 
+ 
+Fig. 4. Application of Student Query on the Framework 
+2026 IEEE International Conference on Smart Sustainable Systems for Computer and Engineering Applications (3SCEA)
+1290
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:56:38 UTC from IEEE Xplore.  Restrictions apply. 
+A. Initial Data Processing & Query 
+The flow  starts with  Query Processing;  The workflow 
+starts with the student’s query. The student query goes 
+through NLP parsing engine  based on the users  input 
+language Arabic or English. System extracts  personal 
+identifiable information (PII), such as nam e, age, phone 
+number, email, etc., and the education information  such 
+as Student ID, grades,  GPA, major, and Credits  to limit 
+exposure of sensitive information.  Once processing is 
+done, the system  generates the keywords  and classifies  the 
+data “PII Data, and Academic Data.”  
+Once Question is received, the system starts the NLP 
+processing by detecting the language. In case of Arabic 
+question, starts by normalizing alef variants (   آ أ إ→  ا  ,)remove 
+diacritics (تشكيل ,)tokenize with camel-tools then remove the 
+stop words. In case of English, it starts with spaCy 
+lemmatization, then r emove stop words . Once done, entity 
+extraction such as student name, IDs, GPA values (e.g., "3.5”) 
+and Keywords. 
+Example: A Student asks the following question:  "I 
+am struggling with Calculus (score: 62) but doing great in 
+Physics (score: 95). How can I improve my 
+overall GPA?” Question Analysis starts, it is being analyzed 
+as mentioned  before, and system  extracts and provides the 
+keywords. 
+ 
+Before moving to the next step system, review the user's 
+access and validate the mentioned data in the user's input 
+(Validate and confirm if the data is correct). 
+B. Intelligent Routing & Mapping  
+At this stage, we take the output from stage  1 as input. 
+System starts the keywords mapping with the education 
+task types “Admissions, Curriculum,  Student Services, 
+and Career Evaluation & Personalized Plan” to  decide 
+the appropriate processing path. 
+If the query is related to policy or auditing and needs 
+institutional evidence, it is routed to internal retrieval over 
+approved repositories to build the controlled context using 
+RAG. If the query is general learning support, it can rely on 
+public data with LLM reasoning. 
+Example: As a next step based on the keywords system 
+detect the track is “Career Evaluation & Personalized Plan ” 
+and accordingly route the process as follows: 
+1. Internal RAG System and Data:  the system starts 
+internal search in both Arabic & English for 
+'Academic Policies' and 'Support Services' for [GPA 
+improvement], [Engineering Tutoring Schedules], 
+and [GPA Calculation Rules for Engineering 
+Majors]. Filter for relevance to Grade < 65% 
+2. Prompt to Public LLM:  Based on the keywords "  
+GPA Improvement" and "Calculus Support," the 
+system synthesizes the public prompt: "Struggling 
+with Calculus."  Propose an improvement plan for 
+overall GPA."  
+Once completed, the system receives the outputs of these 
+two flows and passes them as input to the next and final stage. 
+C. Synthesis & Final Review 
+In this final phase, the system reviews the previously 
+generated results against the access policy and the allowed 
+data scope before returning them. Once reviewed, the system 
+creates and synthesizes the answer with the personal data after 
+injecting the personal data only when needed and  permitted. 
+The framework then produces a clear, structured output, such 
+as an academic roadmap or a verified policy answer, and 
+delivers the final response to the student.  
+Once data is returned, the system evaluates the response 
+and starts PII and domain data embedding inside the content. 
+They provide the final delivery message for the 
+user, stating actions and a plan for the user to enhance their 
+performance. Then, at the e nd, a log of the task is generated 
+with the Task ID, PII Object, Domain Objects, Queries,  and 
+answers.   
+V. EVALUATION  
+We evaluated the  implementation using Retrieval 
+Augmented Generation Assessment  (RAGAS) [60]. It 
+was deployed over an anonymized institutional student -
+records dataset  that (e.g., GPA, academic status, advisor, 
+city, Academic track, 
+scholarship, and attendance). The identifiers were replaced 
+with codes (e.g., STU0001). The benchmark includes 36 
+deterministic Arabic test queries over 14 categories (e.g., top-
+GPA, lookup by ID, probation/status filtering, advisor 
+and city-based queries, GPA thresholds, scholar ship, 
+attendance). The evaluation was done for the following 
+aspects: Retrieval effectiveness, Answer  quality, and 
+End to End latency. 
+Overall retrieval performance was modest (Precision@5 = 
+0.206, Recall@5 = 0.380, F1@5 = 0.243). MRR@5 = 0.517 
+Arabic Query                          English Query 
+─────────────                         ───────────── 
+"من هو أفضل طالب؟"                    "Who has top GPA?" 
+        │                                    │ 
+        ▼                                    ▼ 
+  Normalize alef                      spaCy en_core_web_sm 
+  Remove tashkeel                     Lemmatize tokens 
+  Tokenize (camel-tools)              Remove stopwords 
+  Remove stopwords                           │ 
+        │                                    │ 
+        └──────── keywords + entities ───────┘ 
+                         │ 
+                         ▼ 
+              Entity extraction (both): 
+                - student_ids: [STU####] 
+                - gpa_values:  [3.5, 3.8] 
+                - keywords:    ["gpa", "engineering"] 
+                - years:       ["year 3"] 
+{ 
+  "PII": { 
+    "name": "Sarah Miller", 
+    "id": "8829" 
+  }, 
+  "Domain": { 
+    "gpa": 3.1, 
+    "subject_scores": { 
+      "Calculus": 62, 
+      "Physics": 95 
+    }, 
+    "major": "الهندسة" 
+  }, 
+  "Keywords": [ 
+    "GPA improvement", 
+    "Calculus support", 
+    "study plan" 
+  ] 
+} 
+ 
+2026 IEEE International Conference on Smart Sustainable Systems for Computer and Engineering Applications (3SCEA)
+1291
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:56:38 UTC from IEEE Xplore.  Restrictions apply. 
+value suggests relevant results frequently appear within the 
+top three candidates. Hit@1 was 0.417. The analysis exposes 
+a semantic structural gap when passing semantically rich 
+queries with structured lockup which  indicates the need for 
+hybrid retrieval (metadata/SQL style filters combined with the 
+semantic search).  
+Answer quality is also impacted by the Arabic usage; 
+answer relevancy (0.404) and faithfulness (0.592) were low 
+due to malformed Arabic output. However, the context of 
+recall was comparatively high (0.549), showing that relevant 
+evidence is often retrieved . Overall, the evaluation validates 
+the framework’s potential for multilingual institutional QA 
+(notably evidence coverage in retrieved context) 
+End to end latency for the question coming from the 
+internal RAG to the mean (1,083ms), while P95 (1,935ms). 
+However, this does not  represent the full End to end latency 
+as the framework is dependent on external  sources for some 
+questions which will increase the latency.  
+Overall, the framework satisfies the needs and fills the 
+addressed gap in the education domain. Gather all 
+organizational data into one source of truth and give access to 
+the domain users as per their needs and constraints  also limit 
+the data leakage that could happen from using public LLMs.  
+VI. CONCLUSION & FUTURE WORK 
+In this paper, we proposed a closed domain question 
+answering system that supports education constraints to make 
+sure privacy is preserved for the users.  Based on the domain 
+role and constraints, we provided a well-structured and robust 
+tool for the institute to support the different users and people 
+in the organization. While privacy check might cause latency 
+for the output; however, it ensures that the response 
+is following the regulation, such as General Data Protection 
+Regulation (GDPR), which is required in the European Union 
+(EU), and Family Educational Rights and Privacy Act 
+(FERPA), which is required in the USA. 
+Despite the strengths, there are some limitations that we 
+need to improve. It is required to enhance latency and perform 
+end-to-end testing for the model and outputs considering the 
+external factor. Reduce the semantic gap that happens due 
+to removing, then injecting the personal data into the desired 
+answer. Work on an ongoing conversation handling especially 
+with complex queries that have multiple intents.  We aim to 
+improve daily usability in a real university environment by 
+working on pilot deployment inside it.  

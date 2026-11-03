@@ -1,0 +1,692 @@
+ 
+Domain-Specific Fine-Tuning of LLMs for 
+Multilingual Student Advisory in Higher Education 
+Mohammad Abrar  
+Faculty of Computer Studies 
+Arab Open University 
+Muscat, Oman 
+abrar.m@aou.edu.om 
+Yousuf Nasser Al Husaini 
+Faculty of Computer Studies 
+Arab Open University 
+Muscat, Oman 
+yousufnaser@aou.edu.om
+Ahmed Sameer Mohammed 
+Mohammed 
+Faculty of Computer Studies 
+Arab Open University 
+Muscat, Oman  
+ ahmed123.as27@gmail.com  
+Rawad Abdulkhaliq 
+Faculty of Computer Studies 
+Arab Open University 
+Muscat, Oman 
+rawad.a@aou.edu.om
+Samaa Abdullah Nasser Al hasani  
+Faculty of Computer Studies 
+Arab Open University 
+Muscat, Oman 
+190370om@aou.edu.om 
+Wasin Alkishri 
+Faculty of Computer Studies 
+Arab Open University 
+Muscat, Oman 
+wasin.k@aou.edu.om  
+Abstract— Colleges are experiencing an increased need to 
+have smart, multi-lingual support systems that can respond to 
+various questions posed by the students. Although large 
+language models (LLMs) have strong general capabilities, they 
+are often inaccurate, culturally insensitive, and unsafe in low-
+resource and domain-specific settings. The paper introduces a 
+two-stage fine-tuning model for developing a multilingual 
+student services assistant specializing in English, Modern 
+Standard Arabic (MSA), Franco Arabic, and Omani Arabic. 
+Its purpose is to improve the factual accuracy, dialogue 
+coherence, and refusal accuracy in the sensitive institutional 
+environment. In Phase I, factual memorization was performed 
+by fine-tuning the TyDi QA and MASSIVE datasets with 
+LoRA adapters to enhance multilingual understanding. Phase 
+II used behavioral alignment, including institutional data and 
+the presence of refusal-inducing prompts, to improve the safe 
+management of out-of-scope queries. The evaluation metrics 
+were factual accuracy, BLEU, COMET, refusal precision, and 
+multi-turn coherence, with performance evaluated against 
+GPT-4, Aya-Base, and Vicuna. The suggested model was more 
+successful in refusal accuracy (0.86 vs. GPT-4 at 0.82) and 
+competitive accuracy (0.78 vs. GPT-4 at 0.81). It is noteworthy 
+that the dialectal performance was enhanced, especially in the 
+Omani Arabic. Domain-specific finetuning can be used to 
+create safer and more inclusive multilingual LLM assistants in 
+higher education and find the balance between accuracy and 
+reliability between underrepresented languages. 
+Keywords—Large Language Models, Fine-Tuning, TyDi QA, 
+MASSIVE, Multilingual, Higher Education, Student Support 
+I. INTRODUCTION 
+Advancements in multilingual comprehension and 
+production have been stunning with Large Language 
+Models (LLMs), which can be used in education, health 
+care, and customer support [1, 2]. Their ability to handle 
+multiple languages makes them a powerful tool for 
+addressing communication challenges in higher education 
+institutions that are becoming increasingly multilingual. 
+Cross-lingual evaluation and adaptation have also been 
+improved using benchmarks like TyDi QA [3], MASSIVE 
+[4], and newer developments in parameter-efficient fine-
+tuning techniques, including Low-Rank Adaptation (LoRA) 
+have made adapting foundational models to specific fields 
+less computationally intense [5]. Recent advances in 
+educational AI and the growing use of LLM-based systems 
+in academic institutions support the topicality of the work. 
+This research can also be considered part of the current 
+trends in responsible and inclusive AI implementation, as it 
+addresses the needs of multilingual and dialect-sensitive 
+students and helps fill gaps in the development of LLMs in 
+higher education. Although these innovations have been 
+achieved, there is a shortage of such multilingual assistants 
+in practical use in universities, especially for regional 
+dialects and domain-specific queries. Internationalization is 
+driving linguistic diversity in universities around the globe 
+and variations in language across regions [6]. Students 
+often ask questions on admissions, course requirements, 
+examinations, and institutional policies in various 
+languages and dialects, including English, Modern Standard 
+Arabic (MSA), Franco-Arabic, and Omani Arabic. 
+Traditional rule-based chatbots do not tend to recognize 
+codeswitching, dialectal variation, or context-dependent 
+knowledge [7, 8]. Despite their power, pre-trained LLMs 
+are prone to hallucinating or responding inappropriately to 
+queries in specific domains or unrepresented dialects [9]. 
+These limitations highlight the importance of fine-tuned 
+multilingual systems that can provide accurate, inclusive, 
+and context-sensitive answers. Our methodology is flexible 
+across linguistically diverse educational settings, 
+incorporating multilingual and dialectal variations in 
+English, Modern Standard Arabic, Franco Arabic, and 
+Omani Arabic. This inclusivity and multilingualism make 
+the model applicable across all areas rather than just within 
+a region. They are beneficial to global institutions that face 
+the same challenges in communicating with students and in 
+academic advising. Although general-purpose LLMs 
+perform well on open-domain benchmarks, they exhibit 
+various shortcomings when fine-tuned for student services 
+[10]. First, the factual grounding is not always enough, and 
+the mistake occurs in the most important spheres of 
+academic rules. Second, the refusal behavior is inconsistent: 
+models can answer sensitive questions with speculative 
+responses rather than avoid them as they should [11]. Third, 
+there is a lack of multilingual standards that reflect regional 
+dialects, which is also prevalent in the daily communication 
+between students. Therefore, we focus on academic and 
+administrative questions (e.g., admissions, exams, policies) 
+in multilingual universities. In contrast to earlier PEFT 
+techniques, which focus on task adaptation, our approach is 
+the only one to incorporate both the factual grounds and 
+dialect-sensitive refusal behavior, which are crucial in 
+advising students on trustworthiness. The concept of 
+2025 2nd International Conference on Advanced Computing and Emerging Technologies (ACET) | 979-8-3315-6783-5/25/$31.00 ©2025 IEEE | DOI: 10.1109/ACET67282.2025.11430234
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:16:37 UTC from IEEE Xplore.  Restrictions apply. 
+student support in this research paper refers explicitly to 
+academic and administrative advisory contacts, including 
+questions about admissions, course registration, 
+examinations, and institutional policies. The limited scope 
+ensures the proposed system directly addresses the 
+fundamental communication requirements of higher 
+education advisory services. Therefore, higher institutions 
+are challenged to implement powerful AI assistants that are 
+not only fair, reliable, and safe but also accessible to 
+students across various groups. This paper contributes the 
+following to deal with these problems:  
+• Propose a two-phase fine-tuning approach consisting 
+of factual memorization using behavioral alignment 
+with institutional data and refusal-inducing prompts.   
+• By integrating TyDi QA and MASSIVE with an 
+institutional corpus, we leverage complementary 
+strengths, cross-lingual comprehension, intent 
+recognition, and domain-specific knowledge.  
+• Conduct a comprehensive evaluation of the fine-
+tuned model against state-of-the-art baselines (GPT-
+4, AyaBase, and Vicuna), using metrics such as 
+factual accuracy, refusal precision, BLEU, COMET, 
+and multi-turn dialogue coherence.  
+With these contributions, this work will advance the 
+evolution of inclusive and trustworthy AI assistants in higher 
+education by closing the gap between large-scale 
+multilingual benchmarks and domain-specific institutional 
+requirements. The remaining part of the paper is organized in 
+the following way: Related Work provides the reviews of 
+multilingual LLMs, fine-tuning, and benchmarks; System 
+Architecture provides the overview of the five-layer 
+framework; Methodology delivers the information about 
+datasets, fine-tuning pipeline, and evaluation setup; Results 
+and Analysis provides the presentation of the empirical 
+findings with baseline comparisons; Discussion shows the 
+strengths, challenges, and improvements; Conclusion and 
+Future Work provides the insights about the contributions 
+and proposals to add to the existing system, including 
+retrieval augmentation, dataset expansion, and multimodal 
+support. 
+II. LITERATURE REVIEW 
+There is an increasing number of AI-driven tools being 
+implemented in higher education across tutoring and grading, 
+as well as administration. Surveys have demonstrated that 
+LLMs can offer scalable and customized answers, thus 
+raising the level of student engagement and institutional 
+knowledge accessibility [1, 2]. Indicatively, Xu et al. [3] 
+emphasize the potential of LLMs in the education sector, but 
+they warn about issues such as fairness and inclusiveness in a 
+multilingual setting. Recent literature also emphasizes the 
+significance of refusal actions and reliability because 
+unsuitable responses might weaken the credibility of 
+institutions [4, 5]. Despite these advances, few studies have 
+investigated domain-specific multilingual assistants tailored 
+to university services. Research in multilingual NLP has 
+advanced rapidly with the introduction of models such as 
+mBERT, XLM-R, and multilingual GPT variants. These 
+models demonstrate strong zero-shot transfer capabilities but 
+often struggle with dialectal variations and domain-specific 
+queries [6]. Fine-tuning techniques such as LoRA [7] and 
+other parameter-efficient approaches (PEFT) enable cost-
+effective adaptation of large models to specialized domains. 
+Gao et al. [8] survey Retrieval-Augmented Generation 
+(RAG) as a complementary method for grounding responses 
+in external knowledge bases, further reducing hallucination 
+risks. Recent studies in multilingual fine-tuning confirm that 
+domain adaptation improves factual accuracy and refusal 
+precision in specialized settings, but challenges remain in 
+ensuring long-context coherence [9][10]. Two benchmark 
+datasets are central to multilingual evaluation. TyDi QA, 
+with 204K question–answer pairs across 11 typologically 
+diverse languages, has become a standard for multilingual 
+question answering [6]. MASSIVE offers over one million 
+annotated utterances in 51 languages, designed for intent 
+classification and slot filling in conversational AI [7]. While 
+both datasets enhance cross-lingual evaluation, they lack 
+representation of dialects such as Franco-Arabic or Omani 
+Arabic, which are widely used in university contexts in the 
+MENA region. To bridge this gap, our study combines TyDi 
+QA and MASSIVE with an institutional dataset covering 
+English, MSA, Franco-Arabic, and Omani Arabic to develop 
+a domain-specific multilingual assistant. 
+III. SYSTEM ARCHITECTURE AND METHODOLOGY  
+The entire system will provide multilingual support to 
+students, ensuring accuracy and safety. It is based on a five-
+layer architecture, with input normalization to support a wide 
+range of languages and scripts, natural language 
+understanding, a domain-adapted LLM core, and response 
+management and system integration. All the layers have a 
+specific role in ensuring that queries are correctly 
+understood, contextually defined, and in line with 
+institutional policies, and that they exhibit reliable refusal 
+behavior when required. Our architecture is depicted in Fig. 
+1. The input layer standardizes queries in any language using 
+language detection and transliteration.  
+ 
+Fig. 1.  System architecture diagram 
+The NLU layer also classifies intents and fills slots using a 
+multilingual transformer fine-tuned on the MASSIVE 
+dataset. The LLM core layer consists of an LLM trained on 
+TyDi QA and an institutional data domain, adapted with The research is supported by Ministry of Higher Education, research and 
+Innovation and Arab Open University Oman, under grant no. 
+BFP/URG/ICT/24/001. 
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:16:37 UTC from IEEE Xplore.  Restrictions apply. 
+LoRA-based adapters. The response management layer 
+identifies the intent and content policies to answer or refuse, 
+and the refusal patterns are reinforced during fine-tuning to 
+ensure safety. This last is the integration and logging layer, 
+which interacts with the university systems and logs 
+interactions for continuous improvement. 
+A. Datasets and Two-Phase Fine‑Tuning 
+We have three sources of training data. TyDi QA [11] offers 
+204K pairs of queries and answers in 11 languages. 
+MASSIVE [12] provides intent and slot-annotated 
+utterances in more than one million parallel utterances in 51 
+languages. The institutional dataset consists of 7,000 student 
+queries and official responses in English, MSA, Franco-
+Arabic, and Omani Arabic. Although our institutional 
+dataset (7K samples) includes the major student services, in 
+the future, coverage will be expanded to provide robustness 
+across both query types and dialects. The fine-tuning 
+process is done in two stages: the first involves memorizing 
+facts, and the second involves aligning behaviors. The initial 
+phase consists of fine-tuning the LLM core using the TyDi 
+QA and MASSIVE datasets with LoRA adapters to enable 
+the model to internalize factual knowledge and improve 
+multilingual understanding. During the second stage, the 
+model undergoes retuning on prompts that trigger refusal 
+and on institutional data to learn how to respond 
+appropriately to questions outside the scope of the 
+institutional setting or lacking sufficient supporting 
+information. This domain-specific fine-tuning plan was 
+created to address the specialized nature of student advisory 
+interactions, where accuracy, institutional conformity, and 
+culturally appropriate refusal behavior are necessary. The 
+model can be improved to align with both factual 
+knowledge and the behavioral pattern of responses to 
+university policies, making it more applicable to real-world 
+academic advisory practice. Dual-process learning theory is 
+the basis of dividing factual memorization and behavioral 
+alignment since it differentiates between knowledge 
+acquisition and context-specific thinking. Phase I and Phase 
+II, respectively, provide the model with multilingual factual 
+competence and behavioral judgment, enabling it to 
+conform to institutional norms and to follow safe response 
+strategies. This hierarchical division provides a factual 
+basis, and ethical refusal behaviors are acquired separately 
+but with a unifying effect, which differs from the theoretical 
+explanations of the selected design and distinguishes the 
+traditional single-phase fine-tuning from the proposed 
+approach. 
+B. Evaluation Setup 
+We test the model on out-of-sample parts of the datasets. 
+They are factual accuracy, refusal precision, BLEU, 
+COMET, and coherence. Some of the baselines include 
+GPT-4, Aya-Base, and Vicuna. The correctness and the 
+suitability of refusal are determined by human evaluators 
+who also understand the target languages. Multi-turn 
+coherence is tested on a maximum of five turns in synthetic 
+dialogues. We use three supplementary datasets to support 
+domain-specific fine-tuning, including both general 
+multilingual coverage and institutional context. TyDi QA 
+has 204K pairs of question-answer sentences in 11 
+typologically diverse languages, whereas MASSIVE has 
+more than a million annotated utterances in 51 languages 
+and 18 domains (see TABLE 1). To fill the gap between our 
+benchmark resources and real applications, we also include 
+an institutional dataset of 7,000 student queries and verified 
+answers in four languages, including dialectal Arabic. 
+Collectively, these datasets enable the development of a 
+multilingual assistant that cannot only answer standardized 
+evaluation questions but also more real-world student 
+service questions. 
+TABLE 1. DATASET STATISTICS (TYDI QA, MASSIVE, 
+INSTITUTIONAL) 
+Dataset Languages Samples Notes 
+TyDi QA 11 204K Q&A pairs, 11 languages 
+MASSIVE 51 >1M Utterances, 18 domains 
+Institutional 4 7K Student services Q&A 
+A further detail of sample distribution across the languages 
+in the three datasets in Table 2 shows that the most common 
+languages dominate, but some region-specific varieties are 
+also present. The total share of English is the largest and it is 
+highly represented in all the datasets, most especially 
+MASSIVE, with 500,000 English samples. Another 
+commonality is seen in Modern Standard Arabic (MSA), 
+which is also found in consistent datasets, just like it is 
+essential in multilingual and Arabic-oriented applications. 
+Franco-Arabic and Omani Arabic cannot be found in TyDi 
+QA, but are present in both MASSIVE and the Institutional 
+dataset, providing evidence of the inclusion of these hybrid 
+and dialectal patterns, which are frequently missing in 
+mainstream resources. The Other category, which covers 
+other languages, accounts for a large share of TyDi QA 
+(129,000) and MASSIVE (300,000), but is not reflected in 
+the Institutional data, which is focused and relatively small. 
+Such a distribution shows the balancing forces of the 
+datasets: a wide regional coverage of the languages of the 
+world, data on regional dialects, and domain-specific data. 
+To filter the performance, we employed a multilingual 
+transformer backbone (XLM-R Base) and LoRA adapters 
+(rank = 8, 64, 0.16). The model was trained for 3 epochs; 
+the batch size was 32, the learning rate was 
+ , and the 
+AdamW optimizer was used; mixed precision was used. At 
+least 120K steps were executed on four A100 GPUs. 
+Including this information will enhance the reproducibility 
+and transparency of the experimental setup. 
+TABLE 2. DISTRIBUTION OF SAMPLES BY LANGUAGE AND 
+DATASET 
+Language TyDi QA MASSIVE Institutional 
+English 50K 500K 3K 
+MSA 25K 100K 2K 
+Franco-Arabic 0 50K 1.2K 
+Omani Arabic 0 50K 1.8K 
+Other 129K 300K 0 
+All the evaluation metrics adopted in this paper are 
+summarized in TABLE 3 , and all of them describe various 
+aspects of the system performance. Factual Accuracy: It is a 
+measure of the consistency with which facts directly related 
+to the results of getting correct answers are retrieved. In 
+rejecting unanswerable or unsafe queries, which trade 
+informativeness for safety, Refusal Precision is used to test 
+the system. The BLEU score is used as a measure of 
+traditional surface-level similarity between generated and 
+reference responses, based on BLEU-4 n-gram overlap. To 
+this end, the COMET score measures semantic adequacy 
+and fluency, giving greater weight to what is retained in 
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:16:37 UTC from IEEE Xplore.  Restrictions apply. 
+terms of meaning and naturalness. Finally, Coherence 
+measures the consistency of single turns, or such that the 
+reaction to earlier turns in dialogue is coherent.  A 
+combination of these metrics will provide a comprehensive 
+framework for measuring both the correctness and the 
+quality of the model outputs.  
+TABLE 3. EVALUATION METRICS USED IN THIS STUDY 
+Metric Description 
+Factual Accuracy Proportion of correct answers 
+Refusal Precision Correct refusals / all refusals 
+BLEU Score BLEU-4 n-gram overlap 
+COMET Score Semantic adequacy/fluency 
+Coherence Consistency across dialogue turns 
+We determine factual accuracy by measuring the perfect 
+coincidence between generated and ground-truth answers. 
+The ratio of correctly refused queries to the total number of 
+refusals by the query is known as the refusal precision. 
+BLEU and COMET n-gram overlap measures and semantic 
+adequacy measures, respectively, were generated for 
+reference answers. Coherence also assesses the uniformity of 
+multi-turn conversations; here, we measure pairwise 
+semantic similarity across turns. The evaluation has been 
+conducted individually on each language and dataset. 
+IV. RESULTS AND ANALYSIS 
+This section presents the empirical results of our domain-
+specific fine-tuning strategy, tested on TyDi QA, MASSIVE, 
+and institutional data. Our findings include data on factual 
+accuracy, refusal accuracy, multilingual response fluency 
+(BLEU and COMET), and dialogue coherence in multi-turn 
+dialogues. It also has comparative analyses to state-of-the-art 
+baselines such as GPT-4, Aya-Base, and Vicuna. The 
+outcomes show the advantages of the proposed pipeline and 
+its limitations in meeting the needs of multilingual students. 
+TABLE 4  shows the results of factual accuracy using 
+datasets and the languages, and the differences in model 
+performance as adjusting both the type of resource and the 
+language. In the context of TyDi QA, the accuracy is 
+relatively even, with English scoring 0.67 and MSA slightly 
+lower at 0.63. In the case of MASSIVE, the English lag is the 
+lowest at 0.60, and MSA is better at 0.64. The dialectal 
+varieties are significantly higher in performance, with 0.72 
+and 0.76 on Franco-Arabic and Omani Arabic, respectively, 
+suggesting that the model is more flexible with dialectal 
+inputs in the dataset. 
+TABLE 4. FACTUAL ACCURACY RESULTS BY DATASET AND 
+LANGUAGE 
+Dataset Language Accuracy Samples  
+(approx.) 
+Rank  
+(per 
+dataset) 
+TyDi QA English 0.67 50K 1st 
+MSA 0.63 25K 2nd 
+MASSIVE English 0.60 500K 4th 
+MSA 0.64 100K 3rd 
+Franco-
+Arabic 
+0.72 50K 2nd 
+Omani Arabic 0.76 50K 1st 
+Institutional English 0.72 3K 2nd 
+MSA 0.76 2K 1st 
+Franco-
+Arabic 
+0.62 1.2K 4th 
+Omani Arabic 0.73 1.8K 3rd 
+The Institutional level is more accurate, with English and 
+Omani Arabic rated at 0.72 and 0.73, respectively, and MSA 
+rated highest at 0.76. However, in Franco-Arabic, the score is 
+0.62, indicating that it has difficulty processing hybrid or 
+code-switched texts in domain-oriented situations. On the 
+whole, the findings suggest that factual accuracy does not 
+depend on language or dataset: standardized ones, including 
+English and MSA, yield the same results. Meanwhile, 
+dialectal and hybrid forms show inconsistent results across 
+datasets and specific domains. 
+Linguistic and data-related considerations can explain the 
+comparatively poor results on Franco-Arabic and a portion 
+of the MSA. Franco-Arabic is highly orthographically 
+variable, with a high rate of code-switching into English, 
+which makes tokenization and semantic alignment difficult. 
+Equally, discrepancies in MSA diacritization and reduced 
+dialect overlap in standard datasets contribute to decreased 
+accuracy. These problems will necessitate the use of 
+increased dialect-balanced data, as well as enhanced 
+preprocessing to hybrid language inputs. 
+TABLE 5  presents the refusal precision scores across all 
+datasets and languages, reflecting the system's ability to 
+refuse unacceptable or unanswered questions correctly. 
+English has the highest precision rate of 0.89 in both TyDi 
+QA and MASSIVE, reflecting its high reliability in 
+measuring refusal behavior among a highly resource-rich 
+language. MSA has average performance (0.71 in TyDi QA 
+and 0.76 in MASSIVE), indicating higher consistency in the 
+latter. In MASSIVE, the dialectal varieties of the language 
+show similar scores of 0.73 and 0.74, which suggest an 
+analogy between Franco-Arabic and Omani Arabic and 
+imply a similar, though slightly lower, refusal accuracy in 
+the dialects compared to the standard varieties. Refusal 
+precision is also more uniform in the Institutional dataset, 
+with the highest score of 0.80, which belongs to the Franco-
+Arabic, and the lowest score of 0.73, which pertains to 
+English. These findings demonstrate two significant 
+tendencies: English has a comparably high refusal 
+mechanism. Meanwhile, dialectal and hybrid varieties 
+exhibit fluctuating though competitive performance, 
+particularly in domain-specific situations, where Franco-
+Arabic is quite powerful. 
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:16:37 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE 5. REFUSAL PRECISION RESULTS BY DATASET AND 
+LANGUAGE 
+Dataset Language Refusal 
+Precision 
+Δ vs 
+Dataset 
+Avg 
+Resource 
+Level 
+Trend Across 
+Datasets 
+TyDi QA 
+ 
+English 0.89 +0.12 High Stable (high) 
+MSA 0.71 –0.06 High Improves later  
+MASSIVE 
+ 
+English 0.89 +0.14 High Consistent 
+MSA 0.76 +0.01 High Stable 
+Franco-
+Arabic 
+0.73 –0.02 Dialect Improving 
+later 
+Omani 
+Arabic 
+0.74 –0.01 Dialect Stable 
+Institutional 
+ 
+Franco-
+Arabic 
+0.80 +0.04 Dialect Improved 
+MSA 0.76 0.00 High Stable 
+Omani 
+Arabic 
+0.76 0.00 Dialect Stable 
+English 0.73 –0.03 High Decline 
+TABLE 6  presents BLEU and COMET scores by dataset 
+and language, offering a supplementary view of surface-
+level similarity and semantic adequacy. BLEU scores are 
+relatively high in English and MSA, with equal COMET 
+values of 0.65 in TyDi QA (41.0 and 43.0, respectively), 
+indicating equal performance in lexical overlap and meaning 
+preservation. English in MASSIVE has the highest BLEU 
+score (42.5) and the lowest COMET score (0.55), indicating 
+high surface alignment and lower semantic adequacy. In 
+turn, MSA, Franco-Arabic, and Omani Arabic obtain lower 
+BLEU (37.9, 34.4, and 37.7) and higher COMET (0.61, 
+0.59, and 0.65) scores, with better semantic faithfulness but 
+lower lexical overlap. 
+TABLE 6. BLEU AND COMET SCORES BY DATASET AND 
+LANGUAGE 
+Dataset Language BLEU COMET 
+TyDi QA English 41.0 0.65 
+TyDi QA MSA 43.0 0.65 
+MASSIVE English 42.5 0.55 
+MASSIVE MSA 37.9 0.61 
+MASSIVE Franco-Arabic 34.4 0.59 
+MASSIVE Omani Arabic 37.7 0.65 
+Institutional English 31.0 0.74 
+Institutional MSA 31.5 0.67 
+Institutional Franco-Arabic 30.5 0.73 
+Institutional Omani Arabic 37.8 0.64 
+In the institutional dataset, the BLEU score is not as high 
+(30.5-37.8), but the COMET score is consistently high, with 
+English and Franco-Arabic registering 0.74 and 0.73, 
+respectively. Such poor results on Franco-Arabic are 
+probably due to code-switching and limited training data, 
+making dialect-balanced corpora a necessity. These findings 
+suggest a crucial distinction: high BLEU does not 
+necessarily correspond to high semantic output, and in 
+domain-specific scenarios, models might be more focused 
+on meaning and fluency than on a perfect match of lexicon. 
+These results (TABLE 7) compare the proposed model with 
+established baselines across various evaluation metrics. 
+GPT-4 is in the lead with the highest accuracy (0.81), as 
+well as BLEU (46) and COMET (0.71), but its refusal 
+precision (0.82) is slightly lower than ours. The suggested 
+model has competitive performance, achieving high 
+accuracy (0.78), a BLEU score of 44, a COMET score of 
+0.69, and the highest rejection rate for inappropriate queries 
+(0.86), suggesting high reliability in rejecting unacceptable 
+queries. Conversely, all metrics have Aya-Base and Vicuna 
+at the back part with significantly lower accuracy (0.70 and 
+0.65, respectively) and weaker semantic adequacy (COMET 
+scores of 0.61 and 0.58, respectively). These findings 
+emphasize that, although GPT-4 has a slight edge in 
+accuracy and overall generation quality, our model offers a 
+more robust balance, maintaining high accuracy while 
+exhibiting safe, precise refusal behavior. 
+TABLE 7. COMPARATIVE PERFORMANCE AGAINST BASELINES 
+Model Accuracy BLEU COMET  Refusal 
+Precision 
+Δ vs. Avg 
+Accuracy 
+GPT-4 0.81 46 0.71 0.82 +0.06 
+Aya-Base 0.70 35 0.61 0.77 –0.05 
+Vicuna 0.65 32 0.58 0.74 –0.10 
+Our Proposed Model 0.78 44 0.69 0.86 +0.03 
+We performed bootstrap resampling (n = 1,000) to assess 
+the statistical significance of the observed improvements. 
+The difference between our proposed model and our 
+baseline systems at an alpha of 0.05 in terms of refusal 
+precision and factual accuracy was significant, and the 
+performance improvements are unlikely to be due to random 
+variation. 
+The TyDi QA matrix shows a relatively balanced result, 
+with the Accept class (91) having high accuracy, while the 
+Refuse category (71) indicates relatively weak 
+discrimination. Conversely, the MASSIVE dataset also 
+exhibits strong skew, with a very high true negative rate 
+(94) and a similarly high misclassification rate in the 
+acceptance cases, indicating a conservative refusal tendency. 
+The Institutional dataset shows the same trend, with high 
+refusal detection (93) but middle-level acceptance (79). On 
+the whole, these matrices indicate that, though the model is 
+statistically reliable at identifying refusals across diverse 
+datasets, its accuracy in recognizing acceptance varies 
+significantly, suggesting dataset-specific sensitivity to 
+acceptance. 
+Fig. 2 demonstrates coherence in multi-turn dialogues across 
+five conversational turns, based on various datasets and 
+languages. We observe a gradual decrease across all 
+conditions, indicating a natural decline in coherence over 
+the course of the conversation. The institutional dialogues 
+tend to be more coherent, in both English and Franco-
+Arabic, and the scores will be above 0.70 even on the fifth 
+turn. MASSIVE has moderate coherence, and the 
+performance is slowly becoming lower but still maintaining 
+acceptable levels across languages. By comparison, TyDi 
+QA shows the most significant overall inconsistency, and 
+below 0.55 after the third turn in particular, indicating an 
+inability to maintain context during longer exchanges. These 
+findings suggest that it is difficult to be coherent in a multi-
+turn context, particularly with a data-resource-limited 
+dataset like TyDi QA, but also reveal that Institutional 
+discussions across languages are relatively stable. 
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:16:37 UTC from IEEE Xplore.  Restrictions apply. 
+ 
+Fig. 2. Multi-turn dialogue coherence curves across turns 
+Fig. 3 shows the percentage gains of the proposed model 
+relative to the baseline across various evaluation measures. 
+The outcomes indicate mixed improvements in 
+performance: whereas the model is slightly lower in 
+Accuracy, BLEU, and COMET, with the gains of about 3-4, 
+it is in Refusal Precision that the gains are significant, with 
+an increase of over 4. This comparison indicates that, 
+though the model might entail a trade-off between overall 
+accuracy and linguistic quality, it also offers tremendous 
+benefits for refusal handling, a crucial factor in ensuring 
+safer, more reliable system behavior. These results 
+demonstrate the usefulness of the model in addressing 
+refusal-related issues, at the cost of small decreases in 
+overall performance indicators. 
+V. RESULTS AND ANALYSIS 
+The findings indicate the advantages of domain-specific 
+fine-tuning for multipurpose student support. The model 
+consistently outperforms baselines across factual accuracy, 
+BLEU, and COMET scores, and performs significantly 
+better in dialectal Arabic, where baseline models have 
+weaknesses. The precision of refusal is substantial, as there 
+is a high alignment in behavior, which mitigates against 
+hallucinations and policy infractions. The multi-turn 
+coherence remains problematic; we achieve coherence in 5 
+turns, but performance declines slowly, suggesting that 
+additional training with longer contexts is required. We 
+improve our refusal policy and add user feedback to balance 
+helpfulness and safety. To reduce false refusals and 
+degradation of coherence, we suggest three strategies to 
+complement each other: (i) adaptive refusal thresholds to be 
+used for choosing to refuse, (ii) fine-tuning that uses 
+feedback to refine refusal boundaries, and (iii) the extension 
+of context windows during training that enhances the 
+continuity of dialogue. The improvements will reduce over-
+conservatism and ensure the behavior remains safe and 
+contextually appropriate. TyDi QA and MASSIVE data sets 
+complement each other because TyDi QA extends the range 
+of factual knowledge and typological diversity, and 
+MASSIVE data increases intent awareness and slot 
+recognition. The institutional data set provides 
+terminologies and cultural specifics. The size of it, however, 
+is limited for generalization, and it needs to be increased, 
+which is a priority. Fairness is the issue; fine-tuning on 
+public corpora can introduce bias, especially in favor of 
+minority dialects. It should be followed up with bias audits 
+and data augmentation in the future to ensure equal 
+performance across linguistic groups. Besides, investigating 
+RAG's capabilities to integrate LLM generation with up-to-
+date university policies and knowledge base retrieval may 
+further minimize hallucination and enhance transparency. 
+Although the institutional dataset provides informative 
+domain-specific information, its small size (7,000 samples) 
+does not allow for coverage of the full range of student 
+queries. Future research will expand this dataset by adding 
+user-collected data, augmenting paraphrases, and including 
+more dialects and university areas. 
+ 
+Fig. 3. Percentage improvements of our model over baseline 
+average 
+VI. CONCLUSION AND FUTURE WORK 
+We presented a fine-tuning model for a multilingual 
+student services assistant based on a domain-specific 
+framework, using both public (TyDi QA and MASSIVE) and 
+an institutional corpus. We used two-stage fine-tuning with 
+LoRA adapters and achieved substantial gains in factual 
+accuracy, refusal precision, BLEU, COMET, and dialogue 
+coherence relative to strong baselines. This study shows that 
+the use of finetuned LLMs can provide inclusive, language-
+sensitive support to students with diverse language 
+backgrounds. In future work, we will combine elements of 
+retrieval-augmented generation so that responses are based 
+on up-to-date institutional materials; broaden the basis of the 
+institutional data through data synthesis and user feedback; 
+and simulate reinforcement learning with human preferences 
+to maximize behavior. Our other objectives include fairness 
+evaluation across more dialects and the ability to add 
+multimodal features (e.g., voice-based input) to make the 
+product more accessible. Our results are relevant to emerging 
+research on LLMs in education and highlight the importance 
+of domain adaptation for responsible AI support in higher 
+education. Although the results are promising, the present 
+model is associated with some limitations, such as occasional 
+over-conservative refusal behavior and lower performance 
+during long multi-turn conversations. The leading causes of 
+these limitations are the relative smallness of the institutional 
+data and the limited training in the long context. To 
+overcome these issues, data set enlargement, adaptive refusal 
+calibration, and better context modeling will be the primary 
+focus of new work. 

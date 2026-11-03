@@ -1,0 +1,792 @@
+2025 IEEE Twelfth International Conference on Intelligent Computing and Information Systems (ICICIS)  
+979-8-3315-2498-2/25/$31.00 ©️2025 IEEE 
+Mufakkir: RAG-based Arabic Educational Chatbot 
+for University Students 
+ 
+ 
+Mohamed Khaled Tawfik 
+Scientific Computing  
+Faculty of Computer and Information 
+Science, Ain Shams University 
+Cairo, Egypt 
+2021170463@cis.asu.edu.eg 
+ 
+Farah Safwat Ezz Elregal  
+Scientific Computing 
+Faculty of Computer and Information 
+Science, Ain Shams University 
+Cairo, Egypt 
+2021170392@cis.asu.edu.eg 
+ 
+ Mohamed Osama Ali  
+Scientific Computing  
+Faculty of Computer and Information 
+Science, Ain Shams University 
+Cairo, Egypt 
+2021170454@cis.asu.edu.eg 
+ 
+Paula Emad Edward   
+Scientific Computing  
+Faculty of Computer and Information 
+Science, Ain Shams University 
+Cairo, Egypt 
+2021170125@cis.asu.edu.eg 
+ 
+Sohier Khaled Mohamed 
+Scientific Computing  
+Faculty of Computer and Information 
+Science, Ain Shams University  
+Cairo, Egypt 
+2021170245@cis.asu.edu.eg 
+ 
+Maryam Elsawaf 
+Scientific Computing 
+Faculty of Computer and Information 
+Science, Ain Shams University 
+Cairo, Egypt 
+maryam.sawaf@cis.asu.edu.eg 
+ 
+Dina Khattab 
+Scientific Computing  
+Faculty of Computer and Information 
+Science, Ain Shams University 
+Cairo, Egypt 
+dina.khattab@cis.asu.edu.eg 
+ 
+Abstract — The scarcity of Arabic -language educational tools 
+tailored for university students, particularly in specialized fields like 
+law and humanities, limits academic engagement and learning 
+effectiveness. Mufakkir addresses this gap by providing an Arabic 
+educational RAG -based chatbot designed to assist students with 
+retrieving, summarizing, and interacting with academic content. The 
+system is trained on a curated Arabic dataset of legal books collected 
+from Ain Shams University, with synthetic question –context pairs 
+generated for evaluation using an LLM. Mufakkir achieved 88% 
+accuracy, 88% recall, and 0.78 nDCG@10 on this benchmark. Its 
+embedding model ranked first on the Arabic RAG Leaderboard with 
+a score of 0.65, reflecting strong retrieval performance. In ans wer 
+generation, it outperformed major LLMs such as DeepSeek, 
+LLAMA, and Qwen, scoring 0.79 in Answer-Ground Similarity and 
+0.73 in Question -Answer Similarity. By combining fine -tuned 
+embeddings, hybrid retrieval, and domain -specific evaluation data, 
+Mufakkir delivers accurate, context-aware educational support. 
+ 
+Keywords—Educational Assistant, Retrieval -Augmented Generation 
+(RAG), embedding model,  question answering, Natural Language 
+Processing (NLP). 
+I. INTRODUCTION 
+There is a growing need for Arabic -language educational 
+systems capable of providing contextually relevant academic 
+assistance. Existing tools [1],[2] often lack support for Arabic or 
+fail to reflect the structure and terminology of localized curricula, 
+particularly in fields like law and the humanities, resulting in 
+reduced engagement and learning effectiveness. This paper 
+introduces Mufakkir, an Arabic -language assistant built using 
+Retrieval-Augmented Generation (RAG) and Natural Language 
+Processing (NLP ) techniques, trained on curated academic 
+content. Mufakkir is designed to be accurate, context -aware, and 
+accessible for students in Arabic -speaking academic 
+environments, offering features such as question answering, 
+document summarization, file upload with content extraction and 
+answering, and quiz generation. 
+Mufakkir represents a significant advancement in Arabic NLP 
+by delivering a tailored educational chatbot that addresses the 
+critical shortage of context -aware, curriculum-specific tools for 
+Arabic-speaking university students. The main contributions of 
+this work include the introduction of a fine -tuned embedding 
+model optimized for Arabic academic texts, along with a hybrid 
+retrieval strategy combining semantic and lexical approaches. The 
+system provides robust features such as question answering, 
+document summarization, and quiz generation to enhance student 
+engagement and learning effectiveness in fields such as law and 
+humanities. To the best of our knowledge, this is the first work that 
+presents an Arabic -enabled RAG -based model designed 
+specifically for educational assistance.. 
+Another key innovation of this work lies in the construction of 
+a domain -specific dataset; MufakkirTriples which is built from 
+Arabic law books t aught for university students. To enable high -
+quality evaluation, we generated synthetic question–context pairs 
+using a large language model, producing a benchmark tailored to 
+the law domain to fill a critical gap in Arabic -language academic 
+NLP resources. 
+In terms of performance, Mufakkir ranked first on the Arabic 
+RAG Leaderboard outperforming existing models such as 
+DeepSeek [3], LLaMA [4], and Qwen [5]. In answer generation, it 
+also achieved higher scores in Answer -Ground Similarity and 
+Question-Answer S imilarity, demonstrating its superiority in 
+producing accurate and relevant responses. These results confirm 
+Mufakkir’s effectiveness in delivering contextually grounded, 
+educationally aligned answers within low -resource domains like 
+Arabic law. 
+The paper is structured as follows: Section II reviews related 
+work on Arabic language assistants, RAG systems, and 
+educational NLP applications to position Mufakkir within the 
+current research. Section III explains the methodology, covering 
+query processi ng, document chunking, embedding model fine -
+tuning, hybrid retrieval, and techniques to reduce hallucination. 
+Section IV outlines the dataset, including its collection, 
+preprocessing, and the creation of 25,000 question-answer-context 
+triples. Section V hi ghlights the evaluation of Mufakkir's 
+performance in comparison to existing models. Finally, Section VI 
+concludes with a discussion of the system’s contributions, current 
+limitations, and future research opportunities. 
+ 
+706
+2025 Twelfth International Conference on Intelligent Computing and Information Systems (ICICIS) | 979-8-3315-2498-2/25/$31.00 ©2025 IEEE | DOI: 10.1109/ICICIS66182.2025.11313212
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:55:42 UTC from IEEE Xplore.  Restrictions apply. 
+2025 IEEE Twelfth International Conference on Intelligent Computing and Information Systems (ICICIS)  
+ 
+II. RELATED WORK 
+A. Arabic Language Assistants 
+The development of intelligent assistants for Arabic-speaking 
+users has gained traction due to the need for contextually relevant 
+tools. Existing systems often leverage NLP to process Arabic text, 
+focusing on tasks like question answering and text understanding. 
+However, many lack support for localized educational content, 
+particularly in specialized fields such as law and humanities, 
+leading to reduced effectiveness in academic settings.  
+Sharma et al. [1] presented aiXplain SDK, a toolkit designed 
+to standardize the development of AI assets, including Arabic NLP 
+systems for tasks like question answering. The toolkit supported 
+multilingual processing but focused primarily on general-purpose 
+applications, lacking deep integration with curriculum -specific 
+academic content, such as legal or humanities texts, which limits 
+its utility for university students. Almazrouei et al. [2] introduced 
+the Falcon series of open language models, which demons trated 
+strong performance in Arabic text processing. However, these 
+models were not optimized for educational contexts, and their 
+general-purpose nature resulted in limited handling of domain -
+specific terminology, reducing their effectiveness for specializ ed 
+academic tasks.  
+B. Retrieval-Augmented Generation for Arabic 
+Retrieval-Augmented Generation (RAG) emerged as a 
+powerful approach for enhancing language models by integrating 
+external knowledge retrieval, improving factual accuracy and 
+context awareness. In the context of Arabic, RAG systems 
+combined semantic embeddings and generative models to handle 
+linguistic complexities like morphology and dialect variations. 
+These systems are versatile but often not tailored for educational 
+applications. The evolution of RAG built on advancements in 
+transformer-based Large Language Models (LLMs), such as those 
+introduced by Vaswani et al. [6]. They proposed the transformer 
+architecture, enabling efficient natural language understanding for 
+multilingual tasks, including Arabic. However, their work focused 
+on model architecture rather than retrieval integration, limiting its 
+direct applicability to RAG systems. 
+El-Beltagy [7] explores RAG for Arabic, focusing on its ability 
+to handle linguistic nuances through semantic embeddings. The 
+study demonstrated improved retrieval for general Arabic texts but 
+lacked optimization for academic domains, resulting in limited 
+relevance for educational applications. Alsubhi [8] conducts a 
+systematic analysis of RAG pipeline components for Arabic, 
+identifying optimal configurations for retrieval and generation. 
+While comprehensive, the study did not address educational use 
+cases, and its generic approach missed curriculum -specific 
+requirements. 
+C. Semantic Search in Arabic RAG 
+   Semantic search in Arabic RAG systems leveraged dense 
+vector representations to retrieve relevant documents by capturing 
+semantic relationships between queries and texts. These systems 
+used embeddings to encode queries and documents, enabling 
+similarity-based retrieval that handled linguistic nuances like 
+synonyms and morphological variations in Arabic. Techniques 
+such as cosine similarity and hybrid retrieval, combining semantic 
+and keyword -based approaches, enhance retrieval accuracy for 
+complex academic content. The study in [9] evaluated semantic 
+search in Arabic RAG, highlighting its role in improving context-
+aware retrieval. It demonstrated high retrieval accuracy for general 
+Arabic texts but notes challenges in handling domain -specific 
+academic content due to limited dataset diversity. Alroumi [10] 
+further explored optimized embedding training for Arabic 
+semantic search, achieving improved retrieval performance. 
+However, the approach is computationally intensive and not 
+specifically tailored for educational applications. 
+ 
+ 
+D. Fine-Tuning Embeddings for Arabic 
+     Fine-tuning embeddings is a key strategy for improving text 
+understanding in Arabic RAG systems. By optimizing sentence 
+representations, these methods enhanced the accuracy of retrieval 
+and generation tasks, particularly for educational tools processing 
+academic content. Alroumi [10] investigated embedding fine -
+tuning for Arabic RAG, proposing techniques to optimize 
+semantic similarity in high -dimensional spaces. While effective, 
+the method required significant computational resources and 
+lacked focus on educational contexts, limiting its direct 
+applicability to student -facing tools. Nacar et al. [11] explored 
+nested embedding learning to enhance semantic similarity in 
+Arabic NLP, achieving robust performance in text understanding. 
+However, their approa ch is not tailored for curriculum -specific 
+tasks, and its complexity may hinder scalability in resource -
+constrained settings. 
+E. Educational Applications of Arabic NLP 
+   NLP-based educational tools for Arabic focus on tasks like 
+language learning and content analysis. While some systems 
+support features like poetry analysis or dialect identification, few 
+address curriculum-specific needs in academic settings.  Sharma 
+et al. [1] described aiXplain SDK’s applications in educational 
+NLP, including Arabic language learning tools. However, its 
+general-purpose design lacked deep integration with academic 
+curricula, limiting its effectiveness for specialized fields like law. 
+Nacar et al. [11] propose NLP methods for educational content 
+analysis, demonstrating potential in text summarization. Their 
+work, however, focused on broad applications and did not address 
+the specific needs of university students in disciplines like 
+humanities. 
+III. METHODOLOGY 
+Mufakkir’s system architecture integrates multiple 
+components to deliver a robust Arabic educational chatbot tailored 
+for university students. The system combines query preprocessing, 
+document chunking, a fine -tuned embedding model for hybrid 
+retrieval, a cross-encoder re -ranker, and an LLM for answer 
+generation, with mechanisms to prevent hallucinations. User 
+queries are preprocessed for accurate interpretation, followed by 
+retrieval of relevant academic content from a vector database of 
+chunked documents. The fine-tuned Mufakkir_Embedding model, 
+optimized for Arabic academic texts, enables hybrid retrieval 
+combining semantic and lexical approaches. Retrieved documents 
+are reranked for relevance, and the Qwen2-72B LLM [5] generates 
+context-aware responses, summaries, or quizzes, validated against 
+retrieved context to ensure factual accuracy. This architecture, 
+illustrated in Fig . 1, ensures efficient and accurate support for 
+educational tasks. The following subsections detail each 
+component of the system. 
+A. Query Processing 
+     The system preprocesses user queries to ensure accurate 
+interpretation and effective retrieval of relevant academic content. 
+This involves a multi -step pipeline designed to handle the 
+linguistic complexities of Arabic text, including punctuation 
+normalization, stop -word removal, tokenization, and query 
+expansion. Punctuation normalization removes or standardizes 
+punctuation marks (e.g., converting multiple consecutive 
+punctuation marks to a single mark) to reduce noise and ensure 
+consistent query formatting, which is critical for matching Arabic 
+queries with varied typographical styles. Stop -word removal 
+eliminates common Arabic words that carry minimal semantic 
+value, using a curated stop-word list tailored for Arabic academic 
+texts to enhance retrieval focus on meaningful terms. Tokenization 
+splits the query into individual tokens, leveraging an Arabic -
+specific tokenizer to handle morphological variations, such as verb 
+conjugations and noun inflections, ensuring accurate segmentation 
+of complex words. Query expansion is occasionally applied to 
+include synonyms or related terms using a domain -specific 
+thesaurus derived from the academic dataset, improving recall for  707Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:55:42 UTC from IEEE Xplore.  Restrictions apply. 
+2025 IEEE Twelfth International Conference on Intelligent Computing and Information Systems (ICICIS)  
+ 
+ 
+Fig. 1. System Architecture Layers
+semantically similar documents. These steps collectively ensure 
+precise user intent analysis, enabling robust retrieval and generation 
+for Arabic educational queries, as described in [7]. 
+ 
+B. Document Chunking 
+     The system processes a corpus of over 80 Arabic academic 
+books, primarily legal and humanities texts, by segmenting them 
+into smaller, coherent chunks to facilitate efficient and accurate 
+retrieval. This is achieved through a recursive chunking method , 
+which hierarchically splits documents to maintain semantic 
+integrity and achieve an optimal chunk size. Initially, each book is 
+divided into sections based on structural markers, such as chapters 
+or headings, identified using metadata extracted via Azure  
+Document Intelligence. Each section is then recursively 
+subdivided into smaller units, typically paragraphs or sentence 
+groups, ensuring that each chunk contains semantically cohesive 
+content, such as a complete legal argument or a thematic 
+discussion in humanities. The chunk size is optimized to balance 
+granularity and context, targeting approximately 200 –300 words 
+per chunk to align with the embedding model’s input constraints 
+and ensure compatibility with the vector database. To preserve 
+semantic integrity, the algorithm avoids splitting sentences or key 
+phrases, using natural language processing techniques to detect 
+sentence boundaries and semantic units in Arabic text, which is 
+particularly challenging due to its morphological complexity. 
+These chunks are then indexed in a Chroma DB vector database, 
+where each chunk is encoded as a dense vector using the 
+Mufakkir_Embedding model. Metadata, such as book title, 
+chapter, and page number, is attached to each chunk to enable 
+traceability and enhance retrieval precision. This approach ensures 
+that the system can efficiently retrieve contextually relevant 
+content for user queries, as described in Fig. 2. 
+ 
+C. Embedding Model Fine-Tuning 
+     The core retrieval component is the Mufakkir_Embedding  
+model, fine-tuned using the model of Triplet-Matryoshka-V2 [12] 
+for academic content. The dataset consists of real and synthetic 
+academic texts, leveraging two loss functions to optimize semantic 
+similarity in a 768-dimensional embedding space. The fine-tuning 
+process was conducted using a NVIDIA L4 GPU, providing 
+efficient training throughput for high -dimensional embedding 
+optimization. The Multiple Negatives Ranking Loss L maximizes 
+the similarity between anchor and positive embeddings while 
+treating other batch embeddings as negatives, defined as : 
+            𝐿 = −
+1
+𝑁 ∑ log (
+exp(𝑠𝑖𝑚(𝑒𝑖𝑎,𝑒𝑖𝑝)⋅scale)
+∑ exp(𝑠𝑖𝑚(𝑒𝑖𝑎,𝑒𝑗)⋅scale)𝑁𝑗=1 )𝑁𝑖=1                     (1) 
+ 
+Fig. 2. Recursive Chunking 
+where N is the batch size, 𝑒𝑖𝑎 and 𝑒𝑖𝑝are the anchor and positive 
+embeddings for the i-th sample, 𝑒𝑗 includes all batch embeddings, 
+sim is the cosine similarity, and scale adjusts score sharpness. The 
+workflow computes anchor -positive and anchor -negative 
+similarities, applies log -SoftMax to maximize correct positive 
+identification, and benefits from large r batch sizes for robust 
+negative sampling [12]. 
+The Matryoshka  Loss Lk supports variable embedding 
+dimensions by applying the base loss (Multiple Negatives Ranking 
+Loss) across multiple reduced dimensions. For each dimension dk 
+∈ {768, 512, 256, 128, 64}, the loss is: 
+              𝐿𝑘 = 𝑤𝑘 ⋅ 𝐿 (𝑒𝑑𝑘𝑎 , 𝑒𝑑𝑘𝑝 , 𝑒𝑑𝑘𝑛 )                                        (2)  
+ 
+The total loss is L(total): 
+             𝐿𝑘 = 𝑤𝑘 ⋅ 𝐿 (𝑒𝑑𝑘𝑎 , 𝑒𝑑𝑘𝑝 , 𝑒𝑑𝑘𝑛 )                               (3) 
+ 
+where K is the number of dimensions, 𝜔𝑘 is the weight for 
+dimension dk, and 𝑒𝑑𝑘𝑎  𝑒𝑑𝑘𝑝 𝑒𝑑𝑘𝑛   are the anchor, positive, and 
+negative embeddings at dimension dk. Embeddings are truncated 
+at each dimension, and the base loss is computed and scaled. This 
+enables flexible embedding sizes for retrieval tasks, enhancing 
+performance across varying computational constraints [13].  
+D. Semantic Retrieval (Hybrid Approach) 
+     A hybrid retrieval strategy, identified as the optimal 
+approach, combines vector -based semantic retrieval with lexical 
+keyword-based retrieval to maximize relevance. Fi g. 3 illustrates 
+the semantic retrieval pipeline, where the query and document 
+chunks are passed through the fine -tuned Mufakkir_Embedding 
+model for vectorization, followed by similarity search in the 
+Chroma vector database. Semantic retrieval uses the fine  tuned 
+Mufakkir_Embedding model to encode queries and document 
+chunks as dense vectors in Chroma DB, calculating similarity via 
+cosine similarity, defined as: 
+               cos(q,d) = 
+𝑞.𝑑
+||𝑞||||𝑑||                                       (4) 
+ 
+ 
+708Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:55:42 UTC from IEEE Xplore.  Restrictions apply. 
+2025 IEEE Twelfth International Conference on Intelligent Computing and Information Systems (ICICIS)  
+ 
+ 
+Fig. 3. Semantic Retrieval Pipeline 
+ 
+where q and d are the query and document vectors respectively. 
+Lexical retrieval employs the BM25 algorithm, which scores 
+documents based on term frequency and inverse document 
+frequency:  
+ 
+BM25(𝑞, 𝑑) = ∑ IDF(𝑞𝑖)𝑛𝑖=1 ⋅ 𝑓(𝑞𝑖,𝑑)⋅(𝑘1+1)𝑓(𝑞𝑖,𝑑)+𝑘1⋅(1−𝑏+𝑏⋅ |𝑑|avgdl)                (5) 
+ 
+where qi is a query term, f(qi, d)  is the term frequency in 
+document d, IDF(qi) is the inverse document frequency, |d| is the 
+document length, avgdl is the average document length, and k1 
+and b are parameters. The Ensemble Retriever merges results with 
+equal weights (0.5, 0.5), deduplicates, and sorts them to prioritize 
+relevant matches [14].  
+ 
+E. Document Reranking 
+   The system employs a cross -encoder re-ranker to enhance 
+the relevance of retrieved documents by scoring query -document 
+pairs and sorting them in descending order of relevance. Unlike bi-
+encoder models [13], which independently encode queries and 
+documents into separate embeddings and compute similarity (e.g., 
+via cosine similarity), the cross-encoder takes both the query and 
+document as a single input, processing them jointly through a 
+transformer-based architecture to capture deep contextual 
+interactions. This joint encoding allows the cross-encoder to model 
+complex semantic relationships, such as syntactic dependencies 
+and contextual nuances in Arabic academic texts, resulting in more 
+accurate relevance scores. For each query -document pair, the 
+cross-encoder outputs a scalar relevance score, t ypically between 
+0 and 1, which is used to rank the top retrieved documents. The 
+highest-scoring documents are passed to the generation phase, 
+ensuring that only the most contextually relevant content informs 
+the Qwen2-72B LLM’s responses. The cross -encoder’s superior 
+accuracy over bi-encoder models stems from its ability to leverage 
+full query -document interactions, though it is computationally 
+more intensive. In Mufakkir, this trade-off is justified by the need 
+for precise retrieval in academic settings, where relevance is 
+critical for tasks like answering complex legal or humanities 
+questions. This approach significantly improves retrieval 
+performance, as described in [8]. 
+ 
+F. Answer Generation 
+    The Qwen2 -72B LLM, a transformer -based large language 
+model with 72 billion parameters, generates answers, summaries, 
+or quizzes based on the user query and the top-ranked documents 
+retrieved from the dataset. The model’s architecture leverages 
+advanced at tention mechanisms to process input sequences, 
+enabling it to understand and generate coherent text in multiple 
+languages, including Arabic. In Mufakkir, the Qwen2 -72B takes 
+as input the preprocessed user query concatenated with the context 
+from reranked document chunks, typically formatted as a prompt 
+that instructs the model to produce a specific output type (e.g., a 
+direct answer, a concise summary, or a set of quiz questions with 
+answers). For instance, for a query requesting a summary of a legal 
+concept, the model generates a condensed explanation by 
+synthesizing relevant information from the retrieved chunks. Its 
+multilingual capabilities are particularly suited for complex Arabic 
+academic tasks due to its training on diverse datasets, including 
+Arabic texts. This enables handling linguistic nuances such as 
+morphological variations and domain -specific terminology in 
+legal and humanities contexts.  
+The model’s large parameter size enhances its ability to 
+generate contextually accurate and fluent responses, critical for 
+educational applications where precision and clarity are 
+paramount. Additionally, the Qwen2 -72B’s fine -tuning for 
+instruction-following ensures that it adheres to the prompt’s 
+requirements, producing outputs tailored to the user’s intent, such 
+as generating multiple -choice quizzes for student practice. This 
+approach ensures robust performance for Mufakkir’s educational 
+features, as described in [8]. 
+ 
+G. Hallucination Prevention 
+     A specialized prompt template instructs the LLM to 
+validate responses against retrieved context, regenerating or 
+revising answers if inconsistencies are detected. This ensures 
+factual integrity is critical for academic applications [5]. 
+ 
+H. Summary 
+     Mufakkir’s methodology integrates query preprocessing, 
+recursive document chunking, and a finetuned embedding model 
+for hybrid retrieval. A Cross encoder re-ranker refines results, and 
+the Qwen2 -72B LLM generates context -aware outputs. 
+Hallucination control ensures factual accuracy, making the system 
+robust for Arabic educational tasks. 
+ 
+    IV. DATASET 
+ 
+A. Collection Challenges 
+     Creating a domain-specific Arabic academic dataset posed 
+challenges due to the limited availability of structured educational 
+resources. Manual collection of materials from faculties was time-
+consuming, particularly for non -digitized texts. The absence of 
+standardized Arabic datasets for question answering and semantic 
+search necessitated synthetic data generation to simulate academic 
+scenarios [15]. 
+ 
+B. Dataset Description 
+Our MufakkirTriples  dataset comprises 80 academic books 
+and lecture notes from various university departments, primarily 
+focusing on legal and humanities texts, yielding approximately 
+25,000 question–answer–context triples. Each triple consists of a 
+question, a corresponding  answer, and a context derived from a 
+document chunk, designed to reflect real -world challenges faced 
+by Arabic -speaking university students. For example, a triple 
+might include a question about the conditions for a valid contract 
+in Egyptian law, an answe r summarizing the legal requirements, 
+and a context extracted from a relevant section of a legal textbook. 
+Fig. 4 presents an example data sample from the 
+MufakkirTriples dataset, illustrating (a) a context excerpt from an 
+academic textbook, ( b) the generated question based on the 
+context, and (c) the corresponding academic answer. These triples 
+were generated using Qwen 70B Instruct with a carefully designed 
+prompt template to ensure academic relevance, answer accuracy, 
+and semantic coherence with the source document. 
+ 
+709Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:55:42 UTC from IEEE Xplore.  Restrictions apply. 
+2025 IEEE Twelfth International Conference on Intelligent Computing and Information Systems (ICICIS)  
+ 
+ 
+a. 
+ 
+b. 
+ 
+c. 
+ Fig. 4. Data sample from the MufakkirTriples dataset including a) excerpt from 
+an academic textbook b) the query example generated from the context, and c) 
+the corresponding academic answer. 
+ 
+The newly collected dataset supports fine -tuning the 
+Mufakkir_Embedding model for improved semantic retrieval 
+and enabled tasks like question answering and quiz generation, 
+as described in [5]. The MufakkirTriples dataset is not publicly 
+available due to copyright and privacy restrictions, as it includes 
+excerpts from university materials. A limited, non-copyrighted 
+subset may be shared for research purposes upon request. 
+ 
+C. Dataset Preprocessing 
+     The MufakkirTriples dataset is prepared through a multi -
+step preprocessing pipeline to ensure quality and suitability for 
+retrieval tasks. Documents are segmented into coherent chunks 
+using recursive chunking to maintain semantic integrity and enable 
+efficient retrieval, resulting in approximately 50,000 chunks across 
+the 80 academic books and lecture notes. Each chunk is targeted 
+to contain around 600 tokens, a size chosen to balance semantic 
+coherence with the input constraints of the Mufakkir_Embedding 
+model and the Chroma DB vector database. An overlap of 200 
+tokens is applied between consecutive chunks to ensure contextual 
+continuity, preventing the loss of semantic connections across 
+chunk boundaries. This overlap means that the last 200 tokens of  
+one chunk are included as the first 200 tokens of the next chunk, 
+allowing for seamless retrieval of related content when queries 
+span chunk boundaries.  
+Azure Document Intelligence [16] is employed to extract 
+structured content from PDFs and scanned materials, preserving 
+academic layouts such as headings, sections, and tables, which are 
+critical for maintaining the integrity of academic texts. Each chunk 
+is annotated with metadata, including book titles, chapter 
+identifiers, and page numbers, to enhance response traceability and 
+trustworthiness, ensuring that retrieved content can be linked back 
+to its source for verification [9]. 
+ 
+ 
+ 
+ 
+V. EXPERIMENTS & RESULTS 
+ 
+A. Embedding Model Comparison 
+   The Mufakkir_Embedding model is evaluated against State-
+Of-The-Art Arabic embedding models using information retrieval 
+evaluation tools from Sentence Transformers [17] on a university-
+level academic dataset. Table I shows the comparative results for 
+key me trics, including Accuracy@5, Recall@5, Normalized 
+Discounted Cumulative Gain (nDCG@10), and Recall@5 
+quantifies the fraction of relevant items retrieved among all 
+relevant items, which is defined as: 
+ 
+    Recall@5 = 
+𝑁𝑢𝑚𝑏𝑒𝑟 𝑜𝑓 𝑅𝑒𝑙𝑒𝑣𝑎𝑛𝑡 𝑅𝑒𝑠𝑢𝑙𝑡𝑠 𝑅𝑒𝑡𝑟𝑖𝑒𝑣𝑒𝑑 𝑖𝑛 𝑇𝑜𝑝 5 
+𝑇𝑜𝑡𝑎𝑙 𝑁𝑢𝑚𝑏𝑒𝑟 𝑜𝑓 𝑅𝑒𝑙𝑒𝑣𝑎𝑛𝑡 𝐼𝑡𝑒𝑚𝑠          (6) 
+ 
+nDCG@10 evaluates ranking quality by considering the 
+position and relevance of retrieved items, calculated as: 
+ 
+       BM25(𝑞, 𝑑) = ∑ IDF(𝑞𝑖)𝑛𝑖=1 ⋅ 𝑓(𝑞𝑖,𝑑)⋅(𝑘1+1)𝑓(𝑞𝑖,𝑑)+𝑘1⋅(1−𝑏+𝑏⋅ |𝑑|avgdl)         (7) 
+ 
+We report retrieval performance using metrics such as 
+nDCG@10 and Recall@10. Here, “@10” refers to evaluating the 
+model’s effectiveness over the top 10 retrieved documents. 
+nDCG@10 (Normalized Discounted Cumulative Gain at rank 10) 
+captures both relevance and position, giving higher scores to 
+relevant documents appearing earlier in the ranking. Recall@10 
+measures the fraction of all relevant documents that appear in the 
+top 10 results. Higher values indicate stronger retrieval accuracy 
+and ranking quality i n limited output scenarios. Accuracy 
+measures the proportion of correctly retrieved items among the top 
+5 results: 
+ 
+Accuracy@5 = 
+𝑁𝑢𝑚𝑏𝑒𝑟 𝑜𝑓 𝐶𝑜𝑟𝑟𝑒𝑐𝑡𝑙𝑦 𝑅𝑒𝑡𝑟𝑖𝑒𝑣𝑒𝑑 𝐼𝑡𝑒𝑚𝑠 𝑖𝑛 𝑇𝑜𝑝 5 
+𝑇𝑜𝑡𝑎𝑙 𝑁𝑢𝑚𝑏𝑒𝑟 𝑜𝑓 𝑄𝑢𝑒𝑟𝑖𝑒𝑠          (8)  
+ 
+Table I compares Mufakkir_Embedding  with four leading 
+Arabic embedding models: multilingual -e5-large-instruct [18], 
+nomic-embed-text-v2-moe [19], Arabic-Retrieval-V1.0 [10], and 
+Arabic-Triplet-Matryoshka-V2 [12].  
+According to Table I, Mufakkir_Embedding achieved the 
+highest performance across all three metrics (Acc@5 = 0.88, 
+Recall@5 = 0.88, nDCG@10 = 0.78). This demonstrates its ability 
+to consistently retrieving the correct results within the top 5 and 
+ranks them more effectively than the other models. The closest 
+competitor, multilingual -e5-large-instruct [16], achieved solid 
+performance (Acc@5 = 0.82, Recall@5 = 0.82, but lagged behind 
+in ranking quality (nDCG@10 = 0.70). 
+ 
+TABLE I. COMPARISION OF ARABIC EMBEDDING MODEL  
+PERFORMANCE 
+ 
+Model Acc@5 Recall@5 nDCG@10 
+Mufakkir_Embedding 
+[Ours] 
+0.88 0.88 0.78 
+multilingual-e5-large-
+instruct [18] 
+0.82 0.82 0.70 
+nomic-embed-text-v2-
+moe 
+[19]  
+0.80 0.80 0.69 
+Arabic-Retrieval-V1.0 
+[10] 
+0.79 0.79 0.69 
+Arabic-Triplet-
+Matryoshka-V2 [12] 
+0.73 0.73 0.62 
+ 
+ 
+710Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:55:42 UTC from IEEE Xplore.  Restrictions apply. 
+2025 IEEE Twelfth International Conference on Intelligent Computing and Information Systems (ICICIS)  
+ 
+The nomic -embed-text-v2-moe model [19] showed 
+comparable performance to Mufakkir_Embedding in both 
+Accuracy@5 and Recall@5 (0.80 vs. 0.88), but slightly 
+underperformed in nDCG@10 (0.69 vs. 0.78), indicating weaker 
+ranking of relevant results. Meanwhile, Ar abic-Retrieval-V1.0 
+[10] and Arabic -Triplet-Matryoshka-V2 [12] had the lowest 
+scores, suggesting they are less effective for academic retrieval 
+tasks in this dataset. 
+Overall, Mufakkir_Embedding clearly outperformed all other 
+models in both retrieval effectiveness and ranking precision, 
+indicating its suitability for high -stakes academic applications in 
+Arabic. The consistently higher nDCG@10 shows that not only 
+does it  find the right results, but it ranks them in a way that 
+maximizes user satisfaction. 
+ 
+B. Leaderboard Evaluation 
+    Mufakkir_Embedding, openly available on   Hugging Face 
+[20],  has been  submitted  to  the  Arabic  RAG  Leaderboard,  which 
+evaluates  over  45  embedding models’ systems  on  a private 
+Islamic  dataset. The leaderboard  provided a  robust platform  to test 
+and  validate  the  model’s performance in  retrieving  and  generating  
+accurate Arabic   academic  content  . Table  II  shows  Mufakkir’s 
+first-place  ranking  with  an  Islamic  Knowledge  Score of   65.56, 
+confirming  its robustness  and  precision. 
+ 
+C. Answer Generation Evaluation 
+The evaluation of Mufakkir’s answer quality is conducted 
+using tools from the Sentence Transformers benchmark [15] on 
+400 challenging academic questions. The assessment utilized three 
+metrics. Answer -Ground Similarity (AGS), which is an 
+embedding-based comparison of generated answers with reference 
+answers, calculated according to equation 9, where Agen is the 
+embedding of the generated answer, and Aref is the embedding of 
+the ground-truth reference answer, All three metrics are computed 
+using the cosine similarity function Cos(x, y), which measures the 
+angular similarity between two embedding vectors. 
+                               AGS = cos(𝐴gen,𝐴ref)                                          (9) 
+ 
+Question-Answer Similarity (QAS), which is a measure of 
+relevance between the generated answer and the input query, 
+computed according to equation 10, where Q is the embedding of 
+the input question, and Agen is the embedding of the generated 
+answer. 
+                         QAS = cos(Q, 𝐴gen)                                              (10) 
+ 
+And Faithfulness (F), which evaluates the alignment of 
+generated answers with retrieved context to detect hallucinations, 
+defined as equation 11, where C is the embedding of the retrieved 
+context used to answer the question and Agen is the embedding of 
+the generated answer. A higher faithfulness score indicates that the 
+generated answer closely adheres to the supporting evidence, 
+reducing the risk of hallucination. 
+ 
+                              𝐹 = cos(𝐴gen,C)                                             (11) 
+ 
+TABLE II. ARABIC RAG LEADERBOARD RESULTS 
+ 
+Model Score 
+Mufakkir_Embedding [Ours] 0.65 
+Arabic-Retrieval-V1.0 [10] 0.64 
+Jina embeddings v3 [21] 0.62 
+AraModernBert-Base-STS [22] 0.62 
+Arabic-Triplet-Matryoshka-V2 [12] 0.59 
+As shown in Table III, Mufakkir outperformed DeepSeek [3], 
+LLaMA [4], and Qwen [5] in Answer Generation Score (AGS) 
+(0.79) and Question Alignment Score (QAS) (0.73). However, it 
+scored lower in Faithfulness (F) (0.26), indicating the need for 
+further improvements in ensuring answer reliability. These results 
+demonstrate Mufakkir’s strength in accuracy and relevance while 
+emphasizing ongoing challenges in maintaining factual 
+consistency. 
+Table IV presents the results of LLM-based human alignment 
+judgment using the DeepSeek r1 model [3], where responses were 
+scored on a 5 -point Likert scale across three dimensions: 
+coherence, completeness, and relevance, with 1 being poor and 5 
+being excell ent. The evaluation aimed to simulate human 
+judgment to assess how well each model delivers informative and 
+well-structured answers. 
+Mufakkir demonstrated strong performance in higher -quality 
+categories, achieving a peak of 168 responses rated as level 4, the 
+highest among all models. Additionally, it secured 80 responses at 
+level 5, reflecting a high degree of fluency and content alignment. 
+In contrast, Qwen [5] and DeepSeek [3] had more responses 
+clustered in the mid -range (level 3), while LLaMA [4] had the 
+highest count in the lowest-quality band (58 responses at level 1), 
+indicating lower output quality. 
+This distribution suggests that Mufakkir consistently generates 
+well-grounded and relevant responses, with minimal hallucination 
+or irrelevant output, particularly in academic domains. These 
+results highlight Mufakkir’s advantage in producing responses that 
+score highly across all quality dimensions, confirming its 
+effectiveness as an educational assistant. 
+ 
+TABLE III. ANSWER GENERATION PERFORMANCE 
+ 
+Metric Mufakkir 
+[Ours] 
+Qwen 
+[5] 
+Llama 
+[4] 
+Deep 
+Seek 
+[3] 
+Answer 
+Ground 
+Similarity 
+0.79  0.64 0.63 0.66 
+Question-
+Answer 
+Similarity 
+0.73  0.70 0.68 0.71 
+Faithfulness 
+Score 
+0.26  0.47 0.50 0.18 
+ 
+ 
+TABLE IV. LLM JUDGE SCORE  
+ 
+Metric Mufakkir  
+[Ours] 
+Qwen 
+[5] 
+DeepSeek 
+[3] 
+Llama 
+[4] 
+1 9 44 42 58 
+2 28 118 82 168 
+3 115 135 88 118 
+4 168 82 97 43 
+5 80 21 91 13 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 711Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:55:42 UTC from IEEE Xplore.  Restrictions apply. 
+2025 IEEE Twelfth International Conference on Intelligent Computing and Information Systems (ICICIS)  
+ 
+                       VI. CONCLUSION & FUTURE WORK 
+ 
+The introduction of Mufakkir  represents a groundbreaking 
+advancement in the field of Arabic NLP, specifically tailored to 
+the educational domain. By integrating State -Of-The-Art RAG 
+techniques, the chatbot has successfully combined fine -tuned 
+embedding models, hybrid retrieval strategies, and advanced large 
+language models to deliver superior performance in both retrieval 
+and generation tasks. The system's notable achievements, 
+including first place on the Arabic RAG Leaderboard and high 
+scores in metrics such as Accuracy@5, Recall@5, and nDCG@10, 
+underscore its technical robustness and practical relevance. 
+In answer generation, Mufakkir has shown exceptional 
+capabilities in producing context -aware responses that align 
+closely with user queries, as evidenced by its high scores in AGS 
+and QAS. These strengths position Mufakkir as a pivotal tool for 
+enhancing Arabic academic learning by bridging the gap in NLP 
+tools for Arabic -speaking users. However, challenges remain, 
+particularly in improving Faithfulness, where ensuring that 
+generated responses adhere strictly to retrieved and factual 
+information is a critical next step. 
+Looking ahead, future research will explore ways to address 
+these limitations, including refining the system's faithfulness 
+metrics and extending its applicability across a wider range of 
+academic disciplines. Another important avenue of development 
+is the incorporation of multilingual capabilities, enabling Mufakkir 
+to serve diverse linguistic audiences and foster cross -cultural 
+academic engagement. Additionally, expanding its dataset to 
+encompass more specialized and interdisciplinary academic 
+content wil l further strengthen its utility as an educational 
+resource. 
+Ultimately, Mufakkir's contributions not only demonstrate the 
+potential of RAG systems in advancing Arabic NLP but also lay 
+the foundation for developing intelligent, accessible, and impactful 
+educational tools for Arabic -speaking learners worldwide. Its 
+success highlights the transformative power of integrating cutting-
+edge AI technologies into education, paving the way for future 
+innovations that address the unique needs of underrepresented 
+languages in the digital age. 

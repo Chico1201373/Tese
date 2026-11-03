@@ -1,0 +1,458 @@
+Quantifying Informativeness in Knowledge
+Graph-Augmented In-Context Learning for Multiple
+Choice Query Answering
+1st Maryam Ghanbari
+Computer Science Department
+Brock University, Canada
+mghanbari@brocku.ca
+2nd Renata Dividino
+Computer Science Department
+Brock University, Canada
+rdividino@brocku.ca
+Abstract—Large Language Models (LLMs) face significant
+challenges when attempting to utilize knowledge not encoded
+during pre-training. In-context learning (ICL) addresses this lim-
+itation by embedding relevant information directly into prompts,
+enabling LLMs to leverage external knowledge without updating
+their parameters. Recent advances have explored integrating
+knowledge graph (KG) information into prompts, taking advan-
+tage of the structured and factual representations of entities and
+relationships that KGs provide. A common approach involves
+identifying key concepts in a task, grounding them to KG
+nodes, extracting ego-subgraphs centered on these concepts, and
+incorporating them into prompts. However, not all subgraphs are
+equally relevant to the task, and selecting appropriate knowledge
+remains a critical challenge, as irrelevant or noisy subgraphs can
+reduce model accuracy. This study investigates how KG-based
+information related to task-specific concepts influences LLM
+performance on multiple-choice question answering (MCQA)
+tasks. We implement a four-stage pipeline that (1) identifies
+key concepts from questions and grounds them in the KG, (2)
+extracts individual ego-subgraphs for each concept, (3) integrates
+these subgraphs into prompts, and (4) evaluates their impact on
+LLM reasoning via probability scoring. Our analysis highlights
+which concept-specific subgraphs enhance performance, which
+introduce misleading information, and which have neutral effects.
+We show that carefully selected KG subgraphs can substan-
+tially outperform others in semantic relevance. Furthermore,
+we examine how the size and connectivity of selected KG
+subgraphs influence model performance. Overall, this work
+deepens understanding of KG-based knowledge selection in ICL
+and informs the design of more effective, targeted prompting
+strategies. This project’s source code is publicly available at https:
+//github.com/maryam-ghanbari/InformativenessOfKGs.
+Index Terms—Knowledge Graph, In-Context Learning, Large
+Language Models, Multiple Choice Question Answering, Sub-
+graph Selection, Commonsense Question Answering.
+I. I NTRODUCTION
+Large Language Models (LLMs) have demonstrated re-
+markable capabilities across diverse natural language tasks,
+yet they face inherent limitations in accessing and utilizing
+specialized knowledge not explicitly encoded during their
+training. These models are fundamentally bounded by their
+parametric knowledge, i.e., information embedded within their
+weights during pre-training, which may be incomplete, out-
+dated, or insufficient for domain-specific reasoning tasks [1].
+In-context learning (ICL) has emerged as a promising ap-
+proach to address these knowledge limitations by embedding
+relevant information directly within prompts, allowing LLMs
+to leverage external knowledge without requiring model pa-
+rameter updates [2]–[4].
+Despite the effectiveness of this approach, a critical chal-
+lenge remains in determining which information should (and
+which should not) be included in prompts to maximize
+performance. Previous work has shown that injecting ex-
+ternal knowledge from knowledge graphs (KGs) enhances
+the reasoning capabilities of LLMs in question answering
+tasks. Many studies have focused on developing methods to
+incorporate such knowledge effectively [5]–[15]. KGs provide
+structured representations of entities and their relationships,
+offering factual precision that unstructured text often lacks.
+By integrating structured information from KGs, LLMs can
+reduce incorrect reasoning and hallucinations without requir-
+ing costly model updates. Nevertheless, in some cases, simply
+injecting knowledge from KGs that are semantically related
+to the question answering task into prompts is insufficient
+to improve performance. This limitation is particularly evi-
+dent in commonsense reasoning tasks, where questions often
+require information from multiple KG subgraphs. In such
+cases, correct responses rarely follow from a single subgraph;
+instead, they depend on the combined information provided by
+several moderately relevant subgraphs that collectively support
+a coherent answer.
+To address this gap, our study explores how integrating task-
+specific knowledge from KGs influences LLM performance
+on Multiple-Choice Question Answering (MCQA) tasks. We
+design a four-stage pipeline that (1) identifies key concepts
+from questions and grounds them in the KG, (2) extracts ego-
+subgraphs for each concept, (3) incorporates these subgraphs
+into prompts, and (4) evaluates their impact on LLM reason-
+ing through probability scoring and informativeness metrics
+(e.g., Lift, Consistency, Help-rate, Margin Improvement). Our
+analysis shows which concept-specific subgraphs enhance
+performance, which introduce misleading information, and
+which have little effect. We also study how subgraph size
+and connectivity shape model behavior. Our goal is to provide
+106
+2025 IEEE International Conference on Knowledge Graph (ICKG)
+979-8-3315-6689-0/25/$31.00 ©2025 IEEE
+DOI 10.1109/ICKG66886.2025.00021
+2025 IEEE International Conference on Knowledge Graph (ICKG) | 979-8-3315-6689-0/25/$31.00 ©2025 IEEE | DOI: 10.1109/ICKG66886.2025.00021
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:06:10 UTC from IEEE Xplore.  Restrictions apply. 
+Fig. 1. Pipeline for Evaluating Knowledge Graph-Enhanced Prompts in MCQ. This system implements a four-stage pipeline. Beginning with a sample task, it
+first extracts key concepts from the question text and grounds them in the KG (e.g., absorb, ink, fountain pen, extra, people). It then retrieves ego-subgraphs for
+each concept from the KG. Finally, a LLM evaluates the relevance of each subgraph by computing answer choice probabilities. In this example, the subgraph
+for the concept “absorb” achieved the highest probability (0.85) for the correct answer “blotter”, illustrating how targeted semantic knowledge extraction and
+structured graph representations can substantially improve question-answering accuracy.
+empirically grounded insights into how external knowledge
+can be structured and presented to LLMs to achieve a balance
+between completeness and contextual relevance.
+II. R ELATED WORK
+LLM-based QA methods fall into two broad paradigms:
+those that rely solely on the model’s internal knowledge [16]–
+[18], and those that incorporate external sources, notably KGs,
+to compensate for parametric limitations. Knowledge Graph
+Question Answering (KGQA) enhances factual accuracy and
+reasoning by combining textual and structured knowledge
+from KGs. Existing approaches to integrating KGs with LLMs
+can be grouped into four main categories:
+Knowledge Injection during Pre-training or Fine-tun-
+ing These methods encode KG information into the model
+weights [7]–[9]. Models like KGT5 [19] and RoG [10] fine-
+tune on KG-grounded data, aligning outputs with KG.
+Embedding-based Methods These represent KG entities and
+relations in latent space, using architectures tailored for rea-
+soning. Early efforts like KV-Mem [20] evolved into models
+like EmbedKGQA [11], QA-GNN [5], GreaseLM [21], and
+TransferNet [22]. Though effective, these methods often re-
+quire rigid, task-specific designs with limited flexibility.
+Semantic Parsing (SP) SP-based approaches translate ques-
+tions into logical forms (e.g., SPARQL) that are executed over
+the KG [23], [24]. These enable precise symbolic reasoning
+but depend heavily on annotated data [25].
+Retrieval-Augmented Methods These retrieve relevant KG
+subgraphs during inference and append them to the input
+prompt [26]–[28]. PoG [29] constructs multi-hop paths and
+prunes irrelevant facts; GCR [30] integrates KG structure via
+graph-constrained decoding. Some methods frame LLMs as
+agents that explore KGs iteratively [12]–[15], though this
+introduces latency [31]. While retrieval-based methods are
+model-agnostic and computationally efficient, their success
+depends on retrieving semantically relevant and complete
+facts. Poor retrieval can inject noise, harming answer quality.
+III. P ROBLEM DEFINITION
+We consider a multiple-choice question q ∈ Q, where
+Q is the set of all possible questions, and each question is
+associated with a set of answer choices C = {a1, a2, . . . , an},
+where ac ∈ C is the unique correct answer and all others
+107
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:06:10 UTC from IEEE Xplore.  Restrictions apply. 
+C \ {ac} are incorrect. A knowledge graph (KG) is defined
+as G = ( V, E), where V is the set of entities and E is the
+set of relations. Each edge (h, r, t) ∈ E, which connects a
+head entity h to a tail entity t via a relation r, is considered a
+knowledge statement . In this view, the KG can be interpreted
+as a collection of statements that encode factual information
+about the entities and their relationships.
+A knowledge extraction mechanism retrieves a set of sub-
+graphs Gq = {G(h)k1 , . . . , G(h)km } ⊆G, containing informationabout KG concepts grounded in and linked to the question
+q and answer candidates C, via extract (G, q, C) : G × Q ×
+C → Gq. Given a question q, we first extract a set of key
+concepts Kq = {k1, k2, . . . , km} relevant to the reasoning
+task. Following [28], concepts are identified in q using simple
+string matching. For each concept ki ∈ Kq, we extract its
+corresponding ego h-hop subgraph from the KG, defined as
+the set of nodes reachable from ki within h hops G(h)ki ={ v | distG(ki, v) ≤ h }. This process produces a collection of
+concept-specific subgraphs Gq = {G(h)k1 , G(h)k2 , . . . , G(h)km }. Inthis work we use h = 1.
+These subgraphs vary in size depending on the connectivity
+of the ego node in the KG, which can reflect the concept’s
+importance within the domain. However, not all extracted
+subgraphs are equally relevant to the reasoning task. A key
+challenge is selecting knowledge that supports the model’s
+reasoning and enhances performance while avoiding irrelevant
+or noisy information that could reduce accuracy. Instead of
+combining all subgraphs into a single prompt, we evaluate
+each subgraph individually. For each concept-specific sub-
+graph Gki ∈ Gq, we construct a separate augmented prompt
+using an encoding function Γ, pi = Γ(Gki , q,{a1, . . . , an}),
+which serves as input to an LLM. In this work, we simply
+serialize the statements in Gki into text and concatenate them
+with the question and answer candidates to form the prompt.
+We then evaluate the model’s performance using a metric
+ρ(pi, ac), such as accuracy or probability scoring, to measure
+its ability to select the correct answer given the contex-
+tual prompt. This individual evaluation approach allows us
+to systematically analyze which concept-specific subgraphs
+contribute to performance improvements, which introduce
+misleading information, and which have neutral effects.
+IV. E XPERIMENT SETUP
+A. Dataset
+MCQA Tasks: We evaluate our method on the Common-
+senseQA (CSQA) dataset [32], a widely used benchmark for
+multiple-choice commonsense reasoning. The dataset contains
+12,102 questions, each accompanied by five candidate an-
+swers, only one of which is correct. Answering these questions
+typically requires implicit commonsense knowledge that is
+not explicitly stated in the question or choices. We use the
+development set of CSQA, which includes 1,221 questions.
+KG: We use ConceptNet [33], a general-domain common-
+sense KG comprising 799,273 nodes and 2,487,810 edges.
+Each node represents a concept, and edges capture common-
+sense relations such as AtLocation, and UsedFor.
+B. Inference Models
+All experiments are conducted with Flan–T5–small(80M
+parameters) [34], selected due to its effective balance of com-
+putational efficiency and performance. We adopt and extend a
+knowledge integration strategy introduced in prior work [16],
+in which knowledge statements are incorporated into the input
+prompt to guide answer selection. Given a set of knowledge
+statements G = {s1, s2, . . . , su}, an original question q, and
+answer choices C = {a1, . . . , an}, we construct augmented
+prompts by concatenating knowledge with the question and
+choices:
+pall = [ s1 ∥ s2 ∥ · · · ∥su ∥ q ∥ C ]. (1)
+where [ · ∥ ·] denotes textual concatenation using newline
+delimiters or other formatting tokens. Due to input length
+constraints, it is often infeasible to encode the entire set
+G within a single prompt. We employ single knowledge
+processing:
+pi = [ si ∥ q ∥ C ] for i = 1, . . . , u. (2)
+The model independently scores each answer candidate us-
+ing each prompt. For each prompt pi and candidate answer
+a ∈ C, the model computes a score sc(a | pi), and these are
+aggregated across all prompts.
+The model operates in a teacher-forcing mode during infer-
+ence, meaning that for each candidate answer, we compute the
+conditional log-likelihood of the target sequence by providing
+the ground-truth tokens as decoder inputs. In this deterministic
+setup, there is no autoregressive decoding (e.g., beam search or
+sampling), and the loss is solely determined by the discrepancy
+between the model’s predicted logits and the given label to-
+kens. As a result, inference is reproducible and not sensitive to
+random seeds. We use the negative sequence loss as the score
+function. These scores are then normalized using softmax to
+yield a probability distribution over candidate answers:
+pri = exp(si)P
+j exp(sj) . (3)
+C. Performance Metrics
+Given a subgraph G used to augment a prompt, we assess
+its usefulness in increasing the model’s confidence in the
+correct answer ac. As described in Equation 3, the model
+computes probabilities for each answer candidate. Let P acbase =
+Pr(ac | ∅) denote the probability assigned to the correct
+answer when no additional knowledge is provided. For each
+subgraph, P acmax(G) = max s∈G Pr(ac | s) represents the
+highest probability assigned to the correct answer when the
+single most informative statement from the subgraph is used,
+and P acmean(G) = 1|G| Ps∈G Pr(ac | s) denotes the average
+probability across all statements in the subgraph.
+For a subgraph G = {s1, s2, . . . , su} containing u individ-
+ual knowledge statements, we define metrics that quantify how
+the subgraph’s statements affect the model’s confidence in the
+correct answer. Based on the previously defined probabilities,
+108
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:06:10 UTC from IEEE Xplore.  Restrictions apply. 
+Fig. 2. Performance lift as a function of subgraph size. Left panel shows maximum lift (∆P max) and right panel shows mean lift (∆P mean) across different
+subgraph sizes. Each point represents an individual subgraph, with trend lines indicating general patterns. Maximum lift increases with subgraph size up to
+moderate sizes before plateauing, while mean lift remains near zero across all sizes, demonstrating the importance of selective statement.
+Fig. 3. Distributions of max-lift ∆Pmax (orange) and mean-lift ∆Pmean
+(blue) across all subgraphs. Positive values indicate that the subgraph pro-
+vides helpful context, while negative values suggest misleading or harmful
+information. The fact that ∆Pmax is mostly positive suggests that most
+subgraphs contain at least one informative statement that improves the
+model’s performance. In contrast, the near-uniform distribution of ∆Pmean
+around zero indicates that, on average, subgraphs contain misleading or noisy
+information, which negatively impacts overall model performance. Dashed
+lines show the average values: E[∆Pmean] ≈ 0.04 and E[∆Pmax] ≈ 0.25.
+Max-lift, ∆Pmax(G), measures the increase in confidence due
+to the single most informative statement in the subgraph:
+∆Pmax(G) = P acmax(G) − P acbase. (4)
+Similarly, Mean-lift, ∆Pmean(G), quantifies the average
+increase in confidence across all statements in the subgraph:
+∆Pmean(G) = P acmean(G) − P acbase. (5)
+Both ∆Pmax(G) and ∆Pmean(G) range from −1 to 1,
+where positive values indicate helpful context and negative
+values indicate misleading or harmful information.
+Consistency measures how uniformly the statements in G
+support the correct answer relative to the most informative
+statement. A consistency value close to 1 indicates that most
+Fig. 4. Distribution of subgraph consistency. A strong peak at κ = 1 and
+another near κ = 0 indicate a bimodal behavior.
+statements in the subgraph influence equally the model’s
+confidence. A value near 0 implies that only few statements
+are highly influential.
+κ(G) = ∆Pmean(G)∆Pmax(G) ∈ [0, 1]. (6)
+Help-rate is a binary indicator of whether a subgraph G
+provides any positive lift. For each subgraph, we define
+h(G) =
+(
+1, ∆Pmax(G) > 0,
+0, otherwise,
+which flags whether G contains any helpful statement. We
+then summarize at two levels:
+H = 1M
+MX
+i=1
+h(Gki ) and Hq = 1|Gq| XGi∈Gq h(Gki ),
+(7)
+where H is the overall fraction of subgraphs that contain
+any helpful statement across all questions, and M is the total
+number of subgraphs. Similarly, Hq is the per-question fraction
+109
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:06:10 UTC from IEEE Xplore.  Restrictions apply. 
+Fig. 5. Subgraph consistency as a function of one-hop neighborhood size. Left: Scatter of individual subgraph consistency values. Right: Mean consistency
+per size-bin showing the overall trend.
+of helpful subgraphs. Values close to 1 indicate that nearly all
+subgraphs contribute positively, either overall (H ≈ 1) or for
+a specific question (H q ≈ 1).
+Margin Improvement measures how much a subgraph in-
+creases the difference between the model’s probability for the
+correct answer and that of the most likely incorrect answer:
+Mmax = P acbase − maxaw̸=ac P awmax (8)
+Mmean = P acbase − maxaw̸=ac P awmean (9)
+A positive margin improvement shows the subgraph widens
+the gap between the correct and incorrect answers.
+V. R ESULTS
+Lift Metrics Analysis: Figure 3 shows the kernel density
+estimates of the maximum lift ∆Pmax (see Equation 4) and the
+mean lift ∆Pmean (see Equation 5) across all subgraphs with
+one hop. Vertical dashed lines mark their global means. The
+distribution of ∆Pmax is skewed toward positive values, with
+a long tail reaching up to 1.0 and a mean of approximately
+0.25. This shows that many subgraphs contain at least one
+statement that increases the model’s confidence in the correct
+answer by about 25 percentage points on average. In contrast,
+the distribution of ∆Pmean is concentrated near zero, with a
+mean of only 0.04 and a large portion of values below zero.
+This indicates that averaging over all statements in a subgraph
+reduces useful signals and can decrease performance.
+The ∆Pmax distribution shows high variance, reflecting
+that some statements provide large performance gains. The
+∆Pmean distribution shows low variance, indicating that most
+individual statements in a subgraph contribute little positive
+information. The contrast between these distributions shows
+a key finding: effective knowledge graph grounding requires
+selecting the most informative statements (those that drive high
+∆Pmax) rather than using all one-hop neighbors.
+Figure 2 shows the max lift (left) and mean lift (right) as
+functions of subgraph size. Each scatter point represents an
+individual subgraph, and trend lines show the general patterns.
+The max lift increases as subgraph size grows from small
+to moderate, indicating that adding neighbors helps capture
+more relevant statements. However, this improvement stops
+at larger sizes, showing diminishing returns beyond a certain
+neighborhood size. The mean lift remains nearly constant
+across all subgraph sizes, with the trend line close to zero. This
+indicates that aggregating all statements in a subgraph does
+not improve model performance and may reduce effectiveness
+by including irrelevant information. Both panels show wide
+distributions. Small subgraphs are highly variable, with lift
+values ranging from beneficial to harmful. Larger subgraphs
+are less variable for max lift, suggesting they contain some
+useful information, but the mean lift shows they still include
+substantial noise. The difference between max lift and mean
+lift trends demonstrates the importance of selecting high-
+value statements rather than including entire neighborhoods.
+Moderate-sized subgraphs provide the best balance.
+Subgraph Consistency Analysis: Figure 4 shows the his-
+togram of per-subgraph consistency κ (see Equation 6) across
+all one-hop subgraphs. The distribution has a bimodal shape
+with two dominant peaks: one at κ = 1 (all statements equally
+supportive) and one close to κ = 0 (only one useful statement).
+This reveals that subgraphs fall into two categories: Perfectly
+consistent subgraphs almost always arise from subgraphs of
+size one, where mean lift equals max lift by definition.
+Highly spiky subgraphs (κ ≈ 0) are larger, multi-statements
+subgraphs where only few statements contributes positive lift
+and the rest do not contribute positively to the model. Very
+few subgraphs achieve intermediate κ values in the 0.2-0.8
+range. This indicates that neighborhoods rarely offer uniformly
+helpful facts beyond size 1 cases.
+Figure 5 shows how the uniformity of evidence in a one-hop
+subgraph (κ) changes as the subgraph grows. The left panel
+plots each subgraph’s consistency against its size, and the right
+panel shows the binned average consistency in equal-count
+size bins. Uniformity drops rapidly as subgraph size increases.
+Adding just a few extra statements causes mean consistency to
+decrease sharply. By the mid-hundreds of nodes, the average
+110
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:06:10 UTC from IEEE Xplore.  Restrictions apply. 
+Fig. 6. Binned help-rate vs. subgraph size. Each point is the average fraction of helpful subgraphs (i.e. ∆P > 0) in that size bucket. Max-lift (solid teal)
+quickly approaches 1.0, whereas mean-lift (dashed pink) rises more slowly and never fully saturates.
+Fig. 7. Jittered scatter of individual subgraphs’ help-flags (Yes/No) against size. For max-lift (left) the ”Yes” points dominate as size grows; for mean-lift
+(right) a mixture of ”No” persists at every scale.
+Fig. 8. Histogram of all subgraphs showing the count with and without any
+lift. Under max-lift (left) the majority are helpful; under mean-lift (right) the
+split is roughly even.
+consistency is already low, indicating that noise facts quickly
+reduce uniform support. Beyond a few hundred neighbors, the
+binned trend flattens around a low value (0.2). This suggests
+that once a subgraph grows beyond moderate size, most facts
+do not reliably support the correct answer. These results show
+that true uniformity is only found in very small, high-precision
+subgraphs. For larger neighborhoods, when using the entire
+subgraph the contextual signal will be overwhelmed by noise.
+Fig. 9. Distribution of margin improvement. The figure indicates that sub-
+graphs containing highly informative statements often also contain irrelevant
+information.
+Help-Rate Analysis : We assess how often one-hop sub-
+graphs contain at least one statement that increases the model’s
+confidence in the correct answer. A value close to 1 suggests
+that subgraphs almost always contain useful evidence (see
+111
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:06:10 UTC from IEEE Xplore.  Restrictions apply. 
+Fig. 10. Distribution of question-level consistency Hq for max-lift (left) and mean-lift (right). Each bar shows how many questions have a given fraction of
+helpful subgraphs.
+Equation 7). Figure 6 shows that helpful statements are avail-
+able in almost every moderately large subgraph (a few hundred
+neighbors). The raw scatter in Figure 7 confirms that max-lift
+reliability improves sharply with size, whereas mean-lift never
+fully overcomes unhelpful contexts. Figure 8 summarizes the
+overall counts: more than two-thirds of subgraphs yield some
+benefit under max-lift. These results demonstrate that selecting
+the most informative statement is far more important and
+reliable on the entire one-hop neighborhood.
+Figure 10 compares the distribution of question-level help-
+rate Hq, the fraction of subgraphs per question that are
+”helpful”. The left panel is heavily skewed toward Hq ≈ 1.0,
+that is, the vast majority of questions have nearly all their
+subgraphs contain at least one high-value statement. Only a
+small tail of questions falls below 0.5, indicating that max-
+lift provides broadly consistent coverage across questions. In
+contrast, the right panel is strongly bimodal, with peaks at
+Hq = 0 and Hq = 1. Many questions (around 40%) have no
+subgraph whose mean-lift exceeds the baseline, while another
+segment has all subgraphs slightly positive. Very few fall in
+between, reflecting the all-or-nothing nature of averaging.
+Margin Improvement Analysis: Figure 9 shows the distri-
+bution of margin improvement Mmax and Mmean (see Equa-
+tion 8 and Equation 9) across all subgraphs. Both distributions
+are centered near zero. The informativeness or noisiness of
+the injected knowledge varies substantially across subgraphs.
+Mmax (green dashed line) is positive (≈ 0.11), showing that
+whenever influential statements are present in a subgraph, so
+are irrelevant ones, exposing the model to high-variance, po-
+tentially noisy knowledge that can mislead it towards incorrect
+choices.
+VI. C ONCLUSION
+This study investigates how KG statements extracted from
+concept-centered ego-subgraphs influence LLM performance
+on MCQA through ICL. Our results show that knowledge
+selection is more important than knowledge volume. Using
+the single most relevant statement from concept-specific sub-
+graphs leads to significant performance gains. However, using
+larger subgraphs with multiple statements often introduces
+irrelevant or contradictory information, which increases re-
+sponse variance and reduces accuracy. Margin analysis shows
+that well-selected KG-based prompts help models better distin-
+guish between correct and incorrect answers. However, these
+benefits depend heavily on statement quality and relevance.
+Performance drops quickly when noisy or unrelated content is
+included. These findings demonstrate that precision matters
+more than comprehensiveness when integrating KGs with
+LLMs. Optimal performance requires effective filtering and
+relevance scoring to identify useful statements while excluding
+misleading information. Future work should focus on de-
+veloping sophisticated knowledge selection mechanisms that
+can identify and extract the most relevant information while
+minimizing misleading or noisy content.

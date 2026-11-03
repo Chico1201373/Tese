@@ -1270,6 +1270,9 @@
       \field{note}{Estudo R0965 da revisão}
       \field{title}{{Textbook-Embedded Virtual Teaching Assistant That Answers CS1 Questions With Verifiable Citations}}
       \field{year}{2026}
+      \verb{doi}
+      \verb 10.1145/3774748.3795670
+      \endverb
     \endentry
     \entry{hattie2007power}{article}{}{}
       \name{author}{2}{}{%
@@ -1928,6 +1931,9 @@
       \field{note}{Estudo R1120 da revisão}
       \field{title}{{Med-HEAL: Analyzing and Mitigating Hallucinations in Medical LLMs with Hallucination-Aware In-Context Learning}}
       \field{year}{2026}
+      \verb{doi}
+      \verb 10.1145/3807503.3819453
+      \endverb
     \endentry
     \entry{liu2024lost}{article}{}{}
       \name{author}{7}{}{%
@@ -3517,6 +3523,9 @@
       \field{note}{Estudo R1056 da revisão}
       \field{title}{{EchoMind: Augmenting Recorded Presentations with Context-Grounded Conversational Agents and Collective Viewer Signals}}
       \field{year}{2026}
+      \verb{doi}
+      \verb 10.1145/3829807.3829883
+      \endverb
     \endentry
     \entry{yan2026question}{inproceedings}{}{}
       \name{author}{2}{}{%
@@ -3774,6 +3783,9 @@
       \field{note}{Estudo R0995 da revisão}
       \field{title}{{A Comparative Study on LLM-enabled HPC User Support}}
       \field{year}{2026}
+      \verb{doi}
+      \verb 10.1145/3785462.3815796
+      \endverb
     \endentry
   \enddatalist
 \endrefsection

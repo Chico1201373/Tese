@@ -1,0 +1,102 @@
+% Protocolo completo da revisão sistemática (resumido na Secção 2.2)
+
+\chapter{Protocolo e Registo da Revisão Sistemática}
+\label{AppendixProtocol}
+
+Este apêndice documenta o protocolo da revisão sistemática resumida na Secção~\ref{sec:chap2_protocol}: a estruturação das questões, as fontes, a pesquisa piloto, a adaptação das expressões a cada fonte, o registo da pesquisa, os passos da seleção, a avaliação da qualidade e os campos de extração. Os ficheiros exportados, os \emph{scripts} e as decisões de triagem permitem repetir todos os passos.
+
+\section{Estruturação das Questões}
+\label{sec:app_picoc}
+
+O âmbito das questões foi estruturado com os critérios \gls{PICOC} (População, Intervenção, Comparação, Resultados e Contexto) recomendados por \textcite{kitchenham2007guidelines}. A Tabela~\ref{tab:picoc} mostra cada critério e onde é aplicado: a população, a intervenção e os resultados dão origem aos blocos das expressões de pesquisa; o contexto é aplicado nos critérios de seleção, para não excluir na pesquisa estudos que não mencionam o domínio no título ou no resumo.
+
+\begin{table}[htbp]
+\caption{Critérios \gls{PICOC} da revisão e onde são aplicados.}
+\label{tab:picoc}
+\centering
+\footnotesize
+\begin{tabular}{p{1.9cm} p{8.2cm} p{3.4cm}}
+\toprule
+\tabhead{Critério} & \tabhead{Definição} & \tabhead{Aplicação} \\
+\midrule
+População & Sistemas conversacionais e de resposta a perguntas baseados em \glspl{LLM} & Blocos \gls{LLM} e \emph{chatbot}/\gls{QA} (Q1--Q4) \\
+Intervenção & Limitação das respostas a um contexto definido pela aplicação (\gls{RAG}, contexto no \emph{prompt}, \emph{grounding}) e controlo do âmbito (\emph{guardrails}, recusa) & Bloco de contexto (Q1), segurança (Q3) e recusa (Q4) \\
+Comparação & Entre formas de fornecer o contexto e com o modelo sem contexto, quando reportada & Extração (não restringe a pesquisa) \\
+Resultados & Correção factual, fidelidade ao contexto, adesão ao âmbito e recusa, robustez a manipulação; latência e custo & Bloco de avaliação (Q2, Q4); critério I4; extração \\
+Contexto & Educação e saúde; estudos primários publicados entre 2021 e 2026 & Filtro de anos; critérios I1--I3 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Fontes e Pesquisa}
+\label{sec:app_search}
+
+\paragraph{Fontes.} Foram usadas três fontes: IEEE Xplore e ACM Digital Library, que cobrem a literatura de engenharia informática, sistemas e \gls{IA}, e Scopus, uma base multidisciplinar que cobre também revistas de educação e saúde. As fontes foram escolhidas antes da pesquisa final. % NOTA (não aparece no PDF): a pesquisa Scopus foi executada através da interface Scopus da Elsevier, com TITLE-ABS-KEY.
+
+\paragraph{Pesquisa piloto.} Antes de fixar as expressões, foi feita uma pesquisa piloto nas três fontes, limitada aos primeiros 30 títulos de cada pesquisa. O piloto levou a três decisões: (i) estreitar as expressões a sistemas conversacionais e de resposta a perguntas, porque as versões gerais devolviam sobretudo geração de código, \emph{hardware} de inferência e recomendação; (ii) retirar latência e custo dos blocos de pesquisa e tratá-los como campos de extração, pelo mesmo motivo; (iii) separar a segurança do âmbito (Q3) e a recusa fora do âmbito (Q4) em expressões próprias.
+
+\paragraph{Campos pesquisados.} Em todas as fontes, as expressões foram aplicadas ao título, ao resumo e às palavras-chave, com o filtro de anos 2021--2026. No Scopus foi usado o campo \texttt{TITLE-ABS-KEY(...)}. No IEEE Xplore e na ACM Digital Library, que não têm um campo equivalente, cada termo foi expandido para os três campos (por exemplo, no IEEE Xplore, \texttt{("Document Title":LLM OR "Abstract":LLM OR "Author Keywords":LLM)}), mantendo a lógica booleana. A versão exata executada em cada fonte está guardada no registo da pesquisa.
+
+\paragraph{Execução e registo.} As pesquisas foram executadas a 2 de novembro de 2026. Foram exportados todos os resultados de cada pesquisa, com resumo, em RIS (IEEE Xplore e Scopus) ou BibTeX (ACM Digital Library). Para cada par fonte--pesquisa foram registados a expressão executada, a data, os filtros, o total indicado pela fonte e o número de registos exportados (Tabela~\ref{tab:searchlog}).
+
+A Tabela~\ref{tab:searchlog} apresenta o registo da pesquisa. Foram exportados 1547 registos: 844 do IEEE Xplore, 424 da ACM Digital Library e 279 do Scopus. No IEEE Xplore, 3 dos 756 resultados da Q1 não puderam ser exportados pela própria plataforma; na ACM Digital Library, a exportação da Q4 devolveu 26 registos para um total indicado de 25. A Q1 concentra a maior parte dos resultados, por cobrir a literatura de \gls{RAG} aplicada a qualquer domínio.
+
+\begin{table}
+\caption{Registo da pesquisa (2 de novembro de 2026; título, resumo e palavras-chave; 2021--2026).}
+\label{tab:searchlog}
+\centering
+\footnotesize
+\begin{tabular}{l r r r r r}
+\toprule
+\tabhead{Fonte} & \tabhead{Q1} & \tabhead{Q2} & \tabhead{Q3} & \tabhead{Q4} & \tabhead{Exportados} \\
+\midrule
+IEEE Xplore & 756 (753) & 24 & 38 & 29 & 844 \\
+ACM Digital Library & 358 & 24 & 16 & 25 (26) & 424 \\
+Scopus & 102 & 131 & 14 & 32 & 279 \\
+\midrule
+\textbf{Total} & & & & & \textbf{1547} \\
+\bottomrule
+\end{tabular}
+
+\vspace{2pt}
+{\scriptsize Total indicado pela fonte; entre parênteses, o número exportado quando é diferente.}
+\end{table}
+
+\section{Seleção dos Estudos}
+\label{sec:app_selection}
+
+A seleção seguiu quatro passos, todos registados em ficheiros e reprodutíveis através de \emph{scripts}:
+\begin{enumerate}
+    \item \textbf{Deduplicação.} Os registos das três fontes foram juntos e os duplicados removidos, primeiro pelo DOI normalizado e depois pelo título normalizado. Cada registo guarda a fonte e a pesquisa de onde veio.
+    \item \textbf{Triagem por regras (fase A).} Foram aplicadas regras explícitas sobre o título e o resumo, que implementam os critérios E2, E3 e E4 e o foco do I3 e do I4: registo sem resumo ou que não é artigo; revisão ou \emph{survey}; ausência de termos de \gls{LLM}; ausência de termos de sistema conversacional ou \gls{QA}; ausência de termos de educação ou saúde; e ausência de termos de avaliação das respostas. As regras e os termos usados estão no \emph{script} de triagem.
+    \item \textbf{Triagem por leitura (fase B).} Os registos que passaram a fase A foram lidos (título e resumo) e classificados como incluídos ou excluídos, com um critério e um motivo por registo. Esta triagem foi feita com apoio de um assistente de \gls{IA}, que propôs as decisões e os motivos; as decisões foram verificadas pelo autor (Secção~\ref{sec:chap1_ethics}). % TODO: indicar se o orientador reviu uma amostra.
+    \item \textbf{Priorização.} Dentro dos incluídos, foram marcados como prioritários os estudos que cumprem pelo menos uma das seguintes condições, escolhidas pela proximidade ao caso de estudo: (a) contexto fechado e próximo do QBank (perguntas de exame ou de escolha múltipla, materiais de um curso ou um documento específico); (b) avaliação explícita da correção, da fidelidade ou da recusa; (c) mecanismo de controlo do âmbito ou de segurança; (d) suporte a várias línguas.
+\end{enumerate}
+
+\section{Avaliação da Qualidade e Extração de Dados}
+\label{sec:app_extraction}
+
+Na leitura do texto integral, cada estudo será avaliado com cinco critérios de qualidade, cada um classificado como \emph{sim} (1), \emph{parcial} (0,5) ou \emph{não} (0): (QA1) o objetivo está claro; (QA2) o sistema, o modelo e a origem do contexto estão descritos; (QA3) os dados, as perguntas ou os cenários de avaliação estão descritos; (QA4) o método de avaliação é adequado às conclusões; (QA5) as limitações e ameaças à validade são discutidas. A pontuação não exclui estudos: serve para ponderar a evidência na síntese.
+
+Os campos de extração estão na Tabela~\ref{tab:extraction}. Nesta fase, a extração foi feita a partir dos resumos; os campos serão confirmados e completados com o texto integral.
+
+\begin{table}
+\caption{Campos de extração de dados.}
+\label{tab:extraction}
+\centering
+\footnotesize
+\begin{tabular}{p{0.4cm} p{3.4cm} p{7.6cm} p{1.4cm}}
+\toprule
+\tabhead{\#} & \tabhead{Campo} & \tabhead{Descrição} & \tabhead{Questão} \\
+\midrule
+1 & Referência & Autores, ano, fonte e tipo de publicação & --- \\
+2 & Domínio e utilizadores & Educação ou saúde; estudantes, doentes, profissionais & RQ1 \\
+3 & Origem do contexto & \gls{RAG}, grafo de conhecimento, contexto no \emph{prompt}, base de dados ou outro & RQ1 \\
+4 & Controlo da resposta & Instruções, filtros, citações, verificação, recusa, \emph{guardrails} & RQ1, RQ2 \\
+5 & Modelo e componentes & Modelo de linguagem, \emph{fine-tuning}, execução local ou na nuvem & RQ1 \\
+6 & Avaliação & Método (métricas, \gls{LLM} juiz, especialistas, utilizadores), dados e dimensão da amostra & RQ2 \\
+7 & Resultados & Correção, fidelidade, recusa e segurança & RQ2 \\
+8 & Compromissos e limitações & Latência, custo, integração, privacidade e limitações reportadas & RQ1 \\
+\bottomrule
+\end{tabular}
+\end{table}

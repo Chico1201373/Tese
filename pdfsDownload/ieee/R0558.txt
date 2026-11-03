@@ -1,0 +1,645 @@
+979-8-3315-5723-2/26/$31.00 ©2026 IEEE 
+ 
+Mitigating Bias and Hallucinations in LLMs 
+through Prompt Engineering and Knowledge-
+Grounded Approaches in Healthcare Domain 
+ 
+A.P.D. Ishadya  
+Department of Industrial Management 
+Faculty of Science 
+University of Kelaniya 
+Kelaniya, Sri Lanka 
+ishadyaap@gmail.com  
+A. Withanaarachchi  
+Department of Industrial Management 
+Faculty of Science 
+University of Kelaniya 
+Kelaniya, Sri Lanka 
+amilaw@kln.ac.lk 
+S. Jayalal  
+Center for Information Technology 
+Waikato Institute of Technology 
+City Campus 
+Hamilton, New Zealand 
+Shantha.jayalal@wintec.ac.nz   
+Abstract —Large language models (LLMs) are increasingly 
+applied in healthcare for clinical question answeri ng and 
+information support, yet their deployment is constr ained by 
+risks of hallucinated content and embedded bias tha t can 
+compromise patient safety. This study proposes an i ntegrated 
+mitigation framework that combines advanced prompt 
+engineering with knowledge-grounded approaches, spe cifically 
+Retrieval Augmented Generation (RAG) and the Model Context 
+Protocol (MCP), without modifying underlying model 
+parameters. Using a mixed-methods design, parallel RAG and 
+MCP pipelines were implemented with shared retrieva l and 
+prompting logic and evaluated on NIH-derived MedQuA D 
+subsets (CancerQA and NIDDKQA). Structured promptin g 
+strategies including role-based prompts, chain-of-t hought, and 
+chain-of-verification were applied consistently acr oss both 
+pipelines. Quantitative evaluation using accuracy, semantic 
+similarity, evidence-backed rate, abstention, recal l, and 
+demographic drift metrics shows that MCP consistent ly 
+outperforms or matches conventional RAG, achieving higher F1 
+and ROUGE-L scores, stronger evidence grounding, an d lower 
+abstention while maintaining minimal demographic dr ift. 
+Expert review further confirmed improved clinical r elevance 
+and reduced unsupported claims. These findings demo nstrate 
+that coupling structured prompting with knowledge g rounding 
+produces more reliable, safer, and fairer healthcar e LLM 
+outputs, offering a practical and scalable pathway for 
+trustworthy AI deployment in high-stakes clinical settings. 
+Keywords—Bias and Hallucination Mitigation, Healthc are 
+AI, Knowledge-Grounded Approaches, Large Language M odels, 
+Prompt Engineering 
+I.  INTRODUCTION  
+Recent advances in Artificial Intelligence (AI), especially 
+in Natural Language Processing (NLP), have enabled Large 
+Language Models (LLMs) with billions of parameters to 
+perform a wide range of tasks such as translation, 
+summarization, content generation, and code creation [1], [2]. 
+Prominent models like GPT-3, GPT-4 and Bard are trained on 
+diverse corpora, including books, research articles, and online 
+resources, allowing them to produce coherent, context-aware 
+responses across many domains [3]. In healthcare, LLMs are 
+increasingly used to analyze medical texts, generat e clinical 
+reports, support research writing, and summarize le ngthy 
+patient records, thereby assisting clinicians and researchers in 
+decision support, documentation, and education [4], [5], [6]. 
+LLMs are now being explored more broadly in high-stakes 
+domains such as law and finance for drafting docume nts, 
+triaging information, and supporting complex profes sional 
+tasks, further increasing their impact and the need  for 
+trustworthy behaviour [5], [7], [8]. 
+Alongside these benefits, LLMs exhibit two critical failure 
+modes: bias and hallucination. Bias arises from imb alances 
+and stereotypes in training data that are learned and sometimes 
+amplified in model outputs [9]. Hallucinations refe r to 
+fabricated or incorrect content and can be factual,  logical, or 
+contextual, such as contradictions of established m edical 
+knowledge or answers that ignore prior dialogue [10], [11]. 
+In healthcare, such errors can be severe. Biased da tasets 
+risk worsening disparities; for example, models tra ined on 
+predominantly fair-skinned populations may underdia gnose 
+conditions in darker-skinned patients [7], [9]. Hal lucinated 
+references, diagnoses, or treatment suggestions thr eaten 
+patient safety and erode trust, as shown in studies where LLMs 
+fabricated plausible but non-existent citations and  clinical 
+details [12], [13]. These concerns make accuracy, f airness, 
+and transparency non-negotiable requirements for he althcare 
+LLM deployment [6]. 
+Most current mitigation strategies rely on retraini ng or 
+fine-tuning LLMs, which is computationally expensive, data-
+intensive, and often infeasible for closed-weight models used 
+in practice. These approaches also tend to address bias and 
+hallucination separately rather than through an int egrated 
+solution. 
+Prompt engineering, designing and refining instructions to 
+steer model behaviour offers a lightweight alternat ive that 
+requires no changes to core model parameters and ca n be 
+adapted to new tasks with minimal labelled data [14], [15]. In 
+parallel, knowledge-grounding methods such as Retri eval-
+Augmented Generation (RAG) and the Model Context 
+Protocol (MCP) constrain generation to trusted exte rnal 
+sources and have emerged as primary strategies for reducing 
+hallucinations in LLMs. However, the combined use o f 
+advanced prompting and these grounding methods rema ins 
+underexplored, particularly in domain-specific, hig h-stakes 
+healthcare applications. 
+This study aims to address this gap by developing a nd 
+evaluating an integrated approach that couples adva nced 
+prompt engineering with RAG and MCP to mitigate bot h 
+hallucinations and bias in healthcare LLM outputs. The 
+objectives are to (i) investigate causes of bias an d 
+hallucination in AI-generated healthcare responses; (ii) review 
+and synthesize existing prompt-based and grounding 
+techniques; (iii) design a unified framework combin ing 
+prompt engineering with RAG and MCP; (iv) implement this 
+framework on widely used text-based models such as 
+ChatGPT; and (v) assess its effectiveness using NIH -derived 
+2026 6th International Conference on Advanced Research in Computing (ICARC) | 979-8-3315-5723-2/26/$31.00 ©2026 IEEE | DOI: 10.1109/ICARC68737.2026.11453821
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:01:56 UTC from IEEE Xplore.  Restrictions apply. 
+clinical question–answer datasets and a comprehensive metric 
+suite. 
+The research focuses on English-language, text-base d 
+LLMs used in healthcare scenarios, without modifyin g 
+underlying architectures. The study contributes (i)  an 
+advanced prompt-engineering and grounding framework, (ii) 
+implemented RAG and MCP pipelines over MedQuAD-
+derived datasets, (iii) a domain-specific prompt an d dataset 
+repository, and (iv) practical deployment guidelines for safer, 
+more reliable healthcare LLM applications. 
+II.  BACKGROUND AND RELATED WORK  
+A.  Large Language Models in Healthcare 
+Large Language Models (LLMs) such as GPT-3, PaLM, 
+and LLaMA scale to billions of parameters and achieve strong 
+zero- and few-shot performance across diverse NLP tasks [6]. 
+Domain-adapted variants like BioBERT and ClinicalBE RT, 
+trained on biomedical corpora, outperform general models on 
+clinical NLP tasks and question answering [6]. In healthcare, 
+LLMs are used to summarize medical literature and p atient 
+records, assist diagnosis and treatment planning, a utomate 
+documentation, and support patient communication vi a 
+question-answering and educational content [5], [6] . 
+However, these benefits are accompanied by persiste nt 
+concerns about factual errors, embedded bias, and p rivacy 
+risks, motivating the need for domain-specific safeguards and 
+rigorous validation before deployment in clinical w orkflows 
+[5], [6]. 
+B.  Biases and Hallucinations in Large Language Models 
+LLMs inherit social and statistical biases from the ir 
+training data, which can manifest as gender, racial , or 
+demographic stereotypes and may be amplified in gen erated 
+outputs [9]. Hallucinations refer to fabricated or incorrect 
+content that appears fluent and plausible. [10] dis tinguish 
+factual hallucinations (contradicting objective fac ts), logical 
+hallucinations (violating internal reasoning), and contextual 
+hallucinations (ignoring prior context), alongside domain-
+specific phenomena such as object hallucination in vision-
+language models [10], [11]. In practice, hallucinations include 
+invented references, erroneous numerical claims, or  
+unsupported clinical statements. For example, [12] show that 
+ChatGPT can generate plausible but non-existent sch olarly 
+citations, illustrating how factual hallucinations undermine 
+evidence-based practice. Bias and hallucination are therefore 
+intertwined reliability failures with direct conseq uences in 
+high-stakes decision-making [9]. 
+C.  Impacts of Hallucinations and Biases in Healthcare 
+The consequences of biased and hallucinated outputs  are 
+especially severe in medicine, where incorrect info rmation 
+can directly affect patient safety and clinical out comes. 
+Hallucinated clinical summaries or treatment 
+recommendations based on incomplete or misinterpreted data 
+can lead to harmful decisions, delayed diagnosis, o r 
+inappropriate therapy [1], [16]. LLMs may also inadvertently 
+expose memorized sensitive data such as names or locations, 
+posing privacy and confidentiality risks [17]. 
+ 
+Beyond direct harm, hallucinations can generate fictitious 
+studies or misrepresent existing evidence in clinic al and 
+research contexts, contributing to misinformation a nd 
+eroding the integrity of scientific literature [9].  In medical 
+education, misleading but confident explanations ca n distort 
+trainees’ mental models and impair long-term clinic al 
+reasoning [18]. Patient-facing chatbots that provid e 
+inaccurate or myth-reinforcing advice further risk confusion 
+and loss of trust in healthcare providers [18].  
+ 
+These multi-layered risks are summarized in Table I , 
+which consolidates key impact types of hallucinated  and 
+biased LLM outputs in healthcare. 
+ 
+Table I. Impacts of Hallucinations and Biases in Healthcare 
+Impact Type Hallucinated / Biased LLM Outputs Sourc e 
+Patient Harm 
+Incorrect diagnoses or treatment 
+recommendations delivered with high 
+confidence, potentially leading to 
+adverse outcomes. 
+[1] 
+Misinformation 
+(Clinical & 
+Research) 
+Fabrication of studies, false references, 
+and misinterpretation of findings, 
+undermining evidence-based practice 
+and propagating 
+misinformation. 
+[9] 
+Education 
+Misleading medical trainees and 
+professionals with convincingly wrong 
+explanations, impairing learning and 
+decision-making skills. 
+[18] 
+Workflow 
+Disruption 
+Increased verification burden and 
+potential delays as clinicians double-
+check AI-generated outputs to ensure 
+accuracy. 
+[1] 
+Patient 
+Communication 
+Providing patients with clinically invalid 
+advice or perpetuating myths, which can 
+cause confusion and erode trust in 
+providers. 
+[18] 
+ 
+D.  Prompt Engineering and Knowledge Grounding 
+Recent work explores prompt-level interventions to 
+reduce hallucinations without retraining models. Gr ammar-
+aware prompt engineering constrains syntax and logi c to 
+reduce ambiguity and has been argued to “greatly di minish 
+LLM hallucinations” conceptually [1]. Chain-of-thou ght 
+prompting decomposes complex questions into interme diate 
+reasoning steps, which can reduce factual errors, w hile 
+iterative prompting and role-based instructions hel p refine 
+responses through feedback loops [19]. Reinforcemen t 
+learning combined with prompt design further tunes LLM 
+behavior using user-feedback rewards, improving 
+controllability but at the cost of additional compl exity [20], 
+[21]. 
+ 
+Complementary knowledge-grounding approaches 
+anchor generation in external, trusted sources. Ret rieval-
+Augmented Generation (RAG) retrieves relevant docum ents 
+and injects them into the prompt, improving factual accuracy 
+and verifiability while introducing latency and dep endency 
+on retrieval quality [21]. Knowledge-graph-based me thods 
+such as RHO embed entities in subgraphs and re-rank  
+responses, yielding substantial reductions in hallu cination 
+rates on factual QA benchmarks [16]. Prompt-based M onte 
+Carlo Tree Search explores multiple candidate reaso ning 
+branches to select less hallucinated outputs but is  
+computationally intensive [22]. 
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:01:56 UTC from IEEE Xplore.  Restrictions apply. 
+E.  Remaining Gaps 
+Despite rapid progress, existing studies typically address 
+either bias or hallucination in isolation and rarel y provide 
+unified, scalable frameworks that combine prompt 
+engineering with knowledge-grounding for healthcare LLMs. 
+Evidence on domain-specific prompt effectiveness, 
+especially under realistic clinical QA workloads and datasets, 
+remains limited, and few works jointly evaluate RAG  and 
+emerging protocols such as the Model Context Protoc ol 
+(MCP) in medical settings. Moreover, practical depl oyment 
+guidelines, toolchains, and evaluation recipes tail ored for 
+healthcare institutions are still scarce, motivatin g the 
+integrated framework and empirical study presented in this 
+work. 
+III.  METHODOLOGY  
+A.  Research Design 
+This study employed a mixed-methods design to 
+investigate how prompt engineering and knowledge 
+grounding can mitigate hallucinations and bias in c linical 
+question answering. The quantitative component 
+implemented and compared two technical pipelines - a batch 
+Retrieval-Augmented Generation (RAG) system and a Model 
+Context Protocol (MCP) application on medical QA ta sks. 
+Both pipelines shared the same retrieval stack and prompting 
+logic so that differences in performance could be attributed to 
+invocation context rather than architecture. The qu alitative 
+component incorporated medical-domain expertise to guide 
+prompt construction, interpret common error modes, and 
+contextualize metric differences. 
+B.  Datasets and Preprocessing 
+The evaluation used two MedQuAD clinical question–
+answering subsets obtained from Kaggle: CancerQA an d 
+Diabetes_and_Digestive_and_Kidney_DiseasesQA(NIDDK 
+QA). In line with the original MedQuAD documentatio n, 
+CancerQA content originates from the National Cance r 
+Institute (cancer.gov), while the NIDDKQA subset is derived 
+from the National Institute of Diabetes and Digesti ve and 
+Kidney Diseases (niddk.nih.gov). Both datasets consist of real 
+patient-oriented questions paired with verified ans wers from 
+NIH patient-facing materials. 
+CSV files were validated and lightly cleaned (e.g.,  
+normalizing case and whitespace, fixing obvious for matting 
+artefacts) while preserving the atomicity of QA pai rs. The 
+cleaned QA pairs served both as gold references for  scoring 
+model outputs and as part of the retrieval corpus o nce 
+embedded. 
+Descriptive statistics for each subset, number of QA pairs 
+and topical coverage are summarized in Table II. 
+Table II. Summary of MedQuAD Sub-Datasets 
+MedQuAD subset QA pairs Key topics 
+CancerQA 79 Cancer 
+Diabetes_and_Digestive_and_ 
+Kidney_DiseasesQA 71 Diabetes, Kidney, Digestive, Other 
+  
+ All passages (answers and, where useful, question text) 
+were embedded using Sentence Transformers, “all-Min iLM-
+L6-v2” and stored in a persistent Chroma vector ind ex. 
+Metadata (site, source url, topic, chunk id) was re tained to 
+support citation and auditing. 
+C.  Prompting Conditions 
+The study compared four prompting conditions applie d 
+consistently across RAG and MCP: 
+ 
+1.  Ungrounded baseline – the model answered directly 
+from its internal knowledge, with a minimal system 
+prompt, and no retrieval or citations. 
+2.  Role-based prompt – the model was instructed to act  
+as a careful healthcare explainer, answer concisely in 
+2–6 sentences, and adhere to clinical tone and scope. 
+3.  Chain-of-Thought (CoT) – the prompt encouraged 
+step-by-step reasoning before summarizing the final  
+answer. 
+4.  Chain-of-Verification (CoVe) – the model first 
+produced a candidate answer and then cross-checked 
+key claims against retrieved evidence, revising or 
+abstaining where necessary. 
+ 
+For grounded modes (Role, CoT, CoVe), a shared 
+citation-aware template instructed the model to use  only the 
+provided context and to abstain with the fixed stri ng 
+“Insufficient evidence in provided context.” whenev er 
+evidence was missing or conflicting. Answers were r equired 
+to end with Citations which were mapped to ordered context 
+blocks in the retrieved evidence. 
+ 
+In all experiments, generation was performed using the 
+open-source 20B-parameter model GPT-OSS-20B served via 
+Groq, with deterministic decoding (temperature = 0). 
+D.  Retrieval-Augmented Generation (RAG) Pipeline 
+The RAG pipeline grounded answers in authoritative NIH 
+text through a four-stage architecture (Fig. 1): mu lti-query 
+expansion, vector retrieval, cross-encoder re-ranki ng, and 
+citation-aware generation. 
+ 
+ 
+ 
+Fig 1. RAG Pipeline Architecture 
+1.  Multi-query expansion : For each question, the 
+system created a small set of paraphrases. The 
+original question and these variants were embedded 
+using a Sentence Transformers model, improving 
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:01:56 UTC from IEEE Xplore.  Restrictions apply. 
+recall by capturing alternative phrasings and key 
+medical terms. 
+2.  Vector retrieval : Each query embedding was issued 
+against the Chroma index, returning an initial pool of 
+candidate passages. A simple per-source cap limited  
+how many chunks could come from the same URL to 
+maintain diversity in the retrieved context. 
+3.  Cross-encoder re-ranking : A lightweight cross-
+encoder then rescored the (question, passage) pairs  
+for semantic relevance. The top-k passages (typically 
+6–8) after re-ranking formed the final evidence set  
+used for answer generation. 
+4.  Citation-aware generation : The selected evidence 
+was concatenated with the question and a strict 
+grounded prompt. The LLM generated answers 
+deterministically (temperature = 0), was required t o 
+abstain when context was insufficient. 
+E.  Model Context Protocol (MCP) Pipeline 
+The MCP pipeline exposed the same RAG core through a 
+standardized tool interface. An MCP server, impleme nted in 
+Python using FastMCP, registered tools such as 
+retrieve_context, answer_grounded, answer_ungrounde d, 
+and batch_answer. These tools delegated directly to  the 
+shared retrieval and prompting code used in the RAG  
+pipeline, ensuring metric-compatible outputs. 
+ 
+retrieve_context returned the top-k evidence blocks  and 
+the assembled prompt; answer_grounded produced 
+grounded, citation-aware answers using the selected  prompt 
+technique (Role, CoT, CoVe) while preserving the st rict 
+abstention rule; answer_ungrounded generated baseli ne 
+answers without retrieval; and batch_answer execute d 
+chunked, resumable runs over CSV datasets. Each too l 
+returned structured JSON, enabling interactive insp ection of 
+context blocks and citations in clients such as the  MCP 
+Inspector. 
+ 
+Crucially, MCP functioned as a thin orchestration l ayer 
+rather than a new reasoning method: it read the sam e 
+configuration, accessed the same Chroma index, and 
+enforced identical grounding, abstention, and citation rules as 
+the RAG batch pipeline. 
+F.  Evaluation Procedure and Metrics 
+Both pipelines were run on the curated development split 
+of CancerQA and NIDDKQA. For each combination of 
+dataset, pipeline (RAG or MCP), grounding mode (grounded 
+vs ungrounded), and prompting technique, batch answ er 
+generation produced CSV files containing the questi on, gold 
+answer, model answer, citations, retrieved sources,  number 
+of context chunks, latency, and a configuration has h for 
+reproducibility. A single scoring script processed all runs to 
+avoid metric drift across pipelines. 
+ 
+Quantitative evaluation covered two dimensions: 
+ 
+• Utility / answer quality: 
+o Exact Match (EM) 
+o Token-level F1 (overall and restricted to non-
+abstained answers) 
+o ROUGE-L (overall and non-abstained) 
+o SBERT cosine similarity between model and 
+gold answers (non-abstained) 
+• Safety and evidence (hallucination/bias proxies): 
+o Abstention rate – fraction of questions 
+answered with the fixed abstention string 
+o Evidence-Backed Rate (EBR) – fraction of non-
+abstained answers with sufficient term-level 
+support in cited context 
+o Unsupported Answer Rate – complement of 
+EBR within grounded runs 
+o Recall@k – whether key gold-answer terms 
+appeared in retrieved context 
+o Demographic drift – fraction of answers 
+introducing unsupported demographic 
+attributes, used as a simple bias proxy 
+ 
+Automated metrics were complemented by expert review 
+of sampled outputs from each configuration. Domain experts 
+assessed clinical correctness, completeness, approp riateness 
+of tone, and the validity of cited evidence, helping to interpret 
+subtle metric differences and identify residual hal lucination 
+or bias patterns. 
+IV.  RESULTS AND DISCUSSION  
+A.  Overall Evaluation 
+The two QA pipelines - RAG and MCP were evaluated 
+on multiple dimensions: Exact Match, F1, ROUGE-L, a nd 
+their non-abstained variants (F1_non_abstained, 
+ROUGE_L_non_abstained), SBERT semantic similarity, 
+Evidence-Backed Rate (EBR), abstention rate, recall@k, and 
+demographic drift.  
+ 
+Across both CancerQA and NIDDKQA, MCP 
+consistently outperformed or matched RAG on the mai n 
+answer-quality metrics while maintaining strong saf ety 
+characteristics. Ungrounded baselines (no retrieval , minimal 
+prompting) performed worst in all settings, confirm ing that 
+grounding and prompt design are essential for reliable clinical 
+QA. 
+B.  Performance Summary by Dataset 
+Table III and Table IV present a combined summary o f 
+key metrics for main configurations (RAG vs MCP, grounded 
+vs ungrounded, Role/CoT/CoVe prompts) and for two 
+datasets, respectively. 
+ 
+Table  III. Combined metrics summary - CancerQA 
+Pipeline 
+Technique 
+F1 
+Rouge_L 
+SBERT_sim 
+EBR(%) 
+Recall@k(%) 
+Demograpgic 
+dri"% 
+MCP  cot  0.293  0.222  0.769  79.4  98.7  14  
+RAG  cot  0.29 2 0.216  0.767  79.8  98.7  11.4  
+MCP  cove  0.284  0.259  0.706  71  100  12  
+RAG  cove  0.274  0.239  0.708  64.6  98.7  7.6  
+MCP  role  0.359  0.249  0.76  71  98.7  12  
+RAG  role  0.331  0.251  0.756  68.4  98.7  10.1  
+MCP  baseline  0.265  0.215  0.756  0 0 30  
+RAG  baseline  0.254  0.203  0.742  0 0 24  
+ 
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:01:56 UTC from IEEE Xplore.  Restrictions apply. 
+Table IV. Combined metrics summary - NIDDKQA 
+Pipeline 
+Technique 
+F1 
+Rouge_L 
+SBERT_sim 
+EBR(%) 
+Recall@k(%) 
+Demograpgic 
+dri"% 
+MCP  cot  0.293  0. 189  0. 72  91.2  100  4 
+RAG  cot  0.243  0.187  0.767  91.6  100  2.8  
+MCP  cove  0.317  0.187  0.693  80  100  2 
+RAG  cove  0.259  0.186  0.68  85.9  100  1.4  
+MCP  role  0.277  0.19  0.692  92  100  5.9  
+RAG  role  0.26  0.297  0.695  91.6  100  2.8  
+MCP  baseline  0.268  0.184  0.692  91.5  0 18  
+RAG  baseline  0.23  0.178  0.699  0 0 15.5  
+ 
+These two tables emphasize three trends: 
+ 
+1.  MCP’s higher F1_non_abstained and 
+ROUGE_L_non_abstained in most grounded 
+settings. 
+2.  EBR gains for MCP, indicating more evidence-
+supported answers. 
+3.  Very low utility of ungrounded baselines relative to 
+grounded pipelines. 
+ 
+For CancerQA, MCP achieved slightly higher 
+F1_non_abstained and ROUGE_L_non_abstained than RAG 
+under all grounded prompting modes. With the Chain- of-
+Thought (CoT) prompt, MCP attained F1_non_abstained  = 
+0.2933 versus RAG’s 0.2918 and ROUGE_L_non_abstained 
+= 0.2216 versus 0.2165. The gains were more pronounced for 
+the Role prompt. Overall, MCP’s answers were closer  to the 
+reference on average. 
+ 
+In NIDDKQA (Diabetes, Digestive, and kidney diseases), 
+MCP again showed a clear advantage. Under the CoVe 
+prompt, F1_non_abstained for MCP was 0.3166 compared to 
+0.2589 for RAG, with ROUGE_L_non_abstained = 0.1870  
+vs. 0.1861, respectively. Similar patterns held acr oss other 
+grounded prompts, with MCP delivering consistently 
+stronger or comparable scores. 
+C.  Comparison  by Prompting Technique 
+Answer quality also varied by prompting technique, but 
+MCP retained its advantage within each mode. The Ro le-
+based prompt was generally best for both pipelines,  yielding 
+the highest F1_non_abstained values. For CancerQA, Role 
+prompting gave MCP F1_non_abstained = 0.3587 versus  
+0.3310 for RAG, showing a clear lead in the configu ration 
+that best balances structure and conciseness. 
+ 
+Fig. 2 plots SBERT similarity scores per prompting 
+technique, illustrating semantic alignment with the  gold 
+answers. MCP’s SBERT scores were consistently higher than 
+RAG’s in each prompt mode. In CancerQA CoT, SBERT 
+similarity was 0.77 for MCP compared with 0.76 for RAG, 
+and in the Role condition 0.76 vs. 0.75. These results indicate 
+that, even when exact token overlap is modest, MCP’ s 
+answers remain closer in meaning to the reference answers. 
+ 
+ 
+ 
+Fig 2. SBERT similarity scores per prompting technique 
+ The ungrounded baseline had the lowest answer 
+quality and EBR = 0 across both datasets, confirmin g that 
+neither free form prompting nor the model’s interna l 
+knowledge alone is sufficient for safe clinical QA. 
+D.  Retrieval Effectiveness (Recall@k) 
+Retrieval performance in grounded modes was near-
+perfect for both pipelines, ensuring that answer-ge neration 
+differences are not simply due to missing context. In 
+NIDDKQA, all grounded configurations achieved recal l@k 
+= 1.0. For CancerQA, most grounded modes reached re call 
+values of 0.99 or higher; for example, CoVe recall was 
+0.9873 for RAG and 1.0 for MCP. 
+ 
+Ungrounded baselines, by design, had recall = 0 (no  
+retrieval). The slightly higher recall for MCP in some settings 
+(e.g., 1.0 vs 0.9873) suggests marginally more reli able 
+retrieval, but in practice both pipelines had suffi cient access 
+to relevant supporting documents.  
+E.  Evidence Support and Hallucination Reduction 
+MCP showed stronger evidence-backed behavior than 
+RAG. In grounded CancerQA tasks, MCP’s EBR ranged 
+from 0.71 to 0.794, while RAG’s ranged from 0.6456 to 
+0.7975. MCP clearly outperformed RAG in CoVe (0.71 vs 
+0.6456) and Role (0.71 vs 0.6835) prompts. In NIDDK QA, 
+EBR values were high for both pipelines ( ≥0.8), but MCP 
+again was slightly ahead in most configurations (e. g., Role 
+0.92 vs 0.9155). 
+F.  Bias Mitigation and Safety (Demographic Drift) 
+Bias, measured via demographic drift, was low for b oth 
+pipelines across all grounded configurations (drift  < 0.15). 
+MCP typically achieved slightly lower drift, suggesting more 
+consistent performance across demographic groups. F or 
+CancerQA, MCP’s CoVe drift was 0.10 vs RAG’s 0.1392 , 
+and under Role 0.08 vs 0.1266. In NIDDKQA, MCP drif t 
+under CoVe was 0.047 vs 0.0704 for RAG, and under R ole 
+0.0388 vs 0.0423. 
+ 
+The main exceptions were CoT prompts, where MCP’s 
+drift was marginally higher in some cases (e.g., 0. 14 vs 
+0.1139 in CancerQA CoT), but even there the absolut e drift 
+remained small. Overall, both pipelines demonstrate d 
+minimal demographic drift, with MCP holding a small  but 
+consistent edge. 
+G.  Summary of Findings 
+Across both datasets and all prompting techniques, MCP 
+consistently outperformed RAG on key answer-quality  
+metrics (F1, ROUGE-L, SBERT), produced more evidenc e-
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:01:56 UTC from IEEE Xplore.  Restrictions apply. 
+backed answers (higher EBR), and abstained less often while 
+still avoiding unsupported claims. Retrieval quality was near-
+perfect in grounded modes for both pipelines, and 
+demographic drift remained low throughout, with MCP often 
+slightly better. 
+V.  CONCLUSION & FUTURE WORK  
+A.  Summary of Contributions 
+This study set out to address a central challenge i n 
+healthcare AI: how to reduce hallucinations and bias in Large 
+Language Model (LLM) outputs without retraining or fine-
+tuning base models. Building on prior work in promp t 
+engineering and knowledge grounding, the research proposed 
+and evaluated an integrated framework that combines  
+advanced prompting strategies with Retrieval-Augmen ted 
+Generation (RAG) and the Model Context Protocol (MC P) 
+over authoritative NIH-derived clinical QA datasets. 
+ 
+Using MedQuAD-based Cancer and NIDDK subsets, the 
+study implemented parallel RAG and MCP pipelines th at 
+shared the same retrieval and grounding stack, and 
+systematically compared Role, Chain-of-Thought, and  
+Chain-of-Verification prompting. Across configurati ons, 
+MCP consistently achieved higher or comparable F1, 
+ROUGE-L, and SBERT similarity, alongside stronger 
+Evidence-Backed Rates, lower abstention in grounded  
+modes, and minimal demographic drift. These results suggest 
+that the proposed MCP-based orchestration with stru ctured 
+prompting yields more reliable, better grounded, and slightly 
+fairer clinical QA than a conventional batch RAG pi peline 
+using the same knowledge base. 
+B.  Limitations and Directions for Future Research 
+The study has several limitations. It focuses on En glish, 
+text-only QA tasks using two MedQuAD subsets and a single 
+LLM (Groq - GPT-OSS-20B ) family and evaluates bias  via 
+a lightweight demographic drift proxy rather than f ull-scale 
+fairness audits. The experiments do not cover multi modal 
+inputs, longitudinal reasoning, or complex multi-step clinical 
+workflows. 
+ 
+Future research could extend the framework to larger and 
+more diverse medical corpora, multiple LLM architec tures, 
+and multimodal settings. Richer bias and safety eva luations 
+including expert panels, user studies with clinicians, and real-
+world deployment trials would further strengthen th e 
+evidence base. Finally, exploring human-in-the-loop  and 
+interactive MCP-based workflows could help align LL M 
+assistance more tightly with clinical practice, ins titutional 
+policies, and regulatory requirements. 

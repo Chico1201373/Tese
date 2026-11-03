@@ -1,0 +1,414 @@
+Retrieval-Augmented Large Language Models for a
+Chronic Kidney Disease Patient Education Chatbot
+Elvira Nurfadhilah
+Research Center for
+Data & Information Sciences
+National Research and Innovation Agency
+Jakarta, Indonesia
+ORCID: 0000-0003-2227-331X
+Agung Santosa
+Research Center for
+Data & Information Sciences
+National Research and Innovation Agency
+Jakarta, Indonesia
+ORCID: 0000-0002-9827-4397
+Prabu Kresna Putra
+Research Center for
+Data & Information Sciences
+National Research and Innovation Agency
+Jakarta, Indonesia
+ORCID: 0000-0001-9246-8863
+Abstract—Chronic Kidney Disease (CKD) is rising globally,
+underscoring the need for scalable and accurate patient educa-
+tion. This paper presents the design and evaluation of a CKD
+education chatbot specifically for hemodialysis cases in Indonesia
+that runs on-premises and employs a Retrieval-Augmented Gen-
+eration (RAG) framework. We conducted a comparative study
+of a general-purpose LLM (Llama 3.1) and a language adapted
+LLM (Sahabat AI). Both models were used in identical RAG
+pipelines and paired with several retrieval embeddings. Using
+70 unique questions evaluated across 10 runs per configuration
+(n = 700), we assessed semantic similarity (METEOR), factual
+correctness, and RAG-specific metrics (faithfulness, answer rele-
+vancy, context precision) with a Gemini 2.0 Flash evaluator. RAG
+consistently improved performance over non-RAG baselines,
+with statistically significant gains across metrics. Sahabat AI
+outperformed Llama 3.1, posting the highest METEOR (0.4116,
+mContriever) and correctness (4.0293 with BGE-M3). It also
+exhibits higher, more stable faithfulness (∼0.95), indicating closer
+adherence to the source evidence. These findings suggest that, for
+healthcare education, localized LLMs combined with carefully
+chosen embeddings can yield more effective and trustworthy
+systems.
+Index Terms—Chatbot; Chronic Kidney Disease; Hemodialy-
+sis; Large Language Models; Retrieval-Augmented Generation.
+I. INTRODUCTION
+Chronic Kidney Disease (CKD) is an escalating global
+health problem, particularly at advanced stages where
+hemodialysis is often required as a life-saving intervention. In
+2024, an estimated 134,057 individuals underwent hemodial-
+ysis in Indonesia, underscoring the national scale of the
+challenge [1]. The economic burden is substantial; Indonesia’s
+National Health Insurance (BPJS Kesehatan) reportedly allo-
+cated approximately IDR 11 trillion in 2024 for CKD-related
+treatment [1]. Major risk factors include hypertension, dia-
+betes, obesity, and population aging, jointly driving increases
+in CKD incidence and prevalence.
+Timely detection and patient education are crucial to slow-
+ing disease progression and reducing healthcare costs. Conven-
+tional education approaches often suffer from limited reach
+and barriers to understanding medical terminology. In this
+context, artificial intelligence (AI)—particularly chatbots—
+offers transformational potential; however, challenges remain
+regarding medical accuracy, prevention of model hallucina-
+tions, and alignment with up-to-date clinical guidelines, all of
+which must be addressed systematically [2].
+To tackle these challenges, this study introduces Chatbot
+Lisa, an AI solution that evolved from a rule-based system
+(version 1.0) to a system based on Large Language Mod-
+els (LLMs) combined with Retrieval-Augmented Generation
+(RAG) (version 2.0) [3], [4]. RAG was selected for its ability
+to anchor LLM outputs to verified external knowledge sources,
+thereby reducing the risk of inaccuracies [5]. Integrating
+LLM+RAG enables the delivery of medical information that
+is contextual, current, and source-traceable, thereby enhancing
+patient engagement and understanding, including support for
+dietary adherence and lifestyle modifications essential in CKD.
+CKD management is resource-intensive, especially at end-
+stage, which requires ongoing treatments such as hemodial-
+ysis [6]. Many patients remain undiagnosed until advanced
+stages, highlighting the urgency of early detection and sus-
+tained education [7]. Specifically, RAG addresses the limita-
+tions of generic LLMs by injecting relevant external evidence
+during inference, improving response accuracy and alignment
+with the latest clinical guidelines [8]. In nephrology—where
+practice heavily depends on clinical literature and up-to-date
+guidelines—the combination of LLMs and RAG can enrich
+real-time patient education on complex topics such as dialysis
+management and dietary interventions [7], [8].
+Despite rapid adoption of LLMs and RAG in medical
+domains, important gaps persist: (i) comparative evaluations
+between global LLMs and linguistically–culturally localized
+LLMs within a specific medical domain; and (ii) deployment
+and validation of advanced RAG architectures in healthcare
+contexts within developing countries such as Indonesia. The
+contributions of this paper are: (1) presenting the implemen-
+tation of a hemodialysis-focused medical chatbot built on a
+localized LLM (Sahabat AI); (2) providing an empirical com-
+parative analysis of a global LLM (Llama 3.1) vs. a local LLM
+(Sahabat AI) within a RAG framework; and (3) delivering a
+quantitative evaluation that demonstrates the system’s viability
+as a CKD patient education tool in Indonesia.
+2025 International Conference on Computer, Control, Informatics and its Applications (IC3INA)
+979-8-3315-9188-5/25/$31.00 ©2025 IEEE 196
+2025 International Conference on Computer, Control, Informatics and its Applications (IC3INA) | 979-8-3315-9188-5/25/$31.00 ©2025 IEEE | DOI: 10.1109/IC3INA68387.2025.11325127
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:47:37 UTC from IEEE Xplore.  Restrictions apply. 
+II. METHODOLOGY
+The methodology was designed to systematically build and
+evaluate a hemodialysis-focused medical chatbot, encompass-
+ing system-architecture selection, experimental design, and
+a quantitative evaluation framework across key performance
+dimensions.
+A. LLM Generator
+The generator component was responsible for producing
+responses. Two LLMs served as the foundation models:
+1) Llama 3.1. A foundation LLM from Meta with strong
+benchmark performance and a long-context window
+suitable for complex medical information [9]. It was a
+general-purpose model with solid reasoning and con-
+textual understanding, though it might not have fully
+captured Indonesian local nuances.
+2) Sahabat AI. A Llama-architecture model that under-
+went continued pre-training on Indonesian and local-
+language corpora, which made it more sensitive to
+linguistic–cultural context and local entities [10].
+The selection of these LLMs was motivated by three
+factors: (1) technical capability—as a cutting-edge global
+LLM, Llama 3.1 offered strong reasoning and a long-context
+window, both relevant for processing complex medical con-
+tent [9]; (2) local relevance—Sahabat AI’s continued pre-
+training on Indonesian and local corpora yielded more accurate
+clinical-terminology handling and a more natural style for
+local users [10]; and (3) data security & sovereignty—open-
+source, on-premises deployment ensured full control over data
+storage and access, reducing leakage or unauthorized-access
+risks in healthcare settings [11].
+B. Retrieval-Augmented Generation (RAG) Architecture
+RAG improved LLM accuracy and factuality by integrating
+external knowledge at inference time, turning a “closed-book
+exam” into an “open-book exam” [5], [12], [13]. The main
+flow comprised:
+1) Retrieval. The system searched for the most relevant
+context from an external knowledge base using a re-
+triever based on embedding models.
+2) Augmented Generation. Selected context snippets were
+injected into the prompt to constrain the LLM’s answer
+space to validated evidence, reducing hallucinations and
+improving source traceability [5], [12], [13].
+C. Embedding Models
+Embedding models converted text into vectors so that se-
+mantic similarity could be computed during retrieval.
+• BGE-M3. A multilingual, open-source embedding
+with multi-objective training (multi-purpose, multi-
+granularity) that was effective for semantic search,
+including Indonesian.
+• mContriever. A multilingual, label-free contrastive
+embedding for unsupervised dense retrieval that was ef-
+fective at distinguishing fine-grained meaning for specific
+queries [14].
+TABLE I
+STATISTICS FOR THE QA DATASETS .
+Dataset / Source Count
+Halodoc (articles) 456
+Alodokter (articles) 2,943
+Alodokter (QA pairs) 5,886
+KPCDI (articles) 204
+Knowledge-base PDFs (papers, regs, guidelines) various
+Doctor-validated Q&A (8 categories) 70
+• ft-BGE-M3. A domain-adapted fine-tuning of BGE-M3
+on hemodialysis corpora that yielded sentence embed-
+dings which better captured domain terminology and
+semantic relations, improving retrieval precision.
+III. EXPERIMENT
+A. Dataset
+We compiled dataset resources across three types: (1) open-
+domain QA (Alodokter QA pairs and doctor-validated Q&A);
+(2) articles from trusted health sites (Halodoc, Alodokter,
+KPCDI); and (3) knowledge-base PDFs covering scientific
+publications, government regulations (Ministry of Health), and
+nephrology consortium guidelines. Table I reports statistics for
+the corpora used.
+B. RAG
+The experiment was designed to evaluate a Retrieval-
+Augmented Generation (RAG) pipeline using LlamaIndex
+with Chroma as the vector database. All documents were
+preprocessed through semantic chunking, in which the corpus
+was segmented into semantically coherent units (e.g., para-
+graphs or sections) rather than fixed token windows, ensuring
+that each chunk preserved natural meaning boundaries. These
+semantic chunks were embedded using multiple embedding
+models and stored in Chroma. The retriever was configured
+with semantic similarity search and a top-k value of 5, so that
+for each query, the five most relevant semantic chunks were
+consistently returned.
+The workflow proceeded as follows: documents were se-
+mantically chunked, embedded, and indexed; queries were
+executed to retrieve the top-5 chunks; answers were generated
+based on the retrieved context; and both retrieval and gener-
+ative quality were evaluated against a gold-standard dataset.
+The entire pipeline was executed on an NVIDIA A100 GPU,
+which provided the computational power needed for efficient
+large-scale embedding, indexing, and evaluation.
+C. Evaluation Framework
+Experimental design. (i) Scenario 1—Effect of RAG : com-
+pared base LLM vs. LLM+RAG; metrics were METEOR and
+Correctness (LlamaIndex) [12], [15]. (ii) Scenario 2—Em-
+bedding Performance: compared multiple embedding models
+within RAG; metrics were Correctness, Faithfulness, Answer
+Relevancy, and Context Precision (Ragas) [13].
+Evaluation metrics. We assess both generation quality and
+retrieval quality using five metrics:
+(1) METEOR [15] measures linguistic quality and ade-
+quacy of the model response against a reference. Unigram
+2025 International Conference on Computer, Control, Informatics and its Applications (IC3INA)
+197
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:47:37 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE II
+QUANTITATIVE EVALUATION RESULTS BY LLM BASE AND EMBEDDING (mean ± std).
+LLM Base Embedding METEOR Correctness Faithfulness Answer Relevancy Context Precision
+Llama 3.1 — 0.2157 ± 0.0867 3.1717 ± 1.0867 – – –
+Sahabat AI — 0.2922 ± 0.0977 3.9257 ± 0.8637 – – –
+Llama 3.1 BGE-M3 0.3228 ± 0.1826 3.6779 ± 1.0728 0.8796 ± 0.2113 0.6531 ± 0.1286 0.3654 ± 0.4070
+Sahabat AI BGE-M3 0.3921 ± 0.2680 4.0293 ± 0.9469 0.9397 ± 0.1578 0.6588 ± 0.1277 0.3907 ± 0.3524
+Llama 3.1 mContriever 0.2903 ± 0.1842 3.6471 ± 1.0766 0.8240 ± 0.2494 0.6586 ± 0.1258 0.2964 ± 0.4247
+Sahabat AI mContriever 0.4116 ± 0.2740 3.9721 ± 1.1324 0.9452 ± 0.1617 0.6535 ± 0.1345 0.3570 ± 0.3591
+Llama 3.1 ft-BGE-M3 0.2749 ± 0.1738 3.5429 ± 1.0992 0.8043 ± 0.2779 0.6527 ± 0.1418 0.3231 ± 0.4578
+Sahabat AI ft-BGE-M3 0.3736 ± 0.2644 3.8843 ± 1.1337 0.9446 ± 0.1429 0.6466 ± 0.1280 0.4150 ± 0.3519
+matches (exact/stem/synonym/paraphrase) are aligned to com-
+pute precision P and recall R, combined via a weighted Fmean
+and penalized by fragmentation:
+Fmean = P · RαP + (1− α)R , METEOR = Fmean 1−γ(ch/m)β,
+where ch is the number of matching chunks and m the number
+of matched unigrams; α, β, γfollow [15].
+(2) Correctness quantifies factual accuracy with respect
+to the gold answer. For Scenario 1 we use LlamaIndex
+CorrectnessEvaluator [12] which provides an LLM-graded
+score on a 1–5 scale (higher is better) and a pass/fail flag
+given a threshold (we use τ =4). For Scenario 2 we use Ragas
+correctness/factuality scoring [13].
+(3) Faithfulness / Groundedness (Ragas) [13] evaluates
+whether an answer’s key atomic claims are entailed by the
+retrieved context; scores are in [0, 1] (higher is better). The
+pipeline decomposes the answer into claims, maps each claim
+to candidate evidence from the retrieved context, verifies
+entailment with an NLI/LLM-based judge, then aggregates
+outcomes. In node-based RAG, each context chunk is a node;
+a claim is grounded if at least one linked node entails it,
+otherwise it is a hallucination. Thus, the reported score directly
+reflects the answer’s groundedness with respect to the retrieved
+nodes.
+(4) Answer Relevancy (Ragas) [13] quantifies how well a
+system’s response fulfills the question’s intent by applying an
+LLM-based rubric over three aspects—on-topicness (focus on
+the query), sufficiency/coverage (completeness of the required
+information), and conciseness/non-rambling (absence of irrel-
+evant or verbose content). The judge produces per-dimension
+scores in [0, 1], and the final relevancy score is obtained by
+averaging these values (higher indicates better alignment).
+This metric is context-agnostic (i.e., independent of retrieved
+evidence) and can be extended in multi-turn scenarios to
+include instruction adherence and consistency with prior turns.
+(5) Context Precision (Ragas) [13] captures retrieval
+“cleanliness,” i.e., the proportion of retrieved chunks that are
+relevant to the question/ground truth:
+Context Precision = |Crel||C| ,
+with C the retrieved set and Crel the subset judged relevant.
+IV. RESULTS & DISCUSSION
+A. Results
+This subsection presented comparative experimental results
+for two LLMs (Llama vs. Sahabat AI) at baseline and after
+RAG integration, as well as the effects of embedding models
+(BGE-M3, mContriever, ft-BGE-M3) on core and RAG-
+specific metrics. The numerical summary for all configurations
+was shown in Table II, while metric distributions were given
+in Figure 1. The data design used 70 questions × 10 repe-
+titions per configuration (n=700). Evaluation was conducted
+with Gemini 2.0 Flash as the LLM backend.
+At the baseline without RAG, Sahabat AI outperformed
+Llama 3.1 on two core metrics. Sahabat AI achieved a
+METEOR of 0.2922 vs. Llama’s 0.2157, while Correctness
+was 3.9257 vs. Llama’s 3.1717. Two-sample t-tests on metrics
+yielded p ≈ 0 (machine precision), which indicated significant
+differences and confirmed that the base LLM quality was the
+determinant of QA performance prior to RAG integration.
+Once RAG was enabled, universal improvements over the
+baseline were observed (p ≈ 0 across comparisons). For
+METEOR, Llama’s best configuration was llama-BGE-M3
+(0.3228) from a baseline of 0.2157; Sahabat AI peaked with
+mContriever (0.4116) from a baseline of 0.2922. For Cor-
+rectness, Llama rose to 3.6779 with BGE-M3 (its highest), and
+Sahabat AI reached 4.0293 also with BGE-M3 (its highest),
+which underscored RAG’s role in boosting factual accuracy.
+Embedding comparisons within RAG revealed model-
+specific patterns. For Llama, the METEOR ordering was
+BGE-M3 > mContriever > ft-BGE-M3, with BGE-M3
+vs. mContriever differences being significant (p = 9.53×
+10−4). For Sahabat AI, mContriever (METEOR 0.4116;
+Correctness 3.9721) vs. BGE-M3 (0.3921; 4.0293) was not
+significantly different (METEOR p = 0.1783; Correctness
+p = 0.3063), while ft-BGE-M3 was consistently the low-
+est on both LLMs. RAG-specific metrics reinforced these
+findings: Sahabat AI’s Faithfulness was high and stable (≈
+0.9397–0.9452) compared with Llama (≈ 0.8043–0.8796),
+with between-LLM tests yielding p ≈ 0; Answer Relevancy
+tended to plateau around ≈ 0.6466–0.6588, with many com-
+parisons not significant; and Context Precision showed an
+LLM×embedding interaction—Sahabat AI+mContriever
+was superior (mean ≈ 0.3570), with, for example, Sahabat
+AI-BGE-M3 vs. llama-mContriever being significant (p =
+6.83 × 10−6).
+2025 International Conference on Computer, Control, Informatics and its Applications (IC3INA)
+198
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:47:37 UTC from IEEE Xplore.  Restrictions apply. 
+(a) METEOR
+ (b) Correctness
+(c) Faithfulness
+ (d) Answer Relevancy
+(e) Context Precision
+Fig. 1. Metric distributions for all configurations: (a) METEOR; (b) Correctness; (c) Faithfulness; (d) Answer Relevancy ; (e) Context Precision.
+2025 International Conference on Computer, Control, Informatics and its Applications (IC3INA)
+199
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:47:37 UTC from IEEE Xplore.  Restrictions apply. 
+In summary, Sahabat AI was consistently stronger, RAG
+helped across the board (especially for Correctness), and
+BGE-M3 and mContriever were the most reliable embed-
+dings, whereas ft-BGE-M3 was best avoided in this setting.
+B. Discussion
+Grounded in the quantitative findings, the system’s perfor-
+mance exhibited a clear hierarchy of determinants. The base
+LLM quality emerged as the dominant factor that set the per-
+formance “ceiling”; at the no-RAG baseline, Sahabat AI con-
+sistently surpassed Llama 3.1 on METEOR and Correctness,
+with statistical tests indicating significant differences (p ≈ 0).
+This underscored that selecting a linguistically–culturally lo-
+calized base model established a realistic upper bound for
+medical question–answering systems.
+On this foundation, enabling RAG acted as a second-stage
+lever that universally improved fluency and factuality (baseline
+vs. RAG: p ≈ 0), which indicated that grounding LLM
+outputs in validated external evidence effectively suppressed
+hallucinations and strengthened answer traceability. Mechanis-
+tically, the consistent rise in Correctness aligned with Sahabat
+AI’s higher and more stable Faithfulness relative to Llama,
+which suggested more effective use of retrieved context when
+evidence was injected into prompts.
+Not all metrics were equally sensitive to architectural
+variations: Answer Relevancy tended to plateau around ∼
+0.65, with many across-configuration comparisons not signifi-
+cant, which implied that question-intent design and prompt-
+ing schemes might have dominated over LLM or embed-
+ding choice for this metric. By contrast, Context Preci-
+sion indicated an LLM×embedding interaction; the Sahabat
+AI+mContriever combination yielded higher context preci-
+sion, which suggested synergy between embedding character-
+istics and the model’s approach to formulating and exploiting
+retrieval signals. Meanwhile, the domain-tuned ft-BGE-M3
+underperformed in this setup, ranking lowest on Faithfulness
+and Context Precision, especially when paired with Llama.
+V. CONCLUSION
+This study established a clear performance determinant
+hierarchy: the base LLM set the ceiling, RAG was the primary
+lever for improving factuality and traceability, and embed-
+ding choice tuned retrieval specificity. In Indonesian-language
+CKD education, the localized LLM (Sahabat AI) consistently
+surpassed the global model (Llama 3.1) on METEOR and
+Correctness. Enabling RAG yielded universal gains over the
+baseline, which indicated the effectiveness of grounding in
+external evidence to reduce hallucinations. At the component
+level, BGE-M3 and mContriever were the most stable
+embedding options, while ft-BGE-M3 tended to be infe-
+rior under the tested setup. Nevertheless, Answer Relevancy
+exhibited a plateau (∼ 0.65), which suggested that inter-
+ventions on intent engineering, query rewriting, and explicit
+instructions regarding assumptions/constraints/relevance crite-
+ria might have been more impactful than simply switching
+embeddings.
+For implementation in Indonesian healthcare, we recom-
+mended adopting a localized model as the foundation and
+treating RAG as the default configuration. Practitioners chose
+BGE-M3 or mContriever while considering cost–latency
+trade-offs, and enforced disciplined knowledge-base gover-
+nance (curation, source dating, periodic updates) so that
+grounding stayed aligned with the latest clinical guidelines.
+Teams operationalized human-in-the-loop mechanisms for am-
+biguous cases, added safety guardrails (clinical disclaimers,
+risky-intent detection, escalation to clinicians), and moni-
+tored quality metrics (Correctness/Faithfulness) alongside op-
+erational metrics (latency, per-query cost). To move beyond
+the relevancy plateau, efforts focused on clarifying intent,
+automatic query rewriting, and explicit instructions regarding
+assumptions, limits, and user-expected relevance criteria.
+Priority future directions will include broadening scope
+beyond hemodialysis to the broader CKD spectrum with multi-
+site evaluations across diverse populations; integrating clini-
+cian assessments and prospective studies linking chatbot use
+to behavior change (diet/medication adherence) and clinical
+outcomes; exploring hybrid RAG (distinct embeddings for ini-
+tial retrieval vs. reranking) together with intent-understanding
+modules to further improve relevance; and strengthening re-
+liability via safe personalization (on-premises/federated), un-
+certainty estimation, and out-of-distribution detection. Techni-
+cally, model distillation/quantization for constrained devices,
+multimodal integration (e.g., lab charts, visual education ma-
+terials), and scheduled knowledge updates will warrant inves-
+tigation to keep the system efficient, safe, and aligned with
+evolving guidelines.
+ACKNOWLEDGMENT
+We express our gratitude to colleagues at the Research
+Center for Data and Information Sciences, BRIN—Ms. Lyla
+Ruslana Aini, Mr. M. Teduh Uliniansyah, Ms. Radhiyatul
+Fajri, and Ms. Siska Pebiana—for their assistance with exper-
+iments and data processing. We also thank researchers at the
+Research Center for Preclinical and Clinical Medicine, BRIN,
+for supplying reliable data references and validating the test
+datasets.

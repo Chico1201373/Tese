@@ -1,0 +1,451 @@
+CyberBOT: Ontology-Grounded Retrieval Augmented Generation
+for Reliable Cybersecurity Education
+Chengshuai Zhao
+School of Computing and Augmented
+Intelligence, Arizona State University
+Tempe, AZ, USA
+czhao93@asu.edu
+Riccardo De Maria
+School of Computing and Augmented
+Intelligence, Arizona State University
+Tempe, AZ, USA
+rdemari1@asu.edu
+Tharindu Kumarage
+School of Computing and Augmented
+Intelligence, Arizona State University
+Tempe, AZ, USA
+kskumara@asu.edu
+Kumar Satvik Chaudhary
+School of Computing and Augmented
+Intelligence, Arizona State University
+Tempe, AZ, USA
+kchaud13@asu.edu
+Garima Agrawal
+School of Computing and Augmented
+Intelligence, Arizona State University
+Tempe, AZ, USA
+garima.agrawal@asu.edu
+Yiwen Li
+Mary Lou Fulton Teachers College,
+Arizona State University
+Tempe, AZ, USA
+yiwenli2@asu.edu
+Jongchan Park
+Mary Lou Fulton Teachers College,
+Arizona State University
+Tempe, AZ, USA
+jpark366@asu.edu
+Ying-Chih Chen
+Mary Lou Fulton Teachers College,
+Arizona State University
+Tempe, AZ, USA
+ychen495@asu.edu
+Yuli Deng
+School of Computing and Augmented
+Intelligence, Arizona State University
+Tempe, AZ, USA
+ydeng19@asu.edu
+Huan Liu
+School of Computing and Augmented
+Intelligence, Arizona State University
+Tempe, AZ, USA
+huanliu@asu.edu
+Abstract
+Advancements in large language models (LLMs) have enabled the
+development of intelligent educational tools that support inquiry-
+based learning across technical domains. In cybersecurity educa-
+tion, where accuracy and safety are paramount, systems must go
+beyond surface-level relevance to provide information that is both
+trustworthy and domain-appropriate. To address this challenge, we
+introduce CyberBOT1, a question-answering chatbot that leverages
+a retrieval-augmented generation (RAG) pipeline to incorporate
+contextual information from course-specific materials and validate
+responses using a domain-specific cybersecurity ontology. The on-
+tology serves as a structured reasoning layer that constrains and
+verifies LLM-generated answers, reducing the risk of misleading or
+unsafe guidance. CyberBOT has been deployed in a large graduate-
+level course at Arizona State University (ASU),2 which illustrates a
+1Code: https://github.com/rccrdmr/CyberBOT
+2Video: https://youtu.be/X2WorBxOQHo
+Permission to make digital or hard copies of all or part of this work for personal or
+classroom use is granted without fee provided that copies are not made or distributed
+for profit or commercial advantage and that copies bear this notice and the full citation
+on the first page. Copyrights for components of this work owned by others than the
+author(s) must be honored. Abstracting with credit is permitted. To copy otherwise, or
+republish, to post on servers or to redistribute to lists, requires prior specific permission
+and/or a fee. Request permissions from permissions@acm.org.
+CIKM ’25, Seoul, Republic of Korea
+© 2025 Copyright held by the owner/author(s). Publication rights licensed to ACM.
+ACM ISBN 979-8-4007-2040-6/2025/11
+https://doi.org/10.1145/3746252.3761478
+promising direction for developing reliable and curriculum-aligned
+AI applications in specialized educational contexts.
+CCS Concepts
+• Computing methodologies → Natural language generation.
+Keywords
+Question Answering, Retrieval Augmented Generation, Cybersecu-
+rity Education, Large Language Model
+ACM Reference Format:
+Chengshuai Zhao, Riccardo De Maria, Tharindu Kumarage, Kumar Satvik
+Chaudhary, Garima Agrawal, Yiwen Li, Jongchan Park, Ying-Chih Chen,
+Yuli Deng, and Huan Liu. 2025. CyberBOT: Ontology-Grounded Retrieval
+Augmented Generation for Reliable Cybersecurity Education. InProceedings
+of the 34th ACM International Conference on Information and Knowledge
+Management (CIKM ’25), November 10–14, 2025, Seoul, Republic of Korea.
+ACM, New York, NY, USA, 5 pages. https://doi.org/10.1145/3746252.3761478
+1 Introduction
+The integration of large language models (LLMs) into educational
+applications has introduced new opportunities for personalized and
+interactive learning experiences [4, 13, 15]. In particular, question-
+answering (QA) systems powered by LLMs offer the potential to
+support self-paced inquiry and deepen conceptual understand-
+ing [6, 17]. However, despite their generative capabilities, LLMs
+often suffer from factual inaccuracies and hallucinations [7], mainly
+when applied to high-stakes and technically demanding domains
+6752
+CIKM ’25, November 10–14, 2025, Seoul, Republic of Korea Chengshuai Zhao et al.
+Query ValidatedAnswer
+Backend
+Generative
+Model
+Search
+Knowledge Base
+Prompt
+Retriever
+Intent Interpreter
+Conversational
+Query
+Raw
+Answer
+Retrieve
+Summarize & Store
+Learning Record
+ Ontology Verifier
+User Interface
+PC Web
+ Mobile App
+ VR Live
+Figure 1: Framework of proposed CyberBOT. Students submit
+queries to UI and get responses from the backend.
+such as cybersecurity education [12]. The risks associated with such
+outputs, ranging from conceptual misunderstanding to propagation
+of unsafe practices [10, 11, 18], underscore the need for enhanced
+reliability in educational settings.
+Retrieval-augmented generation (RAG) has emerged as a com-
+mon strategy to improve response reliability by conditioning model
+outputs on retrieved external documents [ 8]. Although this ap-
+proach increases contextual relevance, it does not offer a guarantee
+of correctness, particularly when the retrieved context is ambiguous
+or incomplete [3, 16]. Consequently, RAG-based systems remain
+susceptible to producing only loosely grounded responses in the un-
+derlying knowledge base, leading to challenges in ensuring content
+validity and safety in the education landscape.
+To address these limitations, we propose CyberBOT, an ontology-
+grounded RAG system tailored for reliable cybersecurity education.
+CyberBOT consists of three sequential stages, each contributing
+to the reliability and contextual relevance of the system’s output
+as illustrated in Figure 1. First, an intent interpreter analyzes the
+multi-turn conversational history to infer the student’s underly-
+ing intent. This component reformulates the user query into a
+context-enriched, knowledge-intensive version, thereby enabling
+more effective retrieval in multi-round interactions. Second, based
+on the interpreted intent, relevant documents are retrieved from a
+curated course-specific knowledge base using retrieval-augmented
+generation techniques. These documents serve as the contextual
+foundation for generating an initial response with the LLM. Fi-
+nally, the generated answer is validated using a domain-specific
+cybersecurity ontology, which ensures semantic alignment with
+authoritative knowledge and filters out hallucinated or unsafe con-
+tent. This three-stage architecture allows CyberBOT to address
+both contextual ambiguity and factual correctness, significantly
+enhancing the trustworthiness and educational value of the system
+in real-world instructional settings.
+A key strength of CyberBOT lies in its real-world deployment.
+The system has been integrated into a live classroom setting and is
+accessible to more than one hundred graduate students enrolled in
+the spring 2025 semester of CSE 546: Cloud Computing course at
+Arizona State University (ASU). Students interact with the system
+via a dedicated web interface, submitting course-related queries
+and receiving validated responses to assist with their studies. This
+deployment enables direct observation of system usage in an au-
+thentic educational environment and provides a valuable opportu-
+nity to evaluate the practical utility and pedagogical effectiveness
+of ontology-informed validation in question-answering systems.
+Overall, CyberBOT illustrates a promising direction for develop-
+ing reliable and curriculum-aligned AI applications in specialized
+educational contexts. Our contributions are summarized as:
+★ We propose a novel QA system CyberBOT that combines RAG
+with cybersecurity ontologies for answer validation, improving
+factual accuracy in a specialized domain.
+★ We construct a knowledge base from class materials to ground
+the QA system’s responses in relevant, contextually accurate
+information aligned with the course curriculum.
+★ We deploy CyberBOT as a user-friendly Q&A platform, in a
+live classroom with more than one hundred graduate students,
+with the goal of providing practical insights into the system’s
+performance and student engagement.
+2 The proposed CyberBOT
+We introduce CyberBOT, an ontology-aware RAG system designed
+for multi-turn QA in cybersecurity education, as illustrated in Fig-
+ure 1. A step-by-step example with data flow is shown in Figure 2.
+2.1 Intent Interpreter
+Given a domain-specific question 𝑞, we leverage an intent model
+I as an intent interpreter to capture the user’s intention from the
+last 𝑘-round history conservation 𝑐. Then, the intent model will
+rewrite the current query as a knowledge-intensive conversation
+query 𝑞𝑐: 𝑞𝑐 = I (𝑞, 𝑐), which not only enriches the context for the
+generation and enables multi-turn retrieval. In the implementation,
+we design a semantic rule-based classifier to determine if a question
+needs to be written or not to reduce the computational cost.
+2.2 Retrieval Augmented Generation
+Based on the conversation query, the model retrieves the related
+document from a knowledge base. Then, the augmented context is
+used to prompt LLMs to generate the answer.
+2.2.1 Knowledge Base. The knowledge base plays a critical role in
+supporting the responses of CyberBOT and consists of two main
+components: (I) A collection of common cybersecurity QA pairs
+curated by domain experts, derived from laboratory instruction
+manuals used in graduate-level advanced cybersecurity courses.
+These cover topics such as building intrusion detection systems
+and monitoring system activity. (II) Course materials from CSE 546:
+Cloud Computing at ASU, including lecture slides, assignments,
+quizzes, and project instructions. Most of these resources are in PDF
+format, which we preprocess into smaller, semantically meaningful
+chunks before storing them in the knowledge base.
+2.2.2 Retriever. For each turn in the conversation, given the con-
+versation query 𝑞𝑐, the retriever moduleR selects the most relevant
+document 𝑑 from the corresponding course-specific knowledge base
+by computing similarity: 𝑑 = R (𝑞𝑐, 𝑘𝑏). To accelerate retrieval, all
+documents are pre-encoded into vector representations, allowing
+for efficient similarity search within the knowledge base.
+6753
+CyberBOT: Ontology-Grounded Retrieval Augmented Generation for Reliable Cybersecurity Education CIKM ’25, November 10–14, 2025, Seoul, Republic of Korea
+"validation_result": "Pass",
+"confidence_score": 0.9,
+"reasoning": "The answer correctly maps to several concepts within 
+the cybersecurity ontology, including 'attack' and 'vulnerability', with 
+specific examples such as 'SQL Injection' and 'Cross-site scripting 
+(XSS)' which are types of attacks and vulnerabilities. The cloud 
+computing environment context is also relevant, as these attacks can 
+be launched against websites and web applications hosted in cloud 
+environments, and prevention or mitigation strategies...
+Common types of cyber attacks that can be launched against websites 
+and web applications include cross-site scripting (XSS), SQL 
+injection, cross-site request forgery (CSRF)...
+These can be prevented or mitigated in a cloud computing 
+environment through HTTP anomaly analysis to detect attacks like 
+XSS, SQL injection, and brute-force attacks and by ensuring proper 
+configuration and security measures, such as...
+Generative AI
+Ontology Verifier
+What are the common types of cyber attacks that can be launched 
+against websites and web applications, and how can they be prevented 
+or mitigated in a cloud computing environment?
+[1] Injection flaws,such as SQL, NoSQL, OS, and LDAP injection, 
+occur when untrusted data is sent to an interpreter as part of a 
+command or query. The attacker’s hostile data can trick the interpreter 
+into executing unintended commands or accessing data...
+[2] Organizations should ensure that web applications employ secure
+coding practices, including input validation, output encoding...
+[3] When deploying web applications in a multi-tenant public cloud
+environment, it is critical to secure data at rest by using encryption
+and and to enforce stringent access controls. Preventive measures
+against cross-site scripting and SQL injection should be integrated...
+Which attacks are possible on the web? How to prevent it?
+Retriever
+Intent Interpreter
+Student
+Figure 2: Illustrative of data flow in CyberBOT. The response is augmented and validated in various flows.
+2.2.3 Generation. The user query and related document are used
+to prompt LLM G to generate a preliminary answer: 𝑎 = G (𝑞𝑐, 𝑑).
+2.3 Ontology-based Validation
+In practice, validating the generated answers is essential to prevent
+misinformation or misuse. To enable this, we design an ontology-
+based validation mechanism grounded in domain knowledge. As
+described earlier, a knowledge graph (KG) captures domain-specific
+factual triples in the form of entity-relationship-entity; on top of
+that, an ontology defines high-level domain concepts and their
+semantic relationships in a structured hierarchy.
+Our validation process begins by extracting and analyzing key
+concepts and their relationships from the course materials. These
+are then distilled by cybersecurity experts into a domain-specific
+ontology 𝑜, encapsulating essential patterns and logical structures.
+Finally, we employ an ontology verifier V to assess whether the
+generated answer aligns with the ontology: 𝑟 = O (𝑞𝑐, 𝑎, 𝑜), where
+𝑟 ∈ ( 0, 1) represents the validation score. Answers falling below a
+certain threshold are flagged and rejected to ensure the reliability
+and domain-appropriateness of the system’s responses.
+2.4 Student Learning History
+To facilitate personalized learning, we designed a user management
+system, which tracks each user’s learning log and stores it in the
+backend while anonymizing personal information.
+3 System Deployment
+Our system architecture, as shown in Figure 3, is designed to stream-
+line the entire workflow from data ingestion to end-user interaction
+and evaluation. Here, we discuss the deployment stage, detailing
+the user-facing and backend components.
+3.1 User Interface
+We build a simple, web-based front-end using Streamlit, an open-
+source Python framework that allows rapid development of interac-
+tive web apps. Users enter queries or select tasks, and the interface
+displays the system’s responses in real-time.
+ Intent Interpreter
+ - Llama 3.3 70B
+ RAG
+ - BAAI-Bge-Large
+ - Llama 3.3 70B
+ Ontology Verifier
+ - Llama 3.3 70B
+ Knowledge Base
+ - QA Pairs
+ - Course Slides
+ - Textbook
+ - Assignment...
+ Data Connector
+ - LangChain
+ - LlamaIndex
+ User Interface
+ - Streamlit
+ Database
+ - SQLite
+ Scenario
+ - CSE 546 Cloud 
+ Computing @ ASU
+Data
+    Modeling
+        Deployment
+         Evaluation
+ Lab Environment
+ - BERTScore
+ - METEOR
+ - ROUGE
+ - Faithfulness
+ - Answer Relev.
+ - Context Precision
+ - Context Recall...
+Figure 3: Pipeline and implementation details of the system.
+3.2 Backend
+All domain-specific materials (e.g., QA pairs, slides, assignments)
+are stored in a unified repository. Texts are split into chunks with
+512 tokens to facilitate efficient retrieval. Each chunk is embedded
+using BAAI-Bge-Large-1.5 and stored in a FAISS index. User queries
+are similarly embedded, and nearest-neighbor search identifies the
+most relevant chunks. A Llama 3.3 70B model classifies queries
+according to task-specific intentions. Based on these results, the
+system retrieves the top-3 relevant chunks from FAISS for con-
+text. Another Llama 3.3 70B model fuses the retrieved context and
+the user query to generate a coherent response. This step handles
+reasoning and synthesizes domain knowledge for the final output.
+The Ontology Verifier, powered by Llama 3.3 70B, evaluates the
+generated responses by verifying their alignment with our domain-
+specific ontology. A lightweight SQLite database is used to store
+session data and interaction logs for subsequent analysis.
+3.3 Device and Hardware
+We encapsulate the CyberBOT into a Docker environment and
+develop the system in a dedicated server with an A100 80GB. For
+convenience, we use Together AI API to enable all the embedding
+models or LLMs. For security reasons, a VPN with ASU credentials
+will be needed to access the system outside the university network.
+4 Application
+We have deployed CyberBOT into CSE 546: Cloud Computing for
+the 2025 Spring semester. A live example is shown in Figure 4.
+6754
+CIKM ’25, November 10–14, 2025, Seoul, Republic of Korea Chengshuai Zhao et al.
+Figure 4: A live running example of CyberBOT system.
+4.1 Use-Case Illustration
+Users can input domain-specific questions through the dialogue
+interface. The RAG system retrieves relevant documents from the
+appropriate knowledge base and generates ontology-validated re-
+sponses. If a query falls outside the scope of the defined domain
+ontology, the response is rejected to maintain reliability and rele-
+vance. Given the highly specialized nature of the knowledge base,
+the system serves as an effective AI assistant for: (I) learning cy-
+bersecurity and cloud computing concepts grounded in the course
+material, (II) assisting with assignment-related queries by providing
+step-by-step explanations, and (III) offering fine-grained, hands-on
+guidance for course projects, such as code completion and frame-
+work design. Additionally, all interactions, including user queries
+and corresponding responses, are stored under each user’s account.
+These historical conversation logs can serve as a foundation for
+developing individualized learning paths and enabling personalized
+educational experiences in the future.
+4.2 Computational Evaluation
+Dataset. To evaluate the performance of CyberBOT in a con-
+trolled lab setting, we use CyberQ [1], an open-source dataset com-
+prising approx 3,500 open-ended cybersecurity QA pairs across
+topics such as tool usage, setup instructions, attack analysis, and
+defense techniques. The dataset includes questions of varying com-
+plexity, categorized into ZS (1,027), FS (332), and OD (2,171) types,
+making it well-suited for testing multi-level question answering.
+Metric. We consider two categories of metrics: (I) QA-based met-
+rics, which evaluate the quality of generated answers, including
+BERTScore [14], METEOR [2], ROUGE-1 [9], and ROUGE-2 [9]. (II)
+RAG-based metrics, which assess the retrieval effectiveness and
+accuracy covering Faithfulness, Answer Relevancy, Context Preci-
+sion, Context Recall, and Context Entity Recall. We implement the
+RAG-based metric using RAGAS [5].
+Metric
+ZS FS OD A VG
+Q
+A-based Metrics
+BERTScore ↑ 0.929 0.946 0.933 0.933
+METEOR ↑ 0.786 0.859 0.786 0.793
+ROUGE-1 ↑ 0.649 0.788 0.641 0.657
+ROUGE-2 ↑ 0.598 0.720 0.593 0.606
+RA
+G-based Metrics
+Faithfulness ↑ 0.813 0.891 0.760 0.788
+Answer Relevancy ↑ 0.983 0.986 0.983 0.983
+Context Precision ↑ 0.989 1.000 0.996 0.994
+Context Recall ↑ 0.991 0.997 0.995 0.994
+Context Entity Recall ↑ 0.939 0.951 0.967 0.957
+Table 1: Performance of CyberBOT across various datasets.
+Main result. We summarize the main result in Table 1. (I) Gener-
+ally, the proposed tool achieves satisfaction across both QA-based
+metrics and RAG-based metrics, e.g., CyberBOT achieves an average
+of BERTScore and Context Recall of 0.933 and 0.994, respectively,
+which indicates the system not only generates high-quality an-
+swers but also can retrieve the very relevant document from the
+knowledge base. (II) The framework produces higher scores in the
+FS category than those in ZS and OD, which may be because the
+QA pairs in the FS leverage in-context learning examples and are
+thus more consistent. (III) Among the QA-based metrics, the sys-
+tem achieves superior performance under BERTScore compared to
+others. It suggests that the generated answer has good overall se-
+mantic similarity while producing various words and paraphrases.
+(IV) Among the RAG-based metrics, we can observe that the results
+under Answer Relevancy, Context Precision, and Context Recall
+are very competitive, which showcases that the framework benefits
+from related documents as references. However, the Faithfulness
+score is slightly lower; one possible explanation is that the model
+will leverage its own knowledge to generate answers when there is
+no closely relevant material in the knowledge base.
+5 Conclusion
+We present CyberBOT, an ontology-grounded RAG assistant de-
+signed to support reliable and context-aware cybersecurity edu-
+cation. CyberBOT leverages an intent interpreter to capture the
+educational dialogue context and employs an ontology verifier
+to ground generated responses in domain-specific rules and con-
+straints. The system has been deployed in CSE 546: Cloud Comput-
+ing, serving over one hundred graduate students. This work not
+only demonstrates the potential of specialized natural language
+processing systems in education but also opens new avenues for
+advancing ontology-guided approaches in cybersecurity learning.
+Future work will focus on enhancing the system with personalized
+learning capabilities tailored to individual users.
+Acknowledgments
+This work is supported by the National Science Foundation (NSF)
+under grants SaTC (#2335666) and IIS-2229461. Any opinions, find-
+ings, conclusions, or recommendations expressed in this material
+are those of the author(s) and do not necessarily reflect the views
+of the National Science Foundation.
+6755
+CyberBOT: Ontology-Grounded Retrieval Augmented Generation for Reliable Cybersecurity Education CIKM ’25, November 10–14, 2025, Seoul, Republic of Korea
+GenAI Usage Disclosure
+To enhance clarity and readability, we utilized OpenAI GPT-4.5
+exclusively as a language polishing tool. Its role was confined to
+proofreading, grammatical correction, and stylistic refinement—
+functions analogous to those provided by traditional grammar
+checkers and dictionaries. This tool did not contribute to the gener-
+ation of new scientific content or ideas, and its usage is consistent
+with standard practices for manuscript preparation.

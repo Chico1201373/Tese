@@ -1,0 +1,340 @@
+When Retrieval Hurts: A Critical Analysis of RAG in Medical
+Question Answering
+Weidong Xie∗
+School of Computer Science and
+Engineering
+Northeastern University
+Shenyang, Liaoning, China
+xieweidong@cse.neu.edu.cn
+Yushan Fang
+School of Computer Science and
+Engineering
+Northeastern University
+Shenyang, Liaoning, China
+fyswork@163.com
+Xinxin Zheng
+Jilin International Studies University
+Changchun, Jilin, China
+zhengxin619@163.com
+Dongjun Liu
+Jilin International Studies University
+Changchun, Jilin, China
+LiuDongJun@jisu.edu.cn
+Zihan Li
+School of Computer Science and
+Engineering
+Northeastern University
+Shenyang, Liaoning, China
+2301902@stu.neu.edu.cn
+Abstract
+Retrieval-Augmented Generation (RAG) has been widely adopted
+to enhance Large Language Models (LLMs) by incorporating exter-
+nal knowledge, yet its effectiveness in medical question answering
+remains underexplored. This study presents a systematic evalu-
+ation of RAG systems on the MedQA-USMLE dataset, revealing
+counterintuitive findings that challenge the "always-RAG" para-
+digm. We evaluated three RAG approaches (BM25, Dense Retrieval,
+and Hybrid) against a pure LLM baseline using Qwen3-8B-Instruct
+as the primary LLM, with a knowledge base of 125,847 medical
+textbook chunks from 18 authoritative sources. Surprisingly, all
+RAG methods underperformed the pure LLM baseline (60.69%),
+with BM25-RAG, Dense-RAG, and Hybrid-RAG achieving 59.43%,
+60.14%, and 59.91% accuracy, respectively. Our analysis reveals that
+RAG introduces a dual effect: while correcting 5-6% of questions, it
+simultaneously misleads 6-7% of cases, resulting in a net negative
+impact of 7-16 questions. Critically, we demonstrate that retrieval
+confidence scores fail to predict RAG utility (AUC≈ 0.53, Cohen’s
+d = 0.06), indicating current retrieval systems cannot distinguish
+helpful from harmful contexts. Oracle analysis suggests a theoreti-
+cal upper bound improvement of +6.05% if perfect RAG selection
+were achievable, highlighting the urgent need for selective RAG
+strategies. These findings challenge the assumption that external
+knowledge universally improves medical AI systems and emphasize
+the importance of context-aware retrieval mechanisms for clinical
+safety.
+CCS Concepts
+• Information systems→ Retrieval tasks and goals .
+∗Corresponding author.
+This work is licensed under a Creative Commons Attribution 4.0 International License.
+AISNS 2025, Xiangtan, China
+© 2025 Copyright held by the owner/author(s).
+ACM ISBN 979-8-4007-1934-9/25/11
+https://doi.org/10.1145/3797161.3797211
+Keywords
+Medical Question Answering, Retrieval-Augmented Generation,
+Large Language Models
+ACM Reference Format:
+Weidong Xie, Yushan Fang, Xinxin Zheng, Dongjun Liu, and Zihan Li. 2025.
+When Retrieval Hurts: A Critical Analysis of RAG in Medical Question
+Answering. In 2025 3rd International Conference on Artificial Intelligence,
+Systems and Network Security (AISNS 2025), November 14–16, 2025, Xiangtan,
+China. ACM, New York, NY, USA, 6 pages. https://doi.org/10.1145/3797161.
+3797211
+1 Introduction
+Retrieval-Augmented Generation (RAG) has become a dominant
+paradigm for enhancing Large Language Models (LLMs) in knowledge-
+intensive tasks [1], particularly in high-stakes domains like medicine
+where factual accuracy is critical [14]. However, a fundamental ques-
+tion remains underexplored: does retrieval augmentation always
+help, or can it sometimes harm performance?
+While most RAG research focuses on demonstrating benefits [7],
+retrieval inherently introduces noise—irrelevant, outdated, or con-
+flicting information that may override correct parametric knowl-
+edge [15]. Systematic analysis of these negative effects remains
+scarce, and whether retrieval scores can reliably predict augmenta-
+tion utility has not been rigorously examined.
+Our empirical study on MedQA-USMLE reveals surprising find-
+ings: all RAG methods (BM25, Dense, Hybrid) underperform the
+pure LLM baseline, with retrieval harming 6-7% of questions while
+helping only 5-6%. Oracle analysis shows a modest upper bound of
++6.05% even with perfect selection, and retrieval scores fail to dis-
+tinguish helpful from harmful cases (AUC=0.53). This paper makes
+three contributions:
+(1) Systematic quantification of negative effects: We demon-
+strate that RAG actively misleads 6-7% of medical questions
+where the LLM alone would answer correctly.
+(2) Oracle analysis and score failure : We establish a +6.05%
+theoretical ceiling and show that retrieval confidence cannot
+predict RAG utility (AUC=0.53, Cohen’s d=0.06).
+312
+AISNS 2025, November 14–16, 2025, Xiangtan, China Xie et al.
+(3) Paradigm shift toward selective RAG: We argue for mov-
+ing from “always-RAG” to context-aware selective strategies
+for safer medical AI deployment.
+Section 2–6 present related work, methodology, results, discus-
+sion, and conclusions.
+2 Related Work
+RAG and Adaptive Retrieval.RAG combines retrieval with gener-
+ative models. Lewis et al. [1] first proposed the RAG framework that
+retrieves relevant documents and conditions generation on them.
+REALM [2] introduced retrieval augmentation during pre-training.
+Dense passage retrieval [3] improved retrieval quality using learned
+embeddings, with contrastive learning further enhancing unsu-
+pervised retrieval [4]. Recent surveys [5] provide comprehensive
+overviews of RAG architectures. More recently, Self-RAG [6] en-
+ables models to reflect on retrieved content and decide when to use
+it. Self-BioRAG [7] extends self-reflection mechanisms to biomed-
+ical domains. RAG2 [8] introduces rationale-guided retrieval for
+medical QA. AdaptiveRAG [9] learns to adapt retrieval strategies
+based on question complexity. However, most work focuses on
+demonstrating benefits rather than systematic analysis of negative
+effects.
+Medical QA and RAG Failures. Medical QA benchmarks in-
+clude MedQA [10], PubMedQA [11], and MMLU [12], with MedRAG [13]
+establishing RAG-specific evaluation. Studies show retrieval quality
+doesn’t always predict performance [15], and retrieved content can
+conflict with parametric knowledge [16–18]. Our work provides
+the first systematic quantification of RAG’s negative impacts in
+medical QA.
+3 Methodology
+Our framework (Figure 1) compares a pure LLM baseline against
+three RAG variants, with Oracle analysis providing the theoretical
+upper bound.
+3.1 Dataset and Knowledge Base
+We use the MedQA-USMLE validation set [ 10] containing 1,272
+four-option multiple-choice questions covering diverse clinical top-
+ics including diagnosis, treatment, pathophysiology, and clinical
+reasoning. Each question presents a clinical vignette followed by
+options (A–D). Following established medical QA evaluation pro-
+tocols [13], the model is prompted to output a single letter (A, B,
+C, or D) representing the selected answer, enabling direct accuracy
+computation and fair comparison with prior work. The knowledge
+base comprises 125,847 pre-segmented chunks from the MedRAG
+Textbooks corpus [ 13], extracted from 18 authoritative medical
+textbooks.
+3.2 Retrieval Methods
+BM25: Standard Okapi BM25 with 𝑘1 = 1.5, 𝑏 = 0.75:
+BM25(𝑑, 𝑞) =
+∑︁
+𝑡∈𝑞
+IDF(𝑡)· tf𝑡,𝑑·( 𝑘1+ 1)
+tf𝑡,𝑑+ 𝑘1·( 1− 𝑏+ 𝑏· |𝑑|avgdl) (1)
+Dense: MiniLM-L6-v2 (384-dim) with FAISS inner product over
+L2-normalized vectors (cosine similarity).
+Hybrid: Reciprocal Rank Fusion [ 20] with 𝑘 = 60 and equal
+weights:
+RRF(𝑑) =
+∑︁
+𝑟∈{ BM25,Dense}
+0.5
+60+ rank𝑟(𝑑) (2)
+All methods retrieve top-5 documents, following MedRAG pro-
+tocol [13].
+3.3 Language Model and Metrics
+We use Qwen3-8B-Instruct (temperature 0.1) as primary LLM,
+with Qwen-Plus validation in Section 5.2.
+Impact categories: Both Correct, Both Wrong, Positive Impact
+(LLM wrong→ RAG correct), Negative Impact (LLM correct→
+RAG wrong). Net Impact = Positive− Negative.
+Oracle Upper Bound: Maximum accuracy if perfect RAG selec-
+tion were possible:
+AccOracle = AccLLM+|Positive Impact|𝑁 (3)
+Retrieval Quality: ROC-AUC and Cohen’s d for score discrimi-
+nation.
+4 Results
+4.1 Overall Performance
+Table 1 reveals a counterintuitive finding: all RAG methods under-
+perform the pure LLM baseline (60.69%). RAG methods range from
+59.43% to 60.14%, representing degradations of 0.55–1.26 percent-
+age points. While McNemar tests yield p-values of 0.21–0.63 (not
+significant at 𝛼=0.05), the consistent negative direction across all
+three methods suggests a systematic pattern rather than random
+fluctuation.
+This trend aligns with RAG2 [8], which reported similar effects:
+Llama-3-8B-Instruct dropped from 57.7% to 55.3% with MedCPT
+retrieval, and GPT-3.5 (5-shot) decreased from 53.6% to 51.0%. The
+reproducibility across different retrieval methods, model architec-
+tures, and research groups indicates this phenomenon reflects a
+fundamental challenge in medical RAG rather than methodological
+artifacts.
+Table 1: Overall Accuracy Comparison.
+Method Accuracy 95% CI Correct Total Δ vs LLM
+Pure LLM 60.69% [58.01, 63.38] 772 1,272 —
+BM25-RAG 59.43% [56.74, 62.13] 756 1,272 -1.26%
+Dense-RAG 60.14% [57.45, 62.83] 765 1,272 -0.55%
+Hybrid-RAG 59.91% [57.21, 62.60] 762 1,272 -0.78%
+4.2 Impact and Oracle Analysis
+To understand the mechanisms behind overall performance degra-
+dation, we decomposed results into four mutually exclusive cat-
+egories based on whether the pure LLM and RAG system each
+answered correctly or incorrectly. Table 2 presents this impact
+analysis.
+The critical finding is the asymmetry between positive and neg-
+ative impacts: negative impacts (6.37–6.84%) consistently exceed
+positive impacts (5.11–6.05%) across all retrieval methods, yielding
+313
+When Retrieval Hurts: A Critical Analysis of RAG in Medical Question Answering AISNS 2025, November 14–16, 2025, Xiangtan, China
+Figure 1: Evaluation framework comparing Pure LLM, three RAG methods (BM25, Dense, Hybrid), and Oracle selector on
+MedQA-USMLE.
+Table 2: Detailed Impact Analysis.
+Method Both Correct Both Wrong Negative Positive Net
+BM25-RAG 691 (54.3%) 435 (34.2%) 81 (6.37%) 65 (5.11%) -16
+Dense-RAG 690 (54.2%) 425 (33.4%) 82 (6.45%) 75 (5.90%) -7
+Hybrid-RAG 685 (53.9%) 423 (33.3%) 87 (6.84%) 77 (6.05%) -10
+net losses of 7–16 questions. For approximately 87–88% of cases,
+retrieval makes no difference—both systems answer correctly or
+both fail. However, among cases where RAG changes the outcome,
+it harms more often than it helps.
+Figure 2 visualizes this asymmetry: the left panel shows negative
+impacts (red) consistently exceed positive impacts (blue) across all
+RAG methods. BM25-RAG shows the worst net effect (-16), while
+Dense-RAG performs relatively better (-7) due to higher positive
+impact counts. The right panel presents the Oracle upper bound
+analysis, which assumes perfect knowledge of when retrieval will
+be beneficial. Even with such ideal selective application, the max-
+imum achievable accuracy is only 66.74%, representing a modest
++6.05% improvement over the 60.69% baseline. This limited theoret-
+ical ceiling indicates that under our experimental setup, selective
+gating strategies alone offer constrained gains—substantial improve-
+ments likely require fundamental advances in retrieval quality and
+knowledge integration.
+4.3 Retrieval Score Analysis
+A critical question for practical RAG deployment is whether re-
+trieval confidence scores can predict when augmentation will be
+beneficial versus harmful. If such prediction were reliable, we could
+implement selective RAG strategies that apply augmentation only
+when retrieval quality exceeds certain thresholds. We investigated
+this using Hybrid-RAG, comparing RRF scores between 87 negative
+impact cases and 77 positive impact cases.
+Table 3: Retrieval Score Statistics.
+Group Mean Std Dev N Cohen’s d [95% CI]
+Negative Impact 330.48 122.61 87 0.06 [-0.27, 0.38]Positive Impact 337.44 120.01 77
+Tests: t-test p=0.443; ROC-AUC=0.53
+Table 3 reveals that score distributions are nearly identical: the
+mean difference is only 6.96 points (337.44 vs 330.48), with Cohen’s
+d=0.06 indicating a negligible effect size. The t-test yields p=0.443,
+confirming no significant difference.
+Figure 3 provides comprehensive visualization of this finding.
+Panel (a) shows the score distributions for positive and negative
+impact cases, which overlap almost completely with nearly identical
+means. Panel (b) presents the ROC curve with AUC=0.53, barely
+314
+AISNS 2025, November 14–16, 2025, Xiangtan, China Xie et al.
+Figure 2: Impact breakdown (left) and Oracle upper bound (right). Negative impacts exceed positive impacts; Oracle’s
+maximum accuracy is 66.74% (+6.05%).
+Figure 3: Retrieval scores fail to predict RAG utility. (a) Distribution overlap: nearly identical score distributions for positive
+and negative impact cases. (b) ROC curve: AUC=0.53 indicates chance-level discrimination. (c) Effect size: Cohen’s d=0.06, well
+within the “negligible” range. (d) Individual case analysis showing complete overlap between groups.
+above the 0.50 random baseline, demonstrating that retrieval scores
+have essentially no discriminative power. Panel (c) displays the
+effect size analysis, with Cohen’s d=0.06 falling squarely in the
+“negligible” zone. Panel (d) shows individual case scores, confirming
+the complete overlap between harmful and helpful retrievals.
+This finding has profound implications: current RAG systems
+cannot use retrieval confidence as a quality signal. The assumption
+that higher-scoring retrievals are more trustworthy and more likely
+to improve performance is empirically unfounded in the medical
+QA context.
+5 Discussion
+5.1 Root Causes of RAG Performance
+Degradation
+Manual analysis of 81 negative cases reveals three failure types:
+context mismatch (35%)—retrieval finds relevant terms but wrong
+clinical context; phrase-level extraction (40%)—models extract
+phrases without broader understanding; knowledge fragmenta-
+tion (25%)—when retrieved chunks contain partial or incomplete
+information that, while individually accurate, creates logical incon-
+sistencies when combined (e.g., one chunk states “Drug A inhibits
+315
+When Retrieval Hurts: A Critical Analysis of RAG in Medical Question Answering AISNS 2025, November 14–16, 2025, Xiangtan, China
+Figure 4: Context mismatch: DKA case where retrieved chronic guidance causes incorrect answer.
+CYP3A4” while another states “Drug B is metabolized by CYP3A4, ”
+but neither explicitly mentions the interaction consequence, caus-
+ing the model to fail in synthesizing a coherent clinical conclusion).
+Figure 4 illustrates context mismatch: a DKA emergency case where
+retrieved chronic heart failure guidance (“treat acidosis first”) over-
+rode the LLM’s correct prioritization of hypoperfusion.
+5.2 Dual Nature and Safety Implications
+RAG exhibits a dual nature: it helps 5–6% of questions by filling
+knowledge gaps but harms 6–7% by overriding correct parametric
+knowledge, yielding net negative impact. Critically, these negative
+cases represent instances where the pure LLM would have answered
+correctly without retrieval. Validation with Qwen-Plus [19] (85%
+baseline→ 83% with RAG) confirms this effect generalizes across
+model scales and is not limited to open-source models. For Qwen-
+Plus, we re-run the same MedQA-USMLE validation set (1,272 ques-
+tions) with identical prompts and retrieval settings.
+The 6–7% negative impact rate raises serious concerns for clin-
+ical deployment. While this percentage may appear modest, its
+significance must be evaluated in the context of medical practice
+where even small error rates can affect patient safety and clini-
+cal decision-making. In high-volume clinical AI applications, this
+rate would translate to a substantial number of potentially harmful
+recommendations.
+6 Conclusion
+This study provides systematic evidence that RAG can harm medical
+QA performance. All three RAG methods (BM25, Dense, Hybrid)
+underperform the pure LLM baseline on MedQA-USMLE, with 5–
+6% positive impacts outweighed by 6–7% negative impacts. Oracle
+analysis shows only +6.05% maximum improvement with perfect
+selection, and retrieval scores fail to predict utility (AUC=0.53).
+Our findings demonstrate that optimizing when to apply RAG
+is insufficient—the modest Oracle ceiling suggests fundamental
+improvements in retrieval quality and knowledge integration are
+needed. The failure of confidence scores to distinguish helpful from
+harmful cases undermines standard quality control assumptions
+and raises safety concerns for clinical deployment. These results
+hold under our MedQA-USMLE validation setting and textbook-
+based knowledge corpus; generalization to other tasks or corpora
+may vary.
+Limitations. Our study has four limitations: (1) single dataset
+(MedQA-USMLE); (2) single knowledge base (textbooks only); (3)
+primary model Qwen3-8B-Instruct, with limited Qwen-Plus valida-
+tion; (4) single-run evaluation without multiple seeds.
+We advocate shifting from “always-RAG” to selective, context-
+aware strategies. Future work should focus on: (1) developing re-
+liable utility prediction mechanisms beyond retrieval scores; (2)
+designing context-aware retrieval that recognizes clinical nuances
+and acute vs. chronic distinctions; (3) implementing robust quality
+control that can identify potentially harmful retrievals before they
+affect outputs; and (4) exploring hybrid approaches that leverage
+RAG’s benefits while mitigating its risks. In safety-critical medical
+AI, patient safety must take precedence over performance metrics.
+Acknowledgments
+This work was supported by National Key Research and Develop-
+ment Program China 2023YFC2413500, Natural Science Foundation
+of Liaoning Province, China 2025-MS-036, and National Frontiers
+316
+AISNS 2025, November 14–16, 2025, Xiangtan, China Xie et al.
+Science Center for Industrial Intelligence and Systems Optimization
+(the 111 Project) B16009.

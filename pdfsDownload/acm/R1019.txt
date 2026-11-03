@@ -1,0 +1,478 @@
+ST-Buddy: Designing and Evaluating a Course-Grounded LLM
+Chatbot for Academic and Administrative Support
+Chrakhan Barzanji∗
+Center for Scalable Data Analytics
+and Artificial Intelligence (ScaDS.AI
+Dresden/Leipzig)
+Technische Universität Dresden
+Dresden, Sachsen, Germany
+chrakhan.barzanji@tu-dresden.de
+Niclas Rosteck∗
+Center for Scalable Data Analytics
+and Artificial Intelligence (ScaDS.AI
+Dresden/Leipzig)
+Technische Universität Dresden
+Dresden, Sachsen, Germany
+niclas.rosteck@tu-dresden.de
+Sebastian Eberl
+Center for Scalable Data Analytics
+and Artificial Intelligence (ScaDS.AI
+Dresden/Leipzig)
+Technische Universität Dresden
+Dresden, Sachsen, Germany
+sebastian.eberl@tu-dresden.de
+Sebastian Rottmann
+Center for Scalable Data Analytics
+and Artificial Intelligence (ScaDS.AI
+Dresden/Leipzig)
+Technische Universität Dresden
+Dresden, Sachsen, Germany
+sebastian.rottmann@tu-dresden.de
+Claudia Loitsch
+Center for Scalable Data Analytics
+and Artificial Intelligence (ScaDS.AI
+Dresden/Leipzig)
+Technische Universität Dresden
+Dresden, Sachsen, Germany
+claudia.loitsch@tu-dresden.de
+Abstract
+Understaffed universities and limited funding for tutors risk stu-
+dents’ disengagement due to missing assistance. HCI research in-
+creasingly focuses on conversational agents for scalable educational
+support. This paper presents a course-specific AI chatbot designed
+to answer students’ questions and reduce tutor workload by address-
+ing frequent organizational and content-related questions. Devel-
+oped as a pilot case study for an introductory Software Technology
+course, ST-Buddy combines modular LLM-based dialogue with a
+flexible course-grounded knowledge integration to enable adaptive,
+context-aware responses grounded in relevant course material and
+logistical information. A formative evaluation of ST-Buddy (n=32)
+showed good usability (SUS=77.81), perceived helpfulness particu-
+larly when tutors were unavailable, and rated response quality as
+relevant and understandable. Additionally, students’ self-reported
+everyday academic AI use and lessons learned from the evaluation
+settings are discussed. These findings outline implications for im-
+proving future evaluations and highlight the potential of modular
+chatbot frameworks to scale personalized support in large courses.
+CCS Concepts
+• General and reference → Empirical studies; • Applied comput-
+ing → E-learning; • Human-centered computing → Empirical
+studies in HCI ; Text input; Field studies.
+∗Both authors contributed equally to this research.
+This work is licensed under a Creative Commons Attribution 4.0 International License.
+CHI EA ’26, Barcelona, Spain
+© 2026 Copyright held by the owner/author(s).
+ACM ISBN 979-8-4007-2281-3/26/04
+https://doi.org/10.1145/3772363.3798558
+Keywords
+User Expectations, Chatbot Design, AI-based Chatbot, AI-based
+Support Agent, Conversational Agents, Large Language Models,
+Course-Specific AI Support, Generative AI, User-Centered Design,
+Immediate Feedback, In-class Evaluation, Online Evaluation, Edu-
+cational Technology, Participatory Design, Computer Science Edu-
+cation
+ACM Reference Format:
+Chrakhan Barzanji, Niclas Rosteck, Sebastian Eberl, Sebastian Rottmann,
+and Claudia Loitsch. 2026. ST-Buddy: Designing and Evaluating a Course-
+Grounded LLM Chatbot for Academic and Administrative Support. In Ex-
+tended Abstracts of the 2026 CHI Conference on Human Factors in Computing
+Systems (CHI EA ’26), April 13–17, 2026, Barcelona, Spain. ACM, New York,
+NY, USA, 6 pages. https://doi.org/10.1145/3772363.3798558
+1 Introduction
+Across higher education, many students require timely and individ-
+ualized support to navigate academic and organizational demands,
+particularly during the early stages of their studies and in large in-
+troductory courses with heterogeneous cohorts [14, 30]. This need
+is especially pronounced for specific student groups with diverse
+backgrounds and expectations [5]. While study success is closely
+linked to students’ ability to regulate their learning processes and
+access relevant information when needed [ 23, 32], institutional
+support structures often struggle to meet this demand at scale. As
+a result, students may experience uncertainty, delayed feedback,
+and fragmented access to information, which can negatively af-
+fect engagement and persistence [14]. Peer learning, tutorials, and
+office hours are widely regarded as effective, diversity-sensitive,
+and inclusive forms of support [25]. However, they are inherently
+resource-bound and frequently constrained by staffing shortages,
+financial limitations, and increasing student numbers. These lim-
+itations have motivated Human-Computer Interaction ( HCI) re-
+searchers and educators to increasingly explore Conversational
+CHI EA ’26, April 13–17, 2026, Barcelona, Spain Barzanji et al.
+Agents (CAs) as scalable tools for on-demand assistance in educa-
+tional contexts [1, 30]. Recent research further highlights the poten-
+tial of Artificial Intelligence (AI)-based tools to foster inclusion [19],
+better support students in large courses [ 18], promote problem-
+solving skills [27], improve formative feedback processes [31], or
+enable conversational, adaptive, and personalized interactions [21].
+However, deploying such systems in higher education introduces
+new challenges related to interaction design, trust, pedagogical
+alignment, and data privacy. Without careful user-centered design
+and transparent implementation, AI-based support risks remaining
+generic, opaque, or misaligned with students or course-specific
+needs [5].
+This paper addresses these challenges through the design and
+evaluation of a course-specific Large Language Model (LLM)-based
+chatbot, called ST-Buddy. ST-Buddy is explicitly not designed as an
+intelligent tutor or coach, but as a course-specific support agent
+complementing existing human assistance. More specifically, ST-
+Buddy provides scalable learning and organizational support to com-
+plement human assistance by offloading recurring questions, and
+is employed in an introductory Software Technology (ST) course.
+Addressing limited design and implementation reporting in prior
+educational chatbot research [4], ST-Buddy’s technical architecture
+is documented transparently and released as open source.1
+This research provides contextual insights into students self-
+reported everyday AI use and addresses the following research
+question (RQ): How do students perceive and evaluate the course-
+specific chatbot ST-Buddy as support for learning and organizational
+questions with regard to usability, usefulness, and response quality?
+To answer this RQ, the paper presents (1) the learner-centered de-
+sign of ST-Buddy and its underlying system decisions (modular bot
+routing, privacy-aware deployment, and course-aligned Retrieval
+Augmented Generation (RAG)); (2) findings from a formative in-
+class evaluation on usability and perceived usefulness; and (3) prac-
+tical lessons learned for designing and evaluating course-specific
+educational chatbots in authentic learning contexts.
+2 Background and Related Work
+2.1 Conversational Agents in Education
+Educational chatbots have been studied for tutoring, practice, moti-
+vation, and administrative support. Wollny et al. [30] synthesized
+74 studies and distinguished three pedagogical roles: (i) learning-
+oriented tutoring and content practice (e.g., language learning [3, 12]
+and learn about laws [8]), (ii) assisting course-related and organi-
+zational support [26], and (iii) mentoring systems supporting scaf-
+folding and Self-Regulated Learning (SRL) [13]. While results are
+generally positive, the review highlights persistent limitations, such
+as weak integration into teaching practice and limited evidence
+from realistic deployments [30]. Recent work further illustrates the
+potential of LLM-based tutors: Wang et al. co-designed a clinical
+reasoning tutor powered by Med-PaLM 2 2 and evaluated it with
+medical learners (N=8), showing that interactive AI tutoring can
+support practice and feedback when it emulates effective instructor
+traits such as scaffolding and reflection [28].
+1ST-Buddy repository: https://github.com/KI-FEM/metis/tree/st-buddy-2507
+2Med-PaLM 2, https://sites.research.google/gr/med-palm/, accessed on January 16th
+2026
+2.2 Course-Specific Chatbots and Support for
+Computer Science Education
+Course-specific assistants are particularly relevant for introductory
+computer science education, where learners need timely explana-
+tions, structured guidance, and support when human tutors are
+unavailable [16, 18]. A recent scoping review identified that most
+CAs for novice programmers focus on primary learning support ,
+and only a few extend to broader student needs [4]. The reviewed
+systems mainly address (i) learning-oriented tutoring and practice
+(e.g., concept explanations and quizzes [22] or scaffolding-based
+field studies [15]), (ii) task-level programming support such as debug-
+ging assistance or feedback in code review activities [10, 20], and
+only rarely (iii) secondary support beyond instruction (e.g., holistic
+academic/personal support [16] or scalable course-integrated AI
+support in large cohorts [18]). Across studies, evaluations often rely
+on brief pilot deployment and short-term user reports rather than
+longitudinal study design with larger and more diverse samples,
+and Barzanji et al. further highlight limited reporting of system
+architectures and design decisions, hindering reuse and compari-
+son [4].
+Despite growing work on course-specific and RAG-based chat-
+bots, many systems lack transparent architectural reporting, rely
+on externally hosted LLM services, give limited attention to institu-
+tional privacy requirements, and focus mainly on learning tasks. ST-
+Buddy addresses these gaps through a scalable and privacy-aware
+deployment using foundation models hosted within the university
+infrastructure. The system is released as open source to support
+reproducibility and reuse, and supports multiple course-related
+knowledge domains (e.g., different academic contents and admin-
+istrative information) through topic-aware routing and retrieval,
+which has not yet been explicitly evaluated in the literature.
+3 System Design
+ST-Buddy is situated on a self-developed chatbot platform to easily
+provide CAs tailored to individual contexts - in this case, the intro-
+ductory Software Technology (ST) course. The platform hosts the
+CA on a homogenized website developed through user-centered
+processes and with attention to accessibility and data-privacy. User
+data and chat messages are solely saved client-side in the browser’s
+local storage, and LLM providers with no-log and no-training poli-
+cies are selected. The backend is built using a combination of
+FastAPI3 for routing, LangChain [ 7] for structuring LLM calls,
+LiteLLM4 for managing available models and routingLLM requests
+to providers, and LangFuse [24] to trace LLM generations and keep
+a version history of prompts.
+ST-Buddy provides students with access to both course content
+and organizational information via natural language interaction
+in German and English, serving both academic and administra-
+tive needs. Course-specific materials are embedded and saved in
+a pgvector5 vector database alongside the full texts and metadata.
+Through a RAG process, these materials are retrieved based on the
+user request. Course data is split into three different categories:
+content consisting of reading material accompanying the lecture,
+3FastAPI, https://fastapi.tiangolo.com/, accessed on January 16th 2026
+4LiteLLM, https://www.litellm.ai, accessed on January 16th 2026
+5pgvector, https://github.com/pgvector/pgvector, accessed on January 16th 2026
+ST-Buddy: Designing and Evaluating a Course-Grounded LLM Chatbot for Academic and Administrative Support CHI EA ’26, April 13–17, 2026, Barcelona, Spain
+lecture exercises and parts of their solution, and organizational
+content like FAQs, exam office information, and anonymized forum
+entries from previous semesters. ST-Buddy dynamically chooses
+which category of data to load for RAG based on the user input
+using a pre-generation LLM call.
+To increase document retrieval performance in theRAG process,
+organizational content uses a similarity search, retrieving three
+documents per query, while lecture content and exercises use a
+similarity search filtered by a relevance score threshold to further
+trim results to the most relevant documents. Additionally, user
+queries are rewritten into four additional queries prior to use in the
+RAG pipeline through a separate LLM call, as colloquial user inputs
+may result in inaccurately retrieved documents. Figure 1 shows
+an overview of the proposed system design used in the following
+study.
+4 ST-Buddy Evaluation
+4.1 Study Design
+To examine students’ everyday use of AI and their perceptions of
+ST-Buddy, a formative mixed-methods evaluation was conducted
+with students from the target group in two settings: (i) An in-
+class semi-controlled test during exercise sessions to capture initial
+reactions and usability issues, and (ii) a four-week online field test,
+where students used ST-Buddy independently for exam preparation
+and exercise support. Both settings followed the same procedure,
+consisting of a pre-survey, ST-Buddy testing phase, and a post-
+survey.
+Participants. The study involved students enrolled in the intro-
+ductory ST course at Dresden University of Technology across
+different study programs. Participation in the study was volun-
+tary and independent of course requirements, grading, or academic
+evaluation. The chatbot was provided as an optional support tool
+and was not part of mandatory course activities or assessment. All
+participants provided informed consent and signed a privacy policy
+in line with data protection regulations. Survey data were collected
+anonymously and were not accessible to course instructors at the
+individual level.
+In-Class Testing Procedure. The in-class evaluation was conducted
+as a semi-controlled test of the implemented CA-based prototype.
+After a short introduction, participants accessed the chatbot web-
+site and completed a pre-survey hosted on a separate online survey
+platform, capturing demographics and prior AI use, measuring the
+standardized Affinity for Technology Interaction (ATI) scale [11].
+Survey links contained an embedded anonymous ID that was auto-
+matically pre-filled, enabling matching of responses across surveys.
+After submitting the pre-survey, participants freely interacted with
+ST-Buddy. To lower the entry barrier, course-related conversation-
+starter questions were provided (e.g., "How can the State Pattern in
+the BankAccount exercise be implemented?" and "I am sick. How
+can I withdraw from the exam?"). Finally, participants completed a
+post-survey including System Usability Scale (SUS) [6] to assess per-
+ceived system usability and Partner Model Questionnaire (PMQ) [9]
+to evaluate theCA as a conversation partner. Participants also rated
+whether the chatbot would be useful when no tutor is available,
+and evaluated response quality (relevance, correctness, clarity, com-
+plexity, length, and linguistic naturalness) on 5-point Likert scales
+from "not at all" to "completely". To complement quantitative mea-
+sures with qualitative input, participants could optionally provide
+open-ended feedback on what they liked and disliked about the
+system.
+Online Field Test Procedure. The online field test followed the
+same survey design and instruments. Participants received the
+chatbot link and project information via the course newsletter. To
+support self-directed use, the pre-survey remained accessible during
+the first two weeks of the test period, while the post-survey was
+activated only at the end of the study and distributed via a follow-up
+newsletter.
+4.2 Results
+4.2.1 Participation. A total of 103 participants started the pre-
+survey, including 45 in the semi-controlled in-class evaluation and
+60 in the online field test. In the in-class setting, 43 participants
+completed the pre-survey; 38 started the post-survey, and 32 com-
+pleted it. Of the 32 participants, about 20% (n=6) were female and
+about 80% (n=26) male. The majority (65.6%; n=21) were between
+18 and 20 years old, while the remaining 11 (34.4%) were between
+21 and 29 years old. Most students (68.75%; n=22) were enrolled in
+(Media) Computer Science, with the rest being split betweenBusiness
+Information Systems, Engineering, and Mathematics. In the online
+field test, which was sent to over 300 course members, 22 partic-
+ipants completed the pre-survey, 12 started the post-survey, and
+2 completed it, of which one contained invalid responses. Since
+the two study setups were different and the online field test had a
+low response rate, it was excluded from analysis, and the results
+reported below are based on the 32 valid responses from the in-class
+evaluation.
+4.2.2 Pre-survey Results. The ATI showed a mean of 𝑀 = 4.32
+(𝑆𝐷 = 0.62). Regarding AI use, 50% of participants reported using
+AI daily or almost daily, 28.1% several times per week, 15.6% oc-
+casionally, and 6.3% rarely. In students’ open-ended reflections on
+their previous experiences with AI tools, participants were mostly
+positive about their experiences with AI use, though the issues of
+hallucinations, especially in complex tasks, were noted. Participants
+reported different purposes of using AI, although all participants
+(96.9%; n=31) indicated that they useAI to explain concepts or tasks,
+followed by coding/programming support (62.5%; n=20) and exam
+preparation (53.1%; n=17). Summarization of lecture content was
+less common (31.3%; n=10). In addition, some participants (15.6%;
+n=5) mentioned “other” uses such as translation, text correction,
+image generation, and information search.
+4.2.3 Post-survey Results. Regarding response quality, 65.6% (n=21)
+of participants selected "mostly" or "completely" for relevancy and
+clarity, and 71.9% (n=23) estimated the answers as completely or
+mostly correct. Regarding appropriateness of length, 62.5% (n=20)
+answered "mostly" or "completely", with 21.9% (n=7) selecting "mostly
+not" or "not at all". Ratings of linguistic naturalness showed that
+62.5% (n=20) answered "mostly" or "completely". Perceptions of
+complexity were balanced, with 34.4% (n=11) rating responses "not
+at all" or "mostly not", 31.3% (n=10) as "partly", and 34.4% (n=11) as
+CHI EA ’26, April 13–17, 2026, Barcelona, Spain Barzanji et al.
+ Backend Server
+ (Python)
+Bot
+Routing
+via
+FastAPI
+  LLM Infrastructure
+Langfuse
+LiteLLM
+LLM Inference
+Service 1
+LLM Inference
+Service 2
+Request Tracing
+Prompt-
+Management
+LLM Proxy
+Chatbot UI
+(VueJS)
+Accessibility
+Settings
+Conversational
+Preferences
+  Free Chat
+  CoachBot
+  ST-Buddy
+LangChain
+Prompt ProcessingProcessing
+RAG
+Postprocessing
+and Streaming
+VectorDB
+Dynamic Query 
+Rewriting
+Figure 1: ST-Buddy’s Technical Infrastructure
+"mostly" or "completely". 75% of students evaluated the CA’s use-
+fulness when no tutors are available positively (n=17 for "mostly",
+n=7 for "completely"), 15.6% (n=5) remained neutral, and 9.4% (n=3)
+selected "not at all" or "mostly not".
+Usability, measured with the SUS, revealed a score of𝑀 = 77.81
+(𝑆𝐷 = 12.47), which can be labeled as "Good" [2]. The mean scores
+across the three subscales of thePMQ were 5.07 for communicative
+competence, 4.06 for human-likeness communication, and 4.08 for
+communicative flexibility. The overall PMQ score averaged 4.57 on
+the 7-point scale.
+The open-ended responses on what students liked and disliked
+about ST-Buddy were analyzed using thematic coding, resulting in
+nine themes. The most frequent theme was relevance and course-
+specificity (n=11), with students emphasizing that the chatbot was
+grounded in lecture material. Further prominent themes concerned
+positive answer quality and clarity (n=9) and answer accuracy and
+completeness (n=9). Students also valued the efficiency and ease of
+use (n=8) and practical examples (n=6) that ST-Buddy gave. On the
+limitations side, participants highlighted technical issues (n=10),
+such as duplicated or aborted responses, and issues with response
+length and style (n=7), e.g. long and complex answers. Furthermore,
+missing features and usability gaps (n=6), such as an “option to abort
+answers” (P29), and lack of visual support (n=5) were identified,
+explicitly requesting diagrams for programming contexts.
+5 Discussion
+5.1 How Students Self-report Current AI Use
+Pre-survey results indicate that AI tools are embedded in students’
+study routines, with most participants reporting frequent (often
+daily) use, primarily for explanations, programming support, and
+exam preparation, while summarization was less common. This
+aligns with broader trends in higher education [15, 18], and reflects
+the learning and assisting roles of educational chatbots described by
+Wollny et al. [30], but also reflects ambivalence between efficiency
+benefits and accuracy concerns [ 29], indicating the need for AI
+literacy and transparent support tools.
+5.2 Course-Specific Value and Design
+Requirements
+Given students’ frequent use of AI for academic tasks, the posi-
+tive evaluation of ST-Buddy suggests that course-specific AI assis-
+tance for internal learning and organizational needs, which general-
+purpose chatbots typically do not cover, is valued, aligning with
+prior research on scalable support in large courses [5, 18]. Given
+the prototype status and short exposure time, usability was rated
+positively (SUS=77.8), and 75% of students perceived ST-Buddy as
+a useful alternative when tutors are unavailable. However, this
+result may have been influenced by the cohort’s high technology
+affinity (ATI=4.32) and suggests low interaction barriers rather
+than long-term acceptance. Student feedback further highlighted
+key HCI requirements for sustained use, including support beyond
+text-only output and robust mobile usability, as mobile learning is
+increasingly common [17].
+5.3 Study Design Insights - Implications for
+Empirical Research
+While the online field test was intended to complement the in-
+class study, its primary contribution lies in methodological insights
+rather than quantitative results. The strong contrast between high
+in-class participation and low online completion likely reflects con-
+text, technical constraints, and study design. Open-ended feedback
+indicated that technical issues occurred for 6/32 participants, and
+online participation may have been further hindered by access
+restrictions (university network/VPN). Conducting the field test
+prior to and during the exam period and using a multi-stage survey
+setup with lacking incentives may have additionally reduced en-
+gagement and increased dropout. This underscores the importance
+of timing and low-friction designs when evaluating educational
+CAs, and motivates combining semi-controlled formative studies
+with longitudinal field evaluations.
+5.4 Limitations
+As a first-iteration prototype,ST-Buddy occasionally produced tech-
+nical issues (e.g., duplicated or incomplete responses), which may
+have affected perceived reliability. Generalizability is limited due
+to participants predominantly being male, German, and computer
+ST-Buddy: Designing and Evaluating a Course-Grounded LLM Chatbot for Academic and Administrative Support CHI EA ’26, April 13–17, 2026, Barcelona, Spain
+science students. Moreover, the privacy-focused local-first design
+led to mismatched pre-/post-survey data when participants used
+multiple devices. Although the online study invitation reached over
+300 students, only one participant completed both surveys; there-
+fore, comparisons between online and in-class settings were not
+feasible. Future studies should include a post-study step, asking
+online participants about reasons for dropout to inform improve-
+ments in study design and recruitment. Overall, the results rely
+on the in-class sample (𝑛 = 32), limiting subgroup analyses. Due
+to the short (30-minute) test phase and the absence of a control
+group, conclusions about learning efficacy and causal effects are
+restricted. A study setup testing ST-Buddy against a group using
+a general-purpose AI chatbot would cast a light on the efficacy of
+course-specific knowledge integration. Future work should involve
+larger and more diverse samples, include control groups, and inte-
+grate objective learning measures. While the evaluation focused
+on perceived usability and usefulness, future work should also em-
+pirically compare architectural variants (e.g., RAG vs. non-RAG) to
+isolate design effects.
+6 Conclusion
+This paper presented ST-Buddy, a course-specific AI-based chatbot
+designed to provide grounded learning and organizational support
+in a large introductory Software Technology course, addressing
+students’ recurring struggle to identify relevant and reliable course
+information at the moment of need. The reusable system design
+of ST-Buddy builds on modular LLM-based dialogue with contex-
+tually relevant information injected using RAG and is available
+as open-source software. A formative in-class evaluation with 32
+participants showed good perceived usability (SUS=77.8), positive
+usefulness when tutors are unavailable, and largely favorable rat-
+ings of response relevance, clarity, and correctness. Beyond system
+design and performance, insights into students’ everyday AI use
+and expectations, and valuable lessons learned for in-class versus
+field-test evaluations with student target groups are discussed.
+Taken together, combining grounded AI architectures with HCI-
+based evaluation and student feedback is critical for moving toward
+robust, course-grounded educational support systems in real-world
+teaching contexts.
+Acknowledgments
+This project is co-funded by the European Union and co-financed
+from tax revenues on the basis of the budget adopted by the Saxon
+State Parliament (EU/ESF-PLUS: 100708140).
+The authors acknowledge the financial support by the Federal Min-
+istry of Education and Research of Germany and by Sächsische
+Staatsministerium für Wissenschaft, Kultur und Tourismus in the
+program Center of Excellence for AI-research „Center for Scalable
+Data Analytics and Artificial Intelligence Dresden/Leipzig“, project
+identification number: ScaDS.AI.
+The authors would like to thank the Chair of Software Technology
+at TU Dresden for their support and collaboration in the develop-
+ment and evaluation of this work.

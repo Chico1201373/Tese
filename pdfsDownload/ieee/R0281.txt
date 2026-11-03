@@ -1,0 +1,489 @@
+Retrieval-Augmented LLMs with Indonesian
+Clinical Trials Guidelines: A Comparative Study
+Ella Raputri
+Computer Science Department
+School of Computing and Creative Arts
+Bina Nusantara University
+Jakarta, Indonesia 11480
+ella.raputri@binus.ac.id
+Ari Jaya Teguh
+Computer Science Department
+School of Computing and Creative Arts
+Bina Nusantara University
+Jakarta, Indonesia 11480
+ari.teguh@binus.ac.id
+Saffanah Nur Hidayah
+General Practitioner
+Zamzam Clinic
+South Jakarta, Indonesia 12550
+saffanah.nh@gmail.com
+Andari Karina Anom
+Communication Department
+School of Computing and Creative Arts
+Bina Nusantara University
+Jakarta, Indonesia 11480
+aanom@binus.edu
+Feri Setiawan
+Computer Science Department
+School of Computing and Creative Arts
+Bina Nusantara University
+Jakarta, Indonesia 11480
+feri.setiawan@binus.edu
+Nunung Nurul Qomariyah
+Computer Science Department
+School of Computing and Creative Arts
+Bina Nusantara University
+Jakarta, Indonesia 11480
+nunung.qomariyah@binus.edu
+Abstract—Artificial Intelligence (AI), especially Large Lan-
+guage Model (LLM) powered chatbots, has emerged as a signifi-
+cant tool in our daily lives. Many industries, including the health-
+care industry, nowadays use AI chatbots for their operational
+tasks. One of such tasks is for diagnosing diseases based on the
+patient’s symptoms. However, in practice, LLM tends to generate
+incorrect information, so they need to be provided with more
+specific medical-related knowledge. Therefore, this study aims
+to enhance LLM diagnostic correctness by integrating Indone-
+sian Clinical Trials Guidelines using RAG (Retrieval-Augmented
+Generation) to give the LLMs more context on medical cases.
+After that, we compare the diagnostic ability of three different
+RAG-enhanced popular LLMs (GPT, Deepseek, and Qwen). As
+a contrast, we also compare Deepseek model with and without
+RAG to test whether RAG leads to significant improvement
+for diagnosis correctness. Our research utilizes context-related
+metrics with ground truth from a general medical practitioner
+for evaluation. The result reveals that RAG significantly improves
+model performance and model type does not affect diagnosis
+correctness. However, from the mean alone, GPT has the highest
+performance with all metrics greater than 0.65, followed by
+Deepseek with RAG, Qwen, and Deepseek without RAG, but
+these differences were found to be not statistically significant.
+These findings further suggest that integrating local clinical
+guidelines with RAG can enhance medical reasoning in LLM,
+regardless of the underlying models, indicating that, as long as a
+reliable medical context is given, model type has a more limited
+impact on performance.
+Index Terms—Large Language Model (LLM), diagnosing dis-
+eases, RAG (Retrieval-Augmented Generation), context-related
+metrics
+I. I NTRODUCTION
+In recent years, Artificial Intelligence (AI) has become a
+topic that is intensively discussed in both research and real-
+world applications. Among all variations of AI, the AI chatbot
+powered by Large Language Model (LLM) has been a revolu-
+tionary one as it laid a foundation in creating intelligent agents
+that can respond to user requests using human-like languages
+[1]. This technological revolution can not be separated from
+the release of ChatGPT in 2022 [2], which deeply influenced
+the general public’s view and curiosity in machine intelligence.
+Therefore, many industries started to take an interest in AI and
+adopt it in their operation processes.
+Adoption of AI technology in various industries has been
+proven to increase productivity and creativity at the organi-
+zational level [3]. Among all industries, the integration of AI
+into the healthcare system has been a serious topic as many
+people now rely on AI chatbots for gathering information,
+including the diagnosis of diseases. According to the study
+in [4], more than 20 percent of health worker use ChatGPT
+for their health-related work. Reliance on AI chatbot, such as
+ChatGPT has become more prevalent these days as they can
+accelerate the diagnostic process, making it easier for patients
+and health workers to conclude a simple disease case [5].
+Therefore, health workers can focus on more complex tasks
+that need their attention.
+However, as with other technologies, AI also has its limita-
+tions. To date, many AI systems have been developed to help
+the healthcare industry. However, adoption and evaluation are
+still limited [6]. Besides that, AI chatbots tend to ”hallucinate”
+or generate nonsensical information, so practical deployment
+of them to diagnose symptoms has also been a problem [7].
+Hence, to enhance the reliability of the chatbot’s response in
+a medical context, we combine LLMs with RAG (Retrieval-
+Augmented Generation) using information from PPPK ( Pan-
+duan Praktik Profesional Kedokteran ) or Indonesian Clinical
+Trials Guidelines. After that, we conduct evaluation to deter-
+mine the performance of each model in the diagnostic process.
+In conclusion, our research aims to compare the diagnostic
+ability of popular LLMs, such as Deepseek, Qwen, and GPT.
+2025 8th International Seminar on Research of Information Technology and Intelligent Systems (ISRITI)
+979-8-3315-5768-3/25/$31.00 ©2025 IEEE 459
+2025 8th International Seminar on Research of Information Technology and Intelligent Systems (ISRITI) | 979-8-3315-5768-3/25/$31.00 ©2025 IEEE | DOI: 10.1109/ISRITI68345.2025.11393253
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:51:38 UTC from IEEE Xplore.  Restrictions apply. 
+To enhance every models’ performance, we provide relevant
+medical context to them by using RAG. Therefore, it is hoped
+that each model can provide a more accurate response, and
+we can benchmark them to decide which one is the best in
+providing medical diagnoses.
+II. R ELATED WORKS
+A. Large Language Models in Healthcare
+Large Language Models (LLMs) are emerging in our daily
+lives, especially in the medical field. The AI model can
+determine a diagnosis through learning from large datasets of
+medical text, thus confirming their potential in the medical
+field [8]. The emerging LLMs influence is substantiated by
+the publications of 175 journals [9].
+Goh [10] integrated LLMs into diagnostic workflows in
+random clinical trials, resulting in a more accurate and faster
+time to diagnose a case. Another study did a slight different
+way, by comparing two AI (GPT-3.5 and GPT-4) to see which
+model can generate a more accurate and reliable diagnosis.
+The outcome displayed the potential of LLMs in diagnostic
+support for clinics [11].
+Regardless of what perks LLMs given, it still faces with
+issues with unreliability and accuracy, especially in high-risk
+scenario, where misdiagnosis can lead to fatality. A survey
+consisting of 550 studies displays both the possibilities of
+LLMs and also their drawbacks [12]. According to Chiu [13],
+in order to overcome the issues of accuracy and reliability of
+LLM, human oversight is still required to ensure there are no
+misdiagnoses, especially in a high-risk case.
+B. Retrieval-Augmented Generation in Medical Context
+Retrieval-Augmented Generation (RAG) is a method that
+combines external data resources like clinical guidelines,
+scientific literature databases, electronic health records, etc.
+Gargari also stated that RAG has become an important weapon
+to combat the challenges of stand-alone LLM in healthcare
+[14]. By providing external data resources that the models
+have not been programmed with, it also aids in preventing
+mislabeled information caused by human errors [15].
+A study by Miao [16] displayed the benefits, which are
+improving the accuracy of medical outputs, on combining
+LLM and RAG in nephrology for diagnosis. A similar study
+by Bora [17] also exhibited the improvement on the outcome
+by integrating RAG-based databases and LLMs with medical
+text, especially where computing resources are scarce.
+This has led to the generalizable benchmarking study that, in
+the field of medical retrieval-augmented generation, provides
+evaluation suites dedicated to the field that account for over
+7,000 sets of clinical queries [18]. Statistically significant
+gains have been indicated by using RAG in the context of
+summarizing tasks, which increases the accuracy up to 6%
+for clinical information extraction as measured by the study
+in [19].
+C. Evaluation Metrics for Medical AI Systems
+BLEURT, a learned metric based on BERT, was trained on
+millions of synthetic instances and followed up by fine-tuning
+on human scores, in order to estimate coherent judgment even
+in the regime of small and out-of-distribution data [20].
+In that sense, BERTScore is superior to n-gram based met-
+rics as the comparison is performed by the tokens of the lens of
+contextual embeddings. These are the main characteristics that
+make BERTScore particularly convenient to use in situations
+where what counts most is the precision of meaning, as in the
+case of clinical use [21].
+In the meantime, Semantic Answer Similarity (SAS) in-
+troduces a semantic assessment to question-answering task
+context because it employs a friendlier or harsher definition
+of the contact between question and answer. SAS has the
+capability to gauge outcomes comparable to those of human
+beings. This specialty is useful to assist in rating the medical
+responses [22].
+In more recent times, there is G-EV AL allowing deployment
+of massive language models (GLM; GPT-4 or the like). While,
+on one hand, G-EV AL was observed closer to them in terms of
+human judgment for open-ended tasks empirically. However,
+in contrast, evaluating by using LLM could be biased [23].
+D. Medical AI Evaluation in Non-English Languages
+Even though the use of LLM in medical regions focuses
+more on the English language, other linguistic contexts are
+beginning to be recognized. In Indonesia, it is impossible
+to practice without local language skills. Culturalization of
+medical AI framework needs to address specific problems in
+the Indonesian context, as well as the translation process to
+some names or terms in the medical area.
+When the research issues concerning medical AI assessment
+are considered through the perspective of Indonesia, a gap in
+the existing literature of a pronounced type is observed. The
+few existing literature cannot cover the huge field that LLM
+offers. So, it is critical to design the model so that the AI
+can still operate like normal even if the model is offered a
+non-English medical text.
+III. M ETHODOLOGY
+A. Dataset Overview and Description
+The current dataset consists of 45 medical cases that have
+been carefully selected, in order to reflect a wide range of
+diagnostic situations of a typical clinical practice. In every
+case description, there is the exact syndrome of a patient in
+Indonesian. The dataset also includes the respective ground
+truth medical diagnoses verified by a competent licensed medi-
+cal practitioner familiar with Indonesian medical language and
+Indonesian Clinical Trials Guidelines. Besides ground truth,
+the dataset also consists of the answer from each model.
+There are two different columns, which are the answer and
+the full answer. The answer column contains the diseases
+that the model predicts or diagnoses based on the medical
+cases. Meanwhile, the full answer column is the full answer
+from the model, including the conventional greetings and other
+460
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:51:38 UTC from IEEE Xplore.  Restrictions apply. 
+unnecessary information. The columns of the dataset can be
+seen in Table I.
+Our dataset is obtained through sampling of our hospital
+partner (RSUD Gunung Jati Cirebon) SOAP data. SOAP,
+stands for Subjective, Objective, Assessment, and Plan, is a
+standardized method for hospital to document patient med-
+ication progress. To ensure representativeness, we sampled
+the medical cases based on the ICD-10 keys (international
+medical coding for disease classification) exists in the dataset,
+so that we can cover all the diseases. However, limitations
+and biases may still potentially arise. Some diseases may be
+unrepresented due to their nonexistence in the records. Using
+data only from a healthcare partner may also introduce bias
+due to patient demographics and local institutional practices.
+B. Dataset Preprocessing
+First of all, we prepared a set of sample questions that
+represent various medical cases. Then, we gather the answers
+from different LLMs by prompting them. To increase response
+accuracy, we use the RAG approach using the previously
+stored Indonesian Clinical Trials Guidelines document inside
+the AstraDB vector database. Therefore, the models can now
+use the document as their reference source when giving
+diagnoses.
+After the data gathering step, we obtained the full diagnostic
+answer from each model. From the full answer of each model,
+we extract the predicted diseases. Then, we invited a medical
+practitioner to establish the ground truth for each sample
+medical case.
+The doctor provides the diagnoses for the medical cases
+based on her experience. The result that she provided is the
+main disease (the most potential to be the correct answer
+for the question) and the differential diagnosis (other possible
+similar diseases with similar symptoms in the question).
+C. Model and Techniques
+1) LLM Selection: Three well-known LLMs were chosen to
+be tested under two conditions, one being a standalone mode
+(no external knowledge is supplemented) and another being
+enhanced mode, provided by RAG. The selected models were
+QWEN 2.5 72B, GPT-4o mini, and Deepseek-V3.
+2) RAG Implementation: The RAG system is developed to
+incorporate information contained in the Indonesian Clinical
+Trials Guidelines as the sources of diagnostic knowledge. The
+retrieval module, which uses semantic similarity searching,
+then retrieves the relevant medical information based on the
+description of the patient symptoms.
+The prompt that was used in the RAG was framed in
+Indonesian in order to bring out consistency of evaluated
+models. The Indonesian Clinical Trials Guidelines document
+and the question for the sample medical case itself is in
+Indonesian. Therefore, to generate a consistent Indonesian
+answer, we utilized Indonesian prompt.
+D. Evaluation Techniques
+Before we evaluate the candidate sentences, we first nor-
+malized them by matching them to a standardized synonyms
+that was listed on the synonym map. Therefore, words with
+similar meanings, but different wordings, such as ”demam
+dengue” and ”demam berdarah” would be standardized to
+become ”demam berdarah dengue”. The synonym maps were
+obtained by mapping similar diseases based on the previous
+SOAP records.
+In practice, ”demam dengue” and ”demam berdarah
+dengue” are not the same, although they are both caused by the
+dengue virus. The difference is in the laboratory results. Based
+on Indonesian Clinical Trials Guidelines, ”demam dengue” can
+be a separate diagnosis due to the lack of ”demam berdarah”
+criteria. Meanwhile, a patient is diagnosed to have ”demam
+berdarah” if they already satisfy the ”demam berdarah” cri-
+teria. However, for our current research, we focused on more
+generalized results that are easier to comprehend by the public,
+so we standardized them to be the same.
+Next, four metrics of evaluation were complemented to
+make a complete analysis of performance:
+• BERT (Bidirectional Encoder Representations from
+Transformers) Score: Calculate the similarity score be-
+tween the candidate sentence and ground truth based on
+the sum of cosine similarities between the pre-trained
+BERT contextual embeddings of their tokens [21].
+• BLEURT: a trained evaluation metric based on BERT that
+conveys human-level judgment of reference versus can-
+didate sentence. BLEURT is not calibrated (normalized),
+so we plotted a distribution graph based on BLEURT and
+used it to compare the model’s performance [20].
+• SAS (Semantic Answer Similarity): A cross-encoder-
+based evaluation metric that estimates the semantic mean-
+ing of the answer or candidate sentence and compare it
+with the reference sentence [22].
+• LLM-based Judge or G-Eval: prompt-based evaluator that
+utilizes the GPT LLM family as the judge to simulate
+human quality judgment [23]. In our evaluation process,
+we utilized the GPT-4-Turbo.
+After that, inferential statistical tests are conducted to eval-
+uate the significance of each model score difference. There are
+two main hypotheses that we tested:
+1) Effect of RAG: Model with RAG performs better than
+the model without RAG. Let X denote the mean score.
+H0 : X(Deepseek RAG) ≤ X(Deepseek nonRAG)
+H1 : X(Deepseek RAG) > X(Deepseek nonRAG)
+2) Effect of model type: The model type has a significant
+effect on the score. Let j denote the model type that
+uses RAG and βj denote the effect (coefficient) score.
+H0 : βj = 0 for all j
+H1 : ∃j, such that βj ̸= 0
+E. Research Flow Overview
+The overview of our research flow can be seen in Fig-
+ure 1. We first started with defining the research problem
+and hypotheses. Next, we continue with documents gathering
+and RAG incorporation to models. After that, we sampled
+the medical cases from the hospital SOAP data and gathered
+461
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:51:38 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE I: Dataset’s Details
+Columns Description Data Type
+No the serial number of the medical case float
+Question the medical case statement in the form of question object (string)
+Dr Answer the ground truth for that medical case object (string)
+Qwen Answer diseases diagnosed by Qwen for that medical case object (string)
+GPT Answer diseases diagnosed by GPT for that medical case object (string)
+Deepseek RAG Answer diseases diagnosed by Deepseek for that medical case with RAG object (string)
+Deepseek Non RAG Answer diseases diagnosed by Deepseek for that medical case without using RAG object (string)
+Qwen Full Answer full answer from Qwen object (string)
+GPT Full Answer full answer from GPT object (string)
+Deepseek RAG Full Answer full answer from Deepseek using RAG object (string)
+Deepseek Non RAG Full Answer full answer from Deepseek without using RAG object (string)
+Fig. 1: Research Flow Flowchart
+diagnoses from models and ground truth from the doctor.
+Lastly, we normalized each model’s answer, then benchmarked
+the models. Hypothesis testing are conducted to evaluate the
+significancy of metrics difference between each model.
+All three models in this research are presented with uniform
+RAG setups and the same sample questions. However, we also
+include an additional model, which is Deepseek without RAG
+as a baseline to compare RAG and non-RAG LLM diagnostic
+capability. Deepseek is chosen due to its cost-effectiveness
+over other models. The instructions and prompts involved in
+carrying out the assessments were also uniform, so that the
+evaluation is considered ’fair’ for all models.
+IV. R ESULTS AND DISCUSSION
+Table II shows the descriptive statistics (mean and standard
+deviation) of the evaluation score for each model when they
+are benchmarked with the medical case dataset.
+From Table II, we can see that by overall mean, GPT’s
+performance is the best, followed by Deepseek with RAG,
+Qwen, and lastly, Deepseek without RAG. Deepseek without
+RAG rank as the last one, as it does not have any additional
+context given by RAG. From the table, it can also be observed
+that the standard deviation for both SAS and LLM-based judge
+scores is relatively high, suggesting that the values vary from
+very low to very high scores.
+From the BERT scores, it can also be inferred that all
+LLMs have better recall than precision in diagnosing diseases.
+In other words, the models tend to include many relevant
+(positive) terms in their diagnosis, but are inclined to over-
+predicting positives. Hence, resulting in a lower precision
+score than the recall score. However, in a medical diagnosis
+case, a higher recall score is more favorable than a higher
+precision score, because it is better to have a false positive
+than a false negative, so that there is no disease that is missed
+in the diagnosis.
+Next, we tested the hypotheses. A Shapiro-Wilk test is first
+conducted to test the data normality. The result can be seen
+in Table III. If p < 5 × 10−2, then the data is not normal.
+Based on the test, all SAS and LLM-based judge scores for
+each model are not normal, except LLM-based judge score
+for Deepseek without RAG. Therefore, for hypothesis testing
+that involves SAS or LLM-based judge scores, we will use
+non-parametric tests that do not require the data to be normal.
+For the first main hypothesis, we tested each metric from
+Deepseek with RAG and without RAG with t-test for normal-
+ized data and Wilcoxon test for unnormalized data. The result
+can be seen in Table IV. Among 4 out of 5 metrics, the result
+showed a statistically significant improvement of using RAG,
+with SAS being the only exception.
+For the second main hypothesis, we tested whether the
+model type has a significant effect on performance scores by
+comparing metrics from all models that are enhanced using
+RAG. The result can be seen in Table V. Unlike the first
+hypothesis, the result is more inconsistent, suggesting that
+model type may not have a significant effect for predicting
+the correct diagnosis for a disease.
+Besides scores such as BERT, SAS, and LLM-based Judge,
+we also evaluate each model’s performance with BLEURT.
+However, as stated in the Methodology part, the BLEURT
+score is not normalized, so we plotted the histogram to visu-
+alize the distribution of the BLEURT score of each model’s
+diagnosis. The histogram can be seen in Figure 2.
+The histograms in Figure 2 reveal that GPT has the best
+result because the distribution is skewed towards a positive
+score. However, it is left skewed, and still produces a high
+462
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:51:38 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE II: LLM Performance Descriptive Statistics (Mean and Standard Deviation)
+GPT Deepseek with RAG Deepseek without RAG Qwen
+Evaluation Metrics Mean σ Mean σ Mean σ Mean σ
+BERT’s Precision 0.820 0.043 0.812 0.039 0.791 0.05 0.814 0.035
+BERT’s Recall 0.874 0.053 0.875 0.042 0.843 0.044 0.850 0.058
+BERT’s F1 0.846 0.045 0.842 0.036 0.816 0.043 0.831 0.038
+SAS 0.688 0.286 0.653 0.255 0.414 0.249 0.494 0.296
+LLM-based Judge 0.755 0.204 0.758 0.227 0.691 0.289 0.616 0.286
+TABLE III: Each Metrics Shapiro-Wilk Test Result
+Evaluation Metrics GPT Deepseek with RAG Deepseek without RAG Qwen
+BERT’s Precision 6.18 × 10−1 3.77 × 10−1 2.09 × 10−1 1.52 × 10−1
+BERT’s Recall 7.56 × 10−2 8.70 × 10−1 5.35 × 10−1 8.38 × 10−2
+BERT’s F1 5.50 × 10−2 3.89 × 10−1 5.42 × 10−2 5.15 × 10−1
+SAS 3.16 × 10−8 4.17 × 10−9 1.20 × 10−7 8.13 × 10−7
+LLM-based Judge 1.51 × 10−4 8.14 × 10−3 2.23 × 10−1 2.76 × 10−2
+Fig. 2: BLEURT Distribution Histogram for Each LLM
+TABLE IV: Hypothesis 1 Testing for Each Metrics
+Evaluation Metrics Test Type p-value Conclusion
+BERT’s Precision t-test 4.37 × 10−3 Reject H0
+BERT’s Recall t-test 3.81 × 10−5 Reject H0
+BERT’s F1 t-test 1.34 × 10−4 Reject H0
+SAS Wilcoxon 1.15 × 10−1 Cannot reject H0
+LLM-based Judge Wilcoxon 2.84 × 10−6 Reject H0
+TABLE V: Hypothesis 2 Testing for Each Metrics
+Evaluation Metrics Test Type p-value Conclusion
+BERT’s Precision ANOV A 2.74 × 10−1 Cannot reject H0
+BERT’s Recall ANOV A 6.75 × 10−3 Reject H0
+BERT’s F1 ANOV A 5.56 × 10−2 Cannot reject H0
+SAS Friedman 3.05 × 10−4 Reject H0
+LLM-based Judge Friedman 1.41 × 10−2 Reject H0
+negative score (about -1.50). Next are Deepseek with RAG
+and Qwen. Both histograms are similar, but Deepseek with
+RAG is slightly better than Qwen because it does not have
+a strongly negative value. Lastly, there is Deepseek without
+using RAG. The histogram shows that the model prediction is
+unstable, with some predictions being good (positive score),
+but some are strongly negative.
+V. C ONCLUSION AND FUTURE WORK
+In conclusion, this study analyzes the diagnosis correctness
+of each popular LLM by collaborating with a doctor for
+the ground truth establishment. Each model is also enhanced
+by RAG using the Indonesian Clinical Trials Guidelines to
+provide context related to disease diagnosis. Then, we evaluate
+each model using context-based metrics.
+After reviewing the metrics and hypothesis tests, the result
+showed that there is a significant effect of using RAG to
+improve the model performance. However, our main finding is
+463
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:51:38 UTC from IEEE Xplore.  Restrictions apply. 
+that the model type does not have a significant effect for the
+correctness of medical diagnosis. Based on the overall mean
+score alone, the order of models is GPT, Deepseek with RAG,
+Qwen, and then followed by Deepseek without RAG, but the
+difference is not statistically significant. For clinicians, this
+finding provides an insight on practical deployment of the
+AI. It implies that providing relevant diagnosis knowledge is
+more important than model choices, thereby reliable diagnostic
+model can be achieved even with more cost-efficient models.
+Looking ahead, future research could focus on evaluating
+more diverse models and datasets. We plan to gather more
+data to be used as the medical cases in the benchmark dataset.
+Besides that, collaborating with more medical practitioners
+to establish the ground truth for each medical case is also
+beneficial, so that we can obtain a more representative ground
+truth. Choosing a specific medical dataset for evaluation, such
+as a dataset that only contains heart diseases, can also be used
+to benchmark each model to determine which model is the
+best in diagnosing diseases in a specific medical field.
+SUPPLEMENTARY CODES
+All codes that were used in our research can be
+accessed in our GitHub repository through the link:
+https://github.com/Ella-Raputri/LLMDiagnosisPPPK.
+CONTRIBUTORSHIP
+Ella Raputri: Methodology, Software, Formal Analysis,
+Investigation, Data Curation, Writing-Original Draft, Writing-
+Review & Editing, Visualization. Ari Jaya Teguh: Methodol-
+ogy, Software, Investigation, Writing-Original Draft. Saffanah
+Nur Hidayah: Validation, Resources. Andari Karina Anom:
+Resources. Nunung Nurul Qomariyah, Feri Setiawan :
+Conceptualization, Writing-Review & Editing, Supervision,
+Project Administration.

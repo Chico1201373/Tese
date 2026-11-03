@@ -25,6 +25,8 @@
 - Excluídos na leitura: **172** E2: 8, E3: 161, E4: 3
 - Incluídos para leitura integral: **211** (prioridade alta: 48)
 
-## Elegibilidade (texto integral)
+## Elegibilidade (texto integral, estudos prioritários)
 
-- Por fazer: textos integrais a obter e avaliar.
+- Textos integrais procurados: **48**; não obtidos: **2** (mantidos pelo resumo)
+- Avaliados: **46**; excluídos: **2** R0113 (I4), R0446 (I4)
+- Estudos incluídos na revisão: **209** (prioritários 46: 44 com texto integral e 2 só com resumo; restantes 163 por título e resumo)

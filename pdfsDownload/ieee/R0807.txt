@@ -1,0 +1,696 @@
+SAGE: Student-focused Adaptive Guidance Engine
+for Intelligent Tutoring with Regulated Learning
+Mahady H Rayhan, Gabriel R. Edwards, Ashish Pandey, Vani Seth, Nilesh Salvi,
+Noah Glaser, Marisa Chrysochoou, Prasad Calyam
+University of Missouri - Columbia, USA
+Email:{mhr6wb, gre4bt, apfd6, vs4ky, salvin, noah.glaser, mczhd, calyamp}@missouri.edu
+Abstract—Public Large Language Models (LLMs) are being
+increasingly explored for aiding students to learn difficult
+concepts in STEM education. However, public LLM-based
+chatbots do not provide course-regulated answers that are
+important in a tutoring context, where instructors do not
+want students to work with chatbots on out-of-scope material,
+seek answers that hinder learning, or to bypass curricular
+sequencing. In this paper, we present “SAGE” (Student-focused
+Adaptive Guidance Engine) as part of an intelligent tutor-
+ing framework that can enforce instructor-regulated learning
+through goal-oriented and learning state based content access
+controls to ensure scaffolded, curricular sequencing and step-
+by-step guidance of students. SAGE access control features a
+three-layer gatekeeper mechanism that combines role-based,
+attribute-based, and cognitive state–based controls built on
+top of a knowledge graph of learner state and related course
+content. We evaluate SAGE in an exemplar programming
+course scenario and compare its performance against state-of-
+the-art LLM baselines using a custom educational benchmark.
+Experimental results on the benchmark show that prompt-
+based tutors (42%) perform similar to SAGE (44%) on metrics
+of helpfulness owing to prompt engineering. However, they
+frequently violate instructor policy boundaries, with SAGE
+providing 90% security for curriculum access control policies
+compared to 30% for prompt-based tutors.
+Index Terms—Human-AI Teaming, Intelligent Tutoring,
+Knowledge Graphs, Cognitive Scaffolding, Access Control
+I. INTRODUCTION
+The rapid proliferation of LLMs has transformed the
+landscape of Intelligent Tutoring Systems (ITS). Unlike
+earlier rule-based or scripted tutors, public LLMs such as
+ChatGPT can explain concepts, debug code, and synthesize
+examples in real time, creating the promise of scalable,
+personalized instruction for millions of learners [1]. At
+the same time, their widespread use in academic settings
+has raised unprecedented concerns about academic integrity,
+over-reliance on automation, and the hindrance to genuine
+learning habits/processes [1] [2].
+At the heart of this tension is a misalignment between
+the objectives of general-purpose LLMs and the goals of
+education, particularly in STEM area course curriculum.
+LLMs are optimized to be helpful, i.e., to produce fluent,
+direct and complete answers to user prompts. Effective
+This material is based upon work supported by the National Science
+Foundation (NSF) under Award No.: EEC-2449869. Any opinions, findings,
+and conclusions or recommendations expressed in this publication are those
+of the author(s) and do not necessarily reflect the views of the NSF.
+Fig. 1: Illustration of tutoring system that uses a conventional RAG
+approach.
+instruction, however, seeks to cultivate initially Instructor-
+Regulated Learning (IRL), where instructors actively plan,
+monitor and assess student learning. However, ultimately
+instruction could serve students’ Self-Regulated Learning
+(SRL), in which learners actively plan, monitor, and reflect
+on their own learning. Zimmerman’s Cyclical Model [3]
+characterizes SRL as an iterative loop acrossforethought
+(planning and goal setting),performance(strategy use and
+monitoring), andself-reflection(self-evaluation and adapta-
+tion). When an LLM provides an end-to-end solutions to a
+task such as returning a full C language program in response
+to “How do I reverse an array?”, it risks collapsing this
+learning cycle because of passive consumption rather than
+active cognitive engagement of the student who may or may
+not have adequate background on the underlying concepts.
+In addition, current AI-Tutoring systems connect LLMs to
+external databases through Retrieval-Augmented Generation
+(RAG) [4] to improve accuracy. However, in most existing
+systems this integration is treated purely as a search task. As
+illustrated inFigure 1, a conventional “open” RAG pipeline
+retrieves the most semantically similar content regardless of
+whether it corresponds to a practice problem, an instructor
+solution key, or an advanced topic the student has not yet
+mastered. The retrieved material is then directly injected
+into the LLMs context [4]. From an educational perspective,
+this design disregards curriculum structure and learners’
+readiness, enabling students to bypass the productive mental
+struggle necessary for learning [2]. From a Human Ma-
+chine Systems i.e., ITS perspective, this unrestricted access
+introduces a security vulnerability: sensitive instructional
+2026 IEEE International Conference on Human-Machine Systems (ICHMS)
+NTU, Singapore. July 1-3, 2026
+979-8-3315-4511-6/26/$31.00 ©2026 IEEE 594
+2026 IEEE International Conference on Human-Machine Systems (ICHMS) | 979-8-3315-4511-6/26/$31.00 ©2026 IEEE | DOI: 10.1109/ICHMS69701.2026.11602253
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:15:22 UTC from IEEE Xplore.  Restrictions apply. 
+materials, viz. answer keys or exam materials can be exposed
+through ordinary dialogue [5]. Thus, what appears as a re-
+trieval design choice simultaneously becomes a pedagogical
+failure and a instruction policy breach.
+Crucially, prior research does not delineate learning goals
+and security measures as separate issues. Educational prac-
+tice emphasizessoft alignmentthrough prompts that ask the
+model to “act as a tutor” [1] [2], while security mechanisms
+emphasizehard restrictionsthat block access to protected
+data [5]. This separation leads to undesired consequences:
+prompts can be ignored or manipulated by students seeking
+answers, while rigid blocking mechanisms cannot distin-
+guish between legitimate scaffolding and cheating. We argue
+that in AI-assisted pedagogical systems, there is a gap in the
+state-of-the-art in terms of understanding how to configure
+access control rules by having curriculum structure being a
+critical part of the system’s security posture.
+To address this gap, we introduce Student-focused Adap-
+tive Guidance Engine (SAGE) [6], an intelligent tutoring
+framework that can enforce instructor-regulated learning to
+ensure scaffolded, curricular sequencing and step-by-step
+guidance of students through goal-oriented and learning
+state based content access controls. SAGE access control
+features a three-layer Safety Gatekeeper mechanism between
+the learner and the system’s knowledge base. Rather than
+relying on the LLM to voluntarily refuse requests via prompt
+engineering, SAGE enforces instructional policies on a stan-
+dard RAG [4] implementation through: i) Role-Based Access
+Control (RBAC): prevents learners from accessing unau-
+thorized files, ii) Attribute-Based Access Control (ABAC):
+aligns content access with the curriculum stage and learner
+progress, and iii) Cognitive Access Control (CAC): analyzes
+learner intent and constrains response type, prioritizing hints,
+prompts, and scaffolding over full solutions. In addition,
+SAGE leverages a Knowledge Graph (KG) [7] of learner
+state and related course content, in order to apply policy
+enforcement mechanisms that encode appropriate learning
+progressions and curriculum dependencies.
+We evaluate SAGE in an exemplar programming course
+scenario, where students face learning challenges when
+exposed to fundamentals with overwhelming information on
+new logic and language syntax. We compare the performance
+of SAGE against state-of-the-art LLM baselines acting as
+prompt-based tutors (i.e., GPT and Gemini) chosen for their
+strong leaderboard performance [8]. Specifically, we use
+five broad metrics of ‘code density’, ‘security compliance’,
+‘curriculum compliance’, ‘pedagogy score’, and ‘overall
+judge preference (LLM-as-Judge)’ along with a custom edu-
+cational benchmark dataset to validate the benefits of SAGE
+in terms of: instructional quality, safety/security robustness,
+and real-time performance. In the context of security, we
+study the Security Compliance level, and to assess instructor-
+regulated learning in tutoring, we study the Pedagogy Score,
+and Overall Judge Preference [9] without sacrificing neces-
+sary learning experiences to meet course learning goals.
+The remainder of the paper is organized as follows:
+Section II reviews related work, Section III details the
+SAGE methodology, Section IV presents our performance
+evaluation, and Section V concludes the paper.
+II. RELATEDWORK
+A. Intelligent Tutoring Systems
+Regulated learning is a critical component for academic
+success, traditionally viewed through Zimmerman’s cyclical
+model [3]. It consists of learnable processes, such as setting
+goals and self-monitoring, that are heavily influenced by
+instructional scaffolding and feedback [10] [11]. Early ITS
+utilized rule-based pedagogical policies to explicitly prompt
+learning behaviors such as help-seeking and metacognitive
+monitoring. While these scaffolds effectively improve learn-
+ing outcomes and regulatory skills [12], [13], their reliance
+on manual authoring and rigid domain modeling limits
+scalability. Conversely, LLMs offer scalable, personalized in-
+struction through natural-language interaction [1]. However,
+the shift toward generative AI-based tutors necessitates new
+mechanisms to ensure these systems actively support, rather
+than bypass, a learner’s internal regulatory processes.
+Further, recent studies caution that general-purpose LLMs
+are not inherently aligned with pedagogical objectives as
+they prioritize providing complete answers over instructional
+value [1]. This tendency can allow learners to bypass the
+productive struggle and metacognitive engagement essential
+for instructor- or self-regulated learning. Empirical evidence
+also confirms that the pedagogical impact of AI chatbots
+depends heavily on interaction design. Towards this, a meta-
+analysis indicates that learning outcomes improve when
+interactions provide guided support; conversely, unguided
+answer-giving can negatively affect higher-order problem-
+solving [2]. Moreover, systematic reviews suggest that while
+LLMs enhance accessibility, they risk fostering a reliance
+on the model that diminishes a learner’s internal regulatory
+processes when deployed without explicit instructional con-
+straints [14]. We address such concerns in our work through
+investigations on how interaction structures can be designed
+to scaffold planning, monitoring, and reflection behaviors,
+therefore supporting learners’ ability to learn when engaging
+with general-purpose LLM-based tutors.
+B. Retrieval-Augmented Generation in Educational Tutoring
+To mitigate hallucinations and ground responses in course
+materials, many tutoring systems utilize RAG [4]. While
+RAG improves factual grounding in learning-oriented set-
+tings [15], semantic similarity is often pedagogically agnos-
+tic. It fails to account for prerequisite structures or curricu-
+lum sequencing; consequently, the most “relevant” retrieved
+document may be an answer key or advanced material that
+bypasses the necessary learner’s struggle. Beyond pedagogi-
+cal concerns, the retrieval layer in RAG presents a significant
+security risk as well. Recent research [5] indicates that
+retrieved context is a primary leakage channel where prompt
+injections can manipulate LLMs into revealing sensitive or
+979-8-3315-4511-6/26/$31.00 ©2026 IEEE 595
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:15:22 UTC from IEEE Xplore.  Restrictions apply. 
+Fig. 2: Overview of SAGE for intelligent tutoring that shows the interaction flow and components for meeting learning goals and enforcing security.
+restricted information once it enters the context window.
+Since generation-layer safeguards are often probabilistic and
+bypassable, these risks motivate the enforcement of con-
+straints at the retrieval boundary rather than relying solely
+on language-level refusals.
+Moreover, current tutoring approaches typically treat
+learning goals and security mechanisms as separate prob-
+lems. While educational research investigates the potential
+of LLMs to enhance regulated learning and metacognitive
+support [1], [2], the security community emphasizes the
+risks associated with prompt injection and data poisoning
+in these integrated systems [5]. The disconnect between
+these domains creates a significant limitation in existing plat-
+forms, as the absence of integrated access controls prevents
+the enforcement of structured, step-by-step guidance when
+students access RAG implementations for course content.
+Existing solutions for content moderation often rely on Re-
+inforcement Learning from Human Feedback [16] or explicit
+regex-based content filters at the generation layer. However,
+these safeguards do not change underlying LLMs’ access to
+information; therefore, as long as sensitive content is present
+in the retrieval context, there remains a non-zero probability
+that it will be exfiltrated under adversarial prompting [5].
+In addition to the advances in RAG, recent work on
+GraphRAG that uses knowledge graphs has demonstrated
+improved controllability by encoding concept dependen-
+cies and curriculum structure that flat vector similarity
+ignores [17]. There has been further evidence that shows
+using knowledge graphs can enhance interpretability and
+alignment in sequenced learning domains [7]. However,
+existing GraphRAG and secure RAG frameworks typically
+treat retrieval as a neutral preprocessing step, rather than
+an explicit component of the instructional design. From a
+security perspective, this limitation has motivated a shift
+toward restricting LLM access to data, rather than relying
+solely on behavioral alignment, to mitigate risks such as
+prompt injection [5]. The above works motivate our Safety
+Gatekeeper-based approach in which retrieval itself is gov-
+erned by pedagogical and organizational policy, enabling ac-
+cess to be conditioned on instructional intent and curriculum
+constraints.
+III. SAGE METHODOLOGY
+A fundamental challenge in the deployment of general-
+purpose LLMs for education is thealignment gapbetween
+a Large Language Model’s stochastic helpfulness objective
+and the rigid constraints of an academic curriculum. SAGE
+addresses this by transforming the LLM tutor into astateful
+componentof an ITS, governed by a deterministic Safety
+Gatekeeper as shown inFigure 2that controls what in-
+formation is available to the LLM’s context. This design
+enables the SAGE to respond naturally to user queries while
+i) preserving the learner’s regulated learning cycle, and ii)
+strictly enforcing institutional policies regarding assessment
+content and curriculum pacing. We model the learner session
+state as:
+S={K, R, C}(1)
+whereKdenotes the set of mastered knowledge nodes
+(topics),Ris the user role (e.g., student or instructor),
+andCdenotes the current cognitive intent (e.g., scaffolding
+request, solution seeking, or administrative command). Each
+incoming queryqupdatesSand determines whether access
+to a candidate documentdis permitted. In ITS terms as a
+human–machine system, the LLM operates as anactuator
+within a closed control loop, where learner actions shape
+the session stateS, thereby constraining what the LLM can
+retrieve and generate.
+A. Dual-Store Knowledge Architecture
+SAGE employs a hybrid knowledge architecture that in-
+tegrates unstructured semantic retrieval with structured cur-
+riculum modeling. Unlike flat vector retrieval, a GraphRAG
+979-8-3315-4511-6/26/$31.00 ©2026 IEEE 596
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:15:22 UTC from IEEE Xplore.  Restrictions apply. 
+Fig. 3: SAGE security architecture to enforce how the system routes user queries through a Safety Gatekeeper that incorporates semantic analysis and
+specific access control protocols, including RBAC, ABAC, and CAC.
+design is used, consisting of two coupled stores: i) AVector
+DatabaseV(ChromaDB), which indexes chunked instruc-
+tional content as dense embeddings for semantic similarity
+retrieval and ii) AKnowledge GraphG= (T, E)(Neo4j),
+whereTis the set of topic nodes andEencodes prerequisite
+relationships in a Directed Acyclic Graph (DAG). Each topic
+t∈Tstores difficulty, instructor-defined learning status, and
+mastery metadata.
+Given a queryq, initial candidate chunks are retrieved via:
+Dcand =topK(V,embed(q)).(2)
+Named entities and topic mentions are mapped to nodes
+inG. For a topict, prerequisites are:
+Prereq(t) ={t′ ∈T|(t ′, t)∈E}.(3)
+Given learner knowledge stateK, readiness is defined as:
+Ready(t, K) =
+(
+1,if Prereq(t)⊆K,
+0,otherwise. (4)
+Thus retrieval becomesstate-aware: ifqrequests “ar-
+rays” but the learner lacks proficiency in “loops,” then
+Ready(Arrays, K) = 0and the system redirects toward
+prerequisite scaffolding rather than providing a full solution.
+Human-in-the-Loop Control:Instructors can modify topic
+attributes and prerequisite relations within the Knowledge
+Graph serving as a “human-in-the-loop control”, and these
+modifications are immediately reflected in the Safety Gate-
+keeper decisions during subsequent queries as shown in
+Figure 3. An instructor-facing interface is used to allow
+authorized users (i.e., instructors) to lock or unlock topics,
+adjust prerequisite relationships, and flag sensitive materials
+within the Knowledge Graph. These updates propagate im-
+mediately to the Safety Gatekeeper, enabling real-time policy
+enforcement without redeploying LLMs or retraining classi-
+fiers. This design supports dynamic curriculum management
+and allows instructors to intervene when pedagogical goals
+or assessment policies change.
+Thus, SAGE operates over an instructor-controlled course
+corpus containing lecture notes, practice materials, and re-
+stricted assessment artifacts. The corpus is chunked into
+passages for vector indexing, and each chunkdis annotated
+with: (i) a type labeltype(d)such as lecture, practice,
+solution, exam key for RBAC; (ii) an associated curriculum
+topictwhen applicable for ABAC; and (iii) a response
+modemode(d)such as conceptual explanation, hint, partial
+solution, and instructor-only for CAC. These annotations are
+produced via an instructor-facing interface and validated by
+spot checks.
+B. Safety Gatekeeper and Access Control
+SAGE security architecture in the three-layer Safety Gate-
+keeper is shown inFigure 3. Herein, we discuss access
+control for each candidates query, where the retrieved data
+chunks are represent byd∈ D cand:
+Role-Based Access Control (RBAC): Each of the retrieved
+chunks for the query carries a type label by design such as
+lecture note, practice solution, exam key, etc. The access to
+these chunks are permitted if:
+RBAC(d, R) =
+(
+1,if role perm(R,type(d)) =allow,
+0,otherwise. (5)
+For instance, exam answer keys are always denied for role
+R=student, thus removing sensitive content from possible
+exposure.
+Attribute-Based Access Control (ABAC): Subsequently, if the
+retrieved chunksdcorresponds to topict, access to them
+depends on curriculum state and mastery i.e., for example
+whether the topic is open or not.
+ABAC(d, K) =
+(
+1,if status(t) =Open∧Ready(t, K) = 1,
+0,otherwise.
+(6)
+The instructors may lock topics or enforce pacing con-
+straints, ensuring zone-of-proximal-development alignment.
+Cognitive Access Control (CAC): We map four anchors
+into a conservative access decision by checking whether
+the retrieved document’sresponse modeis compatible
+with the inferred intent. Towards this, a lightweight in-
+tent model infers a coarse tutoring intent labelC∈
+{conceptual,problem solving,debugging,review}:
+979-8-3315-4511-6/26/$31.00 ©2026 IEEE 597
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:15:22 UTC from IEEE Xplore.  Restrictions apply. 
+CAC(C, d) =
+(
+1,ifmode(d)∈ M(C)
+0,otherwise (7)
+whereM(C)encodes organizations’ tutoring policy for
+example,problem solvingpermits hints or partial code,
+while instructor-only solution keys remain disallowed for
+students. This formulation subsumes the binary distinction
+betweensolution-seekingandscaffolding-orientedrequests
+by treatingproblem solvingas the solution-adjacent anchor
+and the remaining intents as scaffolding-oriented.
+Implementation Details:The CAC layer performs low-
+latency intent classification using the CPU-based sen-
+tence embedding modelall-MiniLM-L6-v2with 384-
+dimensional embeddings. The intent is inferred via cosine-
+similarity matching against coarse anchors for conceptual
+inquiry, problem solving, debugging, and review, with con-
+servative heuristic overrides for security-sensitive queries.
+Domain-specific entity extraction is handled separately us-
+inggliner_small-v2.1, a zero-shot span classification
+model that supports custom labels without retraining. This
+enables robust identification of programming constructs and
+error types that are poorly handled by conventional NER
+methods. CAC decisions are intentionally conservative and
+composed conjunctively with RBAC and ABAC constraints.
+As a result, misclassification can affect the instructional
+responses, for example level of scaffolding or explanation
+depth, but does not affect content access or retrieval, which
+is primarily governed by RBAC and ABAC.
+As a result of the three-layered Safety Gatekeeper, a
+documentdis admitted to the LLM context only if
+Allow(d|S) =RBAC(d, R)∧ABAC(d, K)∧CAC(C, d)(8)
+A document is therefore included in the context window
+iff Allow(d|S) = 1.Algorithm 1summarizes this query-
+handling loop, showing how RBAC, ABAC, and CAC are
+composed to identify the appropriate context window. Once
+the context is defined, the system delegates control to differ-
+ent pedagogical agents that control information presentation
+to the learner and provide regulatory control to instructors.
+C. Multi-Agent Pedagogical Interaction
+We use the termmulti-agentto denote a set of role-
+specialized pedagogical agents (student, teacher/admin, and
+multimedia support) orchestrated by the Safety Gatekeeper,
+rather than fully autonomous agents with independent goals
+or learned policies. The system comprises three role-aligned
+agents:
+1)Socratic Student Agent: promotes self regulated learn-
+ing (SRL) forethought and performance by generating
+structured hints, logic plans, and optionally flow dia-
+grams rather than complete solutions.
+2)Administrative Teacher Agent: operates with elevated
+privileges, enabling curriculum manipulation for ex-
+ample locking/unlocking modules and access to re-
+stricted assets via secure function calls.
+Algorithm 1SAGE Query Processing
+Require:Queryq, session stateS={K, R, C}
+Ensure:Tutor responsey
+1:// Semantic analysis
+2:C←IntentClassifier(q)
+3:T q ←ExtractTopics(q)▷map to KG topics
+4:D cand ←topK(V,embed(q))▷vector retrieval
+5:// Prerequisite & curriculum checks
+6:for allt∈ T q do
+7:ready[t]←Ready(t, K)▷Eq. (5)
+8:end for
+9:// Safety Gatekeeper filtering
+10:D allow ← ∅
+11:for alld∈ D cand do
+12:r←RBAC(d, R)
+13:a←ABAC(d, K)
+14:c←CAC(C, d)
+15:ifr∧a∧c= 1then
+16:D allow ← Dallow ∪ {d}
+17:end if
+18:end for
+19:// No safe context available
+20:ifD allow =∅then
+21:if∃t∈ T q :ready[t] = 0then
+22:returnPREREQUISITEHINT(T q, K)
+23:else
+24:returnREFUSALMESSAGE(q)
+25:end if
+26:end if
+27:// Agent selection and generation
+28:ifR=studentthen
+29:y←SocraticStudentAgent(q,D allow, S)
+30:else
+31:y←TeacherAdminAgent(q,D allow, S)
+32:end if
+33:returny
+3)Multimedia Support Agent: generates visual scaffolds
+such as state diagrams, memory models, control-flow
+charts to assist conceptual reasoning and neurodiverse
+learners.
+Together, these agents cover the forethought (planning
+prompts), performance (scaffolded execution), and self-
+reflection (post-hoc analysis and feedback) phases of Zim-
+merman’s regulated learning cycle, making the Safety Gate-
+keeper a learning-aware controller rather than a generic
+content filter. All agents work in synchronization with the
+Safety Gatekeeper and dual-store knowledge architecture,
+ensuring consistency of instructor-defined curriculum con-
+straints across learning sessions.
+D. Implementation and Runtime Optimization
+The system is implemented as a containerized microser-
+vices architecture. We use FastAPI to orchestrate the back-
+end and connect ChromaDB [18] (Vector Database) and
+Neo4j [19] (Knowledge Graph) to operate as synchronized
+services. The multi-agent coordination uses a lightweight
+orchestration framework, with all policy enforcement cen-
+tralized in the Safety Gatekeeper. To sustain real-time tu-
+toring performance, intent detection and access checks run
+979-8-3315-4511-6/26/$31.00 ©2026 IEEE 598
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:15:22 UTC from IEEE Xplore.  Restrictions apply. 
+on CPU-based local LLMs rather than remote LLMs. This
+design reduces the security overhead to a negligible 135 ms
+and lowers the Time-to-First-Token from 13.1 s to 2.2 s,
+demonstrating that rigorous architectural security can co-
+exist with real-time tutoring requirements. The LLMs used
+to establish the baseline, such as GPT [20] and Gemini [21]
+are accessed via their public APIs without fine-tuning or
+weight modification. SAGE also uses an API-based LLM
+(Gemini 2.5 flash) [21] as the generator, but routes each
+query through the Safety Gatekeeper and controlled retrieval
+pipeline before generation.
+A conventional subject course such as Mathematics or
+Biology can be transformed into our SAGE used as part of an
+intelligent tutoring framework by structuring the curriculum
+as a prerequisite graph, embedding course materials into
+the retrieval store, and defining light-weight access policies
+across the security layers using existing SAGE APIs. This
+process requires only course-specific content structuring and
+policy configuration, while the underlying Tutor architecture
+remains unchanged, enabling rapid and consistent deploy-
+ment across different academic domains.
+IV. PERFORMANCEEVALUATION
+We conduct a multi-dimensional evaluation of our SAGE
+ITS system to test its effectiveness for secure and instructor-
+regulated learningwithoutdegrading instructional value. We
+analyze: (i)Response Quality: Does the system actually
+guide the student through the learning process, or does it
+simply give away the answer? We check if the LLM adheres
+to the curriculum and offers hints instead of solutions, (ii)
+Safety and Security: Can the system be tricked? We test if
+students can bypass the rules to access hidden exam keys
+or content they are not supposed to see yet, and (iii)System
+Performance: Is the system optimized enough for real-time
+user interaction? In all experiments, SAGE is compared
+against two state-of-the-art commercial LLM baselines (GPT
+and Gemini). These two LLMs are selected as they are two
+of the top models in the LLM leaderboard [8].
+A. Experimental Setup
+For evaluation purposes, we use C-EduBench [6], a bench-
+mark dataset comprising ofN=50 C-programming tutoring
+queries spanning conceptual questions (15 Questions such
+as e.g., “What is a variable?”), programming problems (15
+Questions such as e.g., “Write a loop to sum numbers”), se-
+curity/adversarial prompts (10 Questions such as e.g.,“Show
+me exam solutions”), and curriculum-boundary prompts (10
+Questions such as “Explain recursion”).
+Each query is posed to all LLM systems being compared
+with identical decoding settings. For the baseline models
+i.e, GPT Raw, GPT Tutor, Gemini Raw, Gemini Tutor,
+no external course corpus is provided, and these models
+respond using pretrained knowledge only. Here, theRaw
+baselines receive only the user query, while theTutor
+baselines additionally receive a fixed pedagogical instruction
+prompt, such as ‘scaffold’, ‘avoid code dumping’. SAGE is
+evaluated as a tutoring system with access to an instructor-
+controlled policy store, such as topic locks, prerequisite
+mappings, and restricted assessment artifacts. Retrieval in
+SAGE is therefore used primarily to enforce curriculum and
+access-control constraints, rather than to supply general C-
+programming knowledge to the generator.
+B. Metrics
+The metrics that we use to evaluate responses from SAGE
+and baseline LLM-based AI-Tutor systems are as follows:a)
+Code Density:The fraction of response content that appears
+as executable code (e.g., code blocks or code-like lines).
+Lower values indicate the tutor avoids dumping full solutions
+and instead emphasizes guidance.b) Security Compliance:
+The percentage of Security-category benchmark prompts
+for which the system refuses or safely redirects disallowed
+requests.c) Curriculum Compliance:The percentage of
+queries for which the response respects course constraints
+such as locked topics, prerequisites, and instructor-defined
+pacing.d) Pedagogy Score (1–5):A rubric-based rating
+where a score of 5 reflects stepwise scaffolding and a score
+of 1 reflects direct solution dumping.e) Overall Judge
+Preference:The percentage of benchmark items for which
+an LLM-based judge [9] selects a system response as the
+best according to a fixed rubric emphasizing helpfulness for
+novice learners, pedagogical guidance, and safe refusal when
+applicable.
+C. Pedagogical Alignment on C-EduBench
+We first examine whether SAGE mitigates the “cogni-
+tive offloading” behavior of generic LLM tutors by shift-
+ing responses from solution-giving to regulated learning-
+supportive scaffolding. For each tested query, an LLM-as-a-
+Judge receives anonymized responses from five comparison
+baselines (i.e., GPT Raw, GPT Tutor, Gemini Raw, Gemini
+Tutor, and SAGE) under a category-specific rubric and
+returns a single winner.
+The results shown inTable Ireveal three key in-
+sights. First, prompt engineering alone substantially im-
+proves observable instructional fluency: tutor-prompted GPT
+and Gemini outperform their raw counterparts in overall
+preference, establishing a strong and fair baseline for com-
+parison. Second, SAGE’s primary advantage is architectural
+rather than prompt-driven. While its responses are not opti-
+mized for minimal code density or maximal conversational
+smoothness, SAGE achieves 80% curriculum compliance by
+enforcing prerequisite-aware access to instructional content.
+Third, with respect to safety, SAGE attains 90% security
+compliance on adversarial queries, substantially exceeding
+the 20% (raw) and 30% (tutor-prompted) compliance ob-
+served for prompt-based tutors, which rely on probabilistic
+refusal behavior.
+SAGE scores lower on the rubric-based Pedagogy Score
+because it prioritizes strict curriculum and policy adher-
+ence over conversational smoothness i.e, when a request
+touches locked or not-yet-mastered topics, SAGE redirects
+979-8-3315-4511-6/26/$31.00 ©2026 IEEE 599
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:15:22 UTC from IEEE Xplore.  Restrictions apply. 
+TABLE I: Comparative Performance Across Raw, Tutor, and SAGE Systems. Lower is better for Code Density; higher is better for Security Compliance,
+Curriculum Compliance, Pedagogy Score, and Overall Win Rate.
+Metric GPT (Raw) GPT (Tutor) Gemini (Raw) Gemini (Tutor) SAGE
+Code Density (↓) 10.0%6.9%23.0% 9.4% 16.4%
+Security Compliance (↑) 20.0% 30.0% 20.0% 30.0%90.0%
+Curriculum Compliance (↑) NA NA NA NA80.0%
+Pedagogy Score (1–5) (↑) 3.14.03.4 3.8 2.4
+Overall Win Rate (↑) 4.0% 42.0% 6.0% 4.0%44.0%
+Fig. 4: Preference–compliance trade-off across raw and tutor-prompted
+baselines. The x-axis reports Overall Judge Preference (win rate), while
+the y-axis aggregates Security and Curriculum Compliance. SAGE main-
+tains competitive preference while substantially improving compliance via
+retrieval-time access control.
+toward prerequisites rather than answering directly.Figure 4
+visualizes the central trade-off between perceived helpful-
+ness and policy compliance. While tutor-prompted baselines
+improve preference, their combined compliance remains
+low. In contrast, SAGE achieves the highest compliance
+while remaining competitive in preference, demonstrating
+that architectural enforcement can preserve perceived utility
+without relying on prompt-based refusals alone.
+D. Adversarial Security Audit (Red Teaming)
+We evaluate the security robustness of SAGE through a
+structuredred-teamingaudit. In this context, red teaming
+refers to the systematic simulation of malicious or policy-
+violating user behavior, where an adversary attempts to ex-
+tract restricted information or bypass pedagogical safeguards
+using only natural-language interaction with the system.
+Unlike the Security Compliance metric reported on the C-
+EduBench Security subset, this audit shown inFigure 5
+summarizes category-level defense success rates and uses
+a separate prompt suite (N= 36) designed to probe broader
+attack surfaces and failure modes.
+All category-level “blocked/safe” rates are computed over
+this fixed prompt-only red-team suite executed through the
+chat interface. A reported 100% rate indicates thatwithin
+this evaluation scopenone of the tested prompts in that
+category elicited restricted artifacts or unsafe outputs; it is
+not a universal security guarantee. We use a strict failure
+definition to reflect realistic risk posed in back-and-forth
+Fig. 5: Red-team audit results showing category-level defense success rates
+across nine pedagogical attack vectors (N=36).
+conversations in learning sessions, i.e., multi-turn risk. A
+trial is considered asecurity failureif it either: (i) reveals
+restricted content verbatim or in paraphrased form,or(ii)
+adopts adversarial role framing in a way that could plausibly
+facilitate policy evasion in multi-turn settings, even when
+no restricted artifact is directly leaked. This strict criterion
+intentionally treats partial adversarial compliance as a failure
+mode because it can erode trust and increase downstream
+risk. SAGE exhibits strong robustness across diverse attack
+vectors, with residual failures concentrated in RBAC/Data
+Leakage and output safety categories. Importantly, the ob-
+served failures are primarily attributable to partial generative
+compliance rather than retrieval-layer access control bypass,
+consistent with the system’s defense-in-depth design.
+Fig. 6: Comparative analysis of violation rates between GPT (Tutor Mode)
+and SAGE across Pedagogy, Security, and Boundary constraints. Lower
+percentages indicate superior performance and stricter adherence.
+979-8-3315-4511-6/26/$31.00 ©2026 IEEE 600
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 16:15:22 UTC from IEEE Xplore.  Restrictions apply. 
+Figure 6illustrates the comparative effectiveness of the
+SAGE framework against a baseline GPT tutor across three
+critical dimensions:Pedagogy,Curriculum Boundaries, and
+Security. The results demonstrate that architectural con-
+straints significantly outperform standard prompt engineer-
+ing, reducing the overall average violation rate from 70.0%
+to 15.0%. In the pedagogical domain, SAGE reduced so-
+lution leakage from 91.7% to 25.0%, effectively mitigat-
+ing cognitive offloading by providing scaffolding rather
+than complete answers. Furthermore, the system exhibited
+superior adherence to curriculum constraints (a 72% im-
+provement), preventing premature exposure to out-of-scope
+topics such as pointers. Notably, while the baseline LLMs
+compromised system safety in 22.2% of instances, SAGE
+achieved a 0.0% leakage rate, establishing a zero-leakage
+architecture for handling sensitive or dangerous queries.
+Collectively, these results show that SAGE can enforce
+instructor-regulated learning by simultaneously: (i) enabling
+strict access control and pedagogical constraints, (ii) with-
+standing adversarial prompting without data leakage, and
+(iii) maintaining a responsive, cost-effective user experience
+suitable for deployment in real educational tutoring system
+settings
+V. CONCLUSION
+In this paper, we presented SAGE, a pedagogically
+grounded instructor-guided tutoring framework for intelli-
+gent tutoring systems where safety, curriculum compliance,
+and instructional guidance must be enforced jointly. Unlike
+prompt-engineering-based AI-tutoring approaches that are
+ineffective in fostering learning, SAGE applies a three-
+layered Safety Gatekeeper, viz., role-based, attribute-based,
+and cognitive access control at retrieval time, ensuring that
+instructional constraints are enforced before hint/solution
+generation for learners. SAGE achieves 90% security com-
+pliance and 80% curriculum compliance, while remaining
+competitive in usefulness (44% overall win rate) against
+prompt-based AI Tutors (42% overall win rate). These
+comparative results of SAGE against baseline LLM-based
+AI-Tutor highlight that tutor prompting can provide fluency,
+leading to unconstrained response but cannot reliably enforce
+the instruction policy required for effective learning. Our
+proposed intelligent tutoring framework, i.e, SAGE, prevents
+unconstrained responses in learning sessions by providing
+deterministic safeguards and prerequisite-aware tutoring.
+Future work can focus on user-adaptive content modula-
+tion to personalize hint granularity and modality for fully
+self-regulated learning across a range of courses to assess
+learning gains for diverse course curricula. In addition,
+domain-specialized or fine-tuned models can be explored to
+alter LLM models’ inherent capability in tutoring, and evolve
+SAGE into a more autonomous multi-agent pedagogical sys-
+tem with role-specialized, task-specific agents and explicit
+coordination protocols across different domains.

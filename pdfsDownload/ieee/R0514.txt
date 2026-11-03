@@ -1,0 +1,507 @@
+AI-Driven Diabetes Management: A
+Retrieval-Augmented Conversational Approach*
+Anass BENGMAH, Abdelhakim KHAOUITI, Mahmoud EL HAMLAOUI, Rdouan FAIZI, Bouchaib BOUNABAT
+ENSIAS, Mohammed V University in Rabat
+Rabat, Morocco
+{anass.bengmah, abdelhakim.khaouiti, mahmoud.elhamlaoui, rdouan.faizi, bouchaib.bounabat}@um5.ac.ma
+Abstract—This paper presents Diabot, a specialized conversa-
+tional chatbot designed to assist individuals managing diabetes.
+The development of Diabot addresses a critical need for accurate,
+accessible, and empathetic diabetes information in a digital
+format. Three approaches were explored to enhance the chatbot’s
+capabilities: prompt engineering, fine-tuning of Large Language
+Models (LLMs), and Retrieval-Augmented Generation (RAG).
+The implementation focuses on contextual filtering, specialized
+LLM utilization, and an intuitive user interface. The RAG
+approach emerged as the most effective solution, overcoming
+hardware limitations and resource constraints while maintaining
+response accuracy. The system architecture, implementation
+challenges, and future improvements are discussed, including
+the integration of calculation capabilities for precise numerical
+responses. Diabot demonstrates the potential of specialized con-
+versational AI in healthcare, particularly for chronic condition
+management like diabetes.
+Index Terms—Conversational AI, Diabetes Management,
+Large Language Models, Retrieval-Augmented Generation,
+Healthcare Chatbot, Prompt Engineering
+I. INTRODUCTION
+Diabetes affects approximately 537 million adults world-
+wide, and projections suggest an increase to 783 million by
+2045 [14]. In Morocco specifically, the prevalence rate is
+estimated at 10.6% among those over 20 years old, translating
+to approximately 2.5 million affected individuals, with over
+40% unaware of their condition. This growing health concern
+necessitates innovative approaches to diabetes education, man-
+agement, and support.
+The digital transformation of healthcare has accelerated the
+development of AI-driven solutions, yet general-purpose chat-
+bots often fall short in providing the specialized, accurate
+information required for medical domains. When individ-
+uals search for health information online, they frequently
+encounter misinformation or struggle to verify the reliability of
+sources. This can lead to unnecessary healthcare consultations
+driven by fear and confusion, or worse, to inappropriate self-
+management decisions. In this context, we developed Diabot,
+a specialized conversational AI system focused on diabetes
+care and management. Unlike general-purpose chatbots trained
+on broad datasets, Diabot is designed to provide precise,
+contextually relevant information specific to diabetes. The
+This research was supported by AL-KHAW ARIZMI project.
+system aims to enhance diabetes management by offering
+evidence-based guidance, personalized advice, and reliable
+information in an accessible format.
+The rest of the paper is structured as follows: Section 2
+presents the related work in healthcare chatbots and diabetes
+management systems. Section 3 analyzes the differences be-
+tween specialized and general language models in health-
+care contexts. Section 4 explores three approaches to LLM
+specialization: prompt engineering, fine-tuning and Retrieval-
+Augmented Generation (RAG). Section 5 details the sys-
+tem architecture of Diabot, describing its layered approach
+including contextual filtering, core system implementation,
+and user interface design. Section 6 presents the evaluation
+methodology and comparative analysis of the three special-
+ization approaches. Finally, Section 7 concludes the paper
+with findings and discusses future research directions for
+specialized healthcare conversational AI systems.
+II. RELATED WORK
+The development of healthcare chatbots has moved quickly,
+shifting from simple rule-based systems to more advanced AI-
+driven tools. A systematic review by Laranjo et al. [1] pointed
+out both opportunities and risks: these systems can expand
+access to health services, but they also raise questions of safety
+and effectiveness.
+Later, Montenegro et al. [2] examined in more detail the
+difficulties of applying such tools in real healthcare envi-
+ronments. They drew attention to both technical constraints
+and ethical concerns, insisting that domain-specific knowledge
+and context sensitivity are crucial. These reflections strongly
+shaped the way specialized healthcare chatbots should be built,
+particularly with respect to accuracy and user trust. Within the
+diabetes field, a number of solutions have appeared. Winkler
+et al. [4], for instance, tested a scaffolding-oriented conversa-
+tional agent in online education. Their findings suggested that
+structured dialogues can make it easier to understand complex
+material.
+Cappon et al. [5] also reviewed digital technologies for man-
+aging diabetes, paying close attention to continuous glucose
+monitoring and its interaction with decision-support mech-
+anisms. They concluded that data integration, along with
+contextual awareness, is essential for effective interventions.
+This point had a direct impact on the way we designed our979-8-3315-9878-5/25/31.00©2025IEEE
+2025 12th International Conference on Wireless Networks and Mobile Communications (WINCOM) | 979-8-3315-9878-5/25/$31.00 ©2025 IEEE | DOI: 10.1109/WINCOM65874.2025.11313355
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:59:51 UTC from IEEE Xplore.  Restrictions apply. 
+system.
+Liu et al. [8] later examined how prompt design can guide
+LLMs toward better responses in healthcare contexts. Their
+work showed that carefully framed instructions can signifi-
+cantly influence output quality. Building on this perspective,
+Tamenaoul et al. [15] proposed a User Prompt meta-model that
+systematizes recurrent patterns of effective prompts for GPT-
+based systems. Their approach suggests that by abstracting
+recurring prompt patterns into a meta-framework, prompts can
+be crafted systematically rather than heuristically, leading to
+improved precision and consistency.
+Finally, for Retrieval-Augmented Generation (RAG), the work
+of Lewis et al. [10] established the fundamental architecture
+that combines knowledge retrieval with generative capabilities.
+Follow-up work by Izacard and Grave [11] indicated that RAG
+improves factual accuracy while preserving conversational
+flow. Together, these contributions informed our decision to
+adopt RAG in the diabetes chatbot.
+III. SPECIALIZED VS. GENERALLANGUAGEMODELS
+Modern Large Language Models (LLMs) such as GPT-
+4, Claude, and LLaMA can generate fluent text and handle
+diverse topics with ease. Their training relies on huge and
+varied datasets, which explains their versatility. That same
+general training, however, limits their precision in highly
+technical areas like healthcare.
+General-purpose systems frequently stumble over domain-
+specific vocabulary and constraints. They may produce an-
+swers that sound smooth but are misleading or even wrong. In
+medicine, such errors are not trivial—they can affect clinical
+decisions or patient self-care. Recent studies have emphasized
+the need for domain-specific models in healthcare to ensure
+accuracy and relevance in medical contexts.
+Choosing between general and specialized models involves
+several trade-offs. General-purpose models provide broad cov-
+erage, but often at the cost of depth. Specialized models, on
+the other hand, tend to be more reliable within their niche but
+demand curated datasets, extra training, and suitable infrastruc-
+ture. Outside their domain, their performance usually drops.
+The decision thus depends on whether the priority is breadth
+or depth, and on the resources available for development.
+IV. APPROACHES TOLLM SPECIALIZATION
+To adapt LLMs for specific medical purposes such as dia-
+betes support, three strategies are usually considered: prompt
+engineering, fine-tuning, and Retrieval-Augmented Generation
+(RAG).
+Prompt engineering.With this method, the model is left
+unchanged, and the effort lies in crafting inputs that steer it
+toward the intended response. This approach is lightweight in
+terms of resources and quick to apply. Yet, its success depends
+strongly on the quality of the prompts, and it rarely matches
+the depth of more resource-intensive methods.
+Fine-tuning.In contrast, fine-tuning changes the model
+itself by retraining it on domain-specific examples. This pro-
+cess adjusts its internal weights so that it captures medical
+knowledge more accurately. The outcome is usually more
+precise, but the costs are high: specialized datasets, computing
+power, and careful monitoring of biases are all necessary.
+Retrieval-Augmented Generation.RAG combines two
+elements: retrieval from an external knowledge source and
+generative processing by the model. The query first retrieves
+relevant passages, and then the model uses them to generate
+its answer. This keeps the conversation natural but grounds it
+in reliable data. Because the knowledge base can be updated,
+RAG provides a way to stay current without full retraining.
+Each of these methods carries its own balance of effort,
+accuracy, and cost. The “right” choice depends largely on
+the available resources, the intended scope of the healthcare
+application, and the trade-off the designers are willing to make
+between speed and specialization.
+V. SYSTEMARCHITECTURE
+The architecture of Diabot was designed in layers, each
+with a distinct purpose. At the front end lies acontextual
+filter, which acts like a gatekeeper: only questions related to
+diabetes are allowed through. This filtering step is vital to
+keep the system focused and avoid off-topic answers. Behind
+it sits thecore engine, where the actual reasoning takes place.
+Depending on configuration, it can rely on prompt engineering,
+fine-tuning, or RAG to produce responses. On top of this core,
+auser interface—inspired by ChatGPT’s simplicity—makes
+interaction straightforward, so users can ask questions and
+get answers without friction. We also sketched a future en-
+hancement: acalculation modulethat would handle numeric
+queries with greater accuracy.
+In practice, the process is sequential. First, the filter checks
+whether a query is truly about diabetes. If yes, it passes the
+query to the chosen reasoning approach (prompt engineering,
+fine-tuning, or RAG) to generate an appropriate response. The
+answer is then displayed through the interface. This modular
+structure lets us evaluate and swap approaches without dis-
+rupting the overall user experience.
+A. Layer 1: Contextual Filtering
+We needed a way to make sure the chatbot stayed focused
+on diabetes and did not drift into unrelated topics. For this
+reason, we built a filtering step using the Groq API. In practice,
+it works like a gatekeeper: each incoming question is checked
+first, and only those judged relevant to diabetes are passed on.
+The filter is guided by a system message that spells out its
+role clearly.
+The instructions given to the API are simple: it only needs
+to decide whether a question is diabetes-related or not, and
+then return “true” or “false.” That decision is wrapped into
+a JSON object, which also carries a small message back to
+the user. When the question is valid, the message confirms
+it; when not, the reply gently asks the user to try again with
+a diabetes-related query. This approach not only filters out
+irrelevant queries but also provides constructive guidance to
+users, helping them understand the scope of the chatbot.
+During testing, this filtering mechanism achieved nearly 100%
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:59:51 UTC from IEEE Xplore.  Restrictions apply. 
+precision in identifying relevant queries by analyzing the
+context of entire conversations. The high accuracy significantly
+enhanced the chatbot’s focus and relevance, ensuring that
+users receive appropriate responses only for diabetes-related
+inquiries. This contextual understanding is particularly im-
+portant in healthcare applications, where maintaining domain
+focus is crucial to provide reliable information.
+The Groq API was selected for this task due to its superior
+accuracy and effectiveness in contextual analysis. While al-
+ternative approaches, such as developing a custom sentiment
+analysis model, were considered, they would have required
+substantial training data and resources, and would likely not
+have achieved the same level of precision as the API-based
+solution.
+B. Layer 2: Core System
+For the core system, we explored and evaluated three dis-
+tinct approaches: prompt engineering, fine-tuning, and RAG.
+Each method offered different advantages and challenges in
+developing a specialized diabetes chatbot.
+1) Prompt Engineering:The prompt engineering approach
+involved designing an effective system prompt that defined the
+chatbot’s role, capabilities, limitations, communication style,
+and workflow. This method leverages the inherent capabilities
+of pre-trained language models without requiring additional
+training or specialized resources.
+We developed a comprehensive system prompt that speci-
+fied the chatbot would serve as a diabetes assistant offer-
+ing evidence-based, empathetic advice. The prompt detailed
+the chatbot’s capabilities, including comprehensive knowledge
+about diabetes (types, symptoms, treatments), personalized
+guidance on diet, exercise, and medication, educational re-
+sources for understanding complex medical concepts, and
+problem-solving support for diabetes management challenges.
+To ensure safety, the text reminded users that the chatbot could
+not replace professional care. For emergencies, it redirected
+people to the right services. Privacy was also underlined: no
+personal health information should be stored or shared. We
+also set the tone. The chatbot was told to stay empathetic,
+speak in plain language rather than jargon, and offer a space
+where users could feel supported without judgment. Finally,
+the workflow was included: start by assessing the user’s needs,
+then give tailored advice, encourage check-ins, and point to
+credible resources. Altogether, this prompt worked as a set
+of “rules” that guided the model’s responses, even though
+the model itself remained unchanged. While this approach
+required minimal computational resources and could be im-
+plemented quickly, its effectiveness heavily depended on the
+quality and specificity of the prompt, as well as the capabilities
+of the underlying language model.
+2) Fine-Tuning:In the fine-tuning attempt, we first as-
+sembled a general healthcare dataset and reformatted it into
+structured pairs of questions and answers. The goal was to
+give the model direct exposure to medical-style queries, with
+a focus on diabetes.
+We selected the LLaMA model for fine-tuning due to its
+high accuracy and scalability. LLaMA offers several advan-
+tages for specialized applications, including strong perfor-
+mance in generating accurate, contextually relevant responses
+and efficient handling of a large volume of queries. To
+optimize resource usage during the fine-tuning process, we
+implemented QLoRA (Quantized Low-Rank Approximation),
+a technique that significantly reduces memory requirements
+while maintaining model performance.
+The QLoRA implementation included several key compo-
+nents. First, we applied 4-bit quantization to the LLaMA-
+3 model weights, compressing them to reduce the memory
+footprint. Most of the pre-trained model parameters were
+frozen post-quantization, preventing updates during fine-tuning
+to conserve computational resources. We then added trainable
+low-rank adapter layers to capture task-specific knowledge
+without significantly increasing the parameter count. Finally,
+we implemented gradient-based fine-tuning that updated only
+the low-rank adapters, minimizing computational overhead.
+However, the fine-tuning process encountered significant chal-
+lenges that ultimately prevented its completion. We faced
+library conflicts that required specific versions of CUDA and
+PyTorch, which we resolved by creating a dedicated virtual
+environment with the appropriate dependencies. More criti-
+cally, our local hardware proved insufficient for the demands
+of training, even with the optimizations provided by QLoRA.
+When exploring cloud-based alternatives, we found that the
+costs would exceed $50, presenting a financial barrier to
+pursuing this approach.
+These constraints highlight the practical challenges of im-
+plementing fine-tuning for specialized models, particularly in
+resource-limited environments. Despite the potential benefits
+of fine-tuning for creating highly specialized language models,
+the hardware requirements and associated costs can make
+this approach inaccessible without substantial infrastructure
+investments.
+3) Retrieval-Augmented Generation:The RAG approach
+combines retrieval and generation techniques to enhance re-
+sponse accuracy and relevance. This method addresses some
+of the limitations of both prompt engineering and fine-tuning
+by enabling the system to access and incorporate specific
+information without requiring extensive model modification.
+Our RAG implementation consisted of three main com-
+ponents. First, we selected Google Gemini as the language
+model for generating coherent responses based on retrieved
+information. While various LLMs could serve this purpose,
+Gemini was chosen for its balance of performance and acces-
+sibility. Second, we implemented ChromaDB as our vector
+database for storing and retrieving vectorized data. After
+testing multiple vector databases including Qdrant, Chroma,
+and Pinecone, we selected ChromaDB for its open-source
+nature and effective performance in managing vectorized data.
+Third, we utilized HuggingFace’s all-MiniLM-L6-v2 for gen-
+erating text embeddings, choosing this model after considering
+alternatives such as OpenAI’s embedding model, which was
+more costly and token-intensive.
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:59:51 UTC from IEEE Xplore.  Restrictions apply. 
+The RAG process flow begins by breaking documents
+into manageable chunks using RecursiveCharacterTextSplitter.
+These chunks are then converted into vector embeddings that
+capture their semantic meaning. The embeddings are stored
+in ChromaDB, creating a searchable repository of diabetes-
+related information. When a user submits a query, it is
+also converted into an embedding, and a similarity search
+is performed in the vector database to retrieve the most
+relevant information chunks. These retrieved chunks are then
+provided to the language model, which generates a response
+incorporating the specific information while maintaining a
+natural, conversational tone.
+During testing, the RAG approach demonstrated excellent
+effectiveness in extracting accurate information from various
+sources, including tables and PDFs, and providing precise,
+contextually relevant answers. The ability to incorporate spe-
+cific information from reliable sources significantly enhanced
+the accuracy and trustworthiness of the responses, making
+RAG particularly well-suited for a specialized medical domain
+like diabetes care.
+C. Layer 3: User Interface
+The user interface was designed to be intuitive and accessi-
+ble, drawing inspiration from ChatGPT’s successful interface
+design. We recognized that a clear, straightforward interface
+would be essential for ensuring user engagement and satis-
+faction, particularly given the diverse user base of a diabetes-
+focused chatbot.
+The interface features a minimalist layout with an input
+field where users can enter their questions or requests. The
+responses are displayed in a dedicated area, presented in a
+readable and structured manner to enhance comprehension.
+We implemented a filtering mechanism that screens irrelevant
+queries, ensuring users receive appropriate guidance when
+their questions fall outside the chatbot’s diabetes focus. The
+system also automatically generates titles for conversations,
+helping users organize and reference their interactions over
+time.
+Figure 1 illustrates a use case scenario of the developed
+platform.
+Fig. 1. Illustrative example of DIABOT platform
+Diabot was developed using a stack of modern technologies
+selected for their robustness, performance, and suitability
+for AI-driven applications. For frontend development, we
+utilized React.js, a JavaScript library for building dynamic
+user interfaces. React’s component-based architecture enables
+efficient rendering and state management, crucial for creating
+responsive chatbot interfaces. We enhanced React with Next.js,
+a framework that provides server-side rendering capabilities,
+improving initial load times and search engine optimization
+while simplifying routing and state management.
+Figure 2 presents the system architecture. The backend
+infrastructure relies on Node.js, a server-side JavaScript run-
+time that offers efficient handling of asynchronous operations,
+making it well-suited for the real-time nature of chatbot inter-
+actions. We implemented Express.js as our web framework,
+leveraging its minimalist approach to provide robust HTTP
+utilities and middleware for handling requests and responses
+efficiently. For deployment, we selected Vercel, a platform
+optimized for frontend applications that offers continuous
+deployment, automatic scaling, and domain management fea-
+tures, ensuring high availability of the chatbot.
+Fig. 2. System Architecture
+Additionally, we incorporated Streamlit to develop a user-
+friendly interface for our RAG solution. Streamlit enables
+users to upload multiple PDFs, create embeddings from the
+content, and query these documents to extract valuable in-
+formation without requiring advanced technical skills. This
+feature is particularly beneficial for extracting information
+from diabetes-related books and documents.
+For the AI-specific components of our system, we employed
+several specialized technologies (Figure 3). The Groq API
+powers our contextual filtering mechanism, analyzing queries
+to ensure their relevance to diabetes. Google Gemini serves as
+the language model for our RAG implementation, generating
+coherent and contextually appropriate responses. ChromaDB
+provides the vector database functionality, storing and retriev-
+ing the vectorized data efficiently. Finally, HuggingFace’s all-
+MiniLM-L6-v2 model generates text embeddings that capture
+the semantic meaning of both documents and queries, enabling
+effective similarity searching. This technology stack was care-
+fully selected to balance performance requirements with re-
+source constraints, enabling the development of a sophisticated
+chatbot system without requiring extensive infrastructure or
+prohibitive computational resources.
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:59:51 UTC from IEEE Xplore.  Restrictions apply. 
+Fig. 3. RAG Architecture
+VI. EVALUATION
+To assess Diabot, we compared the three specialization
+approaches in practice. Each method was implemented and
+tested, which allowed us to see not only their theoretical
+strengths but also how they behaved under real resource con-
+straints. This analysis considers both theoretical capabilities
+and real-world implementation constraints, providing insights
+into the trade-offs between different specialization strategies.
+A. System Component Evaluation
+When selecting components, we had to weigh practical
+aspects such as cost, performance, community support, and
+ease of integration. Several alternatives were tested before
+settling on the final stack (Table I).
+TABLE I
+COMPONENTSELECTIONOUTCOMES
+Component Selected Component Decision Factors
+Vector Database ChromaDB Open-source, effective
+performance
+Embedding Model all-MiniLM-L6-v2a Cost-effective, proven
+reliability
+Language Model Google Gemini Performance-cost
+balance
+Fine-tuning Model LLaMA High accuracy, scalabil-
+ity
+a41M downloads on HuggingFace.
+For example, in the case of the vector database, we compared
+Qdrant, Chroma, and Pinecone. ChromaDB turned out to be
+the most appropriate choice, mainly because it is open source
+and avoids ongoing subscription costs. A similar story applied
+to embeddings. Although OpenAI’s model was considered, its
+price and token usage made it impractical. We opted instead
+for HuggingFace’s all-MiniLM-L6-v2, which had been widely
+adopted by the community and offered solid performance at
+no extra cost. Google Gemini was chosen as the language
+model for the RAG implementation based on its balance of
+performance and accessibility. While various LLMs could
+serve the response generation purpose, Gemini provided the
+optimal combination of coherent output generation and rea-
+sonable access costs for the project scope.
+B. RAG Component Analysis
+The RAG approach demonstrated effectiveness across multi-
+ple document types based on testing results, establishing itself
+as the most viable solution for the Diabot project. The imple-
+mentation process involved careful integration of retrieval and
+generation components to create a cohesive system capable
+of accessing domain-specific information while maintaining
+natural conversational capabilities (Table II).
+Document processing utilized RecursiveCharacterTextSplit-
+ter to break down source materials into manageable chunks.
+This chunking strategy proved essential for maintaining se-
+mantic coherence while enabling efficient similarity searches
+across the vector database.
+The embedding generation process leveraged Hugging-
+Face’s all-MiniLM-L6-v2 model to convert text chunks into
+vector representations that capture semantic meaning. These
+embeddings were stored in ChromaDB, creating a searchable
+repository of diabetes-related information that could be effi-
+ciently queried based on user input similarity.
+Response generation integrated retrieved information with
+Google Gemini’s language capabilities, producing coherent
+and contextually appropriate responses. The system demon-
+strated excellent performance in extracting accurate infor-
+mation from various sources, including PDFs, tables, and
+structured data, while maintaining the conversational flow
+expected in chatbot interactions.
+TABLE II
+RAG SYSTEMCOMPONENTEVALUATION
+Component Implementation Details
+Technology Performance
+Document Process Recursive Character
+TextSplitter
+Effective chunking
+Embedding MiniLM-L6-v2 Semantic capture
+Vector Storage ChromaDB Efficient retrieval
+Response Generation Google Gemini Coherent integration
+Data Sources PDFs, tables Excellent extraction
+VII. CONCLUSION
+This paper presented Diabot, a specialized conversational
+AI system designed to provide accurate, accessible, and em-
+pathetic information about diabetes. Through the exploration
+of prompt engineering, fine-tuning, and Retrieval-Augmented
+Generation, we identified RAG as the most effective approach
+for our specific application, balancing accuracy and resource
+requirements.
+The development of Diabot addresses a critical need in dia-
+betes care, where access to reliable, personalized information
+can significantly impact management outcomes. By creating a
+specialized chatbot focused exclusively on diabetes, we aimed
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 02,2026 at 15:59:51 UTC from IEEE Xplore.  Restrictions apply. 
+to provide a resource that offers more accurate and contextu-
+ally appropriate guidance than general-purpose conversational
+systems. The chatbot’s ability to understand diabetes-specific
+terminology, recognize the importance of precise information,
+and provide evidence-based guidance represents a meaningful
+advancement in AI-assisted healthcare communication.
+Testing all three methods gave us insight into the trade-offs
+of specialized AI design. Prompt engineering was simple
+but shallow; fine-tuning promised depth but required heavy
+resources; and RAG offered a middle ground by combining
+retrieval with generation.
+Development was not without obstacles—limited hardware
+and computing costs were constant concerns. Still, by carefully
+choosing open-source tools and efficient methods, we showed
+that practical and specialized AI systems can be built even in
+resource-constrained environments. This lesson is relevant for
+others aiming to build similar healthcare applications.
+ACKNOWLEDGMENT
+This research was supported by AL-KHAW ARIZMI project.

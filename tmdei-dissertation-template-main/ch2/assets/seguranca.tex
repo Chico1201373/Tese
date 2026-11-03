@@ -1,0 +1,17 @@
+% Defesa em camadas antes e depois do modelo, com os custos reportados na revisão
+\begin{tikzpicture}[
+  b/.style={draw, rounded corners=2pt, align=center, text width=2.2cm, minimum height=1.35cm, font=\scriptsize, inner sep=3pt},
+  c/.style={font=\tiny, align=center, text width=2.3cm},
+  arr/.style={-{Stealth[length=2mm]}}]
+\node[b] (u) at (0,0) {Pergunta do utilizador};
+\node[b, right=0.45cm of u] (r) {Filtro por regras\\(sem modelo)};
+\node[b, right=0.45cm of r] (g) {Classificador ou modelo de guarda};
+\node[b, right=0.45cm of g, fill=black!8] (m) {\gls{LLM} com o contexto permitido};
+\node[b, right=0.45cm of m] (v) {Verificação da resposta};
+\draw[arr] (u) -- (r); \draw[arr] (r) -- (g); \draw[arr] (g) -- (m); \draw[arr] (m) -- (v);
+\node[c, below=0.15cm of r] {quase instantâneo; casos óbvios \parencite{kavitha2026securecontext}};
+\node[c, below=0.15cm of g] {207~ms a 10,6~s; 16--43\% falsos positivos \parencite{walczak2026comparative}};
+\node[c, below=0.15cm of m] {regras do modo aplicadas aos dados enviados \parencite{rayhan2026sage}};
+\node[c, below=0.15cm of v] {até 15,7~s; mensagem fixa se falhar \parencite{bellard2025development}};
+\draw[arr, dashed] (r.north) -- ++(0,0.45) -| node[pos=0.25, above, font=\tiny] {bloqueado: resposta fixa} (v.north);
+\end{tikzpicture}

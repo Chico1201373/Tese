@@ -1,0 +1,19 @@
+% Estrutura de um pedido a uma API de conversação, com o contexto de uma pergunta do QBank
+\begin{tikzpicture}[
+  msg/.style={draw, rounded corners=2pt, align=left, text width=9.4cm, font=\scriptsize, inner sep=4pt},
+  role/.style={font=\scriptsize\bfseries, anchor=east, align=right, text width=2cm},
+  arr/.style={-{Stealth[length=2mm]}}]
+\node[msg, fill=black!8] (sys) at (0,0) {Instruções de sistema: papel do assistente; responder apenas com os dados fornecidos; responder na língua do QBank; regras do modo (por exemplo, não revelar a resposta correta no modo Teste); recusar o que estiver fora do âmbito};
+\node[msg, below=0.18cm of sys] (ctx) {Contexto: dados da pergunta em curso (vinheta, opções, informação-chave, explicação, \dots), lidos pelo ID};
+\node[msg, below=0.18cm of ctx] (hist) {Histórico: mensagens anteriores do utilizador e do assistente sobre esta pergunta};
+\node[msg, below=0.18cm of hist] (user) {Mensagem atual do utilizador: ``Porque é que a opção C está errada?''};
+\node[msg, below=0.45cm of user, fill=black!4] (out) {Resposta gerada \emph{token} a \emph{token}, com temperatura baixa};
+\node[role] at ([xshift=-0.2cm]sys.west) {sistema};
+\node[role] at ([xshift=-0.2cm]ctx.west) {sistema ou\\utilizador};
+\node[role] at ([xshift=-0.2cm]hist.west) {utilizador /\\assistente};
+\node[role] at ([xshift=-0.2cm]user.west) {utilizador};
+\node[role] at ([xshift=-0.2cm]out.west) {assistente};
+\draw[arr] (user) -- (out);
+\draw[decorate, decoration={brace, amplitude=4pt}] ([xshift=0.15cm]sys.north east) -- ([xshift=0.15cm]user.south east)
+  node[midway, right=6pt, font=\scriptsize, align=left] {\emph{tokens} de\\entrada:\\reenviados\\em cada turno};
+\end{tikzpicture}

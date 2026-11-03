@@ -1,23 +1,27 @@
 % Figura conceptual: RAG vs contexto fornecido diretamente por item
+% As caixas de cada fila estão alinhadas pelo topo (anchor=north), para que uma caixa
+% com mais texto cresça para baixo e não sobreponha o título da fila.
 \begin{tikzpicture}[
-  b/.style={draw, rectangle, rounded corners=2pt, align=center, text width=2.05cm, minimum height=1.25cm, font=\scriptsize, inner sep=3pt},
+  b/.style={draw, rectangle, rounded corners=2pt, align=center, text width=2.05cm, minimum height=1.25cm, font=\scriptsize, inner sep=3pt, anchor=north},
   hl/.style={b, fill=black!8},
   arr/.style={-{Stealth[length=2mm]}},
   lab/.style={font=\scriptsize\bfseries, anchor=west}]
 % (a) RAG
-\node[lab] at (0,0.95) {(a) Geração aumentada por recuperação (RAG)};
+\node[lab] at (0,0.45) {(a) Geração aumentada por recuperação (RAG)};
 \node[b] (a1) at (1.2,0) {Pergunta do utilizador};
-\node[hl, right=0.45cm of a1] (a2) {Pesquisa no corpus (semelhança)};
-\node[b, right=0.45cm of a2] (a3) {\emph{Prompt}: instruções + $k$ excertos + pergunta};
-\node[b, right=0.45cm of a3] (a4) {\gls{LLM}};
-\node[b, right=0.45cm of a4] (a5) {Resposta};
-\draw[arr] (a1) -- (a2); \draw[arr] (a2) -- (a3); \draw[arr] (a3) -- (a4); \draw[arr] (a4) -- (a5);
+\node[hl] (a2) at ([xshift=2.6cm]a1.north) {Pesquisa no corpus (semelhança)};
+\node[b] (a3) at ([xshift=2.6cm]a2.north) {\emph{Prompt}: instruções + $k$ excertos + pergunta};
+\node[b] (a4) at ([xshift=2.6cm]a3.north) {\gls{LLM}};
+\node[b] (a5) at ([xshift=2.6cm]a4.north) {Resposta};
+\foreach \i/\j in {a1/a2, a2/a3, a3/a4, a4/a5}
+  \draw[arr] ([yshift=-0.62cm]\i.north east) -- ([yshift=-0.62cm]\j.north west);
 % (b) contexto por item
-\node[lab] at (0,-1.35) {(b) Contexto fornecido diretamente (caso do QBank)};
-\node[b] (b1) at (1.2,-2.3) {Pergunta do utilizador + ID do item em curso};
-\node[hl, right=0.45cm of b1] (b2) {Leitura do registo do item na base de dados};
-\node[b, right=0.45cm of b2] (b3) {\emph{Prompt}: instruções + regras do modo + dados do item + pergunta};
-\node[b, right=0.45cm of b3] (b4) {\gls{LLM}};
-\node[b, right=0.45cm of b4] (b5) {Resposta na língua do QBank};
-\draw[arr] (b1) -- (b2); \draw[arr] (b2) -- (b3); \draw[arr] (b3) -- (b4); \draw[arr] (b4) -- (b5);
+\node[lab] at (0,-2.35) {(b) Contexto fornecido diretamente (caso do QBank)};
+\node[b] (b1) at (1.2,-2.8) {Pergunta do utilizador + ID do item em curso};
+\node[hl] (b2) at ([xshift=2.6cm]b1.north) {Leitura do registo do item na base de dados};
+\node[b] (b3) at ([xshift=2.6cm]b2.north) {\emph{Prompt}: instruções + regras do modo + dados do item + pergunta};
+\node[b] (b4) at ([xshift=2.6cm]b3.north) {\gls{LLM}};
+\node[b] (b5) at ([xshift=2.6cm]b4.north) {Resposta na língua do QBank};
+\foreach \i/\j in {b1/b2, b2/b3, b3/b4, b4/b5}
+  \draw[arr] ([yshift=-0.62cm]\i.north east) -- ([yshift=-0.62cm]\j.north west);
 \end{tikzpicture}

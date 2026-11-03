@@ -13,7 +13,7 @@ Este capítulo apresenta o estado da arte sobre assistentes conversacionais base
 \section{Fundamentos Teóricos}
 \label{sec:chap2_concepts}
 
-Esta secção apresenta os fundamentos em que o trabalho assenta: o papel das perguntas de escolha múltipla e do \emph{feedback} na aprendizagem, os assistentes conversacionais, o funcionamento e as limitações dos \glspl{LLM}, as formas de lhes fornecer contexto, o controlo do âmbito e a avaliação das respostas. A literatura recente sobre sistemas concretos é analisada a partir da Secção~\ref{sec:chap2_protocol}, através da revisão sistemática.
+Esta secção apresenta os fundamentos em que o trabalho assenta: o papel das perguntas de escolha múltipla e do \emph{feedback} na aprendizagem, os assistentes conversacionais, o funcionamento dos \glspl{LLM} (\emph{tokens}, \emph{prompts}, parâmetros de geração, conversas com vários turnos, \emph{embeddings} e formas de execução), as formas de lhes fornecer contexto, as suas limitações, o controlo do âmbito e a avaliação das respostas. Sempre que possível, cada conceito é ilustrado com os estudos encontrados na revisão sistemática. A literatura recente sobre sistemas concretos é analisada a partir da Secção~\ref{sec:chap2_protocol}, através da revisão sistemática.
 
 \subsection{Aprendizagem com Perguntas e \emph{Feedback}}
 \label{sec:chap2_learning}
@@ -38,6 +38,54 @@ O texto é processado em \emph{tokens}, unidades que correspondem aproximadament
 
 O desempenho dos \glspl{LLM} varia também com a língua. Numa avaliação de modelos generativos em dezenas de línguas, \textcite{ahuja2023mega} observaram melhores resultados em inglês e nas línguas com mais recursos do que nas línguas com menos recursos. As seis línguas do QBank são de recursos elevados, mas a diferença entre línguas, incluindo entre as variantes europeia e brasileira do português, tem de ser verificada na avaliação.
 
+\subsection{Tokenização e Custo por Língua}
+\label{sec:chap2_tokens}
+
+Os \glspl{LLM} não processam palavras, mas \emph{tokens}, obtidos por algoritmos de segmentação em sub-palavras como o \emph{byte-pair encoding}, que junta as sequências de caracteres mais frequentes no corpus de treino \parencite{sennrich2016neural}. Como esses corpora são dominados pelo inglês, o mesmo conteúdo traduzido pode exigir muito mais \emph{tokens} noutras línguas: \textcite{petrov2023tokenizers} mostraram diferenças de várias vezes no número de \emph{tokens} para textos equivalentes, o que se traduz em maior custo, maior latência e menos conteúdo dentro da janela de contexto para os falantes dessas línguas. No QBank, isto significa que o custo e o tempo de resposta de uma mesma pergunta podem variar entre as seis línguas, e que devem ser medidos por língua e não apenas em média.
+
+\subsection{\emph{Prompts} e Parâmetros de Geração}
+\label{sec:chap2_prompts}
+
+Nas \glspl{API} de conversação, o pedido ao modelo é uma lista de mensagens com papéis distintos: as instruções de sistema, que definem o comportamento e as regras do assistente; as mensagens do utilizador; e as respostas anteriores do assistente. O contexto da aplicação (no QBank, os dados da pergunta) é incluído numa destas mensagens. A Figura~\ref{fig:messages} mostra esta estrutura aplicada ao QBank. Sobre esta estrutura aplicam-se várias técnicas: dar ao modelo exemplos do comportamento pretendido (\emph{few-shot}), que é a forma básica de aprendizagem em contexto \parencite{brown2020language}; pedir um raciocínio passo a passo antes da resposta (\emph{chain-of-thought}), que melhora tarefas de raciocínio \parencite{wei2022chain}; e pedir uma saída estruturada (por exemplo, JSON), que permite ao sistema validar e processar a resposta. Os estudos da revisão usam todas estas técnicas: exemplos para rejeitar evidência contraditória \parencite{rahat2026noise}, raciocínio e verificação passo a passo \parencite{ishadya2026mitigating} e saídas em JSON para decisões de segurança e de validação \parencite{kavitha2026securecontext,zhao2025cyberbot}.
+
+\begin{figure}[htbp]
+\centering
+\input{ch2/assets/mensagens}
+\caption[Estrutura de um pedido a um LLM por API]{Estrutura de um pedido a um \gls{LLM} por \gls{API} de conversação, aplicada a uma pergunta do QBank. Todas as mensagens de entrada são reenviadas em cada turno. Fonte: elaboração própria.}
+\label{fig:messages}
+\end{figure}
+
+A geração depende também de parâmetros de amostragem. O modelo produz, para cada posição, uma distribuição de probabilidade sobre os \emph{tokens} seguintes; a temperatura controla quão concentrada é essa distribuição, e a amostragem por núcleo (\emph{top-p}) limita a escolha aos \emph{tokens} mais prováveis cuja probabilidade acumulada atinge $p$ \parencite{holtzman2020curious}. A Figura~\ref{fig:temperature} ilustra o efeito da temperatura. Temperaturas baixas tornam as respostas mais previsíveis e repetíveis, o que é desejável num assistente que deve seguir um contexto validado: os estudos da revisão usam temperaturas de 0 a 0,1 tanto na geração \parencite{yan2026question,xie2026when} como nos juízes de avaliação \parencite{buti2026evaluating,bellard2025development}. O raciocínio passo a passo, por outro lado, aumenta o número de \emph{tokens} gerados e, portanto, a latência: o modelo de guarda que raciocinava antes de decidir demorou 10,6~s por pedido, contra 207~ms do que devolvia apenas a categoria \parencite{walczak2026comparative}.
+
+\begin{figure}[htbp]
+\centering
+\input{ch2/assets/temperatura}
+\caption[Efeito da temperatura na escolha do token seguinte]{Efeito ilustrativo da temperatura na probabilidade do \emph{token} seguinte: com temperatura baixa, a escolha concentra-se no \emph{token} mais provável; com temperatura alta, as alternativas ganham peso e as respostas variam mais entre execuções. Valores ilustrativos. Fonte: elaboração própria, com base em \textcite{holtzman2020curious}.}
+\label{fig:temperature}
+\end{figure}
+
+\subsection{Conversas com Vários Turnos e \emph{Cache}}
+\label{sec:chap2_memory}
+
+Os modelos acedidos por \gls{API} não guardam estado entre pedidos: para manter uma conversa, a aplicação reenvia em cada turno o histórico relevante, o que faz crescer o número de \emph{tokens}, o custo e a latência à medida que a conversa avança. Os estudos da revisão limitam este crescimento de formas diferentes: truncar o histórico a um número máximo de turnos \parencite{yan2026question}, resumir as mensagens mais antigas \parencite{trang2025customized}, reescrever a pergunta atual com base nos últimos turnos antes da recuperação \parencite{zhao2025cyberbot} ou enviar apenas a parte nova do contexto \parencite{liu2026asknow}. No QBank, cada conversa está associada a uma pergunta, o que limita naturalmente o seu tamanho. Para reduzir custo e latência pode também guardar-se em \emph{cache} a resposta a pedidos repetidos; no ChatTEDU, as respostas em \emph{cache} e as rejeições antecipadas reduziram o custo da arquitetura com dois modelos \parencite{emekci2025securing}. Como a mesma pergunta do QBank é resolvida por muitos utilizadores, é provável que dúvidas semelhantes se repitam, mas a \emph{cache} tem de respeitar a língua e o modo em que a resposta foi gerada.
+
+\subsection{Representações Vetoriais e Semelhança Semântica}
+\label{sec:chap2_embeddings}
+
+Os modelos de \emph{embeddings} convertem um texto num vetor de dimensão fixa, de forma que textos com significado próximo fiquem próximos no espaço vetorial, medido normalmente pela semelhança do cosseno \parencite{reimers2019sentence}. Esta representação é a base da recuperação densa no \gls{RAG}, mas tem outros usos: o AskNow agrupa as perguntas dos estudantes por semelhança para mostrar ao docente, em tempo real, os temas que geram mais dúvidas \parencite{liu2026asknow}, e o Alan apresenta aos docentes as perguntas mais frequentes \parencite{seshadri2026alan}. É este o uso previsto no QBank para as estatísticas das perguntas feitas ao assistente. A Figura~\ref{fig:embeddings} ilustra a ideia. A semelhança semântica tem, contudo, limites: não distingue um excerto que contém a resposta de outro que apenas trata o mesmo tema \parencite{rahat2026noise}, e perde para a pesquisa lexical quando a pergunta contém identificadores \parencite{han2026textbook}.
+
+\begin{figure}[htbp]
+\centering
+\input{ch2/assets/embeddings}
+\caption[Agrupamento de perguntas por embeddings]{Perguntas feitas ao assistente representadas como vetores e agrupadas por semelhança, como no AskNow \parencite{liu2026asknow}. Uma pergunta nova é associada ao grupo mais semelhante. Representação ilustrativa em duas dimensões. Fonte: elaboração própria.}
+\label{fig:embeddings}
+\end{figure}
+
+\subsection{Execução Local e por \gls{API}}
+\label{sec:chap2_deployment}
+
+Um \gls{LLM} pode ser executado localmente, com modelos de pesos abertos, ou acedido como serviço através de uma \gls{API}. A execução local dá controlo sobre os dados, mas exige memória gráfica proporcional ao tamanho do modelo; para a reduzir, os pesos são quantizados, isto é, representados com menos bits, com alguma perda de qualidade. Na revisão, os modelos locais foram executados em placas de 16~GB com modelos de 8 a 14 mil milhões de parâmetros quantizados a 4 bits \parencite{trang2025customized,sayeed2026tutor,azam2024cancerbot}; no estudo de \textcite{walczak2026comparative}, a quantização a 8 bits reduziu a memória de 15,6 para 9,0~GB sem perda de F1, mas a 4 bits a qualidade degradou-se. A \gls{API} dispensa infraestrutura própria e dá acesso a modelos maiores, com um custo por \emph{token}, mas implica enviar os dados a terceiros, pelo que a escolha do fornecedor deve considerar as suas políticas de retenção e de treino \parencite{barzanji2026buddy}. Também limita os mecanismos disponíveis: técnicas que exigem acesso aos parâmetros ou aos estados internos, como o ajuste fino para recusa ou a monitorização interna \parencite{abrar2025domain,li2026responsible}, deixam de ser possíveis ou ficam dependentes do que o fornecedor oferece.
+
 \subsection{Formas de Fornecer Contexto ao Modelo}
 \label{sec:chap2_context}
 
@@ -46,9 +94,35 @@ Na geração aumentada por recuperação (\gls{RAG}), o sistema pesquisa num cor
 \begin{figure}[htbp]
 \centering
 \input{ch2/assets/contexto}
-\caption{Duas formas de fornecer contexto ao modelo: (a) recuperação a partir de um corpus; (b) leitura direta dos dados da pergunta em curso, a abordagem do QBank.}
+\caption{Duas formas de fornecer contexto ao modelo: (a) recuperação a partir de um corpus; (b) leitura direta dos dados da pergunta em curso, a abordagem do QBank. Fonte: elaboração própria, com base em \textcite{lewis2020rag}.}
 \label{fig:context}
 \end{figure}
+
+A Tabela~\ref{tab:approaches} compara as abordagens segundo os critérios relevantes para o QBank, com a evidência encontrada na revisão.
+
+\begin{table}[htbp]
+\caption{Comparação das formas de limitar as respostas a um contexto, à luz do caso do QBank.}
+\label{tab:approaches}
+\centering
+\scriptsize
+\begin{tabular}{p{2.3cm} p{3.6cm} p{3.6cm} p{3.6cm}}
+\toprule
+\tabhead{Critério} & \tabhead{\gls{RAG}} & \tabhead{Ajuste fino} & \tabhead{Contexto direto por item} \\
+\midrule
+Seleção do contexto & Pesquisa por semelhança; pode trazer contexto que distrai ou contradiz \parencite{rahat2026noise,xie2026when} & Não há contexto: o conhecimento fica nos parâmetros & Exata, pelo identificador da pergunta \parencite{wei2026cloud} \\
+\addlinespace
+Efeito na exatidão & Varia: pode ficar abaixo do modelo sem contexto \parencite{xie2026when} & Alto em tarefas fechadas \parencite{hamidi2026large}; pode piorar o uso de contexto \parencite{zheng2026comparative} & Próximo do contexto correto: 68,8\% contra 27,0\% sem contexto \parencite{rahat2026noise} \\
+\addlinespace
+Atualização do conteúdo & Reindexar os documentos & Voltar a treinar & Imediata: lê o registo atual \\
+\addlinespace
+Rastreabilidade & Citação dos excertos recuperados \parencite{seshadri2026alan} & Fraca & Total: os campos do item \\
+\addlinespace
+Custo e latência & Recuperação, reordenação e contexto mais longo & Treino inicial; inferência barata & Só a geração; depende do tamanho do item \\
+\addlinespace
+Limite & Qualidade da recuperação & Acesso ao modelo; não restringe a um item & Só serve quando o contexto é conhecido à partida \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Alucinação, Fidelidade e Recusa}
 \label{sec:chap2_hallucination}
@@ -62,7 +136,7 @@ Uma forma de reduzir respostas sem suporte é o modelo abster-se quando o contex
 
 Um assistente de âmbito restrito deve recusar pedidos fora desse âmbito (abstenção ou recusa). As instruções que definem esse âmbito podem ser contornadas por injeção de instruções (\emph{prompt injection}), quer diretamente pelo utilizador quer através de conteúdo externo incluído no \emph{prompt} \parencite{greshake2023indirect,geng2026prompt}. Os mecanismos de defesa incluem filtros de entrada e de saída, modelos classificadores dedicados (\emph{guardrails}) e arquiteturas com mais do que um modelo.
 
-\textcite{perez2022ignore} distinguem dois objetivos destes ataques: desviar o modelo da tarefa definida (\emph{goal hijacking}) e levá-lo a revelar as suas instruções ou o contexto (\emph{prompt leaking}). A \emph{OWASP Top 10 for LLM Applications} coloca a injeção de instruções em primeiro lugar entre os riscos de aplicações com \glspl{LLM} e inclui a fuga das instruções de sistema \parencite{owasp2025llm}. No QBank, uma fuga com consequências seria revelar a resposta correta no modo Teste. Daqui resulta um princípio de desenho: a informação que não pode ser revelada não deve estar no \emph{prompt}, porque nenhuma instrução garante que o modelo não a revela.
+\textcite{perez2022ignore} distinguem dois objetivos destes ataques: desviar o modelo da tarefa definida (\emph{goal hijacking}) e levá-lo a revelar as suas instruções ou o contexto (\emph{prompt leaking}). A \emph{OWASP Top 10 for LLM Applications} coloca a injeção de instruções em primeiro lugar entre os riscos de aplicações com \glspl{LLM} e inclui a fuga das instruções de sistema \parencite{owasp2025llm}. No QBank, uma fuga com consequências seria revelar a resposta correta no modo Teste. Daqui resulta uma implicação para o desenho: a informação que não pode ser revelada não deve estar no \emph{prompt}, porque nenhuma instrução garante que o modelo não a revela.
 
 \subsection{Avaliação de Respostas}
 \label{sec:chap2_evaluation}
@@ -141,7 +215,7 @@ O fluxo de seleção está na Figura~\ref{fig:prisma}. Foram removidos 130 dupli
 \begin{figure}[t]
 \centering
 \input{ch2/assets/prisma}
-\caption[Diagrama PRISMA da seleção dos estudos]{Diagrama PRISMA 2020 da seleção dos estudos. A elegibilidade por texto integral foi avaliada para os estudos prioritários.}
+\caption[Diagrama PRISMA da seleção dos estudos]{Diagrama PRISMA 2020 da seleção dos estudos. A elegibilidade por texto integral foi avaliada para os estudos prioritários. Fonte: elaboração própria, segundo o modelo PRISMA 2020 \parencite{page2021prisma}.}
 \label{fig:prisma}
 \end{figure}
 
@@ -183,7 +257,7 @@ Estudo com utilizadores, questionário ou entrevistas & 22 & 10 \\
 \end{tabular}
 \end{table}
 
-As secções seguintes analisam os estudos por tema. Em vez de os resumir um a um, descrevem as técnicas que usam, como funcionam e que resultados reportam, e discutem a sua relevância para o QBank. Os detalhes e os valores que se seguem vêm da leitura integral dos 44 estudos prioritários incluídos; os restantes estudos contribuem sobretudo para os indicadores de frequência da Tabela~\ref{tab:indicators}, obtidos a partir dos títulos e resumos. A frequência de uma técnica descreve a sua utilização, mas não prova que seja a mais eficaz.
+As secções seguintes analisam os estudos por tema. Em vez de os resumir um a um, descrevem as técnicas que usam, como funcionam e que resultados reportam, e discutem a sua relevância para o QBank. Os detalhes e os valores que se seguem vêm da leitura integral dos 44 estudos prioritários incluídos; os restantes estudos contribuem sobretudo para os indicadores de frequência da Tabela~\ref{tab:indicators}, obtidos a partir dos títulos e resumos. A frequência de uma técnica descreve a sua utilização, mas não prova que seja a mais eficaz. Os sistemas descritos servem como termo de comparação e não implicam que sejam adotados: as escolhas de arquitetura, de mecanismos de controlo e de modelo são feitas e justificadas no Capítulo~\ref{chap:Chapter3}, à luz das restrições do QBank.
 
 %----------------------------------------------------------------------------------------
 \section{Arquiteturas de Contextualização (RQ1)}
@@ -247,7 +321,14 @@ São poucos os estudos em que o contexto é fixo e conhecido à partida, como no
 
 Os estudos com perguntas de exame tratam, sobretudo, a escolha da resposta correta em \emph{benchmarks} como o MedQA e o MedMCQA \parencite{zhang2025meditrir,liu2026quality,xie2026when}, e não a explicação de uma pergunta cuja resposta já é conhecida. A exceção mais próxima é o assistente de \textcite{khan2025towards}, cujo fluxo é quase o do QBank: o estudante escolhe uma pergunta de um exame de acesso à pós-graduação em engenharia, o sistema mostra a solução dessa pergunta e as dúvidas seguintes são respondidas pelo modelo usando o par pergunta--solução como referência. A fidelidade obtida foi de 0,94, mas com cerca de 9~s para gerar cada explicação num modelo local, e o avaliador automático era o próprio modelo avaliado, o que pode favorecê-lo.
 
-\paragraph{Contexto completo e identificação exata.} O AskNow fornece ao modelo a transcrição completa da aula até ao momento, guardada em segmentos de 30~s com marcas temporais, sem pesquisa por semelhança; os docentes classificaram 100 respostas aleatórias com uma correção média entre 4,53 e 4,88 em 5, em três cursos com 117 estudantes \parencite{liu2026asknow}. Dois estudos mostram por que razão identificar o contexto exato é preferível a pesquisá-lo: no tutor de \textcite{wei2026cloud}, a recuperação do documento certo teve precisão de 1,00 quando a pergunta incluía o identificador do curso e caiu para 0,006 sem ele; no assistente de \textcite{han2026textbook}, as perguntas de exame, cheias de identificadores (ano, época, número da pergunta), foram melhor resolvidas por pesquisa lexical do que semântica. No QBank, o identificador da pergunta em curso é sempre conhecido, pelo que a seleção do contexto pode ser exata.
+\paragraph{Contexto completo e identificação exata.} O AskNow fornece ao modelo a transcrição completa da aula até ao momento, guardada em segmentos de 30~s com marcas temporais, sem pesquisa por semelhança; os docentes classificaram 100 respostas aleatórias com uma correção média entre 4,53 e 4,88 em 5, em três cursos com 117 estudantes \parencite{liu2026asknow}. Dois estudos mostram por que razão identificar o contexto exato é preferível a pesquisá-lo: no tutor de \textcite{wei2026cloud}, a recuperação do documento certo teve precisão de 1,00 quando a pergunta incluía o identificador do curso e caiu para 0,006 sem ele; no assistente de \textcite{han2026textbook}, as perguntas de exame, cheias de identificadores (ano, época, número da pergunta), foram melhor resolvidas por pesquisa lexical do que semântica. No QBank, o identificador da pergunta em curso é sempre conhecido, pelo que a seleção do contexto pode ser exata. A Figura~\ref{fig:asknow} reproduz a arquitetura do AskNow.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth, trim=55 150 47 367, clip]{ch2/assets/fig_asknow.pdf}
+\caption[Arquitetura do AskNow]{Arquitetura do AskNow: a transcrição da aula em curso é usada como contexto das respostas, e as perguntas são agrupadas (K-means) para o docente. Fonte: reproduzido de \textcite{liu2026asknow}, licença CC BY 4.0.}
+\label{fig:asknow}
+\end{figure}
 
 %----------------------------------------------------------------------------------------
 \section{Mecanismos de Controlo do Âmbito e de Segurança (RQ1)}
@@ -289,7 +370,25 @@ Verificação da resposta & Depois & Ontologia ou \gls{LLM} juiz valida a respos
 
 \paragraph{Instruções no \emph{prompt} não chegam.} O resultado mais relevante para o QBank é o de \textcite{rayhan2026sage}: num tutor de programação, os tutores baseados apenas em instruções no \emph{prompt} tiveram uma utilidade semelhante à do sistema proposto (42\% e 44\%), mas cumpriram as políticas do docente em apenas 30\% dos casos, contra 90\% com um controlo de acesso ao conteúdo em três camadas: por papel do utilizador, por atributos e pelo estado cognitivo do estudante. A lição é estrutural: o que o modelo não recebe não pode ser revelado. Da mesma forma, o CS50.ai usa \emph{guardrails} pedagógicos para que o assistente apoie o estudante sem lhe dar diretamente as soluções, com o objetivo declarado de se aproximar de um tutor por estudante \parencite{liu2024teaching}, e o CourseAssist classifica a intenção do estudante e decompõe as perguntas para garantir respostas pedagogicamente adequadas \parencite{feng2024courseassist}. Estes mecanismos correspondem às regras por modo do QBank, por exemplo não revelar a resposta correta antes do tempo no modo Teste.
 
-\paragraph{Filtros antes do modelo.} A defesa mais avaliada em uso real é a arquitetura com dois modelos. No ChatTEDU, durante dois meses, foram analisadas 4501 interações reais, das quais 180 eram tentativas de ataque por injeção de instruções, \emph{jailbreak} ou manipulação de conteúdo; todas foram bloqueadas, com 0,28\% de falsos positivos \parencite{emekci2025securing}. O preço foi mensurável: o tempo médio de resposta passou de 6,7~s para 7,9~s, dos quais 0,9~s na verificação pelo primeiro modelo, e para 9,1~s com mais de 100 utilizadores em simultâneo; as chamadas à \gls{API} duplicaram, o que, descontadas as respostas em \emph{cache} e as rejeições antecipadas, aumentou o custo em cerca de 80\%. Dos ataques, 77,8\% eram de exploração técnica e 15\% eram multilingues, o que indica que um filtro tem de funcionar em todas as línguas do sistema. O SecureContext EDU usa a mesma ideia com categorias de ameaça e uma pontuação de confiança, mas coloca antes do classificador um filtro por regras, sem modelo, que deixa passar diretamente saudações e perguntas claramente do domínio, bloqueia ataques evidentes e só envia ao classificador os casos duvidosos, para reduzir a latência \parencite{kavitha2026securecontext}. Em alternativa a um segundo \gls{LLM}, outros estudos usam classificadores mais pequenos, ajustados para detetar ataques \parencite{tien2024optimizing,mathew2026privacy}, que são mais rápidos e baratos mas exigem dados de treino. \textcite{walczak2026comparative} compararam dois modelos de guarda num assistente administrativo universitário, com uma categoria própria de restrição de tema: o Llama Guard 3 classificou cada pedido em 207~ms e detetou 85,5\% das ameaças reais, mas bloqueou 42,6\% dos pedidos legítimos, sobretudo saudações curtas tomadas como fora do tema; o GPT OSS Safeguard teve menos falsos positivos (16,3\%), mas demorou 10,6~s por pedido, por gerar um raciocínio antes da decisão. Ambos falharam ataques que se fazem passar por uma autoridade ou têm um enquadramento académico, e os resultados em dados sintéticos sobrestimaram os obtidos com pedidos reais. Notaram ainda que as classificações dos especialistas e a perceção dos utilizadores divergem, o que mostra que a fronteira do âmbito é, em parte, subjetiva.
+A Figura~\ref{fig:security} organiza estes mecanismos como camadas sucessivas, com os custos reportados nos estudos.
+
+\begin{figure}[htbp]
+\centering
+\input{ch2/assets/seguranca}
+\caption[Defesa em camadas e custos reportados]{Defesa em camadas de um assistente de âmbito restrito, com os tempos e taxas de falsos positivos reportados nos estudos da revisão. Cada camada acrescenta latência; os pedidos bloqueados recebem uma resposta fixa. Fonte: elaboração própria, com os valores dos estudos indicados.}
+\label{fig:security}
+\end{figure}
+
+\paragraph{Filtros antes do modelo.} A defesa mais avaliada em uso real é a arquitetura com dois modelos. No ChatTEDU, durante dois meses, foram analisadas 4501 interações reais, das quais 180 eram tentativas de ataque por injeção de instruções, \emph{jailbreak} ou manipulação de conteúdo; todas foram bloqueadas, com 0,28\% de falsos positivos \parencite{emekci2025securing}. O preço foi mensurável: o tempo médio de resposta passou de 6,7~s para 7,9~s, dos quais 0,9~s na verificação pelo primeiro modelo, e para 9,1~s com mais de 100 utilizadores em simultâneo; as chamadas à \gls{API} duplicaram, o que, descontadas as respostas em \emph{cache} e as rejeições antecipadas, aumentou o custo em cerca de 80\%. Dos ataques, 77,8\% eram de exploração técnica e 15\% eram multilingues, o que indica que um filtro tem de funcionar em todas as línguas do sistema. A Figura~\ref{fig:chattedu} mostra o fluxo de decisão do ChatTEDU.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\textwidth, trim=35 448 286 61, clip]{ch2/assets/fig_chattedu.pdf}
+\caption[Fluxo de decisão do ChatTEDU]{Fluxo de decisão do ChatTEDU: o primeiro modelo analisa o pedido e só os pedidos considerados seguros são enviados ao segundo modelo, que gera a resposta. Fonte: reproduzido de \textcite{emekci2025securing}, licença CC BY 4.0.}
+\label{fig:chattedu}
+\end{figure}
+
+O SecureContext EDU usa a mesma ideia com categorias de ameaça e uma pontuação de confiança, mas coloca antes do classificador um filtro por regras, sem modelo, que deixa passar diretamente saudações e perguntas claramente do domínio, bloqueia ataques evidentes e só envia ao classificador os casos duvidosos, para reduzir a latência \parencite{kavitha2026securecontext}. Em alternativa a um segundo \gls{LLM}, outros estudos usam classificadores mais pequenos, ajustados para detetar ataques \parencite{tien2024optimizing,mathew2026privacy}, que são mais rápidos e baratos mas exigem dados de treino. \textcite{walczak2026comparative} compararam dois modelos de guarda num assistente administrativo universitário, com uma categoria própria de restrição de tema: o Llama Guard 3 classificou cada pedido em 207~ms e detetou 85,5\% das ameaças reais, mas bloqueou 42,6\% dos pedidos legítimos, sobretudo saudações curtas tomadas como fora do tema; o GPT OSS Safeguard teve menos falsos positivos (16,3\%), mas demorou 10,6~s por pedido, por gerar um raciocínio antes da decisão. Ambos falharam ataques que se fazem passar por uma autoridade ou têm um enquadramento académico, e os resultados em dados sintéticos sobrestimaram os obtidos com pedidos reais. Notaram ainda que as classificações dos especialistas e a perceção dos utilizadores divergem, o que mostra que a fronteira do âmbito é, em parte, subjetiva.
 
 \paragraph{Recusa fora do âmbito.} Poucos estudos avaliam a recusa (3\% dos incluídos). Além dos modelos de guarda, as abordagens encontradas são o ajuste fino com exemplos de recusa \parencite{abrar2025domain} e a monitorização dos estados internos do modelo para detetar respostas fora do domínio \parencite{li2026responsible}. A recusa tem um custo próprio: o assistente de \textcite{abrar2025domain} recusou corretamente 86\% dos pedidos fora do âmbito, mas recusou também muitos pedidos legítimos, com diferenças entre línguas. Quando a verificação de uma resposta falha, o HeartWise substitui-a por uma mensagem fixa e previamente validada, que remete o utilizador para a equipa de saúde \parencite{bellard2025development}. Ambas exigem acesso ao modelo: não são possíveis quando o modelo é usado como serviço através de uma \gls{API}, como no QBank, onde a recusa tem de ser obtida com instruções, com filtros externos ao modelo ou com a verificação da resposta.
 
@@ -451,4 +550,4 @@ Em síntese, a literatura mostra como fundamentar as respostas de um assistente 
 
 A revisão identificou 1547 registos em três fontes e incluiu 211 estudos para leitura integral, dos quais 48 são prioritários. Quanto à RQ1, a forma dominante de limitar as respostas é o \gls{RAG}, mas a evidência mostra que a recuperação também introduz erros, e que as instruções no \emph{prompt}, sozinhas, não garantem o cumprimento do âmbito; os mecanismos mais robustos combinam controlo explícito do conteúdo, filtros dedicados e recusa. Os compromissos de latência e custo são pouco reportados. Quanto à RQ2, a avaliação é heterogénea: exatidão em \emph{benchmarks}, métricas automáticas de fidelidade dependentes de \glspl{LLM} avaliadores, avaliação por especialistas e estudos com utilizadores, raramente combinados, e com pouca avaliação da recusa e do comportamento em várias línguas.
 
-Para o assistente do QBank, estas conclusões traduzem-se em decisões de desenho e de avaliação: fornecer ao modelo apenas o contexto validado da pergunta em curso; não depender apenas de instruções no \emph{prompt} para o âmbito e para as regras por modo; tratar a segurança contra injeção direta; e avaliar a correção, a fidelidade e a recusa em conjunto, nas várias línguas do QBank, combinando testes técnicos, especialistas da Adhara e utilizadores. O Capítulo~\ref{chap:Chapter3} parte destas conclusões para o desenho da solução.
+Para o assistente do QBank, estas conclusões apontam implicações para o desenho e a avaliação, a concretizar no Capítulo~\ref{chap:Chapter3}: fornecer ao modelo apenas o contexto validado da pergunta em curso; não depender apenas de instruções no \emph{prompt} para o âmbito e para as regras por modo; tratar a segurança contra injeção direta; e avaliar a correção, a fidelidade e a recusa em conjunto, nas várias línguas do QBank, combinando testes técnicos, especialistas da Adhara e utilizadores. O Capítulo~\ref{chap:Chapter3} parte destas conclusões para o desenho da solução.

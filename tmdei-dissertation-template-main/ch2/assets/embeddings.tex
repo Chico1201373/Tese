@@ -1,0 +1,18 @@
+% Perguntas ao assistente representadas como vetores e agrupadas por tema (ilustrativo)
+\begin{tikzpicture}[x=1cm, y=1cm, p/.style={circle, fill=black!55, inner sep=1.3pt}, q/.style={circle, draw, thick, inner sep=1.6pt}, lab/.style={font=\scriptsize, align=center}]
+\draw[-{Stealth[length=2mm]}] (0,0) -- (8,0) node[below left, lab] {dimensão 1};
+\draw[-{Stealth[length=2mm]}] (0,0) -- (0,4.4) node[above, lab] {dimensão 2};
+% grupo A
+\foreach \x/\y in {1.1/3.1, 1.5/3.5, 1.3/2.8, 1.8/3.2, 1.0/3.6} \node[p] at (\x,\y) {};
+\draw[dashed, rounded corners] (0.7,2.5) rectangle (2.2,3.9);
+\node[lab, anchor=west] at (2.3,3.6) {grupo A: ``porque é que a\\opção C está errada?''};
+% grupo B
+\foreach \x/\y in {5.6/1.1, 6.0/1.5, 6.3/0.9, 5.8/0.7, 6.6/1.3} \node[p] at (\x,\y) {};
+\draw[dashed, rounded corners] (5.3,0.45) rectangle (6.9,1.8);
+\node[lab, anchor=south] at (6.1,1.9) {grupo B: dúvidas sobre o\\mecanismo da doença};
+% pergunta nova
+\node[q] (n) at (2.9,2.0) {};
+\node[lab, anchor=north] at (2.9,1.8) {pergunta nova};
+\draw[dotted] (n) -- (1.6,3.0) node[pos=0.45, lab, anchor=west] {~mais semelhante};
+\draw[dotted] (n) -- (5.6,1.1);
+\end{tikzpicture}

@@ -65,20 +65,22 @@ Scopus & 102 & 131 & 14 & 32 & 279 \\
 \section{Seleção dos Estudos}
 \label{sec:app_selection}
 
-A seleção seguiu quatro passos, todos registados em ficheiros e reprodutíveis através de \emph{scripts}:
+A seleção seguiu seis passos, todos registados em ficheiros e reprodutíveis através de \emph{scripts}:
 \begin{enumerate}
     \item \textbf{Deduplicação.} Os registos das três fontes foram juntos e os duplicados removidos, primeiro pelo DOI normalizado e depois pelo título normalizado. Cada registo guarda a fonte e a pesquisa de onde veio.
     \item \textbf{Triagem por regras (fase A).} Foram aplicadas regras explícitas sobre o título e o resumo, que implementam os critérios E2, E3 e E4 e o foco do I3 e do I4: registo sem resumo ou que não é artigo; revisão ou \emph{survey}; ausência de termos de \gls{LLM}; ausência de termos de sistema conversacional ou \gls{QA}; ausência de termos de educação ou saúde; e ausência de termos de avaliação das respostas. As regras e os termos usados estão no \emph{script} de triagem.
     \item \textbf{Triagem por leitura (fase B).} Os registos que passaram a fase A foram lidos (título e resumo) e classificados como incluídos ou excluídos, com um critério e um motivo por registo. Esta triagem foi feita com apoio de um assistente de \gls{IA}, que propôs as decisões e os motivos; as decisões foram verificadas pelo autor (Secção~\ref{sec:chap1_ethics}). % TODO: indicar se o orientador reviu uma amostra.
-    \item \textbf{Priorização.} Dentro dos incluídos, foram marcados como prioritários os estudos que cumprem pelo menos uma das seguintes condições, escolhidas pela proximidade ao caso de estudo: (a) contexto fechado e próximo do QBank (perguntas de exame ou de escolha múltipla, materiais de um curso ou um documento específico); (b) avaliação explícita da correção, da fidelidade ou da recusa; (c) mecanismo de controlo do âmbito ou de segurança; (d) suporte a várias línguas.
+    \item \textbf{Critério de proximidade (I5).} Na mesma leitura, cada registo que cumpria os critérios I1 a I4 foi verificado quanto ao I5. O I5 exige pelo menos uma das seguintes condições, escolhidas pela proximidade ao caso de estudo: (a) contexto fechado e próximo do QBank (perguntas de exame ou de escolha múltipla, materiais de um curso ou um documento específico); (b) avaliação explícita da correção, da fidelidade ou da recusa; (c) mecanismo de controlo do âmbito ou de segurança; (d) suporte a várias línguas. Dos 211 registos que cumpriam os critérios I1 a I4, 48 cumpriam o I5. O I5 foi acrescentado durante a revisão, para limitar o conjunto final a um número de estudos que pudesse ser lido integralmente.
+    \item \textbf{Texto integral.} O texto integral dos 48 estudos foi procurado nas três fontes e obtido para 46. Na leitura, os critérios I3 e I4 foram confirmados; 2 estudos foram excluídos por não avaliarem as respostas (I4).
+    \item \textbf{Avaliação da qualidade.} Os 44 estudos restantes foram pontuados com os critérios da Secção~\ref{sec:app_extraction}, e 6 foram excluídos por ficarem abaixo do limiar.
 \end{enumerate}
 
 \section{Avaliação da Qualidade e Extração de Dados}
 \label{sec:app_extraction}
 
-Na leitura do texto integral, cada estudo será avaliado com cinco critérios de qualidade, cada um classificado como \emph{sim} (1), \emph{parcial} (0,5) ou \emph{não} (0): (QA1) o objetivo está claro; (QA2) o sistema, o modelo e a origem do contexto estão descritos; (QA3) os dados, as perguntas ou os cenários de avaliação estão descritos; (QA4) o método de avaliação é adequado às conclusões; (QA5) as limitações e ameaças à validade são discutidas. A pontuação não exclui estudos: serve para ponderar a evidência na síntese.
+Na leitura do texto integral, cada estudo foi avaliado com cinco critérios de qualidade, cada um classificado como \emph{sim} (1), \emph{parcial} (0,5) ou \emph{não} (0): (QA1) o objetivo está claro; (QA2) o sistema, o modelo e a origem do contexto estão descritos; (QA3) os dados, as perguntas ou os cenários de avaliação estão descritos; (QA4) o método de avaliação é adequado às conclusões; (QA5) as limitações e ameaças à validade são discutidas. A pontuação máxima é 5. Foram excluídos os estudos com menos de 3,5, isto é, os que falham pelo menos um critério e são parciais noutro, ou parciais em três ou mais. O limiar foi definido durante a revisão, tal como o I5. A pontuação de cada estudo incluído está no Apêndice~\ref{AppendixB}; a de todos os estudos, com a justificação, está no ficheiro \texttt{qualidade.csv} dos \emph{scripts} da revisão.
 
-Os campos de extração estão na Tabela~\ref{tab:extraction}. Nesta fase, a extração foi feita a partir dos resumos; os campos serão confirmados e completados com o texto integral.
+Os campos de extração estão na Tabela~\ref{tab:extraction}. A extração foi feita a partir do texto integral dos 38 estudos incluídos.
 
 \begin{table}
 \caption{Campos de extração de dados.}

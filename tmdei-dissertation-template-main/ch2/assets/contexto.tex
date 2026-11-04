@@ -16,12 +16,12 @@
 \foreach \i/\j in {a1/a2, a2/a3, a3/a4, a4/a5}
   \draw[arr] ([yshift=-0.62cm]\i.north east) -- ([yshift=-0.62cm]\j.north west);
 % (b) contexto por item
-\node[lab] at (0,-2.35) {(b) Contexto fornecido diretamente (caso do QBank)};
+\node[lab] at (0,-2.35) {(b) Contexto fornecido diretamente};
 \node[b] (b1) at (1.2,-2.8) {Pergunta do utilizador + ID do item em curso};
 \node[hl] (b2) at ([xshift=2.6cm]b1.north) {Leitura do registo do item na base de dados};
 \node[b] (b3) at ([xshift=2.6cm]b2.north) {\emph{Prompt}: instruções + regras do modo + dados do item + pergunta};
 \node[b] (b4) at ([xshift=2.6cm]b3.north) {\gls{LLM}};
-\node[b] (b5) at ([xshift=2.6cm]b4.north) {Resposta na língua do QBank};
+\node[b] (b5) at ([xshift=2.6cm]b4.north) {Resposta};
 \foreach \i/\j in {b1/b2, b2/b3, b3/b4, b4/b5}
   \draw[arr] ([yshift=-0.62cm]\i.north east) -- ([yshift=-0.62cm]\j.north west);
 \end{tikzpicture}

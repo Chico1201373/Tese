@@ -1,8 +1,8 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.11.5)  3 NOV 2026 09:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.11.5)  4 NOV 2026 12:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**main
+**main.tex
 (./main.tex
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -1036,6 +1036,10 @@ s.code.tex
 )
 (/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/libraries/decorations/pgfli
 brarydecorations.pathreplacing.code.tex))
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
+s/tikzlibrarycalc.code.tex
+File: tikzlibrarycalc.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
 (/usr/local/texlive/2025/texmf-dist/tex/latex/pgfplots/pgfplots.sty
 (/usr/local/texlive/2025/texmf-dist/tex/generic/pgfplots/pgfplots.revision.tex)
 Package: pgfplots 2021/05/15 v1.18.1 Data Visualization (1.18.1)
@@ -1749,9 +1753,9 @@ LaTeX Font Info:    External font `lmex10' loaded for size
  Resumo
 --------------------
 LaTeX Font Info:    Font shape `T1/cmbr/m/it' in size <10.95> not available
-(Font)              Font shape `T1/cmbr/m/sl' tried instead on input line 40.
+(Font)              Font shape `T1/cmbr/m/sl' tried instead on input line 39.
 LaTeX Font Info:    Font shape `T1/cmbr/b/n' in size <10.95> not available
-(Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 44.
+(Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 43.
 
 
 [5
@@ -1828,23 +1832,23 @@ Cap\'{\i }tulo 1.
 ]
 
 LaTeX Font Warning: Font shape `T1/cmbr/m/sc' undefined
-(Font)              using `T1/cmbr/m/n' instead on input line 29.
+(Font)              using `T1/cmbr/m/n' instead on input line 30.
 
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 33.
+(Font)              <9> on input line 34.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 33.
+(Font)              <5> on input line 34.
 LaTeX Font Info:    Font shape `T1/cmbr/b/n' in size <9> not available
-(Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 35.
+(Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 36.
 LaTeX Font Info:    Trying to load font information for TS1+cmbr on input line 
-43.
+44.
 (/usr/local/texlive/2025/texmf-dist/tex/latex/cmbright/ts1cmbr.fd
 File: ts1cmbr.fd 2005/04/13 v8.1 (WaS)
 )
 LaTeX Font Info:    Font shape `T1/cmbr/m/it' in size <9> not available
-(Font)              Font shape `T1/cmbr/m/sl' tried instead on input line 44.
+(Font)              Font shape `T1/cmbr/m/sl' tried instead on input line 45.
 
-Underfull \hbox (badness 10000) in paragraph at lines 47--47
+Underfull \hbox (badness 10000) in paragraph at lines 48--48
 []|\T1/cmbr/m/n/9 Prioridade en-tre qua-li-dade,
  []
 
@@ -1852,21 +1856,15 @@ Underfull \hbox (badness 10000) in paragraph at lines 47--47
 
 [2{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 }]
-Overfull \hbox (4.78313pt too wide) in paragraph at lines 67--68
-[]\T1/cmbr/bx/n/10.95 Várias par-tes in-te-res-sa-das. \T1/cmbr/m/n/10.95 Uti-l
-i-za-do-res (es-tu-dan-tes, mé-di-cos e en-fer-mei-ros) e Adhara,
- []
-
-
 
 [3]
-
-[4]
-Underfull \hbox (badness 1635) in paragraph at lines 134--134
+Underfull \hbox (badness 1635) in paragraph at lines 135--135
 []|\T1/cmbr/m/n/9 Qualidade de-si-gual en-tre as
  []
 
 
+
+[4]
 
 [5]
 
@@ -1889,29 +1887,43 @@ LaTeX Font Warning: Font shape `T1/cmbr/b/it' undefined
 [10]
 LaTeX Font Info:    Font shape `T1/cmbr/b/it' in size <12> not available
 (Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 46.
- (./ch2/assets/mensagens.tex
-LaTeX Font Info:    Font shape `T1/cmbr/m/it' in size <8> not available
-(Font)              Font shape `T1/cmbr/m/sl' tried instead on input line 10.
+<ch2/assets/fig_echomind.pdf, id=638, 614.295pt x 794.97pt>
+File: ch2/assets/fig_echomind.pdf Graphic file (type pdf)
+<use ch2/assets/fig_echomind.pdf>
+Package pdftex.def Info: ch2/assets/fig_echomind.pdf  used on input line 53.
+(pdftex.def)             Requested size: 423.9459pt x 175.48906pt.
+LaTeX Font Info:    Font shape `T1/cmbr/m/it' in size <10> not available
+(Font)              Font shape `T1/cmbr/m/sl' tried instead on input line 54.
+
+
+[11 <./ch2/assets/fig_echomind.pdf>] (./ch2/assets/temperatura.tex
 LaTeX Font Info:    Font shape `T1/cmbr/b/n' in size <8> not available
-(Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 11.
+(Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 15.
 
 
 LaTeX Font Warning: Font shape `T1/cmbr/bx/n' in size <8> not available
-(Font)              Font shape `T1/cmbr/sb/n' tried instead on input line 11.
+(Font)              Font shape `T1/cmbr/sb/n' tried instead on input line 15.
 
 )
 
-[11] (./ch2/assets/temperatura.tex)
-LaTeX Font Info:    Font shape `T1/cmbr/m/it' in size <10> not available
-(Font)              Font shape `T1/cmbr/m/sl' tried instead on input line 63.
- (./ch2/assets/embeddings.tex)
+[12]
+<ch2/assets/fig_asknow_grupos.pdf, id=1047, 614.295pt x 794.97pt>
+File: ch2/assets/fig_asknow_grupos.pdf Graphic file (type pdf)
+<use ch2/assets/fig_asknow_grupos.pdf>
+Package pdftex.def Info: ch2/assets/fig_asknow_grupos.pdf  used on input line 7
+9.
+(pdftex.def)             Requested size: 423.9459pt x 247.65344pt.
+
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\gls' on input line 84.
 
 
 
-[12] (./ch2/assets/contexto.tex)
+[13 <./ch2/assets/fig_asknow_grupos.pdf>] (./ch2/assets/contexto.tex
+LaTeX Font Info:    Font shape `T1/cmbr/m/it' in size <8> not available
+(Font)              Font shape `T1/cmbr/m/sl' tried instead on input line 13.
+)
 Underfull \hbox (badness 2158) in paragraph at lines 112--112
 []|\T1/cmbr/m/n/8 Seleção do con-
  []
@@ -1947,8 +1959,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 116--116
  []
 
 
-
-[13]
 
 [14]
 
@@ -2000,101 +2010,83 @@ on) AND
 
 
 
-[16] (./ch2/assets/prisma.tex)
+[16]
+
+[17] (./ch2/assets/prisma.tex)
+
+[18]
 LaTeX Font Info:    Font shape `T1/cmbr/b/n' in size <6> not available
-(Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 233.
+(Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 236.
 
 
 LaTeX Font Warning: Font shape `T1/cmbr/bx/n' in size <6> not available
-(Font)              Font shape `T1/cmbr/sb/n' tried instead on input line 233.
+(Font)              Font shape `T1/cmbr/sb/n' tried instead on input line 236.
 
-
-
-[17]
-
-[18]
-LaTeX Font Info:    Font shape `T1/cmbr/b/it' in size <10.95> not available
-(Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 276.
 
 
 [19]
+LaTeX Font Info:    Font shape `T1/cmbr/b/it' in size <10.95> not available
+(Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 279.
+
 
 [20]
+Overfull \hbox (5.4805pt too wide) in paragraph at lines 308--309
+\T1/cmbr/m/sl/10.95 thought\T1/cmbr/m/n/10.95 ) e ve-ri-fi-car as pró-prias afi
+r-ma-ções an-tes da res-posta fi-nal (\T1/cmbr/m/sl/10.95 chain-of-verification
+\T1/cmbr/m/n/10.95 );
+ []
+
+
 
 [21]
 
 [22]
-<ch2/assets/fig_asknow.pdf, id=897, 614.295pt x 794.97pt>
+<ch2/assets/fig_asknow.pdf, id=1273, 614.295pt x 794.97pt>
 File: ch2/assets/fig_asknow.pdf Graphic file (type pdf)
 <use ch2/assets/fig_asknow.pdf>
-Package pdftex.def Info: ch2/assets/fig_asknow.pdf  used on input line 328.
+Package pdftex.def Info: ch2/assets/fig_asknow.pdf  used on input line 338.
 (pdftex.def)             Requested size: 390.02945pt x 210.30724pt.
 
-
-[23 <./ch2/assets/fig_asknow.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 348--348
+Underfull \hbox (badness 10000) in paragraph at lines 358--358
 []|\T1/cmbr/m/n/9 Instruções no
  []
 
 
-Underfull \hbox (badness 2529) in paragraph at lines 352--353
+Underfull \hbox (badness 2529) in paragraph at lines 362--363
 []|\T1/cmbr/m/n/9 Superior ao GPT-4 em ade-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 354--354
+Underfull \hbox (badness 10000) in paragraph at lines 364--364
 []|\T1/cmbr/m/n/9 Classificador de
  []
 
 
-Underfull \hbox (badness 4441) in paragraph at lines 354--354
+Underfull \hbox (badness 4441) in paragraph at lines 364--364
 []|\T1/cmbr/m/n/9 Modelo \T1/cmbr/m/sl/9 Trans-for-mer \T1/cmbr/m/n/9 ajus-tado
 
  []
 
 
-Underfull \hbox (badness 1394) in paragraph at lines 354--355
+Underfull \hbox (badness 1394) in paragraph at lines 364--365
 []|\T1/cmbr/m/n/9 F1 de 0,964 (Mathew et al.
  []
 
 
-Underfull \hbox (badness 2626) in paragraph at lines 356--356
+Underfull \hbox (badness 2626) in paragraph at lines 366--366
 []|\T1/cmbr/m/n/9 Antes ou
  []
 
 
-Underfull \hbox (badness 1253) in paragraph at lines 358--358
+Underfull \hbox (badness 1253) in paragraph at lines 368--368
 \T1/cmbr/m/n/9 pe-di-dos apro-va-dos che-gam ao
  []
 
 
-Underfull \hbox (badness 7344) in paragraph at lines 358--359
-[]|\T1/cmbr/m/n/9 100% dos ata-ques blo-que-a-
- []
-
-
-Underfull \hbox (badness 1533) in paragraph at lines 360--360
-[]|\T1/cmbr/m/n/9 Regras pro-gra-má-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 360--360
-[]|\T1/cmbr/m/n/9 Antes e
- []
-
-
-Underfull \hbox (badness 3769) in paragraph at lines 364--364
+Underfull \hbox (badness 3769) in paragraph at lines 372--372
 []|\T1/cmbr/m/n/9 Monitorização in-
  []
 
-
-
-[24] (./ch2/assets/seguranca.tex)
-<ch2/assets/fig_chattedu.pdf, id=1127, 578.16pt x 785.865pt>
-File: ch2/assets/fig_chattedu.pdf Graphic file (type pdf)
-<use ch2/assets/fig_chattedu.pdf>
-Package pdftex.def Info: ch2/assets/fig_chattedu.pdf  used on input line 386.
-(pdftex.def)             Requested size: 211.97295pt x 227.70915pt.
 
 
 
@@ -2106,267 +2098,265 @@ Package scrlayer-scrpage Warning: \headheight to low.
 (scrlayer-scrpage)                e.g., setting geometry's option
 (scrlayer-scrpage)                `head=13.84335pt'.
 (scrlayer-scrpage)                I'll also decrease \topmargin on input line 3
-94.
+80.
 
 
 Overfull \vbox (0.14336pt too high) has occurred while \output is active []
 
 
-[25]
+[23]
+
+[24] (./ch2/assets/seguranca.tex)
+
+[25 <./ch2/assets/fig_asknow.pdf>]
+<ch2/assets/fig_chattedu.pdf, id=1495, 578.16pt x 785.865pt>
+File: ch2/assets/fig_chattedu.pdf Graphic file (type pdf)
+<use ch2/assets/fig_chattedu.pdf>
+Package pdftex.def Info: ch2/assets/fig_chattedu.pdf  used on input line 394.
+(pdftex.def)             Requested size: 211.97295pt x 227.70915pt.
+
 
 [26 <./ch2/assets/fig_chattedu.pdf>]
-Underfull \hbox (badness 1910) in paragraph at lines 420--421
-\T1/cmbr/m/n/9 lah et al. []2025[]); 0,93
- []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 424--424
+[27]
+Underfull \hbox (badness 10000) in paragraph at lines 439--439
 []|\T1/cmbr/m/n/9 Relevância da res-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 426--426
+Underfull \hbox (badness 10000) in paragraph at lines 441--441
 []|\T1/cmbr/m/n/9 Exatidão; \T1/cmbr/m/sl/9 exact
  []
 
 
-Underfull \hbox (badness 1389) in paragraph at lines 426--427
+Underfull \hbox (badness 1389) in paragraph at lines 441--442
 []|\T1/cmbr/m/n/9 60,7% no MedQA (Xie
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 428--428
+Underfull \hbox (badness 10000) in paragraph at lines 443--443
 []|\T1/cmbr/m/n/9 Semelhança
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 428--428
+Underfull \hbox (badness 10000) in paragraph at lines 443--443
 []|\T1/cmbr/m/n/9 BLEU, ROUGE-L,
  []
 
 
-Underfull \hbox (badness 5893) in paragraph at lines 428--428
+Underfull \hbox (badness 5893) in paragraph at lines 443--443
 \T1/cmbr/m/n/9 ME-TEOR, BERTS-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 428--428
+Underfull \hbox (badness 10000) in paragraph at lines 443--443
 []|\T1/cmbr/m/n/9 Sobreposição ou se-me-lhança
  []
 
 
-Underfull \hbox (badness 2707) in paragraph at lines 430--430
+Underfull \hbox (badness 2707) in paragraph at lines 445--445
 []|\T1/cmbr/m/n/9 Precisão da re-cusa;
  []
 
 
-Underfull \hbox (badness 4913) in paragraph at lines 430--430
+Underfull \hbox (badness 4913) in paragraph at lines 445--445
 \T1/cmbr/m/n/9 taxa de abs-ten-ção;
  []
 
 
-Underfull \hbox (badness 2521) in paragraph at lines 432--432
+Underfull \hbox (badness 2521) in paragraph at lines 447--447
 []|\T1/cmbr/m/n/9 Ataques blo-que-a-dos;
  []
 
 
-Underfull \hbox (badness 6477) in paragraph at lines 432--433
+Underfull \hbox (badness 6477) in paragraph at lines 447--448
 \T1/cmbr/m/n/9 0,964 (Mathew et al.
  []
 
 
-Underfull \hbox (badness 1502) in paragraph at lines 436--436
+Underfull \hbox (badness 1502) in paragraph at lines 451--451
 []|\T1/cmbr/m/n/9 Latência; custo por
  []
 
 
-Underfull \hbox (badness 2913) in paragraph at lines 438--439
+Underfull \hbox (badness 2913) in paragraph at lines 453--454
 []|[]\T1/cmbr/m/n/9 SUS de 77,8 (Bar-zanji
  []
 
 
 
-[27]
-
 [28]
 
 [29]
-Underfull \hbox (badness 10000) in paragraph at lines 470--470
+Underfull \hbox (badness 10000) in paragraph at lines 485--485
 []|\T1/cmbr/m/n/8 Transcrição com-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 470--470
+Underfull \hbox (badness 10000) in paragraph at lines 485--485
 []|\T1/cmbr/m/n/8 Instruções no
  []
 
 
-Underfull \hbox (badness 6236) in paragraph at lines 470--471
+Underfull \hbox (badness 6236) in paragraph at lines 485--486
 []|\T1/cmbr/m/n/8 Correção 4,5--4,9/5 por
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 472--472
+Underfull \hbox (badness 10000) in paragraph at lines 487--487
 []|\T1/cmbr/m/n/8 Apresentações
  []
 
 
-Underfull \hbox (badness 2922) in paragraph at lines 474--474
+Underfull \hbox (badness 2922) in paragraph at lines 489--489
 []|\T1/cmbr/m/n/8 RadQA (Ha-midi
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 476--476
+Underfull \hbox (badness 10000) in paragraph at lines 491--491
 []|\T1/cmbr/m/n/8 Solução da per-
  []
 
 
-Underfull \hbox (badness 1590) in paragraph at lines 478--478
-[]|\T1/cmbr/m/n/8 CS50.ai (Liu et
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 480--480
+Underfull \hbox (badness 10000) in paragraph at lines 493--493
 []|\T1/cmbr/m/n/8 CourseAssist
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 480--480
+Underfull \hbox (badness 10000) in paragraph at lines 493--493
 \T1/cmbr/m/n/8 (Feng et al.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 482--482
+Underfull \hbox (badness 10000) in paragraph at lines 495--495
 []|\T1/cmbr/m/n/8 SAGE (Rayhan
  []
 
 
-Underfull \hbox (badness 2564) in paragraph at lines 482--483
+Underfull \hbox (badness 2564) in paragraph at lines 495--496
 []|\T1/cmbr/m/n/8 Utilidade e cum-pri-mento
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 484--484
+Underfull \hbox (badness 10000) in paragraph at lines 497--497
 []|\T1/cmbr/m/n/8 Abrar et al.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 484--484
+Underfull \hbox (badness 10000) in paragraph at lines 497--497
 []|\T1/cmbr/m/n/8 Dados ins-ti-tu-ci-o-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 486--486
+Underfull \hbox (badness 10000) in paragraph at lines 499--499
 []|\T1/cmbr/m/n/8 ChatTEDU
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 488--488
+Underfull \hbox (badness 10000) in paragraph at lines 501--501
 []|\T1/cmbr/m/n/8 Perguntas de
  []
 
 
-
-[30]
-Underfull \hbox (badness 2503) in paragraph at lines 521--521
+Underfull \hbox (badness 2503) in paragraph at lines 534--534
 \T1/cmbr/m/n/9 tro-du-zir con-texto que
  []
 
 
-Underfull \hbox (badness 1122) in paragraph at lines 521--521
+Underfull \hbox (badness 1122) in paragraph at lines 534--534
 \T1/cmbr/m/n/9 des-via ou con-tra-diz o
  []
 
 
-Underfull \hbox (badness 2726) in paragraph at lines 521--521
+Underfull \hbox (badness 2726) in paragraph at lines 534--534
 []|\T1/cmbr/m/n/9 Poucos es-tu-dos usam
  []
 
 
-Underfull \hbox (badness 3612) in paragraph at lines 523--523
+Underfull \hbox (badness 3612) in paragraph at lines 536--536
 []|\T1/cmbr/m/n/9 Instruções no \T1/cmbr/m/sl/9 prompt
  []
 
 
-Underfull \hbox (badness 1796) in paragraph at lines 523--523
+Underfull \hbox (badness 1796) in paragraph at lines 536--536
 \T1/cmbr/m/n/9 pri-mento das po-lí-ti-cas
  []
 
 
-Underfull \hbox (badness 1406) in paragraph at lines 523--523
+Underfull \hbox (badness 1406) in paragraph at lines 536--536
 []|\T1/cmbr/m/n/9 Pouca evi-dên-cia so-bre
  []
 
 
-Underfull \hbox (badness 7221) in paragraph at lines 523--523
+Underfull \hbox (badness 7221) in paragraph at lines 536--536
 \T1/cmbr/m/n/9 re-cusa e re-gras por
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 525--525
+Underfull \hbox (badness 10000) in paragraph at lines 538--538
 []|\T1/cmbr/m/n/9 Estudos mul-ti-lin-gues
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 525--525
+Underfull \hbox (badness 10000) in paragraph at lines 538--538
 []|\T1/cmbr/m/n/9 Consistência com o
  []
 
 
-Underfull \hbox (badness 1502) in paragraph at lines 525--525
+Underfull \hbox (badness 1502) in paragraph at lines 538--538
 \T1/cmbr/m/n/9 mesmo con-te-údo va-li-
  []
 
 
-Underfull \hbox (badness 1406) in paragraph at lines 525--525
+Underfull \hbox (badness 1406) in paragraph at lines 538--538
 []|\T1/cmbr/m/n/9 Pouca evi-dên-cia so-bre
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 527--527
+Underfull \hbox (badness 10000) in paragraph at lines 540--540
 []|\T1/cmbr/m/n/9 Avaliações pe-que-nas,
  []
 
 
-Underfull \hbox (badness 1377) in paragraph at lines 527--527
+Underfull \hbox (badness 1377) in paragraph at lines 540--540
 \T1/cmbr/m/n/9 com []LLM juiz ou só
  []
 
 
 
-[31]) (./ch3/chapter3.tex
+[30]
 
-[32]
+[31]
+
+[32]) (./ch3/chapter3.tex
+
+[33]
+
+[34
+
+]
 Cap\'{\i }tulo 3.
 
 
-[33
-
-]
+[35]
 LaTeX Font Info:    Font shape `T1/cmbr/b/it' in size <14.4> not available
 (Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 75.
 
 
-LaTeX Warning: Reference `chap:Chapter4' on page 34 undefined on input line 103
+LaTeX Warning: Reference `chap:Chapter4' on page 36 undefined on input line 103
 .
 
 )
 
-[34]
-
-[35]
-
-[36
-
-]
-Overfull \hbox (3.03058pt too wide) in paragraph at lines 131--131
-\T1/cmbr/m/sc/10.95 Con-ver-sa-ti-o-nal Ap-pro-ach*^^T. Em: \T1/cmbr/m/sl/10.95
- 2025 12th In-ter-na-ti-o-nal Con-fe-rence on Wi-re-less Networks
- []
-
-
+[36]
 
 [37]
+
+[38
+
+]
+
+[39]
 Overfull \hbox (5.1925pt too wide) in paragraph at lines 131--131
 [][]\T1/cmbr/m/sc/10.95 Christiawan, J. et al. (2025). ^^S  Sanity-LLM: Enhan-c
 ing Men-tal He-alth Chat-bots with Retrieval-
@@ -2374,11 +2364,11 @@ ing Men-tal He-alth Chat-bots with Retrieval-
 
 
 
-[38]
-
-[39]
-
 [40]
+
+[41]
+
+[42]
 Overfull \hbox (2.98311pt too wide) in paragraph at lines 131--131
 \T1/cmbr/m/sl/10.95 Human-Machine Sys-tems (ICHMS)\T1/cmbr/m/sc/10.95 . Es-tudo
  R0807 da re-vi-são. doi: []$\T1/cmtl/m/n/10.95 10 . 1109 / ICHMS69701 .
@@ -2386,15 +2376,9 @@ Overfull \hbox (2.98311pt too wide) in paragraph at lines 131--131
 
 
 
-[41]
+[43] (./appendices/appendixProtocol.tex
 
-[42] (./appendices/appendixProtocol.tex
-
-[43]
-
-[44
-
-]
+[44]
 Ap\^endice A.
 
 Underfull \hbox (badness 5954) in paragraph at lines 22--23
@@ -2403,7 +2387,9 @@ Underfull \hbox (badness 5954) in paragraph at lines 22--23
 
 
 
-[45]
+[45
+
+]
 Overfull \hbox (6.02856pt too wide) in paragraph at lines 38--39
 \T1/cmtl/m/n/10.95 ("Document Title":LLM OR "Abstract":LLM OR "Author Keywords"
 :LLM)\T1/cmbr/m/sc/10.95 ), man-tendo
@@ -2412,7 +2398,7 @@ Overfull \hbox (6.02856pt too wide) in paragraph at lines 38--39
 
 
 [46]
-Underfull \hbox (badness 10000) in paragraph at lines 95--96
+Underfull \hbox (badness 10000) in paragraph at lines 97--98
 []|\T1/cmbr/m/n/9 RQ1,
  []
 
@@ -2420,9 +2406,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 95--96
 
 [47]
 
-[48
-
-]
+[48]
 Ap\^endice B.
 
 Underfull \hbox (badness 10000) in paragraph at lines 21--21
@@ -2435,211 +2419,228 @@ Underfull \hbox (badness 10000) in paragraph at lines 21--21
  []
 
 
+Underfull \hbox (badness 3547) in paragraph at lines 21--21
+[]|\T1/cmbr/m/n/8 RAG com tri-plos de
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 21--21
+[]|\T1/cmbr/m/n/8 Exatidão em
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 21--21
+\T1/cmbr/m/n/8 MedMCQA e Me-
+ []
+
+
 Underfull \hbox (badness 5985) in paragraph at lines 22--22
 []|[]\T1/cmbr/m/n/8 Christiawan et al.
  []
 
 
-Underfull \hbox (badness 6252) in paragraph at lines 24--24
+Underfull \hbox (badness 10000) in paragraph at lines 22--22
+[]|\T1/cmbr/m/n/8 RAGAS: fi-de-li-dade
+ []
+
+
+Underfull \hbox (badness 6252) in paragraph at lines 23--23
 []|[]\T1/cmbr/m/n/8 Nurfadhilah et al.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 26--26
+Underfull \hbox (badness 1845) in paragraph at lines 23--23
+[]|\T1/cmbr/m/n/8 700 res-pos-tas; fi-de-li-
+ []
+
+
+Underfull \hbox (badness 4699) in paragraph at lines 25--25
 []|\T1/cmbr/m/n/8 Educação (tri-lin-
  []
 
 
+Underfull \hbox (badness 2547) in paragraph at lines 25--25
+[]|\T1/cmbr/m/n/8 Correção e fi-de-li-dade
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 26--26
-[]|\T1/cmbr/m/n/8 RAG com em-bed-dings
+[]|\T1/cmbr/m/n/8 Diagnóstico
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 27--28
-[]|\T1/cmbr/m/n/8 Deteção de ame-a-ças
+Underfull \hbox (badness 10000) in paragraph at lines 26--26
+[]|\T1/cmbr/m/n/8 Comparação com e
  []
 
 
-Underfull \hbox (badness 1259) in paragraph at lines 28--29
-[]|\T1/cmbr/m/n/8 Comparação com e sem
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 29--29
+Underfull \hbox (badness 10000) in paragraph at lines 27--27
 []|\T1/cmbr/m/n/8 QA mé-dico
  []
 
 
-Underfull \hbox (badness 2512) in paragraph at lines 29--29
-[]|\T1/cmbr/m/n/8 RAG mul-ti-a-gente; base
+Underfull \hbox (badness 10000) in paragraph at lines 27--27
+[]|\T1/cmbr/m/n/8 Exatidão em
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 32--32
+Underfull \hbox (badness 3954) in paragraph at lines 28--28
+[]|\T1/cmbr/m/n/8 Exatidão; aná-lise de
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--30
 []|\T1/cmbr/m/n/8 Ensino su-pe-rior
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 33--33
-[]|[]\T1/cmbr/m/n/8 Elnozahy et al.
+Underfull \hbox (badness 2050) in paragraph at lines 31--31
+[]|\T1/cmbr/m/n/8 Fidelidade, re-le-vân-cia,
  []
 
 
-Underfull \hbox (badness 1360) in paragraph at lines 34--34
-[]|\T1/cmbr/m/n/8 Exame de acesso
+Underfull \hbox (badness 10000) in paragraph at lines 32--32
+[]|\T1/cmbr/m/n/8 RAG so-bre ma-nu-ais
  []
 
 
-Underfull \hbox (badness 1803) in paragraph at lines 34--34
-[]|\T1/cmbr/m/n/8 RAG so-bre so-lu-ções de
+Underfull \hbox (badness 10000) in paragraph at lines 34--34
+[]|\T1/cmbr/m/n/8 Exatidão, abs-ten-ção,
  []
 
 
-Underfull \hbox (badness 4686) in paragraph at lines 36--36
-[]|[]\T1/cmbr/m/n/8 BENGMAH et al.
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 39--39
+Underfull \hbox (badness 10000) in paragraph at lines 35--35
 []|\T1/cmbr/m/n/8 Transferível
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 42--42
+Underfull \hbox (badness 2205) in paragraph at lines 36--36
+[]|\T1/cmbr/m/n/8 25 pa-res; la-tên-cia e
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--38
 []|\T1/cmbr/m/n/8 Transferível
  []
 
 
-Underfull \hbox (badness 3646) in paragraph at lines 42--43
-[]|\T1/cmbr/m/n/8 Efeito da re-le-vân-cia do
+Underfull \hbox (badness 6268) in paragraph at lines 39--39
+[]|\T1/cmbr/m/n/8 Pacientes vir-tu-ais de
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 44--45
-[]|\T1/cmbr/m/n/8 BLEU, ROUGE-L,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 45--45
-[]|\T1/cmbr/m/n/8 Cibersegurança
- []
-
-
-Underfull \hbox (badness 7168) in paragraph at lines 46--46
-[]|\T1/cmbr/m/n/8 RAG e en-ge-nha-ria de
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 47--47
+Underfull \hbox (badness 10000) in paragraph at lines 41--41
 []|\T1/cmbr/m/n/8 QA mé-dico
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 47--48
+Underfull \hbox (badness 1642) in paragraph at lines 41--41
 []|\T1/cmbr/m/n/8 Exatidão no MedQA;
  []
 
 
-Underfull \hbox (badness 7907) in paragraph at lines 48--48
+Underfull \hbox (badness 1178) in paragraph at lines 42--42
 []|\T1/cmbr/m/n/8 Contexto da aula em
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 49--49
-[]|\T1/cmbr/m/n/8 Programação
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 50--50
+Underfull \hbox (badness 10000) in paragraph at lines 43--43
 []|[]\T1/cmbr/m/n/8 Miroyan et al.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 52--52
+Underfull \hbox (badness 10000) in paragraph at lines 44--44
+[]|\T1/cmbr/m/n/8 Transferível
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--45
 []|[]\T1/cmbr/m/n/8 Seshadri et al.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 53--53
+Underfull \hbox (badness 2875) in paragraph at lines 45--45
+[]|\T1/cmbr/m/n/8 RAG so-bre ma-te-ri-ais,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 46--46
 []|[]\T1/cmbr/m/n/8 Barzanji et al.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 53--53
+Underfull \hbox (badness 10000) in paragraph at lines 46--46
 []|\T1/cmbr/m/n/8 Engenharia de
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 54--54
+Underfull \hbox (badness 4608) in paragraph at lines 46--46
+[]|\T1/cmbr/m/n/8 32 es-tu-dan-tes; SUS
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--47
 []|[]\T1/cmbr/m/n/8 Buti e Moha-med
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 54--54
+Underfull \hbox (badness 10000) in paragraph at lines 47--47
 []|\T1/cmbr/m/n/8 Aconselhamento
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 57--57
+Underfull \hbox (badness 2042) in paragraph at lines 49--49
+[]|\T1/cmbr/m/n/8 RAG, in-ten-ção e de-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
 []|\T1/cmbr/m/n/8 Procedimentos
  []
 
 
-Underfull \hbox (badness 3260) in paragraph at lines 58--58
-[]|\T1/cmbr/m/n/8 Autocrítica e ICL com
+Underfull \hbox (badness 3471) in paragraph at lines 50--50
+[]|\T1/cmbr/m/n/8 LLM com ve-ri-fi-ca-ção
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 59--59
-[]|\T1/cmbr/m/n/8 Base de co-nhe-ci-mento
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+[]|\T1/cmbr/m/n/8 Benchmark EduMC-
  []
 
 
-Underfull \hbox (badness 5787) in paragraph at lines 59--60
-[]|\T1/cmbr/m/n/8 Correção e com-ple-tude;
- []
-
-
-Underfull \hbox (badness 1917) in paragraph at lines 60--60
+Underfull \hbox (badness 1917) in paragraph at lines 52--52
 []|[]\T1/cmbr/m/n/8 Walczak e Sawicki
  []
 
 
-Underfull \hbox (badness 1019) in paragraph at lines 60--60
-[]|\T1/cmbr/m/n/8 Guardrails com res-tri-ção
+Underfull \hbox (badness 1655) in paragraph at lines 52--52
+[]|\T1/cmbr/m/n/8 Guardrails com res-tri-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 61--61
-[]|[]\T1/cmbr/m/n/8 Tien e Hu-ong
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 62--63
-[]|\T1/cmbr/m/n/8 4501 in-te-ra-ções re-ais;
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 63--63
+Underfull \hbox (badness 10000) in paragraph at lines 54--54
 []|[]\T1/cmbr/m/n/8 Mathew et al.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 65--65
-[]|\T1/cmbr/m/n/8 Programação
- []
-
-
-Underfull \hbox (badness 5985) in paragraph at lines 66--66
+Underfull \hbox (badness 5985) in paragraph at lines 56--56
 []|[]\T1/cmbr/m/n/8 Hamidi e Ro-berts
  []
 
 
-Underfull \hbox (badness 1622) in paragraph at lines 67--67
-[]|\T1/cmbr/m/n/8 Controlo de acesso por
+Underfull \hbox (badness 5563) in paragraph at lines 56--56
+[]|\T1/cmbr/m/n/8 EM, F1; ta-xo-no-mia
  []
 
-[49])
+
+Underfull \hbox (badness 10000) in paragraph at lines 58--58
+[]|\T1/cmbr/m/n/8 Universidade
+ []
+
+[49
+
+])
 
 [50] (./main.aux)
  ***********
@@ -2654,44 +2655,49 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 68C81AA70540E3A74D036FBCB06FE42F;13343.
+(rerunfilecheck)             Checksum: 08CDE76F5D92157AF3F1FD4A9F0B4D1C;13328.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 60689 strings out of 473190
- 1430724 string characters out of 5715800
- 2415447 words of memory out of 5000000
- 82836 multiletter control sequences out of 15000+600000
+ 60594 strings out of 473190
+ 1428362 string characters out of 5715800
+ 2411122 words of memory out of 5000000
+ 82752 multiletter control sequences out of 15000+600000
  582053 words of font info for 79 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 101i,20n,131p,2347b,3349s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/inconsolata/Inconsolat
-a-zi4r.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/libertine/Lin
-BiolinumT.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/libertine/
-LinLibertineT.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/libert
-ine/LinLibertineTB.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/l
-ibertine/LinLibertineTI.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/pub
-lic/hfbright/hfbr8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/h
-fbright/hfbrmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/hfb
-right/hfbrmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/hfbrig
-ht/hfbrmi9.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/hfbright/
-hfbrsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/hfbright/hf
-brsy8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/hfbright/hfbrs
-y9.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbbx10.
-pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbmo10.pfb
-></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbmo8.pfb></u
-sr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbmo9.pfb></usr/l
-ocal/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbmr10.pfb></usr/loca
-l/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbmr8.pfb></usr/local/te
-xlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbmr9.pfb></usr/local/texliv
-e/2025/texmf-dist/fonts/type1/public/cm-super/sfbsr8.pfb></usr/local/texlive/20
-25/texmf-dist/fonts/type1/public/cm-super/sfbtl10.pfb>
-Output written on main.pdf (68 pages, 1498281 bytes).
+ 101i,20n,131p,2351b,2765s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/fontawesome5/FontAweso
+me5Free-Solid.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/incons
+olata/Inconsolata-zi4r.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/publ
+ic/newtx/LibertineMathMI.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/pu
+blic/libertine/LinBiolinumT.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1
+/public/libertine/LinBiolinumTI.pfb></usr/local/texlive/2025/texmf-dist/fonts/t
+ype1/public/libertine/LinLibertineT.pfb></usr/local/texlive/2025/texmf-dist/fon
+ts/type1/public/libertine/LinLibertineTB.pfb></usr/local/texlive/2025/texmf-dis
+t/fonts/type1/public/libertine/LinLibertineTI.pfb></usr/local/texlive/2025/texm
+f-dist/fonts/type1/public/hfbright/hfbr8.pfb></usr/local/texlive/2025/texmf-dis
+t/fonts/type1/public/hfbright/hfbrmi10.pfb></usr/local/texlive/2025/texmf-dist/
+fonts/type1/public/hfbright/hfbrmi8.pfb></usr/local/texlive/2025/texmf-dist/fon
+ts/type1/public/hfbright/hfbrmi9.pfb></usr/local/texlive/2025/texmf-dist/fonts/
+type1/public/hfbright/hfbrsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/ty
+pe1/public/hfbright/hfbrsy8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1
+/public/hfbright/hfbrsy9.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/pu
+blic/cm-super/sfbbx10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/publi
+c/cm-super/sfbmo10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/c
+m-super/sfbmo8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-su
+per/sfbmo9.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/
+sfbmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfb
+mr8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbmr9.
+pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbsr8.pfb>
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbtl10.pfb></u
+sr/local/texlive/2025/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb></usr/loca
+l/texlive/2025/texmf-dist/fonts/type1/public/newtx/txsys.pfb>
+Output written on main.pdf (68 pages, 3739120 bytes).
 PDF statistics:
- 1731 PDF objects out of 2073 (max. 8388607)
- 1414 compressed objects within 15 object streams
- 289 named destinations out of 1000 (max. 500000)
- 552 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2068 PDF objects out of 2073 (max. 8388607)
+ 1427 compressed objects within 15 object streams
+ 281 named destinations out of 1000 (max. 500000)
+ 574 words of extra memory for PDF output out of 10000 (max. 10000000)
 

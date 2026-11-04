@@ -5,7 +5,7 @@ R0113,sim,Excluir,I4,não descreve avaliação das respostas (só arquitetura e 
 R0157,sim,Incluir,,ver notas_integral.md
 R0162,sim,Incluir,,ver notas_integral.md
 R0165,sim,Incluir,,ver notas_integral.md
-R0237,sim,Incluir,,ver notas_integral.md
+R0237,sim,Excluir,QA,"qualidade 3,0/5 abaixo do limiar de 3,5 (ver qualidade.csv)"
 R0281,sim,Incluir,,ver notas_integral.md
 R0301,sim,Incluir,,ver notas_integral.md
 R0414,sim,Incluir,,ver notas_integral.md
@@ -14,7 +14,7 @@ R0443,sim,Incluir,,ver notas_integral.md
 R0446,sim,Excluir,I4,proposta de framework sem avaliação das respostas
 R0452,sim,Incluir,,ver notas_integral.md
 R0469,sim,Incluir,,ver notas_integral.md
-R0514,sim,Incluir,,ver notas_integral.md
+R0514,sim,Excluir,QA,"qualidade 2,5/5 abaixo do limiar de 3,5 (ver qualidade.csv)"
 R0555,sim,Incluir,,ver notas_integral.md
 R0558,sim,Incluir,,ver notas_integral.md
 R0559,sim,Incluir,,ver notas_integral.md
@@ -22,20 +22,20 @@ R0561,sim,Incluir,,ver notas_integral.md
 R0616,sim,Incluir,,ver notas_integral.md
 R0619,sim,Incluir,,ver notas_integral.md
 R0686,sim,Incluir,,ver notas_integral.md
-R0709,não,Incluir,,mantido com base no resumo: sem acesso ao texto integral (IET)
-R0753,sim,Incluir,,ver notas_integral.md
+R0709,não,Excluir,NO,texto integral não obtido
+R0753,sim,Excluir,QA,"qualidade 3,0/5 abaixo do limiar de 3,5 (ver qualidade.csv)"
 R0762,sim,Incluir,,ver notas_integral.md
-R0763,sim,Incluir,,ver notas_integral.md
+R0763,sim,Excluir,QA,"qualidade 3,0/5 abaixo do limiar de 3,5 (ver qualidade.csv)"
 R0765,sim,Incluir,,ver notas_integral.md
 R0771,sim,Incluir,,ver notas_integral.md
 R0794,sim,Incluir,,ver notas_integral.md
 R0807,sim,Incluir,,ver notas_integral.md
 R0809,sim,Incluir,,ver notas_integral.md
-R0826,sim,Incluir,,ver notas_integral.md
+R0826,sim,Excluir,QA,"qualidade 3,0/5 abaixo do limiar de 3,5 (ver qualidade.csv)"
 R0859,sim,Incluir,,ver notas_integral.md
 R0878,sim,Incluir,,ver notas_integral.md
 R0934,sim,Incluir,,ver notas_integral.md
-R0965,sim,Incluir,,ver notas_integral.md
+R0965,sim,Excluir,QA,"qualidade 3,0/5 abaixo do limiar de 3,5 (ver qualidade.csv)"
 R0991,sim,Incluir,,ver notas_integral.md
 R0995,sim,Incluir,,ver notas_integral.md
 R1001,sim,Incluir,,ver notas_integral.md
@@ -46,4 +46,4 @@ R1060,sim,Incluir,,ver notas_integral.md
 R1110,sim,Incluir,,ver notas_integral.md
 R1120,sim,Incluir,,ver notas_integral.md
 R1183,sim,Incluir,,ver notas_integral.md
-R1187,não,Incluir,,mantido com base no resumo: demonstração sem texto integral disponível
+R1187,não,Excluir,NO,texto integral não obtido

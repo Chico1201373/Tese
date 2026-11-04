@@ -22,11 +22,13 @@
   - não usa LLM: 74
   - sem resumo ou não é artigo: 30
 - Lidos manualmente (fase B): **383**
-- Excluídos na leitura: **172** E2: 8, E3: 161, E4: 3
-- Incluídos para leitura integral: **211** (prioridade alta: 48)
+- Excluídos na leitura: **335** E2: 8, E3: 161, E4: 3, I5: 163
+- Textos integrais procurados: **48**
 
-## Elegibilidade (texto integral, estudos prioritários)
+## Elegibilidade (texto integral)
 
-- Textos integrais procurados: **48**; não obtidos: **2** (mantidos pelo resumo)
-- Avaliados: **46**; excluídos: **2** R0113 (I4), R0446 (I4)
-- Estudos incluídos na revisão: **209** (prioritários 46: 44 com texto integral e 2 só com resumo; restantes 163 por título e resumo)
+- Não obtidos: **2** R0709, R1187
+- Avaliados: **46**
+- Excluídos por I4: **2** R0113, R0446
+- Excluídos pela qualidade (< 3,5): **6** R0237, R0514, R0753, R0763, R0826, R0965
+- Estudos incluídos na revisão: **38**

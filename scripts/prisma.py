@@ -39,14 +39,16 @@ def main():
     # a prioridade está em selecionados.csv (triagem.csv não guarda a coluna)
     sel = list(csv.DictReader(open(HERE / "selecionados.csv", encoding="utf-8-sig")))
     prioridade = sum(1 for s in sel if s["prioridade"].startswith("alta"))
+    # fase B, critério I5 (proximidade ao caso): os incluídos em I1-I4 que não são prioritários são excluídos
+    excl_i5 = len(incl) - prioridade
     # elegibilidade (texto integral) dos prioritários: elegibilidade.csv
     eleg = list(csv.DictReader(open(HERE / "elegibilidade.csv", encoding="utf-8-sig")))
     nao_obtidos = [e for e in eleg if e["texto_integral"] == "não"]
     avaliados = [e for e in eleg if e["texto_integral"] == "sim"]
-    excl_integral = [e for e in avaliados if e["decisao"] == "Excluir"]
-    incl_integral = len(avaliados) - len(excl_integral)
-    incluidos = len(incl) - len(excl_integral)
-    restantes = len(incl) - len(eleg)
+    excl_i4 = [e for e in avaliados if e["decisao"] == "Excluir" and e["criterio"] == "I4"]
+    excl_qa = [e for e in avaliados if e["decisao"] == "Excluir" and e["criterio"] == "QA"]
+    incluidos = sum(1 for e in avaliados if e["decisao"] == "Incluir")
+    assert len(eleg) == prioridade, (len(eleg), prioridade)
 
     md = ["# Números PRISMA 2020", "",
           "## Identificação", "",
@@ -59,14 +61,15 @@ def main():
            f"- Excluídos por regras automáticas (fase A): **{len(auto)}**"]
     md += [f"  - {m}: {n}" for m, n in motivos_auto.most_common()]
     md += [f"- Lidos manualmente (fase B): **{len(lidos)}**",
-           f"- Excluídos na leitura: **{len(excl_lidos)}** " + ", ".join(f"{k}: {v}" for k, v in sorted(motivos_lidos.items())),
-           f"- Incluídos para leitura integral: **{len(incl)}** (prioridade alta: {prioridade})", "",
-           "## Elegibilidade (texto integral, estudos prioritários)", "",
-           f"- Textos integrais procurados: **{len(eleg)}**; não obtidos: **{len(nao_obtidos)}** (mantidos pelo resumo)",
-           f"- Avaliados: **{len(avaliados)}**; excluídos: **{len(excl_integral)}** "
-           + ", ".join(f"{e['id']} ({e['criterio']})" for e in excl_integral),
-           f"- Estudos incluídos na revisão: **{incluidos}** (prioritários {len(eleg) - len(excl_integral)}: "
-           f"{incl_integral} com texto integral e {len(nao_obtidos)} só com resumo; restantes {restantes} por título e resumo)", ""]
+           f"- Excluídos na leitura: **{len(excl_lidos) + excl_i5}** " + ", ".join(f"{k}: {v}" for k, v in sorted(motivos_lidos.items()))
+           + f", I5: {excl_i5}",
+           f"- Textos integrais procurados: **{prioridade}**", "",
+           "## Elegibilidade (texto integral)", "",
+           f"- Não obtidos: **{len(nao_obtidos)}** " + ", ".join(e["id"] for e in nao_obtidos),
+           f"- Avaliados: **{len(avaliados)}**",
+           f"- Excluídos por I4: **{len(excl_i4)}** " + ", ".join(e["id"] for e in excl_i4),
+           f"- Excluídos pela qualidade (< 3,5): **{len(excl_qa)}** " + ", ".join(e["id"] for e in excl_qa),
+           f"- Estudos incluídos na revisão: **{incluidos}**", ""]
     (HERE / "exports" / "prisma.md").write_text("\n".join(md), encoding="utf-8")
     print("\n".join(md))
 
@@ -81,7 +84,7 @@ def main():
   IEEE Xplore ($n={exportados['ieee']}$)\\ ACM DL ($n={exportados['acm']}$)\\ Scopus ($n={exportados['sciencedirect']}$)}};
 \node[side, anchor=west] (dup) at ([xshift=0.8cm]id.east) {{Registos removidos antes da triagem:\\ duplicados ($n={duplicados}$)}};
 \node[box, anchor=north west] (scr) at ([yshift=-0.7cm]id.south west) {{Registos triados por título e resumo ($n={unicos}$)}};
-\node[side, anchor=north west] (auto) at ([xshift=0.8cm]scr.north east) {{Excluídos por regras automáticas ($n={len(auto)}$):\\
+\node[side, anchor=north west] (auto) at ([xshift=0.8cm]scr.north east) {{Excluídos por regras ($n={len(auto)}$):\\
   fora de educação/saúde ($n={m['fora do foco (nem educação nem saúde)']}$)\\
   revisão ou survey, E4 ($n={m['revisão ou survey']}$)\\
   não é chatbot/QA ($n={m['não é chatbot, sistema conversacional ou QA']}$)\\
@@ -89,18 +92,16 @@ def main():
   não usa LLM ($n={m['não usa LLM']}$)\\
   sem resumo ou não é artigo, E2 ($n={m['sem resumo ou não é artigo']}$)}};
 \node[box, anchor=north west] (man) at ([yshift=-0.6cm]scr.south west |- auto.south) {{Registos lidos manualmente ($n={len(lidos)}$)}};
-\node[side, anchor=west] (exm) at ([xshift=0.8cm]man.east) {{Excluídos na leitura ($n={len(excl_lidos)}$):\\
-  E3 ($n={motivos_lidos.get('E3', 0)}$), E2 ($n={motivos_lidos.get('E2', 0)}$), E4 ($n={motivos_lidos.get('E4', 0)}$)}};
-\node[box, anchor=north west] (ret) at ([yshift=-0.9cm]man.south west) {{Incluídos na triagem ($n={len(incl)}$)\\
-  textos integrais procurados (prioritários) ($n={len(eleg)}$)}};
-\node[side, anchor=west] (nr) at ([xshift=0.8cm]ret.east) {{Textos integrais não obtidos ($n={len(nao_obtidos)}$):\\
-  mantidos com base no resumo}};
-\node[box, anchor=north west] (ele) at ([yshift=-0.7cm]ret.south west) {{Textos integrais avaliados ($n={len(avaliados)}$)}};
-\node[side, anchor=west] (exe) at ([xshift=0.8cm]ele.east) {{Excluídos no texto integral ($n={len(excl_integral)}$):\\
-  I4, sem avaliação das respostas}};
-\node[box, anchor=north west] (inc) at ([yshift=-0.7cm]ele.south west) {{Estudos incluídos na revisão ($n={incluidos}$)\\
-  prioritários: texto integral ($n={incl_integral}$), só resumo ($n={len(nao_obtidos)}$)\\
-  restantes, por título e resumo ($n={restantes}$)}};
+\node[side, anchor=west] (exm) at ([xshift=0.8cm]man.east) {{Excluídos na leitura ($n={len(excl_lidos) + excl_i5}$):\\
+  E3 ($n={motivos_lidos.get('E3', 0)}$), E2 ($n={motivos_lidos.get('E2', 0)}$), E4 ($n={motivos_lidos.get('E4', 0)}$)\\
+  I5, sem proximidade ao caso ($n={excl_i5}$)}};
+\node[box, anchor=north west] (ret) at ([yshift=-0.9cm]man.south west) {{Textos integrais procurados ($n={prioridade}$)}};
+\node[side, anchor=west] (nr) at ([xshift=0.8cm]ret.east) {{Textos integrais não obtidos ($n={len(nao_obtidos)}$)}};
+\node[box, anchor=north west] (ele) at ([yshift=-1.0cm]ret.south west) {{Textos integrais avaliados ($n={len(avaliados)}$)}};
+\node[side, anchor=west] (exe) at ([xshift=0.8cm]ele.east) {{Excluídos no texto integral ($n={len(excl_i4) + len(excl_qa)}$):\\
+  I4, sem avaliação das respostas ($n={len(excl_i4)}$)\\
+  qualidade abaixo de 3,5/5 ($n={len(excl_qa)}$)}};
+\node[box, anchor=north west] (inc) at ([yshift=-1.5cm]ele.south west) {{Estudos incluídos na revisão ($n={incluidos}$)}};
 \draw[arr] (id) -- (scr); \draw[arr] (id.east) -- (dup.west);
 \draw[arr] (scr) -- (man); \draw[arr] (scr.east) -- (scr.east -| auto.west);
 \draw[arr] (man) -- (ret); \draw[arr] (man.east) -- (exm.west);
@@ -108,7 +109,7 @@ def main():
 \draw[arr] (ele) -- (inc); \draw[arr] (ele.east) -- (exe.west);
 \node[stage] at ([xshift=-0.15cm]id.west) {{Identificação}};
 \node[stage] at ([xshift=-0.15cm]man.west) {{Triagem}};
-\node[stage] at ([xshift=-0.15cm]ele.west) {{Elegibilidade}};
+\node[stage] at ($(ret.west)!0.5!(ele.west)+(-0.15cm,0)$) {{Elegibilidade}};
 \node[stage] at ([xshift=-0.15cm]inc.west) {{Incluídos}};
 \end{{tikzpicture}}
 """

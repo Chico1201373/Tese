@@ -8,7 +8,7 @@
   IEEE Xplore ($n=844$)\\ ACM DL ($n=424$)\\ Scopus ($n=279$)};
 \node[side, anchor=west] (dup) at ([xshift=0.8cm]id.east) {Registos removidos antes da triagem:\\ duplicados ($n=130$)};
 \node[box, anchor=north west] (scr) at ([yshift=-0.7cm]id.south west) {Registos triados por título e resumo ($n=1417$)};
-\node[side, anchor=north west] (auto) at ([xshift=0.8cm]scr.north east) {Excluídos por regras automáticas ($n=1034$):\\
+\node[side, anchor=north west] (auto) at ([xshift=0.8cm]scr.north east) {Excluídos por regras ($n=1034$):\\
   fora de educação/saúde ($n=565$)\\
   revisão ou survey, E4 ($n=125$)\\
   não é chatbot/QA ($n=125$)\\
@@ -16,18 +16,16 @@
   não usa LLM ($n=74$)\\
   sem resumo ou não é artigo, E2 ($n=30$)};
 \node[box, anchor=north west] (man) at ([yshift=-0.6cm]scr.south west |- auto.south) {Registos lidos manualmente ($n=383$)};
-\node[side, anchor=west] (exm) at ([xshift=0.8cm]man.east) {Excluídos na leitura ($n=172$):\\
-  E3 ($n=161$), E2 ($n=8$), E4 ($n=3$)};
-\node[box, anchor=north west] (ret) at ([yshift=-0.9cm]man.south west) {Incluídos na triagem ($n=211$)\\
-  textos integrais procurados (prioritários) ($n=48$)};
-\node[side, anchor=west] (nr) at ([xshift=0.8cm]ret.east) {Textos integrais não obtidos ($n=2$):\\
-  mantidos com base no resumo};
-\node[box, anchor=north west] (ele) at ([yshift=-0.7cm]ret.south west) {Textos integrais avaliados ($n=46$)};
-\node[side, anchor=west] (exe) at ([xshift=0.8cm]ele.east) {Excluídos no texto integral ($n=2$):\\
-  I4, sem avaliação das respostas};
-\node[box, anchor=north west] (inc) at ([yshift=-0.7cm]ele.south west) {Estudos incluídos na revisão ($n=209$)\\
-  prioritários: texto integral ($n=44$), só resumo ($n=2$)\\
-  restantes, por título e resumo ($n=163$)};
+\node[side, anchor=west] (exm) at ([xshift=0.8cm]man.east) {Excluídos na leitura ($n=335$):\\
+  E3 ($n=161$), E2 ($n=8$), E4 ($n=3$)\\
+  I5, sem proximidade ao caso ($n=163$)};
+\node[box, anchor=north west] (ret) at ([yshift=-0.9cm]man.south west) {Textos integrais procurados ($n=48$)};
+\node[side, anchor=west] (nr) at ([xshift=0.8cm]ret.east) {Textos integrais não obtidos ($n=2$)};
+\node[box, anchor=north west] (ele) at ([yshift=-1.0cm]ret.south west) {Textos integrais avaliados ($n=46$)};
+\node[side, anchor=west] (exe) at ([xshift=0.8cm]ele.east) {Excluídos no texto integral ($n=8$):\\
+  I4, sem avaliação das respostas ($n=2$)\\
+  qualidade abaixo de 3,5/5 ($n=6$)};
+\node[box, anchor=north west] (inc) at ([yshift=-1.5cm]ele.south west) {Estudos incluídos na revisão ($n=38$)};
 \draw[arr] (id) -- (scr); \draw[arr] (id.east) -- (dup.west);
 \draw[arr] (scr) -- (man); \draw[arr] (scr.east) -- (scr.east -| auto.west);
 \draw[arr] (man) -- (ret); \draw[arr] (man.east) -- (exm.west);
@@ -35,6 +33,6 @@
 \draw[arr] (ele) -- (inc); \draw[arr] (ele.east) -- (exe.west);
 \node[stage] at ([xshift=-0.15cm]id.west) {Identificação};
 \node[stage] at ([xshift=-0.15cm]man.west) {Triagem};
-\node[stage] at ([xshift=-0.15cm]ele.west) {Elegibilidade};
+\node[stage] at ($(ret.west)!0.5!(ele.west)+(-0.15cm,0)$) {Elegibilidade};
 \node[stage] at ([xshift=-0.15cm]inc.west) {Incluídos};
 \end{tikzpicture}

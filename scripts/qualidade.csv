@@ -1,0 +1,45 @@
+id,chave,QA1,QA2,QA3,QA4,QA5,justificacao
+R0042,zhang2025meditrir,1,1,1,1,0.5,benchmarks públicos com baselines e ablação; limitações breves
+R0071,christiawan2025sanity,1,1,0.5,0.5,1,28 perguntas com referências geradas por LLM; limitações explícitas
+R0157,nurfadhilah2025retrieval,1,1,1,1,0.5,700 respostas com 10 repetições e testes t; limitações breves
+R0162,azam2024cancerbot,1,1,0.5,0.5,0.5,testes sintéticos; comparação só com o LLM base
+R0165,sbai2025advanced,1,1,0.5,0.5,1,corpus de 20 documentos; fidelidade por semelhança de embeddings; limitações explícitas
+R0237,kavitha2026securecontext,1,1,0.5,0,0.5,90% de deteção sem baseline nem conjunto descrito; demonstração por exemplos
+R0281,raputri2025retrieval,1,0.5,1,1,0.5,comparação com e sem RAG com testes de significância; sistema pouco detalhado
+R0301,liu2026quality,1,1,1,0.5,0.5,benchmarks públicos; curadoria por rubrica sem validação humana
+R0414,rahat2026noise,1,1,1,1,0.5,amostra reprodutível com duas linhas de base e taxonomia de erros
+R0437,wei2026cloud,1,1,1,1,1,ablação e registo de execução; limites declarados
+R0443,tawfik2025mufakkir,1,1,0.5,0.5,0.5,avaliação com pares sintéticos gerados por LLM
+R0452,khan2025towards,1,1,1,0.5,0.5,avaliador é o próprio modelo avaliado (autopreferência)
+R0469,sayeed2026tutor,1,1,0.5,0.5,0.5,14 perguntas; LLM juiz sem validação
+R0514,bengmah2025driven,1,0.5,0.5,0,0.5,comparação das três abordagens sem métricas nem dados de teste descritos
+R0555,ruga2025conversational,1,1,0.5,0.5,1,viabilidade técnica; avaliação limitada; limitações explícitas
+R0558,ishadya2026mitigating,1,1,1,1,0.5,conjuntos públicos; abstenção mensurável; revisão por especialistas
+R0559,ghanbari2025evaluating,1,1,1,1,1,análise estatística; código público; limitações explícitas
+R0561,bellard2025development,1,1,0.5,0.5,1,25 pares sintéticos; LLM juiz; latência e custo medidos; limitações explícitas
+R0616,jain2025aligning,1,1,1,0.5,1,3176 + 3005 perguntas; LLM juiz sem validação humana
+R0619,ghanbari2025quantifying,1,1,1,1,1,análise sistemática; código público; limitações explícitas
+R0686,oh2026automedic,1,1,1,1,1,métrica validada por especialistas; limitações extensas
+R0753,fu2024chatbots,1,0.5,0.5,0.5,0.5,sistemas comerciais pouco descritos; avaliação por personas sem critérios definidos
+R0762,walczak2026comparative,1,1,1,1,0.5,conjunto real e sintético; teste de McNemar; latência medida
+R0763,tien2024optimizing,1,1,0.5,0.5,0,um único conjunto de laboratório; sem discussão de limitações
+R0765,emekci2025securing,1,1,1,0.5,1,4501 interações reais; sem baseline no mesmo conjunto (reconhecido)
+R0771,mathew2026privacy,1,1,1,1,0.5,conjunto público; sementes fixas; várias configurações
+R0794,hamidi2026large,1,1,1,1,0.5,EM e F1 com abstenção; taxonomia de erros
+R0807,rayhan2026sage,1,1,0.5,1,0.5,benchmark próprio pouco descrito; comparação com tutores só com prompt
+R0809,abrar2025domain,1,1,1,1,1,avaliadores humanos por língua; baselines; limitações explícitas
+R0826,zhao2025cyberbot,1,1,0.5,0.5,0,demonstração; avaliação só automática; verificador não avaliado
+R0859,yan2026question,1,1,1,0.5,0.5,150 perguntas; resultados pouco quantificados
+R0878,xie2026when,1,1,1,1,1,intervalos de confiança; McNemar; oráculo; análise de erros
+R0934,liu2026asknow,1,1,1,1,1,implementação real; correção por docentes; estatística corrigida
+R0965,han2026textbook,1,1,0.5,0.5,0,artigo de 3 páginas; avaliação por um TA; sem limitações
+R0991,miroyan2025analyzing,1,1,1,1,0.5,110 respostas avaliadas por TAs; análise das edições
+R0995,zheng2026comparative,1,1,1,0.5,0.5,correção avaliada manualmente; amostra pouco detalhada
+R1001,seshadri2026alan,1,0.5,0.5,0.5,1,artigo de 2 páginas; avaliação de perceção (40 respostas)
+R1019,barzanji2026buddy,1,1,0.5,0.5,1,32 participantes concluíram; avaliação mista
+R1022,buti2026evaluating,1,1,1,0.5,1,55 perguntas validadas; LLM juiz não validado contra humanos
+R1056,xu2026echomind,1,1,1,1,1,estudo entre três condições com estatística corrigida
+R1060,feng2024courseassist,1,1,1,0.5,0,50 pares com um avaliador; artigo de 2 páginas sem limitações
+R1110,bui2025formal,1,1,1,1,1,benchmark anotado por 3 especialistas; limitações explícitas
+R1120,liao2026heal,1,1,1,1,0.5,juiz calibrado contra amostra humana
+R1183,li2026responsible,1,1,1,1,0.5,vários domínios e conjuntos

@@ -399,56 +399,6 @@
       \verb 10.1109/BigData66926.2025.11402164
       \endverb
     \endentry
-    \entry{bengmah2025driven}{inproceedings}{}{}
-      \name{author}{5}{}{%
-        {{hash=44446b89b3724e0152f367279f72f335}{%
-           family={BENGMAH},
-           familyi={B\bibinitperiod},
-           given={A.},
-           giveni={A\bibinitperiod}}}%
-        {{hash=06e341fe77c2d1266b2e1dee9b0309f4}{%
-           family={KHAOUITI},
-           familyi={K\bibinitperiod},
-           given={A.},
-           giveni={A\bibinitperiod}}}%
-        {{hash=b46ecb39be5cbca7f600f8da0c819dc9}{%
-           family={HAMLAOUI},
-           familyi={H\bibinitperiod},
-           given={M.\bibnamedelimi E.},
-           giveni={M\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
-        {{hash=56a62ea457003dee34779419ac40f5dd}{%
-           family={FAIZI},
-           familyi={F\bibinitperiod},
-           given={R.},
-           giveni={R\bibinitperiod}}}%
-        {{hash=412070cdc7200193f6c2ffdbd62dfcf8}{%
-           family={BOUNABAT},
-           familyi={B\bibinitperiod},
-           given={B.},
-           giveni={B\bibinitperiod}}}%
-      }
-      \strng{namehash}{0a9914b6c42e89285792234d6976b593}
-      \strng{fullhash}{b0807c4d5e5bceffb39d22f685db9e02}
-      \strng{fullhashraw}{b0807c4d5e5bceffb39d22f685db9e02}
-      \strng{bibnamehash}{0a9914b6c42e89285792234d6976b593}
-      \strng{authorbibnamehash}{0a9914b6c42e89285792234d6976b593}
-      \strng{authornamehash}{0a9914b6c42e89285792234d6976b593}
-      \strng{authorfullhash}{b0807c4d5e5bceffb39d22f685db9e02}
-      \strng{authorfullhashraw}{b0807c4d5e5bceffb39d22f685db9e02}
-      \field{sortinit}{B}
-      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{2025 12th International Conference on Wireless Networks and Mobile Communications (WINCOM)}
-      \field{note}{Estudo R0514 da revisão}
-      \field{title}{{AI-Driven Diabetes Management: A Retrieval-Augmented Conversational Approach*}}
-      \field{year}{2025}
-      \verb{doi}
-      \verb 10.1109/WINCOM65874.2025.11313355
-      \endverb
-    \endentry
     \entry{bloom1984sigma}{article}{}{}
       \name{author}{1}{}{%
         {{hash=ddc586c6eb221cd90bc71bc15c3e6fc1}{%
@@ -730,46 +680,6 @@
       \verb 10.1109/ICIMCIS68501.2025.11327020
       \endverb
     \endentry
-    \entry{elnozahy2026governed}{inproceedings}{}{}
-      \name{author}{3}{}{%
-        {{hash=65cfc6f490eb684d97cfbcef1e51e279}{%
-           family={Elnozahy},
-           familyi={E\bibinitperiod},
-           given={W.\bibnamedelimi A.},
-           giveni={W\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
-        {{hash=91d03f0e4b9f0ea3c46a1fbe17b9f688}{%
-           family={Khayat},
-           familyi={K\bibinitperiod},
-           given={G.\bibnamedelimi A.\bibnamedelimi El},
-           giveni={G\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
-        {{hash=7f9e2d3e463d31b772c417ee30fcfd20}{%
-           family={Aboulsafa},
-           familyi={A\bibinitperiod},
-           given={E.\bibnamedelimi I.},
-           giveni={E\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
-      }
-      \strng{namehash}{68b463b43328f498ff0e93db0a4abb00}
-      \strng{fullhash}{d66eb24545d767ead559b40dfdf24a3f}
-      \strng{fullhashraw}{d66eb24545d767ead559b40dfdf24a3f}
-      \strng{bibnamehash}{d66eb24545d767ead559b40dfdf24a3f}
-      \strng{authorbibnamehash}{d66eb24545d767ead559b40dfdf24a3f}
-      \strng{authornamehash}{68b463b43328f498ff0e93db0a4abb00}
-      \strng{authorfullhash}{d66eb24545d767ead559b40dfdf24a3f}
-      \strng{authorfullhashraw}{d66eb24545d767ead559b40dfdf24a3f}
-      \field{sortinit}{E}
-      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{2026 IEEE International Conference on Smart Sustainable Systems for Computer and Engineering Applications (3SCEA)}
-      \field{note}{Estudo R0446 da revisão}
-      \field{title}{{A Governed Closed-Domain Question Answering System for Decision Assistance in Education}}
-      \field{year}{2026}
-      \verb{doi}
-      \verb 10.1109/3SCEA68071.2026.11603208
-      \endverb
-    \endentry
     \entry{emekci2025securing}{article}{}{}
       \name{author}{2}{}{%
         {{hash=ab2932243613898e519750cd93a62f7e}{%
@@ -889,51 +799,6 @@
       \field{year}{2024}
       \verb{doi}
       \verb 10.1145/3649409.3691094
-      \endverb
-    \endentry
-    \entry{fu2024chatbots}{inproceedings}{}{}
-      \name{author}{4}{}{%
-        {{hash=890ffa9275fe4f11ccb77ec55109e57f}{%
-           family={Fu},
-           familyi={F\bibinitperiod},
-           given={R.},
-           giveni={R\bibinitperiod}}}%
-        {{hash=bbe869383a7d3458b82c516a21e4482c}{%
-           family={Wang},
-           familyi={W\bibinitperiod},
-           given={X.},
-           giveni={X\bibinitperiod}}}%
-        {{hash=95a4232347800493b4f102a756d3a11e}{%
-           family={Roblero},
-           familyi={R\bibinitperiod},
-           given={A.\bibnamedelimi V.},
-           giveni={A\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
-        {{hash=aed6c50b68db30582d6c3ab17b104522}{%
-           family={Song},
-           familyi={S\bibinitperiod},
-           given={Y.},
-           giveni={Y\bibinitperiod}}}%
-      }
-      \strng{namehash}{1763a05f24af2614fbd673e3b40ab7dc}
-      \strng{fullhash}{e420e83204e69aaaf1a98bbdb2f66512}
-      \strng{fullhashraw}{e420e83204e69aaaf1a98bbdb2f66512}
-      \strng{bibnamehash}{1763a05f24af2614fbd673e3b40ab7dc}
-      \strng{authorbibnamehash}{1763a05f24af2614fbd673e3b40ab7dc}
-      \strng{authornamehash}{1763a05f24af2614fbd673e3b40ab7dc}
-      \strng{authorfullhash}{e420e83204e69aaaf1a98bbdb2f66512}
-      \strng{authorfullhashraw}{e420e83204e69aaaf1a98bbdb2f66512}
-      \field{sortinit}{F}
-      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{2024 5th International Conference on Big Data, Artificial Intelligence and Internet of Things Engineering (ICBAIE)}
-      \field{note}{Estudo R0753 da revisão}
-      \field{title}{{Chatbots on a Mid-Scale Knowledge Base: Using an R2 University as an Example}}
-      \field{year}{2024}
-      \verb{doi}
-      \verb 10.1109/ICBAIE63306.2024.11116920
       \endverb
     \endentry
     \entry{gan2024orthopedic}{article}{}{}
@@ -1237,41 +1102,6 @@
       \field{year}{2026}
       \verb{doi}
       \verb 10.1109/ICHI69079.2026.00034
-      \endverb
-    \endentry
-    \entry{han2026textbook}{inproceedings}{}{}
-      \name{author}{2}{}{%
-        {{hash=3f0c8e255bfd897d87765923100ffa4c}{%
-           family={Han},
-           familyi={H\bibinitperiod},
-           given={Yuanrong},
-           giveni={Y\bibinitperiod}}}%
-        {{hash=ca9adf51bbcde59a97c858a2c023d736}{%
-           family={Emara},
-           familyi={E\bibinitperiod},
-           given={Salma},
-           giveni={S\bibinitperiod}}}%
-      }
-      \strng{namehash}{d901e43bf318e9d565bb8c1a12c72aba}
-      \strng{fullhash}{d901e43bf318e9d565bb8c1a12c72aba}
-      \strng{fullhashraw}{d901e43bf318e9d565bb8c1a12c72aba}
-      \strng{bibnamehash}{d901e43bf318e9d565bb8c1a12c72aba}
-      \strng{authorbibnamehash}{d901e43bf318e9d565bb8c1a12c72aba}
-      \strng{authornamehash}{d901e43bf318e9d565bb8c1a12c72aba}
-      \strng{authorfullhash}{d901e43bf318e9d565bb8c1a12c72aba}
-      \strng{authorfullhashraw}{d901e43bf318e9d565bb8c1a12c72aba}
-      \field{sortinit}{H}
-      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{Proceedings of the 2026 IEEE/ACM 48th International Conference on Software Engineering}
-      \field{note}{Estudo R0965 da revisão}
-      \field{title}{{Textbook-Embedded Virtual Teaching Assistant That Answers CS1 Questions With Verifiable Citations}}
-      \field{year}{2026}
-      \verb{doi}
-      \verb 10.1145/3774748.3795670
       \endverb
     \endentry
     \entry{hattie2007power}{article}{}{}
@@ -1652,46 +1482,6 @@
       \verb 10.1016/j.lindif.2023.102274
       \endverb
     \endentry
-    \entry{kavitha2026securecontext}{inproceedings}{}{}
-      \name{author}{3}{}{%
-        {{hash=0d81e3d80c182844ac19ff35b4fe2045}{%
-           family={Kavitha},
-           familyi={K\bibinitperiod},
-           given={G.},
-           giveni={G\bibinitperiod}}}%
-        {{hash=aecb0410920cf4a2d0a5358bdd78aa66}{%
-           family={M},
-           familyi={M\bibinitperiod},
-           given={H.\bibnamedelimi A.},
-           giveni={H\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
-        {{hash=c4cb0a6bcf9b947b0e647a11ebfacefa}{%
-           family={R},
-           familyi={R\bibinitperiod},
-           given={P.},
-           giveni={P\bibinitperiod}}}%
-      }
-      \strng{namehash}{24be8c06226c61e0d834c7396107691c}
-      \strng{fullhash}{53ba9c8079e18ba42757d38154f89c27}
-      \strng{fullhashraw}{53ba9c8079e18ba42757d38154f89c27}
-      \strng{bibnamehash}{53ba9c8079e18ba42757d38154f89c27}
-      \strng{authorbibnamehash}{53ba9c8079e18ba42757d38154f89c27}
-      \strng{authornamehash}{24be8c06226c61e0d834c7396107691c}
-      \strng{authorfullhash}{53ba9c8079e18ba42757d38154f89c27}
-      \strng{authorfullhashraw}{53ba9c8079e18ba42757d38154f89c27}
-      \field{sortinit}{K}
-      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{2026 4th International Conference on Sustainable Computing and Smart Systems (ICSCSS)}
-      \field{note}{Estudo R0237 da revisão}
-      \field{title}{{SecureContext EDU: An Open Source University Assistant using Dual - LLM Architecture}}
-      \field{year}{2026}
-      \verb{doi}
-      \verb 10.1109/ICSCSS69635.2026.11645927
-      \endverb
-    \endentry
     \entry{khan2025towards}{inproceedings}{}{}
       \name{author}{5}{}{%
         {{hash=a3ac6bc72f1e10d8262cb3526a008f8e}{%
@@ -2030,7 +1820,6 @@
       \field{extraname}{1}
       \field{sortinit}{L}
       \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
-      \field{extradate}{1}
       \field{extradatescope}{labelyear}
       \field{labeldatesource}{}
       \field{labelnamesource}{author}
@@ -2043,63 +1832,6 @@
       \range{pages}{17}
       \verb{doi}
       \verb 10.1162/tacl_a_00638
-      \endverb
-    \endentry
-    \entry{liu2024teaching}{inproceedings}{}{}
-      \name{author}{6}{}{%
-        {{hash=faf37c747a571fb8eb645ef6d9f79bef}{%
-           family={Liu},
-           familyi={L\bibinitperiod},
-           given={Rongxin},
-           giveni={R\bibinitperiod}}}%
-        {{hash=6ecf1a9756b0bb0816775007eaad4d5d}{%
-           family={Zenke},
-           familyi={Z\bibinitperiod},
-           given={Carter},
-           giveni={C\bibinitperiod}}}%
-        {{hash=bb8dfef3df96b6f56d0d6cb5e0dea5e9}{%
-           family={Liu},
-           familyi={L\bibinitperiod},
-           given={Charlie},
-           giveni={C\bibinitperiod}}}%
-        {{hash=4111c9f3b5eeb8add9750b4dcf320db9}{%
-           family={Holmes},
-           familyi={H\bibinitperiod},
-           given={Andrew},
-           giveni={A\bibinitperiod}}}%
-        {{hash=ff2565672e97b1e9ef639bbd4d33f7b1}{%
-           family={Thornton},
-           familyi={T\bibinitperiod},
-           given={Patrick},
-           giveni={P\bibinitperiod}}}%
-        {{hash=44cdaec3ccb4f770462a3c0f71885896}{%
-           family={Malan},
-           familyi={M\bibinitperiod},
-           given={David\bibnamedelima J.},
-           giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
-      }
-      \strng{namehash}{245851a01e58f578ebfc538298090d77}
-      \strng{fullhash}{2a1bf9237d496277ff11d338325a98db}
-      \strng{fullhashraw}{2a1bf9237d496277ff11d338325a98db}
-      \strng{bibnamehash}{245851a01e58f578ebfc538298090d77}
-      \strng{authorbibnamehash}{245851a01e58f578ebfc538298090d77}
-      \strng{authornamehash}{245851a01e58f578ebfc538298090d77}
-      \strng{authorfullhash}{2a1bf9237d496277ff11d338325a98db}
-      \strng{authorfullhashraw}{2a1bf9237d496277ff11d338325a98db}
-      \field{extraname}{2}
-      \field{sortinit}{L}
-      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
-      \field{extradate}{2}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{Proceedings of the 55th ACM Technical Symposium on Computer Science Education V. 2}
-      \field{note}{Estudo R1187 da revisão}
-      \field{title}{{Teaching CS50 with AI: Leveraging Generative Artificial Intelligence in Computer Science Education}}
-      \field{year}{2024}
-      \verb{doi}
-      \verb 10.1145/3626253.3635427
       \endverb
     \endentry
     \entry{liu2026quality}{inproceedings}{}{}
@@ -2128,7 +1860,7 @@
       \strng{authornamehash}{826e24c781879eb1bc2b587aa8839b98}
       \strng{authorfullhash}{e50fdea871924a3bf3cd6f35046bd988}
       \strng{authorfullhashraw}{e50fdea871924a3bf3cd6f35046bd988}
-      \field{extraname}{3}
+      \field{extraname}{2}
       \field{sortinit}{L}
       \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
       \field{extradate}{1}
@@ -2185,7 +1917,7 @@
       \strng{authornamehash}{31e249ccc68cabbdc1905740f938cb6a}
       \strng{authorfullhash}{f1a0bdb02efbde9237b0c6bd388d0329}
       \strng{authorfullhashraw}{f1a0bdb02efbde9237b0c6bd388d0329}
-      \field{extraname}{4}
+      \field{extraname}{3}
       \field{sortinit}{L}
       \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
       \field{extradate}{2}
@@ -3167,61 +2899,6 @@
       \verb 10.1145/3770761.3777344
       \endverb
     \endentry
-    \entry{shah2026enhancing}{inproceedings}{}{}
-      \name{author}{6}{}{%
-        {{hash=b48a1f8b87d9704e988998fc24970522}{%
-           family={Shah},
-           familyi={S\bibinitperiod},
-           given={A.},
-           giveni={A\bibinitperiod}}}%
-        {{hash=f6e3568a520d8cecb19c3cbd37b616ff}{%
-           family={Shetty},
-           familyi={S\bibinitperiod},
-           given={D.},
-           giveni={D\bibinitperiod}}}%
-        {{hash=a47f8f6a85823fa082d597356e9510c0}{%
-           family={Patil},
-           familyi={P\bibinitperiod},
-           given={P.},
-           giveni={P\bibinitperiod}}}%
-        {{hash=e87ee0c611f7d548161e93f09da1afc4}{%
-           family={Ambre},
-           familyi={A\bibinitperiod},
-           given={P.},
-           giveni={P\bibinitperiod}}}%
-        {{hash=2b02ca87716d1aaf4139d8413b877e92}{%
-           family={Chaure},
-           familyi={C\bibinitperiod},
-           given={S.},
-           giveni={S\bibinitperiod}}}%
-        {{hash=916c79aface21ba79f8b1786a60b1996}{%
-           family={Rajadhyax},
-           familyi={R\bibinitperiod},
-           given={D.},
-           giveni={D\bibinitperiod}}}%
-      }
-      \strng{namehash}{36549e553ccbb968b21916b6773b4a49}
-      \strng{fullhash}{40cc1ac7884c0f36b406695e8ac70271}
-      \strng{fullhashraw}{40cc1ac7884c0f36b406695e8ac70271}
-      \strng{bibnamehash}{36549e553ccbb968b21916b6773b4a49}
-      \strng{authorbibnamehash}{36549e553ccbb968b21916b6773b4a49}
-      \strng{authornamehash}{36549e553ccbb968b21916b6773b4a49}
-      \strng{authorfullhash}{40cc1ac7884c0f36b406695e8ac70271}
-      \strng{authorfullhashraw}{40cc1ac7884c0f36b406695e8ac70271}
-      \field{sortinit}{S}
-      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{International Conference on Advancing Technology in Engineering and Science (ICATES 2025)}
-      \field{note}{Estudo R0709 da revisão}
-      \field{title}{{Enhancing medical data processing with RAG-augmented fine-tuned LLMs and guardrails}}
-      \field{year}{2026}
-      \verb{doi}
-      \verb 10.1049/icp.2025.4700
-      \endverb
-    \endentry
     \entry{shute2008focus}{article}{}{}
       \name{author}{1}{}{%
         {{hash=817b19f1186b605320c603ee888c7850}{%
@@ -3313,101 +2990,6 @@
       \field{year}{2025}
       \verb{doi}
       \verb 10.1109/ICICIS66182.2025.11313212
-      \endverb
-    \endentry
-    \entry{tien2024optimizing}{inproceedings}{}{}
-      \name{author}{2}{}{%
-        {{hash=daa75315a667d831a0d8aa3164d84490}{%
-           family={Tien},
-           familyi={T\bibinitperiod},
-           given={L.\bibnamedelimi A.},
-           giveni={L\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
-        {{hash=761d77f8e0a06ca55130a94d4189b7a2}{%
-           family={Huong},
-           familyi={H\bibinitperiod},
-           given={P.\bibnamedelimi Van},
-           giveni={P\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
-      }
-      \strng{namehash}{1515c87cc3c10c97ceb700acbff4e53c}
-      \strng{fullhash}{1515c87cc3c10c97ceb700acbff4e53c}
-      \strng{fullhashraw}{1515c87cc3c10c97ceb700acbff4e53c}
-      \strng{bibnamehash}{1515c87cc3c10c97ceb700acbff4e53c}
-      \strng{authorbibnamehash}{1515c87cc3c10c97ceb700acbff4e53c}
-      \strng{authornamehash}{1515c87cc3c10c97ceb700acbff4e53c}
-      \strng{authorfullhash}{1515c87cc3c10c97ceb700acbff4e53c}
-      \strng{authorfullhashraw}{1515c87cc3c10c97ceb700acbff4e53c}
-      \field{sortinit}{T}
-      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{2024 1st International Conference On Cryptography And Information Security (VCRIS)}
-      \field{note}{Estudo R0763 da revisão}
-      \field{title}{{Optimizing Transformer Models for Prompt Jailbreak Attack Detection in AI Assistant Systems}}
-      \field{year}{2024}
-      \verb{doi}
-      \verb 10.1109/VCRIS63677.2024.10813380
-      \endverb
-    \endentry
-    \entry{trang2025customized}{inproceedings}{}{}
-      \name{author}{7}{}{%
-        {{hash=6c1accd91bb90c744e8642e834aaf889}{%
-           family={Trang},
-           familyi={T\bibinitperiod},
-           given={T.\bibnamedelimi N.\bibnamedelimi A.},
-           giveni={T\bibinitperiod\bibinitdelim N\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
-        {{hash=d4ce0a1627d7bce1903b5d752b343586}{%
-           family={Tran},
-           familyi={T\bibinitperiod},
-           given={P.},
-           giveni={P\bibinitperiod}}}%
-        {{hash=6d95671e7ed987441fc45fc5a25d01f8}{%
-           family={Le},
-           familyi={L\bibinitperiod},
-           given={T.\bibnamedelimi M.},
-           giveni={T\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
-        {{hash=15cf731c6cd78fe56ff2b070ea5e3499}{%
-           family={Le},
-           familyi={L\bibinitperiod},
-           given={L.},
-           giveni={L\bibinitperiod}}}%
-        {{hash=19d902d9372a97d8813b9f291f6faa65}{%
-           family={Maheshwari},
-           familyi={M\bibinitperiod},
-           given={G.},
-           giveni={G\bibinitperiod}}}%
-        {{hash=8b46be9ee4f24ec30d69e09ed2a87975}{%
-           family={Do},
-           familyi={D\bibinitperiod},
-           given={N.},
-           giveni={N\bibinitperiod}}}%
-        {{hash=3594bfe5346cc15d4a234f6da278f287}{%
-           family={Dao},
-           familyi={D\bibinitperiod},
-           given={S.\bibnamedelimi V.\bibnamedelimi T.},
-           giveni={S\bibinitperiod\bibinitdelim V\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
-      }
-      \strng{namehash}{01939f75a40c42f269c2507993330a78}
-      \strng{fullhash}{fab82842d47f19126124b31f12d7f028}
-      \strng{fullhashraw}{fab82842d47f19126124b31f12d7f028}
-      \strng{bibnamehash}{01939f75a40c42f269c2507993330a78}
-      \strng{authorbibnamehash}{01939f75a40c42f269c2507993330a78}
-      \strng{authornamehash}{01939f75a40c42f269c2507993330a78}
-      \strng{authorfullhash}{fab82842d47f19126124b31f12d7f028}
-      \strng{authorfullhashraw}{fab82842d47f19126124b31f12d7f028}
-      \field{sortinit}{T}
-      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{2025 RIVF International Conference on Computing and Communication Technologies (RIVF)}
-      \field{note}{Estudo R0113 da revisão}
-      \field{title}{{A Customized AI Chatbot for Educational Environments: Integrating Retrieval-Augmented Generation with Curriculum-Aligned Responses}}
-      \field{year}{2025}
-      \verb{doi}
-      \verb 10.1109/RIVF68649.2025.11365126
       \endverb
     \endentry
     \entry{vaswani2017attention}{inproceedings}{}{}
@@ -3827,81 +3409,6 @@
       \field{year}{2025}
       \verb{doi}
       \verb 10.1109/ICSC64641.2025.00032
-      \endverb
-    \endentry
-    \entry{zhao2025cyberbot}{inproceedings}{}{}
-      \name{author}{10}{}{%
-        {{hash=349920e864e13440ce4cd2e11dfd04e8}{%
-           family={Zhao},
-           familyi={Z\bibinitperiod},
-           given={Chengshuai},
-           giveni={C\bibinitperiod}}}%
-        {{hash=2a62ccac869b79a34ad1764fca6d7eb0}{%
-           family={De\bibnamedelima Maria},
-           familyi={D\bibinitperiod\bibinitdelim M\bibinitperiod},
-           given={Riccardo},
-           giveni={R\bibinitperiod}}}%
-        {{hash=bc208abe929c0a450792ac1491e767b5}{%
-           family={Kumarage},
-           familyi={K\bibinitperiod},
-           given={Tharindu},
-           giveni={T\bibinitperiod}}}%
-        {{hash=47b1b275e72352877ba407f6637ebca7}{%
-           family={Chaudhary},
-           familyi={C\bibinitperiod},
-           given={Kumar\bibnamedelima Satvik},
-           giveni={K\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
-        {{hash=22af98a7f1309059a1589cc01bc81473}{%
-           family={Agrawal},
-           familyi={A\bibinitperiod},
-           given={Garima},
-           giveni={G\bibinitperiod}}}%
-        {{hash=66f6c494ecf41750a84f46ce88d205dd}{%
-           family={Li},
-           familyi={L\bibinitperiod},
-           given={Yiwen},
-           giveni={Y\bibinitperiod}}}%
-        {{hash=3ae800a0c99ee6a4f5220a4ec7273a9a}{%
-           family={Park},
-           familyi={P\bibinitperiod},
-           given={Jongchan},
-           giveni={J\bibinitperiod}}}%
-        {{hash=c6551deba59f1542be502b3d21f4869a}{%
-           family={Chen},
-           familyi={C\bibinitperiod},
-           given={Ying-Chih},
-           giveni={Y\bibinithyphendelim C\bibinitperiod}}}%
-        {{hash=f90306bbe7e3c833096da4ca039338e6}{%
-           family={Deng},
-           familyi={D\bibinitperiod},
-           given={Yuli},
-           giveni={Y\bibinitperiod}}}%
-        {{hash=a83f8cd28a9f36e43dd5d017cd7fc8f4}{%
-           family={Liu},
-           familyi={L\bibinitperiod},
-           given={Huan},
-           giveni={H\bibinitperiod}}}%
-      }
-      \strng{namehash}{2b0a010424f66762eed24ef603bff58c}
-      \strng{fullhash}{be7a2c0b6c613a209622f7aba3ad76b2}
-      \strng{fullhashraw}{be7a2c0b6c613a209622f7aba3ad76b2}
-      \strng{bibnamehash}{2b0a010424f66762eed24ef603bff58c}
-      \strng{authorbibnamehash}{2b0a010424f66762eed24ef603bff58c}
-      \strng{authornamehash}{2b0a010424f66762eed24ef603bff58c}
-      \strng{authorfullhash}{be7a2c0b6c613a209622f7aba3ad76b2}
-      \strng{authorfullhashraw}{be7a2c0b6c613a209622f7aba3ad76b2}
-      \field{sortinit}{Z}
-      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{Proceedings of the 34th ACM International Conference on Information and Knowledge Management}
-      \field{note}{Estudo R0826 da revisão}
-      \field{title}{{CyberBOT: Ontology-Grounded Retrieval Augmented Generation for Reliable Cybersecurity Education}}
-      \field{year}{2025}
-      \verb{doi}
-      \verb 10.1145/3746252.3761478
       \endverb
     \endentry
     \entry{zheng2023judging}{inproceedings}{}{}

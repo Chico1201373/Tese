@@ -97,6 +97,36 @@
       \verb https://www.acm.org/code-of-ethics/software-engineering-code
       \endverb
     \endentry
+    \entry{allea2023code}{book}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=02a385a8c4a079bc54c8bbd611c475ca}{%
+           family={{ALLEA}},
+           familyi={A\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Berlin}%
+      }
+      \strng{namehash}{02a385a8c4a079bc54c8bbd611c475ca}
+      \strng{fullhash}{02a385a8c4a079bc54c8bbd611c475ca}
+      \strng{fullhashraw}{02a385a8c4a079bc54c8bbd611c475ca}
+      \strng{bibnamehash}{02a385a8c4a079bc54c8bbd611c475ca}
+      \strng{authorbibnamehash}{02a385a8c4a079bc54c8bbd611c475ca}
+      \strng{authornamehash}{02a385a8c4a079bc54c8bbd611c475ca}
+      \strng{authorfullhash}{02a385a8c4a079bc54c8bbd611c475ca}
+      \strng{authorfullhashraw}{02a385a8c4a079bc54c8bbd611c475ca}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The European Code of Conduct for Research Integrity -- Revised Edition 2023}
+      \field{year}{2023}
+      \verb{doi}
+      \verb 10.26356/ECOC
+      \endverb
+    \endentry
     \entry{emekci2025securing}{article}{}{}
       \name{author}{2}{}{%
         {{un=0,uniquepart=base,hash=ab2932243613898e519750cd93a62f7e}{%
@@ -210,12 +240,12 @@
            given={Qing},
            giveni={Q\bibinitperiod},
            givenun=0}}%
-        {{un=0,uniquepart=base,hash=ba0931743258f2d5038476dc02ac0600}{%
+        {{un=1,uniquepart=given,hash=ba0931743258f2d5038476dc02ac0600}{%
            family={Liu},
            familyi={L\bibinitperiod},
            given={Zhenfang},
            giveni={Z\bibinitperiod},
-           givenun=0}}%
+           givenun=1}}%
         {{un=0,uniquepart=base,hash=99bdc184be268a102ba06892a519e146}{%
            family={Lou},
            familyi={L\bibinitperiod},
@@ -247,49 +277,6 @@
       \range{pages}{28}
       \verb{doi}
       \verb 10.1109/JAS.2025.125540
-      \endverb
-    \endentry
-    \entry{jain2025aligning}{article}{}{}
-      \name{author}{3}{}{%
-        {{un=0,uniquepart=base,hash=b8a48184e3794e3037528773cc004bb8}{%
-           family={Jain},
-           familyi={J\bibinitperiod},
-           given={A.},
-           giveni={A\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=a4cddd4f3f8cbef87dab590418f9e3c5}{%
-           family={Cui},
-           familyi={C\bibinitperiod},
-           given={L.},
-           giveni={L\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=ed4e688b3a13c815213f1ff2acb5d92b}{%
-           family={Chen},
-           familyi={C\bibinitperiod},
-           given={S.},
-           giveni={S\bibinitperiod},
-           givenun=0}}%
-      }
-      \strng{namehash}{dd7cfa5f6617929a88267087e8638e12}
-      \strng{fullhash}{7f2d944666396b7c45056ce77f9b33a5}
-      \strng{fullhashraw}{7f2d944666396b7c45056ce77f9b33a5}
-      \strng{bibnamehash}{7f2d944666396b7c45056ce77f9b33a5}
-      \strng{authorbibnamehash}{7f2d944666396b7c45056ce77f9b33a5}
-      \strng{authornamehash}{dd7cfa5f6617929a88267087e8638e12}
-      \strng{authorfullhash}{7f2d944666396b7c45056ce77f9b33a5}
-      \strng{authorfullhashraw}{7f2d944666396b7c45056ce77f9b33a5}
-      \field{sortinit}{J}
-      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \true{uniqueprimaryauthor}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{2025 IEEE International Conference on Teaching, Assessment, and Learning for Engineering (TALE)}
-      \field{title}{{Aligning LLMs for the Classroom with Knowledge-Based Retrieval: A Comparative RAG Study}}
-      \field{year}{2025}
-      \verb{doi}
-      \verb 10.1109/TALE66047.2025.11346682
       \endverb
     \endentry
     \entry{khan2025towards}{article}{}{}
@@ -388,12 +375,12 @@
     \endentry
     \entry{liu2026asknow}{article}{}{}
       \name{author}{6}{}{%
-        {{un=0,uniquepart=base,hash=d7586b434e7f1832e5349d1f4bbbf4d5}{%
+        {{un=1,uniquepart=given,hash=d7586b434e7f1832e5349d1f4bbbf4d5}{%
            family={Liu},
            familyi={L\bibinitperiod},
            given={Ziqi},
            giveni={Z\bibinitperiod},
-           givenun=0}}%
+           givenun=1}}%
         {{un=0,uniquepart=base,hash=4897ee67fda5da09a5b8f61c52f99d0d}{%
            family={Wang},
            familyi={W\bibinitperiod},
@@ -878,6 +865,73 @@
       \verb 10.1109/AIoTC71250.2026.11689071
       \endverb
     \endentry
+    \entry{wu2023brief}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=d6a1d7e832757ae4df71e8a583f72623}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Tianyu},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=00e896eb89512a2159b2ddd9f4d5854f}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={Shizhu},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=1,uniquepart=given,hash=1bafae92e36d73b5f8f8dfb5d3a4b7a7}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Jingping},
+           giveni={J\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=e1ac54d193c85b7c6c855302387de5e8}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Siqi},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=1,uniquepart=given,hash=d6360bc8f5ef2b9fdccd337e0cb18b84}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Kang},
+           giveni={K\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=eaf8f939f63c113b097158efa92a215f}{%
+           family={Han},
+           familyi={H\bibinitperiod},
+           given={Qing-Long},
+           giveni={Q\bibinithyphendelim L\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{79b1767b07de56ad58ac8eeee4f1769e}
+      \strng{fullhash}{94c80a8cd747c3da94876a605446ffa2}
+      \strng{fullhashraw}{94c80a8cd747c3da94876a605446ffa2}
+      \strng{bibnamehash}{94c80a8cd747c3da94876a605446ffa2}
+      \strng{authorbibnamehash}{94c80a8cd747c3da94876a605446ffa2}
+      \strng{authornamehash}{79b1767b07de56ad58ac8eeee4f1769e}
+      \strng{authorfullhash}{94c80a8cd747c3da94876a605446ffa2}
+      \strng{authorfullhashraw}{94c80a8cd747c3da94876a605446ffa2}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE/CAA Journal of Automatica Sinica}
+      \field{number}{5}
+      \field{title}{A Brief Overview of {ChatGPT}: The History, Status Quo and Potential Future Development}
+      \field{volume}{10}
+      \field{year}{2023}
+      \field{pages}{1122\bibrangedash 1136}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1109/JAS.2023.123618
+      \endverb
+    \endentry
     \entry{xie2026when}{article}{}{}
       \name{author}{5}{}{%
         {{un=0,uniquepart=base,hash=c0253cea08b386fcd5f8a5b29f29418d}{%
@@ -931,55 +985,6 @@
       \field{year}{2026}
       \verb{doi}
       \verb 10.1145/3797161.3797211
-      \endverb
-    \endentry
-    \entry{xu2026echomind}{article}{}{}
-      \name{author}{4}{}{%
-        {{un=0,uniquepart=base,hash=e8fe14b0a8215f3c9541485fb4059819}{%
-           family={Xu},
-           familyi={X\bibinitperiod},
-           given={Haiyang},
-           giveni={H\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=89c0b3aa0770fe073276ca2089a0e549}{%
-           family={Song},
-           familyi={S\bibinitperiod},
-           given={Yunhui},
-           giveni={Y\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=c9c7e0164d61e678907746fac8deeb7e}{%
-           family={Sun},
-           familyi={S\bibinitperiod},
-           given={Black},
-           giveni={B\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=3d2d2f27939146b06a5f340008404e78}{%
-           family={Elmqvist},
-           familyi={E\bibinitperiod},
-           given={Niklas},
-           giveni={N\bibinitperiod},
-           givenun=0}}%
-      }
-      \strng{namehash}{6dfdded30faff922892a6ed6fff1d7bb}
-      \strng{fullhash}{a0649c2a7e8f4b61992fec3dc36aabf0}
-      \strng{fullhashraw}{a0649c2a7e8f4b61992fec3dc36aabf0}
-      \strng{bibnamehash}{a0649c2a7e8f4b61992fec3dc36aabf0}
-      \strng{authorbibnamehash}{a0649c2a7e8f4b61992fec3dc36aabf0}
-      \strng{authornamehash}{6dfdded30faff922892a6ed6fff1d7bb}
-      \strng{authorfullhash}{a0649c2a7e8f4b61992fec3dc36aabf0}
-      \strng{authorfullhashraw}{a0649c2a7e8f4b61992fec3dc36aabf0}
-      \field{sortinit}{X}
-      \field{sortinithash}{1965c258adceecf23ce3d67b05113442}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \true{uniqueprimaryauthor}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Proceedings of the 14th Nordic Conference on Human-Computer Interaction}
-      \field{title}{{EchoMind: Augmenting Recorded Presentations with Context-Grounded Conversational Agents and Collective Viewer Signals}}
-      \field{year}{2026}
-      \verb{doi}
-      \verb 10.1145/3829807.3829883
       \endverb
     \endentry
   \enddatalist
@@ -1062,6 +1067,36 @@
       \verb https://www.acm.org/code-of-ethics/software-engineering-code
       \endverb
     \endentry
+    \entry{allea2023code}{book}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=02a385a8c4a079bc54c8bbd611c475ca}{%
+           family={{ALLEA}},
+           familyi={A\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Berlin}%
+      }
+      \strng{namehash}{02a385a8c4a079bc54c8bbd611c475ca}
+      \strng{fullhash}{02a385a8c4a079bc54c8bbd611c475ca}
+      \strng{fullhashraw}{02a385a8c4a079bc54c8bbd611c475ca}
+      \strng{bibnamehash}{02a385a8c4a079bc54c8bbd611c475ca}
+      \strng{authorbibnamehash}{02a385a8c4a079bc54c8bbd611c475ca}
+      \strng{authornamehash}{02a385a8c4a079bc54c8bbd611c475ca}
+      \strng{authorfullhash}{02a385a8c4a079bc54c8bbd611c475ca}
+      \strng{authorfullhashraw}{02a385a8c4a079bc54c8bbd611c475ca}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The European Code of Conduct for Research Integrity -- Revised Edition 2023}
+      \field{year}{2023}
+      \verb{doi}
+      \verb 10.26356/ECOC
+      \endverb
+    \endentry
     \entry{emekci2025securing}{article}{}{}
       \name{author}{2}{}{%
         {{un=0,uniquepart=base,hash=ab2932243613898e519750cd93a62f7e}{%
@@ -1175,12 +1210,12 @@
            given={Qing},
            giveni={Q\bibinitperiod},
            givenun=0}}%
-        {{un=0,uniquepart=base,hash=ba0931743258f2d5038476dc02ac0600}{%
+        {{un=1,uniquepart=given,hash=ba0931743258f2d5038476dc02ac0600}{%
            family={Liu},
            familyi={L\bibinitperiod},
            given={Zhenfang},
            giveni={Z\bibinitperiod},
-           givenun=0}}%
+           givenun=1}}%
         {{un=0,uniquepart=base,hash=99bdc184be268a102ba06892a519e146}{%
            family={Lou},
            familyi={L\bibinitperiod},
@@ -1212,49 +1247,6 @@
       \range{pages}{28}
       \verb{doi}
       \verb 10.1109/JAS.2025.125540
-      \endverb
-    \endentry
-    \entry{jain2025aligning}{article}{}{}
-      \name{author}{3}{}{%
-        {{un=0,uniquepart=base,hash=b8a48184e3794e3037528773cc004bb8}{%
-           family={Jain},
-           familyi={J\bibinitperiod},
-           given={A.},
-           giveni={A\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=a4cddd4f3f8cbef87dab590418f9e3c5}{%
-           family={Cui},
-           familyi={C\bibinitperiod},
-           given={L.},
-           giveni={L\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=ed4e688b3a13c815213f1ff2acb5d92b}{%
-           family={Chen},
-           familyi={C\bibinitperiod},
-           given={S.},
-           giveni={S\bibinitperiod},
-           givenun=0}}%
-      }
-      \strng{namehash}{dd7cfa5f6617929a88267087e8638e12}
-      \strng{fullhash}{7f2d944666396b7c45056ce77f9b33a5}
-      \strng{fullhashraw}{7f2d944666396b7c45056ce77f9b33a5}
-      \strng{bibnamehash}{7f2d944666396b7c45056ce77f9b33a5}
-      \strng{authorbibnamehash}{7f2d944666396b7c45056ce77f9b33a5}
-      \strng{authornamehash}{dd7cfa5f6617929a88267087e8638e12}
-      \strng{authorfullhash}{7f2d944666396b7c45056ce77f9b33a5}
-      \strng{authorfullhashraw}{7f2d944666396b7c45056ce77f9b33a5}
-      \field{sortinit}{J}
-      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \true{uniqueprimaryauthor}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{2025 IEEE International Conference on Teaching, Assessment, and Learning for Engineering (TALE)}
-      \field{title}{{Aligning LLMs for the Classroom with Knowledge-Based Retrieval: A Comparative RAG Study}}
-      \field{year}{2025}
-      \verb{doi}
-      \verb 10.1109/TALE66047.2025.11346682
       \endverb
     \endentry
     \entry{khan2025towards}{article}{}{}
@@ -1353,12 +1345,12 @@
     \endentry
     \entry{liu2026asknow}{article}{}{}
       \name{author}{6}{}{%
-        {{un=0,uniquepart=base,hash=d7586b434e7f1832e5349d1f4bbbf4d5}{%
+        {{un=1,uniquepart=given,hash=d7586b434e7f1832e5349d1f4bbbf4d5}{%
            family={Liu},
            familyi={L\bibinitperiod},
            given={Ziqi},
            giveni={Z\bibinitperiod},
-           givenun=0}}%
+           givenun=1}}%
         {{un=0,uniquepart=base,hash=4897ee67fda5da09a5b8f61c52f99d0d}{%
            family={Wang},
            familyi={W\bibinitperiod},
@@ -1843,6 +1835,73 @@
       \verb 10.1109/AIoTC71250.2026.11689071
       \endverb
     \endentry
+    \entry{wu2023brief}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=d6a1d7e832757ae4df71e8a583f72623}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Tianyu},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=00e896eb89512a2159b2ddd9f4d5854f}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={Shizhu},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=1,uniquepart=given,hash=1bafae92e36d73b5f8f8dfb5d3a4b7a7}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Jingping},
+           giveni={J\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=e1ac54d193c85b7c6c855302387de5e8}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Siqi},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=1,uniquepart=given,hash=d6360bc8f5ef2b9fdccd337e0cb18b84}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Kang},
+           giveni={K\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=eaf8f939f63c113b097158efa92a215f}{%
+           family={Han},
+           familyi={H\bibinitperiod},
+           given={Qing-Long},
+           giveni={Q\bibinithyphendelim L\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{79b1767b07de56ad58ac8eeee4f1769e}
+      \strng{fullhash}{94c80a8cd747c3da94876a605446ffa2}
+      \strng{fullhashraw}{94c80a8cd747c3da94876a605446ffa2}
+      \strng{bibnamehash}{94c80a8cd747c3da94876a605446ffa2}
+      \strng{authorbibnamehash}{94c80a8cd747c3da94876a605446ffa2}
+      \strng{authornamehash}{79b1767b07de56ad58ac8eeee4f1769e}
+      \strng{authorfullhash}{94c80a8cd747c3da94876a605446ffa2}
+      \strng{authorfullhashraw}{94c80a8cd747c3da94876a605446ffa2}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE/CAA Journal of Automatica Sinica}
+      \field{number}{5}
+      \field{title}{A Brief Overview of {ChatGPT}: The History, Status Quo and Potential Future Development}
+      \field{volume}{10}
+      \field{year}{2023}
+      \field{pages}{1122\bibrangedash 1136}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1109/JAS.2023.123618
+      \endverb
+    \endentry
     \entry{xie2026when}{article}{}{}
       \name{author}{5}{}{%
         {{un=0,uniquepart=base,hash=c0253cea08b386fcd5f8a5b29f29418d}{%
@@ -1896,55 +1955,6 @@
       \field{year}{2026}
       \verb{doi}
       \verb 10.1145/3797161.3797211
-      \endverb
-    \endentry
-    \entry{xu2026echomind}{article}{}{}
-      \name{author}{4}{}{%
-        {{un=0,uniquepart=base,hash=e8fe14b0a8215f3c9541485fb4059819}{%
-           family={Xu},
-           familyi={X\bibinitperiod},
-           given={Haiyang},
-           giveni={H\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=89c0b3aa0770fe073276ca2089a0e549}{%
-           family={Song},
-           familyi={S\bibinitperiod},
-           given={Yunhui},
-           giveni={Y\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=c9c7e0164d61e678907746fac8deeb7e}{%
-           family={Sun},
-           familyi={S\bibinitperiod},
-           given={Black},
-           giveni={B\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=3d2d2f27939146b06a5f340008404e78}{%
-           family={Elmqvist},
-           familyi={E\bibinitperiod},
-           given={Niklas},
-           giveni={N\bibinitperiod},
-           givenun=0}}%
-      }
-      \strng{namehash}{6dfdded30faff922892a6ed6fff1d7bb}
-      \strng{fullhash}{a0649c2a7e8f4b61992fec3dc36aabf0}
-      \strng{fullhashraw}{a0649c2a7e8f4b61992fec3dc36aabf0}
-      \strng{bibnamehash}{a0649c2a7e8f4b61992fec3dc36aabf0}
-      \strng{authorbibnamehash}{a0649c2a7e8f4b61992fec3dc36aabf0}
-      \strng{authornamehash}{6dfdded30faff922892a6ed6fff1d7bb}
-      \strng{authorfullhash}{a0649c2a7e8f4b61992fec3dc36aabf0}
-      \strng{authorfullhashraw}{a0649c2a7e8f4b61992fec3dc36aabf0}
-      \field{sortinit}{X}
-      \field{sortinithash}{1965c258adceecf23ce3d67b05113442}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \true{uniqueprimaryauthor}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Proceedings of the 14th Nordic Conference on Human-Computer Interaction}
-      \field{title}{{EchoMind: Augmenting Recorded Presentations with Context-Grounded Conversational Agents and Collective Viewer Signals}}
-      \field{year}{2026}
-      \verb{doi}
-      \verb 10.1145/3829807.3829883
       \endverb
     \endentry
   \enddatalist

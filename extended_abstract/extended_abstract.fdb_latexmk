@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber extended_abstract"] 1794224904.18268 "extended_abstract.bcf" "extended_abstract.bbl" "extended_abstract" 1794224912.87929 0
+["biber extended_abstract"] 1794227023.02751 "extended_abstract.bcf" "extended_abstract.bbl" "extended_abstract" 1794227213.42202 0
   "../tmdei-dissertation-template-main/mainbibliography.bib" 1794224858.42273 35999 fdbde676db2073602e9ad79840a41411 ""
-  "extended_abstract.bcf" 1794224912.59132 136140 7151658b7d05f2cf6b376dc8ef52a125 "pdflatex"
+  "extended_abstract.bcf" 1794227213.1387 136347 4bf3516ef74476fbbc444c4d3f2c2081 "pdflatex"
   (generated)
   "extended_abstract.bbl"
   "extended_abstract.blg"
   (rewritten before read)
-["pdflatex"] 1794224910.71579 "extended_abstract.tex" "extended_abstract.pdf" "extended_abstract" 1794224912.88029 0
+["pdflatex"] 1794227211.19794 "extended_abstract.tex" "extended_abstract.pdf" "extended_abstract" 1794227213.42299 0
   "C:/Users/kiko/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1793979900.5612 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/kiko/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1793979555.9112 13402268 2f8d70e20d4c2d29ab685f5965892054 ""
   "C:/Users/kiko/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc" 1256929440 2375 baa924870cfb487815765f9094cf3728 ""
@@ -153,6 +153,7 @@
   "C:/Users/kiko/AppData/Local/Programs/MiKTeX/tex/latex/enumitem/enumitem.sty" 1738917170 52272 63d293bc0d496619edb57585740861a2 ""
   "C:/Users/kiko/AppData/Local/Programs/MiKTeX/tex/latex/epstopdf-pkg/epstopdf-base.sty" 1623003186 13886 d1306dcf79a944f6988e688c1785f9ce ""
   "C:/Users/kiko/AppData/Local/Programs/MiKTeX/tex/latex/etoolbox/etoolbox.sty" 1759409308 46885 8953c67ffba03252c6090aa19568b8ba ""
+  "C:/Users/kiko/AppData/Local/Programs/MiKTeX/tex/latex/float/float.sty" 1469023953 6916 f35860e0302c70cb81cb70b0a7937693 ""
   "C:/Users/kiko/AppData/Local/Programs/MiKTeX/tex/latex/geometry/geometry.cfg" 1773583286 1083 f69f5eb2d8e249286c59dd1340122e59 ""
   "C:/Users/kiko/AppData/Local/Programs/MiKTeX/tex/latex/geometry/geometry.sty" 1773583286 41904 7711079366884e0d15963c9d40019853 ""
   "C:/Users/kiko/AppData/Local/Programs/MiKTeX/tex/latex/graphics-cfg/color.cfg" 1465894292 1213 620bba36b25224fa9b7e1ccb4ecb76fd ""
@@ -205,11 +206,11 @@
   "C:/Users/kiko/AppData/Local/Programs/MiKTeX/tex/latex/tools/tabularx.sty" 1780057721 7243 98a9e0737a56460d15d6b41be1ecc3b8 ""
   "C:/Users/kiko/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/kiko/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
-  "extended_abstract.aux" 1794224912.58532 7580 0742a832ab539f847b8a1fa3bdc84642 "pdflatex"
-  "extended_abstract.bbl" 1794224906.27844 84001 201444fa9f175094b929cd55fce859fc "biber extended_abstract"
-  "extended_abstract.out" 1794224912.58832 1137 b7547ca031d600ef489b447d0fe4b10e "pdflatex"
-  "extended_abstract.run.xml" 1794224912.59332 2498 b0c8dff3d964e0a421f06e8ba9050b0a "pdflatex"
-  "extended_abstract.tex" 1794224852.3127 18021 5c6e37b3934af5d4c84099b4c471a6a3 ""
+  "extended_abstract.aux" 1794227213.1327 8075 a904bb451466f3492858e9b2f69996ba "pdflatex"
+  "extended_abstract.bbl" 1794227025.10408 83885 6d49b667569ac0a4c56214d1a9cd4112 "biber extended_abstract"
+  "extended_abstract.out" 1794227213.1357 1137 b7547ca031d600ef489b447d0fe4b10e "pdflatex"
+  "extended_abstract.run.xml" 1794227213.1407 2498 b0c8dff3d964e0a421f06e8ba9050b0a "pdflatex"
+  "extended_abstract.tex" 1794227205.23775 21756 114be324a8e6ff2e52e9f1d3d886f19b ""
   (generated)
   "extended_abstract.aux"
   "extended_abstract.bcf"

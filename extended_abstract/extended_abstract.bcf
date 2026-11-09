@@ -3079,31 +3079,34 @@
     <bcf:citekey order="1" intorder="1">abdalrazaq2023llm</bcf:citekey>
     <bcf:citekey order="2" intorder="1">gan2024orthopedic</bcf:citekey>
     <bcf:citekey order="3" intorder="1">hu2025advancing</bcf:citekey>
-    <bcf:citekey order="3" intorder="2">jain2025aligning</bcf:citekey>
     <bcf:citekey order="4" intorder="1">emekci2025securing</bcf:citekey>
-    <bcf:citekey order="5" intorder="1">kitchenham2007guidelines</bcf:citekey>
-    <bcf:citekey order="6" intorder="1">kitchenham2007guidelines</bcf:citekey>
-    <bcf:citekey order="7" intorder="1">page2021prisma</bcf:citekey>
-    <bcf:citekey order="22" intorder="1">xie2026when</bcf:citekey>
-    <bcf:citekey order="23" intorder="1">rahat2026noise</bcf:citekey>
-    <bcf:citekey order="24" intorder="1">liu2026asknow</bcf:citekey>
-    <bcf:citekey order="25" intorder="1">wei2026cloud</bcf:citekey>
-    <bcf:citekey order="26" intorder="1">rayhan2026sage</bcf:citekey>
-    <bcf:citekey order="27" intorder="1">rayhan2026sage</bcf:citekey>
-    <bcf:citekey order="28" intorder="1">walczak2026comparative</bcf:citekey>
-    <bcf:citekey order="29" intorder="1">hu2025advancing</bcf:citekey>
-    <bcf:citekey order="30" intorder="1">xie2026when</bcf:citekey>
-    <bcf:citekey order="30" intorder="2">rahat2026noise</bcf:citekey>
-    <bcf:citekey order="31" intorder="1">xu2026echomind</bcf:citekey>
-    <bcf:citekey order="32" intorder="1">khan2025towards</bcf:citekey>
-    <bcf:citekey order="33" intorder="1">rayhan2026sage</bcf:citekey>
-    <bcf:citekey order="33" intorder="2">walczak2026comparative</bcf:citekey>
-    <bcf:citekey order="34" intorder="1">peffers2007design</bcf:citekey>
-    <bcf:citekey order="35" intorder="1">peffers2007design</bcf:citekey>
-    <bcf:citekey order="36" intorder="1">acmieee1999secode</bcf:citekey>
-    <bcf:citekey order="37" intorder="1">pporto2020codigo</bcf:citekey>
-    <bcf:citekey order="38" intorder="1">eu2016gdpr</bcf:citekey>
-    <bcf:citekey order="39" intorder="1">eu2024aiact</bcf:citekey>
+    <bcf:citekey order="5" intorder="1">wu2023brief</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">hu2025advancing</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">kitchenham2007guidelines</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">kitchenham2007guidelines</bcf:citekey>
+    <bcf:citekey order="9" intorder="1">page2021prisma</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">xie2026when</bcf:citekey>
+    <bcf:citekey order="25" intorder="1">rahat2026noise</bcf:citekey>
+    <bcf:citekey order="26" intorder="1">liu2026asknow</bcf:citekey>
+    <bcf:citekey order="27" intorder="1">wei2026cloud</bcf:citekey>
+    <bcf:citekey order="28" intorder="1">rayhan2026sage</bcf:citekey>
+    <bcf:citekey order="29" intorder="1">rayhan2026sage</bcf:citekey>
+    <bcf:citekey order="30" intorder="1">walczak2026comparative</bcf:citekey>
+    <bcf:citekey order="31" intorder="1">hu2025advancing</bcf:citekey>
+    <bcf:citekey order="32" intorder="1">xie2026when</bcf:citekey>
+    <bcf:citekey order="32" intorder="2">rahat2026noise</bcf:citekey>
+    <bcf:citekey order="33" intorder="1">liu2026asknow</bcf:citekey>
+    <bcf:citekey order="34" intorder="1">khan2025towards</bcf:citekey>
+    <bcf:citekey order="35" intorder="1">rayhan2026sage</bcf:citekey>
+    <bcf:citekey order="35" intorder="2">walczak2026comparative</bcf:citekey>
+    <bcf:citekey order="36" intorder="1">emekci2025securing</bcf:citekey>
+    <bcf:citekey order="37" intorder="1">peffers2007design</bcf:citekey>
+    <bcf:citekey order="38" intorder="1">peffers2007design</bcf:citekey>
+    <bcf:citekey order="39" intorder="1">acmieee1999secode</bcf:citekey>
+    <bcf:citekey order="40" intorder="1">allea2023code</bcf:citekey>
+    <bcf:citekey order="41" intorder="1">pporto2020codigo</bcf:citekey>
+    <bcf:citekey order="42" intorder="1">eu2016gdpr</bcf:citekey>
+    <bcf:citekey order="43" intorder="1">eu2024aiact</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="apa">

@@ -289,6 +289,8 @@ INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex\latex\pgf\utilities\pgfcal
 INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex\generic\pgf\utilities\pgfcalendar.code.tex
 INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex\generic\pgf\utilities\pgfcalendar.code.tex
 INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex\generic\pgf\utilities\pgfcalendar.code.tex
+INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex\latex\float\float.sty
+INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex\latex\float\float.sty
 INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex\latex\csquotes\csquotes.sty
 INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex\latex\csquotes\csquotes.sty
 INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex\latex\csquotes\csquotes.def
@@ -440,6 +442,7 @@ INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex\latex\lm\ts1lmr.fd
 INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex\latex\lm\ts1lmr.fd
 INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex\latex\lm\ts1lmr.fd
 INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ts1-lmr10.tfm
+INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-ts1.enc
 INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmr9.tfm
 INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex\latex\lm\ot1lmr.fd
 INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex\latex\lm\ot1lmr.fd
@@ -465,7 +468,6 @@ INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex\latex\lm\omxlmex.fd
 INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\lmex10.tfm
 INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmbx9.tfm
 INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmri9.tfm
-INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-ts1.enc
 INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\rm-lmr10.tfm
 INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\rm-lmr8.tfm
 INPUT C:\Users\kiko\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\lmmi10.tfm

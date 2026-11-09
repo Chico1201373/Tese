@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.11.6)  9 NOV 2026 11:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.11.6)  9 NOV 2026 12:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -635,15 +635,23 @@ File: pgfcalendar.code.tex 2026-08-01 v3.1.12 (3.1.12)
 \gtt@left@slot=\count345
 \gtt@right@slot=\count346
 )
+(C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count347
+\float@exts=\toks38
+\float@box=\box70
+\@float@everytoks=\toks39
+\@floatcapt=\box71
+)
 (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/latex/csquotes\csquotes.sty
 Package: csquotes 2026-05-19 v5.2p context-sensitive quotations (JAW)
-\csq@reset=\count347
-\csq@gtype=\count348
-\csq@glevel=\count349
-\csq@qlevel=\count350
-\csq@maxlvl=\count351
-\csq@tshold=\count352
-\csq@ltx@everypar=\toks38
+\csq@reset=\count348
+\csq@gtype=\count349
+\csq@glevel=\count350
+\csq@qlevel=\count351
+\csq@maxlvl=\count352
+\csq@tshold=\count353
+\csq@ltx@everypar=\toks40
 
 (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/latex/csquotes\csquotes.def
 File: csquotes.def 2026-05-19 v5.2p csquotes generic definitions (JAW)
@@ -679,7 +687,7 @@ Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
 )) (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/latex/logreq\logreq.sty
 Package: logreq 2010/08/04 v1.0 xml request logger
-\lrq@indent=\count353
+\lrq@indent=\count354
 
 (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/latex/logreq\logreq.def
 File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
@@ -691,49 +699,49 @@ Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-\c@tabx@nest=\count354
-\c@listtotal=\count355
-\c@listcount=\count356
-\c@liststart=\count357
-\c@liststop=\count358
-\c@citecount=\count359
-\c@citetotal=\count360
-\c@multicitecount=\count361
-\c@multicitetotal=\count362
-\c@instcount=\count363
-\c@maxnames=\count364
-\c@minnames=\count365
-\c@maxitems=\count366
-\c@minitems=\count367
-\c@citecounter=\count368
-\c@maxcitecounter=\count369
-\c@savedcitecounter=\count370
-\c@uniquelist=\count371
-\c@uniquename=\count372
-\c@refsection=\count373
-\c@refsegment=\count374
-\c@maxextratitle=\count375
-\c@maxextratitleyear=\count376
-\c@maxextraname=\count377
-\c@maxextradate=\count378
-\c@maxextraalpha=\count379
-\c@abbrvpenalty=\count380
-\c@highnamepenalty=\count381
-\c@lownamepenalty=\count382
-\c@maxparens=\count383
-\c@parenlevel=\count384
-\blx@tempcnta=\count385
-\blx@tempcntb=\count386
-\blx@tempcntc=\count387
-\c@blx@maxsection=\count388
-\blx@maxsegment@0=\count389
-\blx@notetype=\count390
-\blx@parenlevel@text=\count391
-\blx@parenlevel@foot=\count392
-\blx@sectionciteorder@0=\count393
-\blx@sectionciteorderinternal@0=\count394
-\blx@entrysetcounter=\count395
-\blx@biblioinstance=\count396
+\c@tabx@nest=\count355
+\c@listtotal=\count356
+\c@listcount=\count357
+\c@liststart=\count358
+\c@liststop=\count359
+\c@citecount=\count360
+\c@citetotal=\count361
+\c@multicitecount=\count362
+\c@multicitetotal=\count363
+\c@instcount=\count364
+\c@maxnames=\count365
+\c@minnames=\count366
+\c@maxitems=\count367
+\c@minitems=\count368
+\c@citecounter=\count369
+\c@maxcitecounter=\count370
+\c@savedcitecounter=\count371
+\c@uniquelist=\count372
+\c@uniquename=\count373
+\c@refsection=\count374
+\c@refsegment=\count375
+\c@maxextratitle=\count376
+\c@maxextratitleyear=\count377
+\c@maxextraname=\count378
+\c@maxextradate=\count379
+\c@maxextraalpha=\count380
+\c@abbrvpenalty=\count381
+\c@highnamepenalty=\count382
+\c@lownamepenalty=\count383
+\c@maxparens=\count384
+\c@parenlevel=\count385
+\blx@tempcnta=\count386
+\blx@tempcntb=\count387
+\blx@tempcntc=\count388
+\c@blx@maxsection=\count389
+\blx@maxsegment@0=\count390
+\blx@notetype=\count391
+\blx@parenlevel@text=\count392
+\blx@parenlevel@foot=\count393
+\blx@sectionciteorder@0=\count394
+\blx@sectionciteorderinternal@0=\count395
+\blx@entrysetcounter=\count396
+\blx@biblioinstance=\count397
 \labelnumberwidth=\skip55
 \labelalphawidth=\skip56
 \biblabelsep=\skip57
@@ -745,9 +753,9 @@ Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 \blx@bcfin=\read4
 \blx@bcfout=\write4
 \blx@langwohyphens=\language80
-\c@mincomprange=\count397
-\c@maxcomprange=\count398
-\c@mincompwidth=\count399
+\c@mincomprange=\count398
+\c@maxcomprange=\count399
+\c@mincompwidth=\count400
 Package biblatex Info: Trying to load biblatex default data model...
 Package biblatex Info: ... file 'blx-dm.def' found.
 
@@ -762,84 +770,84 @@ File: apa.dbx 2025/08/27 v9.20 APA biblatex style data model
 )
 Package biblatex Info: Trying to load biblatex custom data model...
 Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
-\c@afterword=\count400
-\c@savedafterword=\count401
-\c@annotator=\count402
-\c@savedannotator=\count403
-\c@author=\count404
-\c@savedauthor=\count405
-\c@bookauthor=\count406
-\c@savedbookauthor=\count407
-\c@commentator=\count408
-\c@savedcommentator=\count409
-\c@editor=\count410
-\c@savededitor=\count411
-\c@editora=\count412
-\c@savededitora=\count413
-\c@editorb=\count414
-\c@savededitorb=\count415
-\c@editorc=\count416
-\c@savededitorc=\count417
-\c@foreword=\count418
-\c@savedforeword=\count419
-\c@holder=\count420
-\c@savedholder=\count421
-\c@introduction=\count422
-\c@savedintroduction=\count423
-\c@namea=\count424
-\c@savednamea=\count425
-\c@nameb=\count426
-\c@savednameb=\count427
-\c@namec=\count428
-\c@savednamec=\count429
-\c@translator=\count430
-\c@savedtranslator=\count431
-\c@shortauthor=\count432
-\c@savedshortauthor=\count433
-\c@shorteditor=\count434
-\c@savedshorteditor=\count435
-\c@narrator=\count436
-\c@savednarrator=\count437
-\c@execproducer=\count438
-\c@savedexecproducer=\count439
-\c@execdirector=\count440
-\c@savedexecdirector=\count441
-\c@with=\count442
-\c@savedwith=\count443
-\c@labelname=\count444
-\c@savedlabelname=\count445
-\c@institution=\count446
-\c@savedinstitution=\count447
-\c@lista=\count448
-\c@savedlista=\count449
-\c@listb=\count450
-\c@savedlistb=\count451
-\c@listc=\count452
-\c@savedlistc=\count453
-\c@listd=\count454
-\c@savedlistd=\count455
-\c@liste=\count456
-\c@savedliste=\count457
-\c@listf=\count458
-\c@savedlistf=\count459
-\c@location=\count460
-\c@savedlocation=\count461
-\c@organization=\count462
-\c@savedorganization=\count463
-\c@origlocation=\count464
-\c@savedoriglocation=\count465
-\c@origpublisher=\count466
-\c@savedorigpublisher=\count467
-\c@publisher=\count468
-\c@savedpublisher=\count469
-\c@language=\count470
-\c@savedlanguage=\count471
-\c@origlanguage=\count472
-\c@savedoriglanguage=\count473
-\c@citation=\count474
-\c@savedcitation=\count475
-\c@pageref=\count476
-\c@savedpageref=\count477
+\c@afterword=\count401
+\c@savedafterword=\count402
+\c@annotator=\count403
+\c@savedannotator=\count404
+\c@author=\count405
+\c@savedauthor=\count406
+\c@bookauthor=\count407
+\c@savedbookauthor=\count408
+\c@commentator=\count409
+\c@savedcommentator=\count410
+\c@editor=\count411
+\c@savededitor=\count412
+\c@editora=\count413
+\c@savededitora=\count414
+\c@editorb=\count415
+\c@savededitorb=\count416
+\c@editorc=\count417
+\c@savededitorc=\count418
+\c@foreword=\count419
+\c@savedforeword=\count420
+\c@holder=\count421
+\c@savedholder=\count422
+\c@introduction=\count423
+\c@savedintroduction=\count424
+\c@namea=\count425
+\c@savednamea=\count426
+\c@nameb=\count427
+\c@savednameb=\count428
+\c@namec=\count429
+\c@savednamec=\count430
+\c@translator=\count431
+\c@savedtranslator=\count432
+\c@shortauthor=\count433
+\c@savedshortauthor=\count434
+\c@shorteditor=\count435
+\c@savedshorteditor=\count436
+\c@narrator=\count437
+\c@savednarrator=\count438
+\c@execproducer=\count439
+\c@savedexecproducer=\count440
+\c@execdirector=\count441
+\c@savedexecdirector=\count442
+\c@with=\count443
+\c@savedwith=\count444
+\c@labelname=\count445
+\c@savedlabelname=\count446
+\c@institution=\count447
+\c@savedinstitution=\count448
+\c@lista=\count449
+\c@savedlista=\count450
+\c@listb=\count451
+\c@savedlistb=\count452
+\c@listc=\count453
+\c@savedlistc=\count454
+\c@listd=\count455
+\c@savedlistd=\count456
+\c@liste=\count457
+\c@savedliste=\count458
+\c@listf=\count459
+\c@savedlistf=\count460
+\c@location=\count461
+\c@savedlocation=\count462
+\c@organization=\count463
+\c@savedorganization=\count464
+\c@origlocation=\count465
+\c@savedoriglocation=\count466
+\c@origpublisher=\count467
+\c@savedorigpublisher=\count468
+\c@publisher=\count469
+\c@savedpublisher=\count470
+\c@language=\count471
+\c@savedlanguage=\count472
+\c@origlanguage=\count473
+\c@savedoriglanguage=\count474
+\c@citation=\count475
+\c@savedcitation=\count476
+\c@pageref=\count477
+\c@savedpageref=\count478
 \shorthandwidth=\skip63
 \shortjournalwidth=\skip64
 \shortserieswidth=\skip65
@@ -864,19 +872,19 @@ Package biblatex Info: Trying to load generic definitions...
 Package biblatex Info: ... file 'biblatex.def' found.
 (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\biblatex.def
 File: biblatex.def 2026/09/24 v3.22a biblatex compatibility (PK/MW)
-\c@textcitecount=\count478
-\c@textcitetotal=\count479
-\c@textcitemaxnames=\count480
-\c@biburlbigbreakpenalty=\count481
-\c@biburlbreakpenalty=\count482
-\c@biburlnumpenalty=\count483
-\c@biburlucpenalty=\count484
-\c@biburllcpenalty=\count485
+\c@textcitecount=\count479
+\c@textcitetotal=\count480
+\c@textcitemaxnames=\count481
+\c@biburlbigbreakpenalty=\count482
+\c@biburlbreakpenalty=\count483
+\c@biburlnumpenalty=\count484
+\c@biburlucpenalty=\count485
+\c@biburllcpenalty=\count486
 \biburlbigskip=\muskip18
 \biburlnumskip=\muskip19
 \biburlucskip=\muskip20
 \biburllcskip=\muskip21
-\c@smartand=\count486
+\c@smartand=\count487
 )
 Package biblatex Info: Trying to load bibliography style 'apa'...
 Package biblatex Info: ... file 'apa.bbx' found.
@@ -889,8 +897,8 @@ Package biblatex Info: ... file 'standard.bbx' found.
 (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/bbx\standard.bb
 x
 File: standard.bbx 2026/09/24 v3.22a biblatex bibliography style (PK/MW)
-\c@bbx:relatedcount=\count487
-\c@bbx:relatedtotal=\count488
+\c@bbx:relatedcount=\count488
+\c@bbx:relatedtotal=\count489
 )
 Package biblatex Info: Delimiter 'nameyeardelim' in context 'bib' already defin
 ed, overwriting.
@@ -938,7 +946,7 @@ Package: expl3 2026-09-09 L3 programming layer (loader)
 (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\l3backend-pdfte
 x.def
 File: l3backend-pdftex.def 2026-09-09 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count489
+\l__color_backend_stack_int=\count490
 ))
 Package biblatex Info: ... and expl3
 (biblatex)             2026-09-09 L3 programming layer (loader) 
@@ -977,7 +985,7 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 estring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count490
+\c@section@level=\count491
 )
 (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc.st
 y
@@ -985,8 +993,8 @@ Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
 )
 )
 \@linkdim=\dimen291
-\Hy@linkcounter=\count491
-\Hy@pagecounter=\count492
+\Hy@linkcounter=\count492
+\Hy@pagecounter=\count493
  (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
 File: pd1enc.def 2026-10-09 v7.01s Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
@@ -995,7 +1003,7 @@ Now handling font encoding PD1 ...
 (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
-\Hy@SavedSpaceFactor=\count493
+\Hy@SavedSpaceFactor=\count494
 
 (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def
 File: puenc.def 2026-10-09 v7.01s Hyperref: PDF Unicode definition (HO)
@@ -1009,7 +1017,7 @@ Package hyperref Info: Plain pages OFF on input line 4214.
 Package hyperref Info: Backreferencing OFF on input line 4219.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4466.
-\c@Hy@tempcnt=\count494
+\c@Hy@tempcnt=\count495
 LaTeX Info: Redefining \url on input line 4805.
 \XeTeXLinkMargin=\dimen292
 
@@ -1021,7 +1029,7 @@ sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
-\Fld@menulength=\count495
+\Fld@menulength=\count496
 \Field@Width=\dimen293
 \Fld@charsize=\dimen294
 Package hyperref Info: Hyper figures OFF on input line 6091.
@@ -1031,16 +1039,16 @@ Package hyperref Info: backreferencing OFF on input line 6106.
 Package hyperref Info: Link coloring OFF on input line 6111.
 Package hyperref Info: Link coloring with OCG OFF on input line 6116.
 Package hyperref Info: PDF/A mode OFF on input line 6121.
-\Hy@abspage=\count496
-\c@Item=\count497
-\c@Hfootnote=\count498
+\Hy@abspage=\count497
+\c@Item=\count498
+\c@Hfootnote=\count499
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
 (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
 File: hpdftex.def 2026-10-09 v7.01s Hyperref driver for pdfTeX
-\Fld@listcount=\count499
-\c@bookmark@seq@number=\count500
+\Fld@listcount=\count500
+\c@bookmark@seq@number=\count501
 
 (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfile
 check.sty
@@ -1059,34 +1067,34 @@ Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'portuguese'.
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 25
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 26
 .
  (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) (extended_abstract.aux
 Package babel Info: 'portuguese' activates 'portuges' shorthands.
-(babel)             Reported on input line 23.
+(babel)             Reported on input line 21.
 )
 \openout1 = `extended_abstract.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1122,13 +1130,13 @@ LaTeX Font Info:    ... okay on input line 25.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \microtypecontext on input line 25.
-Package microtype Info: Applying patch `item' on input line 25.
-Package microtype Info: Applying patch `toc' on input line 25.
-Package microtype Info: Applying patch `eqnum' on input line 25.
-Package microtype Info: Applying patch `footnote' on input line 25.
-Package microtype Info: Applying patch `verbatim' on input line 25.
-LaTeX Info: Redefining \microtypesetup on input line 25.
+LaTeX Info: Redefining \microtypecontext on input line 26.
+Package microtype Info: Applying patch `item' on input line 26.
+Package microtype Info: Applying patch `toc' on input line 26.
+Package microtype Info: Applying patch `eqnum' on input line 26.
+Package microtype Info: Applying patch `footnote' on input line 26.
+Package microtype Info: Applying patch `verbatim' on input line 26.
+LaTeX Info: Redefining \microtypesetup on input line 26.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -1146,17 +1154,17 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mki
 i
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count501
+\scratchcounter=\count502
 \scratchdimen=\dimen295
-\scratchbox=\box70
-\nofMPsegments=\count502
-\nofMParguments=\count503
-\everyMPshowfont=\toks39
-\MPscratchCnt=\count504
+\scratchbox=\box72
+\nofMPsegments=\count503
+\nofMParguments=\count504
+\everyMPshowfont=\toks41
+\MPscratchCnt=\count505
 \MPscratchDim=\dimen296
-\MPnumerator=\count505
-\makeMPintoPDFobject=\count506
-\everyMPtoPDFconversion=\toks40
+\MPnumerator=\count506
+\makeMPintoPDFobject=\count507
+\everyMPtoPDFconversion=\toks42
 )
 (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-ba
 se.sty
@@ -1197,9 +1205,9 @@ Package biblatex Info: Automatic encoding selection.
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'extended_abstract.bbl' found.
  (extended_abstract.bbl)
-Package biblatex Info: Reference section=0 on input line 25.
-Package biblatex Info: Reference segment=0 on input line 25.
-Package hyperref Info: Link coloring OFF on input line 25.
+Package biblatex Info: Reference section=0 on input line 26.
+Package biblatex Info: Reference segment=0 on input line 26.
+Package hyperref Info: Link coloring OFF on input line 26.
  (extended_abstract.out) (extended_abstract.out)
 \@outlinefile=\write5
 \openout5 = `extended_abstract.out'.
@@ -1211,51 +1219,51 @@ Package babel Info: Main language set to 'portuguese'.
 {C:/Users/kiko/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/kiko/
 AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 7
-6.
+9.
 
 (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
+) [2{C:/Users/kiko/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}
+]
 (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1lmr.fd)
 (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/latex/lm\omllmm.fd)
 (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/latex/lm\omslmsy.fd)
 (C:\Users\kiko\AppData\Local\Programs\MiKTeX\tex/latex/lm\omxlmex.fd)
-Underfull \hbox (badness 10000) in paragraph at lines 102--102
+Underfull \hbox (badness 10000) in paragraph at lines 105--105
 []|\T1/lmr/m/n/9 (+20) Recuperação
  []
 
 
-Underfull \hbox (badness 6348) in paragraph at lines 102--102
+Underfull \hbox (badness 6348) in paragraph at lines 105--105
 \T1/lmr/m/n/9 (+20) (RAG): pes-quisa
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 102--102
+Underfull \hbox (badness 10000) in paragraph at lines 105--105
 \T1/lmr/m/n/9 (+20) por se-me-lhança
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 102--102
+Underfull \hbox (badness 10000) in paragraph at lines 105--105
 \T1/lmr/m/n/9 (+20) for-ne-cido di-re-ta-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 102--102
+Underfull \hbox (badness 10000) in paragraph at lines 105--105
 []|\T1/lmr/m/n/9 (+20) Instruções no
  []
 
 
-Underfull \hbox (badness 2042) in paragraph at lines 102--102
+Underfull \hbox (badness 2042) in paragraph at lines 105--105
 []|\T1/lmr/m/n/9 (+20) Controlo de acesso ao con-te-údo: 90%
  []
 
-[2{C:/Users/kiko/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}]
-[3] [4]
+[3] [4] [5]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 193.
+(Font)              <10.95> on input line 204.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 193.
- [5] [6] (extended_abstract.aux)
+(Font)              <8> on input line 204.
+ [6] [7] (extended_abstract.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-09-09>
@@ -1267,11 +1275,11 @@ Package logreq Info: Writing requests to 'extended_abstract.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 34887 strings out of 467391
- 693059 string characters out of 5406104
- 1648579 words of memory out of 5000000
- 63536 multiletter control sequences out of 15000+600000
- 692126 words of font info for 162 fonts, out of 8000000 for 9000
+ 34963 strings out of 467391
+ 694121 string characters out of 5406104
+ 1652005 words of memory out of 5000000
+ 63605 multiletter control sequences out of 15000+600000
+ 692162 words of font info for 163 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  117i,9n,121p,1212b,2809s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/kiko/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb
@@ -1282,9 +1290,9 @@ Users/kiko/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Us
 ers/kiko/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr9.pfb><C:/Users
 /kiko/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri10.pfb><C:/Users/
 kiko/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri9.pfb>
-Output written on extended_abstract.pdf (6 pages, 288488 bytes).
+Output written on extended_abstract.pdf (7 pages, 293550 bytes).
 PDF statistics:
- 215 PDF objects out of 1000 (max. 8388607)
- 44 named destinations out of 1000 (max. 500000)
+ 222 PDF objects out of 1000 (max. 8388607)
+ 45 named destinations out of 1000 (max. 500000)
  34877 words of extra memory for PDF output out of 35830 (max. 10000000)
 

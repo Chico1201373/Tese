@@ -12,6 +12,7 @@
 \usepackage{tabularx}
 \usepackage{enumitem}
 \usepackage{pgfgantt}
+\usepackage{float}
 \usepackage{csquotes}
 \usepackage[style=apa,backend=biber]{biblatex}
 \usepackage[hidelinks]{hyperref}
@@ -37,13 +38,13 @@ Francisco Reis (1201373)\\
 %-------------------------------------------------------------------------------
 \section{Introdução e Enquadramento do Problema}
 
-Os bancos de perguntas de escolha múltipla são um recurso habitual na preparação para exames na área da saúde. O Adhara QBank é a plataforma da Adhara para este fim. Reúne milhares de perguntas em várias línguas. A equipa científica da Adhara valida a informação de cada pergunta: vinheta clínica, opções, resposta correta, explicação, dicas, catalogação e informação complementar.
+Os bancos de perguntas de escolha múltipla são um recurso habitual na preparação para exames na área da saúde. O Adhara QBank é a plataforma da Adhara, uma empresa portuguesa de educação médica, para este fim. Existe em várias línguas e terá algumas centenas de utilizadores, que resolvem exames em três modos: Teste, Estudo e Simulado. A equipa científica da Adhara valida a informação de cada pergunta: vinheta clínica, opções, resposta correta, explicação, dicas, catalogação e informação complementar. Cada versão linguística tem o seu próprio conteúdo validado.
 
-Durante o estudo, o utilizador pode ter dúvidas que a explicação no ecrã não resolve, e a plataforma não lhe permite esclarecê-las no momento. A literatura propõe assistentes baseados em modelos de linguagem de grande dimensão (LLM) como apoio ao estudo em educação médica \parencite{abdalrazaq2023llm}. Num ensaio controlado com estudantes de medicina, um destes assistentes trouxe benefícios para a aprendizagem \parencite{gan2024orthopedic}. Um assistente genérico traz, porém, dois riscos. Pode gerar respostas plausíveis mas infiéis ao contexto \parencite{hu2025advancing,jain2025aligning}, que contradizem o conteúdo validado. Pode também ser manipulado através do \emph{prompt} \parencite{emekci2025securing}, o que num exame compromete a integridade da avaliação.
+Durante o estudo, o utilizador pode ter dúvidas que a explicação no ecrã não resolve, por exemplo porque é que uma opção está errada. A plataforma não lhe permite esclarecê-las no momento, embora a base de dados guarde mais informação sobre cada pergunta do que a que aparece no ecrã. A literatura propõe assistentes baseados em modelos de linguagem de grande dimensão (LLM) como apoio ao estudo em educação médica \parencite{abdalrazaq2023llm}. Num ensaio controlado com estudantes de medicina, um destes assistentes trouxe benefícios para a aprendizagem \parencite{gan2024orthopedic}. Um assistente genérico traz, porém, dois riscos. Pode gerar respostas plausíveis mas incorretas \parencite{hu2025advancing}, que contradizem o conteúdo validado. Pode também ser manipulado através do \emph{prompt} \parencite{emekci2025securing}, o que num exame compromete a integridade da avaliação.
 
 \textbf{Delimitação.} O trabalho não constrói um tutor médico geral nem um sistema de resposta a qualquer pergunta clínica. O assistente responde apenas a dúvidas sobre a pergunta em curso. O contexto é o registo validado dessa pergunta, lido pelo seu identificador, sem pesquisa num corpus nem conhecimento externo.
 
-\textbf{Problema.} O problema é conceber um assistente conversacional baseado em LLM que responda apenas com a informação que a base de dados guarda para cada pergunta. O assistente deve manter-se fiel a esse contexto, recusar questões fora do âmbito e respeitar as regras de cada modo, como não revelar a resposta correta antes do tempo.
+\textbf{Problema.} O problema é conceber um assistente conversacional baseado em LLM que responda apenas com a informação que a base de dados guarda para cada pergunta. O assistente deve manter-se fiel a esse contexto, recusar questões fora do âmbito e respeitar as regras de cada modo, como não revelar a resposta correta antes do tempo. Deve fazê-lo em todas as línguas do QBank e conciliar a qualidade da resposta com a segurança, o custo e a latência de uma conversa.
 
 \textbf{Partes interessadas.} Os utilizadores do QBank (estudantes de medicina, médicos e enfermeiros) precisam de respostas corretas e rápidas. Na Adhara, a gestão define o custo e a integração na plataforma, e a equipa científica responde pelo conteúdo e pela validação das respostas. O ISEP acompanha o trabalho através do orientador.
 
@@ -63,13 +64,15 @@ A revisão sistemática responde às duas questões. As respostas orientam o des
     \item Levantar com a Adhara os requisitos, as regras por modo e os campos que formam o contexto. \emph{Evidência:} requisitos e \emph{backlog} revistos pela Adhara.
     \item Implementar e integrar o assistente no fluxo de resolução de perguntas do QBank. \emph{Evidência:} versão integrada e demonstrada em perguntas reais.
     \item Aplicar as regras de cada modo e a recusa fora do âmbito, sem depender só das instruções ao modelo. \emph{Evidência:} testes de âmbito e adversariais aprovados.
-    \item Avaliar a correção, a fidelidade, a recusa, a latência, o custo e a utilidade percebida. \emph{Evidência:} resultados da avaliação face aos critérios de sucesso definidos nos requisitos.
+    \item Avaliar a correção, a fidelidade, a recusa, o comportamento em várias línguas, a latência, o custo e a utilidade percebida. \emph{Evidência:} resultados da avaliação face aos critérios de sucesso definidos nos requisitos.
 \end{enumerate}
 
-\textbf{Contributos.} Uma revisão sistemática sobre assistentes com contexto definido em educação e saúde; um assistente integrado no QBank que usa apenas o conteúdo validado da pergunta; e um protocolo de avaliação que mede em conjunto a correção, a fidelidade e a recusa, em várias línguas. Para a Adhara, o benefício é um apoio ao estudo que não contradiz o seu conteúdo.
+\textbf{Contributos.} Uma revisão sistemática sobre assistentes com contexto definido em educação e saúde; um assistente integrado no QBank que usa apenas o conteúdo validado da pergunta e respeita as regras de cada modo; uma forma de entregar ao modelo o contexto fechado de cada pergunta e de recusar o que não tem suporte nele; e um protocolo de avaliação que mede em conjunto a correção, a fidelidade e a recusa, em várias línguas, com a latência e o custo. Para a Adhara, o benefício é um apoio ao estudo que não contradiz o seu conteúdo.
 
 %-------------------------------------------------------------------------------
 \section{Estado da Arte}
+
+\textbf{Fundamentos.} Os assistentes como o ChatGPT assentam em LLM pré-treinados da série GPT, baseados na arquitetura \emph{Transformer}. A partir de certa dimensão, estes modelos executam tarefas descritas no \emph{prompt}, com ou sem exemplos, sem alterar os seus parâmetros (aprendizagem em contexto). São depois alinhados com as preferências humanas, o que lhes permite seguir instruções \parencite{wu2023brief}. É esta capacidade que permite definir um assistente através de instruções e do contexto enviado, mas as instruções orientam o modelo sem garantir que são cumpridas. Em medicina, os LLM são avaliados sobretudo com perguntas de escolha múltipla de exames, como as do MedQA. Estes \emph{benchmarks} têm limitações conhecidas \parencite{hu2025advancing} e medem a escolha da resposta correta, e não a explicação fiel de uma resposta já validada, que é o que o QBank precisa.
 
 \textbf{Processo de pesquisa.} O autor conduziu uma revisão sistemática da literatura segundo \textcite{kitchenham2007guidelines} e relatou-a segundo o PRISMA 2020 \parencite{page2021prisma}. A revisão responde à RQ1 e à RQ2. Pesquisou o IEEE Xplore, a ACM Digital Library e o Scopus, no título, resumo e palavras-chave, para 2021 a 2026. Quatro expressões combinam as palavras-chave \emph{large language model}/\emph{LLM} com quatro grupos de termos:
 \begin{itemize}
@@ -102,11 +105,11 @@ Controlo fora do modelo & Controlo de acesso ao conteúdo: 90\% \parencite{rayha
 \end{tabularx}
 \end{table}
 
-\textbf{Debate sobre o contexto.} O RAG \parencite{hu2025advancing} domina a literatura, e os estudos que comparam o mesmo modelo com e sem contexto relatam ganhos. Um grupo de estudos de resposta a perguntas médicas mostra, porém, que o contexto não é neutro. Contexto recuperado com ruído pode ser pior do que nenhum \parencite{xie2026when,rahat2026noise}. Os sistemas com contexto fechado ilustram a alternativa. No EchoMind, o assistente fundamentado nos materiais da apresentação melhorou a experiência de aprendizagem, mas um assistente genérico não superou o vídeo sem assistente \parencite{xu2026echomind}. O valor está, assim, no contexto e não na presença do assistente. O caso mais próximo do QBank explica soluções de exames de engenharia com o par pergunta--solução como contexto. Atingiu 0,94 de fidelidade, mas demorou 9,35~s por explicação \parencite{khan2025towards}.
+\textbf{Debate sobre o contexto.} O RAG \parencite{hu2025advancing} domina a literatura, e os estudos que comparam o mesmo modelo com e sem contexto relatam ganhos. Um grupo de estudos de resposta a perguntas médicas mostra, porém, que o contexto não é neutro. Contexto recuperado com ruído pode ser pior do que nenhum \parencite{xie2026when,rahat2026noise}. Em todos estes estudos, o erro nasce da seleção do contexto. Os sistemas com contexto fechado, como o AskNow, ilustram a alternativa, mas são poucos \parencite{liu2026asknow}. O caso mais próximo do QBank explica soluções de exames de engenharia com o par pergunta--solução como contexto. Atingiu 0,94 de fidelidade, mas demorou 9,35~s por explicação \parencite{khan2025towards}.
 
-\textbf{Debate sobre o âmbito e a avaliação.} Os estudos divergem sobre onde aplicar as regras. As instruções ao modelo são baratas mas frágeis; os controlos fora do modelo cumprem mais as regras, mas acrescentam latência ou bloqueiam pedidos legítimos \parencite{rayhan2026sage,walczak2026comparative}. A avaliação é heterogénea: exatidão em \emph{benchmarks}, métricas automáticas de fidelidade calculadas por outro LLM, especialistas e utilizadores. Poucos estudos combinam estes métodos. A recusa aparece em 16\% dos estudos, e os estudos multilingues medem o desempenho por língua, não a consistência com o mesmo conteúdo validado.
+\textbf{Debate sobre o âmbito e a avaliação.} Os estudos divergem sobre onde aplicar as regras. As instruções ao modelo são baratas mas frágeis; os controlos fora do modelo cumprem mais as regras, mas acrescentam latência ou bloqueiam pedidos legítimos \parencite{rayhan2026sage,walczak2026comparative}. A avaliação é heterogénea: exatidão em \emph{benchmarks}, métricas automáticas de fidelidade calculadas por outro LLM, especialistas e utilizadores. Poucos estudos combinam estes métodos. A recusa aparece em 16\% dos estudos, e os estudos multilingues medem o desempenho por língua, não a consistência com o mesmo conteúdo validado. A latência e o custo são referidos em 16\% e 11\% dos estudos, embora cada etapa de controlo acrescente tempo: um segundo modelo de filtragem acrescentou 1,2~s e 1,8 vezes o custo \parencite{emekci2025securing}.
 
-\textbf{Lacuna.} Nenhum dos 38 estudos descreve um assistente de estudo que responda apenas com o contexto fechado e validado de cada pergunta de um banco de perguntas. Nenhum aplica regras por modo de exame nem avalia, em várias línguas, a correção, a fidelidade e a recusa em conjunto. Os sistemas mais próximos partilham uma ou duas destas características. Este trabalho trata esta lacuna.
+\textbf{Lacuna.} Nenhum dos 38 estudos descreve um assistente de estudo que responda apenas com o contexto fechado e validado de cada pergunta de um banco de perguntas. Nenhum aplica regras por modo de exame nem avalia, em várias línguas, a correção, a fidelidade e a recusa em conjunto. Poucos relacionam a latência e o custo com as escolhas de arquitetura. Os sistemas mais próximos partilham uma ou duas destas características. Este trabalho trata esta lacuna: as respostas às duas RQ orientam o desenho do assistente (O3 e O4) e o seu protocolo de avaliação (O5).
 
 %-------------------------------------------------------------------------------
 \section{Metodologia Proposta}
@@ -137,20 +140,27 @@ O trabalho segue a metodologia Design Science Research (DSR), nas seis atividade
 
 \textbf{Até à dissertação (DIMEI)} (fevereiro a julho de 2027). O trabalho segue as atividades da DSR em cinco fases: requisitos com a Adhara, desenho da solução, desenvolvimento iterativo, avaliação e escrita da dissertação. Os principais entregáveis são os requisitos, a arquitetura, o assistente integrado no QBank, os resultados da avaliação e a dissertação. A Figura~\ref{fig:gantt} mostra as fases e três marcos: M1 documento de PREPD, M2 protótipo funcional e M3 dissertação submetida.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \footnotesize
 \begin{ganttchart}[
-    x unit=1.25cm, y unit chart=0.45cm, y unit title=0.5cm,
-    vgrid, hgrid,
+    x unit=1.15cm, y unit chart=0.5cm, y unit title=0.5cm,
+    vgrid={*1{black!15, dotted}}, hgrid={*1{black!8}},
+    title/.style={draw=black!40, fill=black!6},
     title label font=\footnotesize\bfseries,
     bar label font=\footnotesize,
     group label font=\footnotesize\bfseries,
     milestone label font=\footnotesize\itshape,
-    bar/.append style={fill=black!35},
-    group/.append style={fill=black!75},
-    milestone/.append style={fill=black, shape=diamond, inner sep=1.6pt},
-    bar height=0.55, group height=0.3
+    bar/.append style={draw=blue!55!black, fill=blue!25, rounded corners=1pt},
+    bar height=0.5, bar top shift=0.25,
+    group/.append style={draw=none, fill=blue!55!black},
+    group height=0.22, group top shift=0.39,
+    group peaks height=0, group peaks width=0,
+    group left shift=0, group right shift=0,
+    milestone/.append style={fill=orange!85!black, draw=none, shape=diamond, inner sep=0pt, minimum size=7pt},
+    milestone height=0.5, milestone top shift=0.25,
+    milestone left shift=0.6, milestone right shift=0,
+    link/.style={-latex, black!50}
   ]{1}{9}
 \gantttitle{2026}{2} \gantttitle{2027}{7} \\
 \gantttitle{nov}{1} \gantttitle{dez}{1} \gantttitle{jan}{1} \gantttitle{fev}{1} \gantttitle{mar}{1} \gantttitle{abr}{1} \gantttitle{mai}{1} \gantttitle{jun}{1} \gantttitle{jul}{1} \\
@@ -172,22 +182,23 @@ O trabalho segue a metodologia Design Science Research (DSR), nas seis atividade
 \label{fig:gantt}
 \end{figure}
 
-O plano é preliminar. O levantamento de requisitos com a Adhara pode alterar o âmbito e a duração das fases seguintes.
+O plano é preliminar. O levantamento de requisitos com a Adhara pode alterar o âmbito e a duração das fases seguintes. Os riscos com nível mais alto são respostas infiéis ao conteúdo validado, o custo do modelo, o tempo de resposta e a revelação da resposta por manipulação do \emph{prompt}. São mitigados pelo contexto fechado, pelas regras aplicadas fora do modelo, pela medição do custo e da latência desde o primeiro incremento e por testes adversariais. Os riscos são revistos no fim de cada iteração.
 
 %-------------------------------------------------------------------------------
 \section{Considerações Éticas e Profissionais}
 
-\textbf{Códigos seguidos.} O trabalho segue o \emph{Software Engineering Code of Ethics and Professional Practice} da ACM e da IEEE Computer Society \parencite{acmieee1999secode} e o Código de Ética e de Conduta do P.PORTO \parencite{pporto2020codigo}. Aplica os princípios do interesse público e da qualidade do produto de três formas. O assistente limita as respostas ao contexto autorizado, a avaliação mede a sua correção e fidelidade, e a dissertação documenta as limitações conhecidas.
+\textbf{Códigos seguidos.} O trabalho segue, na íntegra, o \emph{Software Engineering Code of Ethics and Professional Practice} da ACM e da IEEE Computer Society \parencite{acmieee1999secode}, o Código Europeu de Conduta para a Integridade da Investigação \parencite{allea2023code} e o Código de Boas Práticas e de Conduta do P.PORTO \parencite{pporto2020codigo}. Aplica-os de forma concreta. Não fabrica, não falsifica nem omite resultados, e reporta também os negativos. Todas as referências foram lidas e verificadas na fonte. As decisões da revisão e os \emph{scripts} estão guardados para que possa ser repetida. O conjunto de teste e os critérios de sucesso são fixados antes de se conhecerem os resultados, que são reportados por língua.
 
-\textbf{Dados e impactos.} O projeto envolve quatro situações com riscos:
+\textbf{Dados, pessoas e impactos.} O projeto envolve cinco situações com riscos:
 \begin{itemize}
-    \item \emph{Informação confidencial.} O conteúdo do QBank pertence à Adhara e o trabalho usa-o apenas neste projeto. Se o assistente usar uma API externa, o envio do conteúdo exige a autorização da Adhara, e a escolha do fornecedor considera a retenção dos pedidos, a não utilização para treino e a localização do processamento.
-    \item \emph{Dados pessoais.} O sistema envia ao modelo a mensagem, o histórico da conversa e os dados da pergunta, mas nenhum dado que identifique o utilizador. O registo estatístico das dúvidas não as associa ao utilizador e terá um prazo de conservação definido.
-    \item \emph{Participação humana.} O questionário pede consentimento informado e guarda as respostas de forma anónima, segundo o RGPD \parencite{eu2016gdpr} e as orientações do ISEP.
-    \item \emph{Impacto nos utilizadores.} Uma resposta errada pode induzir erros de aprendizagem. O contexto fechado, a recusa e a avaliação por especialistas reduzem este risco. O assistente informa o utilizador de que interage com um sistema de inteligência artificial, como exige o Regulamento da IA da UE \parencite{eu2024aiact}.
+    \item \emph{Informação confidencial e trabalho numa empresa.} O conteúdo do QBank pertence à Adhara e o trabalho usa-o apenas neste projeto. A propriedade do código e o que pode ser publicado são acordados por escrito com a Adhara. Desenvolver e avaliar um produto da empresa onde o trabalho decorre é um potencial conflito de interesses, mitigado por um protocolo de avaliação definido à partida, com especialistas e utilizadores.
+    \item \emph{API externa.} Se o assistente usar um modelo de terceiros, o sistema envia apenas a mensagem, o histórico da conversa e os dados da pergunta, sem dados que identifiquem o utilizador. O envio exige a autorização da Adhara, e a escolha do fornecedor considera a retenção dos pedidos, a não utilização para treino e a localização do processamento.
+    \item \emph{Dados pessoais.} O registo estatístico das dúvidas terá finalidade e prazo de conservação definidos. Como dados pseudonimizados continuam a ser dados pessoais, ou o registo é anónimo, ou segue o RGPD \parencite{eu2016gdpr}.
+    \item \emph{Participação humana.} O questionário pede consentimento informado, recolhe apenas o necessário e guarda as respostas de forma anónima. A necessidade de parecer de uma comissão de ética será confirmada com o orientador antes da recolha.
+    \item \emph{Impacto nos utilizadores.} Uma resposta errada pode induzir erros de aprendizagem. O contexto fechado, a recusa, os testes adversariais e a avaliação por especialistas reduzem este risco. O assistente informa o utilizador de que interage com um sistema de inteligência artificial, como exige o Regulamento da IA da UE \parencite{eu2024aiact}.
 \end{itemize}
 
-\textbf{Competências profissionais.} O autor assegura a engenharia de software e a integração com a formação do mestrado e com o acompanhamento do orientador. Adquire as competências sobre LLM e a sua avaliação através da revisão sistemática e do protótipo. O autor não tem formação médica. Por isso, a validação clínica das respostas cabe a especialistas da área da saúde. O uso de ferramentas de IA no trabalho fica declarado na dissertação, incluindo o apoio à triagem da revisão, que o autor verificou.
+\textbf{Competências profissionais e uso de IA.} O autor assegura a engenharia de software e a integração com a formação do mestrado e com o acompanhamento do orientador. Adquire as competências sobre LLM e a sua avaliação através da revisão sistemática e do protótipo. O autor não tem formação médica, pelo que a validação clínica das respostas cabe a especialistas da área da saúde. O autor usou o Claude (Anthropic) nos \emph{scripts} da revisão, na proposta de decisões de triagem, na extração de dados e no apoio à escrita. Verificou cada decisão e cada valor na fonte original e é o único responsável pelo conteúdo. O conteúdo do QBank e o código da Adhara não são enviados a ferramentas de IA externas sem a autorização da Adhara.
 
 %-------------------------------------------------------------------------------
 {\small\printbibliography[title={Referências Bibliográficas}]}

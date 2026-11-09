@@ -12,7 +12,7 @@
 \contentsline {section}{\numberline {1.7}Gestão de Riscos}{4}{section*.25}%
 \contentsline {section}{\numberline {1.8}Contribuições Esperadas}{4}{section*.27}%
 \contentsline {section}{\numberline {1.9}Considerações Éticas e Profissionais}{4}{section*.28}%
-\contentsline {paragraph}{Códigos seguidos.}{4}{section*.29}%
+\contentsline {paragraph}{Código seguido.}{4}{section*.29}%
 \contentsline {paragraph}{Integridade da investigação.}{5}{section*.30}%
 \contentsline {paragraph}{Enviesamento.}{5}{section*.31}%
 \contentsline {paragraph}{Dissertação numa empresa.}{5}{section*.32}%
@@ -20,7 +20,7 @@
 \contentsline {paragraph}{Impacto nos utilizadores.}{6}{section*.34}%
 \contentsline {paragraph}{Utilização de um modelo através de uma API externa.}{6}{section*.35}%
 \contentsline {paragraph}{Registo das perguntas para fins estatísticos.}{6}{section*.36}%
-\contentsline {paragraph}{Uso de ferramentas de IA generativa.}{7}{section*.37}%
+\contentsline {paragraph}{Uso de ferramentas de IA generativa.}{6}{section*.37}%
 \contentsline {section}{\numberline {1.10}Estrutura do Documento}{7}{section*.38}%
 \contentsline {chapter}{\numberline {2}Estado da Arte}{9}{chapter*.39}%
 \contentsline {section}{\numberline {2.1}Fundamentos Teóricos}{9}{section*.40}%

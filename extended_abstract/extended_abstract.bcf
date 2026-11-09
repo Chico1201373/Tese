@@ -3102,11 +3102,9 @@
     <bcf:citekey order="36" intorder="1">emekci2025securing</bcf:citekey>
     <bcf:citekey order="37" intorder="1">peffers2007design</bcf:citekey>
     <bcf:citekey order="38" intorder="1">peffers2007design</bcf:citekey>
-    <bcf:citekey order="39" intorder="1">acmieee1999secode</bcf:citekey>
-    <bcf:citekey order="40" intorder="1">allea2023code</bcf:citekey>
-    <bcf:citekey order="41" intorder="1">pporto2020codigo</bcf:citekey>
-    <bcf:citekey order="42" intorder="1">eu2016gdpr</bcf:citekey>
-    <bcf:citekey order="43" intorder="1">eu2024aiact</bcf:citekey>
+    <bcf:citekey order="39" intorder="1">allea2023code</bcf:citekey>
+    <bcf:citekey order="40" intorder="1">eu2016gdpr</bcf:citekey>
+    <bcf:citekey order="41" intorder="1">eu2024aiact</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="apa">

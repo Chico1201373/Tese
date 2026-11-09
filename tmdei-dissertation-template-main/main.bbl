@@ -118,35 +118,6 @@
       \verb 10.1109/ACET67282.2025.11430234
       \endverb
     \endentry
-    \entry{acmieee1999secode}{misc}{}{}
-      \name{author}{1}{}{%
-        {{hash=ae4a5ba77e55fa60625e949d8e1ea1dc}{%
-           family={{ACM/IEEE-CS Joint Task Force on Software Engineering Ethics and Professional Practices}},
-           familyi={A\bibinitperiod}}}%
-      }
-      \strng{namehash}{ae4a5ba77e55fa60625e949d8e1ea1dc}
-      \strng{fullhash}{ae4a5ba77e55fa60625e949d8e1ea1dc}
-      \strng{fullhashraw}{ae4a5ba77e55fa60625e949d8e1ea1dc}
-      \strng{bibnamehash}{ae4a5ba77e55fa60625e949d8e1ea1dc}
-      \strng{authorbibnamehash}{ae4a5ba77e55fa60625e949d8e1ea1dc}
-      \strng{authornamehash}{ae4a5ba77e55fa60625e949d8e1ea1dc}
-      \strng{authorfullhash}{ae4a5ba77e55fa60625e949d8e1ea1dc}
-      \strng{authorfullhashraw}{ae4a5ba77e55fa60625e949d8e1ea1dc}
-      \field{sortinit}{A}
-      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{Software Engineering Code of Ethics and Professional Practice (Version 5.2)}
-      \field{year}{1999}
-      \verb{urlraw}
-      \verb https://www.acm.org/code-of-ethics/software-engineering-code
-      \endverb
-      \verb{url}
-      \verb https://www.acm.org/code-of-ethics/software-engineering-code
-      \endverb
-    \endentry
     \entry{adamopoulou2020chatbots}{article}{}{}
       \name{author}{2}{}{%
         {{hash=71852b18d494d375dafb1fd51bbf6ffa}{%
@@ -2298,35 +2269,6 @@
       \range{pages}{33}
       \verb{doi}
       \verb 10.2753/MIS0742-1222240302
-      \endverb
-    \endentry
-    \entry{pporto2020codigo}{misc}{}{}
-      \name{author}{1}{}{%
-        {{hash=6d3598418241a912960708444f21509a}{%
-           family={{Politécnico do Porto}},
-           familyi={P\bibinitperiod}}}%
-      }
-      \strng{namehash}{6d3598418241a912960708444f21509a}
-      \strng{fullhash}{6d3598418241a912960708444f21509a}
-      \strng{fullhashraw}{6d3598418241a912960708444f21509a}
-      \strng{bibnamehash}{6d3598418241a912960708444f21509a}
-      \strng{authorbibnamehash}{6d3598418241a912960708444f21509a}
-      \strng{authornamehash}{6d3598418241a912960708444f21509a}
-      \strng{authorfullhash}{6d3598418241a912960708444f21509a}
-      \strng{authorfullhashraw}{6d3598418241a912960708444f21509a}
-      \field{sortinit}{P}
-      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{Código de Ética e de Conduta do Politécnico do Porto}
-      \field{year}{2020}
-      \verb{urlraw}
-      \verb https://www.ipp.pt
-      \endverb
-      \verb{url}
-      \verb https://www.ipp.pt
       \endverb
     \endentry
     \entry{rahat2026noise}{inproceedings}{}{}

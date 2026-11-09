@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.11.6)  9 NOV 2026 11:55
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.11.6)  9 NOV 2026 15:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1909,7 +1909,7 @@ LaTeX Font Warning: Font shape `T1/cmbr/b/it' undefined
 
 pdfTeX warning: pdflatex.exe (file ./ch2/assets/fig_raiaan_transformer.pdf): PD
 F inclusion: found PDF version <1.6>, but at most version <1.5> allowed
-<ch2/assets/fig_raiaan_transformer.pdf, id=583, 578.16pt x 785.865pt>
+<ch2/assets/fig_raiaan_transformer.pdf, id=578, 578.16pt x 785.865pt>
 File: ch2/assets/fig_raiaan_transformer.pdf Graphic file (type pdf)
 <use ch2/assets/fig_raiaan_transformer.pdf>
 Package pdftex.def Info: ch2/assets/fig_raiaan_transformer.pdf  used on input l
@@ -1918,13 +1918,13 @@ ine 39.
 LaTeX Font Info:    Font shape `T1/cmbr/m/it' in size <10> not available
 (Font)              Font shape `T1/cmbr/m/sl' tried instead on input line 40.
 [10]
-<ch2/assets/fig_shao_evolucao.pdf, id=609, 578.16pt x 785.865pt>
+<ch2/assets/fig_shao_evolucao.pdf, id=604, 578.16pt x 785.865pt>
 File: ch2/assets/fig_shao_evolucao.pdf Graphic file (type pdf)
 <use ch2/assets/fig_shao_evolucao.pdf>
 Package pdftex.def Info: ch2/assets/fig_shao_evolucao.pdf  used on input line 4
 8.
 (pdftex.def)             Requested size: 423.9459pt x 412.0062pt.
-<ch2/assets/fig_xu_lora.pdf, id=613, 596.2275pt x 794.97pt>
+<ch2/assets/fig_xu_lora.pdf, id=608, 596.2275pt x 794.97pt>
 File: ch2/assets/fig_xu_lora.pdf Graphic file (type pdf)
 <use ch2/assets/fig_xu_lora.pdf>
 Package pdftex.def Info: ch2/assets/fig_xu_lora.pdf  used on input line 55.
@@ -1947,7 +1947,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 85--85
 LaTeX Font Info:    Font shape `T1/cmbr/b/it' in size <12> not available
 (Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 90.
 [14]
-<ch2/assets/fig_echomind.pdf, id=854, 614.295pt x 794.97pt>
+<ch2/assets/fig_echomind.pdf, id=849, 614.295pt x 794.97pt>
 File: ch2/assets/fig_echomind.pdf Graphic file (type pdf)
 <use ch2/assets/fig_echomind.pdf>
 Package pdftex.def Info: ch2/assets/fig_echomind.pdf  used on input line 106.
@@ -1964,7 +1964,7 @@ LaTeX Font Warning: Font shape `T1/cmbr/bx/n' in size <8> not available
 
 pdfTeX warning: pdflatex.exe (file ./ch2/assets/fig_asknow_grupos.pdf): PDF inc
 lusion: found PDF version <1.7>, but at most version <1.5> allowed
-<ch2/assets/fig_asknow_grupos.pdf, id=1247, 614.295pt x 794.97pt>
+<ch2/assets/fig_asknow_grupos.pdf, id=1242, 614.295pt x 794.97pt>
 File: ch2/assets/fig_asknow_grupos.pdf Graphic file (type pdf)
 <use ch2/assets/fig_asknow_grupos.pdf>
 Package pdftex.def Info: ch2/assets/fig_asknow_grupos.pdf  used on input line 1
@@ -2081,7 +2081,7 @@ r-ma-ções an-tes da res-posta fi-nal (\T1/cmbr/m/sl/10.95 chain-of-verification
 
 pdfTeX warning: pdflatex.exe (file ./ch2/assets/fig_asknow.pdf): PDF inclusion:
  found PDF version <1.7>, but at most version <1.5> allowed
-<ch2/assets/fig_asknow.pdf, id=1493, 614.295pt x 794.97pt>
+<ch2/assets/fig_asknow.pdf, id=1488, 614.295pt x 794.97pt>
 File: ch2/assets/fig_asknow.pdf Graphic file (type pdf)
 <use ch2/assets/fig_asknow.pdf>
 Package pdftex.def Info: ch2/assets/fig_asknow.pdf  used on input line 392.
@@ -2139,7 +2139,7 @@ Package scrlayer-scrpage Warning: \headheight to low.
 34.
 
 [29 <./ch2/assets/fig_asknow.pdf>] [30] (ch2/assets/seguranca.tex)
-<ch2/assets/fig_chattedu.pdf, id=1715, 578.16pt x 785.865pt>
+<ch2/assets/fig_chattedu.pdf, id=1710, 578.16pt x 785.865pt>
 File: ch2/assets/fig_chattedu.pdf Graphic file (type pdf)
 <use ch2/assets/fig_chattedu.pdf>
 Package pdftex.def Info: ch2/assets/fig_chattedu.pdf  used on input line 448.
@@ -2368,13 +2368,13 @@ Overfull \hbox (5.1925pt too wide) in paragraph at lines 130--130
 ing Men-tal He-alth Chat-bots with Retrieval-
  []
 
-[42] [43] [44]
+[42] [43]
 Overfull \hbox (2.98311pt too wide) in paragraph at lines 130--130
 \T1/cmbr/m/sl/10.95 Human-Machine Sys-tems (ICHMS)\T1/cmbr/m/sc/10.95 . Es-tudo
  R0807 da re-vi-são. doi: []$\T1/cmtl/m/n/10.95 10 . 1109 / ICHMS69701 .
  []
 
-[45] (appendices/appendixProtocol.tex [46]
+[44] [45] (appendices/appendixProtocol.tex [46]
 Ap\^endice A.
 
 Underfull \hbox (badness 5954) in paragraph at lines 22--23
@@ -2644,13 +2644,13 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 62062 strings out of 467391
- 1487034 string characters out of 5406104
- 2474990 words of memory out of 5000000
- 90324 multiletter control sequences out of 15000+600000
+ 62049 strings out of 467391
+ 1486623 string characters out of 5406104
+ 2474830 words of memory out of 5000000
+ 90313 multiletter control sequences out of 15000+600000
  653201 words of font info for 88 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 100i,20n,131p,2475b,3272s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 100i,20n,131p,2475b,3270s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\kiko\AppData\Local\MiKTeX\fonts/pk/ljfour/public/cmbright/dpi657\e
 btl10.pk> <C:\Users\kiko\AppData\Local\MiKTeX\fonts/pk/ljfour/public/cmbright/d
 pi600\cmbrsy8.pk> <C:\Users\kiko\AppData\Local\MiKTeX\fonts/pk/ljfour/public/cm
@@ -2690,9 +2690,9 @@ rs/kiko/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb>
 <C:/Users/kiko/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr
 7.pfb><C:/Users/kiko/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
 cm/cmsy10.pfb>
-Output written on main.pdf (70 pages, 5789924 bytes).
+Output written on main.pdf (70 pages, 5787549 bytes).
 PDF statistics:
- 3314 PDF objects out of 3580 (max. 8388607)
- 277 named destinations out of 1000 (max. 500000)
+ 3305 PDF objects out of 3580 (max. 8388607)
+ 275 named destinations out of 1000 (max. 500000)
  535 words of extra memory for PDF output out of 10000 (max. 10000000)
 

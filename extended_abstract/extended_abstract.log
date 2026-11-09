@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.11.6)  9 NOV 2026 12:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.11.6)  9 NOV 2026 15:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1275,11 +1275,11 @@ Package logreq Info: Writing requests to 'extended_abstract.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 34963 strings out of 467391
- 694121 string characters out of 5406104
- 1652005 words of memory out of 5000000
- 63605 multiletter control sequences out of 15000+600000
- 692162 words of font info for 163 fonts, out of 8000000 for 9000
+ 34953 strings out of 467391
+ 693636 string characters out of 5406104
+ 1651851 words of memory out of 5000000
+ 63593 multiletter control sequences out of 15000+600000
+ 692375 words of font info for 165 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  117i,9n,121p,1212b,2809s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/kiko/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb
@@ -1290,9 +1290,9 @@ Users/kiko/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Us
 ers/kiko/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr9.pfb><C:/Users
 /kiko/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri10.pfb><C:/Users/
 kiko/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri9.pfb>
-Output written on extended_abstract.pdf (7 pages, 293550 bytes).
+Output written on extended_abstract.pdf (7 pages, 291424 bytes).
 PDF statistics:
- 222 PDF objects out of 1000 (max. 8388607)
- 45 named destinations out of 1000 (max. 500000)
+ 214 PDF objects out of 1000 (max. 8388607)
+ 43 named destinations out of 1000 (max. 500000)
  34877 words of extra memory for PDF output out of 35830 (max. 10000000)
 

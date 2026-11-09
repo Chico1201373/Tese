@@ -1,17 +1,17 @@
 # Fdb version 4
-["biber main"] 1794225321.57804 "main.bcf" "main.bbl" "main" 1794225339.72779 0
-  "main.bcf" 1794225338.97587 146356 85c077f46c5c00ec496d8de7b78b9bf5 "pdflatex"
-  "mainbibliography.bib" 1794224858.42273 35999 fdbde676db2073602e9ad79840a41411 ""
+["biber main"] 1794236182.57612 "main.bcf" "main.bbl" "main" 1794236543.87666 0
+  "main.bcf" 1794236542.57121 146136 b2ce4f9481820bcfff46d7d5f657a00f "pdflatex"
+  "mainbibliography.bib" 1794236172.30231 35495 c67c7f5144762886afeb85720aa0e219 ""
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["cusdep acn acr main"] 1794225324.09311 "main.acn" "main.acr" "main" 1794225339.72879 0
-  "main.acn" 1794225338.97858 12376 f5dc5dce6ce976f76bdb3d6d34cf7f2d "pdflatex"
+["cusdep acn acr main"] 1794236543.32774 "main.acn" "main.acr" "main" 1794236543.87719 0
+  "main.acn" 1794236542.57322 12376 3fefbc31a51c07e8594e1e2933f3fc6c "pdflatex"
   (generated)
   "main.acr"
   (rewritten before read)
-["pdflatex"] 1794225332.29112 "main.tex" "main.pdf" "main" 1794225339.72945 0
+["pdflatex"] 1794236536.10441 "main.tex" "main.pdf" "main" 1794236543.8776 0
   "C:/Users/kiko/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1793979900.5612 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/kiko/AppData/Local/MiKTeX/fonts/pk/ljfour/public/cmbright/dpi1244/ebbx10.pk" 1793979679.62486 47908 2ea35dafe56fb8527feeaea4a06dc828 ""
   "C:/Users/kiko/AppData/Local/MiKTeX/fonts/pk/ljfour/public/cmbright/dpi1493/ebbx10.pk" 1793979680.65463 59612 9f9c1cd9af8689c5d2876d0733f8b182 ""
@@ -320,7 +320,7 @@
   "C:/Users/kiko/AppData/Local/Programs/MiKTeX/tex/latex/xpatch/xpatch.sty" 1585221260 8510 7803f78066c4f9d008405191a4b43073 ""
   "appendices/appendixB.tex" 1793959211.5899 5833 0426467085bd0767cdd2a01322f8a49b ""
   "appendices/appendixProtocol.tex" 1793959211.5899 10304 e7ad06ae0cd8033417d88f196e2b081b ""
-  "ch1/chapter1.tex" 1794224826.13696 21443 09d89075b11412b68f720f127be3f70a ""
+  "ch1/chapter1.tex" 1794236533.63382 21154 cededb55d9c20a0273f2703d0f76096b ""
   "ch2/assets/contexto.tex" 1793959211.5899 1729 c568cb832bd25467f16e2cd33427ebe6 ""
   "ch2/assets/fig_asknow.pdf" 1793959211.60552 514383 919a11f7249d93d51292f0fc51673ffc ""
   "ch2/assets/fig_asknow_grupos.pdf" 1793959211.60552 681027 8d33e5ef157b7272947dbc1b1029ac46 ""
@@ -335,16 +335,16 @@
   "ch2/chapter2.tex" 1794225311.40086 95277 a7d6180e2fec9a574931c8deda6d0a12 ""
   "frontmatter/frontmatter.tex" 1793978652.61428 6128 d9286f579c4c35192327818c1de1d741 ""
   "frontmatter/glossary.tex" 1793959211.62115 1340 ea0349f689d231368553f351c754fd22 ""
-  "main.acr" 1794225324.77062 4362 b1f26aa2a30a1bc2c3e06be88774b654 "cusdep acn acr main"
-  "main.aux" 1794225338.90439 77532 f96d31e5170083da7b988f407ad86da2 "pdflatex"
-  "main.bbl" 1794225324.03532 151442 835c7ce5898c80bd1c4925a0b9fc8276 "biber main"
-  "main.glsdefs" 1794225338.89712 11660 44f0c344d36b4a90d4bab2364cade451 "pdflatex"
-  "main.lof" 1794225338.97884 1395 c64ae4f4d36c852e9b16cb4fe850bafa "pdflatex"
-  "main.lot" 1794225338.97902 2170 e96c71a6aef602be670d99d128bf5e5a "pdflatex"
-  "main.out" 1794225338.96561 11921 0d86e9013c2e29ea595ff57f683b18ad "pdflatex"
-  "main.run.xml" 1794225338.97848 2364 fd5016b83ee669c9a41fec1f7cb597cb "pdflatex"
+  "main.acr" 1794236543.77648 4362 b1f26aa2a30a1bc2c3e06be88774b654 "cusdep acn acr main"
+  "main.aux" 1794236542.494 77035 5fd8f17e4fae2464ec1d639492686054 "pdflatex"
+  "main.bbl" 1794236184.94902 148850 24e4f10b4973b6f6b8f0763cf6fd4785 "biber main"
+  "main.glsdefs" 1794236542.48839 11660 44f0c344d36b4a90d4bab2364cade451 "pdflatex"
+  "main.lof" 1794236542.57322 1395 c64ae4f4d36c852e9b16cb4fe850bafa "pdflatex"
+  "main.lot" 1794236542.57422 2170 e96c71a6aef602be670d99d128bf5e5a "pdflatex"
+  "main.out" 1794236542.56223 11921 0d86e9013c2e29ea595ff57f683b18ad "pdflatex"
+  "main.run.xml" 1794236542.57322 2364 fd5016b83ee669c9a41fec1f7cb597cb "pdflatex"
   "main.tex" 1793979870.4421 8347 6d01f9897cc0278d5c219572943e70bd ""
-  "main.toc" 1794225338.97877 7429 0b8979d59a69cba9c35dcb57a9e0c592 "pdflatex"
+  "main.toc" 1794236542.57322 7427 a4ad7af55622c44f3faad80e805716ec "pdflatex"
   "tmdei-style.cls" 1792250566.78384 26042 e58567761294b18b86a56b0f74ba80de ""
   (generated)
   "main.acn"

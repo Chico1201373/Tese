@@ -1,0 +1,398 @@
+2025 International Conference on Biomedical Engineering and Sustainable Healthcare (ICBMESH) | 979-8-3315-0207-2/25/$31.00 ©2025 IEEE | DOI: 10.1109/ICBMESH66209.2025.11182217   Assessing the Performance of Large Language
+                                                                                                                                                                                     Models on the Foreign Medical Graduate
+
+                                                                                                                                                                                   Examination (FMGE): Insights from GPT-4
+                                                                                                                                                                                 Turbo, Gemini Advanced, and LLaMA 3.1 (70B)
+
+                                                                                                                                                                                                                                  1                                                      1                                                2
+
+                                                                                                                                                                                          Rohan M. Pattanshetti                                 Savitri Sidddanagoudra                                   Sameeksha Chand
+                                                                                                                                                                                               KLE JGMMMC                                            KLE JGMMMC                                     Department of Dermatology
+                                                                                                                                                                                                                                                                                            Graphic Era Institute of Medical Sciences
+                                                                                                                                                                                 KLE Academy of Higher Education and                   KLE Academy of Higher Education and
+                                                                                                                                                                                                   Research                                               Research                                         Dehradun, India
+                                                                                                                                                                                                  Hubli, India                                                                                  sameekshachand.geims@geu.ac.in
+                                                                                                                                                                                                                                                        Hubli, India
+                                                                                                                                                                                        rohan.mp.medx@gmail.com                      drsavitrisiddanagoudra@klejgmmmc.edu.in                                                       3
+
+                                                                                                                                                                                                                       3                                                            3                         Vaishnavi
+                                                                                                                                                                                                                                                                                                 Department of Computer Science
+                                                                                                                                                                                                   Punitha S                                          Rashmi Hebbar
+                                                                                                                                                                                    Department of Computer Science                          Department of Computer Science                                   Engineering
+                                                                                                                                                                                                                                                                                              Graphic Era Deemed to be University
+                                                                                                                                                                                                 Engineering                                             Engineering
+                                                                                                                                                                                 Graphic Era Deemed to be University                     Graphic Era Deemed to be University                               Dehradun, India
+                                                                                                                                                                                                                                                                                                       vaishnavi.t@geu.ac.in
+                                                                                                                                                                                              Dehradun, India                                         Dehradun, India
+                                                                                                                                                                                           punitha.s @geu.ac.in                                 rashmi.hebbar @geu.ac.in
+
+                                                                                                                                                                                 Abstract--This study evaluates three advanced Large Language        Administered biannually, typically in June and December,
+                                                                                                                                                                                 Models (LLMs)--GPT-4 Turbo, Gemini Advanced, and Meta's             the computer-based FMGE comprises 300 multiple-choice
+                                                                                                                                                                                 LLaMA 3.1 (70B)--for accurately answering multiple-choice           questions (MCQs) divided equally into two sections of 150
+                                                                                                                                                                                 questions from the Foreign Medical Graduate Examination             questions each, with no negative marking. The syllabus
+                                                                                                                                                                                 (FMGE). Using a curated set of 427 text-based questions from        mirrors that of the MBBS program in India, covering pre-
+                                                                                                                                                                                 recent exams, the investigation assessed each model's overall       clinical, para-clinical, and clinical disciplines, while official
+                                                                                                                                                                                 accuracy, consistency, and error distribution, with statistical     question papers and answer keys are not released [2].
+                                                                                                                                                                                 validation via McNemar's test. GPT-4 Turbo achieved roughly
+                                                                                                                                                                                 93% accuracy, while Gemini Advanced and LLaMA 3.1 (70B)             The FMGE presents significant challenges due to its high
+                                                                                                                                                                                 both approximated 87%, with no significant difference between       difficulty level, with many candidates facing resource
+                                                                                                                                                                                 them. High agreement among models indicates consistent              constraints from the unavailability of official question papers
+                                                                                                                                                                                 decision-making and stable interpretative patterns. These findings  and limited access to high-quality study materials. This
+                                                                                                                                                                                 underscore the potential of LLMs as complementary tools for         preliminary study investigates the application of artificial
+                                                                                                                                                                                 exam preparation, particularly in resource-limited settings.        intelligence (AI) tools to enhance FMGE preparation
+                                                                                                                                                                                 Moreover, the results support the viability of open-source          strategies.
+                                                                                                                                                                                 models--exemplified by Meta's LLaMA 3.1 (70B)--in terms of
+                                                                                                                                                                                 cost-effectiveness and adaptability. Future research will explore   Artificial Intelligence denotes the development of systems
+                                                                                                                                                                                 diverse question formats and the integration of these models into   that perform tasks typically requiring human cognition such
+                                                                                                                                                                                 clinical decision support systems to further enhance their role in  as learning, problem-solving, pattern recognition, and
+                                                                                                                                                                                 modern medical education.                                           decision-making [3]. Among AI technologies, Large
+                                                                                                                                                                                                                                                     Language Models (LLMs), a subset of generative AI are
+                                                                                                                                                                                 Keywords-- Large Language Models (LLMs), Foreign Medical            designed to process and generate human-like text using deep
+                                                                                                                                                                                 Graduate Examination (FMGE), Medical Licensing                      learning and natural language processing techniques. This
+                                                                                                                                                                                 Examinations, GPT-4 Turbo, LLaMA 3.1 (70B), Gemini                  renders LLMs particularly useful for examination
+                                                                                                                                                                                 Advanced, AI in Medical Education.                                  preparation, as they can produce detailed explanations of
+                                                                                                                                                                                                                                                     academic and technical concepts [4], [5].
+                                                                                                                                                                                                          I. INTRODUCTION
+                                                                                                                                                                                                                                                     LLMs have demonstrated advanced capabilities across
+                                                                                                                                                                                 Introduced in 2002, the Foreign Medical Graduate                    various national and international medical examinations.
+                                                                                                                                                                                 Examination (FMGE) is a screening test for Indian citizens          Previous studies have primarily examined the performance of
+                                                                                                                                                                                 and Overseas Citizens of India (OCIs) who hold primary              OpenAI's GPT models (e.g., GPT-3.5 and GPT-4) and other
+                                                                                                                                                                                 medical qualifications from recognized foreign institutions.        proprietary models concerning various international medical
+                                                                                                                                                                                 Passing the FMGE is a prerequisite for provisional or               exams, leaving their evaluation in answering FMGE
+                                                                                                                                                                                 permanent registration with the National Medical                    questions underexplored. Moreover, open-source LLMs,
+                                                                                                                                                                                 Commission (NMC) or any State Medical Council [1]. The              which are advantageous for resource-constrained systems,
+                                                                                                                                                                                 FMGE aims to ensure that these graduates possess the                have received limited research attention. This study seeks to
+                                                                                                                                                                                 necessary knowledge and skills to provide quality healthcare        address this gap by evaluating the performance of three
+                                                                                                                                                                                 services in India [2]                                               advanced LLMs - GPT-4 Turbo, Meta LLaMA 3.1 (70B),
+
+                                                                                                                                                                                 979-8-3315-0207-2/25/$31.00 ©2025 IEEE
+
+                                                                                                                                                                                 Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:32:36 UTC from IEEE Xplore. Restrictions apply.
+and Google Gemini Advanced in answering FMGE MCQs.               thought process, which can be advantageous for medical
+This study benchmarks the performance of LLMs in                 training [11], [12]. A study [15] reported that GPT-4 attained
+answering FMGE MCQs, using accuracy as a proxy measure           a 76.3% accuracy rate on the UK Medical Licensing
+of the reliability of LLM-generated answer keys. The             Assessment (UKMLA), surpassing the average candidate
+evaluation aims to determine if students can depend on these     passing rate of 70% and indicating its qualifying potential.
+responses for FMGE preparation.
+                                                                 The performance of LLMs on medical licensing examinations
+Emphasis is placed on open-source LLMs due to their cost-        across Japan, India, China, Peru, and Poland offers insights
+effectiveness and accessibility in the Indian context,           into the influence of cultural context and regional curricula on
+addressing the need for reliable AI-driven support for           their outcomes. For instance, a study evaluating GPT-4 on the
+students with limited access to traditional resources and        Chinese National Medical Licensing Examination reported a
+private coaching.                                                score of 61.6% (weighted F1 score of 0.617), notably lower
+                                                                 than the human average of approximately 71.6% [16].
+The study's significance is underscored by a Harvard             Similarly, on the Japanese National Medical Licensing
+Medicine Magazine article, which described generative AI as      Examination, ChatGPT-4 achieved 81.5%, surpassing the
+the most consequential development in medical education          passing threshold, while GPT-3.5 scored only 42.8% [17].
+since the advent of the Internet [6]. Harvard University has
+been a pioneer in integrating generative AI into its medical     In India's postgraduate medical entrance examination, GPT-4
+curriculum, recognizing its transformative impact.               attained 64.5% (correctly answering 129 out of 200
+                                                                 questions), placing it within a national rank range of 20,000 to
+For this analysis, a dataset was compiled from previous          30,000 and rendering it non-competitive for preferred
+FMGE question papers. Out of 600 questions, 427 were             postgraduate specializations [18]. Conversely, in the Peruvian
+selected after excluding image-based questions (given Meta's     National Medical Licensing Examination, GPT-4
+LLaMA limitations) and those that were ambiguous,                demonstrated expert-level performance with an accuracy of
+incomplete, or insufficiently detailed.                          86%, outperforming 90% of human candidates, compared to
+                                                                 GPT-3.5's 77% [11]. Furthermore, evaluations on the Polish
+                        II. RELATED WORKS                        Medical Final Examination (MFE) reveal regional
+                                                                 performance disparities: GPT-4 achieved an average accuracy
+Large language models are increasingly applied in healthcare     of 79.7% on both Polish and English versions, successfully
+and medical education [4], [7], [8]. Since ChatGPT's             passing all variations, while GPT-3.5 recorded averages of
+introduction in November 2022, continuous advancements           54.8% in Polish and 60.3% in English--failing all but two of
+have enhanced LLMs' abilities to understand inputs and           the Polish versions, despite passing all English versions, given
+generate human-like responses [4], [5], [9]. These models        a minimum passing threshold of 56% [12].
+have been integrated into various medical fields including
+oncology, pathology, and radiology to improve diagnostics,       These findings reveal significant variation in LLM
+support clinical decision-making, and enhance patient care. In   performance across national medical examinations,
+medical education, LLMs show promise by generating logical       highlighting limitations in universal applicability and
+justifications with their answers, serving as supplementary      standardized benchmarking. Variations in exam difficulty,
+learning tools, offering personalized tutoring, and creating     content diversity, and language-specific challenges contribute
+relevant clinical scenarios [4], [5], [7], [9], [10].            to these disparities. Consequently, region-specific training in
+                                                                 non-English languages is warranted to improve international
+However, LLMs may also produce inaccurate or misleading          applicability. Integrating translation, local terminologies, and
+information with unwarranted confidence. Their limited           region-specific medical challenges into the training process is
+capacity for critical reasoning and tendency to provide          essential to enhance model accuracy [9].
+excessively verbose responses can be problematic [4] ,[7], [9].
+Furthermore, inherent biases in their training data and          The most common metric for evaluating LLMs is the
+methodologies may be reinforced, rendering them unreliable       percentage of correct responses [4], [5], [11]. However,
+as the sole resource for exam preparation [9].                   definitions of accuracy vary: some studies deem a response
+                                                                 successful if it matches the official answer key, while others
+Licensing and advanced medical examinations offer valuable       assess qualitative factors such as reasoning depth, coherence,
+benchmarks for assessing LLM capabilities, as they evaluate      and clarity of explanations [4], [11], [13]. A few studies have
+a broad spectrum of medical knowledge, practical skills, and     employed statistical tests, like one-way ANOVA, to determine
+clinical reasoning [11], [12]. In the early stages of public     whether one LLM significantly outperforms others [10].
+attention, USMLE questions were used to gauge LLM
+potential and limitations [13]. For example, ChatGPT-4           Additionally, exam format influences LLM performance
+achieved scores at or near the USMLE passing threshold           evaluation. Several studies used multiple-choice questions,
+without any domain-specific training [14]. According to [10],    while a subset employed open-ended and scenario-based
+GPT-4 reached nearly 100% accuracy on sample National            questions. Although multiple-choice items are limited in
+Board of Medical Examiners (NBME) clinical exam                  scope, open-ended formats assess broader understanding,
+questions, significantly outperforming models such as GPT-       analytical skills, and the application of medical knowledge [9
+3.5, Claude, and Google Bard. Additionally, ChatGPT has          -10]. Moreover, performance in non-English language
+demonstrated deductive reasoning and a coherent chain-of-        contexts was significantly lower, with notably suboptimal
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:32:36 UTC from IEEE Xplore. Restrictions apply.
+outcomes in traditional Chinese medicine and medicinal           TABLE I: SAMPLE PROMPT USED IN THIS STUDY FOR
+Chinese pharmacy [19].                                           EVALUATING LARGE LANGUAGE MODELS ON FMGE MCQS
+
+Identified Research Gaps for this Study                            You are an advanced large language model acting
+                                                                   as an expert medical professional tasked with
+While previous research has evaluated LLM performance on           providing correct answer keys for multiple-choice
+exams like the USMLE, UKMLA, and other Indian national             questions (MCQs) derived from the FMGE (Foreign
+examinations, studies on the FMGE remain limited. To date,         Medical Graduate Examination) in India. Your
+only one study has examined LLM performance on the FMGE            objective is to evaluate each question carefully
+in the context of Ophthalmology [20], underscoring the need        and supply only the correct answer.
+to assess LLMs across the full spectrum of FMGE subjects.
+                                                                   For each MCQ, follow these steps:
+Moreover, most benchmarking efforts have focused on
+proprietary models, with minimal comparison to open-source           I. Repeat the Question: Restate the question for
+alternatives such as Meta's LLaMA. Although open-source                         clarity and context.
+models offer advantages in transparency, customization, and
+cost, their effectiveness in high-stakes medical assessments is     II. List Options with Labels: Clearly display each
+underexplored. A comparative evaluation of open-source and                      answer choice, labelling them as (A), (B),
+proprietary LLMs is therefore essential.                                        (C), or (D).
+
+Our study aims to bridge these research gaps by evaluating        III. Use Chain of Thought Internally: Apply the
+LLM performance on the FMGE. Given the rapid evolution of                       chain of thought reasoning process
+AI technology and the expanding capabilities of LLMs, such                      internally to arrive at the correct
+studies are crucial. These advancements have significant                        answer. Do not display the reasoning or
+implications for delivering high-quality patient care,                          explanation to maintain brevity.
+highlighting the need for ongoing assessments to better
+understand the strengths and limitations of these models [9].       IV. Provide the Correct Answer: State only the
+                                                                                correct option and answer at the end,
+                                                                                using the format:
+
+                                                                             "Correct Answer: [Option] [Answer]"
+
+                       III. METHODOLOGY                          Therefore, we obtained exam papers for the January 2023 and
+                                                                 July 2024 FMGE exams from publicly available sources
+This study employs a comparative evaluation of three LLMs        provided by a coaching institution [21]. The MCQs recall-
+in answering FMGE exam MCQs, utilizing an experimental           based questions reported by examinees were corrected using
+approach to assess both open-source and proprietary models.      [22] and verified by medical experts for accuracy. Image-
+The evaluated models include Meta LLaMA 3.1 (70B) (open-         based questions were excluded, resulting in a dataset limited
+source) and two proprietary models, ChatGPT-4 Turbo and          to text-based MCQs. We designate the January 2023 exam as
+Gemini Advanced. The methodology adopts a cross-sectional        D1 and the July 2024 exam as D2.
+design with standardized data selection, structured evaluation,
+and statistical analysis to ensure a robust and unbiased         The final dataset comprises 427 questions (215 from D1 and
+comparison.                                                      212 from D2), covering a broad range of medical subjects.
+                                                                 The MCQs were organized by subject (e.g., anatomy, general
+A. Study Design                                                  medicine) and formatted in a spreadsheet for processing by
+                                                                 the LLMs, with each question featuring one correct answer
+This study was designed to ensure methodological rigor,          and three distractors.
+fairness, and minimized bias in model responses. A
+standardized comparative framework was implemented by                              IV. EXPERIMENTAL RESULTS
+subjecting all three models to an identical set of FMGE MCQs
+under controlled conditions. Each MCQ was presented as text      This investigation evaluated LLM performance using key
+followed by four answer options. Prompts(refer Table I) were     metrics, including accuracy, statistical tests, consistency,
+manually entered in batches of ten questions, with a new chat    agreement rates, and prediction differences. The analysis
+session initiated after each batch to prevent memory bias. The   considered overall accuracy, performance across dataset
+tests were conducted once per model by different authors at      subsets (D1 and D2), response consistency, error distribution,
+their respective workplaces, and all responses were              and comparisons with existing research.
+documented. No follow-up questions or requests for reasoning
+were made. The LLM-generated answer keys were then               A. Performance based on Overall Accuracy
+compared with expert-validated keys. It is unlikely that the
+MCQs were part of the LLMs' training data, as their              The evaluated LLMs demonstrated high overall accuracy
+performance before and after the training cutoff date has        across all datasets. A 95% confidence interval (CI) was
+exhibited no significant variation.                              employed to ensure statistical robustness, with Table II
+                                                                 presenting the accuracy and corresponding CIs for each
+B. Data Selection                                                model.
+
+The FMGE examination authority does not release official
+questions or answer keys.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:32:36 UTC from IEEE Xplore. Restrictions apply.
+TABLE II: MODEL ACCURACY AND CONFIDENCE INTERVALS FOR FMGE       Uniform trends across comparisons (LLaMA-Gemini,
+                                    DATASETS                     LLaMA-GPT, and Gemini-GPT) further reinforce the
+                                                                 robustness of these models in maintaining consistent output
+Model                  Average  95% Confidence                   behaviour.
+                 Accuracy (%)     Interval
+
+GPT-4 Turbo      92.98          [90.56%, 95.40%]
+
+Gemini Advanced  87.36          [84.21%, 90.51%]
+
+LLaMA 3.1 (70B)  87.12          [83.94%, 90.30%]
+
+Notably, GPT-4 Turbo significantly outperformed the other                             Fig. 2: Agreement Rates across Datasets
+models, while Gemini Advanced and LLaMA 3.1(70B)
+exhibited statistically indistinguishable performance.           D. Performance based on Error Distribution and Statistical
+B. Performance based on Dataset Subsets                              Significance
+The study evaluated GPT-4 Turbo, LLaMA 3.1 (70B), and
+Gemini Advanced across multiple datasets to assess their         We applied McNemar's test on paired categorical data to
+effectiveness in answering medical licensing exam questions.     determine if the models exhibit significantly different error
+GPT-4 Turbo consistently achieved superior accuracy, while       patterns on the same dataset. This test uses the chi-square
+LLaMA 3.1 (70B) and Gemini Advanced displayed                    distribution to compute a p-value, with values below 0.05
+comparable, slightly lower performance levels. Fig. 1            indicating statistical significance. Table III shows the
+illustrates these accuracy trends, and the variations observed   pairwise comparisons, where the chi-square statistic
+across dataset subsets., highlighting variations across dataset  measures the magnitude of performance differences, and the
+subsets.                                                         p-value indicates the probability that these differences
+C. Performance based on Consistency in Responses                 occurred by chance. Key findings are summarized.
+High agreement rates among models indicate consistent
+decision-making, reflecting stable interpretative patterns and   2023 Results: No statistically significant differences were
+reliable handling of similar datasets over time. As shown in     found between any of the three models (LLaMA, Gemini, and
+Fig. 2, the GPT, LLaMA, and Gemini models exhibit a high         GPT-4). This means they performed similarly on the 2023
+degree of consistency in their responses across different time   FMGE questions.
+periods, with variations of less than 0.5% in most cases.
+                                                                 2024 Results: A statistically significant difference was
+                  Fig 1: Accuracy Trends across dataset subsets  observed between LLaMA and GPT-4. The data suggests one
+                                                                 model likely outperformed the other. There was no significant
+This stability suggests that despite potential updates or        difference between LLaMA and Gemini, or Gemini and GPT-
+modifications, the models' responses have remained largely       4.
+uniform. Consistently high agreement rates--exceeding 87%
+across all comparisons--demonstrate strong alignment in          Combined Data: A statistically significant difference was
+model interpretations, while minor fluctuations between          found between LLaMA and GPT-4, with GPT-4 showing
+individual model pairs do not indicate significant divergence.   superior performance. No significant difference was found
+                                                                 between LLaMA and Gemini, or Gemini and GPT-4.
+
+                                                                 The combined results reinforce that GPT-4 consistently
+                                                                 outperformed LLaMA across both years, whereas LLaMA
+                                                                 and Gemini, as well as Gemini and GPT-4, showed
+                                                                 comparable performance.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:32:36 UTC from IEEE Xplore. Restrictions apply.
+TABLE III: MCNEMAR'S TEST RESULTS FOR PAIRWISE MODEL             TABLE IV: COMPARISON WITH EXISTING APPROACHES
+                            COMPARISONS
+                                                                 Exam Evaluated/[Study]                   Accuracy (%)
+
+       Comparison            Chi-   P-Value                      Foreign Medical Graduate Examination       GPT-4 Turbo: 93.44
+LLaMA vs Gemini (2023)      Square      1                        (FMGE)/ This study                       Gemini Advanced: 87.36
+                                                                                                          LLaMA3.1 (70B): 87.12
+                               27                                National Eligibility cum Entrance
+                                                                 Test for Postgraduate (NEET PG) / [7]          GPT-4: 64.5%
+LLaMA vs GPT-4 (2023)       17      0.174171147                  University of Antwerp Medical Licensing         GPT-4:76%
+                                                                 Exam / [23]
+Gemini vs GPT-4 (2023)      17      0.135156451                  United Kingdom Medical Licensing            ChatGPT-3.5: 67%.
+                                                                 Assessment (UKMLA)/ [15]
+LLaMA vs Gemini (2024)      26      0.891923151                                                                 GPT-4:76.3%
+                                                                 Saudi Medical Licensing Exam (SMLE) /
+LLaMA vs GPT-4 (2024)       14      0.043558522                  [24]                                           GPT-4: 88.6%
+                                                                 United States Medical Licensing Exam
+Gemini vs GPT-4 (2024)      14      0.080690468                  (USMLE) / [9]                                  GPT-4: 84.6%
+                                                                                                                GPT 3.5 56.9%
+LLaMA vs Gemini (Combined)  0.5     1                            Chinese National Medical Licensing
+                                                                 Examination (NMLE) / [16]                   ChatGPT-4: 61.6%
+LLaMA vs GPT-4 (Combined) 0.0217    0.0012
+                                                                 Peruvian National Licensing Medical             GPT-4:86%
+Gemini vs GPT-4 (Combined) 0.0208   0.8937                       Examination (ENAM) / [11]                      GPT-3.5: 77%
+                                                                                                                GPT-4:81.5%
+E. Coarse-Grained Analysis of Large Language Model               National Medical Licensure Examination        GPT-3.5: 42.8%
+    Performance Across Medical Specialties                       (NMLE) (Japan) / [17]                          GPT-4: 79.9%
+                                                                                                               GPT-3.5: 50.8%
+This analysis evaluated three large language models (LLMs)       Japanese National Medical Licensing
+across 19 subjects of the MBBS curriculum in India. Due to       Examination (JMLE) / [25]
+the limited datasets used for each specialty, these findings
+should be interpreted with caution; a larger dataset combined                  V. LIMITATONS AND FUTURE WORK
+with a more detailed qualitative analysis could yield deeper
+insights.                                                        The study's scope was constrained by using a dataset
+                                                                 consisting of text-based MCQs, which do not fully represent
+Overall GPT-4 made fewer errors across the medical               the complexity of the medical exams, namely the inclusion of
+specialties. The LLMs demonstrated high accuracy in fact-        image-based, scenario-driven, and open-ended question
+based disciplines, including anatomy, physiology,                formats. Additionally, the evaluation primarily focused on
+biochemistry, pathology, microbiology, anesthesia,               accuracy metrics and did not examine the models' reasoning
+psychiatry, and dermatology. In contrast, Preventive and         processes or their ability to adapt to dynamic clinical
+Social Medicine (PSM) posed challenges: among 60                 scenarios.
+questions, LLaMA answered 16 incorrectly, Gemini
+answered 11 incorrectly, and GPT-4 answered only 5               Future research shall expand the dataset to include a broader
+incorrectly. This discrepancy likely reflects the broad scope    range of question formats and complexities, thereby
+of PSM--encompassing public health measures,                     providing a more comprehensive assessment of LLM
+epidemiology, and region-specific policies--as well as a lack    performance. Further studies should focus on enhancing the
+of localized training on Indian guidelines.                      models' reasoning capabilities and integrating LLMs into
+                                                                 clinical decision support systems. Optimizing open-source
+In clinical specialties such as pediatrics, obstetrics and       models, such as Meta LLaMA, for region-specific curricula
+gynecology, medicine, and ENT, moderate error rates were         and diverse medical contexts may broaden their practical
+observed, possibly due to the complex, case-based reasoning      applications in medical education and clinical practice.
+required in these fields. Among these, Gemini performed          Furthermore, because the models did not have internet access
+slightly worse than both GPT-4 and LLaMA. These issues           during the study, future evaluations should investigate the
+may stem from limited domain-specific training as well as the    impact of internet-enabled models on performance,
+inherent challenges that LLMs face in nuanced, multi-step        particularly about improvements in real-time information
+clinical reasoning.                                              retrieval and accuracy.
+
+Furthermore, the similarity among multiple-choice options                                VI. CONCLUSION
+may have led to additional errors. Overall, although LLMs
+excel in well-documented, factual subjects, their performance    This study conducted a comparative evaluation of three
+declines in areas that require local expertise and complex       advanced LLMs --GPT-4 Turbo, Meta LLaMA 3.1(70B),
+reasoning. Therefore, it is inadvisable to rely solely on these  and Google Gemini Advanced--using FMGE multiple-
+models for critical medical decisions without cross-             choice questions as a benchmark. The analysis revealed that
+verification by subject matter experts.                          GPT-4 Turbo consistently outperformed its counterparts;
+                                                                 however, the performance of Meta LLaMA 3.1(70B) was
+F. Comparison with Existing Approaches                           also notable, particularly given its open-source nature. Open-
+                                                                 source models offer significant advantages in terms of
+A comparison with similar studies evaluating LLMs on
+various medical licensing exams is shown in Table IV.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:32:36 UTC from IEEE Xplore. Restrictions apply.
+Acessibility, cost-effectiveness, and customizability,                         [11] J. A. Flores-Cohaila et al., "Performance of ChatGPT on the Peruvian
+rendering them especially attractive for resource-constrained                        National Licensing Medical Examination: Cross-Sectional Study,"
+settings. Overall, these findings underscore the potential of                        JMIR Med Educ, vol. 9, 2023, doi: 10.2196/48039.
+LLMs as complementary educational tools in medical
+training when used in conjunction with traditional learning                    [12] M. Rosol, J. S. Gsior, J. Laba, K. Korzeniewski, and M. Mlyczak,
+methods.                                                                             "Evaluation of the performance of GPT-3.5 and GPT-4 on the Polish
+                                                                                     Medical Final Examination," Sci Rep, vol. 13, no. 1, Dec. 2023, doi:
+                        ACKNOWLEDGMENT                                               10.1038/s41598-023-46995-z.
+
+The authors gratefully acknowledge the use of Grammarly and                    [13] T. H. Kung et al., "Performance of ChatGPT on USMLE: Potential for
+ChatGPT--AI-based tools for assistance with language                                 AI-assisted medical education using large language models," PLOS
+editing and grammatical review during manuscript                                     Digital Health, vol. 2, no. 2 February, Feb. 2023, doi:
+preparation. These tools did not influence the intellectual                          10.1371/journal.pdig.0000198.
+content, which remains solely the responsibility of the authors.
+The authors also sincerely thank Dr. Vaishali R. Kulkarni,                     [14] Brin, D., Sorin, V., Vaid, A., Soroush, A., Glicksberg, B. S., Charney,
+Department of Computer Science and Engineering, Graphic                              A. W., Nadkarni, G., & Klang, E. (2023). Comparing ChatGPT and
+Era (Deemed to be University), Dehradun, Uttarakhand, India,                         GPT-4 performance in USMLE soft skill assessments. Scientific
+and Dr. Thompson S., Thumbay College of Management and                               Reports, 13(1). https://doi.org/10.1038/s41598-023-43436-9
+AI in Healthcare, Gulf Medical University, Ajman, United
+Arab Emirates, for their invaluable guidance and support                       [15] U. H. Lai, K. S. Wu, T. Y. Hsu, and J. K. C. Kan, "Evaluating the
+throughout the research process.                                                     performance of ChatGPT-4 on the United Kingdom Medical Licensing
+                                                                                     Assessment," Front Med (Lausanne), vol. 10, 2023, doi:
+                             REFERENCES                                              10.3389/fmed.2023.1240915.
+
+[1] Medical Council of India," https://www.nmc.org.in, Screening Test          [16] J. Liu et al., "Benchmarking Large Language Models on CMExam-A
+      Regulations 2002.                                                              Comprehensive Chinese Medical Exam Dataset." [Online]. Available:
+                                                                                     https://github.com/williamliujl/CMExam
+[2] National Board of Examinations," https://natboard.edu.in, Information
+      Bulletin for FMGE 2022.                                                  [17] Y. Yanagita, D. Yokokawa, S. Uchida, J. Tawara, and M. Ikusaka,
+                                                                                     "Can ChatGPT Answer Medical Questions of the National Medical
+[3] C. Collins, D. Dennehy, K. Conboy, and P. Mikalef, "Artificial                   Licensing Examination in Japan: Evaluation of Accuracy of ChatGPT
+      intelligence in information systems research: A systematic literature          (Preprint)," JMIR Form Res, Apr. 2023, doi: 10.2196/48023.
+      review and research agenda," Int J Inf Manage, vol. 60, Oct. 2021, doi:
+      10.1016/j.ijinfomgt.2021.102383.                                         [18] S. Paul, S. Govindaraj, and J. Jk, "ChatGPT Versus National Eligibility
+                                                                                     cum Entrance Test for Postgraduate (NEET PG)," Cureus, Jun. 2024,
+[4] D. Mhlanga, "The The Value of Open AI and Chat GPT for the Current               doi: 10.7759/cureus.63048.
+      Learning Environments and The Potential Future Uses." [Online].
+      Available: https://ssrn.com/abstract=4439267.                            [19] C. Fang et al., "How does ChatGPT-4 preform on non-English national
+                                                                                     medical licensing examination? An evaluation in Chinese language,"
+[5] Y. Artsi, V. Sorin, E. Konen, B. S. Glicksberg, G. Nadkarni, and E.              PLOS Digital Health, vol. 2, no. 12, Dec. 2023, doi:
+      Klang, "Large language models for generating medical examinations:             10.1371/journal.pdig.0000397.
+      systematic review," Jan. 19, 2024. doi: 10.21203/rs.3.rs-3872497/v1.
+                                                                               [20] A. C. Alexander, S. Somineni Raghupathy, and K. M. Surapaneni, "An
+[6] Gehrman, E. (2024, October). How Generative AI Is Transforming                   assessment of the capability of ChatGPT in solving clinical cases of
+      Medical Education. Harvard Medicine Magazine. Retrieved from                   ophthalmology using multiple choice and short answer questions,"
+      https://magazine.hms.harvard.edu/articles/how-generative-ai-                   May 01, 2024, Elsevier Inc. doi: 10.1016/j.aopr.2024.01.005.
+      transforming-medical-education
+                                                                               [21] "Arise Medical Academy, "Arise Medical Academy - NEET, AIIMS
+[7] S. Ramnani, M. Bhalla, and R. Bassi, "A Comparative Study of
+      ChatGPT and BingAI in Answering the National Eligibility Entrance        and  JIPMER  Coaching,"  [Online].  Available:
+      Test for Postgraduates (NEET-PG)-Style Practice Questions: A Cross-
+      Sectional Analysis," Cureus, Dec. 2024, doi: 10.7759/cureus.76108.       https://arisemedicalacademy.com/. [Accessed: Feb. 17, 2025].
+
+[8] F. Farhat, B. M. Chaudhry, M. Nadeem, S. S. Sohail, and D. Ø.              [22] D. Marwah and S. Ahmad, FMGE SOLUTIONS For FMGE Appearing
+      Madsen, "Evaluating Large Language Models for the National                     for Indian Medical registration. India: CBS Publication and Distribu-
+      Premedical Exam in India: Comparative Analysis of GPT-3.5, GPT-4,              tion, 2023.
+      and Bard," JMIR Med Educ, vol. 10, 2024, doi: 10.2196/51523.
+                                                                               [23] S. Morreel, V. Verhoeven, and D. Mathysen, "Microsoft Bing
+[9] H. K. Jin, H. E. Lee, and E. Y. Kim, "Performance of ChatGPT-3.5 and             outperforms five other generative artificial intelligence chatbots in the
+      GPT-4 in national licensing examinations for medicine, pharmacy,               Antwerp University multiple choice medical license exam," PLOS
+      dentistry, and nursing: a systematic review and meta-analysis," BMC            Digital Health, vol. 3, no. 2, Feb. 2024, doi:
+      Med Educ, vol. 24, no. 1, Dec. 2024, doi: 10.1186/s12909-024-05944-            10.1371/journal.pdig.0000349.
+      8.
+                                                                               [24] F. K. Aljindan et al., "ChatGPT Conquers the Saudi Medical Licensing
+[10] A. Abbas, M. S. Rehman, and S. S. Rehman, "Comparing the                        Exam: Exploring the Accuracy of Artificial Intelligence in Medical
+      Performance of Popular Large Language Models on the National Board             Knowledge Assessment and Implications for Modern Medical
+      of Medical Examiners Sample Questions," Cureus, Mar. 2024, doi:                Education," Cureus, Sep. 2023, doi: 10.7759/cureus.45043.
+      10.7759/cureus.55991.
+                                                                               [25] Takagi, S., Watari, T., Erabi, A., & Sakaguchi, K. (2023). Performance
+                                                                                     of GPT-3.5 and GPT-4 on the Japanese Medical Licensing
+                                                                                     Examination: Comparison Study. JMIR Medical Education, 9.
+                                                                                     https://doi.org/10.2196/48002
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:32:36 UTC from IEEE Xplore. Restrictions apply.
+

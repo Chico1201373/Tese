@@ -1,0 +1,530 @@
+                                                                                                                                                    How Low Can Medical LLMs Go?
+                                                                                                                                              An Empirical Study of Low-Bit Quantization
+
+                                                                                                                                              Tanha Tasfia, Abu Kaisar Mohammad Masum, Emilien Meyer, Fabio Cumbo, and Sercan Aygun
+                                                                                                                                                                                     University of Louisiana at Lafayette, LA, USA
+
+                                                                                                                                                      Computational Life Sciences, Cleveland Clinic Research, Cleveland Clinic, Cleveland, OH, USA
+                                                                                                                                                           {c00581680, c00591145, c00439243, sercan.aygun}@louisiana.edu,  CUMBOF@ccf.org
+
+2026 IEEE 19th Dallas Circuits and Systems Conference (DCAS) | 979-8-3315-5193-3/26/$31.00 �2026 IEEE | DOI: 10.1109/DCAS69364.2026.11545012     Abstract--Large Language Models (LLMs) have recently              structured information from unstructured clinical notes, identi-
+                                                                                                                                              shown very promising results on medical tasks such as clinical       fying potential drug-drug interactions, flagging abnormal lab-
+                                                                                                                                              question answering, report summarization, and decision support.      oratory results, and summarizing longitudinal patient histories
+                                                                                                                                              However, their high computational cost makes them difficult to       to support faster and more informed decision-making [12],
+                                                                                                                                              use on resource-constrained devices. Quantization reduces model      [13], [14]. These capabilities are frequently evaluated on large-
+                                                                                                                                              size and enables lightweight deployment, yet the impact of low-bit   scale electronic health record datasets such as MIMIC-III and
+                                                                                                                                              precision on medical language understanding remains underex-         MIMIC-IV, as well as shared clinical NLP benchmarks which
+                                                                                                                                              plored. In this work, we present a systematic empirical study        focus on entity recognition, relation extraction, and clinical
+                                                                                                                                              of low-bit quantization for medical LLMs. We evaluate multiple       event detection [15] [16]. For biomedical question answering
+                                                                                                                                              2-, 3-, and 4-bit quantization techniques across several medical     and evidence-based reasoning, standardized datasets such as
+                                                                                                                                              natural language processing (NLP) benchmarks and report their        PubMedQA and MedMCQA assess medical knowledge com-
+                                                                                                                                              results on task accuracy, model size, and inference efficiency. Our  prehension and multi-step reasoning abilities [11] [10]. LLMs
+                                                                                                                                              study focuses on evaluating different quantization methods on        also support biomedical research by analyzing vast collec-
+                                                                                                                                              medical data rather than device-specific deployment; the findings    tions of scientific literature from PubMed and the PubMed
+                                                                                                                                              show that medical LLMs can be compressed without significant         Central (PMC) Open Access corpus, enabling automated lit-
+                                                                                                                                              performance degradation, making them strong candidates for           erature review, evidence synthesis, and hypothesis generation.
+                                                                                                                                              future edge and mobile healthcare applications.                      In clinical summarization and patient communication tasks,
+                                                                                                                                                                                                                   benchmarks such as radiology report and discharge summary
+                                                                                                                                                 Index Terms--Energy-efficient inference, GPU acceleration,        datasets derived from MIMIC evaluate the quality of generated
+                                                                                                                                              Hardware-aware quantization, Large Language Models (LLMs),           medical summaries [12] [17]. Additionally, coding and billing-
+                                                                                                                                              Medical LLMs, Mixed-precision quantization.                          related tasks can be studied using datasets aligned with Inter-
+                                                                                                                                                                                                                   national Classification of Diseases (ICD) coding challenges,
+                                                                                                                                                                        I. INTRODUCTION                            where models map clinical narratives to standardized diagnosis
+                                                                                                                                                                                                                   codes. In benchmark evaluations such as the United States
+                                                                                                                                                 Large language models (LLMs) have rapidly become ex-              Medical Licensing Examination (USMLE), medical LLMs
+                                                                                                                                              tremely popular across diverse domains, including finance,           have achieved performance comparable to or exceeding human
+                                                                                                                                              healthcare, education, law, customer service, software engi-         experts, underscoring their promise as intelligent decision-
+                                                                                                                                              neering, and scientific research. In finance, they help with risk    support systems that can enhance efficiency, reduce cognitive
+                                                                                                                                              analysis, fraud detection, and automated reporting, while in         workload, and improve accessibility in modern healthcare
+                                                                                                                                              education, they assist with tutoring and content generation.         environments [18] [19] [11].
+                                                                                                                                              Legal professionals use LLMs for document drafting and con-
+                                                                                                                                              tract analysis, and businesses use them for intelligent chatbots        Despite these advances, deploying LLMs in biomedical
+                                                                                                                                              and customer support automation. Technically, LLMs are good          settings presents significant practical challenges. Strict pri-
+                                                                                                                                              at tasks such as text generation, text summarization, question       vacy regulations often prohibit transferring patient data to
+                                                                                                                                              answering, translation, code generation, and conversational          cloud-based infrastructure, requiring models to be executed
+                                                                                                                                              dialogue. Their ability to understand and generate human-like        locally within hospitals or research environments. However,
+                                                                                                                                              language at scale has positioned LLMs as critical tools across       state-of-the-art LLMs are resource-intensive, demanding sub-
+                                                                                                                                              a wide range of real-world applications.                             stantial memory and computational capacity [20] [21] [22],
+                                                                                                                                                                                                                   which limits their feasibility in privacy-sensitive and resource-
+                                                                                                                                                 Among these domains, healthcare has become one of the             constrained settings [23] [24]. This challenge becomes even
+                                                                                                                                              most impactful areas for LLM deployment. LLMs such as                more critical when considering deployment on edge devices
+                                                                                                                                              ChatGPT [1], LLaMA [2] have shown remarkable perfor-                 such as mobile phones, tablets, smartwatches, or portable
+                                                                                                                                              mance across many NLP tasks and are increasingly being               medical equipment, where memory, energy, and compute
+                                                                                                                                              applied in healthcare. Medical-specific adaptations, including       resources are highly limited. Running full-precision LLMs on
+                                                                                                                                              ChatGLM-Med [3], Huatuo [4], Baize-Healthcare [5], Doc-
+                                                                                                                                              torGLM [6], ChatDoctor [7] and MedAlpaca [8], highlight
+                                                                                                                                              the growing need for LLMs in biomedical applications such
+                                                                                                                                              as clinical decision support, medical question answering, dis-
+                                                                                                                                              charge summary generation, and care planning [9], [10], [11].
+                                                                                                                                              Beyond these tasks, LLMs can assist clinicians by extracting
+
+                                                                                                                                              979-8-3315-5193-3/26/$31.00 � 2026 IEEE
+
+                                                                                                                                              Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:33:53 UTC from IEEE Xplore. Restrictions apply.
+such devices is often impractical due to their large parameter          Input Sources                                       PTQ Quantization
+size and high inference cost.                                      Biomedical Literature
+                                                                                                                         GPTQ AWQ QuIP
+   Model quantization has emerged as an effective approach                                                                       2 / 3 / 4-bit
+for addressing the substantial computational and memory
+demands of LLMs [25]. By reducing numerical precision              Clinical Report                     LLM
+from 16- or 32-bit floating-point representations to lower-bit
+formats such as 8-bit, 4-bit, 3-bit, or even 2-bit, quantiza-      Doctor-Patient Dialogue
+tion significantly decreases memory footprint, computational
+cost, and energy consumption while enabling faster inference                                Downstream Tasks & Datasets  Hardware Results
+and deployment on hardware platforms [26]. Consequently,                                                                      Accuracy
+quantization techniques have been widely applied across di-        Question Answering                  PubMedQA                 Energy
+verse domains, including natural language processing (NLP),                                                                    Latency
+computer vision, speech recognition, multimodal learning, and                       Summarization      MIMIC-CXR
+code generation. In general-purpose NLP, quantized LLMs are                                               IU-Xray          GPU Memory
+commonly evaluated on language modeling and knowledge
+reasoning tasks [27]-[29]. Mathematical reasoning bench-                            Entity Extraction  BC5CDR
+marks further assess the ability of models to solve arithmetic
+and complex mathematical problems [30], [31]. For code             Treatment Recommendation            ChatDoctor
+generation, evaluation typically focuses on the functional cor-
+rectness of generated programs [32], while other studies have              Fig. 1. Overview of the biomedical LLM evaluation pipeline.
+explored quantization strategies for multimodal architectures
+[33]. Prior work has also investigated instruction tuning under                             II. METHODOLOGY
+quantized settings and provided practical guidelines for effi-
+cient deployment of LLMs [34]. Despite these advances, there       A. Models
+remains a limited systematic investigation of extreme low-bit
+quantization in biomedical NLP applications. Biomedical text          To evaluate biomedical language understanding and gen-
+exhibits unique characteristics, including specialized terminol-   eration, we study five LLMs: two general-purpose models
+ogy, domain-specific semantics, and complex clinical reason-       and three medical-domain models. This selection allows us
+ing requirements, which may amplify performance degradation        to compare models trained on broad-domain corpora with
+under aggressive low-bit settings [35]. As a result, conclusions   those further adapted to biomedical knowledge and clinical
+derived from general-domain evaluations cannot be directly         reasoning tasks. Fig. 1 provides an overview of the biomedical
+assumed to transfer to medical contexts, highlighting the need     LLM evaluation pipeline used in this work.
+for dedicated empirical studies in this domain.
+                                                                      1) General Large Language Models: General-purpose
+In this work, we make the following contributions:                 LLMs such as Alpaca [36], and LLaMA-2 [2] are trained
+                                                                   on large-scale general-domain corpora containing more than
+   � We conduct a systematic empirical study of extreme            one trillion tokens. Due to their scale and instruction-tuning
+      low-bit quantization (2-4 bits) for LLMs in the medical      strategies, these models achieve strong performance across
+      domain, focusing on realistic deployment scenarios.          diverse NLP tasks.
+
+   � We compare medical-specialized LLMs with general-                2) Medical Large Language Models: Medical LLMs ex-
+      purpose LLMs under low-bit quantization, analyzing           tend general-purpose models by incorporating domain-specific
+      their performance degradation across multiple biomedical     biomedical knowledge through fine-tuning on medical cor-
+      datasets.                                                    pora, question-answer datasets, and clinical dialogues. Doc-
+                                                                   torGLM [6] is a medical adaptation of ChatGLM-6B [37]
+   � We evaluate quantized models using multiple quantiza-         trained on medical QA pairs and clinical dialogue data.
+      tion methods and bit-width configurations, providing a       Similarly, ChatDoctor [7] and MedAlpaca [8] are based on
+      detailed analysis of accuracy-bit trade-offs.                the LLaMA architecture and further fine-tuned on medical
+                                                                   question-answer (QA) datasets and biomedical texts. MedAl-
+   � We measure hardware-level efficiency metrics, including       paca primarily uses QA pairs derived from medical knowledge
+      total inference energy per request (prefill + decode), end-  graphs and biomedical literature, while ChatDoctor leverages
+      to-end latency, and peak GPU memory usage.                   medical dialogue data generated with the assistance of com-
+                                                                   mercial LLMs such as ChatGPT. Overall, our experiments
+   � We analyze the trade-offs between model accuracy and          evaluate five models: Alpaca, LLaMA-2 (owing to its role as
+      energy efficiency, offering practical insights into whether  a strong general-purpose baseline), DoctorGLM, ChatDoctor,
+      low-bit LLMs can serve as reliable and resource-efficient    and MedAlpaca.
+      alternatives to full-precision models in privacy-sensitive
+      and edge-based medical environments.                         B. Quantization Setup
+                                                                      To evaluate the impact of low-bit quantization on model
+
+                                                                   performance, we apply multiple state-of-the-art post-training
+                                                                   quantization (PTQ) methods, including GPTQ [38], AWQ
+                                                                   [39], and QUIP [40], under 2-bit, 3-bit, and 4-bit weight
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:33:53 UTC from IEEE Xplore. Restrictions apply.
+                   TABLE I                                                                            TABLE II
+DATASETS USED IN OUR EXPERIMENTS                                  TASK PERFORMANCE ACROSS MEDICAL BENCHMARKS: FP16 vs.
+
+                                                                                               GPTQ/AWQ/QUIP
+
+Dataset     Size   Matching Metric                                Dataset     Backbone  FP16 GPTQ             AWQ       QUIP
+                                                                                                4b 3b 2b  4b 3b 2b  4b 3b 2b
+PubMedQA     500        Accuracy
+ChatDoctor   796        Micro F1                                              Alpaca    65.2 64.3 62.4 58.8 64.9 63.0 57.7 64.6 63.6 60.0
+MIMIC-CXR   3,269      ROUGE-L
+IU-Xray      341       ROUGE-L                                                LLaMA-2 63.4 62.5 60.6 57.0 63.1 61.2 55.9 62.8 61.8 58.2
+BC5CDR      4,797   F1 (entity-level)
+                                                                  PubMedQA    DoctorGLM 57.4 56.5 54.6 51.0 57.1 55.2 49.9 56.8 55.8 52.2
+
+                                                                              ChatDoctor 63.8 62.9 61.0 57.4 63.5 61.6 56.3 63.2 62.2 58.6
+
+                                                                              MedAlpaca 62.4 61.5 59.6 56.0 62.1 60.2 54.9 61.8 60.8 57.2
+
+                                                                              Alpaca    3.5   3.3 3.1 2.8 3.4 3.2 2.7 3.4 3.2 2.9
+                                                                                              3.1 2.9 2.6 3.2 3.0 2.5 3.2 3.0 2.7
+configurations. These methods perform weight-only quantiza-                   LLaMA-2 3.3     2.9 2.7 2.4 3.0 2.8 2.3 3.0 2.8 2.5
+tion and are designed to minimize accuracy degradation while                                  5.1 4.9 4.6 5.2 5.0 4.5 5.2 5.0 4.7
+significantly reducing memory and computational cost. For         ChatDoctor  DoctorGLM 3.1   4.6 4.4 4.1 4.7 4.5 4.0 4.7 4.5 4.1
+GPTQ, a layer-wise Hessian-based reconstruction approach is
+adopted to quantize model weights. AWQ applies activation-                    ChatDoctor 5.3
+aware scaling during quantization to better preserve important
+channels. QUIP leverages structured quantization with opti-                   MedAlpaca 4.8
+mized rounding strategies for improved stability at ultra-low
+precision. Fig. 1 illustrates the overall experimental pipeline               Alpaca    12.6 12.3 11.6 9.5 12.5 11.8 9.1 12.4 12.0 10.0
+used in this study. Biomedical literature, clinical reports, and
+doctor-patient dialogues are used to construct benchmark                      LLaMA-2 12.3 12.0 11.3 9.2 12.2 11.5 8.8 12.1 11.7 9.7
+datasets (PubMedQA, MIMIC-CXR, IU-Xray, BC5CDR, and
+ChatDoctor). The LLM is quantized using PTQ methods               MIMIC-CXR DoctorGLM 6.5 6.2 5.5 3.4 6.4 5.7 3.0 6.3 5.9 3.9
+(GPTQ, AWQ, QUIP) with 2-4 bit precision and evaluated on
+downstream tasks, including question answering, summariza-                    ChatDoctor 8.9 8.6 7.9 5.8 8.8 8.1 5.4 8.7 8.3 6.3
+tion, entity extraction, and treatment recommendation, along
+with hardware metrics such as accuracy, energy, latency, and                  MedAlpaca 10.4 10.1 9.4 7.3 10.3 9.6 6.9 10.2 9.8 7.8
+GPU memory.
+                                                                              Alpaca    8.7   8.5 8.1 7.1 8.6 8.2 6.9 8.6 8.3 7.3
+                                                                                              8.4 8.0 7.0 8.5 8.0 6.8 8.5 8.2 7.2
+                                                                              LLaMA-2 8.6     3.3 2.9 1.9 3.4 3.0 1.7 3.4 3.1 2.1
+                                                                                              4.0 3.6 2.6 4.1 3.7 2.4 4.1 3.8 2.8
+                                                                  IU-Xray     DoctorGLM 3.5   7.4 7.0 6.0 7.5 7.0 5.8 7.5 7.1 6.2
+
+                                                                              ChatDoctor 4.2
+
+                                                                              MedAlpaca 7.6
+
+                                                                              Alpaca    41.2 40.5 38.9 35.3 40.9 39.4 34.4 40.7 39.9 36.4
+
+                                                                              LLaMA-2 40.1 39.4 37.8 34.2 39.8 38.3 33.3 39.6 38.8 35.3
+
+                                                                  BC5CDR      DoctorGLM 38.7 38.0 36.4 32.8 38.4 36.9 31.9 38.2 37.4 33.9
+
+                                                                              ChatDoctor 45.8 45.1 43.5 39.9 45.5 44.0 39.0 45.3 44.5 41.0
+
+                                                                              MedAlpaca 47.3 46.6 45.0 41.4 47.0 45.5 40.5 46.8 46.0 42.5
+
+                                                                  **PubMedQA: Accuracy; ChatDoctor: Micro-F1%; MIMIC-CXR/IU-Xray: ROUGE-L;
+                                                                                                       BC5CDR: entity-level F1.
+
+                            III. DATASETS                          Evidence Context
+                                                                   A randomized clinical study evaluated the use of low-dose
+   We evaluate our models on five biomedical datasets with         aspirin in patients with diabetes. The results showed a
+four tasks: biomedical question answering, treatment recom-        modest reduction in cardiovascular events compared to the
+mendation, radiology report summarization, and biomedical          control group.
+named entity recognition. Table I summarizes the datasets used
+in our experiments, reporting the number of evaluation samples     Answer
+and the corresponding evaluation metric for each dataset.          Yes
+
+A. Biomedical Question Answering                                  B. Biomedical Text Summarization
+
+   Biomedical question answering (QA) aims to identify the           Biomedical summarization focuses on condensing detailed
+correct answer to a medical question using knowledge derived      clinical information into concise summaries while preserving
+from biomedical literature, clinical evidence, or scientific      important medical findings. In radiology report summarization,
+studies. Compared with general-domain QA, biomedical QA           models generate short diagnostic impressions from longer
+requires understanding specialized terminology and reason-        imaging reports. We evaluate summarization using two ra-
+ing over medical concepts. In this work, we use the Pub-          diology datasets: MIMIC-CXR [12] and IU-Xray [17]. Both
+MedQA dataset, which contains research questions derived          datasets contain chest X-ray reports where the detailed "Find-
+from PubMed abstracts [11]. Each question is paired with          ings" section describes observations from imaging studies,
+biomedical evidence, and the model must determine whether         while the "Impression" section summarizes the most clinically
+the answer is yes, no, or maybe. E.g.:                            relevant conclusions. E.g.:
+
+ Example: PubMedQA
+
+ Question: Does aspirin reduce the risk of cardiovascular
+ events in patients with type 2 diabetes?
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:33:53 UTC from IEEE Xplore. Restrictions apply.
+ Example: Radiology Findings                                                                        TABLE III
+                                                                                           ENERGY PER PROMPT (J)
+ Cardiac size cannot be evaluated. Large left pleural effusion
+ is new. Small right pleural effusion is new. The upper lungs     Dataset     Backbone     FP16 GPTQ             AWQ           QUIP
+ are clear. Right lower lobe opacities are better seen in prior                                    4b 3b 2b  4b 3b 2b      4b 3b 2b
+ CT. There is no pneumothorax. There are mild degenerative
+ changes in the thoracic spine.                                               Alpaca (7B)  1320 1030 980     970 990 940   890 1120 1060 1000
+                                                                                                             905 970 925   875 1100 1040 985
+ Generated Impression                                                         LLaMA-2 (7B) 1290 1010 960     835 900 860   815 1005 955 905
+                                                                                                             935 1010 955  950 1140 1080 1020
+ Large left pleural effusion.                                     PubMedQA    DoctorGLM (6B) 1180 930 885    975 1000 945  895 1130 1070 1060
+
+C. Treatment Recommendation                                                   ChatDoctor (7B) 1340 1050 995
+   The ChatDoctor dataset [7] consists of patient-doctor di-
+                                                                              MedAlpaca (7B) 1330 1040 985
+alogue pairs covering a wide range of medical conditions
+and symptoms discussed in clinical conversations. In our                      Alpaca (7B)  1405 1095 1010 980 1055 1000 945 1197 1130 1025
+evaluation, each dialogue serves as the input prompt, and the
+model is required to recommend medications or treatments                      LLaMA-2 (7B) 1375 1075 1020 965 1035 985 935 1175 1110 1055
+relevant to the described symptoms or medical condition. E.g.:
+                                                                  ChatDoctor  DoctorGLM (6B) 1260 985 935 885 950 945 860 1080 1020 963
+ Patient Query
+                                                                              ChatDoctor (7B) 1430 1115 1055 995 1075 1020 965 1220 1199 1090
+ Doctor, I have frequent heartburn and a burning sensation
+ in my chest after eating.                                                    MedAlpaca (7B) 1415 1105 1045 985 1065 1062 955 1210 1145 1087
+
+ Target Medications                                                           Alpaca (7B)  1500 1178 1110 1045 1125 1070 1010 1275 1205 1140
+
+ Omeprazole; antacids.                                                        LLaMA-2 (7B) 1473 1150 1095 1035 1114 1055 995 1255 1197 1125
+
+D. Biomedical Named Entity Recognition                            MIMIC-CXR DoctorGLM (6B) 1355 1060 1011 955 1025 975 925 1160 1100 1044
+   Biomedical named entity recognition (NER) focuses on
+                                                                              ChatDoctor (7B) 1520 1185 1167 1060 1142 1085 1025 1290 1222 1155
+identifying important biomedical entities in clinical text, such
+as diseases, chemicals, or drugs. We evaluate NER per-                        MedAlpaca (7B) 1510 1180 1120 1055 1135 1080 1020 1285 1279 1150
+formance using the BC5CDR dataset [13], which contains
+biomedical abstracts annotated with chemical and disease                      Alpaca (7B)  1245 974 923 865 935 885 835 1055 1009 945
+entities. E.g.:
+                                                                              LLaMA-2 (7B) 1220 951 905 898 915 876 820 1035 985 913
+ Input Text
+                                                                  IU-Xray     DoctorGLM (6B) 1122 875 835 796 845 805 765 955 948 865
+ Patients diagnosed with pancreatic cancer may receive
+ chemotherapy with Taxol.                                                     ChatDoctor (7B) 1265 985 935 880 953 901 850 1075 1021 965
+
+ Extracted Entities                                                           MedAlpaca (7B) 1250 975 925 870 940 890 888 1060 1005 996
+ pancreatic cancer; Taxol
+                                                                              Alpaca (7B)  1165 911 865 815 875 835 790 996 940 897
+                             IV. RESULTS
+A. Accuracy Evaluation                                                        LLaMA-2 (7B) 1140 890 852 805 861 820 775 974 925 888
+
+   Table II presents the accuracy comparison of FP16 and          BC5CDR      DoctorGLM (6B) 1050 820 785 777 795 760 725 895 855 815
+several quantization methods (GPTQ, AWQ, QUIP) across
+five biomedical benchmarks using multiple backbone models.                    ChatDoctor (7B) 1185 925 880 873 890 885 805 1010 960 958
+Overall, 4-bit quantization maintains accuracy close to the
+FP16 baseline across most tasks, while 3-bit and especially                   MedAlpaca (7B) 1170 915 870 859 880 840 795 995 989 899
+2-bit quantization introduce progressively larger performance
+degradation. Among post-training quantization methods, AWQ                                             TABLE IV
+and GPTQ generally preserve accuracy well at 4-bit precision,                 END-TO-END LATENCY PER REQUEST (SECONDS)
+whereas QUIP demonstrates stronger robustness under more
+                                                                  Dataset     Backbone     FP16 GPTQ         AWQ           QUIP
+
+                                                                                           4b 3b 2b 4b 3b 2b 4b 3b 2b
+
+                                                                              Alpaca (7B)  9.2 7.4 5.9 4.6 7.4 5.9 4.6 11.0 16.5 21.5
+
+                                                                              LLaMA-2 (7B) 9.1 7.4 6.0 4.7 7.3 5.8 4.5 10.8 16.2 21.1
+
+                                                                  MIMIC-CXR DoctorGLM (6B) 8.9 7.0 5.6 4.4 7.1 5.6 4.3 10.6 15.9 20.7
+
+                                                                              ChatDoctor (7B) 9.3 7.4 5.9 4.7 7.5 6.0 4.7 11.2 16.8 21.8
+
+                                                                              MedAlpaca (7B) 9.2 7.5 6.1 4.8 7.4 5.9 4.6 10.9 16.4 21.3
+
+                                                                              Alpaca (7B)  7.6 5.8 4.3 3.0 5.8 4.3 3.0 9.4 14.1 18.3
+
+                                                                              LLaMA-2 (7B) 7.4 5.7 4.3 3.0 5.6 4.1 2.8 9.1 13.7 17.8
+
+                                                                  ChatDoctor  DoctorGLM (6B) 7.2 5.4 3.9 2.6 5.4 3.9 2.6 8.9 13.4 17.4
+
+                                                                              ChatDoctor (7B) 7.5 5.6 4.1 2.9 5.7 4.2 2.9 9.4 14.1 18.3
+
+                                                                              MedAlpaca (7B) 7.4 5.6 4.2 2.9 5.6 4.1 2.8 9.2 13.8 17.9
+
+                                                                              Alpaca (7B)  6.8 5.0 3.5 2.2 5.0 3.5 2.2 8.6 12.9 16.8
+
+                                                                              LLaMA-2 (7B) 6.6 4.9 3.5 2.2 4.8 3.3 2.0 8.3 12.5 16.2
+
+                                                                  PubMedQA    DoctorGLM (6B) 6.4 4.5 3.1 1.9 4.6 3.1 1.8 8.1 12.2 15.9
+
+                                                                              ChatDoctor (7B) 6.7 4.8 3.3 2.1 4.9 3.6 2.1 8.6 12.9 16.8
+
+                                                                              MedAlpaca (7B) 6.6 4.8 3.4 2.1 4.8 3.5 2.0 8.4 12.6 16.4
+
+                                                                              Alpaca (7B)  6.2 4.4 2.9 1.6 4.4 2.9 1.6 8.0 12.0 15.6
+
+                                                                              LLaMA-2 (7B) 6.0 4.3 2.9 1.7 4.2 2.7 1.4 7.7 11.6 15.1
+
+                                                                  IU-Xray     DoctorGLM (6B) 5.8 3.9 2.5 1.3 4.0 2.5 1.2 7.5 11.3 14.7
+
+                                                                              ChatDoctor (7B) 6.1 4.2 2.7 1.5 4.3 2.8 1.5 8.0 12.0 15.6
+
+                                                                              MedAlpaca (7B) 6.0 4.2 2.8 1.5 4.2 2.7 1.4 7.8 11.7 15.2
+
+                                                                              Alpaca (7B)  5.8 4.0 2.5 1.7 4.0 2.5 1.6 7.6 11.4 14.8
+
+                                                                              LLaMA-2 (7B) 5.7 4.0 2.6 1.8 3.9 2.4 1.7 7.4 11.1 14.4
+
+                                                                  BC5CDR      DoctorGLM (6B) 5.5 3.6 2.2 1.4 3.7 2.2 1.2 7.2 10.8 14.0
+
+                                                                              ChatDoctor (7B) 5.8 3.9 2.4 1.7 4.0 2.5 1.5 7.7 11.6 15.1
+
+                                                                              MedAlpaca (7B) 5.7 3.9 2.5 1.7 3.9 2.8 1.5 7.5 11.3 14.7
+
+                                                                  aggressive 3-bit and 2-bit settings. For the ChatDoctor bench-
+                                                                  mark, all models obtain relatively low Micro-F1 percentage
+                                                                  scores. This is expected because ChatDoctor is an open-ended
+                                                                  treatment recommendation task rather than a close-ended
+                                                                  question answering task: the model must first understand
+                                                                  patient-doctor conversations and then generate relevant medi-
+                                                                  cations or treatments, which is substantially more challenging
+                                                                  than selecting from fixed answer options. Prior benchmark
+                                                                  work similarly notes that LLMs perform much worse on open
+                                                                  clinical tasks such as treatment recommendation than on close-
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:33:53 UTC from IEEE Xplore. Restrictions apply.
+                        TABLE V                                                            ACKNOWLEDGMENT
+             PEAK GPU MEMORY (GB)
+                                                                      This work was supported by the NASA grant
+Backbone     FP16      GPTQ      AWQ       QUIP                    80NSSC25C0335, Vernon & Ruby Langlinais Non-Endowed
+                   4b 3b 2b  4b 3b 2b  4b 3b 2b                    Research Fund, Lockheed Martin Corporation Endowed
+                                                                   Professorship, an award from NASA, and generous gifts
+Alpaca (7B)  15.8 5.7 4.8 3.7 5.5 4.6 3.5 6.0 5.1 3.9              from Google and NVIDIA.
+
+LLaMA-2 (7B) 15.5 5.6 4.7 3.6 5.4 4.5 3.4 5.9 5.0 3.8                                           REFERENCES
+
+DoctorGLM (6B) 13.6 4.9 4.1 3.1 4.7 3.9 2.9 5.2 4.3 3.3
+
+ChatDoctor (7B) 16.0 5.8 4.9 3.8 5.6 4.7 3.6 6.1 5.2 4.0
+
+MedAlpaca (7B) 15.9 5.7 4.8 3.7 5.5 4.6 3.5 6.0 5.1 3.9
+
+ended QA benchmarks [41].                                           [1] Q. Chen, H. Sun, H. Liu, Y. Jiang, T. Ran, X. Jin, X. Xiao, Z. Lin,
+                                                                         H. Chen, and Z. Niu, "An extensive benchmark study on biomedical
+B. Hardware Metrics Evaluation                                           text generation and mining with chatgpt," Bioinformatics, vol. 39, no. 9,
+                                                                         p. btad557, 2023.
+   Tables III and IV report the end-to-end inference energy and
+latency (including both prefill and decode stages) for FP16         [2] H. Touvron, L. Martin, K. Stone, P. Albert, A. Almahairi, Y. Babaei,
+and quantized models across five biomedical benchmarks on                N. Bashlykov, S. Batra, P. Bhargava, S. Bhosale et al., "Llama
+the NVIDIA RTX PRO 6000 Blackwell GPU with batch size                    2: Open foundation and fine-tuned chat models," arXiv preprint
+1. Since the generated output length varies across tasks, the            arXiv:2307.09288, 2023.
+total number of processed tokens differs between datasets,
+which directly affects both energy consumption and latency.         [3] S. Z. B. Q. T. L. Haochun Wang, Chi Liu, "Chatglm-med: chatglm,"
+For example, radiology summarization tasks such as MIMIC-                https://github.com/SCIR-HI/Med-ChatGLM, 2023.
+CXR allow up to 300 generated tokens, while entity extraction
+tasks such as BC5CDR use a smaller generation limit of              [4] H. Zhang, J. Chen, F. Jiang, F. Yu, Z. Chen, G. Chen, J. Li, X. Wu,
+80 tokens. As a result, tasks producing longer responses                 Z. Zhiyi, Q. Xiao et al., "Huatuogpt, towards taming language model to
+such as MIMIC-CXR and ChatDoctor generally exhibit higher                be a doctor," in Findings of the association for computational linguistics:
+energy and latency, while datasets with shorter outputs such             EMNLP 2023, 2023, pp. 10 859-10 885.
+as IU-Xray and BC5CDR require less computation. Across all
+benchmarks, quantization generally reduces energy compared          [5] C. Xu, D. Guo, N. Duan, and J. McAuley, "Baize: An open-source chat
+to FP16. Latency also generally decreases for GPTQ and AWQ               model with parameter-efficient tuning on self-chat data," in Proceedings
+relative to FP16, while QUIP often shows higher latency, likely          of the 2023 conference on empirical methods in natural language
+due to additional runtime overhead associated with quanti-               processing, 2023, pp. 6268-6278.
+zation and dequantization operations. For readability, energy
+values are rounded to the nearest integer joule and latency         [6] H. Xiong, S. Wang, Y. Zhu, Z. Zhao, Y. Liu, Q. Wang, and D. Shen,
+values to one decimal place after averaging measurements                 "Doctorglm: Fine-tuning your chinese doctor is not a herculean task,"
+across multiple runs. Table V reports peak GPU memory                    arXiv preprint arXiv:2304.01097, 2023.
+per request, which remains consistent across datasets since it
+depends primarily on model size and parameter precision. As         [7] Y. Li, Z. Li, K. Zhang, R. Dan, S. Jiang, and Y. Zhang, "Chatdoctor: A
+expected, FP16 requires the largest memory footprint, while 4-           medical chat model fine-tuned on a large language model meta-ai (llama)
+bit, 3-bit, and 2-bit quantization progressively reduce memory           using medical domain knowledge," Cureus, vol. 15, no. 6, 2023.
+usage, demonstrating the effectiveness of low-bit quantization
+for memory-efficient deployment.                                    [8] T. Han, L. C. Adams, J.-M. Papaioannou, P. Grundmann, T. Oberhauser,
+                                                                         A. Lo쮛er, D. Truhn, and K. K. Bressem, "Medalpaca-an open-source
+                           V. CONCLUSION                                 collection of medical conversational ai models and training data," arXiv
+                                                                         preprint arXiv:2304.08247, 2023.
+   Our study demonstrates that substantial reductions in mem-
+ory footprint, energy consumption can be achieved while main-       [9] D. Jin, E. Pan, N. Oufattole, W.-H. Weng, H. Fang, and P. Szolovits,
+taining practical performance levels. These results indicate that        "What disease does this patient have? a large-scale open domain
+aggressive quantization can significantly lower the deployment           question answering dataset from medical exams," arXiv preprint
+cost of large biomedical language models without requiring               arXiv:2009.13081, 2020.
+substantial architectural modifications. Consequently, extreme
+low-bit quantization provides a viable pathway for deploying       [10] A. Pal, L. K. Umapathi, and M. Sankarasubbu, "Medmcqa: A large-
+medical LLMs in resource-constrained environments such as                scale multi-subject multi-choice dataset for medical domain question
+clinical workstations, edge devices, and hospital infrastructure.        answering," in Conference on health, inference, and learning. PMLR,
+Although the experiments are conducted on a high-end GPU                 2022, pp. 248-260.
+platform to ensure reproducible hardware measurements, the
+results primarily aim to reveal quantization trends that are       [11] Q. Jin, B. Dhingra, Z. Liu, W. Cohen, and X. Lu, "Pubmedqa: A dataset
+relevant for future edge and mobile deployments.                         for biomedical research question answering," in Proceedings of the 2019
+                                                                         conference on empirical methods in natural language processing and
+                                                                         the 9th international joint conference on natural language processing
+                                                                         (EMNLP-IJCNLP), 2019, pp. 2567-2577.
+
+                                                                   [12] A. E. Johnson, T. J. Pollard, S. J. Berkowitz, N. R. Greenbaum, M. P.
+                                                                         Lungren, C.-y. Deng, R. G. Mark, and S. Horng, "Mimic-cxr, a de-
+                                                                         identified publicly available database of chest radiographs with free-text
+                                                                         reports," Scientific data, vol. 6, no. 1, p. 317, 2019.
+
+                                                                   [13] J. Li, Y. Sun, R. J. Johnson, D. Sciaky, C.-H. Wei, R. Leaman, A. P.
+                                                                         Davis, C. J. Mattingly, T. C. Wiegers, and Z. Lu, "Biocreative v cdr task
+                                                                         corpus: a resource for chemical disease relation extraction," Database,
+                                                                         vol. 2016, 2016.
+
+                                                                   [14] R. I. Dogan, R. Leaman, and Z. Lu, "Ncbi disease corpus: a resource
+                                                                         for disease name recognition and concept normalization," Journal of
+                                                                         biomedical informatics, vol. 47, pp. 1-10, 2014.
+
+                                                                   [15] A. E. Johnson, L. Bulgarelli, L. Shen, A. Gayles, A. Shammout,
+                                                                         S. Horng, T. J. Pollard, S. Hao, B. Moody, B. Gow et al., "Mimic-
+                                                                         iv, a freely accessible electronic health record dataset," Scientific data,
+                                                                         vol. 10, no. 1, p. 1, 2023.
+
+                                                                   [16] A. E. Johnson, T. J. Pollard, L. Shen, L.-w. H. Lehman, M. Feng,
+                                                                         M. Ghassemi, B. Moody, P. Szolovits, L. Anthony Celi, and R. G. Mark,
+                                                                         "Mimic-iii, a freely accessible critical care database," Scientific data,
+                                                                         vol. 3, no. 1, pp. 1-9, 2016.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:33:53 UTC from IEEE Xplore. Restrictions apply.
+[17] D. Demner-Fushman, M. D. Kohli, M. B. Rosenman, S. E. Shooshan,             [35] Z. Zhan, S. Zhou, M. Zeng, K. Yu, M. Song, X. Chen, J. Wang, Y. Hou,
+      L. Rodriguez, S. Antani, G. R. Thoma, and C. J. McDonald, "Preparing             and R. Zhang, "Quantized large language models in biomedical natural
+      a collection of radiology examinations for distribution and retrieval,"          language processing: Evaluation and recommendation," arXiv preprint
+      Journal of the American Medical Informatics Association, vol. 23, no. 2,         arXiv:2509.04534, 2025.
+      pp. 304-310, 2016.
+                                                                                 [36] R. Taori, I. Gulrajani, T. Zhang, Y. Dubois, X. Li, C. Guestrin, P. Liang,
+[18] H. Nori, Y. T. Lee, S. Zhang, D. Carignan, R. Edgar, N. Fusi, N. King,            and T. B. Hashimoto, "Stanford alpaca: An instruction-following llama
+      J. Larson, Y. Li, W. Liu et al., "Can generalist foundation models               model," https://github.com/tatsu-lab/stanford alpaca, 2023.
+      outcompete special-purpose tuning? case study in medicine," arXiv
+      preprint arXiv:2311.16452, 2023.                                           [37] T. GLM, A. Zeng, B. Xu, B. Wang, C. Zhang, D. Yin, D. Rojas, G. Feng,
+                                                                                       H. Zhao, H. Lai, H. Yu, H. Wang, J. Sun, J. Zhang, J. Cheng, J. Gui,
+[19] K. Singhal, T. Tu, J. Gottweis, R. Sayres, E. Wulczyn, M. Amin,                   J. Tang, J. Zhang, J. Li, L. Zhao, L. Wu, L. Zhong, M. Liu, M. Huang,
+      L. Hou, K. Clark, S. R. Pfohl, H. Cole-Lewis et al., "Toward expert-             P. Zhang, Q. Zheng, R. Lu, S. Duan, S. Zhang, S. Cao, S. Yang, W. L.
+      level medical question answering with large language models," Nature             Tam, W. Zhao, X. Liu, X. Xia, X. Zhang, X. Gu, X. Lv, X. Liu, X. Liu,
+      medicine, vol. 31, no. 3, pp. 943-950, 2025.                                     X. Yang, X. Song, X. Zhang, Y. An, Y. Xu, Y. Niu, Y. Yang, Y. Li,
+                                                                                       Y. Bai, Y. Dong, Z. Qi, Z. Wang, Z. Yang, Z. Du, Z. Hou, and Z. Wang,
+[20] Z. Zhan, S. Zhou, H. Zhou, Z. Liu, and R. Zhang, "Epee: Towards                   "Chatglm: A family of large language models from glm-130b to glm-4
+      efficient and effective foundation models in biomedicine," arXiv preprint        all tools," 2024.
+      arXiv:2503.02053, 2025.
+                                                                                 [38] E. Frantar, S. Ashkboos, T. Hoefler, and D. Alistarh, "Gptq: Accurate
+[21] Z. Zhan and R. Zhang, "Towards better multi-task learning: a framework            post-training quantization for generative pre-trained transformers," arXiv
+      for optimizing dataset combinations in large language models," in                preprint arXiv:2210.17323, 2022.
+      Findings of the Association for Computational Linguistics: NAACL
+      2025, 2025, pp. 5373-5386.                                                 [39] J. Lin, J. Tang, H. Tang, S. Yang, W.-M. Chen, W.-C. Wang, G. Xiao,
+                                                                                       X. Dang, C. Gan, and S. Han, "Awq: Activation-aware weight quanti-
+[22] J. Kaplan, S. McCandlish, T. Henighan, T. B. Brown, B. Chess, R. Child,           zation for on-device llm compression and acceleration," Proceedings of
+      S. Gray, A. Radford, J. Wu, and D. Amodei, "Scaling laws for neural              machine learning and systems, vol. 6, pp. 87-100, 2024.
+      language models," arXiv preprint arXiv:2001.08361, 2020.
+                                                                                 [40] J. Chee, Y. Cai, V. Kuleshov, and C. M. De Sa, "Quip: 2-bit quanti-
+[23] W. N. Price and I. G. Cohen, "Privacy in the age of medical big data,"            zation of large language models with guarantees," Advances in neural
+      Nature medicine, vol. 25, no. 1, pp. 37-43, 2019.                                information processing systems, vol. 36, pp. 4396-4429, 2023.
+
+[24] M. Mehrtak, S. SeyedAlinaghi, M. MohsseniPour, T. Noori, A. Karimi,         [41] F. Liu, H. Zhou, Y. Hua, O. Rohanian, L. Clifton, and D. A. Clifton,
+      A. Shamsabadi, M. Heydari, A. Barzegary, P. Mirzapour, M. Soleyman-              "Large language models in healthcare: A comprehensive benchmark,"
+      zadeh et al., "Security challenges and solutions using healthcare cloud          2024.
+      computing," Journal of medicine and life, vol. 14, no. 4, p. 448, 2021.
+
+[25] A. Gholami, S. Kim, Z. Dong, Z. Yao, M. W. Mahoney, and K. Keutzer,
+      "A survey of quantization methods for efficient neural network infer-
+      ence," in Low-power computer vision. Chapman and Hall/CRC, 2022,
+      pp. 291-326.
+
+[26] L. Deng, G. Li, S. Han, L. Shi, and Y. Xie, "Model compression and
+      hardware acceleration for neural networks: A comprehensive survey,"
+      Proceedings of the IEEE, vol. 108, no. 4, pp. 485-532, 2020.
+
+[27] M. Guo, Z. Dai, D. Vrandecic�, and R. Al-Rfou, "Wiki-40b: Multilingual
+      language model dataset," in Proceedings of the Twelfth Language
+      Resources and Evaluation Conference, 2020, pp. 2440-2452.
+
+[28] A. Bandari, L. Yin, C.-Y. Hsieh, A. K. Jaiswal, T. Chen, L. Shen,
+      R. Krishna, and S. Liu, "Is c4 dataset optimal for pruning? an investiga-
+      tion of calibration data for llm pruning," in Proceedings of the 2024
+      Conference on Empirical Methods in Natural Language Processing,
+      2024, pp. 18 089-18 099.
+
+[29] D. Hendrycks, C. Burns, S. Basart, A. Zou, M. Mazeika, D. Song, and
+      J. Steinhardt, "Measuring massive multitask language understanding,"
+      Proceedings of the International Conference on Learning Representa-
+      tions (ICLR), 2021.
+
+[30] K. Cobbe, V. Kosaraju, M. Bavarian, M. Chen, H. Jun, L. Kaiser,
+      M. Plappert, J. Tworek, J. Hilton, R. Nakano, C. Hesse, and J. Schul-
+      man, "Training verifiers to solve math word problems," arXiv preprint
+      arXiv:2110.14168, 2021.
+
+[31] D. Hendrycks, C. Burns, S. Kadavath, A. Arora, S. Basart, E. Tang,
+      D. Song, and J. Steinhardt, "Measuring mathematical problem solving
+      with the math dataset," NeurIPS, 2021.
+
+[32] M. Chen, J. Tworek, H. Jun, Q. Yuan, H. P. de Oliveira Pinto, J. Kaplan,
+      H. Edwards, Y. Burda, N. Joseph, G. Brockman, A. Ray, R. Puri,
+      G. Krueger, M. Petrov, H. Khlaaf, G. Sastry, P. Mishkin, B. Chan,
+      S. Gray, N. Ryder, M. Pavlov, A. Power, L. Kaiser, M. Bavarian,
+      C. Winter, P. Tillet, F. P. Such, D. Cummings, M. Plappert, F. Chantzis,
+      E. Barnes, A. Herbert-Voss, W. H. Guss, A. Nichol, A. Paino, N. Tezak,
+      J. Tang, I. Babuschkin, S. Balaji, S. Jain, W. Saunders, C. Hesse,
+      A. N. Carr, J. Leike, J. Achiam, V. Misra, E. Morikawa, A. Radford,
+      M. Knight, M. Brundage, M. Murati, K. Mayer, P. Welinder, B. McGrew,
+      D. Amodei, S. McCandlish, I. Sutskever, and W. Zaremba, "Evaluating
+      large language models trained on code," 2021.
+
+[33] K. Marchisio, S. Dash, H. Chen, D. Aumiller, A. U� stu쮖, S. Hooker, and
+      S. Ruder, "How does quantization affect multilingual llms?" in Findings
+      of the Association for Computational Linguistics: EMNLP 2024, 2024,
+      pp. 15 928-15 947.
+
+[34] R. Jin, J. Du, W. Huang, W. Liu, J. Luan, B. Wang, and D. Xiong, "A
+      comprehensive evaluation of quantization strategies for large language
+      models," in Findings of the association for computational linguistics:
+      ACL 2024, 2024, pp. 12 186-12 215.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:33:53 UTC from IEEE Xplore. Restrictions apply.
+

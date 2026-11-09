@@ -1,0 +1,1392 @@
+IEEE TRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS, VOL. 37, NO. 5, MAY 2026                                                 2025
+
+Survey on Efficient Large Language Models:
+     Principles, Algorithms, Applications,
+                 and Open Issues
+
+     Jian Cheng , Haidong Kang , Student Member, IEEE, Yuxin Shao, Nan Li, Pengjun Chen, Rui Wang ,
+Saiqin Long , Member, IEEE, Xiaochun Yang , Senior Member, IEEE, and Lianbo Ma , Senior Member, IEEE
+
+   Abstract--With the rapid advancement of large language                                                I. INTRODUCTION
+models (LLMs) in both academia and industry, their grow-
+ing size and complexity have introduced significant challenges                 L ARGE language models (LLMs), exemplified by Chat-
+in terms of computational cost and deployment efficiency.                            GPT [1] and Claude [2], have demonstrated promising
+To address these issues, a wide range of inference opti-                       performance and great potential in natural language processing
+mization techniques--including but not limited to model                        (NLP), including translation [3], summarization [4], question
+compression--have been proposed to accelerate LLM inference                    answering [5], and conversational agent [6]. However, due
+while preserving model performance. This survey provides a                     to the significant increase in terms of size and complexity,
+comprehensive overview of LLM inference acceleration strate-                   the development and deployment of LLMs require massive
+gies, analyzing them from multiple perspectives, including                     computational and memory resources, which leads to a series
+foundational principles, algorithmic techniques, real-world appli-             of challenges for their wide use in resource-constrained
+cations, and open research challenges. We begin by introducing                 scenarios.
+core concepts underlying inference optimization and propose
+a new taxonomy that categorizes existing approaches, includ-                      1) Resource Intensity: The computational power required
+ing quantization, pruning, distillation, efficient architectures,                     for training and running LLM models can be pro-
+compilation, and hardware-aware methods. Following the life-                          hibitively high. For example, the GPT-175B [7] model
+cycle of LLM development and deployment, we examine how                               with 175 billion parameters requires a minimum of
+these techniques interact with model training, fine-tuning, and                       350 GB of GPU memory for execution in half-precision
+serving. Furthermore, we highlight key applications of effi-                          (FP16), and needs five NVIDIA GeForce A100 80G
+cient LLMs and discuss emerging trends and unresolved issues                          GPUs just for inference. This involves demands for sub-
+in the field. By synthesizing recent advances, this survey                            stantial processing power, memory, and storage, which
+aims to provide actionable insights and practical guidance for                        can be a barrier to widespread applications, particularly
+researchers and practitioners working with scalable and efficient                     in resource-constrained environments.
+LLM systems.
+                                                                                  2) The inference speed of LLMs is critical for supporting
+   Index Terms--Deep learning, foundation model, large language                       real-time applications, such as interactive chatbots (e.g.,
+models (LLMs), model acceleration, model compression, vision                          ChatGPT) and live translation services (e.g., Microsoft
+transformer (ViT).                                                                    Translator), which demand strict latency constraints.
+                                                                                      However, as shown in Table I (a curated challenging
+   Received 6 February 2025; revised 23 July 2025; accepted 28 October                text classification task on a single NVIDIA Jetson TX2),
+2025. Date of publication 14 November 2025; date of current version 4 May             when the model's memory consumption exceeds certain
+2026. This work was supported in part by the National Key Research and                hardware limits, inference speed can degrade sharply.
+Development Program of China under Grant 2023YFC2907600, in part by                   For instance, on the TX2 device, inference latency
+the National Natural Science Foundation of China under Grant 62472079 and             increases by 189-224× while the model size only
+Grant 52574193, and in part by the Science and Technology Innovation and              grows by 5.8-12.2×. This significant latency increase
+Entrepreneurship Project of TDTEC under Grant 2025-TD-ZY001 and Grant                 negatively affects user experience and the overall effec-
+2024-TD-ZD016-04. (Jian Cheng and Haidong Kang contributed equally to                 tiveness of such applications, highlighting the urgent
+this work.) (Corresponding author: Lianbo Ma.)                                        need for optimization techniques that accelerate LLM
+                                                                                      inference without sacrificing performance.
+   Jian Cheng is with the Research Institute of Mine Artificial Intelligence,
+Chinese Institute of Coal Science, Beijing 100013, China, also with the           3) Energy Consumption: The environmental impact of
+State Key Laboratory of Intelligent Coal Mining and Strata Control, Beijing           training and operating these models cannot be ignored.
+100013, China, and also with Tiandi Science and Technology Company Ltd.,              The energy consumption associated with large-scale
+Beijing 100013, China (e-mail: jiancheng@tsinghua.org.cn).                            computations contributes to the overall carbon foot-
+                                                                                      print, highlighting the need for more energy-efficient
+   Haidong Kang, Yuxin Shao, Nan Li, Pengjun Chen, Xiaochun Yang,
+and Lianbo Ma are with the College of Software, Northeastern Univer-
+sity, Shenyang, Liaoning 110819, China (e-mail: hdkang@stumail.neu.edu.
+cn; 2271407@stu.neu.edu.cn; 2010500@stu.neu.edu.cn; pjchen@stumail.
+neu.edu.cn; yangxc@mail.neu.edu.cn; malb@swc.neu.edu.cn).
+
+   Rui Wang is with the National University of Defense Technology, Chang-
+sha, Hunan 410073, China (e-mail: ruiwangnudt@gmail.com).
+
+   Saiqin Long is with the College of Information Science and Technology,
+Jinan University, Guangzhou 510632, China (e-mail: saiqinlong@jnu.edu.cn).
+
+   Digital Object Identifier 10.1109/TNNLS.2025.3628671
+
+2162-237X © 2025 IEEE. All rights reserved, including rights for text and data mining, and training of artificial intelligence and
+               similar technologies. Personal use is permitted, but republication/redistribution requires IEEE permission.
+                                 See https://www.ieee.org/publications/rights/index.html for more information.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+2026                            IEEE TRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS, VOL. 37, NO. 5, MAY 2026
+
+                                         TABLE I
+
+PARAMETER SIZE, ACCURACY, PEAK MEMORY USAGE, AND INFERENCE
+        LATENCY OF LLM VARIANTS WITH TX2 MOBILE DEVICES
+
+                   TABLE II
+      CARBON EMISSIONS OF LLMS
+
+       approaches. Table II shows the carbon footprints of       Fig. 1. Pipeline of LLM inference acceleration.
+       LLMs (based on [8]), including well-known models such
+       as OPT-175B, GPT-3, Gopher, and BLOOM.                    aims to provide in-depth insights into the optimization of LLM
+                                                                 inference and promote the development of more efficient and
+   The growing demand for real-time, large-scale applications    practical AI systems. Fig. 2 illustrates the organization of this
+of LLMs in practical applications such as healthcare, finance,   survey.
+entertainment, and customer service underscores the need
+for techniques to accelerate inference [9], [10], [11], [12],       In summary, the key contributions of this article are as
+[13]. Lightweight LLM not only improves user experience          follows.
+by reducing latency but also lowers operational costs and
+resource consumption during the training process. Efficient         1) Comprehensive Overview: We thoroughly summarize
+inference mechanisms are essential for deploying LLMs in                inference acceleration for LLMs, clarifying how various
+resource-constrained environments like mobile devices and               methods can accelerate LLMs for real-time applications.
+edge computing platforms. Moreover, it can boost the devel-
+opment of green AI. Existing reviews of LLMs [14], [15],            2) Future Directions: We envisage crucial opportunities
+[16], [17], [18] either target the general development of LLMs          for further progress in the LLM field, encouraging
+or focus on the method comparisons from the perspective                 the exploration of model interpretability and privacy
+of model compression, frameworks, data, and mobile edge                 protection as a new state-of-the-art in LLM inference
+intelligence. This highlights the need to revisit the efficient         acceleration.
+LLMs from the broad range of topics of basic principles,
+comprehensive algorithms, classic applications, and key open        The subsequent sections of this article are organized as
+issues. To facilitate the analysis of LLMs for lightweight       follows. Section II provides an overview of LLMs, detail-
+applications via inference acceleration, in this article, we     ing their introduction, basic architecture, and construction
+propose an LLM inference acceleration pipeline as shown in       process. Section III discusses model compression principles,
+Fig. 1. In particular, we present four main applications that    including techniques such as pruning, distillation, quanti-
+have the most use of LLMs as the focus of our survey (i.e.,      zation, and low-rank decomposition. Section IV explores
+language tasks). Overall, we divide the methods of LLMs          high-efficiency model architectures, focusing on efficient atten-
+inference acceleration lightweight applications into two types:  tion mechanisms, attention-free models, MoE models, and
+Model-oriented inference acceleration mechanisms for LLMs,       hardware-optimized attention. Section V covers various infer-
+and nonmodel-oriented inference acceleration mechanisms for      ence acceleration algorithms and frameworks, including early
+LLMs. For model-oriented inference acceleration mechanisms       exit strategies, KV-cache optimization, decoding strategies,
+for LLMs, these mechanisms include LLMs selection, which         and token pruning. Section VI highlights the application of
+explores LLMs that are suitable for a lightweight application,   lightweight LLMs in real-world scenarios.
+and LLMs optimization, which uses several technologies,
+i.e., pruning, distillation, decomposition, and quantization,    A. LLM Construction Process
+to reduce the complexity of LLMs. In addition, nonmodel-
+oriented inference acceleration mechanisms for LLMs (i.e.,          Modern LLMs are generally built upon the transformer
+early exit, KV-cache optimization, and special software for      architecture using auto-regressive decoding. While the founda-
+LLMs) are another series of effective methods, which do not      tional architecture remains consistent, different models such as
+change the architecture of LLMs. Next, we will discuss our       GPT and large language model meta AI (LLaMA) introduce
+findings and insights based on this pipeline in each section     structural and functional enhancements. In this section, we first
+one by one. By providing a thorough analysis, this article       introduce two core technical foundations (i.e., transformer and
+                                                                 LLaMA) as key modules in the LLM construction process.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+CHENG et al.: SURVEY ON EFFICIENT LLMs: PRINCIPLES, ALGORITHMS, APPLICATIONS, AND OPEN ISSUES                             2027
+
+Fig. 2. Overview of this survey.
+
+Then, we briefly outline the standard four-phase development     attention is computed as
+pipeline: pretraining, supervised fine-tuning, reward modeling,
+and reinforcement learning.                                                                    Â QKT Ã
+                                                                             A (Q, K, V) = softmax  V.                    (1)
+   1) Transformer Model: The transformer model [177], pro-                                     dk
+posed by Google in 2017, serves as the backbone of nearly
+all modern LLMs. The key modules include as follows.             This allows the model to attend to different parts of the
+
+   Embedding Module: Each word in the input sequence is first    sequence. Multihead attention extends this mechanism by
+mapped to a vector representation. To compensate for the lack
+of sequential bias in the transformer, positional encodings are  enabling multiple attention to be computed in parallel.
+added to the embeddings to preserve order information.
+                                                                 Feed Forward Network (FFN): Each token is further trans-
+   Self-Attention Module: The core mechanism for context
+modeling. Given query (Q), key (K), and value (V) matrices,      formed by a two-layer fully connected module with nonlinear
+
+                                                                 activation                    Â Â QKT Ã Ã
+
+                                                                             yFFN = FFN softmax  V .                      (2)
+                                                                                               dk
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+2028  IEEE TRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS, VOL. 37, NO. 5, MAY 2026
+
+Fig. 3. Framework of LLaMA.                                       GLU (GEGLU), and Gaussian error linear unit (GELU)] for
+                                                                  comparison. The definitions of those functions are as follows:
+   Residual Connections and Layer Normalization: To improve
+training stability, residual connections and layer normalization            FFNGLU (x, W, V, W2) = ( (xW)  xV) W2
+are applied around both the attention and FFN, addressing                FFNBilinear (x, W, V, W2) = (xW  xV) W2
+gradient vanishing and convergence issues.                               FFNReGLU (x, W, V, W2) = (max (0, xW)  xV) W2
+                                                                         FFNGEGLU (x, W, V, W2) = (GELU (xW)  xV) W2. (4)
+   2) LLaMA Model: LLaMA [178] introduces several key
+architectural refinements over the standard transformer to           By comparing the difference between these functions, we
+improve training stability and efficiency, as summarized          can find that the superiority of LLMs is attributed to the Swish
+in Fig. 3. These include: 1) prenorm residual structure;          function, which can enable LLMs to achieve a more powerful
+2) RMSNorm normalization [179]; 3) swish gated linear unit        nonlinear ability than other competitors.
+(SwiGLU) activation [180]; and 4) rotary positional embed-
+dings (RoPEs) [181]. Collectively, these components enhance          3) LLM Training Pipeline Overview: After architecture
+the model's capability for stable optimization and efficient      design, LLMs typically undergo a four-stage training and
+scaling, which are critical for LLMs.                             alignment process.
+
+   Unlike GPT-style postnorm structures, LLaMA adopts a              a) Pretraining: The model learns general language patterns
+prenorm design, placing normalization before the self-attention   from massive unlabeled text using an autoregressive objective.
+and feedforward modules. Residual connections follow each         This stage requires significant computational resources and
+computation block, facilitating better gradient flow in deep      typically takes weeks on large-scale GPU clusters.
+networks. The use of RMSNorm, a simplified variant of Lay-
+erNorm, reduces computational overhead while maintaining             b) Supervised Fine-Tuning: After pretraining, the model
+effective normalization.                                          captures general language patterns but still requires task-
+                                                                  specific adaptation. Supervised fine-tuning addresses this by
+   In the FFN, LLaMA replaces rectified linear unit (ReLU)        using small yet high-quality datasets, typically ranging from
+with the SwiGLU activation function, originally proposed in       thousands to hundreds of thousands of carefully annotated
+PaLM [182]. SwiGLU improves the model's nonlinear expres-         examples. "Small" refers to the size being significantly smaller
+siveness, which is essential for capturing complex patterns in    than pretraining corpora, while "high-quality" denotes data
+language modeling. The FFN computes as follows, where x           that is task-relevant, diverse, and labeled by humans or trusted
+is the token-wise hidden state and W, V, and W2 are trainable     sources. These datasets contain prompt-response pairs tailored
+matrices:                                                         for tasks such as question answering or text classification. By
+                                                                  aligning input-output formats to specific task requirements,
+       FFNSwiGLU (x, W, V, W2) = (Swish (xW)  xV) W2. (3)         the model efficiently adapts to new tasks with minimal data
+                                                                  and computation.
+   To better show the superior performance of SwiGLU,
+we provide more activation functions [i.e., gated linear unit        c) Reward Modeling: A separate model is trained to rank
+(GLU), Bilinear, rectified GLU (ReGLU), Gaussian error            multiple candidate responses based on human preferences.
+                                                                  This model later guides the reinforcement learning stage.
+
+                                                                     d) Reinforcement Learning (e.g., RLHF): The model is
+                                                                  further fine-tuned to maximize the reward score, improving
+                                                                  alignment with human intentions and values. This phase, while
+                                                                  less compute-intensive than pretraining, plays a crucial role in
+                                                                  instruction-following capabilities.
+
+                                                                     This four-stage pipeline, exemplified by models such as
+                                                                  ChatGPT and Claude, highlights the computational and algo-
+                                                                  rithmic complexity of building LLMs. In the following
+                                                                  paragraph, we analyze the cost associated with each phase and
+                                                                  discuss the importance of optimizing efficiency for practical
+                                                                  deployment.
+
+                                                                     Cost Analysis of LLMs: The success of those LLMs
+                                                                  is rooted in the scaling law: their performance consistently
+                                                                  improves with more parameters. However, this leads to another
+                                                                  issue, namely, a huge computational burden. How to reduce the
+                                                                  costs of LLMs is becoming a serious challenge. To alleviate
+                                                                  this issue, we analyze the computational and storage costs with
+                                                                  the main components (i.e., attention, FFN, and embedding LM
+                                                                  head) of LLMs as shown in Fig. 4. In this section, we use
+                                                                  BERT-base, T5-small, Llama-1, and GPT-2 as main foundation
+                                                                  models. Regarding weight consumption: we can draw the
+                                                                  following observations: 1) the component of "FFN" occupies
+                                                                  over 50% proportion of storage costs; 2) the component of
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+CHENG et al.: SURVEY ON EFFICIENT LLMs: PRINCIPLES, ALGORITHMS, APPLICATIONS, AND OPEN ISSUES  2029
+
+Fig. 4. Weight consumption and FLOPs cost of different LLMs. (a) Weight     1) The pruning process should minimize accuracy degra-
+proportion. (b) FLOPs proportion.                                               dation, and performance can be recovered through
+                                                                                evaluation metrics and fine-tuning, e.g., [19].
+"Attention" occupies over 20% proportion of storage costs,
+due to its composition of two fully connected layers; and 3) the            2) Robust and interpretable metrics should be employed to
+component of "Embedding LM Head" is dominant in "BERT",                         measure the importance of model components, such as
+"GPT-2", and "T5". In the view of FLOPs proportion, we can                      layers, and attention heads, i.e., [19], [20], and [21].
+draw the same observations as weight consumption, except
+for "BERT". Based on the above observations, we can draw                    3) Pruning strategies should balance the reduction of
+the conclusion that the huge computational and storage costs                    redundant parameters with the retention of sufficient
+can be reduced by compressing the primary components of                         model expressiveness to ensure task performance,
+LLMs. In Section II, according to the characteristics of LLMs,                  i.e., [20] and [22].
+we first provide key compression principles to guide how to
+design those methods, and then give a detailed discussion                   4) In addition, pruning methods must align with hardware
+along taxonomy and a survey of existing approaches.                             constraints and capabilities to maximize computational
+                                                                                efficiency and facilitate deployment in the future study.
+                      II. LLM COMPRESSION
+                                                                            2) Distillation Principles: KD in LLMs not only transfers
+   This section provides a detailed analysis of the key                  their fundamental capabilities but also contains emergent abil-
+principles behind compression techniques (i.e., pruning, quan-           ities unique to LLMs. KD tailored for LLMs should obey the
+tization, knowledge distillation (KD), and low-rank decompo-             principles as follows.
+sition), focusing on the characteristics of mainstream methods
+used in LLM compression. First, we provide a unified com-                   1) The student model must effectively learn the teacher
+parison of those compression techniques (as depicted in                         model's knowledge, ensuring consistency in predictions
+Fig. 5), and comprehensively discuss it from "compression                       or hidden layer features, i.e., [23] and [24].
+principles." Then, based on the compression principles, we
+conduct a taxonomy and survey of existing compression-based                 2) The structural and capacity differences between the
+approaches, as well as provide a comprehensive discussion of                    teacher and student models should be moderate,
+each compression technique.                                                     i.e., [25].
+
+A. Compression Principles                                                   3) In multiteacher distillation, teacher models should pro-
+                                                                                vide diverse knowledge to avoid redundancy or conflicts,
+   To tailor LLMs for specific applications, certain core prin-                 ensuring clear distillation objectives.
+ciples of model compression should be obeyed. This chapter
+outlines these foundational principles by summarizing various               4) Both teacher and student models must avoid learning
+compression methods [i.e., pruning, quantization, distillation,                 biased, harmful, or unreliable information, i.e., [32].
+and low-rank matrix decomposition (LRMD)], offering a com-
+prehensive guide for optimizing LLMs for efficient inference                5) While reducing the complexity of the student model,
+and deployment. With these principles, users can more easily                    efforts should be made to preserve its performance,
+compress and deploy LLMs in targeted scenarios, ensuring                        ensuring usability in real-world applications, i.e., [31].
+optimal performance under resource constraints.
+                                                                            3) Quantization Principles: Quantization in LLMs primar-
+   1) Pruning Principles: Pruning neural networks involves               ily involves reducing the precision of weights and activations.
+eliminating less critical connections to reduce model com-               This process offers significant benefits in terms of model effi-
+plexity, improve inference efficiency, and lower computational           ciency and computational performance. Quantization tailored
+costs. Pruning should obey the principles as follows.                    for LLMs should obey the principles as follows.
+
+                                                                            1) Quantization methods should aim to reduce model
+                                                                                complexity (e.g., memory usage and inference latency)
+                                                                                while minimizing accuracy degradation, i.e., [45], [46],
+                                                                                and [51].
+
+                                                                            2) The quantization workflow should be automated to han-
+                                                                                dle large-scale models efficiently, reducing the need for
+                                                                                extensive manual tuning, i.e., [59] and [61].
+
+                                                                            3) Quantization strategies must consider LLM-specific
+                                                                                features such as large parameter counts, deep layer
+                                                                                structures, and sensitivity to precision changes in certain
+                                                                                components (e.g., embedding layers), i.e., [61] and [69].
+
+                                                                            4) Quantization methods should avoid incurring excessive
+                                                                                computational costs, such as high memory requirements
+                                                                                or prolonged training times, i.e., [64] and [65].
+
+                                                                            4) LRMD Principles: LRMD is promising methods to
+                                                                         reduce the computational costs of LLMs, it should obey the
+                                                                         principles as follows.
+
+                                                                            1) LRMD should reduce model size and computational
+                                                                                cost while minimizing the impact on model accuracy,
+                                                                                i.e., [79].
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+2030                                    IEEE TRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS, VOL. 37, NO. 5, MAY 2026
+
+Fig. 5. Comparison of compression methods for LLMs. (a) Quantization. (b) Low-rank decomposition. (c) KD. (d) Pruning.
+
+2) The design of LRMD must avoid excessive computa-                       where Wg represents a group of parameters. Groups with
+    tional costs, including memory usage or training time                 lower scores are pruned. For example, LLM-Pruner [19] uses
+    (e.g., GPU days), to ensure practical scalability, i.e.,              gradient-based one-shot pruning, and LoRA [183] fine-tunes
+    [79], [81], and [84].                                                 with low-rank adaptation to recover accuracy after pruning.
+
+3) The design of LRMD should maintain robust perfor-                            b) Semi-structured pruning: Enforces fixed sparsity pat-
+    mance across various tasks and domains, ensuring the                  terns such as N : M pruning, removing the smallest N weights
+    decomposed model's transferability, i.e., [85] and [86].              from every group of M
+
+B. Model Pruning                                                          Scorek = |wk|, prune lowest N in each M-sized group. (8)
+
+   1) Problem Statement: Model pruning aims to remove                        E-Sparse [184] and RIA [185] improve this by incorporating
+redundant layers, connections, channels, or individual weights            activation entropy and combined weight-activation scores
+from a pretrained LLM while maintaining overall perfor-
+mance. Given a model with L layers, denoted as L =                        Scorek = |wk| + E [|ak|] .                        (9)
+{l0, l1, . . . , lL-1}, the global pruning sparsity target is P  [0, 1].
+The layer-wise pruning ratio p j can be allocated proportionally                c) Unstructured pruning: Removes individual weights
+according to layer saliency scores sprune j                               based solely on importance scores, typically weight magnitude
+
+                  sprune j           .                                    Scorek = |wk|.                                    (10)
+      p j = P × L × PL-1                (5)
+                      si
+                                                                             SparseGPT [21] refines this by approximating the loss
+                  i=0 prune                                               increase via the Hessian diagonal
+
+   The core of pruning lies in evaluating importance scores or                                         L  1 wT Hw (11)
+saliency metrics Score(·) to rank weights, neurons, or blocks                                                  2
+for removal.
+                                                                          where H is the Hessian matrix. Computing H exactly is
+   2) Unified Importance Scoring Framework: Most pruning                  costly; Wanda [20] uses heuristics leveraging outliers and
+methods define a score function for parameters or parameter               activations. OWL [22] assigns nonuniform pruning ratios per
+groups based on multiple criteria                                         layer according to outlier scores
+
+Score (w) =  · fweight (w) +  · factivation (a)                           OutlierScore l j
+               +  · fgradient (g) +  · fsecond-order (H) + · · · (6)
+
+where fweight(w) is usually weight magnitude, e.g., |w| or group          pj = PL                                       ·P  (12)
+norm Wg 2, factivation(a) is an activation-based metric, e.g.,            k=1 OutlierScore (lk)
+mean absolute activation E[|a|], fgradient(g) utilizes gradient
+magnitude or sensitivity, fsecond-order(H) leverages Hessian-             ensuring critical layers are preserved while redundant ones are
+based approximations of loss change, and , , , and  are                   aggressively pruned.
+weighting coefficients.
+                                                                             4) Pruning Decision: Given the importance scores, pruning
+   3) Taxonomy of Pruning Methods:                                        decisions are typically made by thresholding or ranking
+      a) Structured pruning: Removes entire structures such as
+                                                                          zk = 1 [Score (wk) > ]                            (13)
+attention heads, neurons, or layers. A common scoring metric
+is the L2-norm of weight groups                                           where  is a pruning threshold set to meet global or layer-
+                                                                          wise sparsity constraints, and zk is a binary mask indicating
+                  Scoregroup = Wg 2     (7)                               whether to keep (1) or prune (0) the parameter.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+CHENG et al.: SURVEY ON EFFICIENT LLMs: PRINCIPLES, ALGORITHMS, APPLICATIONS, AND OPEN ISSUES  2031
+
+      a) Discussion: Methods such as LLM-Pruner remove              D. Model Quantization
+entire blocks to reduce complexity, while LoRA applies
+parameter-efficient fine-tuning without removing parameters.           LLMs are usually trained and inference with high precision
+Despite advances, challenges remain in balancing pruning            (i.e., 32 floating-point precision), thus restricting their practical
+aggressiveness and performance retention. Future work should        applications. For instance, deploying a GPT-3 175B model
+explore adaptive sparsity schedules, hardware-aware pruning         stored in FP16 format necessitates at least 5 × 80GB A100
+optimizations, and integrated frameworks unifying structured        GPUs and 350 GB of memory [45]. To address this limitation,
+and unstructured sparsity under principled optimization.            quantization-based methods strive to significantly compress
+                                                                    models while tolerating acceptable accuracy loss. Quantization
+C. Model Distillation                                               aims to convert weights and activations into low-bit integers,
+                                                                    thereby minimizing memory usage and computational costs
+   1) Problem Statement: KD aims to transfer knowledge              by substituting high-precision floating-point parameters with
+from a larger LLM Fl to a lightweight LLM Fs while                  lower precision integer parameters.
+maintaining performance. To illustrate KD clearly, we provide
+a unified definition as follows:                                       1) Problem Statement: To enhance the clarity of quantiza-
+                                                                    tion for LLM, we provide a unified definition. Given an LLM
+LKD = D (Fl, Fs)  (14)                                              with L layers, it can be formulated as L = {l0, l1, l2, . . . ,L-1 }.
+                                                                    Then, we assume B = {B1, B2, . . . , B32} as the search space of
+where D(·) denotes the KD methods [186], [187], [188], [189].       bit-width for LLM quantization, and quantization sensitivity
+   2) Taxonomy: Existing KD methods for LLMs are cat-               (i.e., the MSE between the output of the original layer and
+                                                                    the output of the quantized layer) is defined as siquant. The
+egorized into general capability distillation, and emergent         optimized quantization bit-width of l j layer can be defined as
+capability distillation. The details are as follows.
+                                                                                                      j i=0 PL-1 squant i !
+   General Capability Distillation: It aims to align student                        b j = B j + g squant  L (15)
+models with larger teacher models while addressing distribu-
+tion mismatches and memory limitations. General knowledge           where g(·) denotes the indicator function.
+distillation (GKD) [23] manages distribution mismatches                2) Taxonomy: We categorize these approaches from several
+by generating student samples within the teacher's range,
+MiniLLM [24] minimizes reverse Kullback-Leibler divergence          aspects, i.e., quantization-aware training (QAT), posttraining
+(KLD) with policy gradients to improve text generation, and         quantization (PTQ), and others.
+TED [25] distills task-specific knowledge from intermediate
+layers. In addition, a teacher-free method [26] reduces memory            a) Quantization-aware training: It plays a crucial role
+usage by pretraining a truncated model version.                     in reducing model precision while maintaining accuracy, but
+                                                                    it faces challenges such as high computational costs and
+   Emergent Capability Distillation: It concentrates on             limited access to original data. To address these, LLM-QAT
+endowing the student model with abilities present in large          [46] uses data-free distillation by leveraging a full-precision
+models but absent in smaller counterparts. In-context learning      model to generate data for a quantized student model. This
+(ICL) [27], [28] capability of LLM refers to their outstanding      approach achieves promising results on LLaMA with 4-bit
+adaptability in downstream NLP tasks, achieved by providing         quantization. Similarly, BitDistiller [47] combines QAT with
+specific task descriptions or paired context information, with-     KD to enhance sub-4-bit LLMs and reduce training costs.
+out requiring additional training or gradient updates. However,     For more extreme quantization, methods like BitNet [48] and
+ICL suffers from the issue of reasoning. In contrast, the chain-    OneBit [49] employ 1-bit quantization while preserving model
+of-thought (CoT) [29], [30], [31], [32], [33], [34], [35], [36],    precision through binary weight techniques. PB-LLM [50]
+[37], [38], [39], [40], [41], [42], [43], [44] distillation allows  further refines this by selectively preserving high-importance
+models to learn from examples without the need to retrain for       weights, achieving a tradeoff between complexity and
+new tasks. In brief, the CoT prompting strategy enhances ICL        performance.
+by introducing intermediate reasoning steps.
+                                                                          b) Posttraining quantization: PTQ offers an efficient
+   Discussion: General capability distillation aims to align the    method for compressing LLMs by reducing precision without
+outputs of a smaller student model with those of a larger           retraining. Unlike QAT, PTQ requires no annotated data and
+teacher model. This approach addresses distribution mis-            lower computational costs, making it highly practical. In
+matches and memory limitations. First, the design of existing       LLMs, PTQ typically targets weights (model parameters) and
+methods obeys the distillation principles. GKD and MiniLLM          activations (intermediate outputs). Depending on the approach,
+enhance performance through improved alignment. In addi-            PTQ can focus on weight-only quantization or combine both
+tion, TED incorporates knowledge from intermediate layers for       weights and activations, balancing model size reduction and
+better task-specific adaptability. However, this method can be      computational efficiency.
+resource-intensive and may struggle with complex tasks if the
+student model lacks capacity. In contrast, emergent capability            c) Weight-only quantization: This type of quantization
+distillation equips smaller models with advanced abilities, such    focuses solely on compressing model weights while keeping
+as ICL and CoT reasoning. This allows smaller models to per-        activations in full precision. GPTQ [51] and TEQ [52] apply
+form complex tasks without retraining. However, challenges          3- to 4-bit quantization using second-order error approxi-
+include potential limitations in scalability and generalization.    mations (e.g., Hessian diagonal) to minimize quantization
+While these methods enhance model performance, balancing            error. QuIP [53] reduces weight correlation through prepro-
+their strengths and weaknesses is crucial for LLM scaling.          cessing, improving quantization robustness. FineQuant [54]
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+2032  IEEE TRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS, VOL. 37, NO. 5, MAY 2026
+
+and Z-FOLD [55] propose fine-grained and mixed-precision          E. Low-Rank Matrix Decomposition
+quantization to better adapt to local weight distributions
+across layers. SignRound [56] enhances rounding by aligning       1) Problem Statement: LRMD simplifies models by break-
+quantized weights with their signs and scales. AFPQ [57]
+further improves asymmetric quantization through adaptive         ing down weight matrices into smaller ones, reducing size
+scaling and outlier suppression. These approaches tackle major
+challenges such as rounding error, outlier sensitivity, and cor-  and computational load. To illustrate LRMD clearly, we take
+relation between weights. In addition, methods like LLM-Int8
+[58] and OWQ [59] introduce group-wise quantization or local      KnGPT2 [79] as an example, and provide a definition as
+clustering to manage precision loss more effectively. AdaDim
+[60], AWQ [61], and SmoothQuant [45] focus on reducing            follows:
+quantization error by adjusting weight scaling dynamically
+or preconditioning the model structure. SPQR [62] and                       A^ , B^  = argmin  W  -  A    B  2  (16)
+LLM-MQ [63] also adopt various forms of quantization-                                                        2
+aware matrix factorization to optimize memory-accuracy                               (A,B)
+tradeoffs.
+                                                                  where A denotes a matrix  Rm1×n1 , B denotes a matrix 
+      d) Weight and activation quantization: For greater com-     Rm2×n2 , and A  B denotes a block matrix  Rm×n. A^ and B^
+pression, some methods quantize both weights and activations,     are Kronecker factors estimated from the corresponding weight
+which introduces additional challenges like dynamic range         matrix W. By the above equation, the optimal solution can
+mismatches and outlier activations. ZeroQuant [64] uses           be obtained by rank-1 singular value decomposition (SVD)
+dynamic grouped quantization to partition activations for         approximation of W.
+improved calibration. ZeroQuant-FP [65] switches to FP8
+quantization to better handle long-tail activation distribu-         2) Taxonomy: We categorize low-rank decomposition tech-
+tions while maintaining hardware efficiency. Atom [66] and        niques into three main types: Kronecker factorization, SVD,
+MoFQ [67] utilize mixed-precision quantization for sensitive      and tensor train decomposition (TTD), based on their decom-
+components like attention layers and layer norm, whereas          position schemes and application targets within LLMs.
+FPTQ [68] focuses on tuning quantization ranges using cal-
+ibration data. AWEQ [69] and SmoothQuant [45] propose                   a) Kronecker factorization: This method approximates
+prescaling of activations to align with quantization ranges,      large weight matrices (e.g., in attention or MLP layers) by
+which effectively reduces the impact of extreme values.           Kronecker products of smaller matrices, significantly reducing
+Outlier Suppression [70] introduces filtering mechanisms to       parameter counts and memory usage. For example, KNGPT2
+prevent rare but large activations from dominating scaling        [79] applies Kronecker decomposition to attention weights,
+factors.                                                          while LoRDF [80] and LoSparse [81] extend this idea to
+                                                                  multiple transformer components. LPLR [82] further explores
+      e) Efficient fine-tuning and quantization of parameters:    dynamic Kronecker ranks for adaptivity. These methods excel
+Parameter-efficient fine-tuning is one of the most promising      in modeling structured sparsity and are particularly hardware-
+directions for reducing memory usage while preserving model       friendly due to their regular memory access patterns.
+performance. QLoRA [71] introduces low-rank adaptation
+combined with 4-bit quantization, enabling scalable fine-               b) SVD-based methods: These approaches decompose
+tuning of large models. LoftQ [72] and QaLoRA [73] enhance        weight matrices (typically in linear and attention layers) into
+this by decoupling quantization from fine-tuning, minimizing      low-rank components using truncated SVD. SVD-LLM [83]
+interference between the two processes. LqLoRA [74] and           inserts low-rank linear modules into the transformer layers,
+IRQ-LoRA [75] further refine quantization-aware LoRA tun-         while LASER [84] applies SVD to attention and feed-forward
+ing by dynamically assigning precision to critical modules.       networks, maintaining performance with minimal fine-tuning.
+Other approaches like PEFT [76], AlphaTuning [77], and QFT        tSVD [85] extends this by analyzing rank sensitivity across
+[78] introduce sparsity- or rank-aware learning objectives to     layers to guide decomposition granularity. Compared to Kro-
+optimize adaptation quality while operating under quantized       necker methods, SVD offers more flexible rank control and is
+constraints.                                                      well-suited for posttraining compression.
+
+      f) Discussion: QAT simulates quantization during train-           c) Tensor train decomposition: TensorGPT [86] employs
+ing to reduce performance degradation, with methods like          TTD to compress the large embedding matrices by reshap-
+BitDistiller and LLM-QAT using distillation to lower data         ing them into high-order tensors and applying tensor train
+requirements. However, QAT remains resource-intensive. PTQ        factorization. This technique is particularly effective in
+offers a lighter alternative by applying quantization post-       embedding-heavy models or multilingual settings, offering
+training, supporting both weight-only and weight-activation       large memory savings with minimal accuracy drop. Unlike
+schemes. While easier to deploy, PTQ may suffer under low-        matrix-based methods, TTD excels in compressing very large
+bit settings due to outliers and a lack of gradient guidance.     parameter blocks where spatial redundancy exists.
+Future work should focus on better calibration, hardware-
+aware formats, and hybrid strategies that adapt per layer.              d) Comparison: Kronecker methods are efficient and
+                                                                  regular but may struggle with unstructured redundancy. SVD
+                                                                  methods offer greater flexibility and have been widely used
+                                                                  for fine-tuning efficiency. Tensor decomposition methods like
+                                                                  TTD achieve superior compression on extremely large tensors
+                                                                  (e.g., embeddings) but may introduce complexity in imple-
+                                                                  mentation and require more tuning. Future work may explore
+                                                                  hybrid decomposition schemes that adapt per module based
+                                                                  on tensor shape and sensitivity.
+
+                                                                        e) Discussion: LRMD compresses LLMs efficiently by
+                                                                  approximating large matrices with low-rank forms. SVD-based
+                                                                  methods (e.g., SVD-LLM and TSVD) suit linear and attention
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+CHENG et al.: SURVEY ON EFFICIENT LLMs: PRINCIPLES, ALGORITHMS, APPLICATIONS, AND OPEN ISSUES  2033
+
+layers for fast deployment, while Kronecker-based approaches         2) Approximate Attention: Approximate attention methods
+(e.g., LoRD and LPLR) offer structured compression and            [as shown in Fig. 6(c)] present a promising approach to stream-
+hardware efficiency. Tensor-based methods like TensorGPT          line computational demands and bolster efficiency, especially
+target embeddings and are effective on edge devices (e.g.,        when dealing with longer sequences. These methods can be
+Raspberry Pi 5). However, these methods are rarely tested in      classified into two distinct categories. The first category uses
+real-world applications. Future work should explore domain-       mathematical strategies to approximate the attention mecha-
+specific deployments and improve adaptive rank selection and      nism, thereby curtailing computational and storage overheads.
+hardware alignment to enhance practical utility.                  Conversely, the second category entails structural adjustments
+                                                                  within the model to achieve attention approximation, conse-
+              III. EFFICIENT LLM ARCHITECTURE                     quently enhancing overall efficiency.
+
+A. Efficient Attention                                               1) Methods Based on Mathematical Strategies: They
+                                                                         focus on reducing attention complexity through kernel-
+   The success of LLM can be attributed to the strong ability of         based, low-rank, and approximation techniques. Kernel-
+the transformer in terms of feature extraction, hence, designing         based self-attention [95] reduces complexity via kernel
+efficient LLM architecture is equal to designing efficient               feature mappings, while Linformer [96] leverages low-
+transformer architecture. Based on the observation with respect          rank approximations of attention matrices to save
+to cost analysis of the LLMs aforementioned, we can conclude             memory. Efficient Attention [97] employs double soft-
+that efficient attention mechanisms (i.e., sparse attention) are         max for linear attention approximation, and Performers
+a promising solution tailored for efficient LLM architecture,            [98] use orthogonal random feature compression for
+which can make mobile devices possess LLM ability.                       unbiased attention estimation. Other methods [99],
+                                                                         [100], [101], [102] also obtain superior performance.
+   1) Sparse Attention: As shown in Fig. 6b, sparse attention
+aims to create a sparse attention matrix to minimize the             2) Methods Based on Model Architecture:They focus
+number of dot products. These methods fall into two cate-                on reducing computational complexity and enhancing
+gories: decomposition-based and learning-based approaches.               performance through architectural innovations.
+Decomposition-based methods break down the entire self-                  Reformer [191] reduces complexity with locality-
+attention computation into quicker operations using sparse               sensitive hashing and reversible layers, cutting memory
+factorization or similar techniques. These operations are then           usage. CrossViT [103] combines cross-attention
+combined to approximate dense attention operations. On the               across different-sized patches for more effective visual
+other hand, learning-based methods tackle attention com-                 feature extraction, lowering computational costs.
+plexity by incorporating trainable sorting mechanisms, hash              Nystromformer [104] approximates self-attention to
+functions, predictive sparse attention mechanisms, and other             reduce computational load, while deformable attention
+strategies to learn sparse attention outputs.                            [105] improves adaptability by relocating key points
+                                                                         flexibly. Mega [106] addresses weak induction bias
+   1) Decomposition-Based Methods: They effectively                      and complexity with a gate-controlled moving average
+       reduce self-attention complexity while preserving                 mechanism, while [107] proposes a layer with linear
+       performance. Approaches such as Longformer [190]                  complexity via secondary attention.
+       and BigBird [87] optimize attention mechanisms
+       specifically for long-sequence processing, which is           3) Discussion: Efficient attention mechanisms are key to
+       essential for handling large datasets. These methods       reducing the computational complexity of transformer mod-
+       enable hardware acceleration, thereby improving            els. Sparse attention methods, like Longformer and BigBird,
+       overall efficiency. However, their complexity may pose     focus on relevant input portions to handle long sequences
+       challenges in implementation, and careful tuning is        efficiently but may struggle with generalization. Predictive
+       often necessary to achieve optimal results. In addition,   methods, such as routing transformer and FSAT, optimize
+       while they enhance scalability, there can be tradeoffs     attention but introduce training complexities. Approximate
+       in accuracy depending on the specific decomposition        techniques, including kernel-based approaches (e.g., Perform-
+       techniques used [88], [89], [90], [91].                    ers) and low-rank approximations (e.g., Linformer), further
+                                                                  reduce complexity at the cost of some accuracy. Restructured
+   2) Learning-Based Methods: They leverage sparse atten-         mechanisms like reformer and deformable attention improve
+       tion mechanisms to further reduce self-attention com-      efficiency but can complicate implementation. Each method
+       plexity. For instance, sparse sinkhorn attention [92]      balances computational efficiency and performance differently.
+       reduces memory complexity through learnable sorting
+       networks, enhancing flexibility. SAC [93] dynamically      B. Hardware Optimized Attention
+       optimizes attention edges, improving computational effi-
+       ciency. HEPOS [94] assigns attention heads to specific        The attention mechanism is a primary computational and
+       input subsets, further decreasing computational costs.     memory bottleneck during the inference phase of LLMs. To
+       Although these methods show promise, they may require      address this, recent research has focused on hardware-friendly
+       extensive training data and can introduce variability in   optimizations that aim to reduce memory consumption,
+       performance. In addition, ensuring robustness in diverse   minimize communication overhead, and enhance throughput
+       scenarios remains a challenge. Overall, learning-based     and energy efficiency--all crucial for deploying LLMs in
+       methods offer innovative solutions, yet they necessitate
+       careful consideration of their limitations.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+2034  IEEE TRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS, VOL. 37, NO. 5, MAY 2026
+
+Fig. 6. Comparison of various attention methods. (a) Self-attention. (b) Sparse attention. (c) Approximate attention.
+
+Fig. 7. Comparison between attention-free and MOE. (a) Mechanism of attention-free in LLM. (b) Mechanism of MOE in LLM.
+
+latency-sensitive or resource-constrained environments. Sev-      persist, including the complexity of algorithm-hardware co-
+eral representative methods tackle these challenges from          design, the lack of generalization across architectures, and
+different perspectives. For example, A3 [108] introduces a        the risks of accuracy loss under aggressive approximation.
+candidate key selection mechanism that prunes unnecessary         Moreover, the absence of standardized benchmarks hampers
+attention computations, along with a parallel-friendly hardware   fair evaluation. Future work should focus on developing gen-
+pipeline. It achieves up to 3.25× speedup and 4.19× energy        eralizable frameworks and unified metrics to guide scalable,
+savings on edge devices. In addition, FlashAttention and          robust deployment.
+FlashAttention-2 [109], [110] fuse all attention operations into
+a single GPU kernel and optimize memory access for SRAM,          C. No Attention
+which reduces off-chip memory usage. These methods yield
+2-4× acceleration and significantly lower memory usage,              To improve the efficiency of LLMs, many studies have
+especially on long sequences. PagedAttention [111] proposes       adopted attention-free mechanisms [as shown in Fig. 7(a)] to
+a paged key-value cache management strategy to eliminate          optimize LLMs. These approaches fall into two categories:
+memory fragmentation and support high-throughput, concur-         state space models and other model structures.
+rent inference requests. Other methods, such as LightSeq [112]
+and ELSA [113], improve execution efficiency through kernel          1) Methods Based on State Space Models: The structured
+fusion, sparsity-aware techniques, and heterogeneous memory       state space (S4) model [114] revolutionizes state space models
+systems.                                                          by combining low-rank and regular components through a
+                                                                  simplified generating function in frequency space, resulting
+   1) Discussion: Hardware-optimized attention mechanisms         in a robust Cauchy kernel. In contrast, the gated state space
+have shown significant improvements in efficiency, reducing       (GSS) model [115] employs gated units to streamline oper-
+FLOPs (e.g., 2.7× in FlashAttention), latency, and energy         ations. It achieves 2-3× faster training speeds compared to
+consumption (e.g., 4.19× savings in A3). These methods            S4 and diagonalized state space (DSS) models [116] while
+address key challenges such as memory fragmentation, kernel       maintaining competitive performance on various benchmarks.
+fusion, and communication bottlenecks. However, limitations
+                                                                     Recent advancements also include the integration of state
+                                                                  space models with attention mechanisms. Sparse modular
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+CHENG et al.: SURVEY ON EFFICIENT LLMs: PRINCIPLES, ALGORITHMS, APPLICATIONS, AND OPEN ISSUES  2035
+
+activation (SMA) [117] dynamically activates attention sub-          experts, allowing for a balance between performance and
+modules, enhancing efficiency in neural networks, while the          inference costs by adjusting sparsity levels.
+block-state transformer (BST) [118] combines SSMs with
+local attention for improved long-sequence processing. Other            Other notable models, such as LIMoE [130] and GLaM
+models, such as H3 [119] and Mamba [120], have shown                 [131], demonstrate the effectiveness of integrating sparse MoE
+impressive results in enhancing sequence memory and scaling          in multimodal contexts and efficient inference, respectively.
+with sequence length, respectively. These innovations collec-        LIMoE outperforms CLIP in various tasks, while GLaM,
+tively demonstrate significant advancements in the efficiency        despite having 1.2 trillion parameters, requires only half
+and effectiveness of state space models and their applications.      the FLOPs for inference compared to denser models. These
+                                                                     innovations reflect the potential of MoE architectures to
+   2) Methods Based on Other Model Structures: The                   achieve higher performance while maintaining computational
+attention-free transformer (AFT) [121] eliminates traditional        efficiency, paving the way for further enhancements in LLMs.
+attention mechanisms by combining keys and values with
+learned positional biases, performing element-wise multipli-            1) Discussion: MoEs models offer a promising path for
+cation between queries and a reduced context. This approach          scaling LLMs efficiently by activating only a small subset
+retains the benefits of direct interactions, making it an efficient  of expert modules per input, thereby increasing parameter
+alternative. In contrast, the recurrent memory transformer           capacity without proportional inference cost. Methods like
+(RMT) [122] integrates a memory mechanism with special               GShard and GLaM illustrate notable FLOPs reductions while
+tokens to carry memory states across segments, enabling              maintaining strong downstream performance. However, these
+recurrent properties and removing input length limitations.          gains come with tradeoffs: routing algorithms add training
+                                                                     instability and latency, expert load imbalance can reduce
+   In addition, models like megabyte [123], hyena [124],             hardware utilization, and sparsity may hinder generalization
+linear recurrent unit (LRU) [125], RWKV [126], and RetNet            across diverse tasks. Addressing these challenges--through
+[192] showcase innovative strategies for improving sequence          improved routing, expert balancing, and unified optimization
+modeling and inference efficiency. Megabyte's block-based            strategies--remains critical for making MoE architectures
+approach and hyena's long convolutions enhance the handling          robust and widely deployable in real-world applications.
+of long sequences, while LRU and RWKV optimize recurrent
+neural network architectures for better long-range dependency                         IV. INFERENCE ACCELERATION
+capture. RetNet further enhances performance by replacing
+multihead attention with a multiscale preservation mechanism.           Although compression techniques (e.g., pruning, quantiza-
+Hence, these methods highlight significant progress in devel-        tion, distillation, and low-rank decomposition) reduce model
+oping efficient alternatives to traditional models.                  size and often improve inference speed, their impact on accu-
+                                                                     racy can be uncertain. In contrast, nonmodel-level methods (as
+      a) Discussion: The evolution of state space models and         shown in Fig. 1)--such as early exit, KV-cache optimization,
+alternative architectures to traditional transformers showcases      and decoding strategies--do not alter model structure and
+significant advancements in sequence modeling efficiency.            mainly reduce memory or I/O cost, which may not lead
+Models like the S4 and the GSS effectively optimize com-             to actual speedup in computation. Nevertheless, they remain
+putational resources and speed, yet they may introduce               active research directions due to their practicality. Token prun-
+complexities in implementation and dependence on specialized         ing, as an exception, can reduce both memory and computation
+hardware. Conversely, approaches like the AFT and the RMT            by skipping less important tokens. In this section, we analyze
+simplify operations and eliminate some limitations of tradi-         these inference acceleration methods in detail.
+tional attention mechanisms, though they might compromise
+flexibility and expressive power.                                    A. Early Exit
+
+D. MOE                                                                  Early exiting (as presented in Fig. 8) is a strategy designed
+                                                                     to reduce computational expenses and improve response time
+   The mixture of experts (MoEs) [127] model [as shown               by terminating the inference process prematurely in LLMs.
+in Fig. 7(b)] is a powerful technique in optimizing LLMs.            These methods can be categorized into two main groups: the
+By utilizing specialized models, or "experts" that focus on          first group primarily concentrates on speeding up the inference
+distinct subtasks, MoE enhances the model's capacity without         process through early exiting, whereas the second group is
+increasing computational load. During inference, it selectively      centered on enhancing and optimizing the performance and
+activates a subset of experts, reducing computational and            efficiency of early exit techniques.
+memory overhead. Notably, [193] showcases sparse MoE
+models with up to 1.1 trillion parameters, demonstrating com-           1) Early Exit Strategies: Enhance efficiency by allowing
+petitive performance in zero-shot, highlighting their potential      the model to terminate processing based on input complex-
+to replace traditional dense architectures.                          ity. One approach is the multiexit architecture [132], where
+                                                                     early exit branches are inserted after intermediate layers.
+   The MoEs framework has led to significant advancements            This method is especially beneficial in resource-constrained
+in LLMs. For instance, GShard [128] enables training a mul-          environments and offers several designs tailored for visual
+tilingual transformer model with over 600 billion parameters         transformer networks, facilitating quick predictions. Another
+through sparse-gate MoE, streamlining parallel computation.          notable method is the CALM approach [133], which uses a
+Meanwhile, V-MoE [129] enhances the vision transformer               scoring mechanism to assign confidence scores at each layer,
+(ViT) by replacing dense feed-forward layers with sparse             enabling consistent early exits based on these scores.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+2036  IEEE TRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS, VOL. 37, NO. 5, MAY 2026
+
+                                                                       Fig. 9. Mechanism of KV cache proposed by method [194].
+
+Fig. 8. Mechanism of early exit in LLM compression proposed by method     1) Specific Algorithm: The study [139] proposes the land-
+[132].                                                                 mark method, employing special tokens to manage KV cache
+                                                                       storage. It partitions input into fixed-length blocks and enables
+   Other studies, such as SkipDecode [134], focus on                   the model to retrieve and incorporate previous blocks dur-
+token-level exits by establishing uniform exit points within           ing inference using an attention allocation mechanism. This
+sequences, thereby balancing computational efficiency with             approach preserves attention mechanism flexibility while sig-
+performance. Similarly, ConsistentEE [135] employs rein-               nificantly cutting down on computation and memory usage.
+forcement learning to decide exit points dynamically. These            Drawing on the persistence of importance hypothesis, scis-
+advancements demonstrate the potential of early exit strategies        sorhands [140] selectively retains critical key-value pairs,
+to improve model efficiency while maintaining accuracy across          reducing KV cache memory usage by up to five times without
+various applications.                                                  sacrificing model quality. The work [141] introduces the
+                                                                       dynamic context pruning method, which employs a trainable
+   2) Optimizing Early Exit Strategies: Enhances efficiency            mechanism to identify and eliminate noninformative KV cache
+without compromising performance. One effective method                 tokens, leading to substantial reductions in memory usage and
+is the FREE framework [136], which introduces a shallow-               computational demands during inference. Heavy-Hitter Oracle
+deep module that aligns the decoding of current tokens with            [142] optimizes KV cache utilization by identifying essential
+previously processed early exit tokens. This synchronization           "heavy-hitters," which are pivotal tokens for the generation
+accelerates performance in larger models and reduces the com-          process. Through a KV cache eviction strategy, this method
+putational burden associated with determining exit thresholds.         effectively reduces KV cache size and inference latency while
+                                                                       maintaining high-quality generation outputs.
+   Another approach, M4 [137], employs a multipath task exe-
+cution framework that supports flexible fine-tuning and enables              a) Discussion: Combining the aforementioned
+block-wise execution. It supports partial activation, adapting         approaches, optimizing KV cache management in large
+to various task requirements while maintaining a lightweight           models and long sequences highlights the critical importance
+structure. Overall, these optimizations demonstrate promising          of conserving memory space during inference. These
+improvements in model efficiency and effectiveness, making             methods, such as random access, dynamic context pruning,
+early exit strategies more viable across different applications.       and the persistence of importance hypothesis, effectively
+                                                                       reduce memory footprint and computational demands in
+      a) Discussion: Early exit strategies are most effective          inference processes. They maintain flexibility in attention
+when processing easy samples or performing relatively sim-             mechanisms while enhancing inference efficiency and
+ple tasks. For instance, in classification tasks like sentiment        preserving generation quality.
+analysis or topic detection, if the model becomes confident
+about its prediction after only a few layers, it can exit              C. Token Pruning
+early--saving computation without sacrificing accuracy. This
+approach works particularly well when most inputs do not                  Token pruning (see Fig. 10) improves LLM inference by
+require deep reasoning or long-range context. On the other             removing less important tokens from the input sequence. This
+hand, for complex tasks such as summarization or code                  reduces computation and memory usage, especially in long
+generation, which often require the full depth of the model            sequences, while maintaining accuracy.
+to understand context, early exits are less effective.
+                                                                          1) For LLMs: In LLMs, pruning decisions are typically
+B. KV-Cache Optimization                                               based on attention scores. For example, SpAtten [143] removes
+                                                                       tokens and attention heads with low attention weights, while
+   The KV cache [138] (as shown in Fig. 9) stores keys and             LTP [144] uses learnable thresholds to decide which tokens
+values throughout the inference process, which consumes con-           are unimportant. Other methods like Transkimmer and [146]
+siderable memory space in large models and long sequences.             identify and discard tokens that contribute little to the final
+Optimizing KV cache memory is crucial for enhancing infer-             output.
+ence efficiency.
+                                                                          2) For Vision-Language Models: In vision-language mod-
+                                                                       els (VLMs), pruning often involves both text and image tokens.
+                                                                       PuMer [147] keeps only the most relevant image tokens based
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+CHENG et al.: SURVEY ON EFFICIENT LLMs: PRINCIPLES, ALGORITHMS, APPLICATIONS, AND OPEN ISSUES  2037
+
+Fig. 10. Mechanism of token pruning in LLM compression proposed by method LIP [144].
+
+on the input text, while SmartTrim [148] uses lightweight          Fig. 11. Parallel-decodingin LLM inference.
+modules to remove unnecessary tokens and heads during
+cross-modal interactions. DynamicViT [149] and others [150],       E. Inference Acceleration Framework
+[151], [152] dynamically remove image patches based on their
+contribution.                                                         Against the backdrop of rapid advancements in artificial
+                                                                   intelligence technology [195], LLMs have emerged as pivotal
+      a) Discussion: Most token pruning methods rely on            engines driving intelligent applications, essential for tackling
+attention patterns or learned importance scores to guide prun-     challenges and enhancing user experiences. In cloud and
+ing. The key challenge is identifying which tokens can be          edge environments, frameworks such as DeepSpeed FastGen,
+safely removed without harming accuracy. These techniques          vLLM, and llama.cpp, contribute unique optimization strate-
+are especially helpful in long inputs or multimodal settings,      gies to deliver efficient and cost-effective LLM inference. The
+making LLMs faster and more efficient for real-world use.          framework of inference acceleration is provided in Fig. 12.
+
+D. Decoding Strategy                                                  1) Cloud Frameworks: Combining vLLM [111], Deep-
+                                                                   Speed FastGen [164], and LightLLM [165] creates a powerful
+   Decoding strategies in LLMs generate outputs mainly             cloud-based LLM inference platform. vLLM's centralized
+through speculative decoding, parallel decoding, and retrieval-    scheduler efficiently manages distributed GPU resources,
+based decoding, each balancing efficiency and accuracy             while DeepSpeed FastGen enhances throughput and handles
+differently.                                                       high-concurrency requests. LightLLM's lightweight archi-
+                                                                   tecture optimizes memory and speed through advanced
+   1) Speculative Decoding: This method speeds up inference        techniques like FlashAttention. This integration provides
+by using a smaller, faster model to draft tokens, then verifying   a scalable, flexible, and cost-effective solution for diverse
+with a larger, accurate model (e.g., [153] and SpS [155]). KD      applications, ensuring rapid and efficient inference in cloud
+techniques like Distillspec [154] improve alignment between        environments.
+models. Speculative decoding achieves good speedups but
+depends on the smaller model's draft quality; poor drafts may         2) Edge Frameworks: Integrating llama.cpp [166], mnn-
+reduce accuracy.                                                   llm [167], and mllm [168] creates an efficient edge-based
+                                                                   LLM inference platform. Llama.cpp's pure C/C++ imple-
+   2) Parallel Decoding: As illustrated in Fig. 11, paral-         mentation optimizes performance across diverse architectures,
+lel decoding predicts multiple tokens simultaneously to cut        while mnn-llm enables deployment of advanced LLMs on
+sequential delays. Techniques such as ProphetNet [157],            mobile platforms. Mllm's lightweight design and multimodal
+Medusa [158], Look-ahead [159], and EAGLE [160] enable             capabilities ensure fast inference, making it suitable for edge
+faster generation. While highly efficient on parallel hardware,    environments. This combination supports a wide range of
+it requires complex architectures and training.                    applications, ensuring scalable, high-performance LLM ser-
+                                                                   vices accessible across various devices and platforms.
+   3) Retrieval-Based Decoding: Retrieval-based methods
+incorporate relevant external texts to improve factual accuracy       3) Open Source Alternative GPT Model: In NLP, LLMs
+and context (e.g., LLMA [161], [162], and CoG [163]).              have excelled in diverse tasks, expanding their reach to mul-
+This enhances output quality for knowledge-intensive tasks         timodal applications. However, prominent models like GPT-4
+but requires careful management to maintain relevance and          encounter challenges like substantial size, intensive computa-
+fluency.
+
+      a) Discussion: Speculative decoding offers a good
+speed-accuracy balance when a reliable small model exists,
+making it suitable for latency-sensitive applications that toler-
+ate some approximation. Parallel decoding delivers the highest
+throughput but at higher complexity, ideal for large-scale,
+resource-rich deployments. Retrieval-based decoding improves
+accuracy in knowledge-driven scenarios but may affect fluency
+if context retrieval is imperfect. The choice depends on the
+target application's efficiency, accuracy, and complexity needs.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+2038  IEEE TRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS, VOL. 37, NO. 5, MAY 2026
+
+Fig. 12. Overview of open source alternative GPT model.
+
+tional needs, intricate deployment, and closed development. To    at lower costs. Baize generates high-quality dialogs for mul-
+surmount these hurdles and sustain performance, we explore        titurn interactions, while Lion enhances instruction handling
+open-source alternatives to large GPTs. Our emphasis lies on      using adversarial techniques. WizardLM employs evolutionary
+compact, user-friendly models, prioritizing ease of deploy-       instruction generation, improving performance significantly.
+ment.                                                             Flan-T5 and LLaVA provide robust multimodal understanding
+                                                                  and task performance, and Otter and MultiModal-GPT focus
+   The alternative models under investigation meet three key      on accurate multimodal instruction. Together, these models
+criteria: 1) their relatively small size (around 10 billion       cater to varied scenarios, from conversational AI to complex
+parameters) enhances user convenience; 2) they guarantee the      visual-language tasks.
+capacity to meet fundamental requirements for generating text-
+based content; and 3) accessible model checkpoints empower           4) Vertical Domain Large Models: Fig. 12 provides an
+researchers for extended exploration and downstream applica-      updated and more comprehensive overview of vertical domain
+tions. These models are classified into foundational language     LLMs, which are designed and optimized for specific indus-
+models, instruction fine-tuning language models, and large        tries such as law, finance, healthcare, and science. Unlike
+models customized for specific vertical domains.                  general-purpose LLMs that aim for broad linguistic and world
+                                                                  knowledge coverage, vertical models focus on deep under-
+      a) Foundational language models: These models pre-          standing and task-specific performance within a well-defined
+dominantly employ nonfine-tuning methods, autonomously            domain. This specialization enables them to provide more
+designing or optimizing GPT and T5 models. They achieve           accurate, relevant, and trustworthy outputs for domain-specific
+the complete cycle, incorporating pretraining, supervised fine-   tasks such as legal reasoning, financial report generation, or
+tuning, reinforcement learning, and beyond.                       clinical diagnosis.
+
+   The combination of LLaMA, ChatGLM (6B) [169],                     In the legal domain, models like ChatLaw (13B/33B),
+Baichuan (7B), Qwen (7B) [170], and XVERSE (13B) col-             LaWGPT (7B), and Lawyer LLaMA (13B) are adapted from
+lectively form a powerful foundation for LLMs tailored for        base architectures such as LLaMA and further trained on
+diverse applications. LLaMA and Baichuan excel in general         legal texts (e.g., statutes, case law, and contracts). These mod-
+language tasks, while ChatGLM is optimized for bilingual          els emphasize interpretability and logical consistency--key
+conversational agents. Qwen supports multilanguage capa-          requirements in legal reasoning. Some are jurisdiction-specific
+bilities, and XVERSE enhances performance across various          (e.g., ChatLaw for Chinese law), while others aim for cross-
+languages. In brief, these models enable efficient deployment     jurisdiction generalization. Key challenges include limited
+in commercial applications, and intelligent personal assistants,  high-quality legal datasets, frequent regulatory changes, and
+ensuring high performance and adaptability in a wide range        the high reliability demands of legal applications.
+of NLP tasks.
+                                                                     In finance, models like Cornucopia (7B), DISK-FinLLM
+      b) Instruction fine-tuning language models: In this con-    (13B), and Tongyi-Finance (14B) support tasks such as anal-
+text, "Instruction" denotes the articulation of tasks through     ysis, prediction, sentiment extraction, and risk assessment.
+natural language. For example, in a translation task, add a       Trained on financial news, reports, and market data, these mod-
+task directive "Translate the given English utterance to a        els excel in numerical reasoning and domain-specific language.
+French utterance" preceding the sentence "I Love You" to be       Trends include multimodal input integration (e.g., time-series
+translated, guiding the model on the task and its requirements.   + text) and low-latency optimization for real-time applications.
+By converting various tasks into instructional data, further      Challenges include fast-evolving knowledge, restricted access
+fine-tuning of language models is performed, enhancing the        to proprietary data, and variability across global financial
+model's zero-shot performance on unknown tasks.                   systems.
+
+   These language models offer diverse capabilities for fine-        Overall, vertical domain LLMs are becoming an important
+tuning and application. Alpaca and Vicuna excel in instruction    subfield in the LLM ecosystem. They represent a shift from
+following, with Vicuna achieving near ChatGPT performance
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+CHENG et al.: SURVEY ON EFFICIENT LLMs: PRINCIPLES, ALGORITHMS, APPLICATIONS, AND OPEN ISSUES  2039
+
+                                                                                          TABLE III
+
+EXPERIMENTAL COMPARISON OF LMM COMPRESSION TECHNIQUES (I.E., MODEL QUANTIZATION, MODEL DISTILLATION, MODEL PRUNING, AND LOW
+       RANK MATRIX DECOMPOSITION) IN MAINSTREAM BENCHMARKS. "-" INDICATES THE RESULTS ARE NOT PROVIDED IN THE ORIGIN PAPER
+
+general intelligence to task-specific, high-precision language     report representative results from existing methods on the
+understanding. Fig. 12 categorizes these models by domain          Wikitext-2 (83 GB) and CA (783 GB) datasets.
+and scale, highlighting both their rapid development and the
+growing demand for domain-aware intelligence. While they              As depicted in Table III, we provide a comprehensive
+offer promising performance improvements in their respective       comparison of LLM compression techniques (i.e., model
+fields, challenges such as data scarcity, knowledge updating,      quantization, model distillation, model pruning, and low rank
+and deployment under domain constraints remain open issues.        matrix decomposition) in mainstream benchmarks in terms
+As such, the design and implementation of vertical LLMs            of "Bit-width," "KV Cache," "Compression Rate," "Param,"
+require not only domain expertise but also careful balancing       "Perplexity Difference," "Speedup," "Category," and "Year."
+of performance, reliability, and real-world applicability.         Table III can yield a series of conclusions as follows.
+                                                                   1) LLaMA and its variants are representative open-source
+      a) Discussion: Open-source alternatives to large GPT         foundation models in the field of LLMs. Nearly all advance-
+models are emerging as efficient, domain-adaptable solutions.      ments in LLM compression algorithms are developed and
+Foundational models like LLaMA and ChatGLM achieve                 rigorously evaluated using LLaMA and its variants, owing to
+strong performance with fewer parameters by leveraging opti-       their fully open-sourced codebase, excellent performance, and
+mized training and data. Instruction-tuned models such as          ease of deployment. We can obtain a critical insight: while
+Alpaca and Vicuna further improve generalization and task          closed-source models (i.e., ChatGPT and GPT4) achieve mile-
+alignment, particularly in zero-shot scenarios. Meanwhile,         stones of remarkable performance, those models significantly
+vertical domain models--targeting fields like healthcare, law,     hinder the progress of the LLM community due to their closed-
+and finance--embed domain-specific knowledge to deliver            source. In contrast, the open-source models (i.e., LLaMA
+more accurate and context-aware outputs. A key trend is the        and its variants) play as a catalyst, fostering the develop-
+shift toward lightweight, fine-tuned models tailored for real-     ment of LLM inference acceleration and enabling worldwide
+world needs, reflecting growing interest in accessible, efficient  researchers to benefit from open sources. Looking into the
+LLMs for specialized and general-purpose use cases.                future, it is expected that more models following the open-
+                                                                   source paradigm of LLaMA, such as DeepSeekV3 [209], will
+                           V. VALIDATION                           emerge, further facilitating innovation in LLM compression,
+                                                                   and efficiency optimization. 2) We can clearly observe that
+   Many studies propose LLaMA-based LLM compression                the methods achieve a better tradeoff between complexity and
+methods to reduce model size and complexity for resource-          performance, significantly enhancing the inference efficiency
+limited deployment. For a fair and concise comparison, we
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+2040  IEEE TRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS, VOL. 37, NO. 5, MAY 2026
+
+of LLMs. Specifically, the Olive achieves a 4.5× than baseline   D. AI Interaction Models
+(BLOOM-7B) in terms of speedup, demonstrating the strong
+potential of low-bit quantization techniques in accelerating        In the U.S., approximately 33 infants are born daily with
+LLM inference. In addition, TSVD obtains a 4.64× accel-          irreversible hearing loss, often to hearing parents unfamiliar
+eration, highlighting the effectiveness of LRMD in LLM           with American sign language (ASL), leading to language
+compression. Model distillation, and model pruning can draw      deprivation syndrome. To address this, multimodal robots
+the same conclusion.                                             provide interactive learning environments that enhance ASL
+                                                                 education and foster inclusive communication. The study
+   In summary, these experimental results play a pivotal role    [176] developed a lightweight ASL recognition model for the
+in advancing the field of lightweight LLM, enabling more         humanoid robot Pepper, enabling efficient sign recognition in
+efficient deployment and broader application of LLMs in          resource-constrained settings. By integrating LLMs, Pepper
+resource-limited scenarios.                                      can generate natural co-speech gestures. This approach creates
+                                                                 a socially-aware AI interaction model, improving human-robot
+                         VI. APPLICATIONS                        dialogs and laying the groundwork for future educational
+                                                                 applications.
+A. Autonomous Driving and Video Processing
+                                                                                  VII. OPEN ISSUES AND TRENDS
+   Vision-language applications such as autonomous driving
+and video understanding have been demonstrating the potential       To better reflect the multifaceted challenges in LLM
+of VLMs and MMLMs in real-world scenarios. For example,          inference acceleration, we categorize the open issues into
+EM-VLM4AD [171] addresses real-time inference challenges         two distinct perspectives: the Academic Perspective, which
+in autonomous driving by designing a lightweight multiframe      emphasizes theoretical soundness, algorithmic innovation, and
+VLM, enabling efficient visual question answering (VQA)          long-term exploration; and the Industrial Perspective, which
+with reduced resource demands [210]. In video understanding,     focuses on deployability, resource constraints, and real-world
+SlotVLM [172] proposes a token decomposition approach            utility. This categorization helps clarify differing priorities and
+to reduce input size and improve reasoning. However, their       constraints in research and deployment settings.
+inference efficiency primarily depends on visual processing
+modules, which complicates the isolation of gains achieved       A. Academic Perspective
+through LLM acceleration.
+                                                                    1) Balancing Compression Ratio and Performance: In
+B. Image Processing                                              academia, compression techniques (e.g., pruning, quantization,
+                                                                 distillation) aim to explore the limits of model compression
+   VLMs have enhanced LLMs for VQA tasks [211], yet              without significant performance degradation. However, achiev-
+they often struggle with text-rich images. Traditional meth-     ing an optimal tradeoff between compression ratio and task
+ods typically use fixed query embeddings, which can be           performance remains an unsolved problem. Research contin-
+inadequate for images with substantial text due to token         ues to explore dynamic, data-aware compression strategies that
+limitations. To improve this, the study [173] introduced         can adaptively balance size and accuracy.
+BLIVA, an enhanced version of InstructBLIP. BLIVA com-
+bines learned query embeddings with direct projections of           2) Generalization Capability of Lightweight Models:
+encoded image patches, significantly boosting performance.       Reducing model size can impair its generalization to unseen
+It achieved a 17.76% increase on the OCR-VQA bench-              distributions or downstream tasks. Academic research is tasked
+mark and a 17.72% improvement over InstructBLIP on the           with understanding the theoretical underpinnings of why
+Multimodal LLM benchmark. This research emphasizes the           certain lightweight techniques cause degradation, and how
+potential of integrating visual information to advance image     to design new strategies (e.g., structured sparsity or low-
+processing.                                                      rank adaptation) that preserve or even improve generalization
+                                                                 despite fewer parameters.
+C. LLM Agent Applications
+                                                                    3) Interpretability and Transparency: There is growing
+   LLM agents, such as those used in robotics, web automa-       academic interest in making compressed or accelerated models
+tion, and code generation, demand fast and frequent inference    more interpretable. Lightweight models, due to their simpler
+to enable real-time decision-making. Unlike vision-language      structure, provide a potential path toward understanding model
+tasks, where latency is often dominated by visual encoders,      decisions. However, new methods are needed to visualize
+the performance bottleneck in LLM agents lies in the model       and analyze decision processes in real time, especially under
+inference itself. Recent works like RAP [174] and D-PRUNER       resource constraints.
+[175] show that pruning can significantly reduce inference time
+and memory usage without sacrificing performance. These          B. Industrial Perspective
+examples highlight that inference acceleration is not just
+beneficial but essential for deploying responsive and efficient     1) Reasoning Models Acceleration: Recent advances in
+LLM agents in practical settings.                                LLMs have led to the emergence of powerful reasoning-
+                                                                 centric models such as DeepSeek-R1 [212], Grok-4 [213],
+                                                                 and GPT-4o [214]. These models exhibit enhanced logical
+                                                                 reasoning and multimodal understanding capabilities, setting
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+CHENG et al.: SURVEY ON EFFICIENT LLMs: PRINCIPLES, ALGORITHMS, APPLICATIONS, AND OPEN ISSUES  2041
+
+new performance benchmarks across a range of tasks. How-                     [6] Z. Ma, Y. Mei, and Z. Su, "Understanding the benefits and challenges
+ever, their superior abilities often come at the cost of extreme                     of using large language model-based conversational agents for mental
+computational overhead, with architectures relying heavily                           well-being support," in Proc. AMIA Annu. Symp., 2023, p. 1105.
+on large-scale parameters and MoEs designs. While such
+structures improve training efficiency, they introduce signif-               [7] T. B. Brown et al., "Language models are few-shot learners," in Proc.
+icant inference-time challenges, especially for real-time or                         NIPS, 2020, pp. 1877-1901.
+resource-constrained deployment scenarios. As a result, how
+to accelerate the inference of these next-generation reason-                 [8] A. S. Luccioni, S. Viguier, and A. Ligozat, "Estimating the carbon
+ing models--without sacrificing their core capabilities--has                         footprint of Bloom, a 176B parameter language model," J. Mach.
+become an urgent and important research problem. Addressing                          Learn. Res., vol. 24, no. 253, pp. 1-15, 2022.
+this challenge is critical for the practical use of reasoning
+LLMs in latency-sensitive applications.                                      [9] L. Ma et al., "Pareto-wise ranking classifier for multiobjective evolu-
+                                                                                     tionary neural architecture search," IEEE Trans. Evol. Comput., vol. 28,
+   2) Adaptation to Heterogeneous Hardware: In production,                           no. 3, pp. 570-581, Jun. 2024.
+LLMs must run efficiently across CPUs, GPUs, TPUs, and
+edge devices with varied memory and compute capabilities.                    [10] L. Ma, H. Kang, G. Yu, Q. Li, and Q. He, "Single-domain generalized
+Techniques like operator fusion, hardware-aware quantization,                        predictor for neural architecture search system," IEEE Trans. Comput.,
+and compiler optimization (e.g., TensorRT and XLA) are                               vol. 73, no. 5, pp. 1400-1413, May 2024.
+critical. However, developing unified deployment frameworks
+and generalizable compression methods remains an industrial                  [11] L. Ma et al., "A novel fuzzy neural network architecture search
+priority.                                                                            framework for defect recognition with uncertainties," IEEE Trans.
+                                                                                     Fuzzy Syst., vol. 32, no. 5, pp. 3274-3285, May 2024.
+   3) Privacy and Security Concerns: Industrially deployed
+models often handle user-sensitive data. Lightweight models                  [12] N. Li, L. Ma, G. Yu, B. Xue, M. Zhang, and Y. Jin, "Survey on
+may be more susceptible to model inversion and data leakage.                         evolutionary deep learning: Principles, algorithms, applications, and
+Thus, real-world systems must integrate privacy-preserving                           open issues," ACM Comput. Surveys, vol. 56, no. 2, pp. 1-34, Feb.
+inference, such as encrypted model execution, differential                           2024.
+privacy, or secure federated inference, to ensure compliance
+and trustworthiness.                                                         [13] L. Ma et al., "Learning to optimize: Reference vector reinforcement
+                                                                                     learning adaption to constrained many-objective optimization of indus-
+                         VIII. CONCLUSION                                            trial copper burdening system," IEEE Trans. Cybern., vol. 52, no. 12,
+                                                                                     pp. 12698-12711, Dec. 2022.
+   LLMs have achieved significant success in both industrial
+and academic domains; however, their increasing size and                     [14] H. Naveed et al., "A comprehensive overview of large language
+complexity lead to high computational costs and decreased                            models," ACM Trans. Intell. Syst. Technol., vol. 16, no. 5, pp. 1-72,
+deployment efficiency. This survey analyzes LLM compression                          2025.
+from multiple perspectives: foundational principles, algo-
+rithms, applications, and open issues. We begin by introducing               [15] Z. Wan et al., "Efficient large language models: A survey," 2023,
+the key principles of LLM compression and categorizing state-                        arXiv:2312.03863.
+of-the-art algorithms based on their approaches to reducing
+model complexity. Following the lifecycle of LLMs, we sys-                   [16] M. Xu et al., "A survey of resource-efficient LLM and multimodal
+tematically examine compression techniques that span model                           foundation models," 2024, arXiv:2401.08092.
+training, optimization, and deployment, presenting a new tax-
+onomy to guide future efforts in this area. In addition, we                  [17] W. Wang et al., "Model compression and efficient inference for large
+explore significant applications of compressed LLMs, identify                        language models: A survey," 2024, arXiv:2402.09748.
+critical research challenges, and suggest promising directions
+for future investigation. Through this comprehensive review                  [18] X. Zhu, J. Li, Y. Liu, C. Ma, and W. Wang, "A survey on model com-
+of recent advancements in LLM compression, we aim to                                 pression for large language models," Trans. Assoc. Comput. Linguistics,
+provide valuable insights and guidelines for researchers and                         vol. 12, pp. 1556-1577, Nov. 2024.
+practitioners in the field.
+                                                                             [19] X. Ma, G. Fang, and X. Wang, "LLM-pruner: On the structural pruning
+                             REFERENCES                                              of large language models," 2023, arXiv:2305.11627.
+
+[1] (2022). ChatGPT. [Online]. Available: https://openai.com/blog/chatgpt    [20] M. Sun, Z. Liu, A. Bair, and J. Z. Kolter, "A simple and effective
+[2] (2023). Claude. [Online]. Available: https://www.anthropic.com/index/            pruning approach for large language models," 2023, arXiv:2306.11695.
+
+        claude-2-1                                                           [21] E. Frantar and D. Alistarh, "SparseGPT: Massive language models can
+[3] A. Hendy et al., "How good are GPT models at machine translation?                be accurately pruned in one-shot," in Proc. Int. Conf. Mach. Learn.,
+                                                                                     2023, pp. 10323-10337.
+        A comprehensive evaluation," 2023, arXiv:2302.09210.
+[4] X. Yang, Y. Li, X. Zhang, H. Chen, and W. Cheng, "Exploring the          [22] L. Yin et al., "Outlier weighed layerwise sparsity (OWL): A
+                                                                                     missing secret sauce for pruning LLMs to high sparsity," 2023,
+        limits of ChatGPT for query or aspect-based text summarization,"             arXiv:2310.05175.
+        2023, arXiv:2302.08081.
+[5] V. Lie´vin, C. E. Hother, A. G. Motzfeldt, and O. Winther, "Can large    [23] R. Agarwal, N. Vieillard, P. Stanczyk, S. Ramos, M. Geist, and
+        language models reason about medical questions?," Patterns, vol. 5,          O. Bachem, "GKD: Generalized knowledge distillation for auto-
+        no. 3, Mar. 2024, Art. no. 100943.                                           regressive sequence models," 2023, arXiv:2306.13649.
+
+                                                                             [24] Y. Gu, L. Dong, F. Wei, and M. Huang, "MiniLLM: Knowledge
+                                                                                     distillation of large language models," 2023, arXiv:2306.08543.
+
+                                                                             [25] C. Liang, S. Zuo, Q. Zhang, P. He, W. Chen, and T. Zhao,
+                                                                                     "Less is more: Task-aware layer-wise distillation for language
+                                                                                     model compression," in Proc. 40th Int. Conf. Mach. Learn., 2023,
+                                                                                     pp. 20852-20867.
+
+                                                                             [26] A. H. Jha, D. Groeneveld, E. Strubell, and I. Beltagy, "Large language
+                                                                                     model distillation doesn't need a teacher," 2023, arXiv:2305.14864.
+
+                                                                             [27] Y. Huang, Y. Chen, Z. Yu, and K. McKeown, "In-context learning dis-
+                                                                                     tillation: Transferring few-shot learning ability of pre-trained language
+                                                                                     models," 2022, arXiv:2212.10670.
+
+                                                                             [28] C. Qin, W. Xia, F. Jiao, and S. Joty, "Improving in-context learning
+                                                                                     via bidirectional alignment," 2023, arXiv:2312.17055.
+
+                                                                             [29] T. Kojima, S. S. Gu, M. Reid, Y. Matsuo, and Y. Iwasawa, "Large
+                                                                                     language models are zero-shot reasoners," in Proc. Adv. Neural Inf.
+                                                                                     Process. Syst., vol. 35, 2022, pp. 22199-22213.
+
+                                                                             [30] Y. Fu, H. Peng, L. Ou, A. Sabharwal, and T. Khot, "Specializing
+                                                                                     smaller language models towards multi-step reasoning," 2023,
+                                                                                     arXiv:2301.12726.
+
+                                                                             [31] M. Kang, S. Lee, J. Baek, K. Kawaguchi, and S. J. Hwang,
+                                                                                     "Knowledge-augmented reasoning distillation for small language mod-
+                                                                                     els in knowledge-intensive tasks," 2023, arXiv:2305.18395.
+
+                                                                             [32] L. H. Li, J. Hessel, Y. Yu, X. Ren, K.-W. Chang, and Y. Choi,
+                                                                                     "Symbolic chain-of-thought distillation: Small models can also `think'
+                                                                                     step-by-step," 2023, arXiv:2306.14050.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+2042  IEEE TRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS, VOL. 37, NO. 5, MAY 2026
+
+[33] C.-Y. Hsieh et al., "Distilling step-by-step! Outperforming larger lan-       [64] Z. Yao, R. Y. Aminabadi, M. Zhang, X. Wu, C. Li, and Y. He,
+        guage models with less training data and smaller model sizes," 2023,               "ZeroQuant: Efficient and affordable post-training quantization for
+        arXiv:2305.02301.                                                                  large-scale transformers," in Proc. Adv. Neural Inf. Process. Syst., 2022,
+                                                                                           pp. 27168-27183.
+[34] K. Shridhar, A. Stolfo, and M. Sachan, "Distilling reasoning capabili-
+        ties into smaller language models," in Proc. Findings Assoc. Comput.       [65] X. Wu, Z. Yao, and Y. He, "ZeroQuant-FP: A leap forward in LLMs
+        Linguistics, ACL, 2023, pp. 7059-7073.                                             post-training W4A8 quantization using floating-point formats," 2023,
+                                                                                           arXiv:2307.09782.
+[35] H. Chen, S. Wu, X. Quan, R. Wang, M. Yan, and J. Zhang, "MCC-KD:
+        Multi-CoT consistent knowledge distillation," 2023, arXiv:2310.14747.      [66] Y. Zhao et al., "Atom: Low-bit quantization for efficient and accurate
+                                                                                           LLM serving," 2023, arXiv:2310.19102.
+[36] N. Ho, L. Schmid, and S.-Y. Yun, "Large language models are
+        reasoning teachers," 2022, arXiv:2212.10071.                               [67] Y. Zhang et al., "Integer or floating point? New outlooks for low-bit
+                                                                                           quantization on large language models," 2023, arXiv:2305.12356.
+[37] L. C. Magister, J. Mallinson, J. Adamek, E. Malmi, and A. Severyn,
+        "Teaching small language models to reason," 2022, arXiv:2212.08410.        [68] Q. Li et al., "FPTQ: Fine-grained post-training quantization for large
+                                                                                           language models," 2023, arXiv:2308.15987.
+[38] C. Li et al., "Mixed distillation helps smaller language model better
+        reasoning," 2023, arXiv:2312.10730.                                        [69] B. Li, X. Wang, and H. Xu, "AWEQ: Post-training quantization
+                                                                                           with activation-weight equalization for large language models," 2023,
+[39] X. Zhu, B. Qi, K. Zhang, X. Long, Z. Lin, and B. Zhou, "PaD:                          arXiv:2311.01305.
+        Program-aided distillation can teach small models reasoning better than
+        chain-of-thought fine-tuning," 2023, arXiv:2305.13888.                     [70] X. Wei et al., "Outlier Suppression+: Accurate quantization of large
+                                                                                           language models by equivalent and optimal shifting and scaling," 2023,
+[40] W. Liu et al., "Mind's mirror: Distilling self-evaluation capability                  arXiv:2304.09145.
+        and comprehensive thinking from large language models," 2023,
+        arXiv:2311.09214.                                                          [71] T. Dettmers, A. Pagnoni, A. Holtzman, and L. Zettlemoyer, "QLoRA:
+                                                                                           Efficient finetuning of quantized LLMs," in Proc. Adv. Neural Inf.
+[41] Z. Wang et al., "Democratizing reasoning ability: Tailored learning                   Process. Syst., 2023, pp. 1-9.
+        from large language model," 2023, arXiv:2310.13332.
+                                                                                   [72] Y. Li et al., "LoftQ: LoRA-fine-tuning-aware quantization for large
+[42] C. Cheng, B. Fang, and J. J. Yang, "Distinguishing the correctness of                 language models," 2023, arXiv:2310.08659.
+        knowledge makes knowledge transfer better," in Proc. Int. Conf. Artif.
+        Neural Netw., 2023, pp. 135-146.                                           [73] Y. Xu et al., "QA-LoRA: Quantization-aware low-rank adaptation of
+                                                                                           large language models," 2023, arXiv:2309.14717.
+[43] Y. Li et al., "Turning dust into gold: Distilling complex reason-
+        ing capabilities from LLMs by leveraging negative data," 2023,             [74] H. Guo, P. Greengard, E. P. Xing, and Y. Kim, "LQ-LoRA: Low-
+        arXiv:2312.12832.                                                                  rank plus quantized matrix decomposition for efficient language model
+                                                                                           finetuning," 2023, arXiv:2311.12023.
+[44] P. Wang, Z. Wang, Z. Li, Y. Gao, B. Yin, and X. Ren, "SCOTT: Self-
+        consistent chain-of-thought distillation," 2023, arXiv:2305.01879.         [75] H. Qin et al., "Accurate LoRA-finetuning quantization of LLMs via
+                                                                                           information retention," 2024, arXiv:2402.05445.
+[45] G. Xiao et al., "SmoothQuant: Accurate and efficient post-training
+        quantization for large language models," in Proc. Int. Conf. Mach.         [76] J. Kim et al., "Memory-efficient fine-tuning of compressed large
+        Learn., 2023, pp. 38087-38099.                                                     language models via sub-4-bit integer quantization," in Proc. Adv.
+                                                                                           Neural Inf. Process. Syst., 2023, pp. 1-8.
+[46] Z. Liu et al., "LLM-QAT: Data-free quantization aware training for
+        large language models," 2023, arXiv:2305.17888.                            [77] S. J. Kwon et al., "AlphaTuning: Quantization-aware parameter-
+                                                                                           efficient adaptation of large-scale pre-trained language models," 2022,
+[47] D. Du et al., "BitDistiller: Unleashing the potential of sub-4-bit LLMs               arXiv:2210.03858.
+        via self-distillation," 2024, arXiv:2402.10631.
+                                                                                   [78] Z. Li, X. Liu, B. Zhu, Z. Dong, Q. Gu, and K. Keutzer, "QFT:
+[48] H. Wang et al., "BitNet: Scaling 1-bit transformers for large language                Quantized full-parameter tuning of LLMs with affordable resources,"
+        models," 2023, arXiv:2310.11453.                                                   2023, arXiv:2310.07147.
+
+[49] Y. Xu et al., "OneBit: Towards extremely low-bit large language               [79] A. Edalati, M. Tahaei, A. Rashid, V. P. Nia, J. J. Clark, and M. Reza-
+        models," 2024, arXiv:2402.11295.                                                   gholizadeh, "Kronecker decomposition for GPT compression," 2021,
+                                                                                           arXiv:2110.08152.
+[50] Y. Shang, Z. Yuan, Q. Wu, and Z. Dong, "PB-LLM: Partially binarized
+        large language models," 2023, arXiv:2310.00034.                            [80] A. Kaushal, T. Vaidhya, and I. Rish, "LORD: Low rank decompo-
+                                                                                           sition of monolingual code LLMs for one-shot compression," 2023,
+[51] E. Frantar, S. Ashkboos, T. Hoefler, and D. Alistarh, "GPTQ: Accu-                    arXiv:2309.14021.
+        rate post-training quantization for generative pre-trained transformers,"
+        2022, arXiv:2210.17323.                                                    [81] Y. Li et al., "LoSparse: Structured compression of large language
+                                                                                           models based on low-rank and sparse approximation," in Proc. Int.
+[52] W. Cheng, Y. Cai, K. Lv, and H. Shen, "TEQ: Trainable equivalent                      Conf. Mach. Learn., 2023, pp. 20336-20350.
+        transformation for quantization of LLMs," 2023, arXiv:2310.10944.
+                                                                                   [82] R. Saha, V. Srivastava, and M. Pilanci, "Matrix compression via
+[53] J. Chee, Y. Cai, V. Kuleshov, and C. De, "QuIP: 2-bit quantization                    randomized low rank and low precision factorization," in Proc. Adv.
+        of large language models with guarantees," in Proc. Adv. Neural Inf.               Neural Inf. Process. Syst., 2023, pp. 1-11.
+        Process. Syst., 2023, pp. 1-17.
+                                                                                   [83] X. Wang, Y. Zheng, Z. Wan, and M. Zhang, "SVD-LLM: Truncation-
+[54] Y. J. Kim, R. Henry, R. Fahim, and H. H. Awadalla, "FineQuant:                        aware singular value decomposition for large language model
+        Unlocking efficiency with fine-grained weight-only quantization for                compression," 2024, arXiv:2403.07378.
+        LLMs," 2023, arXiv:2308.09723.
+                                                                                   [84] P. Sharma, J. T. Ash, and D. Misra, "The truth is in there: Improving
+[55] Y. Jeon, C. Lee, K. Park, and H.-Y. Kim, "A frustratingly easy post-                  reasoning in language models with layer-selective rank reduction,"
+        training quantization scheme for LLMs," in Proc. Conf. Empirical                   2023, arXiv:2312.13558.
+        Methods Natural Lang. Process., 2023, pp. 14446-14461.
+                                                                                   [85] B. Chen, H. Chen, J. He, F. Sun, and S. Jui, "Ternary singular value
+[56] W. Cheng et al., "Optimize weight rounding via signed gradient descent                decomposition as a better parameterized form in linear mapping," 2023,
+        for the quantization of LLMs," 2023, arXiv:2309.05516.                             arXiv:2308.07641.
+
+[57] Y. Zhang et al., "AFPQ: Asymmetric floating point quantization for            [86] M. Xu, Y. L. Xu, and D. P. Mandic, "TensorGPT: Efficient compression
+        LLMs," 2023, arXiv:2311.01792.                                                     of large language models based on tensor-train decomposition," 2023,
+                                                                                           arXiv:2307.00526.
+[58] T. Dettmers, M. Lewis, Y. Belkada, and L. Zettlemoyer, "GPT3.int8():
+        8-bit matrix multiplication for transformers at scale," in Proc. Adv.      [87] M. Zaheer et al., "Big bird: Transformers for longer sequences,"
+        Neural Inf. Process. Syst., vol. 35, 2022, pp. 30318-30332.                        in Proc. 34th Conf. Neural Inf. Process. Syst. (NeurlPS), 2020,
+                                                                                           pp. 17283-17297.
+[59] C. Lee, J. Jin, T. Kim, H. Kim, and E. Park, "OWQ: Lessons learned
+        from activation outliers for weight quantization in large language         [88] R. Child, S. Gray, A. Radford, and I. Sutskever, "Generating long
+        models," 2023, arXiv:2306.02272.                                                   sequences with sparse transformers," 2019, arXiv:1904.10509.
+
+[60] J. H. Heo, J. Kim, B. Kwon, B. Kim, S. J. Kwon, and D. Lee,                   [89] A. Roy, M. Saffar, A. Vaswani, and D. Grangier, "Efficient content-
+        "Rethinking channel dimensions to isolate outliers for low-bit weight              based sparse attention with routing transformers," Trans. Assoc. for
+        quantization of large language models," 2023, arXiv:2309.15531.                    Comput. Linguistics, vol. 9, pp. 53-68, Feb. 2021.
+
+[61] J. Lin et al., "AWQ: Activation-aware weight quantization for LLM             [90] M. Lee, K. Han, and M. C. Shin, "LittleBird: Efficient faster & longer
+        compression and acceleration," 2023, arXiv:2306.00978.                             transformer for question answering," 2022, arXiv:2210.11870.
+
+[62] T. Dettmers et al., "SpQR: A sparse-quantized representation for near-        [91] T. Dao et al., "Monarch: Expressive structured matrices for efficient
+        lossless LLM weight compression," 2023, arXiv:2306.03078.                          and accurate training," in Proc. Int. Conf. Mach. Learn., Jul. 2022,
+                                                                                           pp. 4690-4721.
+[63] S. Li et al., "LLM-MQ: Mixed-precision quantization for efficient LLM
+        deployment," in Proc. Adv. Neural Inf. Process. Syst., 2023, pp. 1-7.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+CHENG et al.: SURVEY ON EFFICIENT LLMs: PRINCIPLES, ALGORITHMS, APPLICATIONS, AND OPEN ISSUES  2043
+
+[92]   Y. Tay, D. Bahri, L. Yang, D. Metzler, and D.-C. Juan, "Sparse            [122]  A. Bulatov, Y. Kuratov, and M. Burtsev, "Recurrent memory
+[93]   Sinkhorn attention," in Proc. Int. Conf. Mach. Learn., 2020,              [123]  transformer," in Proc. Adv. Neural Inf. Process. Syst., 2022,
+       pp. 9438-9447.                                                                   pp. 11079-11091.
+[94]   X. Li, Y. Meng, M. Zhou, Q. Han, F. Wu, and J. Li,                        [124]  L. Yu, D. Simig, C. Flaherty, A. Aghajanyan, L. Zettlemoyer, and
+[95]   "SAC: Accelerating and structuring self-attention via sparse adap-        [125]  M. Lewis, "MEGABYTE: Predicting million-byte sequences with
+[96]   tive connection," in Proc. Adv. Neural Inf. Process. Syst., 2020,         [126]  multiscale transformers," in Proc. Adv. Neural Inf. Process. Syst., 2023,
+[97]   pp. 16997-17008.                                                          [127]  pp. 1-7.
+[98]   L. Huang, S. Cao, N. Parulian, H. Ji, and L. Wang, "Efficient attentions  [128]  M. Poli et al., "Hyena hierarchy: Towards larger convolutional language
+[99]   for long document summarization," 2021, arXiv:2104.02112.                 [129]  models," in Proc. Int. Conf. Mach. Learn., 2023, pp. 28043-28078.
+[100]  A. Katharopoulos, A. Vyas, N. Pappas, and F. Fleuret, "Transformers       [130]  A. Orvieto et al., "Resurrecting recurrent neural networks for long
+[101]  are RNNs: Fast autoregressive transformers with linear attention," in            sequences," in Proc. Int. Conf. Mach. Learn., 2023, pp. 26670-26698.
+[102]  Proc. Int. Conf. Mach. Learn., 2020, pp. 5156-5165.                       [131]  B. Peng et al., "RWKV: Reinventing RNNs for the transformer era,"
+[103]  S. Wang, B. Z. Li, M. Khabsa, H. Fang, and H. Ma, "Linformer: Self-       [132]  2023, arXiv:2305.13048.
+[104]  attention with linear complexity," 2020, arXiv:2006.04768.                [133]  C. Xiao et al., "Configurable foundation models: Building LLMs from
+[105]  Z. Shen, M. Zhang, H. Zhao, S. Yi, and H. Li, "Efficient attention:       [134]  a modular perspective," 2024, arXiv:2409.02877.
+[106]  Attention with linear complexities," in Proc. IEEE Winter Conf. Appl.     [135]  D. Lepikhin et al., "GShard: Scaling giant models with conditional
+[107]  Comput. Vis. (WACV), Jan. 2021, pp. 3531-3539.                                   computation and automatic sharding," 2020, arXiv:2006.16668.
+[108]  K. Choromanski et al., "Rethinking attention with performers," 2020,      [136]  C. Riquelme et al., "Scaling vision with sparse mixture of experts," in
+[109]  arXiv:2009.14794.                                                         [137]  Proc. NIPS, 2021, pp. 8583-8595.
+[110]  X. Ma et al., "Luna: Linear unified nested attention," in Proc. Adv.      [138]  B. Mustafa, C. Riquelme, J. Puigcerver, R. Jenatton, and N. Houlsby,
+[111]  Neural Inf. Process. Syst., 2021, pp. 2441-2453.                          [139]  "Multimodal contrastive learning with LIMoE: The language-image
+[112]  I. Han, R. Jayaram, A. Karbasi, V. Mirrokni, D. P. Woodruff, and          [140]  mixture of experts," in Proc. Adv. Neural Inf. Process. Syst., 2022,
+[113]  A. Zandieh, "HyperAttention: Long-context attention in near-linear        [141]  pp. 9564-9576.
+       time," 2023, arXiv:2310.05869.                                                   N. Du et al., "GLaM: Efficient scaling of language models with
+[114]  A. Zandieh, I. Han, M. Daliri, and A. Karbasi, "KDEformer: Accel-         [142]  mixture-of-experts," in Proc. Int. Conf. Mach. Learn., vol. 162, 2022,
+[115]  erating transformers via kernel density estimation," in Proc. Int. Conf.  [143]  pp. 5547-5569.
+[116]  Mach. Learn., 2023, pp. 40605-40623.                                      [144]  A. Bakhtiarnia, Q. Zhang, and A. Iosifidis, "Multi-exit vision trans-
+[117]  P. Kacham, V. Mirrokni, and P. Zhong, "PolySketchFormer: Fast trans-      [145]  former for dynamic inference," 2021, arXiv:2106.15183.
+[118]  formers via sketching polynomial kernels," 2023, arXiv:2310.01655.        [146]  T. Schuster et al., "Confident adaptive language modeling," in Proc.
+[119]  C.-F. R. Chen, Q. Fan, and R. Panda, "CrossViT: Cross-attention multi-    [147]  Adv. Neural Inf. Process. Syst., 2022, pp. 17456-17472.
+[120]  scale vision transformer for image classification," in Proc. IEEE Int.    [148]  L. Del Corro, A. Del Giorno, S. Agarwal, B. Yu, A. Awadallah, and
+[121]  Conf. Comput. Vis. (ICCV), Oct. 2021, pp. 357-366.                        [149]  S. Mukherjee, "SkipDecode: Autoregressive skip decoding with batch-
+       Y. Xiong et al., "Nystro¨mformer: A Nystro¨m-based algorithm for                 ing and caching for efficient LLM inference," 2023, arXiv:2307.02628.
+       approximating self-attention," in Proc. AAAI Conf. Artif. Intell., 2021,         Z. Zeng, Y. Hong, H. Dai, H. Zhuang, and C. Chen, "ConsistentEE: A
+       vol. 35, no. 16, pp. 14138-14148.                                                consistent and hardness-guided early exiting method for accelerating
+       Z. Xia, X. Pan, S. Song, L. E. Li, and G. Huang, "Vision transformer             language models inference," in Proc. AAAI Conf. Artif. Intell., 2024,
+       with deformable attention," in Proc. IEEE/CVF Conf. Comput. Vis.                 vol. 38, no. 17, pp. 19506-19514.
+       Pattern Recognit. (CVPR), Jun. 2022, pp. 4794-4803.                              S. Bae, J. Ko, H. Song, and S.-Y. Yun, "Fast and robust early-exiting
+       X. Ma et al., "Mega: Moving average equipped gated attention," 2022,             framework for autoregressive language models with synchronized par-
+       arXiv:2209.10655.                                                                allel decoding," 2023, arXiv:2310.05424.
+       W. Hua et al., "Transformer quality in linear time," in Proc. 39th Int.          J. Yuan et al., "Rethinking mobile AI ecosystem in the LLM era,"
+       Conf. Mach. Learn., vol. 162, 2022, pp. 9099-9117.                               2023, arXiv:2308.14363.
+       T. J. Ham et al., "A3: Accelerating attention mechanisms in neural               G. Xiao et al., "DuoAttention: Efficient long-context LLM inference
+       networks with approximation," in Proc. IEEE Int. Symp. High Perform.             with retrieval and streaming heads," 2024, arXiv:2410.10819.
+       Comput. Archit. (HPCA), May 2020, pp. 328-341.                                   A. Mohtashami and M. Jaggi, "Random-access infinite context length
+       T. Dao, D. Y. Fu, S. Ermon, A. Rudra, and C. Re´, "FlashAttention:               for transformers," in Proc. Adv. Neural Inf. Process. Syst., vol. 36,
+       Fast and memory-efficient exact attention with IO-awareness," in Proc.           2024, pp. 1-11.
+       Adv. Neural Inf. Process. Syst., 2022, pp. 16344-16359.                          Z. Liu et al., "Scissorhands: Exploiting the persistence of importance
+       T. Dao, "FlashAttention-2: Faster attention with better parallelism and          hypothesis for LLM KV cache compression at test time," in Proc. Adv.
+       work partitioning," 2023, arXiv:2307.08691.                                      Neural Inf. Process. Syst., 2023, pp. 1-8.
+       W. Kwon et al., "Efficient memory management for large language                  S. Anagnostidis, D. Pavllo, L. Biggio, L. Noci, A. Lucchi, and
+       model serving with PagedAttention," in Proc. 29th Symp. Operating                T. Hoffmann, "Dynamic context pruning for efficient and interpretable
+       Syst. Princ., Oct. 2023, pp. 611-626.                                            autoregressive transformers," in Proc. Adv. Neural Inf. Process. Syst.,
+       X. Wang, Y. Xiong, Y. Wei, M. Wang, and L. Li, "LightSeq: A high per-            2023, pp. 1-9.
+       formance inference library for transformers," 2020, arXiv:2010.13887.            Z. Zhang et al., "H2O: Heavy-hitter oracle for efficient generative
+       T. J. Ham et al., "ELSA: Hardware-software co-design for efficient,              inference of large language models," in Proc. Adv. Neural Inf. Process.
+       lightweight self-attention mechanism in neural networks," in Proc.               Syst. (NeurIPS), Dec. 2023, pp. 1-17.
+       ACM/IEEE 48th Annu. Int. Symp. Comput. Archit. (ISCA), Jun. 2021,                H. Wang, Z. Zhang, and S. Han, "SpAtten: Efficient sparse attention
+       pp. 692-705.                                                                     architecture with cascade token and head pruning," in Proc. IEEE Int.
+       A. Gu, K. Goel, and C. Re´, "Efficiently modeling long sequences with            Symp. High-Perform. Comput. Archit. (HPCA), Feb. 2021, pp. 97-110.
+       structured state spaces," 2021, arXiv:2111.00396.                                S. Kim et al., "Learned token pruning for transformers," in Proc.
+       H. Mehta, A. Gupta, A. Cutkosky, and B. Neyshabur, "Long range                   28th ACM SIGKDD Conf. Knowl. Discovery Data Mining, Aug. 2022,
+       language modeling via gated state spaces," 2022, arXiv:2206.13947.               pp. 784-794.
+       A. Gupta, "Diagonal state spaces are as effective as structured                  Y. Guan, Z. Li, J. Leng, Z. Lin, and M. Guo, "Transkimmer: Trans-
+       state spaces," in Proc. Adv. Neural Inf. Process. Syst., 2022,                   former learns to layer-wise skim," 2022, arXiv:2205.07324.
+       pp. 22982-22994.                                                                 W. Tan, "Infor-coef: Information bottleneck-based dynamic token
+       L. Ren, Y. Liu, S. Wang, Y. Xu, C. Zhu, and C. Zhai, "Sparse modular             downsampling for compact and efficient language model," 2023,
+       activation for efficient sequence modeling," in Proc. Adv. Neural Inf.           arXiv:2305.12458.
+       Process. Syst., 2023, pp. 1-12.                                                  Q. Cao, B. Paranjape, and H. Hajishirzi, "PuMer: Pruning and merging
+       M. Fathi, J. Pilault, O. Firat, C. Pal, P.-L. Bacon, and R. Goroshin,            tokens for efficient vision language models," 2023, arXiv:2305.17530.
+       "Block-state transformers," 2023, arXiv:2306.09539.                              Z. Wang et al., "SmartTrim: Adaptive tokens and attention pruning for
+       D. Y. Fu, T. Dao, K. K. Saab, A. W. Thomas, A. Rudra, and C. Re´,                efficient vision-language models," 2023, arXiv:2305.15033.
+       "Hungry hungry hippos: Towards language modeling with state space                Y. Rao, W. Zhao, B. Liu, J. Lu, J. Zhou, and C. J. Hsieh, "DynamicViT:
+       models," 2022, arXiv:2212.14052.                                                 Efficient vision transformers with dynamic token sparsification," in
+       A. Gu and T. Dao, "Mamba: Linear-time sequence modeling with                     Proc. Adv. Neural Inf. Process. Syst. (NIPS), 2021, pp. 13937-13949.
+       selective state spaces," 2023, arXiv:2312.00752.
+       S. Zhai et al., "An attention free transformer," 2021, arXiv:2105.14103.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+2044   IEEE TRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS, VOL. 37, NO. 5, MAY 2026
+
+[150]  L. Meng et al., "AdaViT: Adaptive vision transformers for efficient        [184]  Y. Li, L. Niu, X. Zhang, K. Liu, J. Zhu, and Z. Kang, "E-sparse:
+       image recognition," in Proc. IEEE/CVF Conf. Comput. Vis. Pattern                  Boosting the large language model inference through entropy-based
+[151]  Recognit., Jun. 2022, pp. 12309-12318.                                     [185]  N:M sparsity," 2023, arXiv:2310.15929.
+       H. Yin, A. Vahdat, J. M. Alvarez, A. Mallya, J. Kautz,                            Y. Zhang, H. Bai, H. Lin, J. Zhao, L. Hou, and C. V. Cannistraci, "An
+[152]  and P. Molchanov, "A-ViT: Adaptive tokens for efficient vision             [186]  efficient plug-and-play post-training pruning strategy in large language
+       transformer," in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit.       [187]  models," Dept. Comput. Sci., Huawei Noah's Ark Lab, Inst. Automat.,
+[153]  (CVPR), Jun. 2022, pp. 10809-10818.                                        [188]  Chin. Acad. Sci., Beijing, China, Tech. Rep., 2023.
+       Z. Kong et al., "SPViT: Enabling faster vision transformers via latency-          G. Hinton, O. Vinyals, and J. Dean, "Distilling the knowledge in a
+[154]  aware soft token pruning," in Proc. 17th Eur. Conf. Comput. Vis. ECCV,     [189]  neural network," 2015, arXiv:1503.02531.
+[155]  2022, pp. 620-640.                                                                A. Romero, N. Ballas, S. E. Kahou, A. Chassang, C. Gatta, and
+       Y. Leviathan, M. Kalman, and Y. Matias, "Fast inference from trans-        [190]  Y. Bengio, "FitNets: Hints for thin deep nets," 2014, arXiv:1412.6550.
+[156]  formers via speculative decoding," in Proc. Int. Conf. Mach. Learn.,       [191]  N. Passalis, M. Tzelepi, and A. Tefas, "Probabilistic knowledge transfer
+[157]  2022, pp. 19274-19286.                                                     [192]  for lightweight deep representation learning," IEEE Trans. Neural
+[158]  Y. Zhou et al., "DistillSpec: Improving speculative decoding via           [193]  Netw. Learn. Syst., vol. 32, no. 5, pp. 2030-2039, May 2021.
+[159]  knowledge distillation," 2023, arXiv:2310.08461.                           [194]  J. Kim, S. Park, and N. Kwak, "Paraphrasing complex network:
+       C. Chen, S. Borgeaud, G. Irving, J.-B. Lespiau, L. Sifre, and                     Network compression via factor transfer," in Proc. Adv. Neural Inf.
+[160]  J. Jumper, "Accelerating large language model decoding with spec-          [195]  Process. Syst., 2018, pp. 1-15.
+[161]  ulative sampling," 2023, arXiv:2302.01318.                                        I. Beltagy, M. E. Peters, and A. Cohan, "Longformer: The long-
+[162]  X. Liu et al., "Online speculative decoding," 2023, arXiv:2310.07177.      [196]  document transformer," 2020, arXiv:2004.05150.
+[163]  W. Qi et al., "ProphetNet: Predicting future N-gram for sequence-to-              N. Kitaev, L. Kaiser, and A. Levskaya, "Reformer: The efficient
+[164]  sequence pre-training," 2020, arXiv:2001.04063.                            [197]  transformer," 2020, arXiv:2001.04451.
+[165]  T. Cai et al., "Medusa: Simple LLM inference acceleration framework        [198]  Y. Sun et al., "Retentive network: A successor to transformer for large
+[166]  with multiple decoding heads," 2024, arXiv:2401.10774.                     [199]  language models," 2023, arXiv:2307.08621.
+[167]  Y. Fu, P. Bailis, I. Stoica, and H. Zhang, "Break the sequential                  M. Artetxe et al., "Efficient large scale language modeling with
+[168]  dependency of LLM inference using lookahead decoding," 2024,               [200]  mixtures of experts," 2021, arXiv:2112.10684.
+[169]  arXiv:2402.02057.                                                          [201]  Y. Liu et al., "CacheGen: KV cache compression and streaming for
+[170]  Y. Li, F. Wei, C. Zhang, and H. Zhang, "EAGLE: Speculative sampling        [202]  fast large language model serving," in Proc. ACM SIGCOMM Conf.,
+[171]  requires rethinking feature uncertainty," 2024, arXiv:2401.15077.                 Aug. 2024, pp. 38-56.
+       N. Yang et al., "Inference with reference: Lossless acceleration of large  [203]  L. Ma et al., "Defying multi-model forgetting in one-shot neural
+[172]  language models," 2023, arXiv:2304.04487.                                         architecture search using orthogonal gradient learning," IEEE Trans.
+[173]  Z. He, Z. Zhong, T. Cai, J. D. Lee, and D. He, "REST: Retrieval-based      [204]  Comput., vol. 74, no. 5, pp. 1678-1689, May 2025.
+       speculative decoding," 2023, arXiv:2311.08252.                             [205]  G. Park et al., "LUT-GEMM: Quantized matrix multiplication based on
+[174]  T. Lan, D. Cai, Y. Wang, H. Huang, and X.-L. Mao, "Copy is all you                LUTs for efficient inference in large-scale generative language models,"
+[175]  need," 2023, arXiv:2307.06962.                                             [206]  in Proc. 12th Int. Conf. Learn. Represent., 2022, pp. 1-12.
+[176]  (2023). DeepSpeed. [Online]. Available: https://github.com/microsoft/      [207]  S. Kim et al., "SqueezeLLM: Dense-and-sparse quantization," 2023,
+       DeepSpeed/tree/master                                                             arXiv:2306.07629.
+[177]  (2023). LightLLM. [Online]. Available: https://github.com/ModelTC/         [208]  Z. Yuan et al., "RPTQ: Reorder-based post-training quantization for
+[178]  lightllm                                                                   [209]  large language models," 2023, arXiv:2304.01089.
+[179]  (2023). Llama.CPP. [Online]. Available: https://github.com/ggerganov/      [210]  C. Guo et al., "OliVe: Accelerating large language models via
+[180]  llama.cpp                                                                         hardware-friendly outlier-victim pair quantization," in Proc. 50th Annu.
+[181]  (2023). MNN-LLM. [Online]. Available: https://github.com/                  [211]  Int. Symp. Comput. Archit., Jun. 2023, pp. 1-15.
+       wangzhaode/mnn-llm                                                                S.-Y. Liu, Z. Liu, X. Huang, P. Dong, and K.-T. Cheng, "LLM-FP4:
+[182]  (2023). MLLM. [Online]. Available: https://github.com/                     [212]  4-bit floating-point quantized transformers," 2023, arXiv:2310.16836.
+[183]  UbiquitousLearning/mllm                                                    [213]  W. Shao et al., "OmniQuant: Omnidirectionally calibrated quantization
+       A. Zeng et al., "ChatGLM: A family of large language models from           [214]  for large language models," 2023, arXiv:2308.13137.
+       GLM-130B to GLM-4 all tools," 2024, arXiv:2406.12793.                             Y. Bondarenko, M. Nagel, and T. Blankevoort, "Quantizable transform-
+       J. Bai et al., "Qwen technical report," 2023, arXiv:2309.16609.                   ers: Removing outliers by helping attention heads do nothing," in Proc.
+       A. Gopalkrishnan, R. Greer, and M. Trivedi, "Multi-frame, lightweight             Adv. Neural Inf. Process. Syst., 2023, pp. 1-8.
+       & efficient vision-language models for question answering in                      Y. Yue, Z. Yuan, H. Duanmu, S. Zhou, J. Wu, and L. Nie, "WKVQuant:
+       autonomous driving," 2024, arXiv:2403.19838.                                      Quantizing weight and key/value cache for large language models gains
+       J. Xu, C. Lan, W. Xie, X. Chen, and Y. Lu, "Slot-VLM: SlowFast slots              more," 2024, arXiv:2402.12065.
+       for video-language modeling," 2024, arXiv:2402.13088.                             Y. Zhang et al., "Dynamic sparse no training: Training-free fine-tuning
+       W. Hu, Y. Xu, Y. Li, W. Li, Z. Chen, and Z. Tu, "BLIVA: A simple                  for sparse LLMs," 2023, arXiv:2310.08915.
+       multimodal LLM for better handling of text-rich visual questions," in             H. Shao, B. Liu, B. Xiao, K. Zeng, G. Wan, and Y. Qian, "One-shot
+       Proc. AAAI Conf. Artif. Intell., 2024, vol. 38, no. 3, pp. 2256-2264.             sensitivity-aware mixed sparsity pruning for large language models,"
+       H. Liu, C. Tian, X. Wei, Q. Li, and L. Li, "Runtime adaptive pruning              2023, arXiv:2310.09499.
+       for LLM inference," 2025, arXiv:2505.17138.                                       Y. Ji, Y. Cao, and J. Liu, "Pruning large language models via accuracy
+       N. Zhang et al., "Pruning as a domain-specific LLM extractor," 2024,              predictor," 2023, arXiv:2309.09507.
+       arXiv:2405.06275.                                                                 S. Ashkboos, M. L. Croci, M. G. Nascimento, T. Hoefler, and
+       J. Lim, I. Sa, B. MacDonald, and H. S. Ahn, "A sign language                      J. Hensman, "SliceGPT: Compress large language models by deleting
+       recognition system with pepper, lightweight-transformer, and LLM,"                rows and columns," in Proc. 12th Int. Conf. Learn. Represent., 2024,
+       2023, arXiv:2309.16898.                                                           pp. 1-16.
+       A. Vaswani et al., "Attention is all you need," in Proc. Adv. Neural              Z. Yuan et al., "ASVD: Activation-aware singular value decomposition
+       Inf. Process. Syst., vol. 30, 2017, pp. 5998-6008.                                for compressing large language models," 2023, arXiv:2312.05821.
+       H. Touvron et al., "LLaMA: Open and efficient foundation language                 A. Liu et al., "DeepSeek-V3 technical report," 2024, arXiv:2412.19437.
+       models," 2023, arXiv:2302.13971.                                                  L. Ma, S. Cheng, and Y. Shi, "Enhancing learning efficiency of
+       B. Zhang and R. Sennrich, "Root mean square layer normalization,"                 brain storm optimization via orthogonal learning design," IEEE
+       in Proc. Adv. Neural Inf. Process. Syst., 2019, pp. 1-12.                         Trans. Syst., Man, Cybern., Syst., vol. 51, no. 11, pp. 6723-6742,
+       N. Shazeer, "GLU variants improve transformer," 2020,                             Nov. 2021.
+       arXiv:2002.05202.                                                                 L. Ma et al., "TBCIM: Two-level blockchain-aided edge resource allo-
+       J. Su, M. Ahmed, Y. Lu, S. Pan, W. Bo, and Y. Liu, "RoFormer:                     cation mechanism for federated learning service market," IEEE Trans.
+       Enhanced transformer with rotary position embedding," Neurocomput-                Netw., early access, Jul. 29, 2025, doi: 10.1109/TON.2025.3589017.
+       ing, vol. 568, Feb. 2024, Art. no. 127063.                                        D. Guo et al., "DeepSeek-r1: Incentivizing reasoning capability in
+       A. Chowdhery et al., "PaLM: Scaling language modeling with                        LLMs via reinforcement learning," 2025, arXiv:2501.12948.
+       pathways," J. Mach. Learn. Res., vol. 24, no. 240, pp. 1-113, 2022.               Grok-4. Accessed: Jul. 2025. [Online]. Available: https://x.ai/news/
+       E. J. Hu et al., "LoRA: Low-rank adaptation of large language models,"            grok-4
+       2021, arXiv:2106.09685.                                                           A. Hurst et al., "GPT-4o system card," 2024, arXiv:2410.21276.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+CHENG et al.: SURVEY ON EFFICIENT LLMs: PRINCIPLES, ALGORITHMS, APPLICATIONS, AND OPEN ISSUES                   2045
+
+                               Jian Cheng received the B.Sc. degree in automation,                              Pengjun Chen is currently pursuing the bachelor's
+                               the M.Sc. degree in control theory and control engi-                             degree in software engineering with Northeastern
+                               neering, and the Ph.D. degree in communication and                               University, Shenyang, China.
+                               information system from China University of Mining
+                               and Technology, Xuzhou, China, in 1997, 2003, and                                   His current research interests include deep learn-
+                               2008, respectively.                                                              ing, computer vision, neural architecture search, and
+                                                                                                                generative modeling.
+                                  He has been a Post-Doctoral Fellow with
+                               Tsinghua University, Beijing, China, and the Uni-                                        Rui Wang received the bachelor's degree from
+                               versity of Birmingham, Birmingham, U.K., from                                            the National University of Defense Technology,
+                               2009 to 2013. He is currently a Professor and the                                        Changsha, China, in 2008, and the doctorate degree
+                               Chief Scientist with the Research Institute of Mine                                      from the University of Sheffield, Sheffield, U.K., in
+Artificial Intelligence, Chinese Institute of Coal Science, Beijing. His current                                        2013.
+research interests include machine learning and pattern recognition, data
+mining and big data, as well as imbalance learning and image processing,                                                   He is currently an Associate Professor with the
+and their applications in industrial fields.                                                                            National University of Defense Technology. His
+                                                                                                                        research interest includes evolutionary computation,
+                               Haidong Kang (Student Member, IEEE) received                                             multiobjective optimization, and the development of
+                               the M.S. and Ph.D. degrees in software engineering                                       algorithms applicable in practice.
+                               from Northeastern University, Shenyang, China, in
+                               2020 and 2025, respectively.                                                                Dr. Wang was a recipient of the Operational
+                                                                                         Research Society Ph.D. Prize in 2016 and the National Science Fund for
+                                  His work appeared in several top-tier ML and DL        Outstanding Young Scholars in 2021. He is an Associate Editor for IEEE
+                               conferences, including International Joint Confer-        TRANSACTIONS ON EVOLUTIONARY COMPUTATION and Swarm and Evo-
+                               ence on Artificial Intelligence (IJCAI), International    lutionary Computation.
+                               Conference on Computer Vision (ICCV), ACM
+                               Multimedia (ACM MM), IEEE TRANSACTIONS                                                   Saiqin Long (Member, IEEE) received the B.E.
+                               ON COMPUTERS, and IEEE TRANSACTIONS ON                                                   degree in software engineering from Hunan Normal
+                               MOBILE COMPUTING. His current research interests                                         University, Changsha, China, in 2009, and the Ph.D.
+include self-evolution AI, deep learning, AI for edge computing, and LLMs.                                              degree in computer applications technology from
+   Dr. Kang served as the reviewer for World Wide Web Conference (WWW),                                                 South China University of Technology, Guangzhou,
+Association for the Advancement of Artificial Intelligence (AAAI), IJCAI,                                               China, in 2014.
+International Conference on Machine Learning (ICML), ICCV, Knowledge
+Discovery and Data Mining (KDD), ACM MM, Neural Information Process-                                                       She was appointed as a Professor with the School
+ing Systems (NeurIPS), International Conference on Learning Representations                                             of Computer Science, Xiangtan University, Xiang-
+(ICLR), IEEE TRANSACTIONS ON IMAGE PROCESSING, IEEE TRANS-                                                              tan, China, in 2017. Her research interests include
+ACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS, and IEEE                                                               cloud computing, cloud storage, parallel and dis-
+TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE.                                                              tributed systems, file systems, and computer system
+                                                                                         architecture.
+                               Yuxin Shao received the M.S. degree in soft-                 Dr. Long is a member of Chinese Computer Federation (CCF).
+                               ware engineering from Northeastern University,
+                               Shenyang, China, in 2025.                                                        Xiaochun Yang (Senior Member, IEEE) received
+                                                                                                                the Ph.D. degree in computer software and theory
+                                  His current research interests include deep learn-                            from Northeastern University, Shenyang, China, in
+                               ing and computer vision.                                                         2001.
+
+                               Nan Li received the B.Sc. degree in software engi-                                  She is currently a Professor with the School
+                               neering from North University of China, Taiyuan,                                 of Computer Science and Engineering, Northeast-
+                               China, in 2020, and the Ph.D. degree in soft-                                    ern University. Her research interests include big
+                               ware engineering from Northeastern University,                                   data management and knowledge engineering, data
+                               Shenyang, China, in 2025.                                                        quality management, data privacy preserving, and
+                                                                                                                recommender systems. More details about her
+                                  He is currently a Lecturer with the School of                                 research can be found at http://faculty.neu.edu.cn/
+                               Computer and Information Science, Shanxi Uni-
+                               versity, Taiyuan. His research interests include          yangxiaochun
+                               computational intelligence and machine learning.
+                                                                                                                Lianbo Ma (Senior Member, IEEE) received the
+                                  Dr. Li serves as a reviewer for several international                         B.S. degree in communication engineering and the
+                               conferences, such as International Conference on                                 M.S. degree in communication and information
+Machine Learning (ICML) and International Joint Conference on Artificial                                        systems from Northeastern University, Shenyang,
+Intelligence (IJCAI), and journals, including IEEE TRANSACTIONS ON                                              China, in 2004 and 2007, respectively, and the Ph.D.
+EVOLUTIONARY COMPUTATION and IEEE TRANSACTIONS ON NEURAL                                                        degree from the University of Chinese Academy of
+NETWORKS AND LEARNING SYSTEMS.                                                                                  Sciences, Beijing, China, in 2015.
+
+                                                                                                                   He is currently a Professor with Northeastern
+                                                                                                                University. He has published over 90 journal articles,
+                                                                                                                books, and refereed conference papers. His current
+                                                                                                                research interests include computational intelligence
+
+                                                                                         and machine learning.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:34:05 UTC from IEEE Xplore. Restrictions apply.
+

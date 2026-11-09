@@ -1,0 +1,1009 @@
+TY  - CONF
+TI  - Integrating External Knowledge with LLMs: A Systematic Review of RAG Approaches
+T2  - 2025 MIPRO 48th ICT and Electronics Convention
+SP  - 93
+EP  - 98
+AU  - I. Mikulić
+AU  - M. Vlaić
+AU  - G. Delač
+AU  - M. Šilić
+AU  - K. Vladimir
+PY  - 2025
+KW  - Training
+KW  - Accuracy
+KW  - Large language models
+KW  - Pipelines
+KW  - Retrieval augmented generation
+KW  - Knowledge based systems
+KW  - Natural language processing
+KW  - Libraries
+KW  - Reliability
+KW  - Systematic literature review
+KW  - RAG
+KW  - Retrieval
+KW  - IR
+KW  - LLM
+DO  - 10.1109/MIPRO65660.2025.11131735
+JO  - 2025 MIPRO 48th ICT and Electronics Convention
+IS  - 
+SN  - 1847-3938
+VO  - 
+VL  - 
+JA  - 2025 MIPRO 48th ICT and Electronics Convention
+Y1  - 2-6 June 2025
+AB  - Large Language Models (LLMs) have demonstrated remarkable capabilities in natural language understanding and generation, exhibiting exceptional in-context learning abilities without requiring extensive fine-tuning. However, these models often suffer from significant limitations, including hallucinations where fabricated or incorrect information is presented as fact, and the need for constant retraining in order to effectively integrate new knowledge. Retrieval-Augmented Generation (RAG) has emerged as a promising paradigm to address these challenges by combining LLMs with information retrieval (IR) techniques. By leveraging external knowledge bases, RAG pipelines retrieve and incorporate relevant information dynamically, enhancing the factual accuracy and adaptability of LLMs. This paper provides an overview of the state-of-the-art methods for implementing RAG in LLMs, examining key components of the RAG pipeline, including data preparation, retrieval, reranking, and post-retrieval techniques. We aim to highlight how these components collectively enable LLMs to achieve greater reliability and flexibility, paving the way for more robust AI applications.
+ER  - 
+
+TY  - CONF
+TI  - A Comparative Study on Pre-Trained Models Based on BERT
+T2  - 2024 6th International Conference on Natural Language Processing (ICNLP)
+SP  - 326
+EP  - 330
+AU  - M. Zhang
+PY  - 2024
+KW  - Surveys
+KW  - Analytical models
+KW  - Large language models
+KW  - Transfer learning
+KW  - Buildings
+KW  - Bidirectional control
+KW  - Transformers
+KW  - Natural language processing
+KW  - Encoding
+KW  - Self-Supervised Learning
+KW  - PTM
+KW  - NLP
+KW  - BERT
+DO  - 10.1109/ICNLP60986.2024.10692659
+JO  - 2024 6th International Conference on Natural Language Processing (ICNLP)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2024 6th International Conference on Natural Language Processing (ICNLP)
+Y1  - 22-24 March 2024
+AB  - The introduction of pre-trained models (PTMs) especially Bidirectional Encoder Representation from Transformer (BERT) [1] brought significant improvements in Natural Language Processing (NLP) tasks and demonstrated the power of transfer learning in large language models. The state-of-the-art performance of BERT on eleven NLP tasks inspired many researchers to focus on building variants based on BERT. This survey is going to collect and investigate the NLP-PTMs researches especially the ones motivated by BERT, concentrating on three main tasks: classifications of their research objects and research methods, and an experimental analysis. The collected papers are going to be classified based on different criteria for each task and provide detailed explanations of why certain research is classified into certain type. In the end, based on the investigation, a future direction for the development of PTMs in NLP is suggested.
+ER  - 
+
+TY  - CONF
+TI  - Interpretability and Explainability in Modern AI Systems: Concepts, Methods, and Challenges
+T2  - 2026 2nd International Conference on Smart Technologies for Sustainable Development Goals (ICSTSDG)
+SP  - 1
+EP  - 6
+AU  - D. R
+AU  - U. Shankar S
+AU  - S. Swetha
+AU  - R. Premkumar
+AU  - J. Divya
+AU  - T. Thilagam
+PY  - 2026
+KW  - Explainable AI
+KW  - Modeling
+KW  - Artificial intelligence
+KW  - Visualization
+KW  - Printing
+KW  - Cognition
+KW  - Transparency (climate reporting)
+KW  - Cognitive systems
+KW  - Medical services
+KW  - Decision making
+KW  - Explainable AI
+KW  - Model Interpretability
+KW  - SHAP
+KW  - Deep Learning
+KW  - Trustworthy AI
+KW  - Transparency
+DO  - 10.1109/ICSTSDG69220.2026.11708269
+JO  - 2026 2nd International Conference on Smart Technologies for Sustainable Development Goals (ICSTSDG)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 2nd International Conference on Smart Technologies for Sustainable Development Goals (ICSTSDG)
+Y1  - 19-21 Aug. 2026
+AB  - Explainable Artificial Intelligence (XAI) has become essential for ensuring transparency, accountability, and trust in modern AI systems, particularly as machine learning and deep learning models grow increasingly complex. The survey is the in-depth analysis of the foundations of the XAI, its key definitions, the concepts of interpretability, and the paradigms of global and local explanations. It discusses the intrinsic and post-hoc methods of interpretation, including model-specific interpretability, feature attribution methods, including SHAP and LIME, and visualization-based explanation approaches. The survey also discusses the explainability challenges in deep neural networks, transformers, and generative models, and along with emerging approaches such as concept-based explainability and neurosymbolic explainability. The urgent need for interpretable AI in high-stakes domains is highlighted in applications, healthcare, finance, autonomous vehicles, cybersecurity, and public policy. Although significant progress has been achieved, there are still issues with evaluating metrics, balancing explainability and privacy and security, and scaling XAI to large models. The paper outlines some promising areas of future research, such as interactive XAI, AutoXAI, causal interpretability, and XAI of large language models. Altogether, this survey highlights the growing importance of XAI in the developing of trustful, ethical, and human- centered AI systems.
+ER  - 
+
+TY  - JOUR
+TI  - Reinforcement Learning for Neural Network Compression: A Taxonomy of MDP Design, Action Spaces, Reward Engineering, and Learning Algorithms
+T2  - IEEE Access
+SP  - 1
+EP  - 1
+AU  - F. Baradaran
+AU  - M. Raji
+PY  - 2026
+KW  - Modeling
+KW  - Quantization (signal)
+KW  - Optimization
+KW  - Learning (artificial intelligence)
+KW  - Reinforcement learning
+KW  - Model compression
+KW  - Hardware
+KW  - Design methodology
+KW  - Neural networks
+KW  - Computer architecture
+KW  - Model Compression
+KW  - Reinforcement Learning (RL)
+KW  - Automated Model Compression
+KW  - Network Pruning
+KW  - Quantization
+DO  - 10.1109/ACCESS.2026.3749513
+JO  - IEEE Access
+IS  - 
+SN  - 2169-3536
+VO  - 
+VL  - 
+JA  - IEEE Access
+Y1  - 
+AB  - Deploying large Deep Neural Networks (DNNs) and Large Language Models (LLMs) on resource-constrained hardware remains challenging due to their high computational, memory, and energy requirements. Conventional compression techniques, including pruning, quantization, and architectural optimization, can reduce these costs effectively; however, they often rely on manually designed heuristics and rule-based strategies. Such approaches face difficulties in efficiently exploring the large search spaces of modern neural architectures, frequently leading to sub-optimal trade-offs between model accuracy and efficiency. To address these limitations, Reinforcement Learning (RL) has emerged as an effective framework for automated model compression by formulating the optimization process as a Markov Decision Process (MDP). Although numerous RL-based compression methods have recently been proposed, existing survey studies primarily categorize the literature according to the compression type, such as pruning or quantization, while providing limited analysis of the underlying RL mechanisms and design strategies. To address this gap, this survey presents, to the best of current knowledge, the first comprehensive RL-centric taxonomy for model compression. The state-of-the-art methods are systematically analyzed across four key dimensions: (1) MDP modeling strategies, including sequential layer-wise, topology-aware, multi-agent, dynamic runtime, and efficient environment modeling formulations; (2) action space design, covering quantization-oriented, pruning-oriented, joint compression, dynamic input-adaptive, and hierarchical action spaces; (3) reward function engineering, including accuracy-oriented, compression-aware, hardware-aware, multi-objective, and task-specific reward formulations; and (4) reinforcement learning algorithms, encompassing value-based methods, actor–critic approaches, policy-gradient techniques, Multi-Agent Reinforcement Learning (MARL), and hybrid/model-based RL frameworks. The survey further examines recent developments ranging from pruning and mixed-precision quantization in Convolutional Neural Networks (CNNs) to token pruning, context compression, and Chain-of-Thought (CoT) pruning in Vision Transformers (ViTs) and LLMs, highlighting the relationships between RL design choices and compression performance. The review also describes the literature-selection scope, summarizes representative quantitative results, and discusses key limitations affecting scalability, transferability, benchmarking, and deployment. Overall, this paper provides a structured RL-centric perspective on automated model compression, identifies current challenges and research gaps, and outlines promising directions for developing scalable, adaptive, and hardware-aware compression systems.
+ER  - 
+
+TY  - CONF
+TI  - Prioritizing DeepSeek Adoption Barriers via Analytic Hierarchy Process
+T2  - 2026 Eight International Conference on Computational Intelligence and Communication Technologies (CCICT)
+SP  - 213
+EP  - 219
+AU  - H. K. Upadhyay
+AU  - R. K. Gupta
+AU  - R. Kumar
+PY  - 2026
+KW  - Modeling
+KW  - Artificial intelligence
+KW  - Ranking (statistics)
+KW  - Analytic hierarchy process
+KW  - Matrices
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Chromium
+KW  - Niobium
+KW  - Educational institutions
+KW  - analytic hierarchy process
+KW  - artificial intelligence
+KW  - deepseek
+KW  - multi criteria decision making
+DO  - 10.23919/CCICTCPS00010.2026.00043
+JO  - 2026 Eight International Conference on Computational Intelligence and Communication Technologies (CCICT)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 Eight International Conference on Computational Intelligence and Communication Technologies (CCICT)
+Y1  - 24-25 April 2026
+AB  - Recent developments in reasoning-oriented large language models (LLMs) have opened the range of uses of Natural Language Processing (NLP) both in academia and industry. Among these models, DeepSeek has stood out as an interesting open-source model that can compute complex reasoning tasks with lower computational overhead. Despite its growing popularity, the large-scale implementation of DeepSeek is still bound by multiple technical, organizational and regulatory barriers. This study offers an overview of the key obstacles to DeepSeek adoption. Based on a thorough review of the most recent journal literature (indexed) and insights from domain experts in AI and machine learning, sixteen barriers are identified. Further, these barriers are divided into four categories according to these four problems: technical, safeguard, normative and interpretability problems. To prioritize these barriers, the analytic hierarchy process is used with a web-based survey filled by the students of university, which can effectively carry out the uncertainties of the expert judgement. The results show that the major factors that hinder adoption include the 'Accountability', 'Usability' and 'Customization'. The proposed framework gives a comprehensive understanding of the relative importance of the barriers of adoption and some helpful suggestions for the researchers, developers and decision-makers who are looking to enable the secure, scalable and responsible deployment of systems using DeepSeek.
+ER  - 
+
+TY  - JOUR
+TI  - When Geoscience Meets Foundation Models: Toward a general geoscience artificial intelligence system
+T2  - IEEE Geoscience and Remote Sensing Magazine
+SP  - 79
+EP  - 118
+AU  - H. Zhang
+AU  - J. -J. Xu
+AU  - H. -W. Cui
+AU  - L. Li
+AU  - Y. Yang
+AU  - C. -S. Tang
+AU  - N. Boers
+PY  - 2025
+KW  - Geoscience
+KW  - Artificial intelligence
+KW  - Frequency modulation
+KW  - Earth
+KW  - Reviews
+KW  - Data models
+KW  - Adaptation models
+KW  - Surveys
+KW  - Analytical models
+KW  - Computational modeling
+DO  - 10.1109/MGRS.2024.3496478
+JO  - IEEE Geoscience and Remote Sensing Magazine
+IS  - 4
+SN  - 2168-6831
+VO  - 13
+VL  - 13
+JA  - IEEE Geoscience and Remote Sensing Magazine
+Y1  - Dec. 2025
+AB  - Artificial intelligence (AI) has significantly advanced Earth sciences, yet its full potential in comprehensively modeling Earth’s complex dynamics remains unrealized. Geoscience foundation models (GFMs) have emerged as a paradigm-shifting solution, integrating extensive cross-disciplinary data to enhance the simulation and understanding of Earth system dynamics. These data-centric AI (DCAI) models extract insights from petabytes of structured and unstructured data, effectively addressing the complexities of Earth systems that traditional models struggle to capture. The unique strengths of GFMs include flexible task specification, diverse input-output capabilities, and multimodal knowledge representation, enabling analyses that surpass those of individual data sources or traditional AI methods. This review not only highlights the key advantages of GFMs but also presents essential techniques for their construction, with a focus on Transformers, pretraining, and adaptation strategies. Subsequently, we examine recent advancements in GFMs, including large language models (LLMs), vision models, vision-language models (VLMs), and foundation-model-based agents, particularly emphasizing the potential applications in remote sensing (RS). Additionally, the review concludes with a comprehensive analysis of the challenges and future trends in GFMs, addressing five critical aspects: data integration, model complexity, uncertainty quantification, interdisciplinary collaboration, and concerns related to privacy, trust, and security. This review offers a comprehensive overview of emerging geoscientific research paradigms, emphasizing the untapped opportunities at the intersection of advanced AI techniques and geoscience. It examines major methodologies, showcases advances in large-scale models, and discusses the challenges and prospects that will shape the future landscape of GFMs. This article highlights a dynamic field rich with possibilities, poised to unlock new insights into Earth’s complexities and further advance geoscience exploration.
+ER  - 
+
+TY  - JOUR
+TI  - Neuromorphic Computing in the Era of Large Models
+T2  - Artificial Intelligence Science and Engineering
+SP  - 17
+EP  - 30
+AU  - H. SHAN
+AU  - C. WEI
+AU  - N. RAMOS
+AU  - X. YANG
+AU  - C. GUO
+AU  - H. LI
+AU  - Y. CHEN
+PY  - 2025
+KW  - Deep learning
+KW  - Training
+KW  - Learning systems
+KW  - Neuromorphic engineering
+KW  - Computational modeling
+KW  - Biological system modeling
+KW  - Scalability
+KW  - Transformers
+KW  - Hardware
+KW  - Energy efficiency
+KW  - neuromorphic computing
+KW  - spiking neural networks
+KW  - large deep learning models
+DO  - 10.23919/AISE.2025.000002
+JO  - Artificial Intelligence Science and Engineering
+IS  - 1
+SN  - 2097-5104
+VO  - 1
+VL  - 1
+JA  - Artificial Intelligence Science and Engineering
+Y1  - March 2025
+AB  - The rapid advancement of deep learning and the emergence of large-scale neural models, such as bidirectional encoder representations from transformers (BERT), generative pre-trained transformer (GPT), and large language model Meta AI (LLaMa), have brought significant computational and energy challenges. Neuromorphic computing presents a biologically inspired approach to addressing these issues, leveraging event-driven processing and in-memory computation for enhanced energy efficiency. This survey explores the intersection of neuromorphic computing and large-scale deep learning models, focusing on neuromorphic models, learning methods, and hardware. We highlight transferable techniques from deep learning to neuromorphic computing and examine the memory-related scalability limitations of current neuromorphic systems. Furthermore, we identify potential directions to enable neuromorphic systems to meet the growing demands of modern AI workloads.
+ER  - 
+
+TY  - JOUR
+TI  - From Camera-Based Sensing to Reasoning: A Comprehensive Review Toward Proactive Vulnerable Road User Safety
+T2  - IEEE Transactions on Intelligent Transportation Systems
+SP  - 11966
+EP  - 11982
+AU  - S. Zhang
+AU  - Y. Shi
+AU  - B. Wang
+AU  - Y. Zhang
+AU  - M. Monjurul Karim
+AU  - K. Chen
+AU  - C. Liu
+AU  - M. Nasri
+AU  - Y. Wang
+PY  - 2026
+KW  - Modeling
+KW  - Pedestrians
+KW  - Signal detection
+KW  - Safety
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Trajectory
+KW  - Transformers
+KW  - Cameras
+KW  - Visualization
+KW  - Vulnerable road user safety
+KW  - visual sensing
+KW  - motion modeling
+KW  - behavior understanding
+KW  - proactive safety
+KW  - intelligent transportation systems
+DO  - 10.1109/TITS.2026.3707876
+JO  - IEEE Transactions on Intelligent Transportation Systems
+IS  - 10
+SN  - 1558-0016
+VO  - 27
+VL  - 27
+JA  - IEEE Transactions on Intelligent Transportation Systems
+Y1  - Oct. 2026
+AB  - Ensuring the safety of vulnerable road users (VRUs), such as pedestrians and cyclists, remains a critical challenge, as conventional infrastructure-based measures are often insufficient in dynamic urban environments. Recent advances in learning-based visual sensing systems have created new opportunities for more adaptive and context-aware VRU protection. This paper presents a comprehensive review of camera-based methods for proactive VRU safety, with a focus on developments over the past five years. Unlike prior surveys that primarily emphasize detection, we organize the literature into three interconnected components: visual perception (detection and classification), motion modeling (tracking and trajectory prediction), and behavior understanding (intent recognition and reasoning). These components form a unified hierarchical pipeline that enables early risk anticipation and timely intervention. Furthermore, this survey systematically incorporates emerging AI paradigms, including Vision Transformers (ViTs), Large Language Models (LLMs), and diffusion models, highlighting their roles in representation learning, uncertainty modeling, and semantic reasoning. Finally, we identify four key challenges specific to VRU safety, including data scarcity, behavioral uncertainty, edge deployment efficiency, and real-world sensing constraints, and discuss corresponding research directions. This work provides a unified foundation for the development of reliable, scalable, and deployable VRU safety systems.
+ER  - 
+
+TY  - CONF
+TI  - AI-Driven Systems for Education and Recruitment: Technologies, Applications, and Emerging Trends
+T2  - 2026 2nd International Conference on Ambient Intelligence, Knowledge Informatics and Industrial Electronics (AIKIIE)
+SP  - 1
+EP  - 7
+AU  - A. Kapoor
+AU  - A. Muqeet
+AU  - B. S. Rajput
+AU  - P. Mohan
+AU  - D. Masoodi
+PY  - 2026
+KW  - Modeling
+KW  - Programming
+KW  - Interviews
+KW  - Resumes
+KW  - Artificial intelligence
+KW  - Natural language processing
+KW  - Machine learning
+KW  - Learning (artificial intelligence)
+KW  - Printing
+KW  - Surveys
+KW  - machine learning
+KW  - natural language processing
+KW  - resume parsing
+KW  - placement prediction
+KW  - mock interview systems
+KW  - programming education
+KW  - random forest
+KW  - named entity recognition
+KW  - educational technology
+KW  - explainable AI
+DO  - 10.1109/AIKIIE69997.2026.11708130
+JO  - 2026 2nd International Conference on Ambient Intelligence, Knowledge Informatics and Industrial Electronics (AIKIIE)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 2nd International Conference on Ambient Intelligence, Knowledge Informatics and Industrial Electronics (AIKIIE)
+Y1  - 7-8 Aug. 2026
+AB  - Artificial Intelligence (AI) has rapidly transformed both educational environments and modern recruitment practices, enabling data-driven decision making across the education-to-employment pipeline. This survey reviews 19 representative studies published between 2020 and 2025 spanning four major domains: AI-based mock interview systems, Natural Language Processing (NLP) for resume parsing, machine learningbased placement prediction, and intelligent programming education platforms. Comparative analysis indicates that ensemble learning approaches, particularly Random Forest, Decision Trees, and XGBoost, consistently demonstrate strong predictive performance in placement analytics, while transformer-based NLP and Named Entity Recognition (NER) substantially improve resume information extraction. Recent developments further highlight the emergence of Large Language Models (LLMs) as intelligent programming assistants capable of providing personalized tutoring, adaptive feedback, and interactive learning support. Despite these advances, challenges related to fairness, explainability, scalability, and ethical deployment remain significant. By critically comparing existing methodologies, identifying research gaps, and discussing emerging trends, this survey provides a roadmap for the development of integrated AIdriven ecosystems supporting education, skill development, and intelligent recruitment.
+ER  - 
+
+TY  - CONF
+TI  - Analysis of Trends and Innovations in Spam Comment Detection Using AI
+T2  - 2025 2nd Global AI Summit - International Conference on Artificial Intelligence and Emerging Technology (AI Summit)
+SP  - 335
+EP  - 340
+AU  - S. Sharma
+AU  - S. C. Gupta
+AU  - S. Saraswat
+PY  - 2025
+KW  - Surveys
+KW  - Deep learning
+KW  - Accuracy
+KW  - Filtering
+KW  - Transformers
+KW  - Market research
+KW  - Real-time systems
+KW  - User experience
+KW  - Multilingual
+KW  - Artificial intelligence
+KW  - Spam detection
+KW  - comment spam AI
+KW  - ML spam classification
+KW  - Deep Learning for spam detection
+DO  - 10.1109/AISummit66170.2025.11411630
+JO  - 2025 2nd Global AI Summit - International Conference on Artificial Intelligence and Emerging Technology (AI Summit)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 2nd Global AI Summit - International Conference on Artificial Intelligence and Emerging Technology (AI Summit)
+Y1  - 19-21 Nov. 2025
+AB  - Spam comments have been flooding the Internet on social media, blogs, and e-commerce sites, threatening normal user experience, data integrity and system security. Rules based and keyword matching-based methods are no longer effective, as spammers are resorting to more complex evasion techniques to combat filtering systems. Artificial Intelligence (AI), and Machine Learning (ML) and Deep Learning (DL) methods, have arisen as the most successful option to identify spam with high accuracy and growing versatility. This survey paper has been aimed to make an extensive assessment on the available AI-based techniques of spam comment detection. For each model, we compare approaches ranging from classical ML methods like the Naïve Bayes and Support Vector Machines, to DL such as the LSTM and CNN, as well as the recent addition of the NLP models which include BERT and Word2Vec. We also analyze hybrid solutions, ensemble techniques, and the increasing use of large language models and transformer-based architectures. The paper details the main novelties, like real-time detection pipelines, graph- based filtering and the use of explain- able AI (XAI) to improve trust and interpretability. We also describe the present limitations, such as dataset bias and multilingual challenge, and adversarial spam, as well as sketch the future research areas including federated learning and cross- domain generalization. In this survey, we hope to help researchers and industrial practitioners in constructing more effective and smarter spam filtering systems.
+ER  - 
+
+TY  - CHAP
+TI  - Neurosymbolic AI for Legal AI&#x2010;TRISM: Trustworthy, Reliable, Interpretable, Safe Models
+T2  - Neurosymbolic AI: Foundations and Applications
+SP  - 429
+EP  - 454
+AU  - Deepa Tilwani
+AU  - Yash Saxena
+AU  - Ankur Padia
+AU  - Srinivasan Parthasarathy
+AU  - Manas Gaur
+PY  - 2026
+KW  - Feedback
+KW  - Circuits
+KW  - Filtering
+KW  - Filters
+KW  - Artificial intelligence
+KW  - Cognitive systems
+KW  - Large language models
+KW  - Retrieval augmented generation
+KW  - Computational and artificial intelligence
+KW  - Ontologies
+DO  - 10.1002/9781394302406.ch14
+PB  - IEEE
+SN  - 9781394302390
+UR  - http://ieeexplore.ieee.org/document/11474947
+AB  - <p>Large Language Models (LLMs) have transformed natural language processing (NLP), but their unclear reasoning processes and tendency to hallucinate present challenges for trustworthy information processing. In legal applications, while LLMs show promise for text analysis and generation, they struggle with reliable citation attribution and precedent verification, raising concerns about their use in high&#x2010;stakes judicial systems and the legal domain.</p> <p>Current methods to improve LLM trustworthiness in legal domains often lack comprehensive legal knowledge integration, either through end&#x2010;to&#x2010;end training or instruction tuning. Additionally, there are insufficient mechanisms to verify the accuracy of LLM&#x2010;generated outputs, such as legal citations and precedents.</p> <p>In this chapter, we propose addressing these challenges with the TRISM (Trustworthy, Reliable, Interpretable, Safe Models) framework, which combines Neurosymbolic AI principles with LLMs. We outline the current limitations of using Generative AI as a legal assistant and identify potential opportunities for further research along with a brief survey of recent approaches, specifically in the legal domain, that utilize neural and Neurosymbolic methods. Finally, we formalize the process of creating symbolic knowledge from legal textual documents and emphasize the role of Retrieval&#x2010;Augmented Generation (RAG) in advancing legal AI applications to follow TRISM framework.</p>
+ER  - 
+
+TY  - JOUR
+TI  - Exploring the Commercial Trajectories of LLMs: Business Models and Advertising Perspectives
+T2  - IEEE Intelligent Systems
+SP  - 35
+EP  - 48
+AU  - G. Chodak
+AU  - P. Kazienko
+AU  - W. Mieleszczenko-Kowszewicz
+AU  - E. Cambria
+PY  - 2026
+KW  - Large language models
+KW  - Advertising
+KW  - Computational modeling
+KW  - Artificial intelligence
+KW  - Business
+KW  - Commercialization
+KW  - Economics
+KW  - Investment
+KW  - Generative AI
+KW  - Strategic planning
+DO  - 10.1109/MIS.2025.3636023
+JO  - IEEE Intelligent Systems
+IS  - 3
+SN  - 1941-1294
+VO  - 41
+VL  - 41
+JA  - IEEE Intelligent Systems
+Y1  - May-June 2026
+AB  - As large language models (LLMs) gain millions of individual and business users, their rapid adoption has raised critical questions about economic sustainability and commercialization strategies. This article examines monetization strategies for LLMs, providing a structured overview of existing and emerging revenue models, including subscription and pay-per-use access plans. Particular emphasis is placed on the potential of advertising-based models that leverage the unique strengths of LLMs. The article also presents eight potential scenarios for the commercial future of LLMs, ranging from advertising-based, hybrid, and public sector funding models to the dominance of open source solutions and blockchain-based microtransactions. Drawing parallels to the evolution of search engine monetization, the authors argue that hybrid approaches (e.g., combining advertising revenue with other sources) may represent the most viable future for funding LLMs. This work contributes to a deeper understanding of the commercial forces shaping the next phase of generative artificial intelligence deployment.
+ER  - 
+
+TY  - CONF
+TI  - Intent-Based 6G Management with Generative AI
+T2  - 2026 IEEE 12th International Conference on Network Softwarization (NetSoft)
+SP  - 415
+EP  - 420
+AU  - A. Mekrache
+AU  - A. Ksentini
+AU  - U. Finger
+PY  - 2026
+KW  - Modeling
+KW  - Printing
+KW  - Large language models
+KW  - 5G mobile communication
+KW  - Management
+KW  - Anomaly detection
+KW  - Design methodology
+KW  - Application programming interfaces
+KW  - Generative Pre-trained transformer
+KW  - Context
+KW  - 6G networks
+KW  - GenAI
+KW  - IBN
+DO  - 10.1109/NetSoft70012.2026.11603544
+JO  - 2026 IEEE 12th International Conference on Network Softwarization (NetSoft)
+IS  - 
+SN  - 2693-9789
+VO  - 
+VL  - 
+JA  - 2026 IEEE 12th International Conference on Network Softwarization (NetSoft)
+Y1  - 29 June-3 July 2026
+AB  - The 6G era introduces unprecedented complexity in managing heterogeneous, large-scale, and dynamic network infrastructures. These challenges are addressed by the concept of Intent-Based Networking (IBN), which has emerged as a promising paradigm for autonomous network management, enabling users to express high-level objectives that are automatically translated and enforced by the network. However, current IBN solutions remain constrained by rigid structured specifications and limited assurance mechanisms. This paper presents an overview of PhD research leveraging Generative AI (GenAI), specifically Large Language Models (LLMs), to address three fundamental IBN challenges: (i) intent translation, (ii) intent assurance, and (iii) GenAI operations in IBN systems. We propose a set of novel frameworks validated on real 5G/6G testbeds. Most contributions are supported by demos, datasets, and open-source implementations, which are referenced in the design section of each contribution. This PhD positions GenAI as a key enabler for advancing autonomous and user-centric 6G.
+ER  - 
+
+TY  - CONF
+TI  - Next-Generation Refactoring: Combining LLM Insights and IDE Capabilities for Extract Method
+T2  - 2024 IEEE International Conference on Software Maintenance and Evolution (ICSME)
+SP  - 275
+EP  - 287
+AU  - D. Pomian
+AU  - A. Bellur
+AU  - M. Dilhara
+AU  - Z. Kurbatova
+AU  - E. Bogomolov
+AU  - T. Bryksin
+AU  - D. Dig
+PY  - 2024
+KW  - Surveys
+KW  - Software maintenance
+KW  - Automation
+KW  - Codes
+KW  - Static analysis
+KW  - Programming
+KW  - Reliability
+KW  - Best practices
+KW  - Next generation networking
+KW  - Python
+KW  - Refactoring
+KW  - LLMs
+KW  - Code smells
+KW  - Long Methods
+KW  - Java
+KW  - Kotlin
+DO  - 10.1109/ICSME58944.2024.00034
+JO  - 2024 IEEE International Conference on Software Maintenance and Evolution (ICSME)
+IS  - 
+SN  - 2576-3148
+VO  - 
+VL  - 
+JA  - 2024 IEEE International Conference on Software Maintenance and Evolution (ICSME)
+Y1  - 6-11 Oct. 2024
+AB  - Long methods that encapsulate multiple responsibilities within a single method are challenging to maintain. Choosing which statements to extract into new methods has been the target of many research tools. Despite steady improvements, these tools often fail to generate refactorings that align with developers' preferences and acceptance criteria. Given that Large Language Models (LLMs) have been trained on large code corpora, if we harness their familiarity with the way developers form functions, we could suggest refactorings that developers are likely to accept. In this paper, we advance the science and practice of refactoring by synergistically combining the insights of LLMs with the power of IDEs to perform Extract Method (EM). Our formative study on 1752 EM scenarios revealed that LLMs are very effective for giving expert suggestions, yet they are unreliable: up to 76.3% of the suggestions are hallucinations. We designed a novel approach that removes hallucinations from the candidates suggested by LLMs, then further enhances and ranks suggestions based on static analysis techniques from program slicing, and finally leverages the IDE to execute refactorings correctly. We implemented this approach in an IntelliJ IDEA plugin called EM-Assist. We empirically evaluated EM-Assist on a diverse corpus that replicates 1752 actual refactorings from open-source projects. We found that EM-Assist outperforms previous state of the art tools: EM-Assist suggests the developer-performed refactoring in 53.4% of cases, improving over the recall rate of 39.4% for previous best-in-class tools. Furthermore, we conducted firehouse surveys with 16 industrial developers and suggested refactorings on their recent commits. 81.3% of them agreed with the recommendations provided by EM-Assist. This shows the usefulness of our approach and ushers us into a new era when LLMs become effective AI assistants for refactoring.
+ER  - 
+
+TY  - CONF
+TI  - WIP: ARTful Insights from a Pilot Study on GPT-Based Automatic Code Reviews in Undergraduate Computer Science Programs
+T2  - 2024 IEEE Frontiers in Education Conference (FIE)
+SP  - 1
+EP  - 5
+AU  - A. S. Crandall
+AU  - B. J. Fischer
+AU  - J. L. Crandall
+PY  - 2024
+KW  - Computer science
+KW  - Training
+KW  - Surveys
+KW  - Codes
+KW  - Accuracy
+KW  - Reviews
+KW  - Subspace constraints
+KW  - Transformers
+KW  - Iterative methods
+KW  - Software engineering
+KW  - Adaptive computer learning
+KW  - Computer science
+KW  - Qualitative
+KW  - Mixed methods research
+KW  - Code Reviews
+KW  - Software Engineering Education
+DO  - 10.1109/FIE61694.2024.10893407
+JO  - 2024 IEEE Frontiers in Education Conference (FIE)
+IS  - 
+SN  - 2377-634X
+VO  - 
+VL  - 
+JA  - 2024 IEEE Frontiers in Education Conference (FIE)
+Y1  - 13-16 Oct. 2024
+AB  - This work in progress research paper describes a pilot study using a Large Language Model (LLM) Generative Pre-Trained Transformer-based (GPT) system that generates industry-style code reviews for student feedback on software development projects in Computer Science 2nd, 3rd, and 4th+ semester classes (CS2, CS3, CS4+) at an ABET accredited baccalaureate institution. Code reviews are a valuable, but work-intensive, component of the software engineering process and provide important training to undergraduate students in the form of mentor-peer knowledge transfer. Participants in this study engaged in iterative experiential learning using the Automatic Review Tool (ART), an artificial intelligence tool to support software engineering as an Automatic Static Analysis Tool in the Continuous Integration pipeline alongside software testing harnesses and code style checkers. This pilot study was based on earlier results from a full computer science second semester (CS2) class $(\mathrm{n}=74)$ to develop an ART-generated code review intervention pilot study with a small group of students in CS2 / 3 and CS4. The project underway uses an experiential learning and iterative feedback process to answer research questions including “Does ART provide accurate and actionable code reviews for students” and “Which levels of students are best prepared to receive and use ART-based code reviews?” During this pilot study, the project used a mixed methods research approach with a series of surveys, code review interventions, and numerical analysis of the code reviews' accuracy. Results showed a reasonable degree of code review accuracy by ART and the students learned code review skills from interaction with the ART-based reviews they received. Ongoing work includes increasing the scale of data collection, using this work to refine and focus the ART-based reviews onto the categories of feedback that students find the most valuable, and building out a more modular tool for wider release in the academic community.
+ER  - 
+
+TY  - CONF
+TI  - Retrieval-Augmented Generation (RAG) for Document-Based Question Answering
+T2  - 2026 IEEE International Conference on AI Engineering and Innovations (AIEI)
+SP  - 1
+EP  - 6
+AU  - G. R. Naidu
+AU  - I. Rai
+AU  - M. Badi
+PY  - 2026
+KW  - Filtering
+KW  - Filters
+KW  - Circuits and systems
+KW  - Protocols
+KW  - HTTP
+KW  - Radio access networks
+KW  - Regional area networks
+KW  - Artificial intelligence
+KW  - Large language models
+KW  - Machine learning
+KW  - Retrieval-Augmented Generation
+KW  - Document Question Answering
+KW  - Lang Chain
+KW  - Chroma DB
+KW  - Vector Embeddings
+KW  - Prompt Engineering
+KW  - Falcon-7B-Instruct
+DO  - 10.1109/AIEI69164.2026.11496706
+JO  - 2026 IEEE International Conference on AI Engineering and Innovations (AIEI)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 IEEE International Conference on AI Engineering and Innovations (AIEI)
+Y1  - 26-28 March 2026
+AB  - Retrieval-augmented generation (RAG) serves as a novel framework that enhances factual correctness and contextual appropriateness of large language model (LLM) outputs through its integration of document retrieval systems that access modern and updated external content. Our team developed an RAG pipeline that utilizes Lang Chain and Chroma DB alongside the Falcon-7B-Instruct model from Hugging Face as its core components. The pipeline starts by processing user-defined textual information and turns it into overlapped sections. A state-of-the-art transformer embedding model converts the input chunks into dense vector embeddings which get stored in a vector database. A retriever identifies semantic text fragments that best match the query while a specific prompt template adds retrieved contextual fragments to the input. After retrieval of context, the LLM returns an answer that is brief with factual evidence. The document provides thorough descriptions of the extended introduction section and methodology along with a detailed survey of important publications that shaped our method.
+ER  - 
+
+TY  - CONF
+TI  - Integrating Artificial Intelligence and Social Network Systems to Enhance Contracting Efficiency
+T2  - 2026 International Conference on Artificial Intelligence and Social Network Systems (AISNS)
+SP  - 26
+EP  - 30
+AU  - H. S. Xie
+AU  - S. Yallapu
+AU  - P. Solanki
+AU  - C. Shi
+PY  - 2026
+KW  - Surveys
+KW  - Social networking (online)
+KW  - Law
+KW  - Semantics
+KW  - Transformers
+KW  - Real-time systems
+KW  - Stakeholders
+KW  - Risk management
+KW  - Resource management
+KW  - Predictive analytics
+KW  - contracting efficiency
+KW  - data security
+KW  - social network analysis
+KW  - AI
+KW  - human-in-the-loop
+DO  - 10.1109/AISNS67921.2026.11440498
+JO  - 2026 International Conference on Artificial Intelligence and Social Network Systems (AISNS)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 International Conference on Artificial Intelligence and Social Network Systems (AISNS)
+Y1  - 9-11 Jan. 2026
+AB  - Traditional contracting processes often experience delays, miscommunication, and inefficiencies due to fragmented information and limited predictive capabilities. This paper proposes a framework to enhance transparency, accelerate decision-making, and optimize resource allocation throughout the contracting lifecycle. In this architecture, Legal-BERT (Bidirectional Encoder Representations from Transformers) extracts domain-specific semantic representations from legal documents, which are then processed by a Large Language Model for contextual reasoning and predictive analytics. Simultaneously, a Knowledge Graph organizes contractual entities into a structured relational map, enabling real-time query, compliance checks, and interpretability. The methodology combines Artificial Intelligence (AI) models for contract risk assessment with social network analysis to identify key influencers and streamline stakeholder engagement. The survey findings indicate that respondents expressed strong agreement (M=4.58, SD=1.23, and a 95% CI of [4.12, 5.04]) with the predictive analytics contributions of reduced negotiation time, improved compliance, and stronger relational governance. The paper offers practical implications for industries seeking agile and data-driven contracting solutions, supporting the emerging discourse on digital transformation in contract management.
+ER  - 
+
+TY  - JOUR
+TI  - Vision-Language Models in Remote Sensing: Current progress and future trends
+T2  - IEEE Geoscience and Remote Sensing Magazine
+SP  - 32
+EP  - 66
+AU  - X. Li
+AU  - C. Wen
+AU  - Y. Hu
+AU  - Z. Yuan
+AU  - X. X. Zhu
+PY  - 2024
+KW  - Task analysis
+KW  - Visualization
+KW  - Transformers
+KW  - Computational modeling
+KW  - Feature extraction
+KW  - Chatbots
+KW  - Semantics
+KW  - Visual analytics
+KW  - Communication systems
+DO  - 10.1109/MGRS.2024.3383473
+JO  - IEEE Geoscience and Remote Sensing Magazine
+IS  - 2
+SN  - 2168-6831
+VO  - 12
+VL  - 12
+JA  - IEEE Geoscience and Remote Sensing Magazine
+Y1  - June 2024
+AB  - The remarkable achievements of ChatGPT and Generative Pre-trained Transformer 4 (GPT-4) have sparked a wave of interest and research in the field of large language models (LLMs) for artificial general intelligence (AGI). These models provide intelligent solutions that are closer to human thinking, enabling us to use general artificial intelligence (AI) to solve problems in various applications. However, in the field of remote sensing (RS), the scientific literature on the implementation of AGI remains relatively scant. Existing AI-related research in RS focuses primarily on visual-understanding tasks while neglecting the semantic understanding of the objects and their relationships. This is where vision-LMs (VLMs) excel as they enable reasoning about images and their associated textual descriptions, allowing for a deeper understanding of the underlying semantics. VLMs can go beyond visual recognition of RS images and can model semantic relationships as well as generate natural language descriptions of the image. This makes them better suited for tasks that require both visual and textual understanding, such as image captioning and visual question answering (VQA). This article provides a comprehensive review of the research on VLMs in RS, summarizing the latest progress, highlighting current challenges, and identifying potential research opportunities. Specifically, we review the application of VLMs in mainstream RS tasks, including image captioning, text-based image generation, text-based image retrieval (TBIR), VQA, scene classification, semantic segmentation, and object detection. For each task, we analyze representative works and discuss research progress. Finally, we summarize the limitations of existing works and provide possible directions for future development. This review aims to provide a comprehensive overview of the current research progress of VLMs in RS (see Figure 1), and to inspire further research in this exciting and promising field.
+ER  - 
+
+TY  - JOUR
+TI  - Generative Artificial Intelligence Models for Emerging Communication Systems: Fundamentals and Challenges
+T2  - IEEE Communications Magazine
+SP  - 36
+EP  - 43
+AU  - Z. Peng
+AU  - Y. Liu
+AU  - G. Li
+AU  - Z. Yang
+AU  - M. Chen
+AU  - D. Xu
+AU  - X. Lin
+PY  - 2025
+KW  - Data privacy
+KW  - Generative AI
+KW  - Data integrity
+KW  - Transformers
+KW  - Semantic communication
+KW  - Integrated sensing and communication
+KW  - Diffusion models
+KW  - Real-time systems
+KW  - Digital twins
+KW  - Security
+DO  - 10.1109/MCOM.001.2400730
+JO  - IEEE Communications Magazine
+IS  - 9
+SN  - 1558-1896
+VO  - 63
+VL  - 63
+JA  - IEEE Communications Magazine
+Y1  - September 2025
+AB  - The evolution of generative artificial intelligence (GenAI) marks a pivotal shift in the potential reshaping of technological landscapes. Wireless networks, bolstered by the advent of advanced intelligent technologies, present a promising domain for leveraging GenAI, which could revolutionize the current networking design and communication paradigms. Extensive research has reviewed large language models, a significant yet specialized facet of GenAI, and explored their integration into networks. This article offers a broad introduction to GenAI and delves into its applications within various emerging communication technologies. We start by providing an overview of representative GenAI models, including variational autoencoder, Transformer, and diffusion models, elucidating their foundational principles. Subsequently, we spotlight their emerging applications in advanced communication systems such as digital twins, integrated sensing and communication, and semantic communication. We also underscore crucial challenges and practical considerations, encompassing aspects like data quality, real-time processing capabilities, privacy risks, and security implications. Furthermore, a prospective outlook on research opportunities is taken to surmount these challenges, thereby unlocking the full potential of GenAI in future communication systems.
+ER  - 
+
+TY  - CONF
+TI  - AI in Smart Tourism: LLMs & GPTs Leading the Way
+T2  - 2024 15th International Conference on Information, Intelligence, Systems & Applications (IISA)
+SP  - 1
+EP  - 8
+AU  - A. Kontogianni
+AU  - E. Alepis
+PY  - 2024
+KW  - Tourism industry
+KW  - Transportation
+KW  - Training data
+KW  - Transforms
+KW  - Transformers
+KW  - Data models
+KW  - Real-time systems
+KW  - Recommender systems
+KW  - Context modeling
+KW  - Testing
+KW  - smart tourism
+KW  - LLMs
+KW  - GPTs
+KW  - ChatGPT
+DO  - 10.1109/IISA62523.2024.10786696
+JO  - 2024 15th International Conference on Information, Intelligence, Systems & Applications (IISA)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2024 15th International Conference on Information, Intelligence, Systems & Applications (IISA)
+Y1  - 17-19 July 2024
+AB  - The rise of Artificial Intelligence (AI) has dramatically transformed various industries, including healthcare, finance, education, and transportation, with Large Language Models (LLMs) playing a pivotal role in this evolution. In the realm of Smart Tourism, LLMs, including Generative Pre-trained Transformers (GPTs), have demonstrated significant potential, providing innovative solutions to enhance tourist experiences and streamline industry operations. This paper provides an overview of the LLMs currently available in the market, with a specific focus on the GPT models in the context of Smart Tourism. It examines their performance, datasets, and potential applications within this sector. The study analyzes the data utilized by these models and their interaction with travelers, emphasizing the need for diverse training data to enhance the cultural and contextual relevance of GPT responses. This concise study offers a comprehensive understanding of the transformative potential of LLMs and GPTs in Smart Tourism, providing valuable insights for researchers and industry professionals and serving as a stepping stone for further research in the field.
+ER  - 
+
+TY  - CHAP
+TI  - Generative AI
+T2  - Data Makes the World Go 'Round: The Data, Tech, and Trust Behind AI Success
+SP  - 201
+EP  - 216
+AU  - Fern Halper
+PY  - 2026
+KW  - Contacts
+KW  - Internet
+KW  - Videos
+KW  - Communication systems
+KW  - Computer networks
+KW  - Video equipment
+KW  - Amplitude shift keying
+KW  - Amplitude modulation
+KW  - Bot (Internet)
+KW  - Product development
+DO  - 10.1002/9781394390663.ch17
+PB  - Wiley
+SN  - 9781394390656
+UR  - http://ieeexplore.ieee.org/document/11505371
+AB  - <p>This chapter examines the transformative impact of generative AI (GenAI) on the market, focusing on its innovative potential and operational challenges. It begins with an overview of GenAI fundamentals, including foundation models and their applications, and explores how organizations leverage these technologies to enhance productivity and address industry&#x2010;specific challenges. The discussion addresses practical considerations for data and AI professionals deploying GenAI, such as data quality, governance, and mitigating risks like hallucinations and bias. It underscores the need for a balanced approach that encourages experimentation while maintaining operational discipline. The historical context of GenAI is traced from early models like GANs and transformers to the breakthrough of large language models (LLMs) such as BERT and GPT&#x2010;3, culminating in the mainstream adoption of ChatGPT. The chapter also discusses the rapid pace of innovation and the flood of competitors that followed ChatGPT's release, as well as the unique characteristics of GenAI systems, which offer natural language interfaces and generate new content based on input. The role of foundation models, which are large, pretrained models capable of diverse downstream tasks, is also explored.</p>
+ER  - 
+
+TY  - CHAP
+TI  - Deep Learning and AI
+T2  - The Data Science Handbook
+SP  - 309
+EP  - 329
+AU  - Field Cady
+PY  - 2025
+KW  - Deep learning
+KW  - Neurons
+KW  - Data models
+KW  - Training
+KW  - Neural networks
+KW  - Artificial intelligence
+KW  - Graphics processing units
+KW  - Libraries
+KW  - Codes
+KW  - Adaptation models
+DO  - 10.1002/9781394234523.ch24
+PB  - Wiley
+SN  - 9781394234516
+UR  - http://ieeexplore.ieee.org/document/10766914
+AB  - Summary <p>Artificial intelligence has taken the world by storm, and this chapter will give you the foundation to understand and take advantage of this revolution. It shows in detail how to build and train deep neural networks, applying them to classic problems in classification and image analysis. An overview is given of the key concepts underlying modern AI applications, such as diffusion models and transformers, and how they are put together to make generative AI tools like Stable Diffusion. Finally, there is a discussion of Large Language Models (LLMs) and prompt engineering using the LangChain library.</p>
+ER  - 
+
+TY  - CONF
+TI  - Comparative Review of Machine Learning Techniques for Physiological, Behavioral, and Multimodal Data in Anxiety Detection
+T2  - 2026 4th International Conference on Sustainable Computing and Smart Systems (ICSCSS)
+SP  - 1483
+EP  - 1491
+AU  - Y. Bhardwaj
+AU  - A. Sharma
+PY  - 2026
+KW  - Modeling
+KW  - Machine learning
+KW  - Architecture
+KW  - Computer architecture
+KW  - Printing
+KW  - Wearable devices
+KW  - Signal detection
+KW  - Federated learning
+KW  - Reviews
+KW  - Systematics
+KW  - Wearable sensors
+KW  - physiological signals
+KW  - behavioral data
+KW  - machine learning
+KW  - deep learning
+KW  - anxiety detection
+KW  - mental health monitoring
+KW  - and feature extraction
+DO  - 10.1109/ICSCSS69635.2026.11645626
+JO  - 2026 4th International Conference on Sustainable Computing and Smart Systems (ICSCSS)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 4th International Conference on Sustainable Computing and Smart Systems (ICSCSS)
+Y1  - 22-24 July 2026
+AB  - The most prevalent mental health issue in the world is anxiety disorders, which can be successfully treated with prompt intervention. PRISMA-based Overview: Anxiety Detection Research (2010–2026) It presents a detailed review and three big data modalities including physiological signals (ECg, EDA, Ppg), behavioral traits (speech, text, face) at various levels of psycho-physiological response and their multimodal detection. This review offers one of the first structured analyzes of modern architectural trends in affective computing from the self-reported neural data perspective, namely Transformer based models, Large Language Models (LLMs), and privacy preserved Federated Learning. The performance trend across datasets, feature extraction settings, and algorithmic frameworks that have been specifically designed or benchmarked for the purpose consistently point towards enhanced multimodal deep learning architectures. While these models improve prediction accuracy, they can also suffer from overfitting and the costs for implementation using actual wearables be more exhaustive in practice and increase computational cost.
+ER  - 
+
+TY  - CONF
+TI  - Human vs AI-Generated Text Detection Using IndoBERT Algorithm for Different Types of Text
+T2  - 2025 IEEE International Conference on Industry 4.0, Artificial Intelligence, and Communications Technology (IAICT)
+SP  - 578
+EP  - 582
+AU  - G. Abadi
+AU  - A. N. Z. Amelia
+AU  - Y. Muliono
+AU  - I. D. A. Rachmawati
+AU  - C. R. P. Siahaan
+AU  - A. Kurniawan
+PY  - 2025
+KW  - Training
+KW  - Surveys
+KW  - Adaptation models
+KW  - Accuracy
+KW  - Reviews
+KW  - Text detection
+KW  - Motion pictures
+KW  - Transformers
+KW  - Data models
+KW  - Context modeling
+KW  - AI-Generated
+KW  - BERT
+KW  - IndoBERT
+KW  - NLP
+KW  - LLMs
+DO  - 10.1109/IAICT65714.2025.11101692
+JO  - 2025 IEEE International Conference on Industry 4.0, Artificial Intelligence, and Communications Technology (IAICT)
+IS  - 
+SN  - 2834-8249
+VO  - 
+VL  - 
+JA  - 2025 IEEE International Conference on Industry 4.0, Artificial Intelligence, and Communications Technology (IAICT)
+Y1  - 3-5 July 2025
+AB  - Along with the advancement of Artificial Intelligence (AI) and Large Language Models (LLMs) that has enabled the creation of hyper-realistic, human-like content, it became difficult to tell if a content is created by humans or AI. This difficulty impacts not only how information is absorbed, but also how it is managed and regulated. This research aims to evaluate the effectiveness of IndoBERT-base-p2, a Bidirectional Encoder Representations from Transformers (BERT) model for the Indonesian language, in distinguishing between humanwritten and AI-generated texts and see the accuracy of the model for various informal writing styles and contexts. The type of dataset used in this research is short text i.e. Movie Reviews and Student Experience Surveys. The results show that IndoBERT-base-p2 is highly accurate and precise in distinguishing Human written and AI-generated text with an average accuracy of $\mathbf{9 5, 8 4 \%}$, as well as adapting with different type of datasets used in the experiments.
+ER  - 
+
+TY  - CONF
+TI  - Systematic Mapping and Analysis of Barriers to Nuclear Power Development in the Philippines: An LLM-Assisted Hierarchical Network Model Approach
+T2  - 2024 IEEE 16th International Conference on Humanoid, Nanotechnology, Information Technology, Communication and Control, Environment, and Management (HNICEM)
+SP  - 1
+EP  - 6
+AU  - D. J. R. Diamante
+AU  - M. A. B. Promentilla
+AU  - A. B. Culaba
+PY  - 2024
+KW  - Surveys
+KW  - Generative Pre-trained transformer
+KW  - Systematics
+KW  - Program processors
+KW  - Virtual assistants
+KW  - Electricity
+KW  - Market research
+KW  - MCDM
+KW  - Security
+KW  - Faces
+KW  - Systematic Mapping
+KW  - Barrier Analysis
+KW  - Nuclear power
+KW  - MCDM
+KW  - AHP
+KW  - DEMATEL
+KW  - PRMEHN
+KW  - LLM
+DO  - 10.1109/HNICEM64917.2024.11258840
+JO  - 2024 IEEE 16th International Conference on Humanoid, Nanotechnology, Information Technology, Communication and Control, Environment, and Management (HNICEM)
+IS  - 
+SN  - 2770-0682
+VO  - 
+VL  - 
+JA  - 2024 IEEE 16th International Conference on Humanoid, Nanotechnology, Information Technology, Communication and Control, Environment, and Management (HNICEM)
+Y1  - 26-29 Nov. 2024
+AB  - The global energy sector faces critical challenges in climate change and energy security, driving the pursuit of cleaner energy sources. In the Philippine context, the country's electricity generation mix is over 77% reliant on fossil fuels. Nuclear power emerges as a promising solution for decarbonization and stable baseload power. The Philippines exemplifies this trend, having recently adopted a national position on nuclear power. To address these challenges, the Philippine Energy Plan 2023-2050 includes nuclear power integration, targeting the commissioning of 1.2 GW by as early as 2032. However, nuclear power development faces numerous challenges as demonstrated by global trends. This study aims to systematically scope current research on nuclear power development, identify key barriers, and evaluate their priorities using multi-criteria decision-making methods. Additionally, it explores the potential of large language models (LLMs) to simulate the complex decision-making process, offering novel insights into energy transition strategies. Through the systematic mapping process, 12 barriers to nuclear power development were gathered from 27 relevant references. A Generative Pre-trained Transformer (GPT) LLM guide was developed to help identify the optimal number of experts needed for the decision problem; generate virtual expert profiles; and prepare the MCDM survey. The virtual experts were developed to act according to their profiles and elicit judgments. Through an AHP-DEMATEL hierarchical network decision model, barrier interdependencies were captured, enhancing barrier prioritization. Nuclear Material Monitoring, Economic and Financial Viability, and Legal and Regulatory Framework barriers emerged as the most crucial for nuclear power development. While the LLM-powered virtual assistants completed the decision-making process in a considerably short span of time (completing 198 pairwise questions in under 5 minutes each), the efficiency in terms of output quality versus less time input could be explored further in succeeding studies. Future research should explore integrating response validation mechanisms and investigate the use of LLM-assisted MCDM data processors to handle large datasets from numerous virtual experts, especially for decision problems with many factors.
+ER  - 
+
+TY  - CONF
+TI  - Regenerative Braking-Aware Longitudinal Slip Control Strategy for Hub Motor Electric Two-Wheelers on Variable Friction Surfaces
+T2  - 2025 IEEE 4th International Conference for Advancement in Technology (ICONAT)
+SP  - 1
+EP  - 6
+AU  - S. Deshmukh
+AU  - S. Deshmukh
+AU  - N. Lokhande
+PY  - 2025
+KW  - Analytical models
+KW  - Torque
+KW  - Friction
+KW  - Roads
+KW  - Computer architecture
+KW  - Mathematical models
+KW  - Stability analysis
+KW  - Safety
+KW  - Vehicle dynamics
+KW  - Thermal stability
+KW  - Electric two-wheelers
+KW  - regenerative braking
+KW  - slip control
+KW  - hub motor
+KW  - vehicle dynamics
+KW  - MATLAB
+KW  - longitudinal slip ratio
+KW  - hybrid braking strategy
+KW  - nonlinear tire modelling
+KW  - Pacejka model
+KW  - traction control
+KW  - braking torque distribution
+KW  - energy recovery
+KW  - friction braking
+KW  - urban mobility
+DO  - 10.1109/ICONAT66879.2025.11362672
+JO  - 2025 IEEE 4th International Conference for Advancement in Technology (ICONAT)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 IEEE 4th International Conference for Advancement in Technology (ICONAT)
+Y1  - 19-21 Sept. 2025
+AB  - Natural Language Processing (NLP) has revolutionized how machines understand and generate human language, enabling applications from conversational AI to sophisticated machine translation systems. This comprehensive survey provides an in-depth review of NLP techniques, spanning from traditional rule-based methods to cutting-edge deep learning approaches, including transformer architectures and large language models (LLMs). We explore various neural network architectures, including Recurrent Neural Networks (RNNs), Long Short-Term Memory (LSTM) networks, Gated Recurrent Units (GRUs), and Convolutional Neural Networks (CNNs), along with embedding techniques such as word vectors and contextual embeddings. This study examines key applications across e-commerce, healthcare, and social media platforms, while addressing critical challenges, including data scarcity, algorithmic bias, and computational complexity. Through an analysis of over 100 recent publications (2020-2024), we highlight the current methodological trends and future research directions, emphasizing efficient model architectures and multilingual processing capabilities. This study serves as a comprehensive guide for researchers and practitioners navigating NLP's rapidly evolving landscape.
+ER  - 
+
+TY  - CONF
+TI  - Comparative Analysis of AI Deepseek and ChatGPT in Command Execution Within Field of Higher Education
+T2  - 2025 IEEE International Symposium on Future Telecommunication Technologies (SOFTT)
+SP  - 280
+EP  - 285
+AU  - A. F. Pamungkas
+AU  - R. M. H. Madison
+AU  - P. A. Wismaya
+AU  - S. Heripracoyo
+PY  - 2025
+KW  - Surveys
+KW  - Large language models
+KW  - Education
+KW  - Context awareness
+KW  - Data collection
+KW  - Chatbots
+KW  - Transformers
+KW  - Communications technology
+KW  - Artificial intelligence
+KW  - Information integrity
+KW  - artificial intelligence
+KW  - chatgpt
+KW  - deepdeek
+KW  - is success model
+KW  - higher education
+DO  - 10.1109/SOFTT67007.2025.11213063
+JO  - 2025 IEEE International Symposium on Future Telecommunication Technologies (SOFTT)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 IEEE International Symposium on Future Telecommunication Technologies (SOFTT)
+Y1  - 26-28 Aug. 2025
+AB  - Artificial Intelligence (AI) today is truly sophisticated, which of course brings many benefits to human activities, such as especially in the world of education. Examples of AI used in the world of education such as students are ChatGPT and DeepSeek. AI ChatGPT and DeepSeek can be said to be AI Large Language Models that use transformer architecture, so they can understand, process, and produce or respond to human language. In this study, we compare the quality of AI ChatGPT and DeepSeek, using the assessment variables System Quality, Information Quality, Service Quality, Intention to Use, and User Satisfaction. The method of data collection to compare the two AIs was by survey method on students who are currently carrying out educational activities, with a total of 383 respondents, and 365 of them are active students. The purpose of this study is to find out and find the quality of AI and to find out the feelings of use while using AI ChatGPT and DeepSeek. Of course, both AIs, such as ChatGPT and DeepSeek, have their respective advantages. For example, ChatGPT AI shows its strength in its ability to adapt to users and also has strong capabilities in interactivity, context awareness, and language understanding. While DeepSeek provides very high-quality analytical reasoning and the ability to execute tasks precisely, and also offers more consistent performance across all measured variables. This means that each of the advantages of ChatGPT and DeepSeek has a positive impact on students who are pursuing higher education.
+ER  - 
+
+TY  - CONF
+TI  - A Comprehensive Review of Automatic Pronunciation Assessment and Child Speaker Verification: Challenges, Deep Learning Advances, and Future Directions
+T2  - 2026 2nd International Conference on Information, Implementation and Innovation in Technology (I2ITCON)
+SP  - 1
+EP  - 7
+AU  - M. Singh
+AU  - S. S
+AU  - V. Upadhyaya
+AU  - S. P. Singh
+AU  - P. Patel
+PY  - 2026
+KW  - Aging
+KW  - Pediatrics
+KW  - Speech
+KW  - Modeling
+KW  - Printing
+KW  - Multilingual
+KW  - Learning (artificial intelligence)
+KW  - Feedback
+KW  - Reviews
+KW  - Deep learning
+KW  - Age Adaptation
+KW  - Automatic Pronunciation Assessment
+KW  - Child Speaker Verification
+KW  - Children’s Speech
+KW  - Deep Learning
+KW  - Multilingual Speech
+KW  - Self-Supervised Learning
+KW  - Speech Sound Disorders
+DO  - 10.1109/I2ITCON69735.2026.11747821
+JO  - 2026 2nd International Conference on Information, Implementation and Innovation in Technology (I2ITCON)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 2nd International Conference on Information, Implementation and Innovation in Technology (I2ITCON)
+Y1  - 30-31 July 2026
+AB  - This work presents a survey of two promising emergent research topics in child speech processing and recognition: Child Speaker Verification (CSV)and Automatic Pronunciation Assessment (APA). We begin by explaining what is so tricky about children’s speech for machines to process. Their voices change as they grow, and there is a lot of variation from one child to another. We then describe how CSV systems have evolved over the years from initial models that preferred not to see basic acoustic mismatch new schemes to newer approaches based on better data augmentation, improved feature modeling,and designs that are less age based. We then turn to APA, beginning with older ASR based scoring methods and progressing to more modern deep learning systems, self supervised models, Transformer based approaches,and newer tools that utilize computational models that are large language models to generate feedback that is more comprehendible by learners and clinicians. Finally, we look at how these two areas intersect in education and clinical practice. APA assists with learning to read, respect and forcing pronunciation every DIR child deserves the best opportunity and APA helps kids learn to read text. We end with ongoing challenges such as the non availability of long term datasets, poor modeling system of prosody, and need of more inclusive systems.
+ER  - 
+
+TY  - JOUR
+TI  - Matthew Adams on AI Threat Modeling and STRIDE GPT
+T2  - IEEE Software
+SP  - 157
+EP  - 160
+AU  - P. Raghavan
+PY  - 2025
+KW  - Threat modeling
+KW  - Generative AI
+KW  - Large language models
+KW  - Interviews
+KW  - Computer security
+KW  - Software engineering
+DO  - 10.1109/MS.2025.3540515
+JO  - IEEE Software
+IS  - 3
+SN  - 1937-4194
+VO  - 42
+VL  - 42
+JA  - IEEE Software
+Y1  - May-June 2025
+AB  - In episode 648 of Software Engineering Radio, Matthew Adams, Head of Security Enablement at Citi, joins SE Radio host Priyanka Raghavan to explore the use of large language models in threat modeling, with a special focus on Matthew’s work, STRIDE GPT. The episode kicks off with an overview of threat modeling, its applications, and the stages of the development life cycle where it fits in. The episode further explores STRIDE methodology and STRIDE GPT in detail with practical examples and finally concludes with tips and tricks for optimizing tool outputs and advice on other open source projects that utilize generative AI to enhance cybersecurity. We provide summary excerpts next; to hear the full interview, visit http://www.se-radio.net or access our archives via RSS at http://feeds.feedburner.com/se-radio.—Robert Blumen and Karthik Vaidhyanathan.
+ER  - 
+
+

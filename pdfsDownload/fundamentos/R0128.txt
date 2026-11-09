@@ -1,0 +1,726 @@
+                                                                                                                                                                                                   2025 8th International Conference on Advanced Electronic Materials, Computers and Software Engineering (AEMCSE)
+
+2025 8th International Conference on Advanced Electronic Materials, Computers and Software Engineering (AEMCSE) | 979-8-3315-1091-6/25/$31.00 ©2025 IEEE | DOI: 10.1109/AEMCSE65292.2025.11042839  A Survey of Low-Rank Adaptation Techniques
+
+                                                                                                                                                                                                               Zeqin Feng                                                             Yongqiang Xie
+                                                                                                                                                                                                   Institute of Systems Engineering                                         Institute of Systems Engineering
+
+                                                                                                                                                                                                    Academy of Military Science                                              Academy of Military Science
+                                                                                                                                                                                                             Beijing, China                                                           Beijing, China
+
+                                                                                                                                                                                                       13145647181@163.com                                                        yqxie_2024@163.com
+
+                                                                                                                                                                                                               Jiawei Yang                                                         Wenjun Hou
+                                                                                                                                                                                                   Institute of Systems Engineering                                                 Unit 91977
+                                                                                                                                                                                                                                                                                  Beijing, China
+                                                                                                                                                                                                    Academy of Military Science                                             15810687609@163.com
+                                                                                                                                                                                                             Beijing, China
+
+                                                                                                                                                                                                       19972880263@163.com
+
+                                                                                                                                                                                                                                    Zhongbo Li*                             tuning for LLMs is prohibitively high. For instance, full fine-
+                                                                                                                                                                                                                        Institute of Systems Engineering                    tuning of the DeepSeek-7B[5] model requires 60 GB of GPU
+                                                                                                                                                                                                                                                                            memory, necessitating two professional-grade A100 (40 GB)
+                                                                                                                                                                                                                          Academy of Military Science                       GPUs for training--a resource demand that is particularly
+                                                                                                                                                                                                                                   Beijing, China                           challenging for independent researchers with limited funding.
+                                                                                                                                                                                                                                                                            To address this challenge, researchers have developed various
+                                                                                                                                                                                                                              *lzb05296@163.com                             parameter-efficient fine-tuning (PEFT) methods. Categorized by
+                                                                                                                                                                                                       Abstract--The advent of the Transformer architecture has             their operational characteristics during fine-tuning, mainstream
+                                                                                                                                                                                                   spurred the development of Large Language Models (LLMs), yet             PEFT[6] approaches primarily include adapter tuning[7],
+                                                                                                                                                                                                   fine-tuning these models for downstream tasks poses challenges           prompt tuning[8], and Low-Rank Adaptation[9]. Notably, the
+                                                                                                                                                                                                   due to high computational costs. Low-Rank Adaptation(LoRA)               LoRA framework and its derivatives (e.g., QLoRA[10],
+                                                                                                                                                                                                   has emerged as a leading parameter-efficient fine-tuning (PEFT)          AdaLoRA[11], Flora[12]) have emerged as predominant
+                                                                                                                                                                                                   method  LoRA is based on the Low Intrinsic Dimensionality                solutions in the PEFT paradigm, owing to their architectural
+                                                                                                                                                                                                   Hypothesis, reducing trainable parameters through low-rank               simplicity, computational efficiency, and versatile applicability
+                                                                                                                                                                                                   matrices decomposition while maintaining or enhancing                    across diverse model architectures and research domains.
+                                                                                                                                                                                                   performance. This paper comprehensively reviews LoRA,
+                                                                                                                                                                                                   covering its low-rank adaptation concept, technical optimizations,           The LoRA methodology operates by freezing the original
+                                                                                                                                                                                                   architectural innovations, existing challenges and future                model parameters during PEFT, focusing on updating low-rank
+                                                                                                                                                                                                   prospective.                                                             matrices injected into the Transformer layers of LLMs. This
+                                                                                                                                                                                                                                                                            approach reduces trainable parameters to one-thousandth of
+                                                                                                                                                                                                       Keywords-Low-Rank Adaptation, Parameter-Efficient Fine-              those required for full fine-tuning--for instance, fine-tuning a
+                                                                                                                                                                                                   Tuning, Large Language Models                                            model like GPT-3 175B[13] demands merely 0.01% of
+                                                                                                                                                                                                                                                                            parameters while reducing GPU memory consumption to one-
+                                                                                                                                                                                                                             I. INTRODUCTION                                third of full fine-tuning requirements. Remarkably, it achieves
+                                                                                                                                                                                                                                                                            performance comparable to or even surpassing that of full fine-
+                                                                                                                                                                                                       The proposal of Transformer[1] architecture in 2017                  tuning. A distinctive advantage of LoRA lies in its post-training
+                                                                                                                                                                                                   elevated natural language processing technology to a new                 operational efficiency: the optimized low-rank matrices can be
+                                                                                                                                                                                                   dimension, and the innovation of this technical architecture laid        seamlessly merged with the original weight matrices through
+                                                                                                                                                                                                   the foundation for the birth of iconic Large Language Models             linear algebra operations, incurring no additional computational
+                                                                                                                                                                                                   (LLMs) such as GPT-4[2] and LLaMA[3]. In the past few years,             overhead. Furthermore, when adapting to diverse downstream
+                                                                                                                                                                                                   the parameter sizes of pre-trained language models (PLMs) have           tasks, only task-specific low-rank modules need activation,
+                                                                                                                                                                                                   rapidly increased to reach billions and even trillions for some          thereby slashing storage overhead and computational switching
+                                                                                                                                                                                                   large models, resulting in outstanding emergence and                     costs by orders of magnitude.
+                                                                                                                                                                                                   generalization capabilities, which have become an indispensable
+                                                                                                                                                                                                   part of modern artificial intelligence systems. However, the                 In this review, we give a comprehensive review of the
+                                                                                                                                                                                                   introduction of LLMs such as Deepseek-V3[4] and the open                 current research progress as in Fig. 1 of LoRA methods, mainly
+                                                                                                                                                                                                   source of its parameters have announced that the performance of          including concept of low-rank adaptation, technical optimization,
+                                                                                                                                                                                                   industry-leading models can still be achieved with limited               architectural innovation, and conclusion.
+                                                                                                                                                                                                   arithmetic power and parameter sizes by virtue of technological
+                                                                                                                                                                                                   innovation, which provides a new way of thinking to improve
+                                                                                                                                                                                                   the performance of AI. Nevertheless, LLMs still need to be fine-
+                                                                                                                                                                                                   tuned to achieve the corresponding performance effect when
+                                                                                                                                                                                                   researchers face the actual downstream tasks due to their own
+                                                                                                                                                                                                   knowledge boundaries.
+
+                                                                                                                                                                                                       During the actual fine-tuning process for specific
+                                                                                                                                                                                                   downstream tasks, the computational overhead of full fine-
+
+                                                                                                                                                                                                   979-8-3315-1091-6/25/$31.00 ©2025 IEEE                              215
+
+                                                                                                                                                                                                   Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:33:28 UTC from IEEE Xplore. Restrictions apply.
+                                                                      to the low-rank matrices, which is initialized with a randomized
+                                                                      Gaussian distribution for the low-rank matrix  and zero
+                                                                      initialization for the matrix , This ensures that  is actually
+                                                                      a zero matrix at the beginning of the fine-tuning.
+
+                                                                      W=BA                                                      (1)
+
+                                                                          This principle makes  in the fine-tuning process low-
+                                                                      rank, reduces the original d×k parameters that need to be updated
+                                                                      to (d+k)×r, parameters, reduces the number of parameters
+                                                                      involved in training, and greatly reduces the computational and
+                                                                      storage costs.
+
+                            Fig. 1 Structure of LoRA survey.              During the fine-tuning process, the low-rank matrices  and
+                                                                       serve as the sole trainable parameters, dedicated to learning
+            II. CONCEPT OF LOW-RANK ADAPTATION                        task-specific adaptations. In the forward propagation phase, the
+    The Low Intrinsic Dimensionality Hypothesis[14] posits that       original weight matrix  operates in parallel with the low-rank
+most pre-trained models inherently exhibit a low-dimensional          update matrix . For an input vector , the output is computed
+reparameterization space, where adapting to diverse task              through dual pathways:
+requirements can be achieved by adjusting only a small subset
+of parameters. Building on this theoretical foundation, LoRA          The baseline projection: W0x
+emerges as a parameter-efficient fine-tuning methodology. Its         The low-rank adaptation term as in (2).
+core innovation lies in constraining weight updates via low-rank
+matrix decomposition, thereby drastically reducing trainable          Wx=(/r)BAx                                                (2)
+parameters (typically to <1% of full fine-tuning) while
+preserving--and often enhancing--task-specific performance            The final hidden representation is formulated as in (3).
+[15]. This framework enables the creation of domain-specific
+LoRA modules tailored to distinct application scenarios,              h=W0x+Wx=W0x+(/r)BAx                                      (3)
+facilitating efficient downstream task switching through shared
+base model parameters with task-adaptive low-rank components.             Here, the scaling factor  (typically initialized as a constant
+    In this section, we elucidate the technical principles and        tied to the rank ) controls the adaptation strength. This design
+operational advantages underpinning LoRA.                             inherently minimizes hyperparameter tuning demands, as /
+A. Basic Concepts of Low-Rank Adaptation                              provides stable gradient scaling without requiring extensive
+    The LoRA[9] method freezes the weight matrix                      empirical adjustments.
+of the pre-trained model without receiving gradient updates
+while adapting the pre-trained model to the downstream task,          B. Advantages of LoRA
+while decomposing the weight update matrix  into two low-                 Compared to full fine-tuning of large language models,
+rank matrices    and     containing the
+trainable parameters, where  is the rank of the matrices, and the     LoRA has the following advantages:
+rank    ,  .
+                                                                        1) Small-scale parameters, high training efficiency.
+                        Fig. 2 Illustration of LoRA adapters[9].          Utilizing the principle of low-rank decomposition reduces
+
+    As shown in the Fig. 2, the weight update matrix  can be          the trainable parameters by several orders of magnitude,
+expressed as in (1), and a specific initialization method is applied  accelerating the convergence of the training process while
+                                                                      greatly reducing the consumption of computational resources,
+                                                                      especially in resource-constrained environments or scenarios
+                                                                      requiring multiple fine-tuning, which gives the LoRA method a
+                                                                      unique advantage.
+
+                                                                        2) No inference delay, flexible model adaptation.
+                                                                          The parameter update matrix is explicitly incorporated into
+
+                                                                      the frozen weight matrix without increasing the time loss in the
+                                                                      inference process, maintaining the same inference speed as the
+                                                                      original model, with the ability to interchange multitasking
+                                                                      learning adapters under the same model architecture, and
+                                                                      minimizing storage requirements to avoid additional
+                                                                      computational overhead.
+
+                                                                        3) Mitigating catastrophic forgetting and dynamically
+
+                                                                      deploying task extensions.
+                                                                          The freezing of the original weight matrix ensures that the
+
+                                                                      model learns task-specific patterns only by merging lightweight
+                                                                      low-rank matrices when adapting to new tasks, ensuring that the
+                                                                      underlying language comprehension and reasoning capabilities
+                                                                      are not overwritten, and that a single LoRA adapter (about
+                                                                      10MB in size for the 7B model) can be saved independently to
+
+                                                                                  216
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:33:28 UTC from IEEE Xplore. Restrictions apply.
+support dynamic loading at runtime. When switching between          controlled to assign rank to the LoRA module, enabling dynamic
+translation, summarization, and Q&A tasks, only the adapter         control of the matrix rank and adaptive parameter assignment.
+files need to be replaced, eliminating the need to maintain         The model equation is (4)
+multiple copies of the full model.
+                                                                    h=W0x+Wx=W0x+(PQ)x                                           (4)
+                  III. TECHNICAL OPTIMIZATION
+    This section will summarize the basic problems and                  The SVD decomposition provides a unified framework for
+important breakthroughs of lora technology from two key             the rank adaptive control of LoRA modules, while different
+aspects: Parameter optimization and Training process                methods gradually address the balance between efficiency and
+improvement. Parameter optimization includes two dimensions:        performance by dynamically adjusting the balance between the
+Parameter decomposition and Efficiency enhancemen.                  strategy and optimization objectives. AdaLoRA[11]
+                                                                    parametrically fine-tunes the weights "W" through singular
+A. Parameter Optimization                                           value decomposition and uses regularization to ensure the
+    The rapid development of LLMs has led to their enormous         orthogonality of P and Q to approximate the SVD decomposition.
+                                                                    And further dynamically prunes the minor singular values in 
+parameter scales. For models with parameter scales like             based on the importance score to improve the parametric
+Deepseek-V2[16], even when using the highly parameter-              efficiency.
+efficient LoRA method to fine-tune just 5% of the model with
+the float16 data type, it inevitably requires 640GB of GPU              To solve the overfitting problem, BiLoRA[17] introduces a
+memory. To address this challenge, we summarize the current         two-layer optimization framework to separate the training of
+technical research from three aspects: parameter decomposition,     singular vectors and singular values to different data subsets.
+pruning and quantization.                                           This separation strategy effectively mitigates overfitting while
+                                                                    improving the generalization ability of the model. Meanwhile,
+    In the LoRA method during PEFT, the incremental update          SaLoRA[18] is further optimized by introducing a fixed safety
+budget is typically allocated uniformly, overlooking the fact that  module and task-specific initialization to ensure that the safe
+weight matrices in different modules and layers have varying        alignment of the model is preserved during fine-tuning, and by
+degrees of importance. Inspired by the concept of exploring         employing orthogonal regularization to filter the singular values
+effective rank, researchers have focused on reducing the number     through the L0 paradigm.
+of trainable parameters by decomposing fine-tuning matrices
+into smaller scales. This allows for a more microscopic grasp of        EDoRA[19], on the other hand, achieves a significant
+the training process while improving both task performance and      reduction in the number of parameters by decomposing the pre-
+parameter efficiency. For the decomposition of update parameter     training weights into the magnitude and directional components,
+matrices, there are currently three main approaches: methods        and by freezing the low-rank matrices, introducing a small
+based on singular-value decomposition (SVD), methods based          trainable matrix significant reduction in the number of
+on single-rank decomposition (SRD), and methods based on            parameters while maintaining the learning capability.
+tensor-train decomposition.                                         IncreLoRA[20] proposes a single-rank starting strategy that
+                                                                    automatically increases the rank based on heuristic scoring and
+  1) Methods based on Singular-Value-Decomposition.                 relaxes the non-negative constraints on  to improve flexibility.
+    Due to the SVD decomposition inspired decomposition of          This approach avoids the limitation of preset rank budget and
+                                                                    further breaks the efficiency bottleneck of traditional methods.
+the parameter matrix decomposition into PQ, where P and Q           A comparison of specific features is shown in TABLE I.
+are orthogonal and  is a non-negative diagonal matrix. By
+controlling the elements in , the filtered diagonal matrix can be
+
+                                    TABLE I.  COMPARISON OF SVD METHOD.
+
+Variant    Initialization Strategy  Screening Basis                 Constraints         Efficiency Characteristics
+AdaLoRA    High-rank                Importance Score                  0, Orthogonality  Time-consuming Iterative Rank Reduction
+                                    Validation Loss within                              Dual-layer Optimization to Prevent
+BiLoRA     High-rank                Optimization Framework          Orthogonality       Overfitting
+                                    L Norm                                              Sparse Constraint Limited
+SaLoRA     High-rank                SVD Initialization                0, Orthogonality  Freeze Matrix to Reduce Parameters
+EDoRA      Low-rank Frozen Matrix   Heuristic growth score          Orthogonality       Budget-free self-adaptation
+IncreLoRA  Single-rank                                                , Orthogonality
+
+  2) Methods based on Single-Rank decomposition.                        SoRA[21] presents a PEFT method for large language
+    Orthogonal regularization helps to maintain parameter           models by dynamically adjusting the intrinsic rank during
+                                                                    adaptation through a sparse gating unit optimized with a
+independence, but introduces a significant computational            proximal gradient method. This approach initializes with a
+overhead reducing the efficiency. To address this limitation,       higher rank but efficiently tames the temporarily increased
+recent advances have developed dual decomposition strategies        parameters via sparse updates. SoRA also introduces a
+through different approaches. The first studies focus on updating   sparsifying scheduler to explore the relationship between the
+the matrix decomposition by omitting the SVD orthogonality          number of non-zero parameters and the model's memorization
+requirement. These methods directly decompose the incremental       and generalization capabilities. Experiments indicate that SoRA
+update matrix W into single-rank components through an              can outperform other baselines even with 70% retained
+adaptive pruning mechanism.                                         parameters and 70% training time.
+
+                                                                                  217
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:33:28 UTC from IEEE Xplore. Restrictions apply.
+    ALoRA[22] proposes a framework that allocates LoRA             outperforms LoRA across various tasks without additional
+ranks dynamically during the fine-tuning process. It introduces    inference overhead.
+AB-LoRA to estimate the importance score of each LoRA rank
+and then prunes abundant ranks while reallocating the pruned           AutoLoRA[24] is a meta-learning-based framework that
+budgets to important Transformer modules requiring higher          automatically determines the optimal rank for each LoRA layer.
+ranks. The method demonstrates superior performance over           It associates selection variables with each rank-1 matrix in a low-
+recent baselines with comparable tunable parameters.               rank update matrix to control the rank and employs meta
+                                                                   learning to optimize these variables. The optimal rank is
+    DoRA[23] decomposes pre-trained weights into magnitude         determined by thresholding the selection variables, followed by
+and direction components for fine-tuning, employing LoRA           retraining the update matrices. Experiments show AutoLoRA's
+specifically for directional updates to minimize trainable         effectiveness in finding optimal ranks for different layers,
+parameters. The weight decomposition analysis reveals distinct     outperforming baselines across various NLP tasks. A
+patterns between LoRA and full fine-tuning. DoRA consistently      comparison of specific features is shown in TABLE I.
+
+                                           TABLE II.  COMPARISON OF SRD METHOD
+
+Variant   Decomposition          Sparsity  Dynamic    Mechanism                                                       Application Scope
+SoRA      Components             Yes       Rank
+ALoRA     W=B(gWd)               No        Yes        Dynamically adjusts rank during training by pruning zeroed-out  NLP tasks
+DoRA                             No                   ranks
+AutoLoRA  W=B(gWd)               No        Yes        Allocates ranks dynamically across different Transformer        NLP tasks
+                                                      modules                                                         NLP and Vision-
+          Magnitude & Direction            No         Decomposes weights into magnitude and direction, updates        Language tasks
+                                                      direction with LoRA                                             NLP tasks (NLU, NLG,
+          W=ajj                            Yes        Automatically determines layer-specific ranks using meta        sequence labeling)
+                                                      learning
+
+  3) Methods based on Tensor-Train Decomposition                   This section analyzes existing solutions from the perspectives of
+    The Tensor-Train(TT) decomposition[25], first introduced       parameter pruning, quantization and training process
+                                                                   improvement.
+by Oseledets in 2011, offers an efficient approach to
+representing high-dimensional tensors by breaking them into a        1) Parameter Pruning
+sequence of smaller three-dimensional tensor cores. This method        LoRA optimization methods enhance efficiency by
+avoids the curse of dimensionality by significantly reducing
+computational complexity and memory usage while preserving         dynamically eliminating redundant parameters during training
+the essential structure of the data. The TT format has been        and inference. Through systematic importance evaluation, these
+successfully applied to solve high-dimensional problems in         techniques selectively prune adaptation components either in
+fields such as quantum mechanics, stochastic partial differential  isolation or through coordinated refinement with base model
+equations, and financial modeling.                                 parameters, maintaining performance while reducing
+                                                                   computational load.
+    LoRETTA[26], with its two methods--LoRETTAadp and
+LoRETTArep--uses tensor-train decomposition to reduce                  SparseAdapter[28] employs network pruning at initialization
+trainable parameters. LoRETTAadp employs tensorized                to eliminate redundant parameters, achieving comparable or
+adapters for a lightweight yet high-performance approach, while    better performance than standard adapters even at 80% sparsity.
+LoRETTArep focuses on reparameterizing weights with small          This method effectively reduces the parameter budget while
+tensor factors.                                                    maintaining model capacity. SoRA[21] extends LoRA by
+                                                                   incorporating a gate unit optimized with a proximal gradient
+    Recent research has explored the application of TT-            method, enabling dynamic adjustment of the intrinsic rank
+decomposition to PEFT of LLMs. TT-LoRA[27] leverages TT-           during training. This allows for efficient parameter updates and
+decomposition to compress weight update matrices in LLMs,          improved representation power, particularly excelling in tasks
+achieving substantial model compression without compromising       requiring adaptive rank selection.
+performance. By decomposing weight matrices into smaller
+tensor cores, TT-LoRA eliminates the need for traditional LoRA         LoRA-drop[29] evaluates parameter importance based on
+based structures or adapters, thereby reducing inference latency   the output of LoRA, rather than just parameter features, leading
+and computational overhead. Experimental results demonstrate       to significant reductions in trainable parameters while
+that TT-LoRA achieves impressive compression ratios while          preserving performance. This method identifies and retains
+maintaining or even improving performance compared to full         critical parameters, making it highly effective for parameter-
+fine-tuning and other PEFT methods. This approach highlights       efficient fine-tuning. RoseLoRA[30] introduces row and
+the potential of TT-decomposition as a key technique for           column-wise sparsity constraints on the product of low-rank
+enabling efficient deployment of large scale LLMs on resource      matrices, ensuring efficient and precise model updates. This
+constrained platforms.                                             approach is particularly advantageous for knowledge editing
+                                                                   tasks, where selective parameter updates are essential.
+B. Efficiency Enhancement
+    Although LoRA achieves improved parameter efficiency,              LoRAPrune[31] proposes a memory-efficient pruning
+                                                                   criterion that leverages LoRA gradients to estimate the
+the method still requires a large number of trainable parameters.
+
+                                                                                  218
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:33:28 UTC from IEEE Xplore. Restrictions apply.
+importance of pre-trained weights. This method facilitates         tuning of sparse LLMs. TABLE I. summarizes five pruning
+structured pruning without the need to compute gradients of pre-   techniques for LoRA, highlighting their pruning approaches,
+trained weights, achieving high compression rates with minimal     limitations, and typical use cases. Each method offers unique
+performance loss. LoRS[32] introduces weight recompute and         strategies to enhance parameter efficiency and model
+computational graph rearrangement strategies to reduce memory      performance through pruning.
+and computation overhead, making it suitable for efficient fine-
+
+                                TABLE III. COMPARISON OF PRUNING TECHNIQUES FOR LORA METHODS.
+
+Variant        Innovation                                   Deficiency                               Applicability
+SparseAdapter  Pruning at initialization; effective at 80%  Limited to traditional methods
+SoRA           sparsity                                     Potential computational overhead         General NLP tasks
+LoRA-drop      Dynamic rank adjustment with gate unit       Coarser granularity
+                                                                                                     Tasks needing adaptive rank selection
+RoseLoRA       Importance evaluation via LoRA output        Requires hyperparameter tuning           Significant parameter reduction with
+                                                                                                     performance maintenance
+LoRAPrune      Row and column-wise sparsity for precise     Requires fine-tuning                     Knowledge editing and precise parameter
+               updates                                      Increased computation due to weight      updates
+LoRS           Memory-efficient pruning using LoRA          recompute
+               gradients                                                                             High compression in LLMs
+               Weight recompute and computational graph
+               rearrangement                                                                         Efficient fine-tuning of sparse LLMs
+
+                     TABLE IV.  COMPARISON OF KEY FEATURES AND TECHNIQUES IN LORA QUANTIZATION VARIANTS.
+
+Variant        Timing           Precision                   Technique              Optimization      Memory Focus  Dequant
+LoftQ          Pre-FT           mixed                       Uniform & NormalFloat  Joint             FT            Partial
+QLoRA          Pre-FT           4-bit                       NormalFloat            Separate          FT&Inference  Partial
+QA-LoRA        Pre&During FT    2, 3, 4-bit                 Group-wise             Joint             FT&Inference  None
+QDyLoRA        During FT        mixed                       Rank sampling          Q-error rank min  Dynamic LoRA  None
+LQER           Post-FT          mixed                       Group-wise & adaptive  SVD-based LR      Inference     None
+LQ-LokRA       Pre-FT           mixed                       ILP & data-aware       Joint             FT&Inference  Partial
+
+  2) Parameter Quantization                                        the optimal rank, streamlining the adaptation process. TABLE
+    Quantization plays an important role in optimizing the LoRA    IV. provides a detailed summary of quantitative methods
+
+method, greatly reducing storage and computational                   3) Training Process Improvement
+requirements through low-precision representation. Early               Although LoRA has demonstrated unique advantages in
+methods focused on uniform quantization, while recent advances
+have explored non-uniform and mixed-precision techniques to        model fine-tuning scenarios with low parameter occupancy,
+better align with the statistical properties of model weights.     continuous optimization of the training strategy is still required
+                                                                   to unleash its full potential. By integrating recent research results,
+    QLoRA[10] introduced a novel 4-bit NormalFloat (NF4)           it is found that advances in learning rate and strategy
+quantization method, specifically designed for the Gaussian-like   optimization together constitute the current technological
+distribution of weights in pretrained models. This approach        frontier in training efficiency optimization.
+dynamically allocates more precision to smaller weights, which
+are prevalent in these models, thereby enhancing the                   The evolution of LoRA techniques has seen significant
+representation of critical parameters and reducing memory usage.   advancements in parameter-efficient fine-tuning for large
+LoftQ[33] proposed an alternating optimization framework that      language models. Initially, rsLoRA[37] introduced a rank-
+integrates low-rank approximation with quantization.               stabilized scaling factor to address gradient collapse in high-rank
+                                                                   adapters, enabling better performance with increased
+    By iteratively applying quantization and Singular Value        computational resources. Shortly after, LoRA+[38] optimized
+Decomposition (SVD), LoftQ effectively minimizes                   learning rates for adapter matrices A and B, demonstrating
+quantization errors, ensuring that the quantized weights closely   improved efficiency and speed in fine-tuning. RLoRA[39]
+match the original high-precision weights. QA-LoRA[34]             further reduced trainable parameters using Randomized Walsh-
+advanced the field by implementing group-wise quantization,        Hadamard Transform, while incorporating PAC-Bayes
+allowing dynamic adjustment of precision during training. This     regularization to enhance generalization.
+method balances the interaction between low-rank updates and
+quantized weights, optimizing both memory efficiency and               Concurrently, HiddenKey[40] emerged as a unified dropout
+adaptation. LQER[35] focused on post-finetuning quantization,      method tailored for LoRA, mitigating overfitting through
+employing a low-rank SVD-based decomposition to minimize           strategic dropout mechanisms. TriAdaptLoRA[41] dynamically
+errors introduced during quantization. This method ensures that    allocated trainable parameters using triangular splits and
+quantized weights are optimized for inference, maintaining high    adaptive rank growth, inspired by synaptic plasticity in
+accuracy with reduced precision. QDyLoRA[36] introduced            neuroscience. Finally, LSR-Adapt[42] leveraged matrix Low
+dynamic low-rank adaptation, enabling efficient fine-tuning        Separation Rank (LSR) representations to achieve ultra-efficient
+across a spectrum of ranks within a single training cycle. This    parameter tuning with fewer trainable parameters than
+approach eliminates the need for multiple training rounds to find  conventional low-rank methods. Each method brought unique
+
+                                                                                  219
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:33:28 UTC from IEEE Xplore. Restrictions apply.
+innovations but also faced challenges such as computational             provides a detailed summary of learning rate and optimization
+overhead, sensitivity to hyperparameters, and the need for              strategies.
+further optimization in dynamic threshold settings. TABLE I.
+
+TABLE V.      COMPARISON OF DIFFERENT LORA VARIANTS IN TERMS OF LEARNING RATE ADJUSTMENT, OPTIMIZATION STRATEGIES.
+
+Variant       Learning Rate           Optimization                      Innovation Points                    Drawbacks
+rsLoRA        Scaling factor:         Stabilizes gradients              Stabilizes high-rank learning        Limited to rank adjustments
+
+LoRA+               1/r               Enhanced feature learning         Faster training, better performance  Tuning complexity, initialization
+                                                                                                             sensitivity
+RLoRA                                 PAC-Bayes regularization          Fewer parameters, better             Extra gradient computation
+              Learnable scaling                                         generalization
+HiddenKey     vector                  Combines dropout methods          Superior generalization              ~50% longer training time
+TriAdaptLoRA  KL loss regularization  Triangular splits, adaptive rank  Dynamic parameter allocation         Inefficient fixed thresholds
+              Dynamic learning        growth
+LSR-Adapt     rates                   Matrix LSR representations        Ultra-efficient parameter tuning     Underutilizes Kronecker products
+
+                IV. ARCHITECTURAL INNOVATION                            combination of multiple LoRA modules, demonstrating
+    The original LoRA framework revolutionized PEFT by                  remarkable few-shot performance through minimal example
+achieving nearly full fine-tuning performance with reduced              integration and automated module assembly.
+computational costs, yet faced constraints in multi-task
+adaptability and cross-domain generalization. Recent                        LoRA-Flow[48] addressed the need for adaptive fusion
+architectural innovations[43] have addressed these limitations          mechanisms in generative tasks. By introducing dynamic fusion
+through dynamic parameter allocation mechanisms, exemplified            weights, LoRA-Flow optimized the influence of LoRA modules
+by the Mixture of Experts[44] with LoRA framework. This                 through learned parameters, ensuring optimal performance
+enhanced paradigm enables simultaneous optimization of                  across varying generative scenarios and token-level adaptations.
+specialized task modules and adaptive weight distribution               Meanwhile, the development of FLoRA[49] was driven by the
+through a learnable routing network, where each LoRA                    requirement for efficient high-dimensional tensor adaptation.
+component functions as a domain-specific processor. The                 Recognizing the limitations of existing adapters in handling
+integrated training process not only preserves computational            dense prediction tasks, FLoRA introduced a Tucker
+efficiency but also enhances model versatility through context-         decomposition-based approach, significantly enhancing the
+aware specialization, effectively overcoming previous                   efficiency and applicability of low-rank adaptation methods
+bottlenecks in handling concurrent diverse objectives while             across diverse model architectures.
+maintaining minimal parameter overhead.
+                                                                            LoraRetriever[50] emerged to address the challenges of
+A. Dynamic combination method for multiple LoRA modules                 contextual adaptation in mixed-task scenarios. Inspired by the
+    The foundational exploration into dynamic adaptation                need for efficient retrieval and composition of LoRA modules,
+                                                                        LoraRetriever enhanced contextual adaptation by leveraging
+strategies began with the introduction of Covariance Matrix             input prompts to retrieve and compose relevant modules,
+Adaptation (CMA) in evolutionary algorithms. This pioneering            supporting seamless transitions between tasks and improving
+work aimed to optimize parameter correlations by enabling the           overall system efficiency in dynamic environments. The key
+algorithm to learn and adapt the covariance matrix, thereby             features and mechanisms of different structural components are
+enhancing search efficiency in complex, high-dimensional                shown in TABLE VI.
+spaces rather than directly addressing fixed mutation
+distributions. Subsequently, the emergence of Hydra was driven          TABLE VI. COMPARISON OF DIFFERENT LORA COMPOSITION METHODS.
+by the need to handle large-scale datasets and enable real-time
+analysis. Developed by AddThis to address their data processing         Variant        Key Features and Mechanism
+challenges, Hydra[45] introduced a distributed task processing          Hydra
+system capable of supporting both batch and stream processing,          GLoRA          Multi-head adaptation, linear feature combination,
+significantly enhancing data handling capabilities.                     LoraHub        no-inference delay
+                                                                        LoRA-Flow
+    As the demand for efficient and scalable adaptation                 FLoRA          Generalized prompt module, hierarchical structure search,
+techniques grew, GLoRA[46] was introduced to expand                     LoraRetriever  no extra inference cost
+applicability across diverse tasks. Recognizing the limitations of
+existing adapters in handling high-dimensional data and varying                        Dynamic LoRA composition, few-shot adaptation,
+task requirements, GLoRA proposed a hierarchical search                                no additional parameters/gradients
+mechanism that generalized prompt modules, ensuring broader
+task compatibility and improved model flexibility. Building                            Dynamic fusion weights via fusion gates, layer-wise
+upon these advancements, LoraHub[47] further refined dynamic                           fusion, generative task optimization
+composition by leveraging principles inspired by CMA.
+Motivated by the desire to eliminate the need for extra                                Batched low-rank adapters, throughput efficiency, flexible
+parameters or gradients, LoraHub enabled on-the-fly                                    request handling
+
+                                                                                       Input-aware retrieval, LoRA mixing/fusion strategies,
+                                                                                       batch inference optimization
+
+                                                                        B. Combination of Lora With Mixture of Experts
+
+                                                                          1) Evolution of MoE Architectures.
+                                                                            The foundational work by Shazeer et al.[43] introduced
+
+                                                                        sparse-gated MoE layers, where a trainable gating network
+                                                                        dynamically selects subsets of experts for each input token. This
+
+                                                                                  220
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:33:28 UTC from IEEE Xplore. Restrictions apply.
+mechanism used a softmax function over learned gating weights                          reducing multi-task interference by 41%. Mixture-of-LoRAs[56]
+to assign tokens to experts, coupled with a load-balancing loss                        addressed cross-task conflicts via explicit routing masks,
+to prevent expert underutilization. Experiments on machine                             isolating experts to predefined task clusters and cutting
+translation showed a 2048-expert MoE achieved 25% lower                                interference by 40%. MoLA[57] empirically demonstrated that
+perplexity than dense models at equivalent computational costs,                        deeper transformer layers benefit from more experts, proposing
+with experts specializing in syntactic patterns like article usage.                    a pyramid allocation strategy that assigns 4 experts to early
+Building on this, Switch Transformers[51] simplified routing to                        layers and 16 experts to later layers. This approach enhanced
+single-expert activation, reducing cross-device communication                          reasoning accuracy by 15% through concentrating adaptation
+by 60% while enabling trillion-parameter training through                              capacity where semantic complexity reaches its peak.
+expert-data parallelism. Their work demonstrated 7x faster pre-
+training for a 1.6T-parameter model compared to dense                                    3) Dynamic Routing Optimization.
+architectures. THOR[52] later enhanced robustness by injecting                             MOE Meets LLMs[58] introduced temperature-scaled
+Gaussian noise into routing probabilities, mimicking neural
+dropout and improving adversarial task accuracy by 3.2%.                               routing, where a meta-learned controller adjusts the softmax
+SMoE-Dropout[53] further optimized generalization via                                  temperature inversely with task complexity--lower
+curriculum learning: starting with 4 active experts and                                temperatures for deterministic expert selection in simple tasks,
+progressively reducing to 1, achieving 12% lower error on low-                         higher for exploration in complex ones. This reduced
+resource tasks.                                                                        misassignments by 33% in cross-domain tasks. MoCLE[59]
+                                                                                       implemented a two-stage routing system: first clustering inputs
+  2) Hybrid Architectures.                                                             into semantic groups via k-means, then routing clusters to
+    Zadouri et al.[54] pioneered lightweight MoE experts using                         specialized experts. This approach increased coverage of rare
+                                                                                       tasks from 58% to 92% with minimal latency overhead. For
+LoRA, replacing dense layers with low-rank matrices to reduce                          biomolecular modeling, X-LoRA[60] designed domain-aware
+parameters by 94% while retaining 97% accuracy.                                        gates that activate experts based on protein secondary structures,
+HydraLoRA[55] advanced this by decoupling task-specific                                improving binding prediction accuracy by 8%. LLaVA-
+features through asymmetric LoRA ranks--using rank 4 for                               MoLE[61] tackled multimodal conflicts by allowing
+input projections and rank 32 for output reconstructions--
+
+                                       TABLE VII. COMPARISON OF LORA WITH MIXTURE OF EXPERTS.
+
+Variant              Basis                                         Scenarios                     Key Features and Mechanism
+Sparsely-Gated
+Mixture-of-          Sparse gating in a mixture-of-experts framework Scaling neural networks     Dynamic sparse activation with a learned routing mechanism that
+Experts[43]                                                                                      selectively activates expert subnetworks
+Switch               Simplified sparse routing via a switch        Pre-training and fine-tuning
+Transformers[51]     mechanism                                     across language tasks         Efficient and dynamic expert allocation with a streamlined routing
+Stochastic                                                                                       design and improved computational efficiency
+Experts[52]          Stochastic activation with sparse             General transformer           Randomized expert selection to enhance sparsity and robustness while
+                     gating                                        modulation in various tasks   reducing over-specialization
+SMoE-Dropout[53]                                                                                 Combines sparse expert utilization with dropout-inspired mechanisms
+                     Integration of MoE with dropout-like          Scaling dense transformer     to achieve improved generalization and self-slimming capabilities
+                     regularization                                architectures                 Emphasizes maximal parameter efficiency through extreme sparsity in
+                                                                                                 expert allocation while maintaining competitive performance on
+Extremely Parameter Efficient MoE[54] Ultra-sparse expert routing  Instruction tuning            tuning tasks
+                                                                                                 Introduces an asymmetric design that reduces parameter overhead
+HydraLoRA[55]        Asymmetric LoRA architecture                  Efficient and flexible fine-  while maintaining performance through diversified expert pathways
+                     Collaborative low-rank adaptation             tuning                        Leverages a mixture of low-rank components to facilitate efficient
+Mixture-of-          Layer-specific LoRA augmentation                                            multi-task learning with shared parameter structures
+LoRAs[56]                                                          Multitask tuning              Dynamically allocates more LoRA experts in higher network layers,
+Higher Layers Need                                                                               tailoring adaptation to the increased complexity of deep
+More LoRA                                                          Enhancing deeper layers in    representations
+Experts[57]                                                        large architectures           Tailors MoE mechanisms for domain-specific tasks, focusing on
+                                                                                                 multi-task adjustment and robust performance in specialized fields
+MOE Meets            Integration of MoE with LLM fine-             Multi-task medical            such as medicine
+LLMs[58]             tuning                                        applications                  Implements clustering strategies to conditionally route inputs towards
+                                                                                                 specialized LoRA experts for improved cross-modal performance
+Cluster-conditional  Cluster-conditioned expert routing            Vision-language instruction   Utilizes LoRA modules to mitigate data conflicts with a sparse expert
+LoRA Experts[59]     using LoRA modules                            tuning                        mixture, enhancing adaptation during instruction finetuning
+LLaVA-MoLE[61]                                                                                   Coupling LoRA adaptation with a MoE-style plugin to retain and
+                     Sparse mixture of LoRA experts                Instruction finetuning amid   update world knowledge efficiently during model updates
+LoRAMoE[62]                                                        data conflicts                Integrates contrastive guidance with LoRA-based MoE to balance and
+                     Integration of LoRA with an MoE-                                            optimize expert contributions, enhancing retention and adaptation
+                     style plugin                                  Mitigating world knowledge    during finetuning
+                                                                   forgetting                    Augments traditional LoRA with MoE strategies to support continual
+                                                                                                 adaptation and lifelong learning, effectively mitigating knowledge
+MoELoRA[63]          Contrastive learning guided MoE with Parameter-efficient fine-              forgetting
+                                                                                                 Employs orthogonal finetuning to diversify expert contributions and
+                     LoRA integration                              tuning of large-scale models  improve collaboration among low-rank adapted modules for broad,
+                                                                                                 robust task performance
+MoRAL[64]            MoE augmented LoRA framework                  Lifelong learning for large
+                                                                   language models
+
+OMoE[65]             Diversified mixture of low-rank               Enhancing diversity in
+
+                     adaptation via orthogonal finetuning adaptation across tasks
+
+                                                                                  221
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:33:28 UTC from IEEE Xplore. Restrictions apply.
+adjacent layers to share 50% of expert parameters, reducing         services by combining or retraining modules--a key benefit
+alignment errors by 55% in visual QA tasks.                         given the fast pace of real-world changes.
+
+  4) Catastrophic Forgetting Mitigation.                                Continued Domain-Specific Pre-Training: Adapting
+    LoRAMoE[62] quantified knowledge retention using a              foundation models to specialized domains via ongoing self-
+                                                                    supervised training is critical. However, the heavy
+Knowledge-Keeping Factor (KKF) , calculated as the historical       computational load of this process calls for LoRA-based
+activation frequency of each expert. When new tasks risked          solutions that can reduce resource demands while maintaining
+overwriting critical experts, pseudo-replay mechanisms              performance.
+reactivated them using stored task embeddings, limiting
+forgetting to 8% over 10 sequential tasks. MoELoRA[63]                  Integration into Autonomous Agents: Future autonomous
+enforced expert specialization via contrastive loss, maximizing     systems could benefit from replacing static prompts with LoRA-
+distance between expert outputs in embedding space, which           trained modules that assign and adapt roles based on large
+reduced feature overlap by 52%. MoRAL[64] benchmarked               datasets. This approach would not only streamline the
+lifelong learning on a 500-task dataset, showing dynamic expert     integration of specialized tools but also allow for the
+expansion (adding 1 expert per 5 tasks) kept accuracy drops         construction of more effective memory components--
+below 5% versus 25% in static MoE. OMoE[65] employed                potentially overcoming current limitations associated with
+Stiefel manifold optimization to maintain expert orthogonality,     retrieval-augmented generation.
+preserving 98% diversity across 20 tasks by constraining weight
+matrices to remain perpendicular during training. TABLE I.                                        REFERENCES
+Comparison of Lora With Mixture of Experts.
+                                                                    [1] A. Vaswani et al., "Attention Is All You Need," Aug. 01, 2023, arXiv:
+                           V. CONCLUSION                                  arXiv:1706.03762. Accessed: Mar. 01, 2024. [Online]. Available:
+A. Challenges and discussion                                              http://arxiv.org/abs/1706.03762
+
+    Researchers have identified several issues when using LoRA      [2] OpenAI et al., "GPT-4 Technical Report," Mar. 04, 2024, arXiv:
+for adapting large foundation models:                                     arXiv:2303.08774. doi: 10.48550/arXiv.2303.08774.
+
+    Theoretical Limitations: Although LoRA has proven               [3] H. Touvron et al., "LLaMA: Open and Efficient Foundation Language
+efficient, its inner workings--especially how it preserves                Models," Feb. 27, 2023, arXiv: arXiv:2302.13971. Accessed: May 15,
+pretrained knowledge while modifying task-specific features--             2024. [Online]. Available: http://arxiv.org/abs/2302.13971
+remain insufficiently explained. Existing theories often rely on
+simplified settings, leaving gaps for more complex scenarios.       [4] DeepSeek-AI et al., "DeepSeek-V3 Technical Report," Dec. 27, 2024,
+                                                                          arXiv: arXiv:2412.19437. doi: 10.48550/arXiv.2412.19437.
+    Design Methodologies: Current implementations tend to
+follow empirical observations rather than established design        [5] DeepSeek-AI et al., "DeepSeek-R1: Incentivizing Reasoning Capability in
+principles. Critical questions remain open regarding where to             LLMs via Reinforcement Learning," Jan. 22, 2025, arXiv:
+place adapter modules, how to choose the appropriate low-rank             arXiv:2501.12948. doi: 10.48550/arXiv.2501.12948.
+dimensions across various layers, and whether non-Euclidean
+frameworks (e.g., hyperbolic spaces) might better capture model     [6] N. Ding et al., "Parameter-efficient fine-tuning of large-scale pre-trained
+hierarchies.                                                              language models," Nat Mach Intell, vol. 5, no. 3, pp. 220-235, Mar. 2023,
+                                                                          doi: 10.1038/s42256-023-00626-4.
+    Computational Overheads: As foundation models grow in
+scale, managing multiple concurrent LoRA adaptations becomes        [7] N. Houlsby et al., "Parameter-Efficient Transfer Learning for NLP," Jun.
+a bottleneck. Issues such as memory fragmentation and                     13, 2019, arXiv: arXiv:1902.00751. doi: 10.48550/arXiv.1902.00751.
+increased I/O cost--exacerbated by dynamic handling of adapter
+modules and key-value caches--present serious challenges.           [8] B. Lester, R. Al-Rfou, and N. Constant, "The Power of Scale for Parameter-
+                                                                          Efficient Prompt Tuning," Sep. 02, 2021, arXiv: arXiv:2104.08691. doi:
+    Robustness, Verification, and Security: For deployment in             10.48550/arXiv.2104.08691.
+sensitive applications such as healthcare or autonomous systems,
+it is crucial to ensure that LoRA-adapted models behave reliably,   [9] E. J. Hu et al., "LoRA: Low-Rank Adaptation of Large Language Models,"
+especially under adversarial conditions or distribution shifts.           Oct. 16, 2021, arXiv: arXiv:2106.09685. Accessed: Sep. 27, 2024. [Online].
+There is a strong need for rigorous uncertainty quantification and        Available: http://arxiv.org/abs/2106.09685
+verification frameworks to safeguard against potential failures.
+In federated or cloud settings, protecting sensitive information    [10] T. Dettmers, A. Pagnoni, A. Holtzman, and L. Zettlemoyer, "QLoRA:
+from unauthorized access also remains an important concern.               Efficient Finetuning of Quantized LLMs," May 23, 2023, arXiv:
+B. Future prospects                                                       arXiv:2305.14314. Accessed: Oct. 08, 2024. [Online]. Available:
+                                                                          http://arxiv.org/abs/2305.14314
+    Looking forward, the literature highlights several promising
+research directions to further exploit LoRA's advantages:           [11] Q. Zhang et al., "AdaLoRA: Adaptive Budget Allocation for Parameter-
+                                                                          Efficient Fine-Tuning," Dec. 20, 2023, arXiv: arXiv:2303.10512. Accessed:
+    Modular Adaptation for Generative Services: In a                      Sep. 18, 2024. [Online]. Available: http://arxiv.org/abs/2303.10512
+Generative-as-a-Service (GaaS) scenario, one can envision the
+construction of distinct LoRA modules for individual functions.     [12] Y. Hao, Y. Cao, and L. Mou, "Flora: Low-Rank Adapters Are Secretly
+Such modularity would allow platforms to rapidly update                   Gradient Compressors," Jun. 12, 2024, arXiv: arXiv:2402.03293. Accessed:
+                                                                          Sep. 20, 2024. [Online]. Available: http://arxiv.org/abs/2402.03293
+
+                                                                    [13] T. B. Brown et al., "Language Models are Few-Shot Learners," Jul. 22,
+                                                                          2020, arXiv: arXiv:2005.14165. doi: 10.48550/arXiv.2005.14165.
+
+                                                                    [14] A. Aghajanyan, L. Zettlemoyer, and S. Gupta, "Intrinsic Dimensionality
+                                                                          Explains the Effectiveness of Language Model Fine-Tuning," Dec. 22,
+                                                                          2020, arXiv: arXiv:2012.13255. doi: 10.48550/arXiv.2012.13255.
+
+                                                                    [15] V. Fomenko, H. Yu, J. Lee, S. Hsieh, and W. Chen, "A Note on LoRA,"
+                                                                          Apr. 07, 2024, arXiv: arXiv:2404.05086. doi: 10.48550/arXiv.2404.05086.
+
+                                                                    [16] DeepSeek-AI et al., "DeepSeek-V2: A Strong, Economical, and Efficient
+                                                                          Mixture-of-Experts Language Model," Jun. 19, 2024, arXiv:
+                                                                          arXiv:2405.04434. doi: 10.48550/arXiv.2405.04434.
+
+                                                                    [17] R. Qiang, R. Zhang, and P. Xie, "BiLoRA: A Bi-level Optimization
+                                                                          Framework for Overfitting-Resilient Low-Rank Adaptation of Large Pre-
+
+                                                                                  222
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:33:28 UTC from IEEE Xplore. Restrictions apply.
+      trained Models," Mar. 19, 2024, arXiv: arXiv:2403.13037. Accessed: Sep.    [38] S. Hayou, N. Ghosh, and B. Yu, "LoRA+: Efficient Low Rank Adaptation
+      28, 2024. [Online]. Available: http://arxiv.org/abs/2403.13037                   of Large Models," Jul. 04, 2024, arXiv: arXiv:2402.12354. Accessed: Sep.
+                                                                                       19, 2024. [Online]. Available: http://arxiv.org/abs/2402.12354
+[18] M. Li, W. M. Si, M. Backes, Y. Zhang, and Y. Wang, "SaLoRA: Safety-
+      Alignment Preserved Low-Rank Adaptation," Jan. 03, 2025, arXiv:            [39] Z. Lei, D. Qian, and W. Cheung, "Fast Randomized Low-Rank Adaptation
+      arXiv:2501.01765. doi: 10.48550/arXiv.2501.01765.                                of Pre-trained Language Models with PAC Regularization," in Findings of
+                                                                                       the Association for Computational Linguistics ACL 2024, Bangkok,
+[19] H. Nasiri and P. Garraghan, "EDoRA: Efficient Weight-Decomposed Low-              Thailand and virtual meeting: Association for Computational Linguistics,
+      Rank Adaptation via Singular Value Decomposition," Jan. 21, 2025, arXiv:         2024, pp. 5236-5249. doi: 10.18653/v1/2024.findings-acl.310.
+      arXiv:2501.12067. doi: 10.48550/arXiv.2501.12067.
+                                                                                 [40] S. Wang, L. Chen, J. Jiang, B. Xue, L. Kong, and C. Wu, "LoRA Meets
+[20] F. Zhang, L. Li, J. Chen, Z. Jiang, B. Wang, and Y. Qian, "IncreLoRA:             Dropout under a Unified Framework," May 27, 2024, arXiv:
+      Incremental Parameter Allocation Method for Parameter-Efficient Fine-            arXiv:2403.00812. doi: 10.48550/arXiv.2403.00812.
+      tuning," Aug. 23, 2023, arXiv: arXiv:2308.12043. Accessed: Sep. 20, 2024.
+      [Online]. Available: http://arxiv.org/abs/2308.12043                       [41] Y. Liang, Y. Wang, and Y. Zeng, "TriAdaptLoRA: Brain-Inspired
+                                                                                       Triangular Adaptive Low-Rank Adaptation for Parameter-Efficient Fine-
+[21] N. Ding et al., "Sparse Low-rank Adaptation of Pre-trained Language               Tuning," Jan. 14, 2025, arXiv: arXiv:2501.08008. doi:
+      Models," Nov. 20, 2023, arXiv: arXiv:2311.11696. doi:                            10.48550/arXiv.2501.08008.
+      10.48550/arXiv.2311.11696.
+                                                                                 [42] X. Li and A. Sarwate, "LSR-Adapt: Ultra-Efficient Parameter Tuning with
+[22] Z. Liu, J. Lyn, W. Zhu, X. Tian, and Y. Graham, "ALoRA: Allocating Low-           Matrix Low Separation Rank Kernel Adaptation," Feb. 19, 2025, arXiv:
+      Rank Adaptation for Fine-tuning Large Language Models," Apr. 15, 2024,           arXiv:2502.13568. doi: 10.48550/arXiv.2502.13568.
+      arXiv: arXiv:2403.16187. doi: 10.48550/arXiv.2403.16187.
+                                                                                 [43] N. Shazeer et al., "Outrageously Large Neural Networks: The Sparsely-
+[23] S.-Y. Liu et al., "DoRA: Weight-Decomposed Low-Rank Adaptation," Jul.             Gated Mixture-of-Experts Layer," Jan. 23, 2017, arXiv: arXiv:1701.06538.
+      09, 2024, arXiv: arXiv:2402.09353. Accessed: Sep. 19, 2024. [Online].            doi: 10.48550/arXiv.1701.06538.
+      Available: http://arxiv.org/abs/2402.09353
+                                                                                 [44] W. Cai, J. Jiang, F. Wang, J. Tang, S. Kim, and J. Huang, "A Survey on
+[24] R. Zhang, R. Qiang, S. A. Somayajula, and P. Xie, "AutoLoRA:                      Mixture of Experts in Large Language Models," Apr. 09, 2025. doi:
+      Automatically Tuning Matrix Ranks in Low-Rank Adaptation Based on                10.1109/TKDE.2025.3554028.
+      Meta Learning," Mar. 17, 2024, arXiv: arXiv:2403.09113. doi:
+      10.48550/arXiv.2403.09113.                                                 [45] S. Kim, H. Yang, Y. Kim, Y. Hong, and E. Park, "Hydra: Multi-head Low-
+                                                                                       rank Adaptation for Parameter Efficient Fine-tuning," Sep. 13, 2023, arXiv:
+[25] I. V. Oseledets, "Tensor-Train Decomposition," SIAM J. Sci. Comput., vol.         arXiv:2309.06922. doi: 10.48550/arXiv.2309.06922.
+      33, no. 5, pp. 2295-2317, Jan. 2011, doi: 10.1137/090752286.
+                                                                                 [46] A. Chavan, Z. Liu, D. Gupta, E. Xing, and Z. Shen, "One-for-All:
+[26] Y. Yang, J. Zhou, N. Wong, and Z. Zhang, "LoRETTA: Low-Rank                       Generalized LoRA for Parameter-Efficient Fine-tuning," Oct. 16, 2023,
+      Economic Tensor-Train Adaptation for Ultra-Low-Parameter Fine-Tuning             arXiv: arXiv:2306.07967. doi: 10.48550/arXiv.2306.07967.
+      of Large Language Models," Feb. 18, 2024, arXiv: arXiv:2402.11417. doi:
+      10.48550/arXiv.2402.11417.                                                 [47] C. Huang, Q. Liu, B. Y. Lin, T. Pang, C. Du, and M. Lin, "LoraHub:
+                                                                                       Efficient Cross-Task Generalization via Dynamic LoRA Composition,"
+[27] A. Anjum, M. E. Eren, I. Boureima, B. Alexandrov, and M. Bhattarai,               Aug. 19, 2024, arXiv: arXiv:2307.13269. doi: 10.48550/arXiv.2307.13269.
+      "Tensor Train Low-rank Approximation (TT-LoRA): Democratizing AI
+      with Accelerated LLMs," Aug. 02, 2024, arXiv: arXiv:2408.01008. doi:       [48] H. Wang et al., "LoRA-Flow: Dynamic LoRA Fusion for Large Language
+      10.48550/arXiv.2408.01008.                                                       Models in Generative Tasks," Feb. 18, 2024, arXiv: arXiv:2402.11455. doi:
+                                                                                       10.48550/arXiv.2402.11455.
+[28] S. He, L. Ding, D. Dong, M. Zhang, and D. Tao, "SparseAdapter: An Easy
+      Approach for Improving the Parameter-Efficiency of Adapters," Nov. 10,     [49] Y. Wen and S. Chaudhuri, "Batched Low-Rank Adaptation of Foundation
+      2022, arXiv: arXiv:2210.04284. doi: 10.48550/arXiv.2210.04284.                   Models," Apr. 25, 2024, arXiv: arXiv:2312.05677. doi:
+                                                                                       10.48550/arXiv.2312.05677.
+[29] H. Zhou, X. Lu, W. Xu, C. Zhu, T. Zhao, and M. Yang, "LoRA-drop:
+      Efficient LoRA Parameter Pruning based on Output Evaluation," Jun. 18,     [50] Z. Zhao et al., "LoraRetriever: Input-Aware LoRA Retrieval and
+      2024, arXiv: arXiv:2402.07721. doi: 10.48550/arXiv.2402.07721.                   Composition for Mixed Tasks in the Wild," Feb. 15, 2024, arXiv:
+                                                                                       arXiv:2402.09997. doi: 10.48550/arXiv.2402.09997.
+[30] H. Wang, T. Liu, R. Li, M. Cheng, T. Zhao, and J. Gao, "RoseLoRA: Row
+      and Column-wise Sparse Low-rank Adaptation of Pre-trained Language         [51] W. Fedus, B. Zoph, and N. Shazeer, "Switch Transformers: Scaling to
+      Model for Knowledge Editing and Fine-tuning," Oct. 15, 2024, arXiv:              Trillion Parameter Models with Simple and Efficient Sparsity," Jun. 16,
+      arXiv:2406.10777. doi: 10.48550/arXiv.2406.10777.                                2022, arXiv: arXiv:2101.03961. doi: 10.48550/arXiv.2101.03961.
+
+[31] M. Zhang et al., "LoRAPrune: Structured Pruning Meets Low-Rank              [52] S. Zuo et al., "Taming Sparsely Activated Transformer with Stochastic
+      Parameter-Efficient Fine-Tuning," Aug. 07, 2024, arXiv:                          Experts," Feb. 03, 2022, arXiv: arXiv:2110.04260. doi:
+      arXiv:2305.18403. doi: 10.48550/arXiv.2305.18403.                                10.48550/arXiv.2110.04260.
+
+[32] Y. Hu, J. Zhang, X. Chen, Z. Zhao, C. Li, and H. Chen, "LoRS: Efficient     [53] T. Chen, Z. Zhang, A. Jaiswal, S. Liu, and Z. Wang, "Sparse MoE as the
+      Low-Rank Adaptation for Sparse Large Language Model," Jan. 15, 2025,             New Dropout: Scaling Dense and Self-Slimmable Transformers," Mar. 02,
+      arXiv: arXiv:2501.08582. doi: 10.48550/arXiv.2501.08582.                         2023, arXiv: arXiv:2303.01610. doi: 10.48550/arXiv.2303.01610.
+
+[33] Y. Li et al., "LoftQ: LoRA-Fine-Tuning-Aware Quantization for Large         [54] T. Zadouri, A. Üstün, A. Ahmadian, B. Ermi, A. Locatelli, and S. Hooker,
+      Language Models," Nov. 28, 2023, arXiv: arXiv:2310.08659. doi:                   "Pushing Mixture of Experts to the Limit: Extremely Parameter Efficient
+      10.48550/arXiv.2310.08659.                                                       MoE for Instruction Tuning," Sep. 11, 2023, arXiv: arXiv:2309.05444. doi:
+                                                                                       10.48550/arXiv.2309.05444.
+[34] Y. Xu et al., "QA-LoRA: Quantization-Aware Low-Rank Adaptation of
+      Large Language Models," Oct. 09, 2023, arXiv: arXiv:2309.14717. doi:       [55] C. Tian, Z. Shi, Z. Guo, L. Li, and C. Xu, "HydraLoRA: An Asymmetric
+      10.48550/arXiv.2309.14717.                                                       LoRA Architecture for Efficient Fine-Tuning," May 23, 2024, arXiv:
+                                                                                       arXiv:2404.19245. doi: 10.48550/arXiv.2404.19245.
+[35] C. Zhang, J. Cheng, G. A. Constantinides, and Y. Zhao, "LQER: Low-Rank
+      Quantization Error Reconstruction for LLMs," May 30, 2024, arXiv:          [56] W. Feng, C. Hao, Y. Zhang, Y. Han, and H. Wang, "Mixture-of-LoRAs: An
+      arXiv:2402.02446. doi: 10.48550/arXiv.2402.02446.                                Efficient Multitask Tuning for Large Language Models," Mar. 06, 2024,
+                                                                                       arXiv: arXiv:2403.03432. doi: 10.48550/arXiv.2403.03432.
+[36] H. Rajabzadeh et al., "QDyLoRA: Quantized Dynamic Low-Rank
+      Adaptation for Efficient Large Language Model Tuning," Feb. 16, 2024,      [57] C. Gao et al., "Higher Layers Need More LoRA Experts," Feb. 13, 2024,
+      arXiv: arXiv:2402.10462. doi: 10.48550/arXiv.2402.10462.                         arXiv: arXiv:2402.08562. doi: 10.48550/arXiv.2402.08562.
+
+[37] D. Kalajdzievski, "A Rank Stabilization Scaling Factor for Fine-Tuning      [58] Q. Liu et al., "When MOE Meets LLMs: Parameter Efficient Fine-tuning
+      with LoRA," Nov. 28, 2023, arXiv: arXiv:2312.03732. doi:                         for Multi-task Medical Applications," May 31, 2024, arXiv:
+      10.48550/arXiv.2312.03732.                                                       arXiv:2310.18339. doi: 10.48550/arXiv.2310.18339.
+
+                                                                                  223
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:33:28 UTC from IEEE Xplore. Restrictions apply.
+[59] Y. Gou et al., "Mixture of Cluster-conditional LoRA Experts for Vision-
+      language Instruction Tuning," Jul. 04, 2024, arXiv: arXiv:2312.12379. doi:
+      10.48550/arXiv.2312.12379.
+
+[60] E. L. Buehler and M. J. Buehler, "X-LoRA: Mixture of Low-Rank Adapter
+      Experts, a Flexible Framework for Large Language Models with
+      Applications in Protein Mechanics and Molecular Design," Mar. 30, 2024,
+      arXiv: arXiv:2402.07148. doi: 10.48550/arXiv.2402.07148.
+
+[61] S. Chen, Z. Jie, and L. Ma, "LLaVA-MoLE: Sparse Mixture of LoRA
+      Experts for Mitigating Data Conflicts in Instruction Finetuning MLLMs,"
+      Jan. 30, 2024, arXiv: arXiv:2401.16160. doi: 10.48550/arXiv.2401.16160.
+
+[62] S. Dou et al., "LoRAMoE: Alleviating World Knowledge Forgetting in
+      Large Language Models via MoE-Style Plugin," in Proceedings of the
+      62nd Annual Meeting of the Association for Computational Linguistics
+      (Volume 1: Long Papers), Bangkok, Thailand: Association for
+      Computational Linguistics, 2024, pp. 1932-1945. doi:
+      10.18653/v1/2024.acl-long.106.
+
+[63] T. Luo et al., "MoELoRA: Contrastive Learning Guided Mixture of
+      Experts on Parameter-Efficient Fine-Tuning for Large Language Models,"
+      Feb. 20, 2024, arXiv: arXiv:2402.12851. doi: 10.48550/arXiv.2402.12851.
+
+[64] S. Yang, M. A. Ali, C.-L. Wang, L. Hu, and D. Wang, "MoRAL: MoE
+      Augmented LoRA for LLMs' Lifelong Learning," Feb. 17, 2024, arXiv:
+      arXiv:2402.11260. doi: 10.48550/arXiv.2402.11260.
+
+[65] J. Feng, Z. Pu, T. Hu, D. Li, X. Ai, and H. Wang, "OMoE: Diversifying
+      Mixture of Low-Rank Adaptation by Orthogonal Finetuning," Jan. 17,
+      2025, arXiv: arXiv:2501.10062. doi: 10.48550/arXiv.2501.10062.
+
+                                                                                     224
+
+    Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:33:28 UTC from IEEE Xplore. Restrictions apply.
+

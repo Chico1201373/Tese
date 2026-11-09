@@ -1,0 +1,1331 @@
+IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 48, NO. 6, JUNE 2026                              6107
+
+Parameter-Efficient Fine-Tuning Methods for
+   Pretrained Language Models: A Critical
+            Review and Assessment
+
+Lingling Xu , Member, IEEE, Haoran Xie , Senior Member, IEEE, S. Joe Qin , Fellow, IEEE,
+          Xiaohui Tao , Senior Member, IEEE, and Fu Lee Wang , Senior Member, IEEE
+
+                                                        (Survey Paper)
+
+   Abstract--With the continuous growth in the number of parame-                                          I. INTRODUCTION
+ters of the Transformer-based pretrained language models (PLMs),
+particularly the emergence of large language models (LLMs) with                T RANSFORMER-BASED PLMs [1], [2], [3], [4], [5] have
+billions of parameters, many natural language processing (NLP)                       demonstrated remarkable performance across a wide range
+tasks have demonstrated remarkable success. However, the enor-                 of NLP tasks. To fully harness the potential of PLMs, fine-tuning
+mous size and computational demands of these models pose signif-               is commonly employed to adapt them to task-specific data,
+icant challenges for adapting them to specific downstream tasks,               thereby enhancing performance on downstream tasks. However,
+especially in environments with limited computational resources.               traditional fine-tuning involves updating all the pretrained pa-
+Parameter-Efficient Fine-Tuning (PEFT) offers an effective so-                 rameters, which is both computationally expensive and time-
+lution by reducing the number of fine-tuning parameters and                    consuming. This challenge becomes even more pronounced with
+memory usage while achieving comparable performance to full                    the increasing size of PLMs, such as BERT [2] with 110 million
+fine-tuning. The demands for fine-tuning PLMs, especially LLMs,                parameters and T5 [5] with 770 million parameters. As a result,
+have led to a surge in the development of PEFT methods, as depicted            the computational resource demands of full fine-tuning have
+in Fig. 1. In this paper, we present a comprehensive and systematic            become a significant barrier to widespread application.
+review of PEFT methods for PLMs. We summarize these PEFT
+methods, discuss their applications, and outline future directions.               The advent of LLMs [6], [7], [8] has further exacerbated this
+Furthermore, extensive experiments are conducted using several                 challenge. For instance, LLaMA-3.1-405B [9], which boasts 405
+representative PEFT methods to better understand their effective-              billion parameters, requires approximately 3.25 TB of memory
+ness in parameter efficiency and memory efficiency. By offering                for task-specific full fine-tuning1. The enormous computational
+insights into the latest advancements and practical applications,              resource requirements make full fine-tuning of LLMs infeasible
+this survey serves as an invaluable resource for researchers and               for all but major industry players, rendering it impractical for
+practitioners seeking to navigate the challenges and opportunities             many.
+presented by PEFT in the context of PLMs.
+                                                                                  To address these challenges, a prominent method known as
+   Index Terms--Parameter-efficient, fine-tuning, pretrained lang-             PEFT [10] has emerged as a promising solution. By reducing
+uage model, large language model, memory usage.                                the number of trainable parameters, PEFT significantly lowers
+                                                                               the computational cost of adapting PLMs to specific tasks while
+   Received 23 December 2023; revised 31 December 2025; accepted 8 January     maintaining performance comparable to full fine-tuning [10],
+2026. Date of publication 26 January 2026; date of current version 7 May       [11], [12]. Specifically, PEFT typically involves introducing
+2026. This work was supported in part by the research grant entitled "Medical  a limited number of trainable parameters, applying low-rank
+Text Feature Representations based on Pre-trained Language Models" under       reparameterization to weight updates, or fine-tuning only a spe-
+Grant 871238, in part by the Faculty Research under Grant DB24A4 and           cific subset of the pretrained weights, preserving the knowledge
+Grant SDS24A8, in part by the Direct Grant (DR25E8) of Lingnan Univer-         captured by the PLM and reducing the risk of catastrophic
+sity, Hong Kong, and in part by the Research Grants Council of the Hong        forgetting. Moreover, PEFT helps mitigate overfitting by selec-
+Kong Special Administrative Region, China under Grant R1015-23 and Grant       tively updating parameters, which is particularly beneficial when
+UGC/FDS16/E17/23. Recommended for acceptance by M.-F. Moens. (Corre-           task-specific datasets are much smaller than the pretraining data.
+sponding author: Haoran Xie.)
+                                                                                  Recently, there has been a significant surge in interest regard-
+   Lingling Xu is with the School of Science and Technology, Hong Kong         ing PEFT methods, as demonstrated by the growing number of
+Metropolitan University, Hong Kong, and also with the School of Data Science,  studies depicted in Fig. 1. While this has led to the publication of
+Lingnan University, Hong Kong (e-mail: xxiao199409@gmail.com).                 a few surveys on PEFT, existing reviews have several limitations.
+                                                                               For instance, Ding et al. [13] conducted a comprehensive study
+   Haoran Xie and S. Joe Qin are with the School of Data Science, Lingnan
+University, Hong Kong (e-mail: hrxie@ln.edu.hk; joeqin@ln.edu.hk).                1https://huggingface.co/blog/llama31.
+
+   Xiaohui Tao is with the University of the School of Mathematics, Physics
+and Computing, Southern Queensland, Queensland 4350, Australia (e-mail:
+xtao@usq.edu.au).
+
+   Fu Lee Wang is with the School of Science and Technology, Hong Kong
+Metropolitan University, Hong Kong (e-mail: pwang@hkmu.edu.hk).
+
+   This article has supplementary downloadable material available at
+https://doi.org/10.1109/TPAMI.2026.3657354, provided by the authors.
+
+   Digital Object Identifier 10.1109/TPAMI.2026.3657354
+
+© 2026 The Authors. This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see
+                                               https://creativecommons.org/licenses/by/4.0/
+6108  IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 48, NO. 6, JUNE 2026
+
+Fig. 1. The evolutionary development of PEFT methods in recent years. Each branch corresponds to subsections in Section III: Additive Fine-tuning (Section III-A),
+Partial Fine-tuning (Section III-B), Reparameterized Fine-tuning (Section III-C), Hybrid Fine-tuning (Section III-D), and Unified Fine-tuning (Section III-E). The
+vertical position of the models shows the timeline of their release dates. The year of the paper's initial publication is shown as the reference. For instance, if a paper
+is published in ACL 2022 but listed on arXiv in 2021, the year 2021 will be considered as the reference date.
+
+but only experimented with four PEFT methods and did not               performance, parameter efficiency, and memory efficiency
+cover much of the latest work in the field. Lialin et al. [14] delved  across various NLP tasks, including natural language under-
+into the ideas and implementations of PEFT methods in detail but       standing (NLU) and machine translation (MT). Beyond this,
+did not perform quantitative experiments. These gaps highlight         we explore the applications of PEFT in multi-task learning,
+the need for a more thorough and systematic investigation of           cross-lingual transfer, and backdoor attack and defense sce-
+PEFT methods.                                                          narios, shedding light on its versatility and effectiveness. Fur-
+                                                                       thermore, our research also unveils potential directions for
+   In this paper, we aim to address these gaps by provid-              future investigations in this rapidly evolving field. To sum-
+ing a comprehensive and systematic study of PEFT methods               marize, the main contributions of this survey can be outlined
+for PLMs in NLP. We categorize PEFT methods into five                  as follows:
+types: additive, partial, reparameterized, hybrid, and unified
+fine-tuning. This categorization, as shown in Fig. 2, facilitates a       r Comprehensive Review. We present an in-depth analysis
+deeper understanding of PEFT approaches. Extensive quantita-
+tive evaluations compare PEFT and full fine-tuning in terms of               and review of PEFT methods for the Transformer-based
+                                                                             PLMs, identifying key techniques and approaches.
+XU et al.: PARAMETER-EFFICIENT FINE-TUNING METHODS FOR PRETRAINED LANGUAGE MODELS: A CRITICAL REVIEW AND ASSESSMENT               6109
+
+Fig. 2. Taxonomy of PEFT Methods for PLMs in NLP. Based on their characteristics, PEFT methods are categorized into five main categories: Additive
+Fine-tuning, Partial Fine-tuning, Reparameterized Fine-tuning, Hybrid Fine-tuning, and Unified Fine-tuning. Each category encompasses various approaches, such
+as adapter-based, soft prompt-based, and other fine-tuning methods under Additive Fine-tuning.
+
+   r Systematic Categorization. We classify PEFT methods into        n is the sentence length and d is the hidden dimension, the
+                                                                     query (Q), key (K), and value (V) vectors are computed as linear
+      five distinct categories: additive, partial, reparameterized,  transformations of the input:
+      hybrid, and unified fine-tuning, providing a structured
+      framework for understanding these methods.                         Q = XWq + bq, K = XWk + bk, V = XWv + bv, (1)
+
+   r Extensive Experiments. We conduct extensive experiments         where Q, K, V  Rn×d. Here, Wk, Wq, Wv are learnable weight
+                                                                     matrices, and bk, bq and bv are learnable bias vectors. These
+      to evaluate the effectiveness of several representative PEFT   parameters enable the model to capture context-dependent rep-
+      methods, focusing on their parameter efficiency and mem-       resentations by adjusting the query vectors to better align with
+      ory usage, and analyzing the trade-off between task per-       the corresponding keys. The self-attention output for the input
+      formance and memory usage.                                     X is computed as:
+
+                          II. PRELIMINARIES                                                                QK T
+                                                                                      Attn(Q, K, V ) = Softmax(  )V,              (2)
+A. Transformer                                                                                             d
+
+   The Transformer architecture [1] has become a cornerstone         then MHA aggregates information from multiple subspaces:
+of numerous PLMs. It adopts an encoder-decoder structure,
+with both components incorporating self-attention mechanisms.        MHA(Q, K, V ) = Concat(head1, . . . , headh)W O, (3)
+Each encoder and decoder consists of a multi-head self-attention
+(MHA) layer and a feed-forward network (FFN) layer, inter-                                   headi = Attn(QWQi , KWKi , V WVi ),  (4)
+connected by a residual connection [69] followed by layer
+normalization [70]. Residual connection allows the model to ef-      where  Wi     ,  Wi     ,  Wi     are head-specific projection matrices, and
+fectively propagate information from one layer to the subsequent
+layer without losing valuable information. Layer normalization                  Q         K         V
+further stabilizes the training process by normalizing the inputs
+of each layer.                                                       W O is the output projection matrix.
+
+   The MHA layer employs the self-attention function with h          While the FFN consists of two linear transformations with a
+heads in parallel. Given an input sequence X  Rn×d, where
+                                                                     non-linear ReLU activation function in between:
+
+                                                                                   FFN(X) = ReLU(XW1 + b1)W2 + b2,                (5)
+6110  IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 48, NO. 6, JUNE 2026
+
+where W1 and W2 are learnable weight matrices, b1 and b2 are        integrates lightweight adapter modules into the Transformer to
+bias vectors. Most PEFT methods focus on self-attention and         enable modular and efficient task adaptation; 2) Soft Prompt-
+FFN layers, allowing models like encoder-only RoBERTa [3],          based Fine-tuning, where task-specific information is encoded
+encoder-decoder T5 [5], and decoder-only LLaMA [8] to lever-        in soft prompts or prefix vectors that modify input embeddings
+age relevant techniques for parameter reduction.                    or hidden states; and 3) Others, including various methods
+                                                                    that introduce additional parameters but reduce the number of
+B. Full Fine-Tuning of PLMs                                         trainable parameters.
+
+   Full fine-tuning of Transformer-based PLMs involves train-          1) Adapter-Based Fine-Tuning: The idea of Adapter is first
+ing the entire model, including all layers and parameters, on       introduced in multi-domain image classification [78], allowing
+a specific downstream task using task-specific data. PLMs           for the efficient transfer of knowledge across multiple visual
+are initially trained on large-scale datasets with unsupervised     domains. Adapter-based fine-tuning in NLP typically involves
+learning objectives like language modeling or masked language       removing, dropping, or modifying adapter modules, as well as
+modeling (MLM) to learn general language representations [2],       integrating multiple adapters.
+[3], [5], [8]. However, these PLMs may not perform optimally
+when applied to specific tasks like sentiment analysis, question       Sequential Adapter [10] extends and applies Adapter to NLP
+answering, or translation due to lack of appropriate domain         tasks by inserting the adapter (trainable modules) into the Trans-
+knowledge [71], [72], [73]. Full fine-tuning provides an effective  former block. These adapters are fine-tuned to adapt PLMs to
+solution to address this limitation.                                downstream tasks. Specifically, adapter networks are sequen-
+                                                                    tially inserted after the self-attention and feed-forward layers of
+   During full fine-tuning, the PLM is initialized with pretrained  the Transformer. Each adapter is a low-rank module that consists
+weights and trained on task-specific data using techniques like     of 1) a down-projection, which reduces the dimensionality of
+backpropagation and gradient descent [74], [75]. All model pa-      the input from the original high-dimensional space (Rd) to a
+rameters, including pretrained weights, are updated to minimize     smaller intermediate space (Rk, where k d); 2) a non-linear
+a task-specific loss that quantifies the disparity between pre-     activation function (e.g., ReLU), which introduces non-linearity
+dicted outputs and ground truth. This process allows the model      and helps the adapter capture complex patterns; and 3) an
+to learn task-specific patterns and nuances from the labeled data,  up-projection, which maps the intermediate representation back
+enabling predictions tailored to the target tasks [76]. However,    to the original dimensionality (Rd). Additionally, a residual
+full fine-tuning requires substantial computational resources, as   connection is added to combine the adapter's output with the
+all model parameters must be updated from scratch for each task.    original input, ensuring efficient information flow. For the input
+With the growing size of PLMs and the emergence of LLMs             X, the output of sequential adapter with the ReLU activation
+containing billions of parameters, these computational demands      is defined in (6). During fine-tuning, not only the parameters of
+have become even more pronounced. In contrast, PEFT methods         adapter network Wup and Wdown, but also the parameters of
+mitigate this burden by selectively updating or modifying only      LayerNorm layers need to be updated to make the PLMs adapt
+specific parts of the PLM, while still achieving performance        to the specific downstream tasks. The specific architecture of the
+comparable to full fine-tuning [35], [40]. Moreover, full fine-     sequential adapter is illustrated in Fig. 3(a).
+tuning can lead to overfitting when task-specific data is limited
+or when the pretrained model is already well aligned with the       X = (ReLU(XWdown))Wup + X,  (6)
+target task [20], [77].
+                                                                       Inspired by sequential adapter, many adapter-based PEFT
+      III. PARAMETER-EFFICIENT FINE-TUNING METHODS                  methods have been proposed. Residual Adapter [15] fur-
+                                                                    ther improves parameter efficiency by inserting the adapter
+   A detailed introduction to PEFT methods for PLMs is pre-         module only after the FFN and layer normalization. Parallel
+sented in this section. To provide a clearer understanding, PEFT    Adapter [17], [79] inserts the adapter network in parallel with
+methods are categorized into five main types, as depicted in        both the attention layer and the FFN layer, allowing for more
+Fig. 2: (A) Additive Fine-tuning, where lightweight modules         efficient integration of the adapter module into the Transformer.
+are added to PLMs; (B) Partial Fine-tuning, which selectively       AdapterDrop [18] removes adapters in each layer of the Trans-
+fine-tunes specific components of PLMs; (C) Reparameterized         former that are not important to the given task to improve infer-
+Fine-tuning, which modifies the underlying reparameterization       ence efficiency. While CoDA (Condition Adapter) [16] employs
+of pretrained weight matrix; (D) Hybrid Fine-tuning, which          a parallel adapter for task-specific fine-tuning and remains most
+combines different PEFT methods manually or automatically;          pretrained parameters fixed. However, unlike prior methods that
+and (E) Unified Fine-tuning, which unifies various PEFT meth-       process all input tokens with the Transformer, CoDA employs a
+ods with a unified framework.                                       router function to select k important input tokens for conditional
+                                                                    computation. This approach enhances both parameter efficiency
+A. Additive Fine-Tuning                                             and inference efficiency. Tiny-Attn Adapter (Tiny-Attention
+                                                                    Adapter) [19] introduces a dot-product attention module be-
+   Additive fine-tuning approaches involve introducing extra        tween the down- and up-projections, which can be seen as a
+trainable parameters for task-specific fine-tuning. They are clas-  multi-head attention module with its per-head dimensionality
+sified into three groups: 1) Adapter-based Fine-tuning, which       to be extremely small. Moreover, Tiny-Attn Adapter regards its
+                                                                    multiple attention heads as a mixture of experts and averages
+XU et al.: PARAMETER-EFFICIENT FINE-TUNING METHODS FOR PRETRAINED LANGUAGE MODELS: A CRITICAL REVIEW AND ASSESSMENT  6111
+
+Fig. 3. Architecture of three representative PEFT methods: (a) Sequential Adapter, (b) Prefix-tuning, and (c) LoRA. Sequential Adapter introduces lightweight
+adapter networks into the Transformer layers, using down-projection (Wdown) and up-projection (Wup) operations with a nonlinear activation. Prefix-tuning
+prepends trainable prefix vectors to the hidden states at each layer, modifying the input to the attention mechanism. LoRA applies low-rank decomposition to
+specific weight matrices (e.g., Query (Q), Key (K), and Value (V)) in the attention mechanism, with down-projection (Wdown) and up-projection (Wdown)
+layers operating in parallel to the frozen pretrained weights. These methods represent a broad range of PEFT strategies aimed at reducing the number of trainable
+
+parameters while preserving model performance, forming the foundation for numerous subsequent PEFT methods.
+
+their weights to further reduce inference costs. Akin to the        state of the model. Unlike manually designed hard prompts, soft
+sequential adapter, the Tiny-Attn Adapter is injected right after   prompts are generated by searching for prompts in a discrete
+the multi-head attention layer.                                     token space based on task-specific training data.
+
+   AdapterFusion [20] integrates multiple task-specific adapters       WARP (Word-level Adversarial RePrograming) [24] appends
+into a single module, allowing for effective knowledge transfer     special prompt tokens [P1], [P2], . . . , [Pl] and a [Mask] token
+across related tasks without modifying the original pretrained      before or after the sentences, depending on the prompt tem-
+model. It provides a practical and efficient approach to task com-  plate. The training objective is to minimize the cross-entropy
+position, enabling the transferability of pretrained models across  loss between the output of MLM and the verbalizer tokens
+multiple tasks while minimizing the computational costs associ-     [V1], [V2], . . . , [Vc] for classes {1, 2, . . . , c}. Only the parameters
+ated with model fine-tuning. However, AdapterFusion requires        of [P1], [P2], . . . , [Pl] and [V1], [V2], . . . , [Vc] are trainable, sig-
+additional trainable parameters in the composition layers, which    nificantly reducing the number of trainable parameters. Prompt-
+increases the computational costs. MerA (Merging Pretrained         tuning [25] incorporates additional l learnable prompt tokens,
+Adapters) [21] addresses this limitation by merging pretrained      P = [P1], [P2], . . . , [Pl], into the model input X  Rn×d and
+adapter parameters through summation and averaging strategies,      then concatenates them to generate the final input X^ , as defined
+avoiding the introduction of other extra trainable parameters.      in (7). During fine-tuning, only the prompt parameters of P
+Employing the optimal transport method [80], [81] to align          are updated via gradient descent, while pretrained parameters
+adapter weights and activations, MerA achieves better perfor-       remain frozen. The parameter cost of prompt-tuning is deter-
+mance with fewer trainable parameters compared to AdapterFu-        mined by the prompt length and token embedding dimension.
+sion. Hyperformer++ [22] utilizes a shared hypernetwork [82]
+to learn task-specific and layer-specific adapter parameters con-   X^ = Concat(P, X) = [P, X]  R(l+n)×d.            (7)
+ditioned on task and layer ID embeddings. By sharing knowl-
+edge across tasks via hypernetworks and enabling the model to          Prefix-tuning [11] proposes to prepend soft prompts P =
+adapt to each task through task-specific adapters, significantly    [P1], [P2], . . . , [Pl] (l denotes the prefix length) to the hidden
+reducing the number of trainable parameters. AdapterSoup [23]       states of the multi-head attention layer. To stabilize training,
+is developed to address cross-domain task adaptation, which
+first trains multiple adapters across various domains and then      an FFN is used to parameterize the soft prompts, as directly
+employs domain clustering [83] to select the most appropriate
+top-k adapters for the new domain. Fine-tuning parameters for       optimizing their values can cause instability. Two sets of prefix
+the new domain in AdapterSoup are determined by calculating         vectors, P^k and P^v, are concatenated with the original key
+the weighted average of the selected k adapters. Additionally,      (K) and value (V ) vectors of the attention layer. The self-
+AdapterSoup can strengthen in-domain results via weight aver-
+aging of adapters trained on the same domain but with different     attention mechanism with prefix-tuning is represented by (8)
+hyperparameters.                                                    and 9. During training, only P^k, P^v, and the FFN parameters
+                                                                    are optimized, while all other parameters of PLMs remain
+   2) Soft Prompt-Based Fine-Tuning: Soft prompt fine-tuning
+is a class of methods in which trainable continuous vectors,        frozen. After training, the FFN is discarded, and only Pk and
+known as soft prompts, are inserted into the input or hidden        Pv are used for inference. The structure of prefix-tuning is
+                                                                    shown in Fig. 3(b). P-tuning [26] also leverages soft prompts,
+
+                                                                    [P1], . . . , [Pi], [Pi+1], . . . , [Pl], but differs in its approach. It
+                                                                    concatenates these prompts to form a template, which is mapped
+6112                                               IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 48, NO. 6, JUNE 2026
+
+to the sequence {h1p, . . . , hip, e(x), hi+1 p , . . . , hlp, e(x)}, where                 Since all training parameters are stored in the ladder side net-
+e represents pretrained embedding layer. The training goal is                               work, back-propagation occurs through the side networks and
+to optimize the continuous prompts {h1p, . . . , hlp}. P-tuning is                          ladder connections rather than pretrained networks, reducing the
+                                                                                            number of fine-tuned parameters. To further boost parameter
+particularly effective in few-shot learning scenarios because                               efficiency, LST employs structural pruning [84] to retrieve a
+                                                                                            smaller, pruned network to initialize the side network and drops
+only the continuous prompts are fine-tuned. To initialize the em-                           certain layers of the side network. (IA)3 (Infused Adapter by
+                                                                                            Inhibiting and Amplifying Inner Activations) [31] introduces
+bedding of soft prompts, P-tuning employs a bidirectional long                              three learned vectors, lk, lv, and lff , to rescale the key and value
+                                                                                            vectors in the attention networks and hidden activations in the
+short-term memory network (LSTM) with a ReLU-activated                                      position-wise FFN. The attention output and hidden activation
+                                                                                            output are rescaled as:
+multilayer  perceptron    (  MLP)  through  MLP(LSTM(  h      p  ,  .  .  .  ,  h  p  )  :
+                                                              1                    i
+LSTM(hip, . . . , hlp)).
+
+      head = Attn(XWq, [P^k, XWk], [P^v, XWv]), (8)
+
+            P^k = FFN(Pk), P^v = FFN(Pv).                                       (9)
+
+                                                                                                                             Q(lk KT )
+SPOT (Soft Prompt Transfer) [27] is a multi-task prompt                                            Attn(Q, K, V ) =                              (lv V ), (10)
+                                                                                                                                    dk
+method that builds upon prompt-tuning, in which "prompt per-
+
+taining" is introduced between PLMs and prompt-tuning. There                                                     FFN(X) = (lff (XW1))W2,                           (11)
+
+are two variants of SPOT: genericSPOT and targetedSPOT.                                     where denotes element-wise multiplication, W1 and W2
+                                                                                            are the weight matrices of FFN, and  is activation function.
+Generic SPOT first learns a generic prompt on one or more                                   (IA)3 only optimizes three learned vectors lk, lv, and lff for
+                                                                                            the Transformer block, resulting in great parameter efficiency.
+source tasks and then employs the learned prompt to initialize                              Notably, (IA)3 incurs minimal overhead because lk and lv can
+                                                                                            be seamlessly integrated into the corresponding linear layers,
+target prompts for specific target tasks. Targeted SPOT learns
+                                                                                            with the only additional overhead arising from lff . PASTA
+separate prompts for various source tasks, creating a source                                (PArameter-efficient tuning with Special Token Adaptation) [32]
+
+prompt library. The optimal source prompt, which exhibits                                   enhances parameter efficiency by modifying the special to-
+
+higher similarity to the target task embedding, is retrieved                                ken representations (e.g., [SEP] and [CLS]) through an extra
+
+and used to initialize the target prompt for the target task.                               trainable vector inserted before the self-attention layer in each
+                                                                                            Transformer. Given an input H = {hi}Ni=1 to a Transformer
+ATTEMPT (ATTEntional Mixtures of Prompt Tuning) [28]                                        layer, PASTA modifies the inputs as:
+
+begins by pretraining transferable soft prompts (source prompts)
+
+on large-scale source tasks that possess valuable knowledge
+
+applicable to other tasks. The new target prompt is initialized
+
+specifically for a given target task. ATTEMPT employs a shared
+
+and lightweight network that is trained simultaneously to learn
+
+an attention-weighted combination of source prompts and target                                                          Hmod = {hi + gi}i=1 N ,                    (12)
+
+prompts. This enables modular multi-task learning, as pretrained                            where the special token adaptation gi is defined as:
+
+soft prompts can be flexibly combined, reused, or removed
+
+to leverage knowledge from different tasks. MPT (multi-task                                        gi = e(vp) if token i is the p-th special token, 0 otherwise.
+
+prompt tuning) [29] utilizes multi-task data to decompose and
+
+distill knowledge from the source prompts to learn a single                                 Here, e(vp) is trainable vector added to the hidden representa-
+                                                                                            tion of the pth special token. By updating only e(vp), PASTA
+shared prompt. MPT then learns a multiplicative low-rank matrix                             drastically reduces the number of trainable parameters. The use
+
+to update the shared prompt, efficiently adapting it to each
+
+downstream target task. Specifically, MPT assumes that the                                  of [CLS] and [SEP] as special tokens in PASTA is justified for
+soft prompts for the tth source task, denoted as P^t, can be
+decomposed into the shared prompts across all source tasks P                                two reasons: the [CLS] representation offers a global represen-
+
+and a task-specific low-rank matrix Wt. The decomposition is                                tation of input text, and attention scores in PLMs are primar-
+
+given by P^t = P          Wt = P   (ut        vT   ),  where           denotes              ily allocated to these tokens across attention heads [85], [86].
+
+                                                t                                           AttentionFusion [33] employs the late fusion technique, which
+
+the Hadamard product,  denotes the Kronecker product, and                                   combines features or representations from diverse tasks or layers
+
+ut and vt are task-specific vectors for the task t.                                         to generate a final joint representation, dynamically adjusting the
+
+3) Others: Apart from adapter family and soft prompt-based                                  importance of each token representation. For a given task t, let
+
+fine-tuning methods, several other approaches also incorporate                              the attention query vector be Qt, and the representation of token
+
+extra trainable parameters during fine-tuning. They involve                                 i  at  layer  j  be  Vij .  The  token  representation  for  task  t,  V^ j,  is
+
+adding a ladder side network operating alongside the Trans-                                                                                                          i
+
+former, introducing additional vectors to rescale the attention,                            defined as:
+
+incorporating extra vectors for special token representations,                                     ^j                   j    jj         exp(Qt Vij )
+                                                                                                   Vi = i (t)Vi , i (t) =                                j , (13)
+using the late fusion technique to integrate additional attention                                                                       k exp(QtVi )
+                                                                                                                 j
+weight, and combing an extra joint importance weight for each
+
+token representation.                                                                       where ij(t) represents the attention weight of token i at layer j
+                                                                                            for task t. The number of extra parameters that need to be updated
+LST (Ladder Side-Tuning) [30] trains a ladder side network in
+                                                                                            in AttentionFusion is determined by the size of the query vector
+conjunction with the pretrained network and takes intermediate                              Qt, which is equal to the hidden dimension of the pretrained
+
+activations as input via shortcut connections, known as ladders.
+XU et al.: PARAMETER-EFFICIENT FINE-TUNING METHODS FOR PRETRAINED LANGUAGE MODELS: A CRITICAL REVIEW AND ASSESSMENT       6113
+
+                                                                                            TABLE I
+                                  WEIGHT UPDATE METHODS FOR PRETRAINED WEIGHTS (W ) USING MASKING IN PARTIAL FINE-TUNING
+
+encoder. By employing these attention weights as extra trainable       2) Pretrained Weight Masking: Pretrained weight masking
+parameters, AttentionFusion adjusts the importance of each          employs pruning criteria, such as threshold and Fisher informa-
+token representation dynamically. Hadamard Adapter [34]             tion, to measure the importance of pretrained weight to construct
+introduces a weight and bias vector in the Transformer layer,       a binary mask matrix for masking.
+matching the dimensions of the multi-head attention module's
+output. These weight and bias vectors are injected immediately         Threshold-Mask [37] utilizes the threshold to construct a
+after the multi-head attention layer, performing element-wise       binary mask matrix M to select pretrained weights W of the
+multiplication (Hadamard product) with the attention outputs.       attention and FFN layers through element-wise multiplication,
+The number of Hadamard adapter is the same as that of Trans-        expressed as W^ = W M . A random, uniformly distributed,
+former layers in PLMs. During fine-tuning, only the parameters      real-valued matrix S that shares the same dimensions as W and
+in the Hadamard adapter, layer normalization, and classifier are    M is created. A binary mask matrix is generated by assigning 1
+updated.                                                            to positions where an element in S exceeds a predefined global
+                                                                    threshold  , and 0 otherwise. FISH Mask (Fisher-Induced
+B. Partial Fine-Tuning                                              Sparse uncHanging) [38] uses the Fisher information of pre-
+                                                                    trained weights to measure their importance and construct a
+   Partial fine-tuning methods reduce the number of trainable pa-   sparse binary mask M . It selects the top-k parameters with
+rameters by updating a subset of pretrained parameters deemed       the largest Fisher information to construct this mask, setting
+crucial to downstream tasks while discarding unimportant ones.      the positions corresponding to these top-k parameters to 1,
+They are categorized into three groups: 1) Bias Update, where       while the remaining positions are set to 0. The value of k is
+only the bias terms in the attention, FFN layers, and layer         preset based on the desired mask sparsity level of the mask,
+normalization of the Transformer are updated; 2) Pretrained         and the resulting sparse binary mask can be reused across many
+Weight Masking, where pretrained weights are masked using           subsequent iterations.
+various pruning criteria; and 3) Delta Weight Masking, where
+delta weights are masked via pruning techniques and optimiza-          3) Delta Weight Masking: Delta weight masking involves
+tion approximation. A detailed analysis of weight update with       employing various approaches or pruning techniques to con-
+masking is provided in Table I.                                     struct a binary mask matrix to reduce trainable parameters.
+
+   1) Bias Update: It involves modifying only the bias terms in        LT-SFT (Lottery Ticket Sparse Fine-Tuning) [39] is a novel
+the attention layer, feed-forward layer, and layer normalization    PEFT method inspired by the Lottery Ticket Hypothesis2 [88].
+of the Transformer. Additionally, it may include pruning bias       LT-SFT begins by fine-tuning the PLM on target data using the
+terms using various optimization algorithms.                        initial parameters W0, resulting in fully fine-tuned parameters
+                                                                    W1. It then identifies the top-k pretrained parameters with
+   Bit-Fit (Bias-term Fine-tuning): [35] achieves parameter ef-     the greatest absolute differences (|W1 - W0|). These selected
+ficiency by only updating the bias terms and the task-specific      top-k parameters are further fine-tuned using a binary mask
+classification layer while keeping the majority of parameters       M , where positions corresponding to the chosen parameters
+in the Transformer-based PLMs frozen. The bias parameters           are set to 1, and all other positions are set to 0. The model
+are involved in the attention layer, where they are involved        parameters are then reset to their original pretrained weights
+in calculating query, key and value, and combining multiple         W0, but only the selected k parameters are fine-tuned, ex-
+attention heads, as well as in the fee-forward and layer nor-       pressed as  = M W L(W ). By iteratively repeating this
+malization layers. Further, U/S-BitFit [36] combines the neural     process, LT-SFT gradually fine-tunes only a small fraction of
+architecture search (NAS) algorithm [87] and pruning technique      the model's parameters. Child-Tuning [40] defines a "child
+to automatically determine which parameters of the network          network" as the subset of parameters to be updated and masks out
+need to be fine-tuned based on BitFit. U-BitFit (Unstructured       the gradients of non-child networks to improve parameter effi-
+BitFit) decides which PEFT parameters to prune based on the         ciency. The parameter updates in Child-Tuning are expressed as
+first-order approximation of the change in training loss resulting   = M W L(W ) ( denotes learning rate). Child-Tuning
+from pruning the PEFT parameter W , i.e., -W · W L(W ).
+While S-BitFit (Structured BitFit) sums the criterion over the         2Lottery Ticket Hypothesis states that each neural model contains a sub-
+overall bias update.                                                network (a "winning ticket") that can match or even outperform the performance
+                                                                    of the original model when trained in isolation.
+6114                                       IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 48, NO. 6, JUNE 2026
+
+                                                              TABLE II
+      DELTA WEIGHT (W ) REPARAMETERIZATION OF VARIOUS REPARAMETERIZED FINE-TUNING METHODS
+
+provides two variants: Child-TuningF (F denotes Task-Free)            allowing operation with high-dimensional matrices (e.g., pre-
+and Child-TuningD (D denotes Task-Driven). Child-TuningF              trained weights). These methods are categorized into two
+generates the binary mask matrix M using Bernoulli distribution       groups: 1) Low-rank Decomposition, where various low-rank
+with a probability denoted as pF . Increasing pF updates more         decomposition techniques are used to reparameterize the up-
+parameters, and Child-TuningF is equivalent to full fine-tuning       dated matrix; and 2) LoRA Derivatives, where various PEFT
+when pF = 1. Child-TuningD uses Fisher information estima-            methods are developed based on LoRA. Specific details of
+tion to identify a subset of parameters (the child network) that are  delta weight (W ) parameter reparameterization with various
+highly correlated with a specific downstream task. The binary         approaches can be seen in Table II.
+mask matrix M in Child-TuningD is created by assigning 1
+to positions corresponding to the child network and 0 to the             1) Low-Rank Decomposition: This involves finding a lower-
+non-child network.                                                    rank matrix that captures the essential information of the original
+                                                                      matrix while reducing computational complexity and memory
+   Diff Pruning [41] introduces a task-specific, sparse diff vec-     usage by reparameterizing the updated delta weight. Reparam-
+tor  during fine-tuning while keeping the pretrained weight           eterization covers transforming the delta weight matrix into a
+W fixed. To induce sparsity,  is decomposed as  = M w ,               low-rank representation using methods such as Fastfood trans-
+where M is a learnable binary mask and w is a dense diff              formation, low-rank down-up projection, or Kronecker product
+weight. The binary mask M is optimized with the Hard-Concrete         projection.
+relaxation, which provides a differentiable approximation to the
+L0-norm and makes most entries of  to zero. Due to only the              Intrinsic SAID (Structure-Aware Intrinsic Dimension) [43]
+sparse diff vector needing to be stored for each task, Diff Pruning   leverages the concept of intrinsic dimensionality to reduce the
+is particularly suitable for on-device deployment settings, where     number of parameters during fine-tuning. Intrinsic dimension-
+tasks may arrive sequentially or come from different providers.       ality refers to the minimum dimensionality required to solve a
+SAM (Second-order Approximation Method) [42] also employs             high-dimensional optimization problem. Instead of optimizing
+the sparse mask matrix to update the delta weight. However,           the empirical loss in the original parameterization, Intrinsic
+SAM directly optimizes the approximation function to obtain           SAID fine-tunes the model by reparametrizing the model in
+an analytical solution for the mask matrix, which is then used to     a lower-dimensional space, i.e., W = F (W r), where W r is
+update the pretrained weight. Concretely, SAM [42] views the          the parameter being optimized and F : Rr  Rd is a Fastfood
+PEFT methods as p-sparse fine-tuned models by representing            transform3 [89] that projects parameters from low-dimensional
+fine-tuned parameters as W = W0 + M W , where M is a                  r to high-dimensional d. However, Intrinsic SAID is not prac-
+mask matrix, and the optimization problem is                          tical for fine-tuning larger networks due to the O(d) memory
+                                                                      complexity of the Fastfood transform and the need to update all
+     minW,M L(W0 + M W ), s.t.                                        model parameters.
+
+       M 0 = mp , Mi,j = 0, i = j; andMi,i  {0, 1},                      Inspired by Intrinsic SAID, LoRA (Low-Rank Adapta-
+                                                                      tion) [12] introduces two trainable low-rank matrices, down-
+where m = dim(W ) and p is fixed sparsity. SAM obtains gradi-         projection matrix Wdown and up-projection matrix Wup, to
+ent L(W0)i for the parameter Wi, then calculates |L(W0)2i |           update pretrained weight W . Specifically, these matrices are
+and selects the top mp delta weight for optimization.                 used in parallel with the query, key, and value matrices in
+                                                                      attention layer of Transformer, as shown in Fig. 3(c). For pre-
+C. Reparameterized Fine-Tuning                                        trained weight W  Rd×k, LoRA updates weight as W =
+                                                                      WdownWup, where Wdown  Rd×r projects the input from
+   Reparameterized fine-tuning methods utilize low-rank trans-
+formation to reduce the number of trainable parameters while             3Fastfood transform is a computationally efficient dimensionality expansion
+                                                                      method.
+XU et al.: PARAMETER-EFFICIENT FINE-TUNING METHODS FOR PRETRAINED LANGUAGE MODELS: A CRITICAL REVIEW AND ASSESSMENT  6115
+
+the high-dimensional (Rd) to a lower-dimensional intermediate      importance scoring [90], [91] with a new metric to prune unim-
+space (Rr), Wup  Rr×k maps the compressed representation           portant singular values, improving parameter efficiency and
+back to the original output space (Rk). Low-rank decomposi-        optimizing allocation budgets. IncreLoRA [47] dynamically
+tion dramatically reduces the number of trainable parameters,      increases the ranks of LoRA modules during training, guided
+as r min{d, k}. During training, the weights of PLMs are           by importance scores assigned to each module. Less important
+frozen, and only Wdown and Wup are fine-tuned, enabling            modules are assigned lower ranks (potentially zero, indicating
+parameter-efficient adaptation to new tasks. A scaling factor is   no updates), while more important ones receive higher ranks.
+                                                                   Parameter updates follow W = WdownWup, where  is a
+typically added to the LoRA module.                                rank-r diagonal matrix (with r being the rank of the LoRA
+                                                                   module). To control parameter growth, an upper bound on
+   KronA (Kronecker Adapter) [44] is structurally similar to       the rank is set for each module. IncreLoRA also introduces a
+                                                                   pretraining technique called "advance learning", which ensures
+LoRA but replaces the low-rank decomposition in LoRA               newly added parameters are initialized effectively, preventing
+with Kronecker product decomposition, W = Wdown                    insufficient training of incremental parameters. Unlike LoRA,
+Wup. This decomposition maintains the rank of the input matrix     which operates on the query, key, and value projection modules
+(rank(A  B) = rank(A) × rank(B)), ensuring that important          in the attention layer, IncreLoRA applies parameter updates to
+information is preserved during the adaptation process. More-      all linear layers, enabling broader adaptation.
+
+over, Kronecker product can speed up computation and reduce           LoRA-guided Pretrained Weight Update: Delta-LoRA [48]
+                                                                   updates the pretrained weight W as well as two low-rank matri-
+the number of required floating-point operations by avoiding       ces Wdown and Wup, while maintaining the same memory as the
+                                                                   original LoRA. The low-rank matrices Wdown and Wup are up-
+the explicit reconstruction of the Kronecker product matrix.       dated as usual, but the pretrained weight W leverages the math-
+KronA has two variants: KronAB and KronABres. KronAB               ematical property for parameter updates: W L(W, Wdown,
+inserts the KronA module in parallel to the FFN layer, while       Wup) = WdownWup L(W, Wdown, Wup). This is achieved
+KronABres inserts the KronA module alongside the FFN layer         by removing the dropout layer in the original LoRA module.
+and incorporates a learnable residual connection.                  Specifically, W is updated with the delta of the product of
+                                                                   two low-rank matrices in consecutive iterations, i.e., W 
+   2) LoRA Derivatives: This includes a range of PEFT meth-        W + WdownWup = W + (Wdown(t + 1)Wup(t + 1) -
+ods built upon LoRA, including Low-Rank Adjustment, which          Wdown(t)Wup(t)). LoRAPrune [49] introduces a LoRA-
+                                                                   guided pruning criterion that utilizes the weights and gradients
+explores dynamic rank adjustment strategies to improve LoRA's      of LoRA, rather than those of pretrained weights, to estimate
+adaptability; LoRA-guided Pretrained Weight Update, which          parameter importance and prune both LoRA and pretrained
+                                                                   parameters. To address the substantial memory overhead
+leverages LoRA to guide the update of pretrained weight;           of unstructured pruning and dependency-aware structured
+Quantization Adaptation, which integrates various quanti-          pruning, LoRAPrune devises a structured iterative pruning
+                                                                   procedure that selectively eliminates redundant channels and
+zation techniques to enhance the efficiency of LoRA-based          heads. Specifically, the pruning criterion uses the low-rank
+fine-tuning and inference; LoRA-based Improvements, which          matrices Wdown and Wup, and their corresponding gradients
+                                                                   Wdown and Wup , to calculate the importance score4. Weights
+incorporates novel techniques into LoRA for improvements;          with low importance scores are pruned. LoRAPrune not only
+and LoRA-based Multi-task Fine-tuning, which combines              prunes structured weights, such as heads and channels, from the
+                                                                   pretrained weights but also prunes the corresponding weights
+multiple LoRA modules for effective cross-task transfer.           in the LoRA modules. The pruned weights are represented as
+   Low-rank Adjustment: DyLoRA (Dynamic LoRA) [45] is               = (W + WdownWup) M , M  {0, 1}1×G, where G is the
+                                                                   group number. Binary mask M is set to 0 for unimportant groups
+introduced to overcome two limitations of LoRA: (a) its fixed      and 1 for important ones. After pruning and fine-tuning, the
+                                                                   LoRA weights seamlessly merge with the pretrained weights,
+rank, which cannot be adjusted after training, and (b) the need    ensuring no additional computational overhea during inference.
+
+for exhaustive search to determine the optimal rank. To over-         Quantization Adaptation: QLoRA [50], a quantized vari-
+                                                                   ant of LoRA, addresses the computational resource limita-
+come these issues, DyLoRA trains LoRA modules across a             tions of LoRA by quantizing the Transformer model to 4-bit
+                                                                   NormalFloat (NF4) precision using double quantization pro-
+range of ranks, allowing for adaptability. Specifically, DyLoRA    cessing, and a paged optimizer to mitigate memory spikes.
+iterates over ranks within a predefined range r  [rmin, rmax].     While QLoRA quantizes pretrained weight W from FP16 into
+In each iteration, DyLoRA randomly selects a specific rank rb
+from {rmin, . . . , rmax}, truncates the down-projection matrix       4Importance score I is calculated via I = W  W, W  Wdown ·
+as Wdownrb = Wdown[: rb, :] and the up-projection matrix as        Wup + Wdown · Wup - Wdown · Wup .
+Wuprb = Wup[:, : rb] and only update truncated parameter ma-
+trices. The parameter updates for each iteration are expressed as
+W = Wdownrb Wuprb . By allowing dynamic low-rank adap-
+tation and search-free low-rank adaptation, DyLoRA reduces
+
+the computational cost and training time required to identify
+the optimal rank for a particular task. AdaLoRA (Adaptive
+
+Low-Rank Adaptation) [46] extends LoRA by dynamically
+
+adjusting the matrix rank to optimize parameter allocation.
+It reparameterizes the incremental update W using singular
+value decomposition (SVD) as W = U R, where U and R
+are orthogonal matrices, and  is a diagonal matrix containing
+the singular values. During training, U and R are initialized
+
+with Gaussian distribution with a regularizer to ensure the or-
+thogonality, while  is initialized to zero and iteratively pruned
+to adjust the rank. AdaLoRA employs the sensitivity-based
+6116                                    IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 48, NO. 6, JUNE 2026
+
+NF4 so that LLMs can be fine-tuned with fewer GPUs, the                   LoRA-based Multi-task Fine-tuning: LoRAHub [58] lever-
+
+low-rank weight matrices Wdown and Wup reverts the final            ages multiple trained LoRA modules for cross-task trans-
+
+weight to FP16 again after fine-tuning, limiting its efficiency.    fer to fine-tune model on new tasks. It trains task-
+
+To this end, QA-LoRA (Quantization-Aware Low-rank Adap-             specific LoRA modules in various tasks to obtain a synthe-
+
+tation) [51] introduces group-wise quantization with low-rank       sized module, m^ = (w1Wd1own + · · · + wN WdNown)(w1Wu1p +
+
+adaptation by partitioning each column of the pretrained weight     ·  ·  ·  +  wN  WN      ),  which  is  amalgamated  with  LLMs  for  new
+
+W into L groups for quantization. This design ensures that                              up
+
+                                                                    task adaptation. The objective of LoRAHub is to find the
+
+both pretrained and adaptation weights remain quantized after       best weight set {w1, w2, . . . , wN }, which is achieved by the
+
+fine-tuning, enabling faster and more accurate inference. Sim-      gradient-free combinatorial optimization approach Shiwa [94].
+
+ilarly, LOFTQ (LoRA-Fine-Tuning-aware Quantization) [52]            MOELoRA [59] combines LoRA with mixture-of-experts
+
+proposes a quantization-aware initialization strategy that ap-      (MoE) for multi-task fine-tuning, where each expert is a LoRA
+
+proximates the high-precision pretrained weights using N-bit        module for learning task-specific knowledge. Additionally, a
+
+quantized weights and low-rank matrices Wdown and Wup. This         task-motivated gate function is devised to produce distinct,
+
+initialization mitigates the quantization discrepancy observed in   fine-tuned parameters for various tasks. L-LoRA (Linearized
+
+QLoRA and significantly improves generalization, especially         LoRA) [60] is a linearized PEFT method to improve the multi-
+
+effective in 2-bit and 2/4-bit mixed-precision settings. While      task fusion capability of fine-tuned task-specific models with
+
+INT2.1 [53] leverages the GPTQ quantization method [92]             low computation costs. L-LoRA constructs a linear function
+
+to compress pretrained weights and integrates LoRA for fine-        using a first-order Taylor expansion, as illustrated in (14). In
+
+tuning of LLMs. It introduces a low-rank error correction mech-     L-LoRA, only the linearized LoRA modules are fine-tuned in the
+
+anism that enhances performance by compensating for quan-           tangent space, incurring fewer trainable parameters compared to
+
+tization error, even under extremely low-bit conditions (e.g.,      LoRA. For the multi-task fusion methods, simple average, task
+
+2-bit). LQ-LORA [54] is a mixed-precision PEFT method that          arithmetic [95], [96], ties-merging [97], and LoRAhub [58] are
+
+decomposes pretrained weight into fixed quantized component         employed for multi-task fusion.
+
+and trainable low-rank component. It formulates the quanti-                  f0 (x; (t))  f0 lin(x; (t)) = f0 (x; (0))
+                                                                                                + f0 (x; (0))T ((t) - (0)). (14)
+zation process as an integer linear programming problem, al-
+
+lowing dynamic configuration of quantization parameters (e.g.,
+
+bit-width, block size) under a global memory budget. This allows
+
+aggressive sub-3-bit quantization (e.g., 2.75-bit) with minimal     D. Hybrid Fine-Tuning
+
+performance degradation.                                               Hybrid fine-tuning aims to combine multiple PEFT strategies
+                                                                    like adapter, prefix-tuning, and LoRA, to leverage their strengths
+LoRA-based Improvements: Kernel-wise Adapter [55] treats            and mitigate their weaknesses. By integrating features from
+                                                                    different PEFT methods, hybrid fine-tuning achieves improved
+the different attention heads in the Transformer as indepen-        overall performance compared to individual PEFT methods.
+                                                                    These methods are categorized into two groups: 1) Mannual
+dent kernel estimators and utilizes the kernel structure in self-   Combination, which combines multiple PEFT methods man-
+                                                                    ually by sophisticated design; and 2) Automatic Combination,
+attention to guide the assignment of tunable parameters. LoRA       where PEFT methods are integrated automatically via structure
+                                                                    search or optimization algorithms.
+is used as the base model to combine kernel-wise adaptation for
+                                                                       1) Manual Combination: Manual combination mainly in-
+its flexibility in parameter assignment across different weight     volves integrating the structure or features of one PEFT method
+                                                                    into another PEFT method to enhance performance while
+matrices. Kernel-wise adapter has two variants: Kernel-mix-         achieving parameter efficiency.
+
+lite (qv) and Kernel-mix-lite (qvo). Kernel-mix-lite (qv) is           MAM Adapter (Mix-And-Match Adapter) [17] combines
+                                                                    the strengths of scaled parallel adapter and prefix-tuning. Con-
+designed for scenarios with limited parameter budgets, while        cretely, it employs prefix-tuning with smaller bottleneck dimen-
+                                                                    sions at the attention layer and allocates more parameter budget
+Kernel-mix (qvo) is suitable for intermediate parameter budgets.    to modify the representation of FFN using the scaled parallel
+                                                                    adapter, which introduces a scaling factor to adjust the adapter
+The suffix "(qv)" means that the method will adjust Wq and          output. Further, U-MAM (Unstructured MAM) and S-MAM
+                                                                    (Structured MAM) [36] are proposed, combining NAS algo-
+Wv, while the suffix "(qvo)" means that the method will modify      rithm [87] with pruning techniques to automatically determine
+                                                                    which parameters of the network should be fine-tuned. NAS
+Wq, Wv, and Wo. Laplace-LoRA [56] incorporates Bayesian             algorithm takes the maximum number of parameters required
+                                                                    for PEFT architectures as input and applies the pruning oper-
+inference into LoRA parameters to address overconfidence and        ation to reduce trainable parameters. The pruning criterion is
+                                                                    based on the first-order approximation of the change in train-
+improve calibration. A key challenge lies in obtaining the pos-     ing loss resulting from pruning the PEFT parameter W (i.e.,
+
+terior distribution for Bayesian inference, which is resolved by
+
+using Laplace approximation [93]. Laplace-LoRA approximates
+
+the posterior distribution over LoRA parameters, enabling it to
+
+maintain standard pretraining and fine-tuning procedures while
+
+reducing the dimensionality of Bayesian inference. LoRA-FA
+
+(LoRA with Frozen-A) [57] reduces the activation memory of
+
+LoRA by keeping the pretrained weight W and down-projection
+
+matrix Wdown frozen and only updating the up-projection matrix
+
+Wup. Wdown is decomposed into Qdown and Rdown via QR de-
+
+composition, and W = WdownWup = QdownRdownWup =
+
+QdownW^ up =  r    Qdown,:,iW^ up,i,:,  where  {Qdown,:,i}ri=1
+              i=1
+
+are orthogonal unit vectors (r is the rank of Wdown). This ensures
+
+that W resides in a low-rank orthogonal subspace, avoiding
+
+full-rank activation storage.
+XU et al.: PARAMETER-EFFICIENT FINE-TUNING METHODS FOR PRETRAINED LANGUAGE MODELS: A CRITICAL REVIEW AND ASSESSMENT  6117
+
+-W · W L(W )). U-MAM directly employs this criterion to            search for suitable architectures that selectively activate cer-
+prune the parameters in MAM, while S-MAM sums the criterion        tain layers to incorporate these PEFT modules. Bayesian opti-
+over each column of Wdown.                                         mization is sample-efficient, zeroth-order, and well-suited for
+                                                                   multi-objective setups, enabling cost-efficient optimization
+   Compacter [61] integrates adapters, low-rank optimization,      while balancing performance and resource usage. Moreover, it
+                                                                   is more parallelizable during search, decreasing memory usage.
+and parameterized hypercomplex multiplication (PHM) lay-
+                                                                      S 3 Delta-M (Search for Sparse Structure of Delta Tuning
+ers [98] to improve parameter efficiency. It follows a structure   Mix) [64] is a mixture of LoRA, Compacter (low-rank adapter),
+                                                                   BitFit, and LNFit5. Different from incorporating PEFT tech-
+similar to adapters, consisting of a down-projection, a nonlinear  niques directly, S 3 Delta-M employs a differentiable delta tuning
+                                                                   structure search to explicitly control sparsity and identify the
+activation function, and an up-projection. However, Compacter      optimal combination of these techniques in a unified search
+                                                                   space. Each PEFT module is strategically inserted into the
+replaces the down- and up-projection in the adapters with a        corresponding layers of the PLM, with the specific combination
+                                                                   and placement determined through the sparsity-guided structure
+low-rank PHM layer. Structurally, PHM layer resembles a fully      search. S4 [65] builds on this idea by combining sequential
+connected layer, but its weight matrix W is represented as a       adapter, prefix-tuning, BitFit, and LoRA. Unlike methods that
+sum of Kronecker products, W = i=1 n Ai  Bi, where Ai is           utilize the same PEFT module uniformly across all Transformer
+a shared parameter across all adapter layers, while Bi represents  layers, S4 introduces a more granular design by grouping layers
+adapter-specific parameters. Compacter extends this idea by        into four "spindle-patterned" groups: G1, G2, G3, G4. In this
+reparameterizing Bi as the product of two low-rank matrices,       pattern, more layers are allocated to the middle groups (G2 and
+enabling further parameter reduction. The weight matrix in each    G3), while fewer layers are assigned to the top and bottom
+                                                                   groups (G1 and G4). However, trainable parameters are allo-
+low-rank PHM layer is calculated as:                               cated uniformly, ensuring the number of trainable parameters in
+                                                                   each layer remains consistent across all groups. Each group is
+n    n                                                             equipped with a unique combination of sequential adapters (A),
+                                                                   prefix-tuning (P ), BitFit (B), and LoRA (L). Extensive experi-
+W = Ai  Bi = Ai  (sitTi ),  (15)                                   mental results demonstrate that equipping groups with tailored
+                                                                   combinations of PEFT methods leads to improved performance
+i=1  i=1                                                           compared to uniform application across layers.
+
+where si and ti are low-rank matrices. Compacter++ is a variant                       G1 : (A, L); G2 : (A, P );
+of Compacter that inserts a Compacter layer after the FFN layer
+of the Transformer module and requires fewer parameters to be                         G3 : (A, P, B); G4 : (P, B, L).
+updated than Compacter.
+                                                                   E. Unified Fine-Tuning
+   UniPELT [62] incorporates sequential adapter, prefix-tuning,
+and LoRA via a gating mechanism. In UniPELT, adapters                 Unified fine-tuning provides a cohesive framework that sim-
+are added after the FFN layer, prefix-tuning is applied to the     plifies the integration of diverse fine-tuning methods into a uni-
+key and value vectors of the MHA layer, and LoRA is used           fied architecture, ensuring consistency and efficiency in model
+in attention matrices of Wq and Wv. Each PEFT module is            adaptation and optimization. Unlike hybrid fine-tuning, which
+equipped with a gating mechanism comprising a linear function      combines multiple PEFT methods, unified fine-tuning typically
+with the dimension of the output being 1, a sigmoid function,      relies on a single PEFT method for adaptation.
+and a mean function. This mechanism controls the activation
+of each submodule, dynamically assigning higher weights to            AdaMix [66] leverages a mixture of adaptation module ap-
+submodules that make positive contributions to the task. The       proaches to create a unified framework for fine-tuning. Moti-
+trainable parameters encompass LoRA matrices Wdown and             vated by sparsely-activated MoE [99], AdaMix treats each adap-
+Wup, prefix-tuning parameters Pk and Pv, adapter parameters,       tation module as an individual expert and employs stochastic
+and weights for the gating function. While UniPELT requires        routing to randomly select a down-projection matrix and an
+more parameters and inference time than adapter, prefix-tuning,    up-projection matrix for weight updates. Such stochastic routing
+and LoRA, it achieves superior performance by leveraging the       allows the adaptation module to learn multiple views for the
+strengths of all three approaches.                                 given task but poses a challenge in deciding which adaptation
+                                                                   module to use during inference. To this end, Adamix utilizes
+   2) Automatic Combination: This explores how to configure        consistency regularization and adaptation module merging (i.e.,
+PEFT methods like adapters, prefix-tuning, and LoRA to dif-        average weights of all down- and up-projection matrices) to
+ferent layers of the Transformer automatically using various       select the trained module. This approach ensures the same
+structure search and optimization approaches. However, it typ-
+ically requires more time and cost due to the need to perform         5LNFit is trained only on the variance vectors in the layer normalization mod-
+optimization searches.                                             ule of the PLMs, inspired by [88] which trains only on the batch normalization
+                                                                   module in convolutional neural networks.
+   AutoPEFT [63] integrates serial adapter, parallel adapter,
+and prefix-tuning into the Transformer block. The serial adapter
+receives the hidden state from the FFN output as input, while
+parallel adapter takes the hidden state before the FFN layer as
+its input. In addition, prefix-tuning module concatenates two
+prefix vectors, Pk and Pv, with the original key and value
+vectors, respectively, enabling multi-head attention to adapt to
+specific target tasks. Motivated by NAS algorithm, AutoPEFT
+employs a Bayesian optimization approach to automatically
+6118                        IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 48, NO. 6, JUNE 2026
+
+computational cost as using a single module during inference.       Fig. 4. Overview of Section IV: Experimental Settings, Fine-tuning Per-
+Notably, adaptation modules in Adamix could be adapters like        formance and Parameter Efficiency, Memory Efficiency, and Discussion on
+sequential adapter [10] or low-rank decomposition matrices like     trade-off between performance and memory usage.
+LoRA [12].
+                                                                    mT5 (small, base, and large) [104] are utilized to evaluate on
+   SparseAdapter [67] utilizes network pruning to construct a       the WMT16 Ro-En dataset6; and decoder-only models LLaMA
+unified framework in which various PEFT methods, including          (7B and 13B) [8] fine-tuned with the Alpaca dataset [105] are
+the adapter family and LoRA [10], [12], [17], can be further        employed to evaluate on the MMLU benchmark [106]. Alpaca
+pruned to improve parameter efficiency. SparseAdapter assigns       is an instruction dataset containing 52 k samples. See more in
+a score z to all parameters of adapters and LoRA and prunes         Supplemental Material.
+those with scores below a threshold zs (the sth lowest percentile
+of z). The target sparsity is denoted as s, and the score z can        2) Implementation Details: We leverage the PEFT library7
+be computed using pruning methods such as random pruning,           to implement prompt-tuning, prefix-tuning, (IA)3, LoRA, and
+magnitude pruning [100], or SNIP [101], with SNIP-based             AdaLoRA. For BitFit, Child-Tuning, MAM adapter, QLoRA,
+SparseAdapter yielding the best results. SparseAdapter exhibits     AutoPEFT, and ProPETL, we experiment using their original
+improved performance over full fine-tuning in the "Large-           code. While AdapterS is implemented using code from MAM
+Sparse" setting, which involves larger bottleneck dimensions        adapter. All 12 methods are evaluated on the GLUE bench-
+and higher sparsity ratios. Additionally, its network pruning       mark, while a representative subset is applied to the T5, mT5,
+technique is a plug-in method that can be applied to any adapter    and LLaMA experiments. All experiments are conducted on
+variants, such as MAM Adapter [17] and AdapterFusion [20].          NVIDIA A800. Detailed hyperparameter settings are provided
+The optimized parameters in SparseAdapter are represented as        in Supplemental Material.
+W^ = W M , where M is a binary mask matrix with M =
+I{zzs} and z = score(W ).                                           B. Fine-Tuning Performance and Parameter Efficiency
+
+   ProPETL [68] introduces a single prototype network (e.g.,           1) Roberta on Glue: Table III compares full fine-tuning and
+adapter, prefix-tuning, and LoRA) shared across layers and          12 PEFT methods on the GLUE benchmark using RoBERTa-
+tasks, while constructing different sub-networks for each layer     base and RoBERTa-large. Results are the mean and standard
+using binary masks. Inspired by ALBERT [102], ProPETL lever-        deviation computed over five runs for each dataset. Some PEFT
+ages parameter sharing within the prototype network modules         methods (e.g., AutoPEFT and ProPETL) outperform full fine-
+across the Transformer layers, enhancing parameter efficiency       tuning while significantly reducing trainable parameters. Specif-
+and reducing storage requirements. In ProPETL, binary masks         ically, it is observed:
+M  {0, 1}n are introduced in each layer of the Transformer,
+where n is the number of parameters in a single PEFT mod-              r All PEFT methods reduce the number of trainable param-
+ule. Each binary mask corresponds to a specific sub-network
+of the shared prototype network. This approach allows layers              eters while most PEFT methods achieve comparable or
+to share parameters from the same prototype network while                 even improved performance with full fine-tuning, and a
+utilizing distinct sub-networks to capture meaningful semantic            few PEFT methods achieve inferior performance to full
+representations for different tasks. Task adaptation objective for        fine-tuning.
+the PLMs is formulated as:
+                                                                       r AutoPEFTRTE utilizes hyperparameters identified through
+           N
+                                                                          NAS that deliver the best performance on RTE tasks,
+      max                   logP (Yi|Xi; lm, sub),                        which are then applied to other NLU tasks. In contrast,
+      pro,m1,m2,...,mL i=0                                                AutoPEFTTask selects the optimal hyperparameters for
+                                                                          each individual task through NAS. Overall, AutoPEFTTask
+      sub = [pro m1, pro m2, . . . , pro mL]. (16)                        outperforms AutoPEFTRTE across tasks.
+
+Here, lm represents the frozen pretrained parameters of the            6https://huggingface.co/datasets/wmt/wmt16/viewer/ro-en
+PLMs, mi (i = 1, 2, . . . , L) are layer-specific binary mask ma-      7https://huggingface.co/docs/peft/index
+trices, and sub denotes the parameters to be optimized.
+
+                           IV. EXPERIMENTS
+
+   This section presents the experimental settings and results on
+performance, parameter, and memory efficiency, and discusses
+the performance-memory trade-offs of PEFT methods across
+models and tasks, as shown in Fig. 4.
+
+A. Experimental Settings
+
+   1) PLMs and Datasets: Encoder-only models RoBERTa
+(base and large) [3] are used to evaluate on the GLUE bench-
+mark [103]; encoder-decoder models T5 (base and large) [5] and
+XU et al.: PARAMETER-EFFICIENT FINE-TUNING METHODS FOR PRETRAINED LANGUAGE MODELS: A CRITICAL REVIEW AND ASSESSMENT        6119
+
+                                                                                    TABLE III
+FINE-TUNING ROBERTA MODELS ON THE GLUE BENCHMARK. THE NUMBER OF TRAINABLE PARAMETERS (# TPS) OF EACH METHOD IS PRESENTED,
+
+  EXCLUDING CHILD-TUNINGD DUE TO ITS RANDOMNESS DURING NETWORK PRUNING. WE BOLD THE BEST AND UNDERLINE THE WORST VALUES
+
+r QLoRA-Int8 uses the fewest trainable parameters due to            2) T5 and mT5 on WMT16 Ro-En: Table IV compares full
+                                                                 fine-tuning and 5 PEFT methods on the WMT16 Ro-En dataset
+  its lower LoRA rank and Int8 quantization, but it falls short  using T5 (base, large), and mT5 (small, base, large). While PEFT
+  of full fine-tuning performance.                               methods substantially reduce trainable parameters, their effec-
+                                                                 tiveness varies significantly depending on the model architecture
+r MAM Adapter and AutoPEFT are hybrid PEFT methods               and size. It is observed:
+
+  that combine multiple components manually and auto-               r The BLEU scores for T5 models with full fine-tuning
+  matically, respectively. AutoPEFT generally outperforms
+  the manually designed MAM Adapter while using fewer                  consistently surpass those of all mT5 variants. Notably,
+  parameters; however, its NAS for hyperparameter tuning               T5-base (28.16) outperforms even the significantly larger
+  incurs higher computational overhead.                                mT5-large (26.47). This performance gap can be attributed
+                                                                       to the fact that T5 is specifically trained on English text,
+r (IA)3, BitFit, LoRA, AdaLoRA, and QLoRA underper-                    whereas mT5 is trained on multi-lingual datasets, which
+                                                                       may result in less optimal performance for specific lan-
+  form compared to full fine-tuning on RoBERTa-base, but               guage tasks involving English translation.
+  outperform it on RoBERTa-large.
+                                                                    r For T5-base, both full fine-tuning and PEFT methods
+r Prompt-tuning underperforms compared to other PEFT
+                                                                       demonstrate robust stability with minimal variance across
+  methods across GLUE tasks, with performance gap par-                 different random seeds. PEFT methods yield results com-
+  ticularly pronounced on CoLA and RTE. These two tasks                petitive with full fine-tuning across T5-base and T5-large,
+  are both low-resource and linguistically complex, requiring          validating their effectiveness despite having fewer trainable
+  syntactic sensitivity (CoLA) or logical inference (RTE),             parameters.
+  which prompt-tuning struggles to capture effectively due
+  to its limited parameter updates.                                 r Full fine-tuning consistently outperforms 5 PEFT meth-
+
+r Child-TuningD performs well when fine-tuning RoBERTa-                ods on mT5 models. This gap is particularly pronounced
+                                                                       on smaller architectures (mT5-small and mT5-base). This
+  base on the GLUE benchmark, even surpassing full                     suggests that PEFT methods, which update only a small
+  fine-tuning. However, when applied to RoBERTa-large,                 number of parameters, lack sufficient capacity to fully
+  it exhibits large standard deviations across tasks such as
+  QQP, MNLI, QNLI, and RTE, indicating high sensitivity
+  to random seeds.
+6120  IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 48, NO. 6, JUNE 2026
+
+                                                                                         TABLE IV
+FINE-TUNING T5-BASE/LARGE, AND MT5-SMALL/BASE/LARGE ON THE WMT16 RO-EN AND EVALUATING PERFORMANCE USING BLEU SCORE. HIGHER BLEU
+
+                                                               SCORE INDICATES BETTER QUALITY OF TRANSLATION
+
+                                                                                          TABLE V
+COMPARISON OF AVERAGE 5-SHOT MMLU TEST ACCURACY FOR LLAMA-7B AND LLAMA-13B MODELS USING ALPACA WITH PEFT METHODS. THE HIGHER
+
+                                            MMLU ACCURACY, THE BETTER. # APS REFERS TO THE TOTAL MODEL PARAMETERS
+
+  adapt the compressed multi-lingual representations of                 preservation of features. In contrast, prompt-tuning and
+  smaller models to a specific downstream task. See Sup-                prefix-tuning rely on indirect "guidance" via virtual tokens,
+  plemental Material for details.                                       while (IA)3 uses simple activation rescaling; both appear
+                                                                        to lack the sufficient capacity to disentangle the com-
+r Prompt-tuning achieves moderate performance on T5-                    plex multi-lingual representations required for high-quality
+                                                                        translation.
+  base and T5-large but performs poorly across mT5 model             3) Llama on Mmlu: As illustrated in Table V, full fine-tuning
+  sizes (small, base, and large), yielding near-zero BLEU         of LLaMA-7B and LLaMA-13B produces higher 5-shot MMLU
+  scores. Additional experiments (see Supplemental Mate-          test accuracy than the three PEFT methods. (IA)3, LoRA, and
+  rial) confirm that this is not due to hyperparameters. Similar  QLoRA methods all greatly reduce the number of trainable
+  findings have also been observed in some other recent stud-     parameters with (IA)3 performing best. Though (IA)3 uses only
+  ies [107], [108], which have reported similar underperfor-      0.02% of the full fine-tuning parameters, its performance is 2-4%
+  mance of prompt-tuning on mT5 across cross-lingual tasks        lower. LoRA and QLoRA use approximately 2% of the full fine-
+  such as named entity recognition (NER), part-of-speech          tuning parameters and achieve accuracy about 2% lower. No-
+  (POS) tagging, and question answering (QA). These results       tably, QLoRA uses only half the trainable parameters of LoRA
+  suggest that prompt-tuning may be less effective for mT5 in     while delivering comparable performance. This efficiency in
+  tasks beyond the translation task, potentially due to limited   QLoRA is largely attributed to NF4 quantization, which enables
+  adaptation capacity.                                            substantial parameter reduction without sacrificing accuracy.
+                                                                  Additionally, 5-shot MMLU accuracy is sensitive to the learning
+r There is a distinct positive correlation between model size     rate, with fluctuations observed on the dev set as evaluation
+                                                                  steps increase. More details are provided in the Supplemental
+  and PEFT efficacy for mT5. The performance gap between          Material.
+  PEFT methods (specifically LoRA, QLoRA and (IA)3)
+  and full fine-tuning narrows significantly as the model size    C. Memory Efficiency
+  increases. For instance, LoRA on mT5-small lags behind
+  full fine-tuning by 10.52, this gap shrinks to just 1.07 on        As presented in Table VI, peak GPU memory usage during
+  mT5-large. This indicates that larger multi-lingual mod-        fine-tuning varies by models and methods. Generally, GPU
+  els possess sufficient redundant capacity to be effectively     memory consumption correlates positively with model size
+  adapted via PEFT methods.                                       across RoBERTa, T5, mT5, and LLaMA. Most PEFT methods
+                                                                  help reduce GPU memory usage compared to full fine-tuning.
+r Despite the performance gap with full fine-tuning, LoRA
+
+  and QLoRA significantly outperform prompt-tuning,
+  prefix-tuning, and (IA)3 across mT5 models. We attribute
+  this is likely because LoRA directly modifies the weight
+  updates, allowing for a more stable optimization and better
+XU et al.: PARAMETER-EFFICIENT FINE-TUNING METHODS FOR PRETRAINED LANGUAGE MODELS: A CRITICAL REVIEW AND ASSESSMENT  6121
+
+                                                                       TABLE VI
+PEAK GPU MEMORY USAGE (GB) DURING FINE-TUNING OF ROBERTA, T5, MT5, AND LLAMA WITH VARIOUS PEFT METHODS
+
+   For RoBERTa, most PEFT methods substantially reduce            comparable or less memory than mT5-base when using (IA)3
+memory usage. QLoRA Int8 achieves a peak GPU memory of            and QLoRA. This phenomenon occurs because the memory
+2.07 GB on RoBERTa-base, a 61.5% reduction compared to            savings from halving the batch size (from 64 to 32) effectively
+full fine-tuning (5.38 GB), primarily due to 8-bit integer quan-  offset the increased memory costs of the larger model architec-
+tization. However, AdapterS, Child-TuningD, MAM Adapter           ture.
+and AutoPEFT consume more memory than full fine-tuning
+due to the overhead of intermediate computations and gradient        For LLaMA models, PEFT methods achieve substantial mem-
+caching. AdapterS introduces adapter modules at each Trans-       ory savings, especially for larger models. For instance, full
+former layer, increasing storage needs for hidden states and      fine-tuning of LLaMA-7B-Alpaca requires 169.36 GB, while
+gradients. Child-TuningD employs child networks and applies       QLoRA reduces this to 56.46 GB, a 66.6% reduction. On
+a binary mask matrix, which increases memory usage for storing    LLaMA-13B-Alpaca, full fine-tuning requires 287.79 GB, but
+and applying the mask matrix during backpropagation, and          QLoRA reduces this down to 66.60 GB, a 76.9% reduction.
+additional gradient calculations for masked parameters. MAM       The efficiency gains of QLoRA are particularly pronounced
+Adapter combines prefix-tuning and scaled parallel adapters,      for larger models due to the combination of quantization and
+increasing memory usage through cached activations for its ex-    efficient memory management techniques. Moreover, PEFT
+tended attention mechanism and gradients for adapter weights.     methods such as LoRA and (IA)3 also achieve a more significant
+AutoPEFT is particularly memory-intensive as it integrates        memory reduction on LLaMA-13B compared to LLaMA-7B,
+multiple PEFT methods and additional operations for layer         suggesting that the benefits of PEFT methods increase with
+selection and optimization, necessitating the caching multiple    model size. Larger models see greater advantages from reduced
+intermediate representations and gradients.                       parameter storage and optimized cache memory, making PEFT
+                                                                  methods increasingly effective as model size grows.
+   For T5 and mT5 models, 5 PEFT methods consistently reduce
+memory usage compared to full fine-tuning, with QLoRA again       D. Discussion
+demonstrating the greatest efficiency. On T5-base, full fine-
+tuning requires 25.17 GB, while QLoRA reduces it to 5.69 GB.         Experimental results in Tables III, IV, V, and VI reveal
+This efficiency is achieved through NF4 quantization, which       a critical trade-off between performance and memory con-
+minimizes memory required for model parameters; double quan-      sumption across different PEFT methods. Sequential Adapter,
+tization, which further compresses the quantized weights; and     MAM Adapter and AutoPEFT outperform full fine-tuning with
+paged optimizers, which offload infrequently accessed data,       RoBERTa but require higher GPU memory. Among these, Au-
+reducing the GPU footprint. mT5 models, which utilize FP32        toPEFT achieves the best overall performance but also demands
+precision for fine-tuning, exhibits significantly higher GPU      the greatest memory usage, making it suitable for users pri-
+memory usage due to the need to store high-precision parameters   oritizing performance with sufficient computational resources.
+and intermediate activations. Even with PEFT methods, memory      ProPETL offers slightly lower performance than AutoPEFT but
+usage remains high, underscoring the influence of precision       excels in the GLUE benchmark with RoBERTa while consuming
+settings on GPU memory consumption. Although mT5-large            less memory, striking a good trade-off between performance
+possesses significantly more trainable parameters, it requires    and memory usage. BitFit and AdaLoRA achieve performance
+6122  IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 48, NO. 6, JUNE 2026
+
+comparable to full fine-tuning with RoBERTa while requiring                              VI. FURTHER DIRECTIONS
+less memory, offering a balanced performance-memory trade-
+off. Notably, (IA)3, LoRA, and QLoRA effectively balance            A. Lightweight Hybrid PEFT Methods
+performance and memory efficiency, making them ideal options
+across models and tasks. QLoRA stands out as the most memory-          Many approaches [17], [36], [61], [62], [63], [64], [65] com-
+efficient method, achieving performance slightly below full fine-   bine multiple PEFT methods to leverage their unique strengths
+tuning, making it particularly suitable for resource-constrained    for improved performance. However, existing research primarily
+scenarios. Prompt-tuning and prefix-tuning reduce memory us-        focuses on combining adapters, LoRA, prefix-tuning, and BitFit,
+age but exhibit inconsistent performance across models and          leaving room to explore a broader range of techniques. Inspired
+tasks. They underperform on GLUE with RoBERTa, perform              by NAS algorithms, some studies [63], [64] employ optimization
+comparably on WMT16 Ro-En with T5 models, but show poor             to discover effective neural network architectures for config-
+results with mT5 models, making them less reliable.                 uring these methods. Nonetheless, there remains considerable
+                                                                    scope to explore alternative optimization strategies for search-
+                           V. APPLICATIONS                          ing architectures and assigning specific combinations of PEFT
+                                                                    modules across different layers. Thus, a promising direction is
+A. Multi-Task Learning                                              to investigate strategies that combine multiple PEFT methods
+                                                                    to boost performance while minimizing the number of trainable
+   Multi-task learning leveraging shared information across         parameters and memory usage.
+related tasks to improve performance. PEFT methods like
+adapters, prompt-tuning, and LoRA enhance this process using        B. LoRA-Derived PEFT Methods
+pluggable modules. Adapters [20], [22], [23], [77] employ task-
+specific adapters to learn information for more robust transfer        As illustrated in Fig. 1, a multitude of LoRA-based PEFT
+learning, while prompt-tuning [27], [28], [29] transfers knowl-     methods have recently emerged. These variants enhance the
+edge by initializing target prompts from source tasks or learning   original LoRA framework by integrating adaptive rank adjust-
+shared prompts. Similarly, LoRA modules can be composed to          ment, unstructured pruning, weight quantization, and multi-task
+transfer knowledge [58], [59]. L-LoRA [60] enhances multi-task      learning. Particular emphasis should be placed on pruning and
+fusion by preventing negative inference between task-specific       quantization techniques. For instance, pruning is utilized in
+representations. Additionally, [96] utilizes arithmetic operators   AdaLoRA [46] for rank adjustment, and in LoRAPrune [49] to
+to merge parameters of various PEFT methods trained on dif-         compress both pretrained and LoRA weights. These techniques
+ferent tasks for multi-task learning.                               effectively reduce trainable parameters and computational re-
+                                                                    quirements of PLMs (especially LLMs), enhancing their utility
+B. Cross-Lingual Transfer                                           and scalability across downstream tasks. Future research could
+                                                                    explore the conjunction of these techniques with LoRA to unlock
+   Cross-lingual transfer moves knowledge between languages,        synergistic benefits.
+often utilizing the modular design of adapters. Bapna and Fi-
+rat [109] usesequential adapters [10] to maintain translation per-  C. Developing PEFT Library
+formance on high-resource languages, while Artetxe et al. [110]
+apply them to transfer monolingual models to unseen languages.         Various PEFT methods have been developed, but implement-
+More complex architectures like MAD-X [77], [111] combines          ing them from scratch can be challenging. To simplify this pro-
+language, task, and invertible adapters to handle vocabulary        cess, the PEFT library8 and AdapterHub9 have been developed.
+mismatches, while MAD-G [112] generates language adapters           These libraries integrate commonly used PEFT methods such
+from typological representations to share linguistic knowledge.     as prefix-tuning, LoRA, and AdaLoRA, enabling users to apply
+Furthermore, LT-SFT [39] uses sparse fine-tuning for cross-         them with just a few lines of code. Both libraries also offer
+lingual transfer, and BAD-X [113] trains bilingual adapters for     a range of examples illustrating how to fine-tune various PLMs
+zero-shot transfer.                                                 and LLMs for downstream tasks using these methods. However,
+                                                                    not all PEFT methods are currently supported. Expanding the
+C. Backdoor Attacks and Defense                                     integration of additional methods in these libraries represents a
+                                                                    promising direction for enhancing the accessibility and utility
+   Backdoor attacks, which cause models to misclassify inputs       of PEFT methods.
+containing specific triggers while maintaining normal perfor-
+mance on benign data, pose a major risk to PLMs [114]. Lever-       D. Explainability of PEFT Methods
+aging the vulnerability of pretrained weights, Gu et al. [115]
+use PEFT methods to construct backdoor attacks by injecting            Though numerous PEFT methods have been proposed, there
+triggers directly into PEFT modules. However, Zhu et al. [116]      is a lack of comprehensive studies explaining why they achieve
+discover that PEFT can serve as a backdoor defense solution by      comparable performance with reduced trainable parameters.
+reducing the model capacity via optimizing only a small number      Work from [42] unifies PEFT methods under the concept
+of parameters. The findings from [117] also confirm that PEFT       of sparse fine-tuned models, providing a theoretical analysis
+can slightly weaken the backdoor attacks and design a novel
+Trojan attack for the PEFT paradigm.                                   8https://github.com/huggingface/peft/tree/main
+                                                                       9https://adapterhub.ml/
+XU et al.: PARAMETER-EFFICIENT FINE-TUNING METHODS FOR PRETRAINED LANGUAGE MODELS: A CRITICAL REVIEW AND ASSESSMENT  6123
+
+demonstrating that sparsity can serve as a regularization tech-     central to DeepSeek-R1, for efficient performance, while LoRA-
+nique to control stability. Meanwhile, [118] analyzes the express   PAR [127] uses RL for dynamic parameter allocation in LLMs
+power of LoRA for fully connected neural networks and the           like Qwen to enhance complex reasoning. In the SSL set-
+Transformer networks, showing the conditions under which            ting, ExPLoRA [128] introduces a PEFT-based continual self-
+there exist effective low-rank adapters for a given task. These     supervised strategy that applies LoRA to general-purpose mod-
+studies shed light on the working mechanism of certain PEFT         els on domain-specific data for efficient domain adaptation.
+methods, but still lack generalization. Future research endeavors   However, most existing methods simply stack adapters onto
+could focus on advancing theoretical studies to unravel the         standard RL or SSL pipelines without addressing the distinctive
+underlying working mechanisms of PEFT methods.                      challenges such as the instability of RL training under low-rank
+                                                                    constraints or the limited capacity of adapters to capture rich
+E. PEFT in Computer Vision and Multi-Modal Learning                 representations from massive unlabeled data. Future work could
+                                                                    explore architecture-aware PEFT designs tailored to specific dy-
+   Though PEFT methods have been extensively studied in NLP,        namic of RL and the representation learning objectives of SSL.
+their application in computer vision and multi-modal learning
+shows great potential for further exploration. The sequential                                 VII. CONCLUSION
+adapter, initially inspired by multi-domain image classifica-
+tion [78], has spurred rapid progress in PEFT methods for PLMs.        This paper presents a comprehensive overview of PEFT meth-
+Recent studies have extended PEFT techniques to computer            ods for PLMs, aiming to inspire further advancements in this
+vision [119], [120] and multi-modal tasks involving language-       field. We categorize PEFT methods in NLP into five classes and
+image and image-audio inputs [121], [122], building upon PEFT       provide an in-depth analysis of their mechanisms and unique
+methods in NLP [10], [12], [61]. Despite this progress, sub-        characteristics. To evaluate their effectiveness, we fine-tune
+stantial research opportunities remain, particularly in enabling    encoder-only RoBERTa, encoder-decoder T5 and mT5, and
+cross-modality transfer. By fine-tuning pretrained models using     decoder-only LLaMA on a variety of downstream tasks using
+PEFT, knowledge acquired from one modality can be effectively       several representative PEFT methods. Experimental results re-
+transferred to another, enhancing performance in multi-modal        veal that most PEFT methods significantly improve parame-
+tasks.                                                              ter efficiency while achieving performance comparable to, or
+                                                                    even surpassing, full fine-tuning. In addition, these methods
+F. Dequantization of Quantization-Aware PEFT Methods                effectively reduce memory footprints, with QLoRA drastically
+                                                                    cutting computational memory requirements and alleviating
+   Quantization-aware PEFT methods, such as QLoRA and               memory challenges during LLM fine-tuning. Notably, (IA)3,
+LOFTQ, significantly reduce memory usage by using 4-bit             LoRA, and QLoRA achieve a balanced trade-off between per-
+or 2-bit weights. However, they still rely on dequantization,       formance and memory efficiency across different models and
+which involves converting these low-precision weights and           tasks. We also explore common applications of PEFT methods
+activations back to higher precision (e.g., FP16/FP32) during       and propose future research directions. As LLMs continue to
+training and inference. While this dequantization process is        advance, there is a growing need for PEFT methods that can
+necessary to maintain model accuracy, it introduces additional      further minimize computational and memory demands during
+memory and computational overhead, thereby diminishing the          fine-tuning. This survey aims to provide a clear and comprehen-
+overall efficiency gains from quantization. Recent study [123]      sive foundation for future research in this area.
+have demonstrated that second-order dequantization, where both
+weights and scales of groups are dequantized, can account for                                        REFERENCES
+over 50% of execution time. This underscores the need for
+more efficient dequantization methods. Future research could           [1] A. Vaswani et al., "Attention is all you need," in Proc. Adv. Neural Inf.
+investigate asynchronous or parallel dequantization techniques              Process. Syst., 2017, pp. 6000-6010.
+to overlap computation and memory access, thereby reducing
+latency. Additionally, selective dequantization, in which only         [2] J. Devlin, M.-W. Chang, K. Lee, and K. Toutanova, "BERT: Pre-training
+the most sensitive layers (e.g., attention layers) are reverted to          of deep bidirectional transformers for language understanding," in Proc.
+higher precision, is another promising direction.                           Conf. North Amer. Chapter Assoc. Comput. Linguistics: Hum. Lang.
+                                                                            Technol., 2019, pp. 4171-4186.
+G. Integration With Advanced Learning Paradigms
+                                                                       [3] Y. Liu et al., "RoBERTa: A robustly optimized bert pretraining approach,"
+   While PEFT has been widely applied to supervised fine-                   2019, arXiv:1907:11692.
+tuning, integrating it with advanced paradigms like reinforce-
+ment learning (RL) and self-supervised learning (SSL) offers           [4] A. Radford, J. Wu, R. Child, D. Luan, D. Amodei, and I. Sutskever,
+a promising direction. For example, PE-RLHF [124] employs                   "Language models are unsupervised multitask learners," OpenAI Blog,
+LoRA adapters for policy and value models within the RL                     vol. 1, no. 8, 2019, Art. no. 9.
+loop. Recent works involving DeepSeek and Qwen further
+validate this synergy. Tina [125] incorporates LoRA into a             [5] C. Raffel et al., "Exploring the limits of transfer learning with a uni-
+Group Relative Policy Optimization (GRPO) framework [126],                  fied text-to-text transformer," J. Mach. Learn. Res., vol. 21, no. 1,
+                                                                            pp. 5485-5551, 2020.
+
+                                                                       [6] S. Zhang, M. Diab, and L. Zettlemoyer, "Democratizing access to
+                                                                            large-scale language models with OPT-175B," Meta AI Blog, 2022.
+                                                                            [Online]. Available: https://ai.meta.com/blog/democratizing-access-to-
+                                                                            large-scale-language-models-with-opt-175b/
+
+                                                                       [7] T. L. Scao et al., "Bloom: A 176b-parameter open-access multilingual
+                                                                            language model," 2022, arXiv:2211.05100.
+
+                                                                       [8] H. Touvron et al., "LLAMA: Open and efficient foundation language
+                                                                            models," 2023, arXiv:2302.13971.
+6124  IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 48, NO. 6, JUNE 2026
+
+ [9] A. Dubey et al., "The LLAMA 3 herd of models," 2024,                           [36] N. Lawton, A. Kumar, G. Thattai, A. Galstyan, and G. VerSteeg, "Neural
+      arXiv:2407.21783.                                                                   architecture search for parameter-efficient fine-tuning of large pre-trained
+                                                                                          language models," in Proc. Findings Assoc. Comput. Linguistics, 2023,
+[10] N. Houlsby et al., "Parameter-efficient transfer learning for NLP," in               pp. 8506-8515.
+      Proc. Int. Conf. Mach. Learn., 2019, pp. 2790-2799.
+                                                                                    [37] M. Zhao, T. Lin, F. Mi, M. Jaggi, and H. Schütze, "Masking as
+[11] X. L. Li and P. Liang, "Prefix-tuning: Optimizing continuous prompts                 an efficient alternative to finetuning for pretrained language mod-
+      for generation," in Proc. Annu. Meeting Assoc. Comput. Linguistics Int.             els," in Proc. Conf. Empir. Methods Natural Lang. Process., 2020,
+      Joint Conf. Natural Lang. Process., 2021, pp. 4582-4597.                            pp. 2226-2241.
+
+[12] E. J. Hu et al., "LoRA: Low-rank adaptation of large language models,"         [38] Y.-L. Sung, V. Nair, and C. Raffel, "Training neural networks with
+      in Proc. Int. Conf. Learn. Representations, 2022, pp. 1-13.                         fixed sparse masks," in Proc. Adv. Neural Inf. Process. Syst., 2021,
+                                                                                          pp. 24193-24205.
+[13] N. Ding et al., "Delta tuning: A comprehensive study of
+      parameter efficient methods for pre-trained language models,"                 [39] A. Ansell, E. Ponti, A. Korhonen, and I. Vulic´, "Composable sparse
+      2022, arXiv:2203.06904.                                                             fine-tuning for cross-lingual transfer," in Proc. Annu. Meeting Assoc.
+                                                                                          Comput. Linguistics, 2022, pp. 1778-1796.
+[14] V. Lialin, V. Deshpande, and A. Rumshisky, "Scaling down to scale up:
+      A guide to parameter-efficient fine-tuning," 2023, arXiv:2303.15647.          [40] R. Xu et al., "Raise a child in large language model: Towards effective
+                                                                                          and generalizable fine-tuning," in Proc. Conf. Empir. Methods Natural
+[15] Z. Lin, A. Madotto, and P. Fung, "Exploring versatile generative language            Lang. Process., 2021, pp. 9514-9528.
+      model via parameter-efficient transfer learning," in Proc. Findings Conf.
+      Empir. Methods Natural Lang. Process., 2020, pp. 441-459.                     [41] D. Guo, A. Rush, and Y. Kim, "Parameter-efficient transfer learning with
+                                                                                          diff pruning," in Proc. Annu. Meeting Assoc. Comput. Linguistics, Int.
+[16] T. Lei et al., "Conditional adapters: Parameter-efficient transfer learning          Joint Conf. Natural Lang. Process., 2021, pp. 4884-4896.
+      with fast inference," in Proc. Adv. Neural Inf. Process. Syst., 2023,
+      pp. 8152-8172.                                                                [42] Z. Fu et al., "On the effectiveness of parameter-efficient fine-tuning," in
+                                                                                          Proc. AAAI Conf. Artif. Intell., 2023, pp. 12799-12807.
+[17] J. He, C. Zhou, X. Ma, T. Berg-Kirkpatrick, and G. Neubig, "Towards a
+      unified view of parameter-efficient transfer learning," in Proc. Int. Conf.   [43] A. Aghajanyan, S. Gupta, and L. Zettlemoyer, "Intrinsic dimensionality
+      Learn. Representations, 2022, pp. 1-15.                                             explains the effectiveness of language model fine-tuning," in Proc. Annu.
+                                                                                          Meeting Assoc. Comput. Linguistics, Int. Joint Conf. Natural Lang.
+[18] A. Rücklé et al., "On the efficiency of adapters in transformers," in Proc.          Process., 2021, pp. 7319-7328.
+      Conf. Empir. Methods Natural Lang. Process., 2021, pp. 7930-7946.
+                                                                                    [44] A. Edalati, M. Tahaei, I. Kobyzev, V. P. Nia, J. J. Clark, and M. Reza-
+[19] H. Zhao, H. Tan, and H. Mei, "Tiny-attention adapter: Contexts are more              gholizadeh, "Krona: Parameter efficient tuning with kronecker adapter,"
+      important than the number of parameters," in Proc. Conf. Empir. Methods             2022, arXiv:2212.10650.
+      Natural Lang. Process., 2022, pp. 6626-6638.
+                                                                                    [45] M. Valipour, M. Rezagholizadeh, I. Kobyzev, and A. Ghodsi, "DyLoRA:
+[20] J. Pfeiffer, A. Kamath, A. Rücklé, K. Cho, and I. Gurevych, "Adapter-                Parameter-efficient tuning of pre-trained models using dynamic search-
+      Fusion: Non-destructive task composition for transfer learning," in Proc.           free low-rank adaptation," in Proc. Conf. Eur. Chapter Assoc. Comput.
+      Conf. Eur. Chapter Assoc. Comput. Linguistics, 2021, pp. 487-503.                   Linguistics, 2023, pp. 3274-3287.
+
+[21] S. He, R.-Z. Fan, L. Ding, L. Shen, T. Zhou, and D. Tao, "Mera: Merging        [46] Q. Zhang et al., "Adaptive budget allocation for parameter-efficient fine-
+      pretrained adapters for few-shot learning," 2023, arXiv:2308.15982.                 tuning," in Proc. Int. Conf. Learn. Representations, 2023, pp. 1-17.
+
+[22] R. Karimi Mahabadi, S. Ruder, M. Dehghani, and J. Henderson,                   [47] F. Zhang, L. Li, J. Chen, Z. Jiang, B. Wang, and Y. Qian, "IncreLoRA:
+      "Parameter-efficient multi-task fine-tuning for transformers via shared             Incremental parameter allocation method for parameter-efficient fine-
+      hypernetworks," in Proc. Annu. Meeting Assoc. Comput. Linguistics. Int.             tuning," 2023, arXiv:2308.12043.
+      Joint Conf. Natural Lang. Process., 2021, pp. 565-576.
+                                                                                    [48] B. Zi, X. Qi, L. Wang, J. Wang, K.-F. Wong, and L. Zhang, "Delta-LoRA:
+[23] A. Chronopoulou, M. Peters, A. Fraser, and J. Dodge, "Adapter-                       Fine-tuning high-rank parameters with the delta of low-rank matrices,"
+      Soup: Weight averaging to improve generalization of pretrained lan-                 2023, arXiv:2309.02411.
+      guage models," in Proc. Findings Assoc. Comput. Linguistics, 2023,
+      pp. 2054-2063.                                                                [49] M. Zhang et al., "Pruning meets low-rank parameter-efficient fine-
+                                                                                          tuning," 2023, arXiv:2305.18403.
+[24] K. Hambardzumyan, H. Khachatrian, and J. May, "WARP: Word-
+      level adversarial ReProgramming," in Proc. Annu. Meeting Assoc.               [50] T. Dettmers, A. Pagnoni, A. Holtzman, and L. Zettlemoyer, "QLORA:
+      Comput. Linguistics. Int. Joint Conf. Natural Lang. Process., 2021,                 Efficient finetuning of quantized LLMs," 2023, arXiv:2305.14314.
+      pp. 4921-4933.
+                                                                                    [51] Y. Xu et al., "Qa-LoRA: Quantization-aware low-rank adaptation of large
+[25] B. Lester, R. Al-Rfou, and N. Constant, "The power of scale for                      language models," 2023, arXiv:2309.14717.
+      parameter-efficient prompt tuning," in Proc. Conf. Empir. Methods Nat-
+      ural Lang. Process., 2021, pp. 3045-3059.                                     [52] Y. Li et al., "LoftQ: LoRA-fine-tuning-aware quantization for large
+                                                                                          language models," 2023, arXiv:2310.08659.
+[26] X. Liu et al., "GPT understands, too," 2021, arXiv:2103.10385.
+[27] T. Vu, B. Lester, N. Constant, R. Al-Rfou, and D. Cer, "SPoT: Better           [53] Y. Chai, J. Gkountouras, G. G. Ko, D. Brooks, and G.-Y. Wei, "Int2.
+                                                                                          1: Towards fine-tunable quantized large language models with error
+      frozen model adaptation through soft prompt transfer," in Proc. Annu.               correction through low-rank adaptation," 2023, arXiv:2306.08162.
+      Meeting Assoc. Comput. Linguistics, 2022, pp. 5039-5059.
+[28] A. Asai, M. Salehi, M. Peters, and H. Hajishirzi, "ATTEMPT: Parameter-         [54] H. Guo, P. Greengard, E. P. Xing, and Y. Kim, "LQ-LoRA: Low-rank plus
+      efficient multi-task tuning via attentional mixtures of soft prompts," in           quantized matrix decomposition for efficient language model finetuning,"
+      Proc. Conf. Empir. Methods Natural Lang. Process., 2022, pp. 6655-                  2023, arXiv:2311.12023.
+      6672.
+[29] Z. Wang, R. Panda, L. Karlinsky, R. Feris, H. Sun, and Y. Kim, "Multitask      [55] Y. Chen, D. Hazarika, M. Namazifar, Y. Liu, D. Jin, and D. Hakkani-
+      prompt tuning enables parameter-efficient transfer learning," in Proc. Int.         Tur, "Empowering parameter-efficient transfer learning by recognizing
+      Conf. Learn. Representations, 2023, pp. 1-16.                                       the kernel structure in self-attention," in Proc. Findings Assoc. Comput.
+[30] Y.-L. Sung, J. Cho, and M. Bansal, "LST: Ladder side-tuning for param-               Linguistics, 2022, pp. 1375-1388.
+      eter and memory efficient transfer learning," in Proc. Adv. Neural Inf.
+      Process. Syst., 2022, pp. 12991-13005.                                        [56] A. X. Yang, M. Robeyns, X. Wang, and L. Aitchison, "Bayesian low-rank
+[31] H. Liu et al., "Few-shot parameter-efficient fine-tuning is better and               adaptation for large language models," 2023, arXiv:2308.13111.
+      cheaper than in-context learning," in Adv. Neural Inf. Process. Syst., 2022,
+      pp. 1950-1965.                                                                [57] L. Zhang, L. Zhang, S. Shi, X. Chu, and B. Li, "LoRA-FA: Memory-
+[32] X. Yang, J. Y. Huang, W. Zhou, and M. Chen, "Parameter-efficient                     efficient low-rank adaptation for large language models fine-tuning,"
+      tuning with special token adaptation," in Proc. Conf. Eur. Chapter Assoc.           2023, arXiv:2308.03303.
+      Comput. Linguistics, 2023, pp. 865-872.
+[33] J. Cao, C. Satya Prakash, and W. Hamza, "Attention fusion: A light yet         [58] C. Huang, Q. Liu, B. Y. Lin, T. Pang, C. Du, and M. Lin, "LoraHub:
+      efficient late fusion mechanism for task adaptation in NLU," in Proc.               Efficient cross-task generalization via dynamic LoRA composition,"
+      Findings Assoc. Comput. Linguistics, 2022, pp. 857-866.                             2023, arXiv:2307.13269.
+[34] Y. Chen et al., "Hadamard adapter: An extreme parameter-efficient
+      adapter tuning method for pre-trained language models," in Proc. 32nd         [59] Q. Liu et al., "MoeLoRA: An MOE-based parameter efficient fine-tuning
+      ACM Int. Conf. Inf. Knowl. Manage., 2023, pp. 276-285.                              method for multi-task medical applications," 2023, arXiv:2310.18339.
+[35] E. Ben Zaken, Y. Goldberg, and S. Ravfogel, "BitFit: Simple parameter-
+      efficient fine-tuning for transformer-based masked language-models," in       [60] A. Tang et al., "Parameter efficient multi-task model fusion with partial
+      Proc. Annu. Meeting Assoc. Comput. Linguistics, 2022, pp. 1-9.                      linearization," 2023, arXiv:2310.04742.
+
+                                                                                    [61] R. Karimi Mahabadi, J. Henderson, and S. Ruder, "Compacter: Efficient
+                                                                                          low-rank hypercomplex adapter layers," Adv. Neural Inf. Process. Syst.,
+                                                                                          vol. 34, pp. 1022-1035, 2021.
+
+                                                                                    [62] Y. Mao et al., "UniPELT: A unified framework for parameter-efficient
+                                                                                          language model tuning," in Proc. Annu. Meeting Assoc. Comput. Lin-
+                                                                                          guistics, 2022, pp. 6253-6264.
+XU et al.: PARAMETER-EFFICIENT FINE-TUNING METHODS FOR PRETRAINED LANGUAGE MODELS: A CRITICAL REVIEW AND ASSESSMENT  6125
+
+[63] H. Zhou, X. Wan, I. Vulic´, and A. Korhonen, "Autopeft: Au-                      [90]  P. Molchanov, A. Mallya, S. Tyree, I. Frosio, and J. Kautz, "Importance
+      tomatic configuration search for parameter-efficient fine-tuning,"              [91]  estimation for neural network pruning," in Proc. IEEE Conf. Comput.
+      2023, arXiv:2301.12132.                                                         [92]  Vis. Pattern Recognit., 2019, pp. 11264-11272.
+                                                                                      [93]  V. Sanh, T. Wolf, and A. Rush, "Movement pruning: Adaptive spar-
+[64] S. Hu et al., "Sparse structure search for delta tuning," in Proc. Adv.          [94]  sity by fine-tuning," in Proc. Adv. Neural Inf. Process. Syst., 2020,
+      Neural Inf. Process. Syst., 2022, pp. 9853-9865.                                [95]  pp. 20378-20389.
+                                                                                      [96]  E. Frantar, S. Ashkboos, T. Hoefler, and D. Alistarh, "GPTQ: Accurate
+[65] J. Chen, A. Zhang, X. Shi, M. Li, A. Smola, and D. Yang, "Parameter-             [97]  post-training quantization for generative pre-trained transformers," in
+      efficient fine-tuning design spaces," in Proc. Int. Conf. Learn. Represen-      [98]  Proc. Int. Conf. Learn. Representations, 2023, pp. 1-16.
+      tations, 2023, pp. 1-18.                                                        [99]  D. J. MacKay, "A practical Bayesian framework for backpropagation
+                                                                                     [100]  networks," Neural Comput., vol. 4, no. 3, pp. 448-472, 1992.
+[66] Y. Wang et al., "AdaMix: Mixture-of-adaptations for parameter-efficient         [101]  J. Liu et al., "Versatile black-box optimization," in Proc. Genet. Evolut.
+      model tuning," in Proc. Conf. Empir. Methods Natural Lang. Process.,           [102]  Comput. Conf., 2020, pp. 620-628.
+      2022, pp. 5744-5760.                                                           [103]  G. Ilharco, M. T. Ribeiro, M. Wortsman, L. Schmidt, H. Hajishirzi, and
+                                                                                     [104]  A. Farhadi, "Editing models with task arithmetic," in Proc. Int. Conf.
+[67] S. He, L. Ding, D. Dong, J. Zhang, and D. Tao, "SparseAdapter: An               [105]  Learn. Representations, 2023, pp. 1-31.
+      easy approach for improving the parameter-efficiency of adapters," in          [106]  J. Zhang, S. Chen, J. Liu, and J. He, "Composing parameter-efficient
+      Proc. Findings Conf. Empir. Methods Natural Lang. Process., 2022,              [107]  modules with arithmetic operations," 2023, arXiv:2306.14870.
+      pp. 2184-2190.                                                                 [108]  P. Yadav, D. Tam, L. Choshen, C. Raffel, and M. Bansal, "Resolving
+                                                                                            interference when merging models," 2023, arXiv:2306.01708.
+[68] G. Zeng, P. Zhang, and W. Lu, "One network, many masks: Towards more            [109]  A. Zhang et al., "Beyond fully-connected layers with quaternions: Pa-
+      parameter-efficient transfer learning," in Proc. Annu. Meeting Assoc.          [110]  rameterization of hypercomplex multiplications with 1/n parameters,"
+      Comput. Linguistics, 2023, pp. 7564-7580.                                      [111]  in Proc. Int. Conf. Learn. Representations, 2021, pp. 1-13.
+                                                                                     [112]  N. Shazeer et al., "Outrageously large neural networks: The sparsely-
+[69] K. He, X. Zhang, S. Ren, and J. Sun, "Deep residual learning for image          [113]  gated mixture-of-experts layer," 2017, arXiv:1701.06538.
+      recognition," in Proc. IEEE Conf. Comput. Vis. Pattern Recognit., 2016,               J. Frankle, G. K. Dziugaite, D. Roy, and M. Carbin, "Pruning neural
+      pp. 770-778.                                                                   [114]  networks at initialization: Why are we missing the mark," in Proc. Int.
+                                                                                     [115]  Conf. Learn. Representations, 2021, pp. 1-41.
+[70] J. L. Ba, J. R. Kiros, and G. E. Hinton, "Layer normalization,"                 [116]  N. Lee, T. Ajanthan, and P. Torr, "SNIP: Single-shot network pruning
+      2016, arXiv:1607.06450.                                                               based on connection sensitivity," in Proc. Int. Conf. Learn. Representa-
+                                                                                            tions, 2019, pp. 1-15.
+[71] L. Xu and W. Wang, "Improving aspect-based sentiment analysis with                     Z. Lan, M. Chen, S. Goodman, K. Gimpel, P. Sharma, and R. Soricut,
+      contrastive learning," Nat. Lang. Process. J., vol. 3, 2023, Art. no. 100009.         "Albert: A lite BERT for self-supervised learning of language represen-
+                                                                                            tations," in Proc. Int. Conf. Learn. Representations, 2020, pp. 1-17.
+[72] Y. Xie et al., "Distant supervision for multi-stage fine-tuning in retrieval-          A. Wang, "Glue: A multi-task benchmark and analysis platform for
+      based question answering," in Proc. Web. Conf., 2020, pp. 2934-2940.                  natural language understanding," 2018, arXiv:1804.07461.
+                                                                                            L. Xue et al., "mT5: A massively multilingual pre-trained text-to-text
+[73] R. Dabre, A. Fujita, and C. Chu, "Exploiting multilingualism through                   transformer," in Proc. Conf. North Amer. Chapter Assoc. Comput. Lin-
+      multistage fine-tuning for low-resource neural machine translation," in               guist.: Hum. Lang. Technol., 2021, pp. 483-498.
+      Proc. Conf. Empir. Methods Natural Lang. Process., Int. Joint Conf.                   R. Taori et al., "Stanford alpaca: An instruction-following LLaMA
+      Natural Lang. Process., 2019, pp. 1410-1416.                                          model," Stanford Center for Research on Foundation Models, 2023.
+                                                                                            [Online]. Available: https://crfm.stanford.edu/2023/03/13/alpaca
+[74] M. T. Hosseini, A. Ghaffari, M. S. Tahaei, M. Rezagholizadeh, M. As-                   D. Hendrycks et al., "Measuring massive multitask language understand-
+      gharian, and V. P. Nia, "Towards fine-tuning pre-trained language models              ing," in Proc. Int. Conf. Learn. Representations, 2021, pp. 1-27.
+      with integer forward and backward propagation," in Proc. Findings Assoc.              B. Ma et al., "ToPro: Token-level prompt decomposition for cross-lingual
+      Comput. Linguistics, 2023, pp. 1867-1876.                                             sequence labeling tasks," in Proc. 18th Conf. Eur. Chapter Assoc. Com-
+                                                                                            put. Linguist., 2024, pp. 2685-2702.
+[75] S.-I. Amari, "Backpropagation and stochastic gradient descent method,"                 N. Chirkova and V. Nikoulina, "Key ingredients for effective zero-shot
+      Neurocomputing, vol. 5, no. 4/5, pp. 185-196, 1993.                                   cross-lingual knowledge transfer in generative tasks," in Proc. 2024 Conf.
+                                                                                            North Am Chapter Assoc. Comput. Linguist: Hum. Lang. Technol., 2024,
+[76] L. Xu, H. Xie, Z. Li, F. L. Wang, W. Wang, and Q. Li, "Contrastive                     pp. 7222-7238.
+      learning models for sentence representations," ACM Trans. Intel. Syst.                A. Bapna and O. Firat, "Simple, scalable adaptation for neural machine
+      Technol., 2023, pp. 1-34.                                                             translation," in Proc. Conf. Empir. Methods Natural Lang. Process., Int.
+                                                                                            Joint Conf. Natural Lang. Process., 2019, pp. 1538-1548.
+[77] J. Pfeiffer, I. Vulic´, I. Gurevych, and S. Ruder, "MAD-X: An adapter-                 M. Artetxe, S. Ruder, and D. Yogatama, "On the cross-lingual transfer-
+      based framework for multi-task cross-lingual transfer," in Proc. Conf.                ability of monolingual representations," in Proc. Annu. Meeting Assoc.
+      Empir. Methods Natural Lang. Process., 2020, pp. 7654-7673.                           Comput. Linguistics, 2020, pp. 4623-4637.
+                                                                                            J. Pfeiffer, I. Vulic´, I. Gurevych, and S. Ruder, "UNKs everywhere:
+[78] S.-A. Rebuffi, H. Bilen, and A. Vedaldi, "Learning multiple visual do-                 Adapting multilingual language models to new scripts," in Proc. Conf.
+      mains with residual adapters," in Proc. Adv. Neural Inf. Process. Syst.,              Empir. Methods Natural Lang. Process., 2021, pp. 10186-10203.
+      2017, pp. 506-516.                                                                    A. Ansell et al., "MAD-G: Multilingual adapter generation for efficient
+                                                                                            cross-lingual transfer," in Proc. Findings Conf. Empir. Methods Natural
+[79] Y. Zhu, J. Feng, C. Zhao, M. Wang, and L. Li, "Counter-interference                    Lang. Process., 2021, pp. 4762-4781.
+      adapter for multilingual machine translation," 2021, arXiv:2104.08154.                M. Parovic´, G. Glavas, I. Vulic´, and A. Korhonen, "BAD-X: Bilingual
+                                                                                            adapters improve zero-shot cross-lingual transfer," in Proc. Conf. North
+[80] J. Solomon et al., "Convolutional wasserstein distances: Efficient optimal             Amer. Chapter Assoc. Comput. Linguistics: Hum. Lang. Technol., 2022,
+      transportation on geometric domains," ACM Trans. Graph., vol. 34, no. 4,              pp. 1791-1799.
+      pp. 1-11, 2015.                                                                       M. Tänzer, S. Ruder, and M. Rei, "Memorisation versus generalisation
+                                                                                            in pre-trained language models," in Proc. Annu. Meeting Assoc. Comput.
+[81] S. P. Singh and M. Jaggi, "Model fusion via optimal transport," in Proc.               Linguistics, 2022, pp. 7564-7578.
+      Adv. Neural Inf. Process. Syst., 2020, pp. 22045-22055.                               N. Gu, P. Fu, X. Liu, Z. Liu, Z. Lin, and W. Wang, "A gradient control
+                                                                                            method for backdoor attacks on parameter-efficient tuning," in Proc.
+[82] D. Ha, A. M. Dai, and Q. V. Le, "Hypernetworks," in Proc. Int. Conf.                   Annu. Meeting Assoc. Comput. Linguistics, 2023, pp. 3508-3520.
+      Learn. Representations, 2017, pp. 1-18.                                               B. Zhu et al., "Moderate-fitting as a natural backdoor defender for
+                                                                                            pre-trained language models," in Adv. Neural Inf. Process. Syst., 2022,
+[83] R. Aharoni and Y. Goldberg, "Unsupervised domain clusters in pretrained                pp. 1086-1099.
+      language models," in Proc. Annu. Meeting Assoc. Comput. Linguistics,
+      2020, pp. 7747-7763.
+
+[84] H. Li, A. Kadav, I. Durdanovic, H. Samet, and H. P. Graf, "Pruning filters
+      for efficient convnets," in Proc. Int. Conf. Learn. Representations, 2017,
+      pp. 1-13.
+
+[85] K. Clark, U. Khandelwal, O. Levy, and C. D. Manning, "What does
+      BERT look at? an analysis of BERT's attention," in Proc. ACL Workshop
+      BlackboxNLP, 2019, pp. 276-286.
+
+[86] O. Kovaleva, A. Romanov, A. Rogers, and A. Rumshisky, "Revealing
+      the dark secrets of BERT," in Proc. Conf. Empir. Methods Natural Lang.
+      Process., Int. Joint Conf. Natural Lang. Process., 2019, pp. 4365-4374.
+
+[87] T. Elsken, J. H. Metzen, and F. Hutter, "Neural architecture search:
+      A survey," J. Mach. Learn. Res., vol. 20, no. 1, pp. 1997-2017,
+      2019.
+
+[88] J. Frankle and M. Carbin, "The lottery ticket hypothesis: Finding sparse,
+      trainable neural networks," in Proc. Int. Conf. Learn. Representations,
+      2019, pp. 1-42.
+
+[89] Q. Le, T. Sarlós, and A. Smola, "Fastfood-computing Hilbert space
+      expansions in loglinear time," in Proc. Int. Conf. Mach. Learn., 2013,
+      pp. 244-252.
+6126   IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 48, NO. 6, JUNE 2026
+
+[117]  L. Hong and T. Wang, "Fewer is more: Trojan attacks on parameter-                                             S. Joe Qin (Fellow, IEEE) received the BS and MS
+[118]  efficient fine-tuning," 2023, arXiv:2310.00648.                                                               degrees in automatic control from Tsinghua Univer-
+[119]  Y. Zeng and K. Lee, "The expressive power of low-rank adaptation,"                                            sity, Beijing, China, in 1984 and 1987, respectively,
+[120]  2023, arXiv:2310.17513.                                                                                       and the PhD degree in chemical engineering from
+       X. He, C. Li, P. Zhang, J. Yang, and X. E. Wang, "Parameter-efficient                                         the University of Maryland, College Park, MD, USA,
+[121]  model adaptation for vision transformers," in Proc. AAAI Conf. Artif.                                         in 1992. He is currently the Wai Kee Kau Chair
+[122]  Intell., 2023, pp. 817-825.                                                                                   Professor and President of Lingnan University, Hong
+[123]  Z. Xu, Z. Chen, Y. Zhang, Y. Song, X. Wan, and G. Li, "Bridging                                               Kong. His research interests include data science
+[124]  vision and language encoders: Parameter-efficient tuning for referring                                        and analytics, machine learning, process monitoring,
+[125]  image segmentation," in Proc. IEEE Int. Conf. Comput. Vis., 2023,                                             model predictive control, system identification, smart
+[126]  pp. 17503-17512.                                                                                              manufacturing, smart cities, and predictive mainte-
+[127]  Y.-L. Sung, J. Cho, and M. Bansal, "Vl-adapter: Parameter-efficient            nance. Prof. Qin is a Fellow of the U.S. National Academy of Inventors, IFAC,
+       transfer learning for vision-and-language tasks," in Proc. IEEE Conf.          and AIChE. He was the recipient of the 2022 CAST Computing Award by
+[128]  Comput. Vis. Pattern Recognit., 2022, pp. 5227-5237.                           AIChE, 2022 IEEE CSS Transition to Practice Award, U.S. NSF CAREER
+       J. Pan, Z. Lin, X. Zhu, J. Shao, and H. Li, "St-adapter: Parameter-efficient   Award, and NSF-China Outstanding Young Investigator Award. His h-indices for
+       image-to-video transfer learning," in Proc. Adv. Neural Inf. Process. Syst.,   Web of Science, SCOPUS, and Google Scholar are 66, 73, and 89, respectively.
+       2022, pp. 26462-26477.
+       J. Li et al., "Fast and efficient 2-bit LLM inference on GPU: 2/4/16-bit in                                   Xiaohui Tao (Senior Member, IEEE) is currently
+       a weight matrix with asynchronous dequantization," in Proc. IEEE/ACM                                          a full professor with the University of Southern
+       Int. Conf. Comput.-Aided Des., 2024, pp. 1-9.                                                                 Queensland, Toowoomba, QLD, Australia. His re-
+       H. Sidahmed et al., "Parameter efficient reinforcement learning from                                          search interests include artificial intelligence, data
+       human feedback," 2024, arXiv:2403.10704.                                                                      analytics, machine learning, knowledge engineering,
+       S. Wang, J. Asilis, Ö. F. Akgül, E. B. Bilgin, O. Liu, and W. Neiswanger,                                     information retrieval, and health informatics. His re-
+       "Tina: Tiny reasoning models via lora," 2025, arXiv:2504.15777.                                               search outcomes have been published across more
+       Z. Shao et al., "Deepseekmath: Pushing the limits of mathematical                                             than 150 papers including many top-tier journals and
+       reasoning in open language models," 2024, arXiv:2402.03300.                                                   conferences. He is a senior member of ACM and the
+       Y. Huang, B. Li, K. Tang, and M. Chen, "LoRA-PAR: A flexible dual-                                            vice chair of IEEE Technical Committee of Intelligent
+       system LoRA partitioning approach to efficient LLM fine-tuning," in                                           Informatics. He was the recipient of an ARC DP, in
+       Findings Assoc. Comput. Linguist: Empirical Methods Natural Lang.              2022. He is the editor-in-chief of Natural Language Processing Journal.
+       Process., 2025, 2025, pp. 13693-13704.
+       S. Khanna, M. Irgau, D. B. Lobell, and S. Ermon, "ExPLoRA: Parameter-
+       efficient extended pre-training to adapt vision transformers under domain
+       shifts," in Proc. Int. Conf. Mach. Learn., 2025, pp. 1-20.
+
+                               Lingling Xu (Member, IEEE) received the master's                                      Fu Lee Wang (Senior Member, IEEE) received the
+                               degree in mathematics from Shandong University and                                    BEng degree in computer engineering and the MPhil
+                               the PhD degree in computer science and technology                                     degree in computer science and information systems
+                               from Hong Kong Metropolitan University. She is                                        from the University of Hong Kong, Hong Kong, and
+                               currently a postdoctoral fellow at the School of Data                                 the PhD degree in systems engineering and engi-
+                               Science, Lingnan University. Her research interests                                   neering management from the Chinese University of
+                               include parameter-efficient fine-tuning, contrastive                                  Hong Kong, Hong Kong. He is the dean of the School
+                               learning, representation learning, and aspect-based                                   of Science and Technology, Hong Kong Metropoli-
+                               sentiment analysis.                                                                   tan University, Hong Kong. He has more than 300
+                                                                                                                     publications in international journals and conferences
+                               Haoran Xie (Senior Member, IEEE) received the                                         and led more than 20 competitive grants with a total
+                               PhD degree in computer science from the City Uni-      greater than HK$20 million. His current research interests include educational
+                               versity of Hong Kong and the EdD degree in lan-        technology, information retrieval, computer graphics, and bioinformatics. Prof.
+                               guage learning from the University of Bristol. He is   Wang is a fellow of BCS, HKIE and IET and a senior member of ACM. He was
+                               currently a Professor and the Person-in-Charge with    the chair of the IEEE Hong Kong Section Computer Chapter and ACM Hong
+                               the Division of Artificial Intelligence, Director of   Kong Chapter.
+                               LEO Dr David P. Chan Institute of Data Science, and
+                               associate dean of the School of Data Science, Lingnan
+                               University, Hong Kong. His research interests include
+                               natural language processing, large language models,
+                               and AI in education. He has published 468 research
+publications, including 283 journal articles. He is the editor-in-chief of Natural
+Language Processing Journal, Computers & Education: Artificial Intelligence,
+and Computers & Education: X Reality. He has been selected as the World's
+Top 2% Scientists by Stanford University.
+

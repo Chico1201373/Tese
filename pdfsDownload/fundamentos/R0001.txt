@@ -1,0 +1,427 @@
+                                                                                                                                                                     Open-Source Large Language Models: A Comprehensive
+
+                                                                                                                                                                                                   Survey
+
+                                                                                                                                                                                                                              Dr. Sahana Lokesh R
+                                                                                                                                                                                                            Department of Computer Science and Engineering
+
+                                                                                                                                                                                                                     Siddaganga Institute of Technology,
+                                                                                                                                                                                                                        Tumakuru-03, Karnataka,India
+                                                                                                                                                                                                                               sahanalr@sit.ac.in.
+
+                                                                                                                                                                     Abstract -- Large Language Models (LLMs) have Vaswani et al. [4] are used to improve the ability of recurrent
+
+                                                                                                                                                                     emerged as strategic in the promotion of natural language or convolutional networks to capture long range
+
+                                                                                                                                                                     processing (NLP) to the extent of having machines dependencies. Pre normalization is applied with layer
+
+                                                                                                                                                                     translate languages as well as making logical deductions. normalization used before each sublayer for stability during
+
+                                                                                                                                                                     The role of the open-source team in advancing this training, GELU activation [7] for learning complex patterns,
+
+2025 International Conference on Machine Learning and Autonomous Systems (ICMLAS) | 979-8-3315-0574-5/25/$31.00 ©2025 IEEE | DOI: 10.1109/ICMLAS64557.2025.10967790  progress is that LLMs are now available for development and rotary positional embedding [8] for efficient positional
+
+                                                                                                                                                                     and research. This paper offers an elaborate literature encoding. "Training was performed on 'The Pile' [14], an
+
+                                                                                                                                                                     review on some of the most widely used open-source 800GB diverse text set consisting of academic papers, books
+
+                                                                                                                                                                     LLMs and their architecture, training approach, and and Internet text."
+
+                                                                                                                                                                     evaluation results. Certainly, the mathematical aspects
+
+                                                                                                                                                                     behind these models are explored, the comparison of the          BLOOM, 176B parameter multilingual model offering
+
+                                                                                                                                                                     models is given and the problems and perspectives of support across 46 languages [9], is one of the most inclusive
+
+                                                                                                                                                                     development of the models are described.                         models linguistically through TSM's BigScience initiative.
+
+                                                                                                                                                                                                                                      For multilingual data, this optimal architecture is based on the
+
+                                                                                                                                                                     Keywords: Large Language Models (LLMs), Natural                  Transformer: BLOOM. Using advanced parallelism
+                                                                                                                                                                     Language Processing (NLP), Open-source Models, Model             techniques like pipeline and tensor parallelism, we train using
+                                                                                                                                                                     Architecture and Training, Evaluation and Comparison             vast computational loads over multiple GPUs and nodes to
+                                                                                                                                                                                                                                      mitigate the computational costs of a model this large.
+                                                                                                                                                                                               I. INTRODUCTION
+
+                                                                                                                                                                               The recent advances in natural language processing          The Technology Innovation Institute [10] developed an
+                                                                                                                                                                     have been predicated by the possibility of Large Language        7B and 40B parameter models of the Falcon LLM, focused
+                                                                                                                                                                     Models (LLMs). These models have revolutionized how              on performance and computational efficiency. Innovations
+                                                                                                                                                                     machines handle and produce human language, which gives          include the use of SwiGLU activation functions [11] to enable
+                                                                                                                                                                     us uses like machine translation, summarization, and             capturing complex patterns with reduced number of
+                                                                                                                                                                     chatbots. Current development of advanced models such as         parameters, and pruning redundant parameters, and adjusting
+                                                                                                                                                                     BERT [1], GPT-3 [2], and T5 [3] show desirable features of       layer sizes so that model size does not incur significant
+                                                                                                                                                                     understanding context as well as of different meaning of same    performance loss. The efficiency from Scalar LMs also
+                                                                                                                                                                     word as well as generation of good quality text correlated to    makes scaling up easier for Falcon LLMs, which then also
+                                                                                                                                                                     the prior context. However, it was found that several of these   means faster training and inference, making them more
+                                                                                                                                                                     models are commercial and thus restricted from being used        accessible for practical applications on constrained resources.
+
+                                                                                                                                                                     for further studies and in developing new applications.               To democratize access to powerful language models,
+                                                                                                                                                                               The need for accessible LLMs has been                  Meta AI also brought the suite of LLaMA models from 7B to
+                                                                                                                                                                                                                                      65B parameters [12]. It reduces the computational space by
+                                                                                                                                                                     acknowledged by the open-source community, and as a result       using a smaller vocabulary size and utilizes adaptive
+                                                                                                                                                                     different various models have been created which mimic or        computation time to dynamically allocate the resources as per
+                                                                                                                                                                     even outperform those of proprietary YY systems. The open-       input complexity. And this brings efficiency as much as one
+                                                                                                                                                                     source LLMs not only make sophisticated NLP tools more           processes inputs of different lengths and degree of
+                                                                                                                                                                     publicly available but also encourage advances in the            complexity.
+                                                                                                                                                                     underlying structures and training in that they let researchers
+                                                                                                                                                                     examine, adjust, and enhance them. The goal of this paper is
+
+                                                                                                                                                                     to provide a brief review the existing open-source LLMs and           To address scaling challenges, Cerebras Systems
+                                                                                                                                                                     discuss their mathematical formulation, architecture, training   developed Cerebras-GPT [13] integrating models of 111M to
+                                                                                                                                                                     methodology and performance assessment.                          13B parameters on their Wafer Scale Engine (WSE). The
+
+                                                                                                                                                                                                                                      WSE is a hardware platform tailored to aid such training by
+
+                                                                                                                                                                                          II. LITERATURE SURVEY                       delivering high bandwidth and computational capability on a
+                                                                                                                                                                          With the arrival of Large Language Models (LLMs), we        single chip. Through this hardware software co design,
+                                                                                                                                                                     have seen the birth of natural language processing (NLP) at a    bottlenecks such as memory limitations and communication
+                                                                                                                                                                     level that humans would enjoy performing at. As proprietary      overhead are overcome, which allows efficient training and
+                                                                                                                                                                     models like OpenAI's GPT-3 have shown, there's a ton of          leads to the possibility of exploring larger models without
+                                                                                                                                                                     potential to be had with these, but it also pushes the open      proportionate resource demands.
+
+                                                                                                                                                                     source community to tackle the problem and produce                    We perform comparative analyses, which show that
+                                                                                                                                                                     accessible but high performing models. This survey then          while larger models tend to better perform on language tasks,
+                                                                                                                                                                     surveys popular open source LLMs (their architectures,           architectural innovations and training optimizations can lead
+                                                                                                                                                                     training methods, and evaluation outcomes).                      to significant efficiency gains. For example, Falcon LLM
+
+                                                                                                                                                                          EleutherAI released GPT-Neo and GPT-J early attempts        does well with fewer parameters and fewer parameters than
+                                                                                                                                                                     to replicate GPT-3 capabilities. We have 1.3B and 2.7B           larger models such as BLOOM. These advancements are
+                                                                                                                                                                     parameter GPT-Neo versions, and 6B parameters for GPT-J.         evaluated on benchmarks (perplexity on WikiText-103,
+
+                                                                                                                                                                     In both models, self-attention mechanisms as proposed in                 1096
+
+                                                                                                                                                                     Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:32:22 UTC from IEEE Xplore. Restrictions apply.
+language understanding on LAMBADA) and showed                         · Masked Language Modeling, it predicts masked
+promising results. For example, low perplexity scores and                  tokens within a sequence, enabling bidirectional
+high accuracy on LAMBADA suggest strong capacities to                      context understanding:
+predict word sequences and understand context, as seen in
+LLaMA 65B. Unfortunately, such performance gains                                  MLM = -  log (  )
+typically come at the cost of higher computational costs, and
+this makes it necessary to find the proper balance between                                                    
+model size, efficiency and access.
+                                                                 where  is the set of masked positions, and  represents
+     Overall, the range of open source LLMs has been gaining     the tokens in the sequence excluding .
+in stature which includes GPT Neo, GPT J, BLOOM, Falcon
+LLM, LLaMA and the like pushing the frontiers of NLP.                                Fig 1: Transformer Architecture Overview
+Proprietary systems have been superseded by these models,
+which create accessible alternatives that encourage              C. Training Strategies and Optimization
+innovation with alternative architectures and training                Optimizing these objectives using gradient based
+regimes. However, open source LLMs are poised to be central
+to harnessing the potential of AI across the domains of the      methods is training LLMs. As a consequence of using the
+future with continued research addressing computational          Adam optimizer because of its ability to treat sparse gradients
+resource limits, ethical considerations and interpretability of  intelligently and adaptive learning rate. Furthermore, this is
+models.                                                          accompanied by learning rate schedules like we used linear
+                                                                 warmup with cosine decay to stabilize training and improve
+                       III. METHODOLOGY                          convergence.
+A. The Transformer Architecture
+                                                                      During training different methods to prevent overfitting
+     Most recent Large Language Models (LLMs) are based          are integrated. During training, dropout is applied to neurons
+on the Transformer architecture [4], as introduced by            in the feedforward networks and attention layers, and
+Vaswani et al. Transformer is different from RNNs or CNNs,       randomizes activation of neurons, yielding the model's
+it treats whole sequences of data at a time rather than          capability of generalization. To soften these target
+sequentially; rather it employs self attention based             distributions, label smoothing can also be used to reduce the
+mechanisms. This capability enables the Transformer to           model's overconfidence of its predictions.
+better capture long range dependencies in text facilitating
+improved contextual understanding and generation. The                 Transformer's design naturally allows parallelization
+architecture's revolutionary impact on NLP is twofold: it        while being suitable for accelerators such as GPUs, TPUs etc.
+facilitates parallelization in training, tremendously cutting    Data parallelism and model parallelism spread training across
+computation time, and it decouples context from sequences,       multiple devices allowing for larger models and greater
+facilitating complex language tasks..                            datasets. Pipeline parallelism and tensor parallelism further
+                                                                 improve scalability allowing for training extensive LLMs
+     The Transformer is based on the self attention              within reasonable timeframe.
+mechanism, a mechanism to compute a weighted sum of the          D. Evaluation Metrics
+input representations and focus at different parts of the input
+sequence dynamically. Mathematically, self-attention is               To evaluate LLMs post training, we'll use a few metrics
+defined as:                                                      like perplexity on WikiText 103 to determine if they can
+                                                                 predict token sequences accurately. The models are
+                                                                 additionally tested based on absolute acquisition (accuracy on
+             Attention(, , ) = softmax( )                        benchmarks such as the LAMBADA dataset), to understand
+                                                                 and generate contextually suitable responses. These
+                                                   
+
+          Each Q, K, V is a linear transformation over the
+input embeddings and dkd_kdk is the dimensionality of the
+keys. The mechanism also enables the model to assign
+importance to the significance of different words when
+encoding a specific word in the context.
+
+B. Language Modeling Objectives
+     Most of the time, LLMs are trained with unsupervised
+
+learning objectives which enable them to learn from large
+unsupervised text datasets. AR and MLM are the two prime
+objectives in this work:
+
+  · Autoregressive Modeling (AR) is predicting the next
+       token in a sequence conditioned on the previous tokens.
+       The objective function aims to maximize the likelihood
+       of the correct token sequence:
+
+                                  
+
+            AR = -  log (  1, 2, . . . , -1)
+
+                                 =1
+
+                                                                                                                                                                              1097
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:32:22 UTC from IEEE Xplore. Restrictions apply.
+evaluations help with model performance and the                 complex patterns. By archiving, we streamline the model,
+optimization on the model may then be adjusted.                 removing redundant parameters and optimize layer sizes to
+                                                                reduce the number of required parameters, without
+            IV. PROMINENT OPEN-SOURCE LLMS                      compromising much of the model's performance.
+
+1) GPT-NEO AND GPT-J                                            4) LLaMA
+                                                                     Meta AI offers models with ranging from 7B to 65B
+     EleutherAI's GPT-Neo [5] and GPT-J [6] are ultimately
+seeking to replicate OpenAI's GPT-3 model architecture.         parameters with LLaMA [12]. This is intended to range a
+GPT-Neo models have 1.3B and 2.7B parameters, GPT-J 6B.         suite of models that are easy to work with, and furthermore
+On 'The Pile' [14], a diverse and large language modeling       fine tuned for diverse applications.
+dataset, we train these models.
+                                                                Key Contributions
+Architecture Details                                                 Large Language Model like LLaMA tries to reduce
+
+          GPT-Neo and GPT-J are based on the Transformer        computational requirements and accelerate training by
+decoder architecture, enhanced with some of the                 employing a smaller vocabulary size with a cost on efficiency
+modifications to make the interface work better. Pre            for pretraining. It is modelled with adaptive computation time
+normalisation is used, where layer normalisation is applied     mechanisms that enable the model to dynamically allocate
+before each sub layer, enabling more stable learning. One of    resources according to the input complexity. When the inputs
+the models utilize a Gaussian Error Linear Unit (GELU) [7]      have varying length and complexities, this approach makes
+as the activation function, which has been demonstrated in      efficiency improvements.
+deep networks to be superior to standard activation functions
+such as ReLU. Moreover, they additionally utilize rotary        5) Cerebras-GPT
+positional embeddings [8], which encode positional info extra        Models belonging to the family of 111M - 13B
+successfully than sinusoidal embeddings.
+                                                                parameter models trained on the Pile dataset are referred to as
+Mathematical Formulation                                        Cerebras-GPT. These models were developed to run on
+The output of a Transformer layer in these models can be        specialized hardware for large scale training, by Cerebras
+represented as:                                                 Systems.
+
+LayerNorm()                                -                    Hardware Integration
+                                      =                            The Cerbebras-GPT models are trained with the Wafer
+FeedForward()
+   Output()                                                     Scale Engine (WSE), a proprietary hardware platform that
+                        = 2  GELU(1 + 1) + 2                    accelerates large model training. The WSE provides a unified
+               =  + Dropout(FeedForward(LayerNorm()))           solution to memory bottlenecks and computational limits:
+                                                                high memory bandwidth and extensive computation
+where 1 and 2 are weight matrices, 1and 2 are biases            functionality of a single chip.
+and  are the mean and standard deviation used in layer
+normalization, and Dropout\text{Dropout}Dropout is a                                V. COMPARATIVE ANALYSIS
+regularization technique.
+                                                                A. Model Sizes and Training Data
+2) BLOOM                                                           Different open source LLMs also differ widely in the
+     The BigScience collaboration developed a 176B
+                                                                number of parameters, number of languages supported, and
+parameter multilingual model BLOOM [9] supporting 46            amount of training data. It is critical to understand differences
+languages. This is one of the largest open source efforts in    when selecting an appropriate model for particular
+NLP with over a thousand researchers from around the world.     application.
+
+Unique Features                                                 Model      Parameters  Languages  Training         Performance
+          BLOOM is trained using a diverse multilingual                                Supported      Data         (Perplexity on
+                                                                                                                   WikiText-103,
+dataset, and can address tasks across multiple languages,       GPT-Neo 1.3B, 2.7B English The Pile                 Accuracy on
+including those with low-resource. To distribute training                                                          LAMBADA)
+computational load over numerous GPUs and nodes it                                                                 18.5, 45.2%
+employs efficient parallelism methods, such as pipeline and
+tensor parallelism. This approach solves for the challenges of  GPT-J      6B          English    The Pile         17.1, 47.8%
+the model's immense size.                                       BLOOM      176B                                    12.3, 58.4%
+                                                                Falcon                 46         Multilingual
+3) Falcon LLM                                                   LLM                    Languages  Corpus           13.5, 55.1%
+     Falcon LLM [10] provides 7B and 40B parameter                                                                  10.2,
+                                                                LLaMA      7B, 40B English RefinedWeb              62.5%
+models with best performance and efficiency tradeoff. Falcon
+LLM is developed by the Technology Innovation Institute to      Cerebras-  7B-65B English         Custo              15.8, 49%
+have high performance across fewer parameters than other        GPT                               m
+similarly sized models.                                                                           Dataset
+
+Optimization Techniques                                                    111M-13B English The Pile
+     Selectively Activated Functions are used in Falcon LLM:
+                                                                           Table I: Comparison of Open-Source LLM
+SwiGLU [11], as it helps the model in more capturing
+                                                                    LLMs are made from open-source, and are very different
+                                                                in number of parameters, languages supported, and training
+                                                                data, and have an enormous impact on how good they are, and
+                                                                if they are suitable for certain applications. For instance, as
+
+                                                                                                                                                                              1098
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:32:22 UTC from IEEE Xplore. Restrictions apply.
+an example, such models as BLOOM with 176 billion                  The performance requirements, computational resources
+parameters and 46 languages support for them are good when     available, language needed, or the domain specific needs
+working on the multilingual tasks, which require significant   must all be considered. With this evaluation, practitioners can
+computational resources. By contrast, models such as GPT-      select an open source LLM suited best to their requirements,
+Neo and Falcon LLM, with between 1.3B and 40B                  optimally performing and utilizing its resources
+parameters, trade computational overhead for the more
+manageable user footprint. This comparison highlights that
+larger models typically achieve better language modeling
+performance. However, architectural innovations, such as
+Falcon's SwiGLU activation and LLaMA's optimized
+computation, allow efficient training with fewer parameters.
+
+B. Performance Metrics
+
+An important part in evaluating the performance of LLMs is benchmarking them in standard language modelling tasks.
+On the WikiText-103 dataset it is perplexity, and on the LAMBADA dataset it is accuracy.
+
+    Model     Perplexity on WikiText-103                       LAMBADA Accuracy (%)
+
+GPT-Neo 2.7B                 18.5                                            45.2
+  GPT-J 6B                   17.1                                            47.8
+                             12.3                                            58.4
+BLOOM 176B                   13.5                                            55.1
+  Falcon 40B                 10.2                                            62.5
+ LLaMA 65B                   15.8                                             49
+Cerebras 13B
+
+              Table II: Benchmark Performance on Language Modeling Task
+
+The lower the value of perplexity, the more better the model   B. Language Translation
+is predicting the sample. LAMBADA dataset tests a model's           For translation tasks, models like BLOOM (with their
+ability to predict the last word of a passage, which measures
+the model's capability to understand long range                multilingual capability) are used. With its support of 46
+dependencies.                                                  languages, BLOOM can support cross-lingual
+                                                               communication and help preserve endangered languages by
+C. Analysis                                                    providing translation services.
+     It is evident from Table II that large models generally
+                                                               C. Sentiment Analysis
+perform better on language modeling tasks, with lower               The ability of LLMs to understand nuanced sentiments
+perplexity and higher LAMBADA accuracy. Our model,
+LLaMA 65B, has the lowest perplexity and highest accuracy      in text makes them useful in the market analysis area where
+amongst the listed models, demonstrating the strength of its   for example businesses analyze customer reviews and social
+training strategy and architectural choices.                   media posts to determine how the general public is feeling
+                                                               about the businesses at hand. They assist social media
+     While the improved performance is achieved at the cost    monitoring by detecting trends and potential issues so that
+of increased computational resources needed for train and      appropriate response can be taken at the right time. They also
+inference.                                                     analyze the feedback received from customers and use them
+                                                               to improve in such areas of improvement.D. Question
+                        VI. APPLICATIONS                       Answering and Knowledge Extractions applications across
+     In various domains, they have been utilized in            different domains, leveraging their advanced language
+application driven by advanced language understanding and      understanding and generation capabilities.
+generation capabilities of open source LLMs.
+                                                               D. Question Answering and Knowledge Extraction
+A. Text Generation                                                  In question answering systems, LLMs are used to give
+     They are well used in the context of generating coherent
+                                                               concise and accurate answers out of huge knowledge bases.
+and contextually relevant text. The applications are chatbots  They help to extract information by summarizing large
+and virtual assistants where the models generate human         documents that make it easier for researchers and
+sounding response, to improve user interaction. In creative    professionals to access information quickly.
+industries, LLMs work as story and content generation,
+writing draft for writers who suffer from writer's block or                           VII. CHALLENGES
+writing for writers. They are also used to generate a code          While open source LLM's are advancing quickly, they
+snippet from natural language description.                     still face a number of challenges that still limit how far they
+                                                               can go. For the field to continue to make progress, we need to
+                                                               address these challenges.
+
+                                                                                                                                                                              1099
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:32:22 UTC from IEEE Xplore. Restrictions apply.
+A. Computational Resources                                                               VIII. CONCLUSION
+Challenge: Training LLMs is massively computational power              Large language models (LLMs) have empowered natural
+and memory intensive. Because of their resource intensity,        language processing with advances in language
+these models are inaccessible for researchers and                 understanding and generation capabilities by democratizing
+organisations that have limited budgets.                          access to such powerful language tools. In this survey, we
+                                                                  have explored several prominent open source LLMs,
+Potential Solutions: Model pruning techniques [15] where          focusing on the architectures they use, how they train, and
+parameters are removed to reduce the model size while             how they perform. Using this Transformer architecture along
+minimally effecting performance, are gaining interest by          with novel approaches like rotary positional embeddings and
+researchers. Another approach is to use knowledge                 selective activation functions, these models have managed to
+distillation [16], where there is a smaller model (the student)   reach very good performance on almost any NLP task.
+that is required to mimic the behavior of a larger model (the
+teacher), yielding a compact model that is largely similar to          However, this progress still leaves several challenges
+the abilities of the teacher.                                     regarding computational demands, ethical issues around bias,
+                                                                  and making everything more accessible. It is important to
+B. Bias and Ethics                                                address these issues in order for LLMs to be not only
+Challenge: That models will inherit the biases in the training    progressed, but deployed responsibly. Future research will be
+data can mean that unfair, or discriminatory output will result.  focusing on building more efficient models using model
+It has ethical implications and can have real world negative      pruning and knowledge distillation techniques, improving
+effects.                                                          interpretability to gain trust, as well as robust bias detection
+                                                                  and mitigation strategies.
+Potential Solutions: Balancing and diversifying training
+datasets are essential for mitigating biases. Also, developing         Finally, it can be said that the open source movement has
+techniques for bias detection and mitigation including            had a great place in fostering innovation and collaboration
+adjusting training objectives [17] or incorporating fairness      within the community of AI. In order to continue solving the
+constraints' have been exploring. To further develop              current challenges and adopt the best practices of responsible
+responsible AI, models for biased behavior need to be             AI, open source LLMs can pave the way for revolutionizing
+incrementally developed and monitored and evaluated               whole industries and making the society richer with more
+ongoing..                                                         opportunities in future.
+
+C. Accessibility                                                                               REFERENCES
+Challenge: Researchers and developers who don't have the
+requisite infrastructure find them expensive to use, limited in   [1]. J. Devlin, M.-W. Chang, K. Lee, and K. Toutanova, "BERT: Pre-
+their accessibility.                                                    training of Deep Bidirectional Transformers for Language
+                                                                        Understanding," Proc. of NAACL-HLT, pp. 4171-4186, 2019.
+Potential Solutions: Efficient training algorithms [18] exist to
+develop LLMs without the computational burden with which          [2]. T. B. Brown et al., "Language Models are Few-Shot Learners,"
+they are currently hampered. With a cloud based platform,               Advances in Neural Information Processing Systems, vol. 33, pp.
+users can scale resources and not invest a lot in expensive             1877-1901, 2020.
+hardware to use LLMs. New initiatives also help to make pre
+trained models and inference APIs more accessible, as well..      [3]. C. Raffel et al., "Exploring the Limits of Transfer Learning with a
+                                                                        Unified Text-to-Text Transformer," Journal of Machine Learning
+D. Interpretability and Explainability                                  Research, vol. 21, no. 140, pp. 1-67, 2020.
+     The complexity of their decisions make it hard to
+                                                                  [4]. A. Vaswani et al., "Attention Is All You Need," Advances in Neural
+understand what LLMs decide. As with many other emerging                Information Processing Systems, vol. 30, 2017.
+techniques promised to provide enormous benefits,
+enhancing interpretability is key for building trust and          [5]. S. Black et al., "GPT-Neo: Large Scale Autoregressive Language
+responsible use of these models.                                        Modeling with Mesh-TensorFlow," arXiv preprint arXiv:2104.00050,
+                                                                        2021.
+Potential Solutions: Model interpretability research involves
+understanding how to visual and explain the inside workings       [6]. B. Wang and A. Komatsuzaki, "GPT-J-6B: A 6 Billion Parameter
+of LLMs. Some of these techniques involved attention                    Autoregressive Language Model," GitHub Repository, 2021.
+visualization, probing single neurons and explaining model
+output[22].                                                       [7]. D. Hendrycks and K. Gimpel, "Gaussian Error Linear Units (GELUs),"
+                                                                        arXiv preprint arXiv:1606.08415, 2016.
+E. Environmental Impact
+     It takes a lot of energy to train large models, which        [8]. Z. Su et al., "Roformer: Enhanced Transformer with Rotary Position
+                                                                        Embedding," arXiv preprint arXiv:2104.09864, 2021.
+produces lots of carbon emissions and environmental worries.
+                                                                  [9]. BigScience Workshop, "BLOOM: A 176B Parameter Open-Access
+Potential Solutions: At an environmental impact level, it is            Multilingual Language Model," 2022.
+possible to develop both energy efficient algorithms and
+hardware. And researchers are also looking at how to estimate     [10]. E. Almazrouei et al., "The Falcon Series of Open Language Models,"
+and offset the carbon footprint of training LLMs.                       arXiv preprint arXiv:2311.16867, Nov. 2023
+
+                                                                  [11]. N. Shazeer, "GLU Variants Improve Transformer," arXiv preprint
+                                                                        arXiv:2002.05202, 2020.
+
+                                                                  [12]. H. Touvron et al., "LLaMA: Open and Efficient Foundation Language
+                                                                        Models," arXiv preprint arXiv:2302.13971, 2023.
+
+                                                                  [13]. Cerebras Systems, "Cerebras-GPT: A Family of Open, Compute-
+                                                                        Efficient, Large Language Models," 2023.
+
+                                                                  [14]. E. Gao et al., "The Pile: An 800GB Dataset of Diverse Text for
+                                                                        Language Modeling," arXiv preprint arXiv:2101.00027, 2020.
+
+                                                                  [15]. S. Han, H. Mao, and W. J. Dally, "Deep Compression: Compressing
+                                                                        Deep Neural Networks with Pruning, Trained Quantization and
+                                                                        Huffman Coding," arXiv preprint arXiv:1510.00149, 2015.
+
+                                                                  [16]. G. Hinton, O. Vinyals, and J. Dean, "Distilling the Knowledge in a
+                                                                        Neural Network," arXiv preprint arXiv:1503.02531, 2015.
+
+                                                                  [17]. T. Bolukbasi et al., "Man is to Computer Programmer as Woman is to
+                                                                        Homemaker? Debiasing Word Embeddings," Advances in Neural
+                                                                        Information Processing Systems, vol. 29, 2016.
+
+                                                                                                                                                                              1100
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:32:22 UTC from IEEE Xplore. Restrictions apply.
+[18]. J. Chen et al., "Dynamic Model Pruning with Feedback," International
+      Conference on Learning Representations, 2021.
+
+[19]. K. Kitaev, L. Kaiser, and A. Levskaya, "Reformer: The Efficient
+      Transformer," arXiv preprint arXiv:2001.04451, 2020.
+
+[20]. J. Kaplan et al., "Scaling Laws for Neural Language Models," arXiv
+      preprint arXiv:2001.08361, 2020.
+
+[21]. J. Wang et al., "VL-BERT: Pre-training of Generic Visual-Linguistic
+      Representations," International Conference on Learning
+      Representations, 2020.
+
+[22] Sahana Lokesh R, Dr.H R Ranganatha An Enhanced Data
+      Anonymization Approach for Privacy Preserving Data Publishing in
+      Cloud Computing Based on Genetic-Chimp Optimization
+      International Journal of Information Security and Privacy
+      (IJISP),2022,DOI: 10.4018/IJISP.300326
+
+                                                                                                                                                                               1101
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:32:22 UTC from IEEE Xplore. Restrictions apply.
+

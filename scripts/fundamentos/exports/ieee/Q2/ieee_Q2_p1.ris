@@ -1,0 +1,1370 @@
+TY  - CONF
+TI  - ChatGPT and Large Language Models in Healthcare: Opportunities and Risks
+T2  - 2023 IEEE International Conference on Artificial Intelligence, Blockchain, and Internet of Things (AIBThings)
+SP  - 1
+EP  - 4
+AU  - H. Ali
+AU  - J. Qadir
+AU  - T. Alam
+AU  - M. Househ
+AU  - Z. Shah
+PY  - 2023
+KW  - Adaptation models
+KW  - Education
+KW  - Knowledge based systems
+KW  - Medical services
+KW  - Transforms
+KW  - Radiology
+KW  - Licenses
+KW  - ChatGPT
+KW  - Healthcare
+KW  - Large Language Models
+KW  - Medical Artificial Intelligence
+KW  - Natural Language Processing
+DO  - 10.1109/AIBThings58340.2023.10291020
+JO  - 2023 IEEE International Conference on Artificial Intelligence, Blockchain, and Internet of Things (AIBThings)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2023 IEEE International Conference on Artificial Intelligence, Blockchain, and Internet of Things (AIBThings)
+Y1  - 16-17 Sept. 2023
+AB  - ChatGPT, a pre-trained large language model (LLM), has the potential to transform healthcare by providing valid clinical insights and reducing doctors’ workload. There are already signs that such tools can be useful for automating the generation of patient discharge reports, clinical vignettes, and radiology reports. Such tools can also capture the vast medical knowledge base as demonstrated by ChatGPT clearing the United States Medical Licensing Examination (USMLE). Such tools promise to make healthcare more accessible, scalable, and efficient, leading to better patient outcomes. However, such tools are far from perfect and well-known to be susceptible to error, misinformation, and bias. In this paper, we review the potential applications of ChatGPT in healthcare and also identify potentials risks that must be addressed before ChatGPT and other LLM tools can be safely adopted in healthcare. First, we offer case studies on using ChatGPT for passing USMLE, identifying prevention methods for cardiovascular disease, generating patient discharge reports, generating clinical vignettes, and generating radiology reports. Second, we present the opportunities that ChatGPT offers in healthcare. By leveraging its language generation and processing capabilities, ChatGPT can streamline and improve a range of healthcare tasks, from digitizing clinical notes and improving the accuracy of diagnosis to revolutionizing medical education and empowering patients with personalized healthcare information. Finally, we reflect on the associated risks and conclude that caution is advised in interpreting the results of ChatGPT as these studies are preliminary and not entirely error-free.
+ER  - 
+
+TY  - JOUR
+TI  - Auditing Demographic Bias in Mistral: An Open-Source LLM’s Diagnostic Performance on the MedQA Benchmark
+T2  - IEEE Access
+SP  - 12526
+EP  - 12543
+AU  - H. O. A. Ahmed
+AU  - A. Hamid Sadka
+PY  - 2026
+KW  - Medical diagnostic imaging
+KW  - Accuracy
+KW  - Cognition
+KW  - Medical services
+KW  - Benchmark testing
+KW  - Large language models
+KW  - Artificial intelligence
+KW  - Systematics
+KW  - Safety
+KW  - Robustness
+KW  - Large language models (LLMs)
+KW  - demographic bias
+KW  - fairness auditing
+KW  - medical question answering
+KW  - MedQA benchmark
+KW  - Mistral 7B-Instruct
+KW  - open-weight models
+KW  - Ollama
+KW  - Wilson confidence interval
+KW  - statistical bias evaluation
+KW  - digital health
+KW  - ethical AI
+DO  - 10.1109/ACCESS.2026.3656396
+JO  - IEEE Access
+IS  - 
+SN  - 2169-3536
+VO  - 14
+VL  - 14
+JA  - IEEE Access
+Y1  - 2026
+AB  - The application of large language models (LLMs) within clinical decision-support frameworks is receiving growing research attention, yet their fairness and demographic robustness remain insufficiently understood. This study introduces MedQA-Demog, a purpose-built, label-invariant extension of the MedQA-USMLE benchmark, designed to enable systematic auditing of demographic bias in medical reasoning models. Using a deterministic augmentation framework, we generated 4,659 question-answer items that incorporated counterfactual variations in gender, race/ethnicity, and age, and validated them through automated integrity and balance checks. We evaluated the Mistral 7B-Instruct model under stochastic (temperature = 0.7) and deterministic (temperature = 0.0) inference rules via the Ollama local environment, applying Wilson’s 95% confidence intervals,  $\chi ^{2}/z$ -tests, McNemar’s paired analysis, and Cohen’s h effect sizes to quantify fairness. Across all demographic variants, diagnostic accuracy remained consistent ( $\Delta \lt 0.04$ ; p >0.05), and all performance gaps fell within Minimal or Low Bias thresholds. Confusion-matrix and prediction-balance analyses revealed no systematic over- or under-prediction patterns, while power analysis confirmed that observed fluctuations were below the minimum detectable effect ( $\approx 0.057$ ). A stratified robustness analysis further confirms that these fairness patterns persist across question difficulty levels and are not an artefact of uniformly limited performance. These findings demonstrate that open-weight, instruction-tuned LLMs can maintain demographic stability in clinical reasoning when evaluated through reproducible, controlled pipelines. This framework provides a practical foundation for bias evaluation in open clinical LLMs, supporting their ethical integration into digital health tools and clinical decision-support systems.
+ER  - 
+
+TY  - CONF
+TI  - LLM-MedQA: Enhancing Medical Question Answering through Case Studies in Large Language Models
+T2  - 2025 International Joint Conference on Neural Networks (IJCNN)
+SP  - 1
+EP  - 8
+AU  - H. Yang
+AU  - H. Chen
+AU  - H. Guo
+AU  - Y. Chen
+AU  - C. -S. Lin
+AU  - S. Hu
+AU  - J. Hu
+AU  - X. Wu
+AU  - X. Wang
+PY  - 2025
+KW  - Measurement
+KW  - Accuracy
+KW  - Large language models
+KW  - Decision making
+KW  - Zero shot learning
+KW  - Question answering (information retrieval)
+KW  - Data models
+KW  - Cognition
+KW  - Reliability
+KW  - Medical diagnostic imaging
+KW  - MedQA
+KW  - LLMs
+KW  - Llama
+KW  - Zero-Shot Learning
+DO  - 10.1109/IJCNN64981.2025.11228647
+JO  - 2025 International Joint Conference on Neural Networks (IJCNN)
+IS  - 
+SN  - 2161-4407
+VO  - 
+VL  - 
+JA  - 2025 International Joint Conference on Neural Networks (IJCNN)
+Y1  - 30 June-5 July 2025
+AB  - Accurate and efficient question-answering systems are essential for high-quality patient care in the medical field. While Large Language Models (LLMs) have made remarkable strides across various domains, they still face challenges in medical question answering, particularly in understanding domain-specific terminology and performing complex reasoning, limiting their effectiveness in critical applications. To address this, we propose a multi-agent medical question-answering (MedQA) system incorporating similar case generation. We leverage the Llama3.1:70B model in a multi-agent architecture to enhance enhance zero-shot classification on the MedQA dataset, utilizing the model’s inherent medical knowledge and reasoning capabilities without additional training data. Experimental results show substantial gains over existing benchmark models, with improvements of 7% in both accuracy and F1-score across various medical QA tasks. Furthermore, we examine the model’s interpretability and reliability in addressing complex medical queries. This research not only offers a robust solution for medical question answering but also establishes a foundation for broader applications of LLMs in the medical domain.
+ER  - 
+
+TY  - CONF
+TI  - Assessing the Performance of Large Language Models on the Foreign Medical Graduate Examination (FMGE): Insights from GPT-4 Turbo, Gemini Advanced, and LLaMA 3.1 (70B)
+T2  - 2025 International Conference on Biomedical Engineering and Sustainable Healthcare (ICBMESH)
+SP  - 1
+EP  - 6
+AU  - R. M. Pattanshetti
+AU  - S. Sidddanagoudra
+AU  - S. Chand
+AU  - P. S
+AU  - R. Hebbar
+AU  - Vaishnavi
+PY  - 2025
+KW  - Training
+KW  - Learning systems
+KW  - Decision support systems
+KW  - Adaptation models
+KW  - Accuracy
+KW  - Large language models
+KW  - Medical services
+KW  - Rendering (computer graphics)
+KW  - Internet
+KW  - Biomedical engineering
+KW  - Large Language Models (LLMs)
+KW  - Foreign Medical Graduate Examination (FMGE)
+KW  - Medical Licensing Examinations
+KW  - GPT-4 Turbo
+KW  - LLaMA 3.1 (70B)
+KW  - Gemini Advanced
+KW  - AI in Medical Education
+DO  - 10.1109/ICBMESH66209.2025.11182217
+JO  - 2025 International Conference on Biomedical Engineering and Sustainable Healthcare (ICBMESH)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 International Conference on Biomedical Engineering and Sustainable Healthcare (ICBMESH)
+Y1  - 8-9 Aug. 2025
+AB  - This study evaluates three advanced Large Language Models (LLMs)—GPT-4 Turbo, Gemini Advanced, and Meta’s LLaMA 3.1 (70B)—for accurately answering multiple-choice questions from the Foreign Medical Graduate Examination (FMGE). Using a curated set of 427 text-based questions from recent exams, the investigation assessed each model’s overall accuracy, consistency, and error distribution, with statistical validation via McNemar’s test. GPT-4 Turbo achieved roughly 93% accuracy, while Gemini Advanced and LLaMA 3.1 (70B) both approximated 87%, with no significant difference between them. High agreement among models indicates consistent decision-making and stable interpretative patterns. These findings underscore the potential of LLMs as complementary tools for exam preparation, particularly in resource-limited settings. Moreover, the results support the viability of open-source models—exemplified by Meta’s LLaMA 3.1 (70B)—in terms of cost-effectiveness and adaptability. Future research will explore diverse question formats and the integration of these models into clinical decision support systems to further enhance their role in modern medical education.
+ER  - 
+
+TY  - CONF
+TI  - From Similarity to Answerability: Reliable Medical Retrieval via LLM-Driven Utility Distillation
+T2  - 2026 IEEE 14th International Conference on Healthcare Informatics (ICHI)
+SP  - 1406
+EP  - 1408
+AU  - Z. Ding
+AU  - T. Chen
+PY  - 2026
+KW  - Modeling
+KW  - Training
+KW  - Labeling
+KW  - Retrieval augmented generation
+KW  - Printing
+KW  - Gain
+KW  - Medical question answering
+KW  - information retrieval
+KW  - retrieval-augmented generation
+KW  - large language model
+DO  - 10.1109/ICHI69079.2026.00221
+JO  - 2026 IEEE 14th International Conference on Healthcare Informatics (ICHI)
+IS  - 
+SN  - 2575-2634
+VO  - 
+VL  - 
+JA  - 2026 IEEE 14th International Conference on Healthcare Informatics (ICHI)
+Y1  - 1-3 June 2026
+AB  - Medical RAG often underperforms because retrievers optimize semantic similarity instead of whether evidence can actually answer a clinical question. We propose an answerability-oriented weak-supervision framework in which an LLM teacher scores BM25-retrieved PubMed passages by their utility for producing the correct answer, and these signals are distilled into dense retrievers. Using 11,450 MedQA questions and 23.9M PubMed abstracts, the resulting retrievers improve RAG accuracy across Qwen2.5-72B, DeepSeek-R1, and GPT-5. The best MedQA result reaches 94.45%, and gains persist on a temporally isolated MedXpert benchmark.
+ER  - 
+
+TY  - CONF
+TI  - Game-Theoretic Insights into Multi-Agent LLM Debate for Enhanced Clinical Question Answering
+T2  - ICASSP 2026 - 2026 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)
+SP  - 20486
+EP  - 20490
+AU  - S. Sudhakara
+AU  - S. Sudhakara
+PY  - 2026
+KW  - Broadcasting
+KW  - Broadcast technology
+KW  - Protocols
+KW  - Communication systems
+KW  - Radio access networks
+KW  - Regional area networks
+KW  - Routing
+KW  - HTTP
+KW  - Storage area networks
+KW  - Computer networks
+KW  - Multi-Agent Debate
+KW  - LLMs
+KW  - Collaborative game
+KW  - Clinical QA systems
+KW  - MedQA
+DO  - 10.1109/ICASSP55912.2026.11461952
+JO  - ICASSP 2026 - 2026 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)
+IS  - 
+SN  - 2379-190X
+VO  - 
+VL  - 
+JA  - ICASSP 2026 - 2026 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)
+Y1  - 3-8 May 2026
+AB  - Large language models (LLMs) have advanced in medical question answering, yet ensuring reliability remains challenging. We study multi-agent debate (MAD), where multiple LLM agents critique and aggregate each other’s answers. Our game-theoretic analysis shows that majority voting improves accuracy, confidence-weighted aggregation (e.g., with an LLM judge) is optimal under calibration, and early stopping yields efficiency with little loss. We implement MAD for multiple-choice medical questions (MedQA) and evaluate it across five frontier language models, comparing single-shot prompting, chain-of-thought (CoT), and MAD with 2 or 3 agents. MAD with 3 agents consistently outperforms single-shot and CoT, reaching 90% accuracy on Claude Sonnet 3.7 (vs. 88% with CoT). Moreover, early consensus allows most debates to end in early rounds, reducing latency. These results align with theory and suggest MAD as a promising path toward more accurate and trustworthy medical QA systems.
+ER  - 
+
+TY  - CONF
+TI  - Collaborative Standardization of Multi-Center Clinical Data Using Distribution-Aware LLM Fusion
+T2  - ICASSP 2026 - 2026 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)
+SP  - 21671
+EP  - 21675
+AU  - Y. Zhang
+AU  - J. Zhou
+AU  - X. Zhang
+AU  - X. Ran
+AU  - X. Ma
+AU  - Z. Song
+AU  - H. Wang
+PY  - 2026
+KW  - LoRa
+KW  - Radio access networks
+KW  - Regional area networks
+KW  - Protocols
+KW  - Data communication
+KW  - HTTP
+KW  - Radio communication
+KW  - Communication systems
+KW  - Telecommunications
+KW  - Fuses
+KW  - Multi-center Training
+KW  - Distribution-Aware LLM Fusion
+KW  - Medical Report Standardization
+DO  - 10.1109/ICASSP55912.2026.11462003
+JO  - ICASSP 2026 - 2026 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)
+IS  - 
+SN  - 2379-190X
+VO  - 
+VL  - 
+JA  - ICASSP 2026 - 2026 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)
+Y1  - 3-8 May 2026
+AB  - Standardizing medical examination reports is essential for large-scale and AI-driven health analysis, yet multi-center settings face challenges such as terminology variation and strict data privacy. Although large language models (LLMs) generalize well across heterogeneous data, their use under privacy constraints remains limited. This study introduces and evaluates two privacy-preserving collaboration paradigms (model fusion and result fusion), to enable multi-center predictions without data sharing. Our distribution-aware framework integrates knowledge from decentralized models or their predictions. On a dataset of 900,000 reports from five training and six test hospitals across China, the proposed KL-Weighted Confidence Fusion achieves accuracies of 91.7% (±3.1%) for department-level and 91.0% (±5.2%) for item-level standardization, outperforming single-center models by up to 14.9% and matching the performance of a data-shared global model (92.1%). By using KL divergence to adaptively weight contributions from each center, our approach enables robust and privacy-protected integration of distributed medical data. This work enhances the scalability and practicality of multi-center medical AI while fully preserving data privacy.
+ER  - 
+
+TY  - CONF
+TI  - Right Answer, Wrong Reason: Accuracy, Consistency, and Consensus are Misleading Indicators of LLM Faithfulness in Clinical Decision Support
+T2  - 2026 International Conference on Emerging Techniques in Computational Intelligence (ICETCI)
+SP  - 1
+EP  - 8
+AU  - B. K. Bolla
+AU  - C. D. Purkayastha
+AU  - V. S. Reddy Nandi
+PY  - 2026
+KW  - Modeling
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Printing
+KW  - Stability
+KW  - Large language models
+KW  - Generative Pre-trained transformer
+KW  - Artificial intelligence
+KW  - Measurement
+KW  - Testing
+KW  - Explainability
+KW  - faithfulness style
+KW  - MedGemma
+KW  - Clinical Decision Support
+KW  - Large Language Models
+KW  - LLMs
+KW  - MedQA
+KW  - Pertubation Stability
+KW  - Explanation Stability
+KW  - Interpretability
+DO  - 10.1109/ICETCI71772.2026.11710560
+JO  - 2026 International Conference on Emerging Techniques in Computational Intelligence (ICETCI)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 International Conference on Emerging Techniques in Computational Intelligence (ICETCI)
+Y1  - 19-22 Aug. 2026
+AB  - Clinical Large Language Models (LLMs) achieve strong medical-exam accuracy; however, a correct answer does not guarantee that the explanation names the concepts that actually drove the decision. We introduce three lightweight, directly interpretable metrics for this faithfulness gap: the Explanation Stability Index (ESI), which measures reasoning consistency across repeated queries; the Causal Faithfulness Score (CFS), which tests whether cited concepts drive predictions via concept ablation; and the Perturbation Stability Score (PSS), which measures robustness to semantic-preserving paraphrases. By evaluating six LLMs on 150 MedQA-USMLE questions (900 model-question observations), we found that only 23.3% of the cited clinical concepts were causally necessary. Correct answers had lower CFS than incorrect answers (0.212 vs. 0.398), answer consistency negatively predicted CFS (Spearman r = -0.466), and model pairs could agree on answers while sharing only 8.8% of cited reasoning concepts. These results show that accuracy, consistency, and consensus are incomplete safety signals for clinical decision-making support. The evidence is behavioral rather than mechanistic: concept ablation tests counterfactual sensitivity of outputs, not internal circuits.
+ER  - 
+
+TY  - CONF
+TI  - Evaluating a Multi-Specialty Mixture-of-Experts Framework for Medical Question Answering Using LLM Agents and a DSPy Dispatcher
+T2  - 2026 IEEE/ACM Conference on Connected Health: Applications, Systems and Engineering Technologies (CHASE)
+SP  - 373
+EP  - 378
+AU  - D. Khaizaran
+AU  - H. Alhoori
+PY  - 2026
+KW  - Modeling
+KW  - Routing
+KW  - Accuracy
+KW  - Large language models
+KW  - Labeling
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Printing
+KW  - Question answering (information retrieval)
+KW  - Pediatrics
+KW  - large language models
+KW  - medical question answering
+KW  - mixture of experts
+KW  - specialty routing
+KW  - multi-agent systems
+KW  - MedQA
+DO  - 10.1109/CHASE69719.2026.00063
+JO  - 2026 IEEE/ACM Conference on Connected Health: Applications, Systems and Engineering Technologies (CHASE)
+IS  - 
+SN  - 2832-2975
+VO  - 
+VL  - 
+JA  - 2026 IEEE/ACM Conference on Connected Health: Applications, Systems and Engineering Technologies (CHASE)
+Y1  - 4-6 Aug. 2026
+AB  - Large Language Models (LLMs) perform strongly on straightforward medical questions. However, they often struggle with queries that are either highly specialty-specific or span multiple clinical disciplines. We developed a multi-specialty mixture-of-experts framework inspired by real clinical workflows. First, a dispatcher determines which one or more specialties a question belongs to. Second, based on that routing decision, specialty-specific agents answer the question and provide a confidence score. Third, the system aggregates the results by voting, with confidence-based tie-breaking. The dispatcher is optimized with DSPy using few-shot prompt optimization to improve specialty assignment. All components use the open-weight Meta Llama 4 Maverick model. Our system achieved 87.51% accuracy on the MedQA dataset (USMLE-style questions). Beyond overall accuracy, we use the framework to examine routing behavior, specialty-level performance, and disagreement patterns across agents. We emphasize interpretability and transparency by exposing per-agent votes, confidence scores, and reasoning in the output.
+ER  - 
+
+TY  - JOUR
+TI  - Efficient Privacy-Budgeted Large Language Model for Sensitive Healthcare
+T2  - IEEE Journal of Biomedical and Health Informatics
+SP  - 1
+EP  - 11
+AU  - C. Zhang
+AU  - L. Zheng
+AU  - H. Huang
+AU  - C. Su
+PY  - 2026
+KW  - Modeling
+KW  - Privacy
+KW  - Large language models
+KW  - Training
+KW  - LoRa
+KW  - Accuracy
+KW  - Medical services
+KW  - Tuning
+KW  - Optimization
+KW  - Barium
+KW  - Privacy-preserving
+KW  - Differential privacy
+KW  - LoRA
+KW  - Large language models
+KW  - Healthcare question answering
+KW  - Memorization
+KW  - Canary NLL
+DO  - 10.1109/JBHI.2026.3701710
+JO  - IEEE Journal of Biomedical and Health Informatics
+IS  - 
+SN  - 2168-2208
+VO  - 
+VL  - 
+JA  - IEEE Journal of Biomedical and Health Informatics
+Y1  - 
+AB  - Large language models (LLMs) are promising for healthcare question answering, yet adapting them with sensitive clinical data can induce unintended memorization and privacy leakage. We present MedDP, an efficient privacy-budgeted adaptation framework that delivers an auditable utility-privacy trade-off under ($\epsilon,\delta$)-differential privacy. Our method, MedDP, applies DP-SGD only to low-rank adapter parameters while freezing the base model, using per-example gradient clipping and calibrated Gaussian noise to enable explicit privacy accounting with minimal compute and memory overhead. To improve the stability of noisy optimization, we introduce Adaptive Clipping (AC) that updates the clipping bound online via a quantile-based rule with momentum. To avoid spending additional privacy budget on late-stage accuracy degradation, we further propose Budget-Aware (BA) checkpoint selection, which chooses the best checkpoint on the training trajectory subject to a target budget $\epsilon _\rm{max}$, without re-training. For privacy evaluation, we adopt a canary-based suite and emphasize canary negative log-likelihood (NLL) as a more sensitive memorization signal than hit-rate. Experiments on public medical QA benchmarks derived from MedQA and MedMCQA, together with synthetic canary auditing, characterize a clear privacy-utility frontier in a controlled evaluation setting. Non-private LoRA improves average accuracy but increases memorization signals, whereas privacy-budgeted training mitigates memorization while maintaining stable performance under explicit privacy accounting.
+ER  - 
+
+TY  - CONF
+TI  - Development of a Meta-Question Enhanced Retrieval-Augmented Generation Model and Its Application in Dermatology
+T2  - 2024 17th International Conference on Advanced Computer Theory and Engineering (ICACTE)
+SP  - 281
+EP  - 285
+AU  - C. Li
+AU  - J. Luo
+AU  - F. Jing
+AU  - Y. Han
+AU  - H. Ren
+AU  - H. Zhang
+AU  - W. Cheng
+PY  - 2024
+KW  - Industries
+KW  - Accuracy
+KW  - Databases
+KW  - Computational modeling
+KW  - Large language models
+KW  - Retrieval augmented generation
+KW  - Dermatology
+KW  - Knowledge based systems
+KW  - Oral communication
+KW  - Search engines
+KW  - Large Language Model
+KW  - Meta Questions
+KW  - Medical Dermatology Department
+DO  - 10.1109/ICACTE62428.2024.10871274
+JO  - 2024 17th International Conference on Advanced Computer Theory and Engineering (ICACTE)
+IS  - 
+SN  - 2154-7505
+VO  - 
+VL  - 
+JA  - 2024 17th International Conference on Advanced Computer Theory and Engineering (ICACTE)
+Y1  - 13-15 Sept. 2024
+AB  - RAG (Retrieval Augmented Generation) provides a solution for enhancing domain-specific knowledge in large language models by interacting with external information. RAG functions similarly to a search engine, retrieving the most relevant knowledge or related conversation history to the user's query. It then combines this with the original query to create a detailed prompt, guiding the model to generate accurate outputs. However, traditional RAG methods match short queries with long texts in the knowledge base, leading to mismatched results despite apparent similarities due to length discrepancies. To address this issue, we propose the MQ-RAG (Meta Questions Retrieval Augmented Generation) method, a question-answer pair-based approach built upon RAG. The key difference in MQ-RAG lies in the retrieval and recall content: it uses a database of Meta Questions, which are pairs of questions and corresponding answers. When using MQ-RAG, queries are matched with Meta Questions to retrieve the most relevant answers, ensuring high compatibility between the query and the retrieved content. For evaluation, 100 multiple-choice questions from the Dermatology and Venereology Medical Licensing Examination database were selected. Results showed that, using Qwen2-7b and Qwen2-72b as base models, MQ-RAG improved accuracy by 17.14% and 2.27%, respectively, compared to traditional RAG. Our MQ-RAG method demonstrated higher accuracy across both large and small parameter models, with particularly significant improvements in smaller models.
+ER  - 
+
+TY  - CONF
+TI  - A Self-Evolving Framework for Multi-Agent Medical Consultation Based on Large Language Models
+T2  - ICASSP 2025 - 2025 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)
+SP  - 1
+EP  - 5
+AU  - K. Chen
+AU  - J. Qi
+AU  - J. Huo
+AU  - P. Tian
+AU  - F. Meng
+AU  - X. Yang
+AU  - Y. Gao
+PY  - 2025
+KW  - Accuracy
+KW  - Pollution
+KW  - Databases
+KW  - Reviews
+KW  - Large language models
+KW  - Natural languages
+KW  - Signal processing
+KW  - Safety
+KW  - Reliability
+KW  - Speech processing
+KW  - Large Language Model
+KW  - Multi-Agent
+KW  - Self-Evoling
+KW  - Medical Consultation
+DO  - 10.1109/ICASSP49660.2025.10889517
+JO  - ICASSP 2025 - 2025 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)
+IS  - 
+SN  - 2379-190X
+VO  - 
+VL  - 
+JA  - ICASSP 2025 - 2025 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)
+Y1  - 6-11 April 2025
+AB  - We propose a multi-agent approach (SeM-Agents) based on large language models for medical consultations. This framework incorporates various doctor roles and auxiliary roles, with agents communicating through natural language. Using a residual structure, the system conducts multi-round medical consultations based on the patient’s treatment background and symptoms. In the final summary and output stage of the consultation, it utilizes two experience databases—the Correct Consultation Experience Database and the Chain of Thought (CoT) Experience Database—which evolve with accumulated experience during consultations. This evolution drives the framework’s self-improvement, significantly enhancing the rationality and accuracy of the consultations. To ensure that the conclusions are safe, reliable, and aligned with human values, the final decisions undergo a safety review before being provided to the patient. This framework achieved accuracy rates of 89.2% and 83.1% on the MedQA and PubMedQA datasets, respectively.
+ER  - 
+
+TY  - CONF
+TI  - Instruction Tuning and CoT Prompting for Contextual Medical QA with LLMs
+T2  - 2025 International Conference on Artificial Intelligence, Human-Computer Interaction and Natural Language Processing (ICAHN)
+SP  - 43
+EP  - 46
+AU  - C. Le
+AU  - Z. Gong
+AU  - C. Wang
+AU  - H. Ni
+AU  - P. Li
+AU  - X. Chen
+PY  - 2025
+KW  - Human computer interaction
+KW  - Adaptation models
+KW  - Large language models
+KW  - Biological system modeling
+KW  - Benchmark testing
+KW  - Question answering (information retrieval)
+KW  - Cognition
+KW  - Complexity theory
+KW  - Prompt engineering
+KW  - Tuning
+KW  - Large Language Model
+KW  - Quantized Low-Rank Adaptation
+KW  - Instruction Fine Tuning
+KW  - Chain of Thought
+KW  - Medical Question Answering
+DO  - 10.1109/ICAHN67688.2025.00016
+JO  - 2025 International Conference on Artificial Intelligence, Human-Computer Interaction and Natural Language Processing (ICAHN)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 International Conference on Artificial Intelligence, Human-Computer Interaction and Natural Language Processing (ICAHN)
+Y1  - 23-25 May 2025
+AB  - Large language models (LLMs) have shown great potential in medical question answering (MedQA), yet adapting them to biomedical reasoning remains challenging due to domain-specific complexity and limited supervision. In this work, we study how prompt design and lightweight fine-tuning affect the performance of open-source LLMs on PubMedQA, a benchmark for multiple-choice biomedical questions. We focus on two widely used prompting strategies-standard instruction prompts and Chain-of-Thought (CoT) prompts-and apply QLoRA for parameter-efficient instruction tuning. Across multiple model families and sizes, our experiments show that CoT prompting alone can improve reasoning in zero-shot settings, while instruction tuning significantly boosts accuracy. However, fine-tuning on CoT prompts does not universally enhance performance and may even degrade it for certain larger models. These findings suggest that reasoning-aware prompts are useful, but their benefits are model- and scale-dependent. Our study offers practical insights into combining prompt engineering with efficient finetuning for medical QA applications.
+ER  - 
+
+TY  - CONF
+TI  - MediHive: A Decentralized Agent Collective for Medical Reasoning
+T2  - 2026 IEEE 14th International Conference on Healthcare Informatics (ICHI)
+SP  - 913
+EP  - 914
+AU  - X. Wang
+AU  - C. C. Yang
+PY  - 2026
+KW  - Large language models
+KW  - Modeling
+KW  - Printing
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Conferences
+KW  - Healthcare AI
+KW  - Large Language Model
+KW  - Decen-tralized Multi-Agent System
+KW  - Medical Q&A
+DO  - 10.1109/ICHI69079.2026.00114
+JO  - 2026 IEEE 14th International Conference on Healthcare Informatics (ICHI)
+IS  - 
+SN  - 2575-2634
+VO  - 
+VL  - 
+JA  - 2026 IEEE 14th International Conference on Healthcare Informatics (ICHI)
+Y1  - 1-3 June 2026
+AB  - Single-agent large language models (LLMs) and centralized multi-agent systems (MAS) face scalability bottlenecks, single points of failure, and role confusion in medical reasoning. We propose MediHive, a decentralized multi-agent framework built around a passive shared memory pool. Agents self-assign specialist roles, debate conditionally when they disagree, and iteratively fuse peers’ analyses to reach consensus without a central coordinator. On MedQA and PubMedQA with a Llama-3.1-70B-Instruct backbone, MediHive reaches 84.3% and 78.4% accuracy, surpassing single-agent and centralized multi-agent baselines.
+ER  - 
+
+TY  - JOUR
+TI  - Semantic Clinical Knowledge Augmentation Improves Medical Question Answering Across Commercial and Open Large Language Models
+T2  - IEEE Journal of Biomedical and Health Informatics
+SP  - 1
+EP  - 10
+AU  - P. L. Elkin
+AU  - A. N. Elkin
+AU  - G. Mehta
+AU  - F. LeHouillier
+AU  - J. R. Nebeker
+AU  - N. Saquib
+AU  - S. H. Brown
+PY  - 2026
+KW  - Modeling
+KW  - Large language models
+KW  - Licenses
+KW  - Triples (Data structure)
+KW  - Nuclear facility regulation
+KW  - Training
+KW  - Context
+KW  - Retrieval augmented generation
+KW  - Grounding
+KW  - Weighted sum model
+KW  - large language models
+KW  - semantic clinical AI
+KW  - semantic knowledge reasoner
+KW  - retrieval augmented generation
+KW  - clinical knowledge graphs
+KW  - semantic reasoning
+KW  - biomedical informatics
+KW  - USMLE
+KW  - medical question answering
+DO  - 10.1109/JBHI.2026.3742187
+JO  - IEEE Journal of Biomedical and Health Informatics
+IS  - 
+SN  - 2168-2208
+VO  - 
+VL  - 
+JA  - IEEE Journal of Biomedical and Health Informatics
+Y1  - 
+AB  - Objective: To evaluate whether semantic clinical knowledge augmentation through Semantic Clinical Artificial Intelligence (SCAI) improves medical question answering across commercial and open large language models, and to examine how a reasoning distilled model performs on the same benchmark. Materials and Methods: We evaluated Google Gemini, Microsoft Copilot, Meta Llama 3 70B, and DeepSeek-R1-Distill-Llama-70B on official text only United States Medical Licensing Exam (USMLE) sample questions from Step 1 (n = 87), Step 2 CK (n = 103), and Step 3 (n = 123), with and without SCAI. SCAI comprised HD-NLP parsing, graph and knowledge graph embeddings, a trained SCAI LLM semantic knowledge reasoner, and a semantic knowledge base; the current implementation contained 33,023,902 triples across 246 relation labels. Responses were scored against the answer key with secondary human verification. All models produced a response to every text only item, so incorrect responses were counted as confabulations. Results: Across 313 items, accuracy increased from 90.7% to 97.1% for Gemini, 82.4% to 92.0% for Llama 3 70B, and 55.3% to 81.8% for DeepSeek-R1-Distill; Copilot changed from 93.6% to 94.2%. Within model gains were statistically significant for Gemini, Llama 3 70B, and DeepSeek-R1-Distill on all three steps, but not for Copilot. The best single model result was Llama 3 70B plus SCAI on Step 3 (121/123, 98.4%). Gemini plus SCAI was the numerically strongest commercial system. Conclusions: SCAI was associated with materially better accuracy and lower confabulation (False Positive Results) across several heterogeneous LLMs, supporting a semantically grounded pipeline in which a dedicated SCAI LLM generates clinical context for a host LLM while suggesting that strong general reasoning performance does not automatically translate into healthcare readiness.
+ER  - 
+
+TY  - JOUR
+TI  - TDG-LoRA: Token-Level Dynamic Gating for Mitigating Catastrophic Forgetting
+T2  - IEEE Access
+SP  - 149792
+EP  - 149802
+AU  - S. Zhu
+AU  - S. Huang
+AU  - X. Chen
+PY  - 2026
+KW  - Modeling
+KW  - LoRa
+KW  - Labeling
+KW  - Training
+KW  - Sequential analysis
+KW  - Standards
+KW  - Sequences
+KW  - Interference
+KW  - Polarization
+KW  - Ranking (statistics)
+KW  - Dynamic gating
+KW  - large language model fine-tuning
+KW  - large language models
+KW  - low-rank adaptation
+DO  - 10.1109/ACCESS.2026.3737439
+JO  - IEEE Access
+IS  - 
+SN  - 2169-3536
+VO  - 14
+VL  - 14
+JA  - IEEE Access
+Y1  - 2026
+AB  - Parameter-efficient fine-tuning (PEFT), particularly Low-Rank Adaptation (LoRA), is widely used to adapt large language models (LLMs) to specialized downstream domains. However, although the pretrained backbone remains frozen, a domain-adapted LoRA branch may interfere with the model’s original representations and predictions when applied to general-domain inputs, resulting in general capability degradation. To address this problem, we propose TDG-LoRA (Token-Level Dynamic Gating for Low-Rank Adaptation), which introduces a lightweight gating network into each adapted Transformer layer to regulate the contribution of a single LoRA branch according to contextualized token representations. During training, sequence-origin domain labels supervise the tokenwise gate outputs, while an asymmetric loss mask prevents general-domain language-modeling losses from directly updating the LoRA parameters. During inference, the learned gate suppresses unnecessary LoRA contributions on general-domain inputs. We evaluate TDG-LoRA on Llama-3.2-1B and Llama-3.1-8B across mathematical and medical domain adaptation settings using five random seeds. Under a predefined equivalence margin of ±1.0 percentage points, TDG-LoRA is statistically equivalent to standard LoRA on GSM8K and MedQA and to the corresponding base model reference on post-adaptation Massive Multitask Language Understanding (MMLU). On Llama-3.1-8B, TDG-LoRA achieves 58.92% accuracy on GSM8K while retaining 65.18% on MMLU, corresponding to a decrease of only 0.05 percentage points from the base model. These results demonstrate a favorable balance between target domain adaptation and general capability retention under the evaluated settings.
+ER  - 
+
+TY  - CONF
+TI  - MediMind: A Domain-Adaptive Medical LLM Leveraging Fine-Tuning and Retrieval-Augmented Generation
+T2  - 2025 9th International Conference on Internet of Things and Applications (IoT)
+SP  - 1
+EP  - 6
+AU  - S. M. H. Hashemi
+AU  - H. B. Kashani
+AU  - S. Fatemi
+PY  - 2025
+KW  - Biomedical equipment
+KW  - Adaptation models
+KW  - Quantization (signal)
+KW  - Accuracy
+KW  - Large language models
+KW  - Computational modeling
+KW  - Retrieval augmented generation
+KW  - Medical services
+KW  - Benchmark testing
+KW  - Internet of Things
+KW  - Large Language Models
+KW  - Medical AI
+KW  - Q-LoRA
+KW  - RAG
+KW  - IoT Healthcare
+DO  - 10.1109/IoT69654.2025.11297589
+JO  - 2025 9th International Conference on Internet of Things and Applications (IoT)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 9th International Conference on Internet of Things and Applications (IoT)
+Y1  - 29-30 Oct. 2025
+AB  - This paper proposes a novel medical Large Language Model (LLM), called MediMind, enhanced through Q-LoRA fine-tuning and Retrieval Augmented Generation (RAG) integration for specialized medical applications. The development of domain-adaptive medical LLMs presents significant opportunities for advancing healthcare AI systems through efficient parameter-efficient fine-tuning methods and knowledge-augmented generation techniques. We demonstrate substantial performance improvements across multiple medical question-answering benchmarks, with MedQA accuracy increasing from 65.06% to 74.28% through fine-tuning, and further enhanced to 75.42% with RAG integration. Our approach leverages a carefully curated dataset of 200K medical instructions derived from the UltraMedical collection and employs efficient 4-bit quantization techniques to enable deployment on resource-constrained hardware while maintaining computational efficiency. The RAG system utilizes specialized medical knowledge bases including StatePearls and medical textbooks, achieving consistent improvements across all benchmarks through dynamic knowledge retrieval. The fine-tuned MediMind model achieves competitive performance across HeadQA (77.33%), MedMCQA (61.46%), and various MMLU medical subsets, with RAG providing additional gains of 0.74-2.29 percentage points. This research demonstrates that parameter-efficient fine-tuning combined with retrieval-augmented generation effectively adapts large language models for medical applications.
+ER  - 
+
+TY  - CONF
+TI  - TRUSS-Med: Medical Question Answering via Transformers, Retrieval, and Unified State Space Models
+T2  - 2025 IEEE International Conference on Bioinformatics and Biomedicine (BIBM)
+SP  - 4552
+EP  - 4557
+AU  - X. Zhu
+AU  - M. Khan
+AU  - E. Mhedhbi
+AU  - Y. Liang
+AU  - A. Othmani
+PY  - 2025
+KW  - Accuracy
+KW  - Navigation
+KW  - Large language models
+KW  - Biological system modeling
+KW  - Performance gain
+KW  - Transformers
+KW  - Question answering (information retrieval)
+KW  - Cognition
+KW  - Robustness
+KW  - Multisensory integration
+KW  - Artificial Intelligence
+KW  - Question Answering System
+KW  - MedQA
+KW  - Large Language Models
+KW  - State Space Models
+KW  - Natural Language Processing
+DO  - 10.1109/BIBM66473.2025.11356863
+JO  - 2025 IEEE International Conference on Bioinformatics and Biomedicine (BIBM)
+IS  - 
+SN  - 2156-1133
+VO  - 
+VL  - 
+JA  - 2025 IEEE International Conference on Bioinformatics and Biomedicine (BIBM)
+Y1  - 15-18 Dec. 2025
+AB  - The advent of Large Language Models (LLMs) and other advances in Artificial Intelligence (AI) has revolutionized natural language processing across a wide range of domains. However, applying these to high-stakes domains, such as medical question answering, remains challenging, particularly in ensuring factual accuracy and navigating complex, multi-step reasoning. We present TRUSS-Med, a system that utilizes specialized LLM agents to collaborate and automate the Medical Question Answering task by breaking it down into simpler, more manageable sub-tasks. We integrate the generative capabilities of LLMs with the structured reasoning of State Space Models (SSMs) to retrieve information, generate answers, and confirm their accuracy. Experiments on the MedQA-USMLE and MedMCQA datasets achieve strong performance, demonstrating notable improvements of 30.63 and 17.44 percentage points in accuracy over GPT-3.5. TRUSS-Med demonstrates notable performance gains over comparable models, as evidenced by results against GPT-3.5.
+ER  - 
+
+TY  - JOUR
+TI  - An Adaptive Multi-Agent LLM-Based Clinical Decision Support System Integrating Biomedical RAG and Web Intelligence
+T2  - IEEE Access
+SP  - 167390
+EP  - 167404
+AU  - Ç. U. Öğdü
+AU  - K. Arslanoğlu
+AU  - M. Karaköse
+PY  - 2025
+KW  - Accuracy
+KW  - Reliability
+KW  - Real-time systems
+KW  - Medical diagnostic imaging
+KW  - Large language models
+KW  - Data integration
+KW  - Protocols
+KW  - Heuristic algorithms
+KW  - Decision support systems
+KW  - Databases
+KW  - Clinical decision support system
+KW  - large language models
+KW  - multi-agent system
+DO  - 10.1109/ACCESS.2025.3613340
+JO  - IEEE Access
+IS  - 
+SN  - 2169-3536
+VO  - 13
+VL  - 13
+JA  - IEEE Access
+Y1  - 2025
+AB  - Increasing data complexity in clinical decision-making processes hinders physicians’ ability to make rapid and accurate decisions. This study proposes an innovative solution to this problem by designing a multi-layered, adaptive Clinical Decision Support System (CDSS) comprising interacting large language model (LLM) agents. The proposed system performs semantic-level information retrieval using a BioBERT-based vector database, enhances information retrieval by accessing up-to-date medical resources via the web, and restructures outputs by activating an adaptive optimization loop in low-confidence situations. Through the structuring of clinical texts, cross-validation of symptom analyses with literature and internet sources, and collaborative data fusion among agents, the system integrates multi-source data and produces consistent decisions. In experiments conducted on the MedQA, PubMedQA, and MedBullets datasets, the system achieved accuracies of 94%, 88%, and 84%, respectively, representing substantial improvements over state-of-the-art methods and demonstrating the significance of the proposed architecture for clinical decision-making reliability. This framework is not merely an information retrieval engine; it is a clinical intelligence partner designed to learn, actively contribute to the decision process, and focus on reliability. In contrast to current CDSS protocols, which frequently depend on static modules or single-agent models, our architecture tackles some of the shortcomings in timeliness, multi-source evidence fusion, and confidence calibration. This originality enables the system to be a next-generation clinical intelligence partner by enabling an unprecedented level of transparency, customizability, and adaptability in real-world decision-making processes.
+ER  - 
+
+TY  - JOUR
+TI  - Decision Tree Extraction for Clinical Decision Support System With If-Else Pseudocode and PlanSelect Strategy
+T2  - IEEE Journal of Biomedical and Health Informatics
+SP  - 3642
+EP  - 3653
+AU  - R. Hou
+AU  - X. Wang
+AU  - W. Zhang
+AU  - Z. Song
+AU  - K. Wang
+AU  - Y. Chen
+AU  - J. Liu
+AU  - T. Ruan
+PY  - 2025
+KW  - Decision trees
+KW  - Data mining
+KW  - Cognition
+KW  - Medical diagnostic imaging
+KW  - Medical services
+KW  - Large language models
+KW  - Decision support systems
+KW  - Predictive models
+KW  - Pediatrics
+KW  - Medical decision tree extraction
+KW  - large language model
+KW  - If-Else pseudocode
+KW  - PlanSelect
+DO  - 10.1109/JBHI.2025.3529682
+JO  - IEEE Journal of Biomedical and Health Informatics
+IS  - 5
+SN  - 2168-2208
+VO  - 29
+VL  - 29
+JA  - IEEE Journal of Biomedical and Health Informatics
+Y1  - May 2025
+AB  - Decision trees, as a structured representation of medical knowledge, are critical resources for building clinical decision support systems. Their structured decision pathways can be used for retrieval to enhance clinical decision making. Currently, mainstream methods mainly utilize large language models and in-context learning for decision tree extraction. However, these methods often face challenges in understanding the structure of decision trees and accurately extracting the complete content of tree nodes, leading to noise in the extracted trees and ultimately impacting their effectiveness in clinical decision support system. To this end, in this paper, we propose a novel decision tree extraction framework, including two stages. In the first stage, we propose to use the If-Else pseudocode to represent the decision tree structure and design specific constraints on format and content to guide the LLM in generating outputs. In the second stage, we introduce a novel node-filling strategy called PlanSelect to match the extracted triplets with sub-sentences in the generated pseudocode, including four reasoning steps: observation, plan, action, and answer. To evaluate the effectiveness of our proposed method, we construct an English decision tree extraction dataset (EMDT) and conduct extensive experiments on the built and public datasets. Experiments on the Text2DT and EMDT datasets demonstrate that our method outperforms the current state-of-the-art approaches, achieving improvements of 1.37% and 1.54% on the $ER$ metric (which is lower is better), respectively. Furthermore, we use the medical decision trees extracted using our framework to improve the model's performance on clinical decision making tasks, i.e., CMB-Clin and MedQA.
+ER  - 
+
+TY  - CONF
+TI  - Autonomous Evaluation Framework for LLM Output Robustness
+T2  - 2025 7th International Conference on Frontier Technologies of Information and Computer (ICFTIC)
+SP  - 72
+EP  - 78
+AU  - G. Lu
+PY  - 2025
+KW  - Sensitivity
+KW  - Perturbation methods
+KW  - Large language models
+KW  - Semantics
+KW  - Benchmark testing
+KW  - Robustness
+KW  - Reproducibility of results
+KW  - Natural language processing
+KW  - Numerical models
+KW  - Medical diagnostic imaging
+KW  - Large Language Models
+KW  - Robustness Evaluation
+KW  - Autonomous Testing Framework
+KW  - Adversarial Probing
+KW  - SciQ Benchmark
+DO  - 10.1109/ICFTIC68075.2025.11324546
+JO  - 2025 7th International Conference on Frontier Technologies of Information and Computer (ICFTIC)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 7th International Conference on Frontier Technologies of Information and Computer (ICFTIC)
+Y1  - 5-7 Dec. 2025
+AB  - In recent years, large language models (LLMs) have achieved state-of-the-art performance across diverse natural language processing (NLP) tasks, yet persistent concerns remain about their robustness, reliability, and ability to generalize under adversarial or domain-shifted conditions. Conventional evaluation methods often depend on static benchmarks and costly human annotation, limiting scalability and reproducibility. This work introduces an autonomous evaluation framework that unifies benchmark-driven testing with automated adversarial probing for systematic, end-to-end assessment of LLM robustness. The framework is instantiated using the DeepSeek-7B-Chat and Mistral-7B-Instruct models and evaluated across three distinct QA benchmarks—SciQ (scientific), MedQA (medical), and FinQA (financial reasoning)—under both clean and perturbed conditions. Results reveal high robustness in the medical domain (ΔF1 ≈ 0) and minor but consistent degradation in financial reasoning (ΔF1 ≈ –0.0033), highlighting domain-dependent sensitivity to linguistic and numerical perturbations. Comparative analysis between DeepSeek and Mistral indicates consistent robustness trends across architectures, underscoring the generality of the proposed evaluation protocol. Overall, the framework captures semantic consistency, factual accuracy, and error resilience while reducing evaluation time from weeks to hours and improving coverage by over 30 % relative to human-only baselines. Beyond empirical gains, it establishes a reproducible, domain-and model-agnostic methodology for robustness assessment, advancing standardized and scalable evaluation practices for reliable LLM deployment in high-stakes domains such as medicine and finance.
+ER  - 
+
+TY  - CONF
+TI  - Quality Outweighs Quantity: Advancing Medical Question Answering with RAG-MCP Muti-Agent LLM Framework and Curated Knowledge Databases
+T2  - 2026 IEEE 16th Annual Computing and Communication Workshop and Conference (CCWC)
+SP  - 104
+EP  - 110
+AU  - T. Liu
+AU  - M. Zhu
+AU  - S. P. Zhai
+PY  - 2026
+KW  - Accuracy
+KW  - Databases
+KW  - Large language models
+KW  - Computational modeling
+KW  - Retrieval augmented generation
+KW  - Routing
+KW  - Cognition
+KW  - Question answering (information retrieval)
+KW  - Reliability
+KW  - Context modeling
+KW  - Medical question answering
+KW  - Multi-agent systems
+KW  - Model Context Protocol (MCP)
+KW  - Retrieval-Augmented Generation (RAG)
+KW  - Curated datasets
+KW  - Clinical reasoning
+KW  - Large language models (LLMs)
+DO  - 10.1109/CCWC67433.2026.11393764
+JO  - 2026 IEEE 16th Annual Computing and Communication Workshop and Conference (CCWC)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 IEEE 16th Annual Computing and Communication Workshop and Conference (CCWC)
+Y1  - 5-7 Jan. 2026
+AB  - Medical multiple-choice question (MCQ) answering requires specialized domain knowledge, multi-step clinical reasoning, and ability to discriminate among closely related distractor options. Current large language models (LLMs) frequently exhibit hallucinations, inconsistent reasoning patterns, and unstable performance when confronted with complex biomedical scenarios. This study introduces a structured multiagent framework integrating Retrieval-Augmented Generation (RAG) with Model Context Protocol (MCP) to enhance accuracy and reliability in medical reasoning tasks. The proposed architecture employs an administrator agent that performs domain-specific task routing and coordinates five specialized medical agents-Physiology, Pathology, Clinical Medicine, Treatment and Pharmacology, and Public Health-integrating their outputs through weighted consensus for final answer selection. Critically, this study demonstrates that knowledge database quality significantly outweighs quantity in RAG systems: curating high-quality question subsets from knowledge data yields substantially greater performance gains than utilizing entire unfiltered knowledge datasets. Evaluated on MedMCQA and MedQA-USMLE benchmarks using GPT-oss 21B and LLaMA 4Scout 17B base models without fine-tuning, the MCP-based multiagent framework achieves approximately 5% accuracy improvement (71-75%) over single-agent baselines (66-70%). Furthermore, employing only top-500 highest-quality curated questions in RAG knowledge database boosts accuracy to nearly 80%, representing $\boldsymbol{\sim} \mathbf{1 0 \%}$ overall improvement. Ablation studies confirm multi-agent consensus mechanisms provide 1.0-2.4% additional gains beyond retrieval augmentation alone, while scaling analysis reveals optimal performance at 11-13% curated knowledge data. These findings establish that domain specialization, structured agent collaboration, and strategic data curation collectively enhance both accuracy and interpretability in medical reasoning systems, offering practical pathway for deploying reliable clinical decision support without computationally expensive model fine-tuning.
+ER  - 
+
+TY  - JOUR
+TI  - KGR-MAS: Knowledge Graph-Enhanced Multi-Agent LLM Framework for Evidence-Based Medical Diagnosis and Clinical Decision Support
+T2  - IEEE Journal of Biomedical and Health Informatics
+SP  - 1
+EP  - 17
+AU  - L. Yin
+AU  - X. Du
+AU  - Y. Cheng
+AU  - N. Tong
+AU  - F. Li
+PY  - 2026
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Modeling
+KW  - Knowledge graphs
+KW  - Diseases
+KW  - Training
+KW  - Medical diagnosis
+KW  - Drugs
+KW  - Large language models
+KW  - Accuracy
+KW  - Large Language Models
+KW  - Multi-agent Systems,Knowledge Graphs
+KW  - Clinical Decision Support
+DO  - 10.1109/JBHI.2026.3740738
+JO  - IEEE Journal of Biomedical and Health Informatics
+IS  - 
+SN  - 2168-2208
+VO  - 
+VL  - 
+JA  - IEEE Journal of Biomedical and Health Informatics
+Y1  - 
+AB  - Large Language Models (LLMs) demonstrate significant potential in healthcare applications, yet they exhibit reasoning bias, information bottlenecks, and limited adaptability in complex clinical settings. To address these limitations, we propose KGR-MAS, which introduces an integrated control loop that couples (1) KG-derived diagnostic paths for executable subtask decomposition and dynamic agent allocation, while using these KG reasoning paths to initialize shared short-term memory; (2) a language-level LSTM-inspired gating mechanism with Transformer-XL short-term memory to regulate cross-agent information flow and maintain global coherence; and (3) a KG-guided RAG-STM process that triggers evidence retrieval at diagnostic checkpoints and writes the retrieved evidence back into STM for subsequent reasoning. We constructed a large-scale medical knowledge graph achieving the best embedding performance (Hits@1:32.8%, MRR:0.498). Experimental results on MedQA and MedMCQA show that KGR-MAS achieves 87.2% accuracy on MedQA($\uparrow$14.4%), and 77.4% average accuracy across four open-domain datasets ($\uparrow$29.0%), outperforming larger models like GPT-o1(72.0%). KGR-MAS provides interpretable, accurate, and clinically grounded diagnostic reasoning, highlighting its potential as a next-generation AI assistant for medical decision-making.
+ER  - 
+
+TY  - CONF
+TI  - Temperature-Driven Uncertainty Assessment in LLM Medical Reasoning Using Geometric Embedding Analysis
+T2  - 2026 1st International Conference on Human Centric Artificial Intelligence (ICHCAI)
+SP  - 1
+EP  - 8
+AU  - A. Rafiei
+AU  - J. Seo
+AU  - B. Yurdem
+AU  - F. O. Catak
+PY  - 2026
+KW  - Modeling
+KW  - Temperature
+KW  - Convex hulls
+KW  - Uncertainty
+KW  - Accuracy
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Dispersion
+KW  - Printing
+KW  - Equations
+KW  - Large language models
+KW  - uncertainty quantification
+KW  - semantic embeddings
+KW  - convex hull analysis
+KW  - medical question answering
+KW  - temperature sampling
+KW  - geometric variability
+DO  - 10.1109/ICHCAI70183.2026.11607654
+JO  - 2026 1st International Conference on Human Centric Artificial Intelligence (ICHCAI)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 1st International Conference on Human Centric Artificial Intelligence (ICHCAI)
+Y1  - 27-28 May 2026
+AB  - Large language models (LLMs) are increasingly used for medical question answering, where understanding when to trust their outputs is critical. Recent work has shown that increasing the sampling temperature substantially raises textual diversity while having little effect on accuracy, suggesting that surface-level variability is a weak proxy for reliability. In this paper, we investigate whether this independence between temperature and correctness also holds when variability is measured in the semantic embedding space. We evaluate three LLMs, including general-purpose and medically specialized models, on MedQA and the medical subset of MMLU. For each question and temperature, we generate multiple stochastic responses, embed them with a sentence transformer, and compute the total convex hull area of clustered embeddings as a geometric measure of semantic dispersion. Across models and datasets, higher temperatures consistently increase semantic spread, yet accuracy remains largely unchanged. This extends prior findings from textual to semantic-manifold variability and reveals a form of semantic stability: LLMs tend to preserve their answer choice even as their expressed reasoning becomes more diverse. These findings support human-centered AI by linking uncertainty to human oversight in medical decisions. They also highlight limitations of diversity-based uncertainty measures and motivate future work on cluster-based analyses of LLM reasoning.
+ER  - 
+
+TY  - CONF
+TI  - Extracting Structure Information from Narrative Medical Reports based on LLMs
+T2  - 2024 IEEE International Conference on Bioinformatics and Biomedicine (BIBM)
+SP  - 5616
+EP  - 5623
+AU  - D. Chen
+AU  - Z. Shen
+AU  - M. Wang
+AU  - N. Dong
+AU  - Q. Pan
+AU  - J. Su
+PY  - 2024
+KW  - Training
+KW  - Accuracy
+KW  - Ultrasonic imaging
+KW  - Semantics
+KW  - Training data
+KW  - Medical services
+KW  - Ontologies
+KW  - Information retrieval
+KW  - Data mining
+KW  - Standards
+KW  - Medical examination reports
+KW  - Large language models
+KW  - Report structuring
+DO  - 10.1109/BIBM62325.2024.10822688
+JO  - 2024 IEEE International Conference on Bioinformatics and Biomedicine (BIBM)
+IS  - 
+SN  - 2156-1133
+VO  - 
+VL  - 
+JA  - 2024 IEEE International Conference on Bioinformatics and Biomedicine (BIBM)
+Y1  - 3-6 Dec. 2024
+AB  - Extracting structured information and key details from medical report narratives is crucial to support healthcare data management, analysis and decision-making. However, the specialized nature of the reports, the complexity of the contents, and the high accuracy requirements of the results pose significant challenges to the structuring task. In this paper, we develop an LLM-based method to extract structure information from medical report narratives. Defining the structuring problem as mapping the narrative reports to the domain ontology, we design a framework to develop specialized LLMs that automatically learn and establish the mappings. At the core of this framework are report partitioning and interactive training data generation modules are. By separating complete reports into logically independent segments and training the LLMs on these segments independently, the trained LLMs can accurately capture the semantic relationships within each segment. Additionally, we explore different LLMs and formulate a simplistic scoring method to compare their accuracy, enabling us to select the best-performing model. Experimental evaluation on a real-world breast ultrasound report dataset demonstrates that our method achieves high accuracy with a small training dataset (400 samples). Specifically, the accuracy of structural information extraction and the attribute-value matching accuracy both exceed 96%.
+ER  - 
+
+TY  - CONF
+TI  - Multi-Agent Medical Debate System for Clinical Reasoning
+T2  - 2026 IEEE International Conference on Industry 4.0, Artificial Intelligence, and Communications Technology (IAICT)
+SP  - 514
+EP  - 520
+AU  - S. Bhoyar
+AU  - A. Ansari
+AU  - N. Saxena
+PY  - 2026
+KW  - Modeling
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Large language models
+KW  - Equations
+KW  - Measurement
+KW  - Accuracy
+KW  - Indexes
+KW  - Indexing
+KW  - Calibration
+KW  - clinical reasoning
+KW  - large language models (LLMs)
+KW  - retrieval-augmented generation (RAG)
+KW  - multi-agent systems
+KW  - hallucination reduction
+DO  - 10.1109/IAICT71158.2026.11620877
+JO  - 2026 IEEE International Conference on Industry 4.0, Artificial Intelligence, and Communications Technology (IAICT)
+IS  - 
+SN  - 2834-8249
+VO  - 
+VL  - 
+JA  - 2026 IEEE International Conference on Industry 4.0, Artificial Intelligence, and Communications Technology (IAICT)
+Y1  - 2-4 July 2026
+AB  - Clinical deployment of large language models (LLMs) for medical question answering faces three primary challenges: (1) models frequently produce unsupported or hallucinated claims because their parametric knowledge is not verified against biomedical evidence; (2) single-pass inference prevents iterative self-correction, leading to incomplete differential diagnoses; and (3) poorly calibrated confidence scores undermine clinician trust. To address these challenges, we introduce a retrieval augmented multi-agent model whose components are specifically designed to generate medical answers through three stages: hypothesis generation, adversarial debate, and independent judgment, wherein evidence conditioned hypotheses are generated, contested by an adversarial process, and finally evaluated by an independent model. Each of these models utilizes a semantic retrieval system to access medical literature from PubMed, explanations of answer benchmarks from MedQA, and medical records from MIMIC III. The model is evaluated using the MedQA USMLE benchmark and a collection of prompts created from MIMIC III data, as well as by comparing the performance of the system against a general purpose LLM and a fine tuned medical LLM. Results indicate that the approach described improves the supported sentences rate, the precision and recall of the attributed sentences, and the groundedness of the answers provided while also reducing the number of unsupported claims, hallucinations, Brier score, and expected calibration error, while maintaining the same accuracy in medical diagnosis. Thus, these findings indicate that the incorporation of adversarial and verification models during inference can improve the model’s ability to align with the evidence and to calibrate uncertainty in its predictions without requiring any adaptation to the models with supervised training data.
+ER  - 
+
+TY  - CONF
+TI  - Improving Cost Efficiency in Medical Retrieval-Augmented Generation via Adaptive Query Routing
+T2  - 2026 IEEE International Conference on Consumer Electronics - Taiwan (ICCE-Taiwan)
+SP  - 1
+EP  - 2
+AU  - K. -C. Chang
+AU  - A. S. M
+PY  - 2026
+KW  - Retrieval augmented generation
+KW  - Modeling
+KW  - Large language models
+KW  - Labeling
+KW  - Routing
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Printing
+KW  - Question answering (information retrieval)
+KW  - Modules (abstract algebra)
+KW  - Retrieval-Augmented-Generation
+KW  - Medical Question answering
+KW  - Large Language Models
+KW  - AI in Healthcare
+DO  - 10.1109/ICCE-Taiwan71481.2026.11652397
+JO  - 2026 IEEE International Conference on Consumer Electronics - Taiwan (ICCE-Taiwan)
+IS  - 
+SN  - 2575-8284
+VO  - 
+VL  - 
+JA  - 2026 IEEE International Conference on Consumer Electronics - Taiwan (ICCE-Taiwan)
+Y1  - 1-3 July 2026
+AB  - Large Language Models (LLMs) have shown strong potential in medical question answering, but their challenge to generate hallucinated or outdated information poses serious risks in clinical settings. Retrieval-Augmented Generation (RAG) mitigates this issue by grounding responses in external knowledge; however, indiscriminate retrieval can introduce noise and degrade performance when internal knowledge is sufficient. This paper presents a selective retrieval strategy that dynamically determines whether external retrieval is required. A fine-tuned LLM is used as a query routing mechanism to choose between direct generation and retrievalaugmented generation, combined with a stratified retrieval pipeline over trusted medical sources. Experiments on MedQA-USMLE and MMLU-Medical show accuracies of 70.46% and 77.59% using LLaMA-3 8B, improving over direct generation by 8.72 and 5.60 percentage points, respectively.
+ER  - 
+
+TY  - CONF
+TI  - Large Language Models in Healthcare: Comprehensive Benchmarking and Comparative Analysis of Open-Source and Closed-Source Solutions
+T2  - 2026 7th International Conference on Bio-engineering for Smart Technologies (BioSMART)
+SP  - 1
+EP  - 7
+AU  - M. Mohammad
+PY  - 2026
+KW  - Modeling
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Large language models
+KW  - Accuracy
+KW  - Medical services
+KW  - Testing
+KW  - Printing
+KW  - Chatbots
+KW  - Licenses
+KW  - Large Language Models
+KW  - Healthcare
+KW  - Clinical Decision Support
+KW  - Medical Benchmarking
+KW  - MedGemma
+KW  - Baichuan-M2
+DO  - 10.1109/BioSMART71257.2026.11598485
+JO  - 2026 7th International Conference on Bio-engineering for Smart Technologies (BioSMART)
+IS  - 
+SN  - 2831-4352
+VO  - 
+VL  - 
+JA  - 2026 7th International Conference on Bio-engineering for Smart Technologies (BioSMART)
+Y1  - 3-5 June 2026
+AB  - Large Language Models (LLMs) are increasingly being used in clinical decision support systems to improve healthcare services. In this paper, we carefully examine the performance of these models and analyze their capabilities in medical applications. We present comparative results and investigate the effectiveness of LLMs as reported and presented in recent benchmarking studies. Our reviews examine the performance of both open source LLM models such as DeepSeek, Qwen, Llama, MedGemma, and Baichuan-M2 and proprietary Large Language Models such as ChatGPT (including many different versions) and Anthropic as reported after being tested on standardized medical assessments such as the United States Medical Licensing Examination (USMLE) and other benchmarks. The reviews show that recent versions of LLMs are reported to have strong understanding of medical content achieving accuracies ranging from $84 \%$ to $95 \%$. Our study explores detailed comparative analysis and trade-offs between open and closed source models. Furthermore, we present careful analysis and evaluation of the specialized open-source models MedGemma and Baichuan-M2. We show that while closed-source models are still having better overall performance, open-source models are increasingly catching up and providing additional benefits in domains of privacy, customization, and local controlled deployments. Finally, we present the Clinical Readiness Assessment Framework (CRAF) which is an approach attempting to evaluate LLMs for clinical deployments.
+ER  - 
+
+TY  - CONF
+TI  - Optimizing Communication and Performance in Federated Learning for Large Language Models
+T2  - 2025 International Conference on Artificial Intelligence in Information and Communication (ICAIIC)
+SP  - 0964
+EP  - 0967
+AU  - I. Song
+AU  - K. Lee
+PY  - 2025
+KW  - Training
+KW  - Data privacy
+KW  - Federated learning
+KW  - Large language models
+KW  - Medical services
+KW  - Flowering plants
+KW  - Data models
+KW  - Servers
+KW  - Optimization
+KW  - Context modeling
+KW  - Federated Learning
+KW  - Large Language Models
+KW  - Fine-Tuning
+DO  - 10.1109/ICAIIC64266.2025.10920742
+JO  - 2025 International Conference on Artificial Intelligence in Information and Communication (ICAIIC)
+IS  - 
+SN  - 2831-6983
+VO  - 
+VL  - 
+JA  - 2025 International Conference on Artificial Intelligence in Information and Communication (ICAIIC)
+Y1  - 18-21 Feb. 2025
+AB  - LLMs(Large Language Models) has shown excellent performance in natural language processing and generation tasks. However, most LLMs learn by aggregating large amounts of data to a central server in a centralized environment, which causes problems such as data privacy infringement risk, high computing resource requirements, and increased operating costs. To solve these limitations, federated learning, which enables local learning without transmitting sensitive data to a central server, is attracting attention. In this study, we propose a new federated learning-based LLM Fine-Tuning strategy using the FlowerTune framework. The proposed methodology maximizes communication efficiency while ensuring data privacy in a distributed environment such as the medical domain, and verifies its performance based on pretrained LLM. This study conducted experiments in 10-round and 100-round settings using three medical datasets: PubMedQA, MedMCQA, and MedQA, and its main contributions are as follows. It demonstrated high performance by achieving an average accuracy of 63.26% even in limited communication rounds (10 rounds). We applied a LoRA-based parameter-efficient fine-tuning technique to maximize learning efficiency and solve the resource constraint problem between clients. The empirical findings indicate that the advocated approach effectively addresses the constraints associated with centralized learning methodologies, thereby attaining superior performance while simultaneously minimizing communication overhead. This investigation posits the feasibility of integrating federated learning and LLMs within contexts where data confidentiality is paramount, such as in the medical field, and establishes a groundwork for subsequent inquiries into effective federated learning strategies.
+ER  - 
+
+TY  - CONF
+TI  - Enhancing Medical Diagnostic Reasoning with Chain-of-Thought in Large Language Models
+T2  - 2025 International Conference on Mechatronics, Robotics, and Artificial Intelligence (MRAI)
+SP  - 294
+EP  - 299
+AU  - G. Dai
+AU  - X. Li
+AU  - L. Fan
+AU  - X. Ma
+PY  - 2025
+KW  - Uncertainty
+KW  - Accuracy
+KW  - Large language models
+KW  - Probabilistic logic
+KW  - Cognition
+KW  - Bayes methods
+KW  - Reliability
+KW  - Prompt engineering
+KW  - Medical diagnostic imaging
+KW  - Robots
+KW  - Large language models
+KW  - Clinical reasoning
+KW  - Chain-of-Thought
+KW  - Prompt engineering
+DO  - 10.1109/MRAI65197.2025.11135834
+JO  - 2025 International Conference on Mechatronics, Robotics, and Artificial Intelligence (MRAI)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 International Conference on Mechatronics, Robotics, and Artificial Intelligence (MRAI)
+Y1  - 19-21 June 2025
+AB  - To enhance the diagnostic reasoning capabilities of Large Language Models (LLMs) in clinical settings, the paper proposes four Chain-of-Thought (CoT) prompting strategies: Diagnosis Validation, Bayesian Diagnosis, Hierarchical Reasoning, and Causal Abduction. The CoT is designed to emulate distinct modes of clinical reasoning. Using GPT-3.5 and GPT-4o, we filtered the MedQA-USMLE dataset to identify 119 consistently error-prone questions from an initial pool of 1597. Experimental evaluation on GPT-40 shows that the Causal Abduction CoT achieves the highest accuracy ($35.3 \%$), followed by Diagnosis Validation (31.1%), Hierarchical Reasoning (26.9%), and Bayesian Diagnosis ($\mathbf{2 0. 2 \%}$). The results demonstrate that clinical reasoning-oriented CoT can effectively improve LLM performance on challenging diagnostic tasks.
+ER  - 
+
+TY  - JOUR
+TI  - RGPO: Ranking-Guided Preference Optimization for Reliable Clinical Reasoning
+T2  - IEEE Transactions on Artificial Intelligence
+SP  - 5537
+EP  - 5550
+AU  - C. -H. Hsu
+AU  - J. -E. Ding
+AU  - H. -L. Hsu
+AU  - C. -H. Hsu
+AU  - S. Yang
+AU  - L. -H. Yao
+AU  - C. -C. Liao
+AU  - F. Liu
+AU  - F. -M. Hung
+PY  - 2026
+KW  - Radio broadcasting
+KW  - Frequency modulation
+KW  - Filtering
+KW  - Filters
+KW  - Feedback
+KW  - Circuits
+KW  - Circuits and systems
+KW  - MIMICs
+KW  - Millimeter wave integrated circuits
+KW  - Monolithic integrated circuits
+KW  - Chain-of-thought (CoT)
+KW  - diagnostic reasoning
+KW  - electronic health records (EHRs)
+KW  - medical question answering (QA)
+KW  - preference optimization
+KW  - reinforcement learning
+DO  - 10.1109/TAI.2026.3688221
+JO  - IEEE Transactions on Artificial Intelligence
+IS  - 10
+SN  - 2691-4581
+VO  - 7
+VL  - 7
+JA  - IEEE Transactions on Artificial Intelligence
+Y1  - Oct. 2026
+AB  - Medical question answering (QA) in healthcare systems requires advanced reasoning that integrates domain knowledge with clinical workflows. However, existing large language models (LLMs) often generate reasoning chains that lack factual accuracy and clinical reliability. We propose ranking-guided preference optimization (RGPO) for Reliable Clinical Reasoning, a framework that combines reinforcement learning with preference driven reasoning refinement to enhance clinical chain-of-thought performance in LLM-based healthcare systems. RGPO employs task-adaptive reasoning templates aligned with clinical protocols and a probabilistic evaluation mechanism that integrates with healthcare information systems, including electronic health records (EHRs) and clinical documentation, while automatically identifying and correcting low-quality reasoning chains. Unlike traditional pairwise preference methods, RGPO introduces groupwise ranking optimization based on the Bradley–Terry model with Kullback–Leibler (KL)-divergence regularization for stable clinical deployment. The framework addresses key challenges, including multimodal data integration, clinical validation, and real-world interoperability. Experiments on PubMedQA, MedQA-USMLE, and real-world validation at Far Eastern Memorial Hospital (FEMH) demonstrate consistent improvements over strong baselines. Our 2B-parameter model outperforms larger 7B–20B models, including medical-specialized variants, while maintaining computational efficiency for healthcare deployment. These results demonstrate that combining preference optimization with quality-driven refinement provides a scalable, clinically validated approach to building reliable medical LLMs for practical healthcare applications.
+ER  - 
+
+TY  - CONF
+TI  - Distributed Consensus for Uncertainty in Medical Diagnosis
+T2  - 2025 28th International Symposium on Real-Time Distributed Computing (ISORC)
+SP  - 322
+EP  - 324
+AU  - A. R. Vlasiu
+PY  - 2025
+KW  - Uncertainty
+KW  - Accuracy
+KW  - Large language models
+KW  - Scalability
+KW  - Cognition
+KW  - Real-time systems
+KW  - Medical diagnosis
+KW  - Distributed computing
+KW  - Computational complexity
+KW  - Medical diagnosis
+KW  - Large language models
+KW  - Chain-of-thought reasoning
+KW  - Distributed computing
+DO  - 10.1109/ISORC65339.2025.00050
+JO  - 2025 28th International Symposium on Real-Time Distributed Computing (ISORC)
+IS  - 
+SN  - 2770-162X
+VO  - 
+VL  - 
+JA  - 2025 28th International Symposium on Real-Time Distributed Computing (ISORC)
+Y1  - 26-28 May 2025
+AB  - Medical diagnosis using large language models (LLMs) like GPT-4 has shown significant promise with advancements such as MedPrompt, which leverages chain-of-thought (CoT) reasoning and choice-shuffling ensembles. However, the exponential growth in computational complexity with an increasing number of ensembles limits the scalability of such systems. This study re-implements MedPrompt from scratch and introduces a distributed framework using Ray to address these limitations. By parallelizing CoT reasoning, our approach achieves substantial reductions in processing time, enabling the use of more than 20 ensembles while maintaining state-of-the-art diagnostic accuracy of 90.6% on the MedQA dataset. Preliminary results indicate that our distributed system reduces processing time from over 4,800 seconds to less than 400 seconds for 20 ensembles.
+ER  - 
+
+TY  - JOUR
+TI  - Advancing Healthcare with Large Language Models: Techniques and Application
+T2  - IEEE/CAA Journal of Automatica Sinica
+SP  - 2371
+EP  - 2398
+AU  - Z. Hu
+AU  - Z. Peng
+AU  - Z. Bi
+AU  - Q. Shen
+AU  - Z. Liu
+AU  - J. Lou
+AU  - X. Luo
+PY  - 2025
+KW  - Measurement
+KW  - Analytical models
+KW  - Costs
+KW  - Reviews
+KW  - Large language models
+KW  - Retrieval augmented generation
+KW  - Medical services
+KW  - Benchmark testing
+KW  - Faces
+KW  - Application
+KW  - healthcare
+KW  - large language models (LLMs)
+KW  - medicine
+KW  - techniques
+DO  - 10.1109/JAS.2025.125540
+JO  - IEEE/CAA Journal of Automatica Sinica
+IS  - 12
+SN  - 2329-9274
+VO  - 12
+VL  - 12
+JA  - IEEE/CAA Journal of Automatica Sinica
+Y1  - December 2025
+AB  - As the costs of global healthcare systems continue to rise, large language models (LLMs) have emerged as a promising technology with vast potential and wide-ranging applications in the medical field. We provide a detailed overview of the lifecycle of medical LLMs, encompassing three key stages: get, refine, and use, aimed at assisting healthcare practitioners and patients in utilizing these models more effectively. We also summarize the currently widely used medical evaluation benchmarks, analyzing their advantages and limitations. Furthermore, we conduct a comparative analysis of specialized medical LLMs on benchmarks such as MedQA, PubMedQA, MMLU-MED, and MedM-CQA, revealing that methods like retrieval-augmented generation (RAG) enable smaller models to outperform larger ones by effectively integrating external medical knowledge. This review provides a reference for medical professionals to evaluate LLM capabilities and inspires the development of more effective benchmarking methods. Additionally, we showcase practical applications of medical LLMs in clinical, research, and educational settings, providing healthcare workers with valuable resources. Finally, we identify current challenges faced by medical LLMs and present outlooks for future technological advancements, aiming to inspire users to explore new ways to address existing issues. This review serves as an entry point for interested clinicians, helping them determine whether and how to integrate LLM technology into healthcare for the benefit of patients and practitioners.
+ER  - 
+
+TY  - CONF
+TI  - An Iterative Multi-Agent Analysis for Automated Evaluation in NLG Tasks
+T2  - 2025 IEEE 7th International Conference on Cognitive Machine Intelligence (CogMI)
+SP  - 12
+EP  - 23
+AU  - H. Alhawasi
+AU  - R. Shan
+AU  - A. Youssef
+PY  - 2025
+KW  - Natural language generation
+KW  - Iterative methods
+KW  - Machine intelligence
+KW  - Convergence
+KW  - Multi-Agent Analysis
+KW  - Similarity Evaluation
+KW  - Classification
+KW  - NLG
+KW  - QA
+KW  - Summarization
+DO  - 10.1109/CogMI67134.2025.00012
+JO  - 2025 IEEE 7th International Conference on Cognitive Machine Intelligence (CogMI)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 IEEE 7th International Conference on Cognitive Machine Intelligence (CogMI)
+Y1  - 12-14 Nov. 2025
+AB  - Evaluating the similarity of generated text and reference text in natural language generation (NLG) remains a challenge. Current automatic evaluation methods have limitations and fall short of expectations. Therefore, we propose an iterative multi-agent analysis system to enhance the evaluation of similarity between ground-truth and generated answers. The system has a Task Performer (Stage 1) for initial evaluation, Multi-Agent Analysis (Stage 2), where specialized analysis agents iteratively re-evaluate outputs, and a Convergence Checker (Stage 3) that determines consensus, with an Arbiter invoked when convergence is not reached. We implement our method in three architectures: (1) Architecture One employs all three stages with an Arbiter; (2) Architecture Two is limited to stages 2 and 3; and (3) Architecture Three is like Architecture One but without the Arbiter – if no convergence, the Task Performer’s final answer is the final output. We evaluated our system on four datasets (Open-QA, SummEval, MedQA, and ChatLaw) under three different LLM implementation scenarios (uniform, closed-source, and small open-source). The results show that our system performs better than a standalone LLM baseline and is significantly closer to human evaluation levels.
+ER  - 
+
+TY  - CONF
+TI  - RoboMed: On-Premise Medical Assistance Leveraging Large Language Models in Robotics
+T2  - 2024 18th International Conference on Control, Automation, Robotics and Vision (ICARCV)
+SP  - 710
+EP  - 717
+AU  - A. Basit
+AU  - K. Hussain
+AU  - M. A. Hanif
+AU  - M. Shafique
+PY  - 2024
+KW  - COVID-19
+KW  - Adaptation models
+KW  - Accuracy
+KW  - Large language models
+KW  - Medical services
+KW  - Natural language processing
+KW  - Medical diagnostic imaging
+KW  - Robots
+KW  - Optimization
+KW  - Diseases
+KW  - Large language Models
+KW  - Automatic Speech Recognition
+KW  - Healthcare Assistance Robot
+KW  - Low-Rank Adaptation (LoRA)
+KW  - Reinforcement Learning from Human Feedback (RLHF)
+KW  - Preliminary Diagnosis
+DO  - 10.1109/ICARCV63323.2024.10821547
+JO  - 2024 18th International Conference on Control, Automation, Robotics and Vision (ICARCV)
+IS  - 
+SN  - 2474-963X
+VO  - 
+VL  - 
+JA  - 2024 18th International Conference on Control, Automation, Robotics and Vision (ICARCV)
+Y1  - 12-15 Dec. 2024
+AB  - Large language models (LLMs) are revolutionizing numerous domains with their remarkable natural language processing (NLP) capabilities, attracting significant interest and widespread adoption. However, deploying LLMs in resource-constrained environments, such as edge computing and robotics systems without server infrastructure, while also aiming to minimize latency, presents significant challenges. Another challenge lies in delivering medical assistance to remote areas with limited healthcare facilities and infrastructure. To address this, we introduce RoboMed, an on-premise healthcare robot that utilizes compact versions of large language models (tiny-LLMs) integrated with LangChain as its backbone. Moreover, it incorporates automatic speech recognition (ASR) models for user interface, enabling efficient, edge-based preliminary medical diagnostics and support. RoboMed employs model optimizations to achieve minimal memory footprint and reduced latency during inference on embedded edge devices. The training process optimization involves low-rank adaptation (LoRA), which reduces the model's complexity without significantly impacting its performance. For fine-tuning, the LLM is trained on a diverse medical dataset compiled from online health forums, clinical case studies, and a distilled medicine corpus. This fine-tuning process utilizes reinforcement learning from human feedback (RLHF) to further enhance its domain-specific capabilities. The system is deployed on Nvidia Jetson development board and achieves 78% accuracy in medical consultations and scores 56 in USMLE benchmark, enabling an resource-efficient healthcare assistance robot that alleviates privacy concerns due to edge-based deployment, thereby empowering the community.
+ER  - 
+
+TY  - JOUR
+TI  - CRITIC-RAG: Knowledge-Augmented Large Language Models With Verified Retrieval for Improved Medical Reasoning
+T2  - IEEE Journal of Biomedical and Health Informatics
+SP  - 1
+EP  - 12
+AU  - J. Li
+AU  - L. Lu
+AU  - Y. Miao
+AU  - Y. Tian
+AU  - J. Li
+PY  - 2026
+KW  - Modeling
+KW  - Retrieval augmented generation
+KW  - Large language models
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Filtering
+KW  - Filters
+KW  - Labeling
+KW  - Grounding
+KW  - Accuracy
+KW  - Large language models
+KW  - Retrieval-augmented generation
+KW  - Factual verification
+KW  - Hallucination
+KW  - Instruction tuning
+DO  - 10.1109/JBHI.2026.3687666
+JO  - IEEE Journal of Biomedical and Health Informatics
+IS  - 
+SN  - 2168-2208
+VO  - 
+VL  - 
+JA  - IEEE Journal of Biomedical and Health Informatics
+Y1  - 
+AB  - While retrieval-augmented generation (RAG) presents a promising solution for enhancing large language models (LLMs) in question answering (QA), particularly in knowledge-intensive domains like medicine, it continues to face challenges related to factual consistency and reasoning reliability. To address this challenge, we propose CRITIC-RAG, a verification-enhanced framework that integrates a small-size, instruction-tuned verifier throughout the RAG pipeline. Our method incorporates selective retrieval, evidence filtering, structured reasoning through self-consistency, and groundedness verification. This approach enhances the accurate utilization of external knowledge while reducing spurious generations. Comprehensive experiments across five medical QA benchmarks and multiple LLM backbones confirm the framework's broad applicability and plug-and-play adaptability. For instance, CRITIC-RAG improves accuracy from 41.3% to 48.8% on MedQA and boosts BERTScore from 68.1% to 74.4% on MedicationQA using LLaMA-3. Ablation studies further reveal that evidence filtering and structured reasoning are especially critical to robust performance. Case studies and retrieval analyses, including improvements in entailment-based similarity scores and factual accuracy, demonstrate how each stage of verification jointly contributes to generating more accurate, evidence-grounded responses. Overall, our work highlights verification as a key mechanism for enhancing trustworthiness in knowledge-intensive medical QA, a capability that is increasingly important for clinical decision support and other real-world healthcare applications.
+ER  - 
+
+TY  - CONF
+TI  - FedLoRA-C: Communication-Efficient Federated Fine-Tuning of Large Language Models via Selective Layer Compression
+T2  - 2026 2nd International Conference on Artificial Intelligence Systems (AIS)
+SP  - 204
+EP  - 210
+AU  - L. R. Gandikota
+AU  - V. Jegathesan
+AU  - C. D. R. Reddy
+PY  - 2026
+KW  - Modeling
+KW  - LoRa
+KW  - Quantization (signal)
+KW  - Accuracy
+KW  - Tuning
+KW  - Sensitivity
+KW  - Manuals
+KW  - Federated learning
+KW  - Ranking (statistics)
+KW  - Training
+KW  - Federated Learning
+KW  - Large Language Models
+KW  - LoRA
+KW  - Communication Efficiency
+KW  - Distributed AI
+KW  - Edge AI
+KW  - NLP Fine-Tuning
+KW  - Non-IID Data
+DO  - 10.1109/AIS69919.2026.11621058
+JO  - 2026 2nd International Conference on Artificial Intelligence Systems (AIS)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 2nd International Conference on Artificial Intelligence Systems (AIS)
+Y1  - 12-15 May 2026
+AB  - Fine-tuning large language models (LLMs) in federated settings presents a fundamental tension: the gradients and adapter parameters that encode task-specific knowledge are large enough to make communication the primary bottleneck, yet aggressive compression risks convergence degradation. This paper introduces FedLoRA-C, a communication-efficient framework for federated fine-tuning that combines Low-Rank Adaptation (LoRA) with a novel selective layer compression (SLC) strategy. SLC identifies and prioritizes the subset of transformer layers contributing disproportionately to task-specific adaptation using a gradient-based layer sensitivity scoring function, transmitting only the top-K% of layers at full precision while applying 4-bit quantization to the remainder. We evaluate FedLoRA-C on four NLP benchmarks (SST-2, MNLI, SQuAD 1.1, MedQA) across heterogeneous federated configurations simulating IID and non-IID data distributions with 10-100 clients. FedLoRA-C achieves within 1.4% of centralized fine-tuning accuracy while reducing per-round communication cost by 67.3% compared to standard FedAvg with LoRA. Ablation studies confirm that sensitivity-scored layer selection outperforms random selection by 2.2% at identical communication cost, with the advantage increasing under higher data heterogeneity. These results demonstrate that high-fidelity federated LLM fine-tuning is achievable under realistic bandwidth constraints.
+ER  - 
+
+TY  - CONF
+TI  - Enhancing Medical Question Answering via a Multi-Agent Debate Framework
+T2  - 2026 IEEE 16th Annual Computing and Communication Workshop and Conference (CCWC)
+SP  - 118
+EP  - 124
+AU  - D. Lu
+AU  - V. Jiang
+AU  - S. Wang
+AU  - M. Zhu
+AU  - S. Zhai
+PY  - 2026
+KW  - Accuracy
+KW  - Large language models
+KW  - Pipelines
+KW  - Routing
+KW  - Cognition
+KW  - Question answering (information retrieval)
+KW  - Organisms
+KW  - History
+KW  - Multi-agent systems
+KW  - Periodic structures
+KW  - multi-agent systems
+KW  - medical question answering
+KW  - large language models
+KW  - domain classification
+KW  - debate reasoning
+DO  - 10.1109/CCWC67433.2026.11393824
+JO  - 2026 IEEE 16th Annual Computing and Communication Workshop and Conference (CCWC)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 IEEE 16th Annual Computing and Communication Workshop and Conference (CCWC)
+Y1  - 5-7 Jan. 2026
+AB  - Despite large language models (LLMs) showing strong capabilities in general medical question answering, they still struggle with multi-domain knowledge coverage, consistent reasoning, and preventing hallucination in complex clinical conditions. This paper introduces a two-stage Classification—Debate Multi-Agent Framework that improves reasoning consistency, accuracy, and interpretability. In the first stage, the system performs MeSH-guided domain classification, routing medical multiple-choice questions into multiple LLM-based “medical specialist” agents, each of which has expertise in a specific medical subfield, such as anatomy, organism, diseases, etc. In the second stage, domain-specific agents independently generate answers and engage in structured debate rounds upon shared history, with the final decision determined by consensus or majority voting. Experiments on MedQA and MedMCQA demonstrate consistent accuracy gains across all model configurations. Results further show that fine-grained domain classification improves reasoning alignment, and that output format also significantly affects performance. Without requiring additional fine-tuning, retrieval augmentation, or complex pipelines, the proposed lightweight framework outperforms single-model baselines and several existing multi-agent systems, highlighting the effectiveness of integrating domain-aware classification with structured debate.
+ER  - 
+
+

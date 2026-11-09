@@ -81,48 +81,6 @@
 % ----------------------------------------------------------------------------
 % Enquadramento (LLM, RAG, alucinação, avaliação, segurança)
 % ----------------------------------------------------------------------------
-@inproceedings{lewis2020rag,
-  author = {Patrick Lewis and Ethan Perez and Aleksandra Piktus and Fabio Petroni and Vladimir Karpukhin and Naman Goyal and others},
-  title = {Retrieval-Augmented Generation for Knowledge-Intensive {NLP} Tasks},
-  booktitle = {Advances in Neural Information Processing Systems 33 (NeurIPS 2020)},
-  pages = {9459--9474},
-  year = {2020},
-}
-
-@article{huang2025hallucination,
-  author = {Lei Huang and Weijiang Yu and Weitao Ma and Weihong Zhong and Zhangyin Feng and Haotian Wang and others},
-  title = {A Survey on Hallucination in Large Language Models: Principles, Taxonomy, Challenges, and Open Questions},
-  journal = {ACM Transactions on Information Systems},
-  volume = {43},
-  number = {2},
-  year = {2025},
-  doi = {10.1145/3703155},
-}
-
-@inproceedings{es2024ragas,
-  author = {Shahul Es and Jithin James and Luis Espinosa-Anke and Steven Schockaert},
-  title = {{RAGAS}: Automated Evaluation of Retrieval Augmented Generation},
-  booktitle = {Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics: System Demonstrations},
-  pages = {150--158},
-  year = {2024},
-  doi = {10.18653/v1/2024.eacl-demo.16},
-}
-
-@inproceedings{zheng2023judging,
-  author = {Lianmin Zheng and Wei-Lin Chiang and Ying Sheng and Siyuan Zhuang and Zhanghao Wu and Yonghao Zhuang and others},
-  title = {Judging {LLM}-as-a-Judge with {MT-Bench} and Chatbot Arena},
-  booktitle = {Advances in Neural Information Processing Systems 36 (NeurIPS 2023), Datasets and Benchmarks Track},
-  year = {2023},
-}
-
-@inproceedings{greshake2023indirect,
-  author = {Kai Greshake and Sahar Abdelnabi and Shailesh Mishra and Christoph Endres and Thorsten Holz and Mario Fritz},
-  title = {Not What You've Signed Up For: Compromising Real-World {LLM}-Integrated Applications with Indirect Prompt Injection},
-  booktitle = {Proceedings of the 16th ACM Workshop on Artificial Intelligence and Security (AISec '23)},
-  pages = {79--90},
-  year = {2023},
-  doi = {10.1145/3605764.3623985},
-}
 
 % ----------------------------------------------------------------------------
 % Referências do projeto (Projetos@ISEP)
@@ -736,73 +694,6 @@
   doi = {10.3102/0013189X013006004},
 }
 
-@inproceedings{vaswani2017attention,
-  author = {Ashish Vaswani and Noam Shazeer and Niki Parmar and Jakob Uszkoreit and Llion Jones and Aidan N. Gomez and {\L}ukasz Kaiser and Illia Polosukhin},
-  title = {Attention Is All You Need},
-  booktitle = {Advances in Neural Information Processing Systems 30 (NeurIPS 2017)},
-  pages = {5998--6008},
-  year = {2017},
-}
-
-@inproceedings{brown2020language,
-  author = {Tom B. Brown and others},
-  title = {Language Models are Few-Shot Learners},
-  booktitle = {Advances in Neural Information Processing Systems 33 (NeurIPS 2020)},
-  pages = {1877--1901},
-  year = {2020},
-}
-
-@inproceedings{ouyang2022training,
-  author = {Long Ouyang and others},
-  title = {Training Language Models to Follow Instructions with Human Feedback},
-  booktitle = {Advances in Neural Information Processing Systems 35 (NeurIPS 2022)},
-  pages = {27730--27744},
-  year = {2022},
-}
-
-@article{liu2024lost,
-  author = {Nelson F. Liu and Kevin Lin and John Hewitt and Ashwin Paranjape and Michele Bevilacqua and Fabio Petroni and Percy Liang},
-  title = {Lost in the Middle: How Language Models Use Long Contexts},
-  journal = {Transactions of the Association for Computational Linguistics},
-  volume = {12},
-  pages = {157--173},
-  year = {2024},
-  doi = {10.1162/tacl_a_00638},
-}
-
-@inproceedings{ahuja2023mega,
-  author = {Kabir Ahuja and others},
-  title = {{MEGA}: Multilingual Evaluation of Generative {AI}},
-  booktitle = {Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
-  pages = {4232--4267},
-  year = {2023},
-  doi = {10.18653/v1/2023.emnlp-main.258},
-}
-
-@misc{kadavath2022know,
-  author = {Saurav Kadavath and others},
-  title = {Language Models (Mostly) Know What They Know},
-  year = {2022},
-  eprint = {2207.05221},
-  eprinttype = {arXiv},
-}
-
-@misc{perez2022ignore,
-  author = {F{\'a}bio Perez and Ian Ribeiro},
-  title = {Ignore Previous Prompt: Attack Techniques for Language Models},
-  howpublished = {NeurIPS ML Safety Workshop},
-  year = {2022},
-  eprint = {2211.09527},
-  eprinttype = {arXiv},
-}
-
-@misc{owasp2025llm,
-  author = {{OWASP Foundation}},
-  title = {{OWASP} Top 10 for {LLM} Applications 2025},
-  year = {2024},
-  url = {https://genai.owasp.org/llm-top-10/},
-}
-
 @incollection{brooke1996sus,
   author = {John Brooke},
   title = {{SUS}: A ``Quick and Dirty'' Usability Scale},
@@ -814,41 +705,131 @@
   year = {1996},
 }
 
-@inproceedings{sennrich2016neural,
-  author = {Rico Sennrich and Barry Haddow and Alexandra Birch},
-  title = {Neural Machine Translation of Rare Words with Subword Units},
-  booktitle = {Proceedings of the 54th Annual Meeting of the Association for Computational Linguistics (ACL)},
-  pages = {1715--1725},
-  year = {2016},
-  doi = {10.18653/v1/P16-1162},
+
+% --- Fundamentos sobre LLM: pesquisa de enquadramento no IEEE Xplore (scripts/fundamentos), metadados do Crossref ---
+@article{shao2024survey,
+  author = {Minghao Shao and Abdul Basit and Ramesh Karri and Muhammad Shafique},
+  title = {Survey of Different Large Language Model Architectures: Trends, Benchmarks, and Challenges},
+  journal = {IEEE Access},
+  volume = {12},
+  pages = {188664--188706},
+  year = {2024},
+  doi = {10.1109/ACCESS.2024.3482107},
 }
 
-@inproceedings{petrov2023tokenizers,
-  author = {Aleksandar Petrov and Emanuele La Malfa and Philip H. S. Torr and Adel Bibi},
-  title = {Language Model Tokenizers Introduce Unfairness Between Languages},
-  booktitle = {Advances in Neural Information Processing Systems 36 (NeurIPS 2023)},
+@article{raiaan2024review,
+  author = {Mohaimenul Azam Khan Raiaan and Md. Saddam Hossain Mukta and Kaniz Fatema and Nur Mohammad Fahad and Sadman Sakib and Most Marufatul Jannat Mim and others},
+  title = {A Review on Large Language Models: Architectures, Applications, Taxonomies, Open Issues and Challenges},
+  journal = {IEEE Access},
+  volume = {12},
+  pages = {26839--26874},
+  year = {2024},
+  doi = {10.1109/ACCESS.2024.3365742},
+}
+
+@article{wu2023brief,
+  author = {Tianyu Wu and Shizhu He and Jingping Liu and Siqi Sun and Kang Liu and Qing-Long Han and others},
+  title = {A Brief Overview of {ChatGPT}: The History, Status Quo and Potential Future Development},
+  journal = {IEEE/CAA Journal of Automatica Sinica},
+  volume = {10},
+  number = {5},
+  pages = {1122--1136},
   year = {2023},
+  doi = {10.1109/JAS.2023.123618},
 }
 
-@inproceedings{wei2022chain,
-  author = {Jason Wei and Xuezhi Wang and Dale Schuurmans and Maarten Bosma and Brian Ichter and Fei Xia and Ed Chi and Quoc Le and Denny Zhou},
-  title = {Chain-of-Thought Prompting Elicits Reasoning in Large Language Models},
-  booktitle = {Advances in Neural Information Processing Systems 35 (NeurIPS 2022)},
-  year = {2022},
+@article{cai2025survey,
+  author = {Weilin Cai and Juyong Jiang and Fan Wang and Jing Tang and Sunghun Kim and Jiayi Huang},
+  title = {A Survey on Mixture of Experts in Large Language Models},
+  journal = {IEEE Transactions on Knowledge and Data Engineering},
+  volume = {37},
+  number = {7},
+  pages = {3896--3915},
+  year = {2025},
+  doi = {10.1109/TKDE.2025.3554028},
 }
 
-@inproceedings{holtzman2020curious,
-  author = {Ari Holtzman and Jan Buys and Li Du and Maxwell Forbes and Yejin Choi},
-  title = {The Curious Case of Neural Text Degeneration},
-  booktitle = {International Conference on Learning Representations (ICLR)},
-  year = {2020},
+@article{xu2026parameter,
+  author = {Lingling Xu and Haoran Xie and S. Joe Qin and Xiaohui Tao and Fu Lee Wang},
+  title = {Parameter-Efficient Fine-Tuning Methods for Pretrained Language Models: A Critical Review and Assessment},
+  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume = {48},
+  number = {6},
+  pages = {6107--6126},
+  year = {2026},
+  doi = {10.1109/TPAMI.2026.3657354},
 }
 
-@inproceedings{reimers2019sentence,
-  author = {Nils Reimers and Iryna Gurevych},
-  title = {Sentence-{BERT}: Sentence Embeddings using {S}iamese {BERT}-Networks},
-  booktitle = {Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing (EMNLP-IJCNLP)},
-  pages = {3982--3992},
-  year = {2019},
-  doi = {10.18653/v1/D19-1410},
+@inproceedings{feng2025survey,
+  author = {Zeqin Feng and Yongqiang Xie and Jiawei Yang and Wenjun Hou and Zhongbo Li},
+  title = {A Survey of Low-Rank Adaptation Techniques},
+  booktitle = {2025 8th International Conference on Advanced Electronic Materials, Computers and Software Engineering (AEMCSE)},
+  pages = {215--224},
+  year = {2025},
+  doi = {10.1109/AEMCSE65292.2025.11042839},
+}
+
+@inproceedings{lang2024comprehensive,
+  author = {Jiedong Lang and Zhehao Guo and Shuyu Huang},
+  title = {A Comprehensive Study on Quantization Techniques for Large Language Models},
+  booktitle = {2024 4th International Conference on Artificial Intelligence, Robotics, and Communication (ICAIRC)},
+  pages = {224--231},
+  year = {2024},
+  doi = {10.1109/ICAIRC64177.2024.10899941},
+}
+
+@inproceedings{tasfia2026how,
+  author = {Tanha Tasfia and Abu Kaisar Mohammad Masum and Emilien Meyer and Fabio Cumbo and Sercan Aygun},
+  title = {How Low Can Medical {LLMs} Go? {An} Empirical Study of Low-Bit Quantization},
+  booktitle = {2026 IEEE 19th Dallas Circuits and Systems Conference (DCAS)},
+  pages = {1--6},
+  year = {2026},
+  doi = {10.1109/DCAS69364.2026.11545012},
+}
+
+@article{hu2025advancing,
+  author = {Zhenlin Hu and Zhizhi Peng and Zhen Bi and Qing Shen and Zhenfang Liu and Jungang Lou and others},
+  title = {Advancing Healthcare with Large Language Models: Techniques and Application},
+  journal = {IEEE/CAA Journal of Automatica Sinica},
+  volume = {12},
+  number = {12},
+  pages = {2371--2398},
+  year = {2025},
+  doi = {10.1109/JAS.2025.125540},
+}
+
+@inproceedings{pattanshetti2025assessing,
+  author = {Rohan M. Pattanshetti and Savitri Sidddanagoudra and Sameeksha Chand and {Punitha S} and Rashmi Hebbar and {Vaishnavi}},
+  title = {Assessing the Performance of Large Language Models on the Foreign Medical Graduate Examination ({FMGE}): Insights from {GPT-4 Turbo}, {Gemini Advanced}, and {LLaMA 3.1 (70B)}},
+  booktitle = {2025 International Conference on Biomedical Engineering and Sustainable Healthcare (ICBMESH)},
+  pages = {1--6},
+  year = {2025},
+  doi = {10.1109/ICBMESH66209.2025.11182217},
+}
+
+@article{elkin2026semantic,
+  author = {Peter L. Elkin and Aaron N. Elkin and Guresh Mehta and Frank LeHouillier and Jonathan R. Nebeker and Nazmus Saquib and others},
+  title = {Semantic Clinical Knowledge Augmentation Improves Medical Question Answering Across Commercial and Open Large Language Models},
+  journal = {IEEE Journal of Biomedical and Health Informatics},
+  year = {2026},
+  doi = {10.1109/JBHI.2026.3742187},
+}
+
+@article{ahmed2026auditing,
+  author = {Hosameldin O. A. Ahmed and Abdul Hamid Sadka},
+  title = {Auditing Demographic Bias in {Mistral}: An Open-Source {LLM}'s Diagnostic Performance on the {MedQA} Benchmark},
+  journal = {IEEE Access},
+  volume = {14},
+  pages = {12526--12543},
+  year = {2026},
+  doi = {10.1109/ACCESS.2026.3656396},
+}
+
+@inproceedings{ali2023chatgpt,
+  author = {Hazrat Ali and Junaid Qadir and Tanvir Alam and Mowafa Househ and Zubair Shah},
+  title = {{ChatGPT} and Large Language Models in Healthcare: Opportunities and Risks},
+  booktitle = {2023 IEEE International Conference on Artificial Intelligence, Blockchain, and Internet of Things (AIBThings)},
+  pages = {1--4},
+  year = {2023},
+  doi = {10.1109/AIBThings58340.2023.10291020},
 }

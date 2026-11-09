@@ -1,0 +1,1095 @@
+Received 30 December 2025, accepted 15 January 2026, date of publication 20 January 2026, date of current version 26 January 2026.
+Digital Object Identifier 10.1109/ACCESS.2026.3656396
+
+Auditing Demographic Bias in Mistral:
+An Open-Source LLM's Diagnostic
+Performance on the
+MedQA Benchmark
+
+HOSAMELDIN O. A. AHMED AND ABDUL HAMID SADKA
+
+The Sir Peter Rigby Digital Futures Institute, Aston University, B4 7ET Birmingham, U.K.
+
+Corresponding author: Hosameldin O. A. Ahmed (h.ahmed28@aston.ac.uk)
+This work was supported in part by The Sir Peter Rigby Digital Futures Institute, Aston University.
+
+ABSTRACT The application of large language models (LLMs) within clinical decision-support frameworks
+is receiving growing research attention, yet their fairness and demographic robustness remain insuffi-
+ciently understood. This study introduces MedQA-Demog, a purpose-built, label-invariant extension of
+the MedQA-USMLE benchmark, designed to enable systematic auditing of demographic bias in medical
+reasoning models. Using a deterministic augmentation framework, we generated 4,659 question-answer
+items that incorporated counterfactual variations in gender, race/ethnicity, and age, and validated them
+through automated integrity and balance checks. We evaluated the Mistral 7B-Instruct model under stochastic
+(temperature = 0.7) and deterministic (temperature = 0.0) inference rules via the Ollama local environment,
+applying Wilson's 95% confidence intervals,  2/z-tests, McNemar's paired analysis, and Cohen's h effect
+sizes to quantify fairness. Across all demographic variants, diagnostic accuracy remained consistent ( <
+0.04; p > 0.05), and all performance gaps fell within Minimal or Low Bias thresholds. Confusion-matrix and
+prediction-balance analyses revealed no systematic over- or under-prediction patterns, while power analysis
+confirmed that observed fluctuations were below the minimum detectable effect (0.057). A stratified
+robustness analysis further confirms that these fairness patterns persist across question difficulty levels
+and are not an artefact of uniformly limited performance. These findings demonstrate that open-weight,
+instruction-tuned LLMs can maintain demographic stability in clinical reasoning when evaluated through
+reproducible, controlled pipelines. This framework provides a practical foundation for bias evaluation in
+open clinical LLMs, supporting their ethical integration into digital health tools and clinical decision-support
+systems.
+
+INDEX TERMS Large language models (LLMs), demographic bias, fairness auditing, medical question
+answering, MedQA benchmark, Mistral 7B-Instruct, open-weight models, Ollama, Wilson confidence
+interval, statistical bias evaluation, digital health, ethical AI.
+
+I. INTRODUCTION                                                         domains, enabling applications in research, education, and
+The rapid advancement of large language models (LLMs)                   clinical practice. By translating complex medical knowledge
+is transforming both natural language processing and mod-               into accessible language, automating documentation, and
+ern healthcare. Models such as GPT-4 now demonstrate                    supporting decision-making, LLMs are beginning to bridge
+human-level comprehension and reasoning across medical                  the gap between data, understanding, and patient care [1],
+                                                                        [2]. Unlike earlier machine learning systems, which were
+   The associate editor coordinating the review of this manuscript and  limited to narrow tasks, LLMs can integrate diverse knowl-
+approving it for publication was Asad Waqar Malik .                     edge, reason through complex clinical scenarios, and produce
+
+12526  2026 The Authors. This work is licensed under a Creative Commons Attribution 4.0 License.                                    VOLUME 14, 2026
+                 For more information, see https://creativecommons.org/licenses/by/4.0/
+H. O. A. Ahmed, A. H. Sadka: Auditing Demographic Bias in Mistral
+
+coherent, human-like explanations. Their capacity for con-         large language models such as ChatGPT have been shown
+textual understanding and adaptive communication marks a           to generate reasoned and contextually accurate responses to
+major step toward more intelligent, generalizable AI systems       complex medical questions drawn from the United States
+in healthcare [3], [4].                                            Medical Licensing Examination (USMLE) [13]. The study
+                                                                   found that the model achieved performance levels compara-
+   Recent overviews of LLMs in healthcare consolidate              ble to a third-year medical student, with logical justification
+this shift, documenting rapid gains in clinical summariza-         and clinically coherent explanations present in nearly all
+tion, triage support, documentation, and education, while          responses [13]. These findings highlight the potential of
+also flagging safety, alignment, and governance gaps that          LLMs to serve as interactive cognitive aids for physicians
+must be addressed for clinical deployment. These synthe-           and medical trainees, supporting differential diagnosis gen-
+ses situate LLMs as assistive cognitive tools, emphasizing         eration, reinforcing conceptual understanding, and fostering
+human-in-the-loop usage and robust evaluation [5], [6]. This       reflective learning through dialogic interaction.
+flexibility makes LLMs particularly valuable for clinical
+reasoning and diagnostic support, where physicians must               The strength of these findings is further supported by
+interpret incomplete, ambiguous, and context-rich patient          large-scale evaluations of GPT-4 across multiple medical
+data. Recent studies show that adapted LLMs can summa-             challenge benchmarks, including all three stages of the
+rize complex clinical narratives with accuracy comparable          United States Medical Licensing Examination (USMLE)
+to, and in some cases exceeding, that of human experts,            and the MultiMedQA suite. These evaluations showed
+while also assisting in identifying relevant treatment options     that GPT-4, even without medical fine-tuning or complex
+and biomedical evidence for complex cases such as preci-           prompting, exceeded human passing thresholds by more
+sion oncology. By integrating vast biomedical knowledge            than 20 percentage points and consistently outperformed
+with context-sensitive reasoning, these models have begun          both GPT-3.5 and domain-specialized models such as Med-
+to complement clinical expertise, offering timely insights         PaLM [14]. In addition, GPT-4 demonstrated superior cali-
+that enhance decision-making in uncertain or data-intensive        bration of confidence scores and the ability to provide clear,
+scenarios [7], [8].                                                contextually grounded medical reasoning, underscoring its
+                                                                   potential utility in clinical education, assessment, and deci-
+   Studies conducted in real or simulated consultations high-      sion support [14]. Notably, Med-PaLM 2 not only produced
+light important practical considerations, including response       accurate responses but also delivered clear, evidence-based
+calibration, the communication of uncertainty, and guidelines      reasoning that strengthened the explainability and clinical
+to avoid potentially harmful advice. Evidence from both            interpretability of its outputs. Building on its pattern, Med-
+patient-facing and clinician-facing settings demonstrates that     PaLM 2 achieved substantial improvements, scoring up to
+the quality of dialogue, how prompts are framed, and the           86.5% on the MedQA (USMLE-style) dataset and improving
+implementation of safety filters significantly impact clinical     on prior benchmarks such as Med-PaLM and Flan-PaLM
+usefulness and potential risks [6], [9]. LLMs are increas-         across MedMCQA, PubMedQA, and MMLU clinical topics.
+ingly being explored for clinical reasoning and diagnostic         In comprehensive human evaluations, physicians preferred
+support, showing strong performance on established medical         Med-PaLM 2's responses over those of other physicians in
+benchmarks and demonstrating early promise in addressing           eight of nine clinical dimensions, including factual accu-
+real-world clinical queries. Studies comparing conversational      racy, reasoning quality, and medical consensus alignment.
+models such as GPT-4 with expert diagnostic systems have           Moreover, in real-world bedside consultations, specialists
+shown that LLMs can generate accurate and context-aware            judged Med-PaLM 2's answers to be comparable in safety
+differential diagnoses across various medical fields. More-        and clarity to generalist physicians, demonstrating progress
+over, recent evaluations across question-answering datasets        toward clinically reliable AI support. However, despite these
+(e.g., MedQA, MMLU, EquityMedQA) reveal that, while                advances, the study also revealed that model performance
+these models often achieve accuracy comparable to physi-           remains below specialist-level reasoning, highlighting the
+cians, their performance can be influenced by factors such         need for continued validation, alignment with human values,
+as prompt design, retrieval context, and demographic fair-         and robust evaluation frameworks before full integration into
+ness [10], [11].                                                   clinical workflows [15].
+
+   These findings highlight both the growing diagnostic               Medical Q&A has matured alongside LLMs, with work
+potential of LLMs and the importance of ensuring bias-             spanning dataset curation, retrieval-augmented pipelines, and
+aware, transparent, and clinically validated deployment in         model-comparison studies in clinical reasoning. MedQA was
+healthcare settings. For instance, ChatGPT has been shown          introduced as the first large-scale, open-domain multiple-
+to achieve performance at or near the passing threshold            choice question-answering dataset specifically developed for
+across all three stages of the United States Medical Licensing     medical reasoning tasks [16]. The dataset was constructed
+Examination (USMLE), attaining scores of up to 87% on              from professional medical board examinations in the United
+certain components, even without domain-specific training          States, Mainland China, and Taiwan, comprising over 61,000
+or fine-tuning [12]. Beyond numerical accuracy, the model          questions in English, Simplified Chinese, and Traditional
+showed high internal consistency and generated clinically          Chinese, alongside an extensive corpus of medical textbooks
+valid, insightful explanations, suggesting that large language     to support evidence-based reasoning. Unlike previous QA
+models may possess emergent reasoning abilities relevant           datasets focused on factual recall, MedQA requires multi-hop
+to medical education and decision support [12]. Similarly,
+                                                                                                                                                                  12527
+VOLUME 14, 2026
+                                                                  H. O. A. Ahmed, A. H. Sadka: Auditing Demographic Bias in Mistral
+
+reasoning and deep domain understanding, closely reflect-         practice. In pediatric dentistry, large language models have
+ing the complex diagnostic processes used by clinicians.          demonstrated varying trade-offs between precision and
+Each question often presents a clinical vignette requiring        accessibility, with ChatGPT-4o producing the most accu-
+the integration of multiple findings and inferential reasoning    rate and clinically relevant responses and Claude 3.7 Sonnet
+to identify the correct diagnosis or management decision.         generating the most readable outputs [24]. Similarly, in oto-
+Initial benchmark evaluations using advanced models such          laryngology, ChatGPT-3.5 has been reported to achieve
+as BERT, BioBERT, and RoBERTa achieved accuracies                 diagnostic accuracies exceeding 95%, although variability in
+below 45% on USMLE-style questions, underscoring the              reasoning consistency and contextual accuracy persists [25].
+dataset's difficulty and the substantial gap between cur-         These findings highlight the need for rigorous human over-
+rent AI capabilities and expert-level clinical reasoning. This    sight and domain-specific evaluation before deploying LLMs
+work established a foundational benchmark for developing          in real-world medical settings.
+and evaluating large language models capable of real-world
+diagnostic reasoning and multi-source knowledge integration          In patient-facing areas such as mental health Q&A, it is
+[16]. Recent systems enhance the reliability of medical QA        crucial to be sensitive to demographic and contextual cues.
+by grounding answers in multi-source evidence and orches-         This sensitivity is essential to minimize harm and provide
+trating multiple LLMs for cross-checking and generating           fair support to diverse populations. Benchmarking in these
+consensus, which shape today's expectations for faithful-         settings consistently highlights the need for explicit fairness
+ness [17], [18]. Additionally, retrieval-augmented generation     auditing, rather than just focusing on overall accuracy [26].
+and query reformulation have been shown to reduce halluci-        Despite these advances, growing evidence indicates that
+nation and improve answerability on difficult clinical queries,   demographic bias remains a critical barrier to the equitable
+especially when questions are underspecified or ambiguous,        use of medical LLMs. Studies have shown that model out-
+yet these works rarely test demographic robustness under          puts can vary systematically with patient attributes such as
+controlled counterfactuals [17], [19].                            race, gender, and socioeconomic status, at times reproducing
+                                                                  race-based misconceptions or unequal treatment recommen-
+   Recent investigations have begun to explore the diagnostic,    dations [27], [28], [29]. These findings highlight the need
+communicative, and ethical dimensions of large language           for precise bias auditing and fairness-aware model design
+models (LLMs) across diverse clinical fields and patient-         to ensure trustworthy and inclusive deployment in clinical
+facing scenarios [20], [21], [22]. These studies show that        practice. In healthcare, where existing inequities already
+while LLMs demonstrate strong reasoning and dialogue              affect vulnerable populations, algorithmic bias in AI sys-
+capabilities, their reliability and fairness remain influenced    tems poses serious and potentially life-threatening risks [30],
+by data provenance, retrieval accuracy, and demographic bias.     [31]. Recent studies have shown that even advanced mod-
+Advances such as retrieval-augmented generation (RAG)             els such as GPT-4.1 show performance gaps exceeding
+architectures have improved the contextual grounding and          10%, and in some cases up to 28%, between restricted and
+trustworthiness of clinical responses [20], yet systematic        underrepresented demographic groups [11], [21]. These gaps
+evaluations, such as those using the AMQA benchmark, high-        emphasize the urgent need for fairness-aware model devel-
+light persistent disparities in diagnostic accuracy across race,  opment and continuous bias auditing to ensure equitable
+sex, and socioeconomic groups [21]. Complementary surveys         and trustworthy clinical deployment. Regardless of major
+on bias and fairness in LLMs further highlight the need           advances, the research community still lacks standardized
+for explainable, accountable, and bias-aware frameworks to        and automated methods for systematically evaluating bias
+ensure equitable performance across medical and commu-            in medical LLMs [10], [20]. Current benchmarks, such as
+nicative applications [22].                                       MedQA and PubMedQA, focus on factual accuracy but over-
+                                                                  look demographic and counterfactual diversity, limiting their
+   In the field of radiology, the format and quality of AI-       ability to detect fairness violations [16], [32], [33]. Moreover,
+generated explanations have been shown to significantly           most bias studies have focused on proprietary systems, such
+influence diagnostic accuracy and clinical decision-making        as GPT-4 and Med-PaLM [12], [14], [27], leaving open-
+among physicians [23]. In a large-scale randomized experi-        source clinical models underexplored. This gap highlights the
+ment involving 101 radiologists and 2,020 diagnostic assess-      urgent need for transparent and reproducible bias evaluation
+ments, the study found that chain-of-thought explanations         frameworks.
+produced by GPT-4 improved diagnostic accuracy by 12.2%
+compared with cases where no LLM support was provided,               In response to these critical gaps, our study introduces
+and by up to 9.7% compared with differential diagnosis            a comprehensive, reproducible audit framework for mea-
+formats. These findings highlight that structured, step-by-       suring demographic bias in open-source medical LLMs.
+step reasoning helps clinicians verify AI outputs, reduce         We focus particularly on Mistral, a 7B-parameter open-
+automation bias, and make more accurate diagnostic judg-          weight model deployed through Ollama, selected for its
+ments, highlighting the critical role of explainability design    reproducibility, accessibility, and computational efficiency,
+in clinical LLM deployment [23]. The effectiveness of AI-         attributes particularly valuable for academic research [34].
+generated medical explanations remains closely tied to the        Mistral serves as an essential open-source alternative to pro-
+clarity and quality of their underlying rationale, revealing      prietary models such as GPT-4 or Med-PaLM, providing the
+both the promise and risks of integrating LLMs into clinical      necessary transparency for controlled experimentation and
+
+12528                                                             VOLUME 14, 2026
+H. O. A. Ahmed, A. H. Sadka: Auditing Demographic Bias in Mistral
+
+community verification [35]. Our main contributions to the         contributions of the study and outlines potential extensions
+field include:                                                     to multimodal tasks, exploration of intersectional attributes,
+                                                                   and approaches for longitudinal fine-tuning.
+   1) First, we implement rule-based counterfactual data
+       augmentation that extends the MedQA dataset with            II. MATERIALS AND METHODS
+       controlled modifications to gender, race/ethnicity, and     Our study introduces a methodologically thorough and fully
+       age descriptors using deterministic, linguistically con-    reproducible workflow designed to systematically quantify
+       sistent transformations. Manual validation confirmed        demographic bias within the high-risk domain of clinical
+       that >95% of augmented items preserved semantic             reasoning LLMs. At the core of this framework lies MedQA-
+       fidelity and correct answer integrity, ensuring evalua-     Demog, an augmented version of the MedQA-USMLE
+       tion reliability.                                           dataset. This augmented dataset introduces controlled vari-
+                                                                   ations of three key demographic variables, namely, gender,
+   2) Second, we develop a robust bias-audit pipeline that         race/ethnicity, and age, while preserving the original diag-
+       evaluates Mistral under both stochastic (random-            nostic ground truth. Such controlled variation enables precise
+       ized prompts, temperature = 0.7) and deterministic          isolation of each demographic factor's potential influence
+       (fixed prompts, temperature = 0.0) conditions using         on model behaviour. To ensure data integrity, we conducted
+       standardized response templates. Our comprehensive          an automated, multi-stage validation confirming MedQA-
+       metrics include accuracy, confusion matrices, macro         Demog's structural fidelity, internal balance, and semantic
+       precision/recall/F1 scores, and effect-size estimates       consistency. In the evaluation phase, the Mistral 7B-Instruct
+       (Cohen's h), complemented by  2, z, and McNemar's           model was deployed locally via Ollama, ensuring standard-
+       tests with appropriate multiple comparison corrections.     ized prompting and deterministic inference for maximum
+                                                                   reproducibility. Finally, a comprehensive statistical analysis
+   3) Third, we conduct a comprehensive demographic anal-          extended beyond overall accuracy, providing fine-grained
+       ysis that reveals Mistral's modest baseline diagnostic      quantification of group-wise disparities and effect sizes.
+       accuracy on MedQA alongside remarkably low mea-             Collectively, this methodological process shows a robust
+       sured demographic bias. Accuracy gaps across gen-           foundation for measuring, understanding, and mitigating fair-
+       der and race/ethnicity dimensions prove minimal and         ness deficits in AI-driven medical reasoning systems.
+       statistically non-significant, while age-based counter-
+       factuals produce slightly larger, though still modest          The overall methodological workflow is illustrated in
+       differences. These findings suggest that open-weight        Figure 1 and summarized below, outlining each stage from
+       LLMs such as Mistral can show relatively stable fair-       dataset preparation and demographic augmentation to vali-
+       ness characteristics when evaluated under rigorous,         dation, model inference, and statistical bias quantification.
+       reproducible audit frameworks.
+                                                                   A. OVERVIEW OF EXPERIMENTAL DESIGN
+   This work shows a methodological foundation for bias            The experimental design establishes a systematic and human-
+assessments in medical LLMs. Our framework demonstrates            centred workflow to thoroughly quantify and identify demo-
+the feasibility of conducting transparent, comparative audits      graphic bias within large language models (LLMs) used for
+across open and proprietary systems and aligns with the            clinical question answering (see Figure 1).
+growing emphasis on ethical, explainable, and equitable AI in
+healthcare [22], [36], [37]. Moreover, as open-source LLMs            The entire structure is developed for reproducibility,
+are increasingly evaluated for and piloted within clinical         interpretability, and controlled variation, ensuring that any
+documentation and decision-support workflows, systematic           observed shifts in model performance can be reliably
+bias auditing becomes not only a technical requirement but         attributed to the manipulated demographic factors, rather than
+an ethical prerequisite for equitable care delivery [38], [39],    the essential noise of the model or data. This integrated work-
+[40], [41].                                                        flow comprises five interdependent and sequential stages as
+                                                                   described below:
+   The remainder of this paper is structured as follows:
+Section II outlines our comprehensive audit framework and          1) STAGE 1: DATASET PREPARATION
+introduces the MedQA-Demog benchmark. We describe five             The main objective of this stage is to provide a clinically
+stages: dataset preparation, rule-based generation of demo-        grounded and reliable dataset for later fairness analysis.
+graphic counterfactuals, automated integrity checks and label      The process begins with the MedQA-USMLE development
+invariance tests, local model inference using Ollama, and bias     split [16], a robust benchmark derived from genuine medical
+quantification through statistical tests. Section III presents     licensing exams. This dataset, which focuses on diagnos-
+experimental results with aggregate accuracy along with            tic reasoning through multiple-choice questions, provides a
+Wilson confidence intervals, group-wise disparity tests, and       solid and clinically relevant foundation for evaluating an
+macro metrics including precision, recall, and F1 scores. This     LLM's consistency as patient characteristics vary. We filter
+section also includes an analysis of option preference shifts      the dataset to preserve only cases that describe identifiable
+and a power analysis estimating the minimum detectable             patients (e.g., ``a 45-year-old man''). This curation step is
+effect sizes. Section IV interprets the findings, situates them    crucial, as it ensures that every retained question allows
+within the existing literature, and discusses the implications
+for fairness auditing of open-weight medical large language
+models (LLMs). Finally, Section V summarises the key
+
+VOLUME 14, 2026                                                    12529
+                                                                 H. O. A. Ahmed, A. H. Sadka: Auditing Demographic Bias in Mistral
+
+FIGURE 1. Overview of the medical LLM demographic bias audit workflow.
+
+for subsequent demographic manipulation while maintaining           The resulting MedQA-Demog dataset is perfectly repro-
+clinical relevance, thus establishing a reliable foundational    ducible and fully auditable, serving as the essential input for
+dataset for systematic fairness evaluation.                      the subsequent evaluation stages.
+
+2) STAGE 2: COUNTERFACTUAL GENERATION                            3) STAGE 3: AUTOMATED VALIDATION & INTEGRITY
+The objective of this stage is to construct the MedQA-Demog      CHECKING
+dataset, a new custom variant tailored for bias auditing         The focus of this stage is to confirm the structural validity,
+through controlled, deterministic counterfactual generation.     semantic consistency, and necessary demographic balance of
+This stage systematically expands the original dataset. Each     the newly created MedQA-Demog dataset. A critical, auto-
+original question referencing a patient is transformed into      mated quality control process is applied post-augmentation to
+a set of three controlled counterfactuals that systemati-        ensure data integrity before model evaluation. This includes:
+cally vary the patient's gender, race/ethnicity, or age, all
+while ensuring label invariance (the diagnostic truth remains       a) JSONL Integrity Verification: Validating file structure
+unchanged). For the purposes of fairness auditing, demo-                and encoding for all entries.
+graphic descriptors introduced during augmentation (gender,
+race/ethnicity, and age) are treated as non-diagnostic control      b) Counterfactual Completeness Checks: Ensuring that
+variables rather than predictive clinical features. Throughout          each augmented case includes exactly three counterfac-
+augmentation, only demographic identity cues are modified,              tuals, one for each dimension.
+while all diagnostic evidence, such as symptoms, clinical
+history, physical findings, and investigation results, remains      c) Label Invariance Confirmation: We confirm a 100%
+unchanged, ensuring that the clinical reasoning signal pre-             correct-label retention, verifying that no augmentation
+sented to the model is held constant across counterfactual              step will change the diagnostic ground truth.
+variants.
+                                                                    d) Demographic Distribution Balance: Verification is per-
+   The transformations rely on auditable, rule-based substi-            formed to ensure balanced representation across the
+tution functions to guarantee semantic fidelity, as illustrated         gender, race/ethnicity, and age dimensions, which is
+in Figure 2, which summarises the three demographic trans-              fundamental for analytically fair comparisons.
+formation pathways, gender, race/ethnicity, and age, applied
+during augmentation. For example:                                   These automated checks guarantee that MedQA-Demog
+                                                                 is both reliable and analytically prepared for fairness
+   a) Gender: Apply straightforward pronoun and noun             assessment.
+       swaps (e.g., male  female, he  she).
+                                                                 4) STAGE 4: MODEL INFERENCE & RESPONSE PARSING
+   b) Race/Ethnicity: Utilises insertion of specific ethnic-     The main objective of this stage is to evaluate the LLM's
+       ity descriptors (e.g., ``45-year-old African American     behavioural consistency under both stochastic and determin-
+       man'') using balanced substitution rules.                 istic inference rules. Evaluation is performed using the Mis-
+                                                                 tral 7B-Instruct model [42]. Model access is managed locally
+   c) Age: Perform adjustment of numerical age values            through the Ollama API, ensuring data privacy, environment
+       within clinically consistent and reasonable ranges        consistency, and full reproducibility [43]. We employ two
+       (e.g., transforming a childhood presentation to one typ-  complementary inference setups:
+       ical of a young adult).
+                                                                    a) Stochastic Setup: Utilising a temperature of 0.7 and
+12530                                                                   randomizing prompt/option ordering to simulate the
+
+                                                                                                                                                                  VOLUME 14, 2026
+H. O. A. Ahmed, A. H. Sadka: Auditing Demographic Bias in Mistral
+
+                 FIGURE 2. Illustration of the demographic transformation process used in Stage 2.
+
+       natural response variability expected in a real-world                   As an additional robustness check, we stratified the
+       setting.                                                                evaluation by baseline question difficulty, approxi-
+   b) Deterministic Setup: Utilising a temperature of 0.0 with                 mated using the model's correctness on the original
+       a fixed prompt and option order to tightly control for                  MedQA items. The evaluation set was partitioned into
+       randomness, which is essential for statistical compara-                 baseline-correct and baseline-incorrect subsets under
+       bility of paired tests.                                                 the original (unmodified) condition. Within each sub-
+Additionally, we implement a Regex-Based Answer Label                          set, demographic disparity metrics were computed
+Extraction mechanism to standardize output processing. This                    independently using the same statistical framework as
+isolates the predicted option (A-D) and generates clean, com-                  the main analysis.
+parable response data for each demographic variant.                        d) Multiple Comparison Correction: To control the
+                                                                               family-wise error rate stemming from numer-
+5) STAGE 5: BIAS QUANTIFICATION & STATISTICAL TESTING                          ous comparisons, both Bonferroni and Benjamini-
+                                                                               Hochberg False Discovery Rate (FDR) adjustments are
+The focus of this stage is to statistically measure, compare,                  applied [45].
+                                                                        These analyses provide a statistically rigorous, transparent,
+and rigorously validate observed performance disparities                and reproducible framework for auditing the demographic
+                                                                        fairness of clinical LLMs.
+across demographic groups. This final stage includes a robust
+                                                                        B. DATASET AND DEMOGRAPHIC AUGMENTATION
+mix of descriptive and inferential statistics:
+                                                                        1) SOURCE DATASET
+a) Group-Wise Performance Metrics: Calculation of                       The basis of this investigation is the MedQA-USMLE
+                                                                        dataset, a large-scale open-domain benchmark for medi-
+accuracy, precision, recall, and F1-score for each                      cal question answering [16]. This dataset is systematically
+                                                                        collected from official United States Medical Licensing
+demographic subgroup, complemented by Wilson 95%                        Examination (USMLE) materials, supporting the study in
+                                                                        a high-stakes, clinically authentic environment. The devel-
+Confidence Intervals to estimate uncertainty.                           opment split contains 1,272 four-option multiple-choice
+                                                                        questions, each designed not merely to test factual recall
+b) Disparity Testing: The significance of performance dif-              but to simulate realistic diagnostic and therapeutic reasoning
+    ferences between groups is assessed using  2, z tests,              challenges. Each question follows a standardized structure:
+                                                                        a concise clinical vignette describing a patient's condition,
+and McNemar's paired significance test (used specifi-                   symptoms, history, and investigations, followed by four can-
+                                                                        didate options representing reasonable diagnoses, treatments,
+cally for the deterministic setting).                                   or pathophysiological mechanisms. One option is annotated
+                                                                        as the ground-truth answer, enabling objective evaluation.
+c) Effect Size Reporting: The magnitude of bias in the                  The dataset spans multiple disciplines, including internal
+
+analysis is quantified by employing Cohen's h, a statis-                                                                                                               12531
+
+tical measure that provides insight into the differences
+
+between groups. This metric enables researchers to
+
+understand the practical significance of their findings
+
+by indicating the effect size between two group accu-
+
+racies being compared [44]. This can be represented
+
+mathematically using Equation (1) below:
+
+                                                
+                 h = 2arcsin p1 - 2arcsin p2                       (1)
+
+Here, p1 and p2 represent the group accuracies being
+compared.
+
+VOLUME 14, 2026
+                                                                    H. O. A. Ahmed, A. H. Sadka: Auditing Demographic Bias in Mistral
+
+medicine, surgery, paediatrics, obstetrics and gynaecology,                Here,  represents the original age of the patient.
+and psychiatry, and thus reflects the cognitive breadth of                 This formulation allows for controlled age shifts while
+medical practice. These questions are intentionally crafted                maintaining clinical probability. It reflects natural
+to assess a physician's ability to synthesize professional                 demographic transitions, such as from adolescence to
+knowledge, interpret clinical cues, and apply higher-order                 adulthood or from midlife to elderly stages, ensuring
+reasoning.                                                                 that the resulting variations remain consistent with
+                                                                           expected physiological and clinical characteristics.
+   The English subset of MedQA-USMLE was selected for
+three reasons directly aligned with this study's fairness audit-    Each transformation produces semantically coherent, con-
+ing objectives. First, it offers clinical and professional authen-  textually valid counterfactuals without introducing verbal
+ticity, as it originates from board-level medical examinations      noise or diagnostic implications. This rule-based design
+that mirror the complexity and cognitive load encountered           guarantees consistent label invariance, ensuring that the
+in real clinical decision-making. Second, it embodies deep          correct answer remains unchanged across all demographic
+diagnostic reasoning, with questions that require multi-hop         groups. This allows for reliable comparisons of LLM out-
+inferencing, compelling models to integrate heterogeneous           puts across dimensions such as gender, race/ethnicity, and
+evidence such as symptoms, test results, and pathophysio-           age. The resulting MedQA-Demog dataset accordingly pro-
+logical knowledge rather than relying on superficial pattern        vides a clinically interpretable and fully reproducible testbed
+recognition. Third, it provides a structured evaluative frame-      for quantifying demographic bias in medical large lan-
+work, where the fixed multiple-choice format establishes a          guage models. The rule-based transformations described
+standardized and quantitative basis for assessing large lan-        above were implemented in a fully automated augmentation
+guage model (LLM) performance and detecting potential               framework (see Algorithm 1), designed for transparency,
+demographic bias. This dataset, therefore, provides a clin-         reproducibility, and computational efficiency. Each question
+ically reliable and interpretable baseline for auditing the         in the MedQA development split was processed through a
+fairness and consistency of LLMs as they confront varia-            deterministic control loop that (i) parsed the source text, (ii)
+tions in patient demographic attributes within realistic clinical   detected demographic attributes, (iii) generated correspond-
+scenarios.                                                          ing counterfactuals, and (iv) validated structural integrity
+                                                                    before appending the result to the final JSONL file.
+2) COUNTERFACTUAL GENERATION
+To enable systematic demographic equality analysis,                 3) VALIDATION AND QUALITY ASSURANCE
+we developed MedQA-Demog, a rule-based and label-                   Following the automated augmentation process, a compre-
+invariant extension of the MedQA-USMLE dataset. In this             hensive Validation and Quality Assurance (QA) phase was
+framework, each original clinical question qi generates a set       conducted to ensure that the MedQA-Demog dataset met all
+of three demographically counterfactuals:                           necessary criteria for use as a benchmark in fairness auditing.
+                                                                    This stage verified the dataset's structural integrity, demo-
+                       {qigender , qirace, qiage} (2)               graphic balance, and semantic fidelity, confirming that the
+                                                                    augmentation framework performed as intended. Validation
+As illustrated in Figure 2. These transformations simu-             was performed through an automated multi-stage verification
+late controlled demographic variations while preserving the         process that systematically examined three core aspects of
+underlying diagnostic semantics and ground-truth answer             dataset reliability:
+index. Counterfactual generation is performed through three
+deterministic substitution mechanisms:                                 a) Structural integrity, by ensuring that every entry
+                                                                           adhered to valid JSONL formatting and con-
+   a) Gender Swaps: Verbal substitution of gendered terms                  tained the essential fields (original, counterfactuals,
+       and pronouns (e.g., ``a 45-year-old man''  ``a 45-                  answer_idx);
+       year-old woman''; ``his''  ``her'').
+                                                                       b) Label consistency, by confirming that the correct
+   b) Race/Ethnicity Descriptors: Insertion or replacement                 answer index was preserved across all counterfactual
+       of ethnicity markers randomly selected from the                     variants; and
+       set {African American, Hispanic, Asian, White} to
+       ensure balanced representation across demographic               c) Demographic distribution, by verifying the presence of
+       categories.                                                         a balanced representation across gender, race/ethnicity,
+                                                                           and age dimensions.
+   c) Age Adjustment: This refers to the numerical modifica-
+       tion of the patient's age using a rule-based progression     Additionally, automated semantic checks and random sam-
+       function that maintains clinical probability and life-       pling were used to ensure that the clinical meaning of each
+       stage consistency. To ensure realistic demographic           question remained unchanged after augmentation. The full
+       representation and balance across different age groups,      verification results are summarized in Table 1. As shown
+       the adjustment is governed by the following function:        in the table, all integrity checks were successfully passed
+                                                                    with no structural errors, and the dataset achieved perfect
+                                + 20,  < 18                         label invariance; the correct answer index was preserved
+                                                                    across every counterfactual. Each augmented question pro-
+               new_age =  + 25, 18   < 40 (3)                       duced exactly three counterfactuals (gender, race/ethnicity,
+                                + 15, 40   < 65
+                                                                                                                                                                     VOLUME 14, 2026
+                                  - 15,   65
+
+12532
+H. O. A. Ahmed, A. H. Sadka: Auditing Demographic Bias in Mistral
+
+age), resulting in 3,387 variants drawn from 1,129 augmented       deterministic control, ensuring that identical inputs yield
+entries.                                                           perfectly reproducible outputs under fixed hyperparameters,
+                                                                   (2) It maintains data confidentiality, since all clinical
+   The distribution across demographic categories was              vignettes are processed within the local environment in
+exactly balanced (33.3% each), and no semantic drift or            compliance with institutional data-governance and privacy
+distortion of medical meaning was observed during the trans-       standards; and (3) It offers cost-efficient scalability, allow-
+formation process.                                                 ing thousands of bias-audit iterations without rate-limit or
+                                                                   billing constraints. This configuration establishes a trans-
+TABLE 1. Validation summary for the MedQA-Demog dataset.           parent, reproducible, and fully auditable environment for
+                                                                   bias evaluation in medical LLMs. It ensures that any dis-
+   These results collectively prove MedQA-Demog as a struc-        parities identified in subsequent analyses can be confidently
+turally sound, semantically coherent, and fully reproducible       attributed to model-internal demographic bias, rather than
+dataset that provides a reliable foundation for the evaluation     uncontrolled external factors or environmental variability.
+of demographic bias in large language models.
+                                                                   2) PROMPTING STRATEGY AND INPUT VARIATION
+C. MODEL AND INFERENCE SETUP                                       To ensure that model performance reflects genuine diagnos-
+1) MODEL SELECTION AND CONFIGURATION                               tic reasoning rather than sensitivity to prompt phrasing or
+This stage builds directly on the methodological founda-           formatting, we implemented a structured prompt-engineering
+tion introduced in Stage 4: Model Inference and Response           and randomization framework. This mechanism dynamically
+Parsing. The goal here is to evaluate the consistency of           generates prompt variants and randomizes the order of answer
+large language model (LLM) behaviour under both stochas-           choices for each query, thereby mitigating linguistic and
+tic and deterministic inference systems. All bias auditing         positional bias while preserving semantic content. The design
+experiments were conducted using the Mistral 7B-Instruct           emulates the variability of human-to-human communication
+model, which is a state-of-the-art open-weight transformer         in real clinical consultations and medical examinations. Each
+architecture optimized for instruction following and context-      query integrates a short clinical piece with four multiple-
+aware clinical reasoning. Its open-weight nature allows for        choice options (A-D). Two distinct prompt formats are
+transparent inspection of inference behaviour, making it well-     alternated to vary the model's interpretive context.
+suited for reproducible academic auditing.
+                                                                      1) Template 1: Clinical Reasoning Form: This template
+   To create a controlled, auditable, and privacy-preserving              frames the model as a medical expert, encouraging
+environment, the model was deployed locally using the                     deliberative reasoning before producing an answer:
+Ollama inference server (version 0.3 or later). This                      <s>[INST] As a medical expert, analyse this case and
+lightweight system offers a RESTful API that supports                     select the correct answer:
+parameterized inference, maintains consistent environments,               Clinical scenario:
+and ensures full reproducibility [43]. The local Ollama setup             {question}
+served as the unified evaluation backbone for both inference              Options:
+modes:                                                                       A) . . .
+                                                                             B) . . .
+   a) Stochastic Setup: Utilising a temperature of 0.7 and                   C) . . .
+       randomizing prompt/option ordering to emulate the                     D) . . .
+       natural response variability expected in real-world                After careful consideration, the correct answer is:
+       usage.                                                             [/INST] </s>
+
+   b) Deterministic Setup: Employing a temperature of                 2) Template 2: Diagnostic Emphasis Form: This version
+       0.0 with fixed prompts and answer order to eliminate               adopts a concise diagnostic framing that tests the
+       stochastic noise and enable statistically valid paired             model's capacity for direct inference:
+       comparisons.                                                       <s>[INST] Medical diagnosis question, choose the
+                                                                          single best answer:
+   This local deployment approach was selected over com-                  {question}
+mercial cloud APIs for three principal reasons: (1) It provides           Choices:
+                                                                          Option A: . . .
+                                                                          Option B: . . .
+                                                                          Option C: . . .
+                                                                          Option D: . . .
+                                                                          Diagnosis: [/INST] </s>
+
+                                                                      Both templates follow the <s>[INST][/INST] </s>
+                                                                   instruction format used by instruction-tuned models such as
+                                                                   Mistral 7B-Instruct. These delimiters define the start and
+                                                                   end boundaries of the user's instruction, ensuring that the
+
+VOLUME 14, 2026                                                    12533
+                                                                H. O. A. Ahmed, A. H. Sadka: Auditing Demographic Bias in Mistral
+
+Algorithm 1 Rule-Based Generation of Demographic Counterfactuals for MedQA-Demog
+   1. Initialisation: Initialise logging and record the start time of the process.
+
+   2. Load Data: Load all entries from the MedQA-USMLE development JSONL file.
+
+   3. Question Screening: For each question Q, check for the presence of the ``year-old'' pattern. If the pattern is
+       absent, the question is logged as non-augmentable, and the process skips to the next question.
+
+   4. Attribute Extraction: Extract demographic attributes from Q: age via the regular expression (d+)-year-old, and
+       gender via word search for male/female pronouns (e.g., he/she).
+
+5. Counterfactual Generation: Generate three deterministic demographic variations (counterfactuals) of Q based on the
+extracted attributes:
+
+   a. Gender Substitution: Apply a reciprocal gender swap (e.g., ``male  female,'' ``he  she'').
+   b. Race/Ethnicity Modification: Insert or replace a race/ethnicity descriptor, cycling through the set R =
+
+       African American, Hispanic, Asian, White.
+   c. Age Adjustment: Modify the numeric age  according to the following rules:
+
+        < 18   + 20, 18   < 40   + 25, 40   < 65   + 15,   65   - 15
+
+6. Answer Consistency: Modify the answer text as required to maintain pronoun consistency with the transformed gender
+in the counterfactual question.
+
+7. Record Construction: Construct an output record comprising the original question Q and its three generated
+counterfactuals, labelled by their corresponding demographic change type.
+
+8. Data Output: Append the record to the output JSONL file, flushing buffers and updating the progress log every 50
+questions.
+
+9. Final Logging: Compute and log summary statistics: total processed, skipped, total counterfactuals generated, and
+mean processing time per question.
+
+10. Output Dataset: Output the final MedQA-Demog dataset (Original questions + Counterfactuals).
+
+model interprets the input as a structured diagnostic question  reasoning from artefacts introduced by prompt design or
+rather than as a free-text continuation. Specifically, <s> and  response formatting.
+</s> denote the start and end of the model input sequence,
+respectively. [INST] introduces the instruction context (user   3) EVALUATION MODES AND STATISTICAL FRAMEWORK
+input), while [/INST] signals the point at which the model      As introduced above, the inference process was designed
+should begin generating its response. This formatting ensures   to operate under two complementary rules, stochastic and
+compatibility with instruction-tuned architectures, improving   deterministic, to balance realism with reproducibility. This
+the model's consistency and ensuring that output remains        section expands on those settings, outlining their analyti-
+focused on the intended diagnostic choice (A-D).                cal purpose, statistical foundations, and role in quantifying
+                                                                fairness and behavioural stability. Both inference config-
+   In addition to alternating between templates, the frame-     urations were executed within the Ollama local inference
+work randomly shuffles the order of answer options for          environment, ensuring identical hardware conditions, con-
+each query to reduce positional or word priming effects.        sistent parameterization, and full experimental traceability
+This ensures that any performance disparity arises only from    across all model runs.
+the demographic variable manipulated in the scene rather
+than from input structure or presentation order. Two com-          a) Stochastic Mode (Emulating Natural Diagnostic Vari-
+plementary inference rules were employed: (1) a stochastic             ability): As described earlier, this configuration
+mode (temperature = 0.7) that introduced controlled ran-               approximates the variability inherent in human diag-
+domness to match natural diagnostic variability, and (2) a             nostic reasoning. Here, the temperature parameter was
+deterministic mode (temperature = 0.0) that fixed all ran-             set to 0.7, introducing controlled randomness into the
+dom seeds and option orders, ensuring perfect reproducibility          token-sampling process and allowing the model to
+for baseline and paired statistical testing. Model outputs             show nuanced differences in reasoning paths across
+were then post-processed using a regular-expression-based              repeated evaluations. The order of answer options
+filter to extract the first valid answer token (A-D), while            and prompt templates was also randomized per query,
+non-compliant or ambiguous responses were systematically               preventing deterministic repetition and more accu-
+logged as UNKNOWN or ERROR. This fully auditable                       rately capturing the model's behavioural sensitivity
+prompting and inference workflow provides a robust foun-               to linguistic and demographic perturbations. Statis-
+dation for isolating genuine demographic bias in model                 tical analyses from this process offer insights into
+
+12534                                                           VOLUME 14, 2026
+H. O. A. Ahmed, A. H. Sadka: Auditing Demographic Bias in Mistral
+
+       how model decisions change under natural uncertainty,         TABLE 2. Bias level classification based on maximum absolute
+       closely resembling real-world clinical interpretation         disparity ( maxx ).
+       dynamics.
+   b) Deterministic Mode (Ensuring Reproducibility and                  The threshold values for categorizing bias magnitude were
+       Controlled Comparison): The deterministic setup               selected based on both statistical convention and practi-
+       applies complete control over random elements to              cal interpretability within clinical evaluation frameworks.
+       isolate genuine bias effects from stochastic variation.       Specifically, the cut-offs (0.02, 0.05, and 0.10) correspond
+       A temperature of 0.0 was applied, with fixed prompt           to well-established effect size interpretations proposed by
+       templates and static option ordering, ensuring that           Cohen, where h = 0.2, 0.5, and 0.8 represent small, medium,
+       each query produces an identical output sequence upon         and large effects, respectively [44]. When translated to abso-
+       repetition. This reproducible environment enables for-        lute differences in proportions, these approximate thresh-
+       mal, pairwise statistical testing, most notably through       olds of 0.02, 0.05, and 0.10 capture progressively meaningful
+       McNemar's test, which evaluates whether prediction            disparities in diagnostic decision-making accuracy between
+       changes across counterfactual demographic variants            demographic groups. From a practical perspective, a dispar-
+       represent statistically significant shifts rather than ran-   ity below 0.02 is considered negligible and falls within the
+       dom fluctuations.                                             expected range of random variation across repeated evalu-
+Predicted outputs were parsed using a regular-expression-            ations. Differences between 0.02 and 0.05 indicate low but
+based extractor to isolate the model's selected answer (A-D).        measurable bias, potentially noticeable in large-scale clinical
+Responses that were missing or ambiguous were system-                applications but unlikely to affect individual-level outcomes.
+atically recorded as UNKNOWN or ERROR to maintain                    Disparities between 0.05 and 0.10 reflect moderate concern,
+analytical transparency. For each demographic group (orig-           where systematic bias may influence aggregate performance
+inal, gender, race/ethnicity, age), the following metrics were       or decision patterns. Values exceeding 0.10 denote high bias,
+computed:                                                            representing potentially consequential fairness violations that
+   a) Main metrics: Accuracy, Precision, Recall, and                 warrant model retraining, data augmentation, or calibration
+       F1-score (macro-averaged) [46].                               interventions.
+   b) Interval estimation: Wilson 95 % confidence intervals
+       (CIs) for accuracy [47].                                         This categorization provides a quantitatively interpretable
+   c) Disparity quantification:                                      and clinically aligned framework for fairness assessment,
+                                                                     allowing statistical disparities to be translated into real-world
+                    = metric[group] - metric[original] (4)           diagnostic implications. It also aligns with thresholds adopted
+                                                                     in prior algorithmic fairness audits in medical AI, ensuring
+       Here, represents the difference between the group's           comparability with existing literatures [50], [51], and [52].
+       metric and the original metric, indicating the perfor-
+       mance deviations at the group level.                          III. RESULTS
+Additionally, group-wise differences were tested using robust        This section presents the outcomes of the MedQA-Demog
+inferential statistics:                                              bias audit, providing a detailed empirical evaluation of
+   d) Distributional testing:  2 and z-tests for proportions         the Mistral 7B-Instruct model's diagnostic reasoning sta-
+       assessed significant performance deviations [48], [49].       bility across systematically varied demographic conditions.
+   e) Paired testing: McNemar's test compared prediction             Using the MedQA-Demog benchmark, model performance
+       flips between original and counterfactual pairs in deter-     was assessed under both stochastic (temperature = 0.7)
+       ministic runs.                                                and deterministic (temperature = 0.0) inference modes
+   f) Effect size: Cohen's h [44] quantified the practical           within the Ollama local environment, ensuring reproducibil-
+       magnitude of observed disparities.                            ity, data confidentiality, and consistent hardware conditions.
+   g) Multiple comparison control: Bonferroni and                    The analysis quantifies how demographic attributes, gen-
+       Benjamini-Hochberg (FDR) corrections ensured                  der, race/ethnicity, and age influence diagnostic accuracy,
+       appropriate control of the family-wise error rate [45].       confidence, and decision stability. Statistical and visual eval-
+To facilitate transparent interpretation of the statistical results  uations were conducted to separate genuine demographic
+and enable consistent comparison across demographic cate-            bias from random variability, employing accuracy, preci-
+gories, we established a bias-level classification framework         sion, recall, F1-score, and Wilson 95% confidence intervals
+that maps the magnitude of observed disparities to qualitative       as primary metrics. Inferential testing was performed using
+interpretive tiers. The classification relies on the maximum          2 and z-tests for distributional differences, McNemar's
+absolute performance disparity ( max ) observed between              test for paired significance, and Cohen's h for standardized
+each demographic variant and its original counterpart. This
+approach translates quantitative deviation values into inter-                                                                                                       12535
+pretable fairness categories, ranging from Minimal to High
+Bias, that align with accepted conventions in fairness auditing
+literature [47]. The complete categorization scheme is sum-
+marized in Table 2.
+
+VOLUME 14, 2026
+                                                                              H. O. A. Ahmed, A. H. Sadka: Auditing Demographic Bias in Mistral
+
+TABLE 3. Group-wise diagnostic accuracy and wilson 95% confidence intervals.
+
+effect-size estimation, with multiple comparison control via                  correctly answering 543 of 1,272 items. When exposed to
+Bonferroni and Benjamini-Hochberg (FDR) corrections.                          systematically altered versions of these same questions, the
+                                                                              model exhibited only slight reductions in accuracy: 0.402
+   The results are organized to provide a consistent and                      (95% CI [0.374, 0.431]) for gender-modified items, 0.406
+progressive analysis of the model's performance. Section I                    (95% CI [0.377, 0.435]) for race/ethnicity variations, and
+presents the collective diagnostic accuracy and confidence                    0.387 (95% CI [0.359, 0.416]) for age adjustments. Although
+intervals across all demographic groups, establishing a global                error rates ranged modestly from 0.573 to 0.613 across
+performance baseline. Section II explores group-specific                      groups, the substantial overlap of Wilson's 95% confidence
+disparities and their statistical significance, highlighting                  intervals indicates that these performance differences are not
+where demographic variation influences model outcomes.                        statistically significant.
+Section III extends this evaluation through detailed pre-
+cision, recall and F1-score analyses to capture class-level                      The observed fluctuations (  -0.021 to -0.040 relative
+performance dynamics. Moreover, visualizes the internal                       to baseline), therefore, most likely reflect inherent stochastic
+structure of model errors via confusion matrices and disparity                variability rather than systematic demographic bias. These
+heatmaps, offering an interpretable view of error distribution                results confirm that the Mistral 7B-Instruct model maintains
+patterns. Section IV examines whether demographic per-                        a relatively stable diagnostic decision process when exposed
+turbations induced any systematic preference for particular                   to linguistic and contextual variations in patient demograph-
+answer options. Finally, Section V assesses the statistical                   ics. The findings provide a robust baseline of demographic
+sensitivity of fairness evaluation.                                           stability, supporting the subsequent group-specific disparity
+                                                                              and significance analyses presented in Sections II and III.
+FIGURE 3. Diagnostic accuracy by demographic group (with Wilson 95%
+confidence intervals).                                                           As illustrated in Figure 3, accuracy remained relatively sta-
+                                                                              ble across all demographic groups, with differences remain-
+A. AGGREGATE ACCURACY AND CONFIDENCE INTERVALS                                ing within the expected range of stochastic variation. The
+The aggregate results of the MedQA-Demog bias audit                           model maintained its overall diagnostic integrity, exhibiting
+demonstrate that the Mistral 7B-Instruct model maintained                     only marginal shifts in accuracy under counterfactual demo-
+a broadly stable diagnostic reasoning capability across both                  graphic modifications, thereby supporting the robustness of
+the original and counterfactual datasets. Across 4,659 total                  its reasoning consistency across patient-context variations.
+evaluated items (comprising 1,272 original MedQA-USMLE
+questions and 3,387 systematically generated counterfactu-                       To assess whether the observed demographic stability is
+als), the model's accuracy values exhibited only marginal                     influenced by question difficulty, we conducted an additional
+variation, suggesting a robust internal reasoning process                     robustness check by stratifying the evaluation according to
+largely invariant to changes in patient demographics.                         baseline question difficulty, approximated using the model's
+                                                                              correctness on the original MedQA items. This analysis is
+   As shown in Table 3, the model achieved an accuracy                        performed on the subset of questions with valid demographic
+of 0.427 (95% CI [0.400, 0.454]) on the original questions,                   counterfactuals and valid model predictions, and the resulting
+                                                                              stratified accuracy differences are summarized in Table 4.
+
+                                                                              TABLE 4. Stratified demographic robustness by baseline question
+                                                                              difficulty (Mistral 7B-Instruct).
+
+12536                                                                         VOLUME 14, 2026
+H. O. A. Ahmed, A. H. Sadka: Auditing Demographic Bias in Mistral
+
+   Across baseline-correct questions, demographic counter-         attributes are essential for the responsible deployment of AI
+factual perturbations produce only marginal and consistent         in medical settings.
+accuracy differences (with a maximum absolute deviation of
+0.7% points), while baseline-incorrect questions show no           B. GROUP-SPECIFIC DISPARITIES AND SIGNIFICANCE
+demographic-dependent recovery or degradation.                     TESTING
+                                                                   This section examines whether the demographic modifi-
+   To further validate the diagnostic performance of the pro-      cations introduced in MedQA-Demog, covering gender,
+posed model and assess its relative strengths, a comparative       race/ethnicity, and age, led to any statistically significant
+analysis was conducted against existing medical questions          changes in diagnostic accuracy compared with the origi-
+answering (MQA) systems. This comparison provides an               nal USMLE questions. Each demographic subset included
+empirical benchmark, highlighting how our approach aligns          over 1,100 questions, providing sufficient statistical power
+with, and diverges from, prior developments in medical-            (detectable difference 0.057 at 80% power,  = 0.05) to
+domain language modelling. Table 5 presents a comparative          identify even small fairness-related effects. Across 4,659
+overview of the diagnostic accuracy achieved by the Mis-           evaluated items (1,272 original + 3,387 counterfactuals),
+tral 7B-Instruct model in relation to a range of established       the Mistral 7B-Instruct model demonstrated stable diagnostic
+baselines and large-scale instruction-tuned models previously      reasoning under all demographic modifications. Table 6 sum-
+evaluated on the MedQA (USMLE) benchmark [16], [53].               marizes accuracy, Wilson 95% CIs, and absolute differences
+                                                                   compared to baseline.
+   The comparison traces the route of medical question
+answering (MQA) systems, incorporating models from early              As shown in Table 6, the comparative statistical anal-
+retrieval-based and transformer encoder architectures, specif-     ysis across demographic groups confirms that the Mistral
+ically IR-Custom, BERT, BioBERT, and RoBERTa, up to                7B-Instruct model maintains consistent diagnostic reasoning
+instruction-tuned and domain-aligned large language models         performance under all demographic perturbations. Accu-
+(LLMs) such as PubMedGPT, Flan-PaLM, and Med-PaLM.                 racy differences between each demographic subset and the
+Collectively, this broad spectrum of systems, which charts         original MedQA items are minimal, with none exceed-
+the evolution of MQA from initial pre-trained contextual           ing a four-percentage-point deviation. The age-modified
+encoders to today's billion-parameter, instruction-following       subset showed the largest observed reduction in accuracy
+architectures, offers a central empirical context against which    ( = -0.040), yet this difference remains within the Low
+the performance and results of our own model can be accu-          Bias range ( max < 0.05; see Table 2 ). While the unadjusted
+rately and meaningfully interpreted.                               z-test indicated a marginally significant result (p = 0.048),
+                                                                   this effect became non-significant after applying the Bon-
+   As shown in Table 5, the Mistral 7B-Instruct model              ferroni correction (p = 0.143) and the Benjamini-Hochberg
+achieves a diagnostic accuracy of 42.7%, outperforming all         (BH) correction (q = 0.143), suggesting that the deviation
+early transformer baselines including BERT-Base (34.3%),           was likely due to random variation rather than systematic
+                                                                   demographic bias.
+   BioBERT-Base (34.1%), and RoBERTa-Large (35.0%),
+as well as the strongest pre-BERT variant, BioBERT-Large              Similarly, the gender ( = -0.025) and race/ethnicity
+(36.7%). These results highlight that even without biomed-         ( = -0.021) comparisons produced p-values well above
+ical pretraining, a mid-scale, instruction-tuned model can         conventional significance thresholds (p = 0.219 and
+offer stronger reasoning and factual comprehension than            p = 0.293, respectively), both classified as Low Bias and
+traditional transformer encoders trained on domain-specific        Minimal Bias. Their effect sizes were correspondingly small
+quantities. When compared with more recent large-scale             (Cohen's h = -0.050 and -0.043), and the bootstrap confi-
+instruction-tuned models, such as PubMedGPT (50.3%),               dence intervals included zero, further confirming the absence
+Flan-PaLM (67.6%), and Med-PaLM (67%), the Mis-                    of meaningful performance disparity.
+tral 7B-Instruct model understandably yields lower absolute
+accuracy. However, this performance gap primarily reflects            Overall, across all comparisons, statistical corrections and
+the substantial differences in model scale, training data          confidence intervals consistently indicate no evidence of sys-
+volume, and domain alignment rather than architectural             tematic demographic bias. The Mistral 7B-Instruct model's
+limitations.                                                       diagnostic accuracy appears robust and demographically
+                                                                   invariant when evaluated on the MedQA-Demog benchmark.
+   In contrast to these billion-parameter systems, the Mistral
+7B-Instruct model operates within a lightweight, open-weight       C. MACRO PRECISION, RECALL, AND F1- SCORES
+configuration, prioritising transparency, reproducibility, and     As shown in Table 7, macro-averaged precision, recall,
+fairness auditability criteria rarely satisfied by proprietary     and F1-scores closely followed the overall accuracy trends
+LLMs. Moreover, its stable demographic performance across          observed earlier (see Section 3.1). Across all demographic
+the MedQA-Demog dataset underscores the model's poten-             variants, performance differences relative to the origi-
+tial as a controlled and ethically deployable foundation for       nal MedQA subset remained below 0.05, confirming that
+future bias quantification research. These findings show that      the Mistral 7B-Instruct model preserved balanced pre-
+while larger, domain-specific large language models (LLMs)         dictive behaviour across gender, race/ethnicity, and age
+excel in raw diagnostic reasoning, instruction-tuned mod-
+els such as Mistral 7B-Instruct offer a valuable balance of
+accuracy, interpretability, and fairness accountability. These
+
+VOLUME 14, 2026                                                    12537
+                                                                                                                                 H. O. A. Ahmed, A. H. Sadka: Auditing Demographic Bias in Mistral
+TABLE 5. Comparative performance of baseline and instruction-tuned language models on the MEDQA (USMLE) benchmark.
+
+perturbations. Specifically, the original group achieved        confusion matrices for all evaluation subsets: the original
+macro-precision of 0.426, macro-recall of 0.427, and macro-     MedQA questions and their gender-, race/ethnicity-, and
+F1 of 0.426. The gender and race/ethnicity variants showed      age-modified counterfactuals. Across all panels, diagonal
+minor declines (-0.026 and -0.021 in F1, respectively),         dominance is consistently maintained, indicating that the
+whereas the age variant recorded a slightly larger decrease     majority of predictions align with the correct diagnostic
+(-0.041), consistent with its modest drop in accuracy           option. The off-diagonal cells representing errors show sim-
+reported in Table 3.                                            ilar magnitudes and symmetrical dispersion, suggesting that
+                                                                most misclassifications stem from semantic proximity among
+   Importantly, these fluctuations remain within the Low Bias   clinically related options rather than from demographic bias.
+classification threshold ( max < 0.05; see Table 2 ), suggest-  Importantly, no single group displays an inflated or depleted
+ing that demographic changes apply minimal influence on the     confusion region, reinforcing the earlier statistical finding
+model's overall precision-recall balance.                       that demographic edits did not introduce systematic reason-
+                                                                ing drift in the model's responses.
+   Beyond aggregate scores, a closer examination of error
+structure revealed that the most frequent misclassifications       A detailed examination of the confusion matrices in
+involved confusion between semantically or clinically similar   Figure 5 reveals that the model's misclassifications are
+options. The top ten error transitions (truth  prediction)      largely confined to semantically adjacent diagnostic options
+were dominated by minor label inversions such as B  A           rather than random or demographically driven errors. Across
+(298), C  A (272), C  D (253), and D  A (252). These            all groups, the ten most frequent error transitions follow
+symmetric confusion patterns suggest that the model's rea-      consistent trends dominated by confusions between clinically
+soning errors were non-systematic and semantically neutral,     probable alternatives such as B  A (298 cases), C 
+reflecting inherent uncertainty in complex medical reason-      A (272), C  D (253), and D  A (252). These recur-
+ing rather than bias toward any particular demographic          rent cross-predictions often involve conceptually overlapping
+subgroup. Figure 4 visualizes the close alignment among         diagnoses or therapeutically related conditions, suggesting
+macro-precision, recall, and F1 scores across demographic       that the model's uncertainty is epistemic (linked to medical
+variants, highlighting the model's consistent behaviour and     reasoning ambiguity) rather than sociodemographic in nature.
+fairness stability within the MedQA-Demog benchmark.            The relative symmetry of inverse transitions (e.g., A  B
+                                                                vs B  A) further supports this interpretation: no single
+   In summary, the macro-level evaluation supports earlier      answer category was disproportionately over- or under-
+findings: performance stability and predictive symmetry are     predicted across any demographic subset. Collectively, this
+maintained across all demographic variations, highlighting      behaviour reinforces that observed variability arises from
+the Mistral 7B-Instruct model's robustness and demographic      the intrinsic diagnostic complexity of the MedQA items
+fairness within the MedQA-Demog dataset.                        rather than from sensitivity to gender, race/ethnicity, or age
+                                                                cues.
+   Furthermore, to visualise diagnostic behaviour and assess
+whether demographic perturbations introduced systematic                                                                                                          VOLUME 14, 2026
+misclassification patterns, Figure 5 presents the aggregated
+
+12538
+H. O. A. Ahmed, A. H. Sadka: Auditing Demographic Bias in Mistral
+TABLE 6. Statistical comparison of diagnostic accuracy across demographic groups in the MedQA-Demog dataset.
+
+FIGURE 4. Macro-Precision, Macro-Recall, and Macro-F1 scores across demographic groups (Original, Gender,
+Race/Ethnicity, and Age).
+
+TABLE 7. Macro-averaged precision, recall, and F1 scores.      TABLE 8. Prediction balance and over/under-prediction by demographic
+                                                               group.
+
+D. PREDICTION BALANCE AND                                      while the race/ethnicity and age variants presented simi-
+OVER/UNDER-PREDICTION                                          larly small deviations (< ±0.04). No consistent directional
+To examine whether demographic perturbations induced any       bias (e.g., persistent preference for a specific label) was
+systematic preference for particular answer options, we anal-  observed across groups, confirming that demographic edits
+ysed prediction balance, the relative deviation in predicted   did not distort the model's decision distribution. Overall,
+label frequency compared with the original MedQA dis-          the distributions indicate stable response diversity across
+tribution. This measure quantifies over-prediction (positive   all counterfactual conditions. The absence of systematic
+deviation) and under-prediction (negative deviation) for each  over- or under-prediction patterns reinforces the earlier
+of the four multiple-choice options (A-D). As shown in         conclusion that the Mistral 7B-Instruct model maintained
+Table 8, the Mistral 7B-Instruct model preserved a near-       demographically neutral diagnostic reasoning, with fluctu-
+balanced prediction pattern across all demographic groups.     ations consistent with sampling noise rather than structural
+                                                               bias.
+   For the original dataset, deviations were minimal (ranging
+between -0.019 and +0.021), indicating a well-distributed      E. POWER AND MINIMUM DETECTABLE EFFECTS
+output probability across all answer choices. When demo-       To assess the statistical sensitivity of the fairness evaluation,
+graphic counterfactuals were introduced, slight fluctuations   we conducted a power analysis to estimate the smallest per-
+appeared but remained within expected random variation.        formance gap that could be detected with 80% statistical
+The gender variant showed a modest over-prediction for         power ( = 0.05). This analysis ensures that any non-
+option A (+0.055) and mild under-prediction for C (-0.031),    significant findings reported in previous sections are not due
+
+VOLUME 14, 2026                                                                                                                                               12539
+                                                               H. O. A. Ahmed, A. H. Sadka: Auditing Demographic Bias in Mistral
+
+FIGURE 5. Confusion matrices for each demographic variant of the MedQA-Demog dataset: (a) Original, (b) Gender, (c) Race/Ethnicity,
+and (d) Age. Each matrix depicts predicted versus true answer distributions.
+
+to insufficient sample size but rather reflect genuine per-    7B-Instruct model, therefore, demonstrates robust demo-
+formance parity across demographic variants. As shown in       graphic neutrality within the MedQA-Demog evaluation
+Table 9, each demographic comparison involved more than        framework.
+1,100 counterfactual questions, matched against 1,272 orig-
+inal MedQA items. The Baseline Accuracy (BaselineAcc)          TABLE 9. Power analysis and minimum detectable accuracy gaps (80%
+represents the model's reference accuracy on the original      power, A = 0.05).
+dataset (0.427). The n_ref column denotes the number of
+baseline (original) samples, while n_grp refers to the sam-    IV. DISCUSSION
+ple size of each corresponding demographic variant (gender,    The results of this audit provide clear evidence that the
+race/ethnicity, or age). The final column, MDE_abs_acc,        Mistral 7B-Instruct model demonstrates robust demographic
+reports the minimum detectable effect, the smallest absolute   neutrality when applied to clinical question answering.
+accuracy difference that can be identified with 80% power      Across 4,659 MedQA-Demog items, including systematic
+given the respective sample sizes.                             gender, race/ethnicity, and age perturbations, performance
+                                                               fluctuations remained minimal ( 0.04) and statistically
+   Given these sample sizes, the minimum detectable absolute   non-significant. These findings indicate that open-weight
+difference in accuracy was approximately 0.057 (5.7 percent-
+age points) for all comparisons. As all observed disparities                                                                                                    VOLUME 14, 2026
+reported in Section II were smaller than this threshold
+(0.04), they fall below the detectable range, indicating that
+the apparent differences are statistically insignificant and
+unlikely to represent systematic demographic bias. In sum-
+mary, this power analysis confirms that the non-significant
+fairness outcomes reported earlier reflect genuine model
+stability rather than limited data resolution. The Mistral
+
+12540
+H. O. A. Ahmed, A. H. Sadka: Auditing Demographic Bias in Mistral
+
+LLMs can provide stable diagnostic reasoning despite con-          benchmarking, enabling reproducibility and external veri-
+trolled demographic variations, which is an encouraging            fication absent in proprietary systems. Second, they show
+result considering concerns regarding fairness in medical AI       that bias auditing frameworks can and should extend beyond
+systems. A stratified robustness check by baseline question        aggregate accuracy to include structured statistical testing,
+difficulty further confirms that this demographic stability is     effect-size interpretation, and visual inspection of misclassi-
+not driven by uniformly limited performance but persists           fication patterns. Third, the minimal demographic sensitivity
+across difficulty levels.                                          observed here suggests that instruction-tuned open models
+                                                                   may already possess sufficient contextual grounding to gen-
+   These findings should be interpreted in light of our design     eralise equitably across basic patient characteristics, though
+choice to treat demographic descriptors as fairness probes         further evaluation on free-text clinical notes and multi-modal
+rather than clinically causal features, ensuring that observed     inputs is necessary. Finally, while Mistral 7B-Instruct's over-
+effects reflect demographic framing sensitivity rather than        all diagnostic accuracy remains lower than domain-aligned
+medical risk modelling.                                            giants such as Med-PaLM 2 or GPT-4, its transparency, effi-
+                                                                   ciency, and fairness stability position it as a viable foundation
+   Compared with prior work, the present results show that         for academic and clinical research.
+demographic fairness is achievable even without large-scale
+parameter counts or domain-specific pre-training. Earlier             The primary contribution of this work lies in method-
+transformer baselines, such as BioBERT or RoBERTa-Large            ological rigour for fairness auditing rather than optimisation
+achieved below 40% accuracy on the MedQA bench-                    of diagnostic accuracy, which remains an important direc-
+mark [16], while instruction-tuned and domain-aligned mod-         tion for future studies applying the proposed framework to
+els, such as Flan-PaLM and Med-PaLM reached 67%                    higher-performing medical LLMs. While this study focuses
+accuracy with billions of parameters and extensive clini-          on diagnostic decision consistency under demographic coun-
+cal alignment. Within this landscape, Mistral 7B-Instruct          terfactuals, future extensions of the framework could incor-
+achieved 42.7%, outperforming early encoders despite being         porate analyses of explanation tone, certainty calibration, and
+an open-source model with an order of magnitude fewer              recommendation strength to assess communicative fairness in
+parameters. Notably, our findings complement prior work            patient or clinician-facing settings.
+emphasising that fairness and reasoning quality are not
+strictly functions of model scale, but of controlled training         In the present study, demographic attributes are evalu-
+and evaluation design [53]. The present study extends that         ated independently in order to preserve label invariance and
+insight by empirically demonstrating demographic robust-           avoid introducing clinically implausible or confounded com-
+ness within a fully reproducible, open-weight framework.           binations within the MedQA vignettes; this design choice
+                                                                   ensures that observed effects can be attributed to demo-
+   Error-structure analysis further supports this interpre-        graphic framing rather than unintended changes in clinical
+tation. Confusion matrices and prediction-balance mea-             semantics. Future work should expand this auditing frame-
+sures revealed symmetrical misclassifications dominated by         work to include intersectional attributes (e.g., age × gender),
+semantically adjacent diagnostic options rather than demo-         reasoning-trace analysis, and reinforcement-based fairness
+graphically patterned errors. Frequent transitions such as         tuning to ensure equitable, trustworthy clinical deployment
+B  A or C  D reflected epistemic uncertainty within the            of medical LLMs. Moreover, the present study intentionally
+clinical content, consistent across all demographic subsets.       employs a fixed, deterministic prompt template to isolate
+The absence of systematic over- or under-prediction trends         demographic effects and ensure full reproducibility of the
+(Table 8 ) indicates that the model's diagnostic behaviour         fairness audit. This design choice enables controlled compar-
+is shaped primarily by inherent case difficulty rather than        ison across demographic counterfactuals without introducing
+demographic perturbation. In practical terms, this means           additional variability from prompt engineering or external
+that apparent performance differences between demographic          knowledge retrieval. Future extensions of this framework
+groups are statistically indistinguishable from random sam-        could evaluate demographic robustness under alternative
+pling noise.                                                       prompt templates and simple retrieval-augmented configu-
+                                                                   rations to better approximate real-world clinical decision-
+   From a methodological standpoint, the results validate the      support deployments.
+proposed MedQA-Demog audit framework as a transparent,
+replicable approach for bias evaluation in medical LLMs. The          In summary, the present findings confirm that demographic
+framework's integration of counterfactual augmentation, Wil-       perturbations do not meaningfully change the diagnos-
+son confidence intervals, and effect-size reporting (Cohen's       tic reasoning of the Mistral 7B-Instruct model within the
+h) ensures interpretability and quantitative accuracy, aligning    MedQA-Demog framework. The proposed audit framework
+with emerging standards for fairness auditing. Importantly,        provides a robust and transparent foundation for fairness eval-
+the power analysis (Table 9 ) confirmed that all observed          uation in clinical LLMs and demonstrates that reproducible,
+gaps were below the minimum detectable threshold (0.057),          open-source infrastructures can achieve both methodological
+indicating that non-significance reflects genuine model sta-       rigour and ethical accountability. These outcomes directly
+bility rather than insufficient data.                              inform the next section, which outlines the broader impli-
+                                                                   cations, limitations, and future pathways toward trustworthy,
+   These outcomes have several broader implications. First,        bias-aware medical AI systems.
+they highlight the potential of open-weight models such as
+Mistral to serve as transparent research baselines for fairness
+
+VOLUME 14, 2026                                                    12541
+                                                                                       H. O. A. Ahmed, A. H. Sadka: Auditing Demographic Bias in Mistral
+
+V. CONCLUSION                                                                           [9] D. Deepa, T. D. Rajkumar, and D. Balakrishnan, ``Optimized medical
+This work presents one of the first systematic evalua-                                        recommendation system utilizing large language models for enhanced
+tions of demographic fairness in open-weight medical lan-                                     question answering performance,'' in Proc. Global Conf. Commun.
+guage models. Through the development of MedQA-Demog,                                         Inf. Technol. (GCCIT), Bangalore, India, Oct. 2024, pp. 1-5, doi:
+a label-invariant, counterfactually augmented version of the                                  10.1109/GCCIT63234.2024.10862477.
+MedQA-USMLE dataset and its deployment within a fully
+local, transparent inference pipeline, we provide strong evi-                          [10] Y. Ji, H. Zhang, and Y. Wang, ``Bias evaluation and mitigation
+dence that the Mistral 7B-Instruct model shows stable diag-                                   in retrieval-augmented medical question-answering systems,'' 2025,
+nostic reasoning across patient gender, race/ethnicity, and                                   arXiv:2503.15454.
+age. Accuracy fluctuations across all demographic variants
+remained within ±0.04 and were statistically non-significant                           [11] R. Poulain, H. Fayyaz, and R. Beheshti, ``Bias patterns in the application
+(all p > 0.05). Effect sizes were minimal (|h| < 0.1),                                        of LLMs for clinical decision support: A comprehensive study,'' 2024,
+and bootstrap confidence intervals consistently included                                      arXiv:2404.15149.
+zero, confirming that residual variation reflected stochas-
+tic rather than systematic bias. These results demonstrate                             [12] T. H. Kung, M. Cheatham, A. Medenilla, C. Sillos, L. De Leon, C. Elepaño,
+that open-source instruction-tuned LLMs can achieve robust                                    M. Madriaga, R. Aggabao, G. Diaz-Candido, J. Maningo, and V. Tseng,
+demo-graphic neutrality when evaluated under controlled and                                   ``Performance of ChatGPT on USMLE: Potential for AI-assisted medical
+reproducible conditions.                                                                      education using large language models,'' PLOS Digit. Health, vol. 2, no. 2,
+                                                                                              Feb. 2023, Art. no. e0000198.
+   Beyond model performance, this study establishes a trans-
+parent methodological framework for bias auditing, incorpo-                            [13] A. Gilson, C. W. Safranek, T. Huang, V. Socrates, L. Chi, R. A. Taylor, and
+rating structured counterfactual augmentation, deterministic                                  D. Chartash, ``How does ChatGPT perform on the United States medical
+inference, power analysis, and quantitative bias categorisa-                                  licensing examination? The implications of large language models for
+tion. Together, these elements form a reproducible, exten-                                    medical education and knowledge assessment,'' JMIR Med. Educ., vol. 9,
+sible standard for assessing fairness in clinical AI systems.                                 Feb. 2023, Art. no. e45312.
+Future research should extend this framework to multi-
+modal medical tasks, intersectional demographic attributes                             [14] H. Nori, N. King, S. M. McKinney, D. Carignan, and E. Horvitz, ``Capabil-
+(e.g., age × gender), and longitudinal fine-tuning protocols                                  ities of GPT-4 on medical challenge problems,'' 2023, arXiv:2303.13375.
+designed to reinforce fairness while preserving diagnostic
+validity. By embedding such reproducible fairness audit-                               [15] K. Singhal et al., ``Towards expert-level medical question answering with
+ing practices in the model-development lifecycle, we take a                                   large language models,'' 2023, arXiv:2305.09617.
+critical step toward trustworthy, equitable, and accountable
+deployment of medical LLMs.                                                            [16] D. Jin, E. Pan, N. Oufattole, W.-H. Weng, H. Fang, and P. Szolovits, ``What
+                                                                                              disease does this patient have? A large-scale open domain question answer-
+REFERENCES                                                                                    ing dataset from medical exams,'' Appl. Sci., vol. 11, no. 14, p. 6421,
+                                                                                              Jul. 2021.
+ [1] R. Bommasani et al., ``On the opportunities and risks of foundation mod-
+       els,'' 2021, arXiv:2108.07258.                                                  [17] Q. Peng, Y. Cai, J. Liu, Q. Zou, X. Chen, Z. Zhong, Z. Wang, J. Xie,
+                                                                                              and Q. Li, ``Integration of multi-source medical data for medical diag-
+ [2] J. Clusmann, F. R. Kolbinger, H. S. Muti, Z. I. Carrero, J.-N. Eckardt,                  nosis question answering,'' IEEE Trans. Med. Imag., vol. 44, no. 3,
+       N. G. Laleh, C. M. L. Löffler, S.-C. Schwarzkopf, M. Unger,                            pp. 1373-1385, Mar. 2025.
+       G. P. Veldhuizen, S. J. Wagner, and J. N. Kather, ``The future landscape of
+       large language models in medicine,'' Commun. Med., vol. 3, no. 1, p. 141,       [18] K. Shang, C.-H. Chang, and C. C. Yang, ``Collaboration among mul-
+       Oct. 2023, doi: 10.1038/s43856-023-00370-1.                                            tiple large language models for medical question answering,'' 2025,
+                                                                                              arXiv:2505.16648.
+ [3] J. Achiam et al., ``GPT-4 technical report,'' 2023, arXiv:2303.08774.
+ [4] M. Moor, O. Banerjee, Z. S. H. Abad, H. M. Krumholz, J. Leskovec,                 [19] A. Ghosh and K. Deepa, ``QueryMintAI: Multipurpose multimodal
+                                                                                              large language models for personal data,'' IEEE Access, vol. 12,
+       E. J. Topol, and P. Rajpurkar, ``Foundation models for generalist medical              pp. 144631-144651, 2024.
+       artificial intelligence,'' Nature, vol. 616, no. 7956, pp. 259-265, Apr. 2023.
+ [5] H. Ali et al., ``ChatGPT and large language models (LLMs) in health-              [20] I. O. Gallegos, R. A. Rossi, J. Barrow, M. M. Tanjim, S. Kim,
+       care: Opportunities and risks,'' TechRxiv, Jul. 2023. [Online]. Available:             F. Dernoncourt, T. Yu, R. Zhang, and N. K. Ahmed, ``Bias and fairness
+       https://www.techrxiv.org/doi/full/10.36227/techrxiv.22579852.v3                        in large language models: A survey,'' 2023, arXiv:2309.00770.
+ [6] S. Fernando and D. Wickramaarachchi, ``Large language model (LLM)
+       support for preliminary consultation in healthcare,'' in Proc. 5th Int. Conf.   [21] Y. Xiao, J. Huang, R. He, J. Xiao, M. R. Mousavi, Y. Liu, K. Li, Z. Chen,
+       Adv. Res. Comput. (ICARC), Belihuloya, Sri Lanka, Feb. 2025, pp. 1-6,                  and J. M. Zhang, ``FairMedQA: Benchmarking bias in large language
+       doi: 10.1109/ICARC64760.2025.10963287.                                                 models for medical question answering,'' 2025, arXiv:2505.19562.
+ [7] M. Benary, X. D. Wang, M. Schmidt, D. Soll, G. Hilfenhaus, M. Nassir,
+       C. Sigler, M. Knödler, U. Keller, D. Beule, U. Keilholz, U. Leser, and          [22] B. Ni, Z. Liu, L. Wang, Y. Lei, Y. Zhao, X. Cheng, Q. Zeng, L. Dong, Y. Xia,
+       D. T. Rieke, ``Leveraging large language models for decision support in                K. Kenthapadi, R. Rossi, F. Dernoncourt, M. Mehrab Tanjim, N. Ahmed,
+       personalized oncology,'' JAMA Netw. Open, vol. 6, no. 11, Nov. 2023,                   X. Liu, W. Fan, E. Blasch, Y. Wang, M. Jiang, and T. Derr, ``Towards
+       Art. no. e2343689, doi: 10.1001/jamanetworkopen.2023.43689.                            trustworthy retrieval augmented generation for large language models: A
+ [8] D. V. Veen, C. V. Uden, L. Blankemeier, J.-B. Delbrouck, A. Aali,                        survey,'' 2025, arXiv:2502.06872.
+       C. Bluethgen, A. Pareek, M. Polacin, E. P. Reis, A. Seehofnerová,
+       N. Rohatgi, P. Hosamani, W. Collins, N. Ahuja, C. P. Langlotz, J. Hom,          [23] P. Spitzer, D. Hendriks, J. Rudolph, S. Schlaeger, J. Ricke,
+       S. Gatidis, J. M. Pauly, and A. Chaudhari, ``Clinical text summarization:              N. Kühl, BF. Hoppe, and S. Feuerriegel, ``The effect of
+       Adapting large language models can outperform human experts,'' Res.                    medical explanations from large language models on diagnostic
+       Square, vol. 1, pp. 1-26, Sep. 2023.                                                   decisions in radiology,'' MedRxiv, Mar. 2025. [Online]. Available:
+                                                                                              https://www.medrxiv.org/content/10.1101/2025.03.04.25323357v2
+12542
+                                                                                       [24] M. Raj and V. Ravindran, ``A comparative study on generative artificial
+                                                                                              intelligence by evaluating multiple large language models for guidance to
+                                                                                              parents toward pediatric dentistry: A multimodal comparative LLM study,''
+                                                                                              J. Int. Oral Health, vol. 17, no. 5, pp. 378-387, Sep. 2025.
+
+                                                                                       [25] A. Warrier, R. Singh, A. Haleem, H. Zaki, and J. A. Eloy, ``The compar-
+                                                                                              ative diagnostic capability of large language models in otolaryngology,''
+                                                                                              Laryngoscope, vol. 134, no. 9, pp. 3997-4002, Sep. 2024.
+
+                                                                                       [26] D. Pawar and S. Phansalkar, ``MindWellQA: A semantically enriched
+                                                                                              evidence-based QA system for psychological disorders,'' IEEE Access,
+                                                                                              vol. 13, pp. 190003-190026, 2025, doi: 10.1109/ACCESS.2025.3627880.
+
+                                                                                       [27] J. A. Omiye, J. C. Lester, S. Spichak, V. Rotemberg, and R. Daneshjou,
+                                                                                              ``Large language models propagate race-based medicine,'' npj Digit. Med.,
+                                                                                              vol. 6, no. 1, Oct. 2023, Art. no. 195.
+
+                                                                                       [28] T. Zack, E. Lehman, M. Suzgun, J. A. Rodriguez, L. A. Celi, J. Gichoya,
+                                                                                              D. Jurafsky, P. Szolovits, D. W. Bates, R.-E.-E. Abdulnour, A. J. Butte,
+                                                                                              and E. Alsentzer, ``Assessing the potential of GPT-4 to perpetuate racial
+                                                                                              and gender biases in health care: A model evaluation study,'' Lancet Digit.
+                                                                                              Health, vol. 6, no. 1, pp. e12-e22, Jan. 2024.
+
+                                                                                                                                                                                        VOLUME 14, 2026
+H. O. A. Ahmed, A. H. Sadka: Auditing Demographic Bias in Mistral
+
+[29] S. R. Pfohl et al., ``A toolbox for surfacing health equity harms and biases     [52] N. Mehrabi, F. Morstatter, N. Saxena, K. Lerman, and A. Galstyan, ``A
+       in large language models,'' Nature Med., vol. 30, no. 12, pp. 3590-3600,              survey on bias and fairness in machine learning,'' ACM Comput. Surv.,
+       Dec. 2024.                                                                            vol. 54, no. 6, pp. 1-35, Jul. 2022.
+
+[30] M. D. Abràmoff, M. E. Tarver, N. Loyo-Berrios, S. Trujillo, D. Char,             [53] K. Singhal, ``Large language models encode clinical knowledge,'' Nature,
+       Z. Obermeyer, and M. B. Eydelman, ``Foundational principles of oph-                   vol. 620, no. 7972, pp. 172-180, 2023.
+       thalmic imaging and algorithmic interpretation working group of the
+       collaborative community for ophthalmic imaging foundation, Washington,                                        HOSAMELDIN O. A. AHMED received the
+       DC, Maisel WH. Considerations for addressing bias in artificial intelli-                                      Ph.D. degree in electronic and computer engineer-
+       gence for health equity,'' NPJ Digit. Med., vol. 6, no. 1, p. 170, Sep. 2023.                                 ing from Brunel University of London.
+
+[31] M. Mittermaier, M. M. Raza, and J. C. Kvedar, ``Bias in AI-based models                                            He is currently a Distinguished Researcher
+       for medical applications: Challenges and mitigation strategies,'' npj Digit.                                  with The Sir Peter Rigby Digital Futures Insti-
+       Med., vol. 6, no. 1, Jun. 2023, Art. no. 113, doi: 10.1038/s41746-023-                                        tute, Aston University, U.K. His interdisciplinary
+       00858-z.                                                                                                      research is at the intersection of artificial intel-
+                                                                                                                     ligence (AI), multimodal medical imaging, and
+[32] Q. Jin, B. Dhingra, Z. Liu, W. W. Cohen, and X. Lu, ``Pub-                                                      extended reality (XR). He has pioneered the devel-
+       MedQA: A dataset for biomedical research question answering,'' 2019,                                          opment of AI and deep learning frameworks for the
+       arXiv:1909.06146.                                                              early detection of lung and breast cancer, with a specialized focus on applying
+                                                                                      deep transfer learning to mammography, CT scan, X-ray, and ultrasound
+[33] K. Benkirane, J. Kay, and M. Perez-Ortiz, ``How can we diagnose and              images. He has led projects integrating AI with electronic health records for
+       treat bias in large language models for clinical decision-making?'' 2024,      NHS-interoperable clinical decision support and is a recognized innovator
+       arXiv:2410.16574.                                                              in XR, having designed immersive applications for medical training and
+                                                                                      real-time physiological data visualization. His research portfolio extends sig-
+[34] A. Q. Jiang, A. Sablayrolles, A. Mensch, C. Bamford, D. S. Chaplot,              nificantly to industry 4.0, where he has developed machine-learning-driven
+       D. de las Casas, F. Bressand, G. Lengyel, G. Lample, L. Saulnier,              solutions for predictive maintenance and condition monitoring of rotating
+       L. R. Lavaud, M.-A. Lachaux, P. Stock, T. Le Scao, T. Lavril, T. Wang,         machinery, as detailed in his co-authored book, Condition Monitoring with
+       T. Lacroix, and W. El Sayed, ``Mistral 7B,'' 2023, arXiv:2310.06825.           Vibration Signals (IEEE-Wiley), in 2020. His scholarly work also encom-
+                                                                                      passes internet addiction disorder detection and digital heritage preservation
+[35] H. Touvron et al., ``Llama 2: Open foundation and fine-tuned chat models,''      through image inpainting and 3D visual interaction. His current research
+       2023, arXiv:2307.09288.                                                        interests include generative AI for synthetic data, explainable AI (XAI) in
+                                                                                      healthcare, and the development of AI-powered multimodal systems for
+[36] A. Jobin, M. Ienca, and E. Vayena, ``The global landscape of AI ethics           next-generation digital health.
+       guidelines,'' Nature Mach. Intell., vol. 1, no. 9, pp. 389-399, Sep. 2019,
+       doi: 10.1038/s42256-019-0088-2.                                                                               ABDUL HAMID SADKA is a distinguished aca-
+                                                                                                                     demic and a researcher specializing in artificial
+[37] E. M. Bender, T. Gebru, A. Mcmillan-Major, and S. Shmitchell, ``On                                              intelligence (AI), visual computing, and digital
+       the dangers of stochastic parrots: Can language models be too big,''                                          innovation. He joined Aston University, in 2023,
+       in Proc. ACM Conf. Fairness, Accountability, Transparency, Mar. 2021,                                         as the Founding Director of The Sir Peter Rigby
+       pp. 610-623.                                                                                                  Digital Futures Institute, after an Extensive Career
+                                                                                                                     with Brunel University of London, where he was
+[38] M. Alkhalaf, P. Yu, M. Yin, and C. Deng, ``Applying generative AI with                                          the Director of the Institute of Digital Futures, the
+       retrieval augmented generation to summarize and extract key clinical infor-                                   Founding Director of the Brunel Digital Science
+       mation from electronic health records,'' J. Biomed. Informat., vol. 156,                                      and Technology Hub, the Director of the Centre
+       Aug. 2024, Art. no. 104662.                                                    for Media Communications Research, and the Head of Electronic, Computer
+                                                                                      Engineering and Digital Media. With nearly 30 years of academic and
+[39] L. Riedemann, M. Labonne, and S. Gilbert, ``The path forward for large           research leadership and cross-sector collaborations, he has made signifi-
+       language models in medicine is open,'' npj Digit. Med., vol. 7, no. 1,         cant contributions to AI-enabled visual media technologies and intelligent
+       Nov. 2024, Art. no. 339, doi: 10.1038/s41746-024-01344-w.                      multimodal systems. His expertise spans machine learning, image and
+                                                                                      video processing, immersive and autonomous systems, and digital health
+[40] I. Y. Chen, S. Joshi, and M. Ghassemi, ``Treating health disparities with        applications. He has successfully led large-scale interdisciplinary projects
+       artificial intelligence,'' Nature Med., vol. 26, no. 1, pp. 16-17, Jan. 2020.  addressing healthcare, engineering, and security challenges, attracting more
+                                                                                      than £20 million in competitive research funding. He is also the author of
+[41] A. d'Elia, M. Gabbay, S. Rodgers, C. Kierans, E. Jones, I. Durrani,              the Wiley book Compressed Video Communications (Wiley Online Library),
+       A. Thomas, and L. Frith, ``Artificial intelligence and health inequities in    a seminal work on video compression and transmission technologies that
+       primary care: A systematic scoping review and framework,'' Family Med.         continues to inform research and industry practices. He has supervised more
+       Community Health, vol. 10, no. 1, Nov. 2022, Art. no. e001670.                 than 50 Ph.D. and postdoctoral researchers to completion and published
+                                                                                      extensively in high-impact journals. He has an extensive record of col-
+[42] (2025). Mistral-7B-Instruct-v0.3. Accessed: Oct. 11, 2025. [Online].             laborations with industry and public-sector partners, developing AI-driven,
+       Available: https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3           multimodal, and immersive solutions that bridge fundamental research with
+                                                                                      real-world innovation across healthcare, manufacturing, digital media, and
+[43] (2025). Ollama API Documentation. Accessed: Oct. 11, 2025. [Online].             professional services.
+       Available: https://docs.ollama.com/api
+                                                                                                                                                                                     12543
+[44] J. Cohen, Statistical Power Analysis for the Behavioral Sciences.
+       Nashville, TN, USA: Abingdon, 1988.
+
+[45] Y. Benjamini, D. Drai, G. Elmer, N. Kafkafi, and I. Golani, ``Controlling
+       the false discovery rate in behavior genetics research,'' Behavioural Brain
+       Res., vol. 125, nos. 1-2, pp. 279-284, Nov. 2001. [Online]. Available:
+       http://linkinghub.elsevier.com/retrieve/pii/S0166432801002972
+
+[46] H. O. A. Ahmed and A. K. Nandi, ``High performance breast cancer
+       diagnosis from mammograms using mixture of experts with EfficientNet
+       features (MoEffNet),'' IEEE Access, vol. 12, pp. 133703-133725, 2024,
+       doi: 10.1109/ACCESS.2024.3461360.
+
+[47] E. B. Wilson, ``Probable inference, the law of succession, and statistical
+       inference,'' J. Amer. Stat. Assoc., vol. 22, no. 158, pp. 209-212, Jun. 1927.
+
+[48] D. Sheskin, Handbook of Parametric and Nonparametric Statistical Pro-
+       cedures, 2nd ed., London, U.K.: Chapman & Hall/CRC, 2006.
+
+[49] J. L. Fleiss, B. Levin, and M. C. Paik, Statistical Methods for Rates and
+       Proportions. Hoboken, NJ, USA: Wiley, 2003, doi: 10.1002/0471445428.
+
+[50] L. Seyyed-Kalantari, H. Zhang, M. B. A. McDermott, I. Y. Chen, and
+       M. Ghassemi, ``Underdiagnosis bias of artificial intelligence algorithms
+       applied to chest radiographs in under-served patient populations,'' Nature
+       Med., vol. 27, no. 12, pp. 2176-2182, Dec. 2021.
+
+[51] B. H. Zhang, B. Lemoine, and M. Mitchell, ``Mitigating unwanted biases
+       with adversarial learning,'' in Proc. AAAI/ACM Conf. AI, Ethics, Soc.,
+       Dec. 2018, pp. 335-340.
+
+VOLUME 14, 2026
+

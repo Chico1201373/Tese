@@ -1,0 +1,221 @@
+2023 IEEE International Conference on Artificial Intelligence, Blockchain, and Internet of Things (AIBThings) | 979-8-3503-2234-7/23/$31.00 ©2023 IEEE | DOI: 10.1109/AIBThings58340.2023.10291020  ChatGPT and Large Language Models in
+
+                                                                                                                                                                                                       Healthcare: Opportunities and Risks
+
+                                                                                                                                                                                                             Hazrat Ali, Junaid Qadir, Tanvir Alam, Mowafa Househ, Zubair Shah
+                                                                                                                                                                                                          College of Science and Engineering, Hamad Bin Khalifa University, Qatar Foundation,
+
+                                                                                                                                                                                                                                                         Doha, Qatar.
+                                                                                                                                                                                                                             Department of Computer Engineering, Qatar University,
+
+                                                                                                                                                                                                                                                         Doha, Qatar.
+                                                                                                                                                                                                                    Email: {haali2, talam, mhouseh, zshah}@hbku.edu.qa, jqadir@qu.edu.qa
+
+                                                                                                                                                                                                       Abstract--ChatGPT, a pre-trained large language model             FDA clearance during the last four years, as summarized in
+                                                                                                                                                                                                    (LLM), has the potential to transform healthcare by providing        Fig. 1. Notably, a significant portion of these AI products
+                                                                                                                                                                                                    valid clinical insights and reducing doctors' workload. There        is for radiology-based studies, as can be seen in Fig. 2.
+                                                                                                                                                                                                    are already signs that such tools can be useful for automating       However, the development of AI for text-based clinical studies,
+                                                                                                                                                                                                    the generation of patient discharge reports, clinical vignettes,     including the more complex unstructured clinical notes, is
+                                                                                                                                                                                                    and radiology reports. Such tools can also capture the vast          yet to reach maturity. In this connection, ChatGPT carries
+                                                                                                                                                                                                    medical knowledge base as demonstrated by ChatGPT clearing           disruptive potential that can facilitate our ambitions of new
+                                                                                                                                                                                                    the United States Medical Licensing Examination (USMLE).             horizons in clinical healthcare. With ChatGPT demonstrating
+                                                                                                                                                                                                    Such tools promise to make healthcare more accessible, scalable,     a promising prospect in healthcare, we provide a discussion
+                                                                                                                                                                                                    and efficient, leading to better patient outcomes. However, such     on the future of healthcare and the opportunities offered by
+                                                                                                                                                                                                    tools are far from perfect and well-known to be susceptible to       ChatGPT.
+                                                                                                                                                                                                    error, misinformation, and bias. In this paper, we review the
+                                                                                                                                                                                                    potential applications of ChatGPT in healthcare and also identify    Fig. 1: Year-wise number of products with FDA clearance
+                                                                                                                                                                                                    potentials risks that must be addressed before ChatGPT and           (data from [3]).
+                                                                                                                                                                                                    other LLM tools can be safely adopted in healthcare. First, we
+                                                                                                                                                                                                    offer case studies on using ChatGPT for passing USMLE, identi-          ChatGPT is a pre-trained large language model (LLM) that
+                                                                                                                                                                                                    fying prevention methods for cardiovascular disease, generating      employs advanced AI techniques, including Reinforcement
+                                                                                                                                                                                                    patient discharge reports, generating clinical vignettes, and gen-   Learning from Human Feedback (RLHF), to generate coher-
+                                                                                                                                                                                                    erating radiology reports. Second, we present the opportunities      ent and grammatically correct text. Healthcare professionals
+                                                                                                                                                                                                    that ChatGPT offers in healthcare. By leveraging its language        can utilize ChatGPT's human-like text generation to make
+                                                                                                                                                                                                    generation and processing capabilities, ChatGPT can streamline       informed decisions about diagnoses and treatments, improving
+                                                                                                                                                                                                    and improve a range of healthcare tasks, from digitizing clinical    patient outcomes and reducing healthcare costs. ChatGPT's
+                                                                                                                                                                                                    notes and improving the accuracy of diagnosis to revolutionizing     potential to transform patient care by analyzing large amounts
+                                                                                                                                                                                                    medical education and empowering patients with personalized          of medical data and providing personalized insights to doctors
+                                                                                                                                                                                                    healthcare information. Finally, we reflect on the associated risks  makes it promising for the healthcare industry.
+                                                                                                                                                                                                    and conclude that caution is advised in interpreting the results
+                                                                                                                                                                                                    of ChatGPT as these studies are preliminary and not entirely            ChatGPT has demonstrated impressive strengths in global
+                                                                                                                                                                                                    error-free.
+
+                                                                                                                                                                                                       Index Terms--ChatGPT, Healthcare, Large Language Models,
+                                                                                                                                                                                                    Medical Artificial Intelligence, Natural Language Processing.
+
+                                                                                                                                                                                                                              I. INTRODUCTION
+
+                                                                                                                                                                                                       Artificial Intelligence (AI) penetrating mainstream health-
+                                                                                                                                                                                                    care is not a new phenomenon, though it has recently ac-
+                                                                                                                                                                                                    quired speed. Efforts are now underway to educate doctors
+                                                                                                                                                                                                    about AI methods in healthcare. For example, Hu et al. [1]
+                                                                                                                                                                                                    reported an attempt to provide a five-week training workshop
+                                                                                                                                                                                                    on AI in medicine, a curriculum specifically designed for
+                                                                                                                                                                                                    medical students to tailor the scope to clinical healthcare.
+                                                                                                                                                                                                    The workshop has been offered three times now, reflecting
+                                                                                                                                                                                                    its effectiveness and potential impact in bridging AI and
+                                                                                                                                                                                                    healthcare. As of writing this, more than 500 AI algorithms
+                                                                                                                                                                                                    for healthcare have received FDA clearance [2], [3]. Despite
+                                                                                                                                                                                                    the fact that the FDA cleared the first AI algorithm in 1995,
+                                                                                                                                                                                                    the momentum in clinical healthcare AI has primarily been
+                                                                                                                                                                                                    witnessed only recently, with over 300 AI products receiving
+
+                                                                                                                                                                                                    Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:33:13 UTC from IEEE Xplore. Restrictions apply.
+Fig. 2: Summary of healthcare AI products with FDA clear-             clinical vignettes that focused on common childhood diseases.
+ance. AI products using radiology lead in number compared             In addition, ChatGPT was able to modify these vignettes to
+to other modality (data from [3]).                                    suit different literacy levels and perspectives, such as those
+                                                                      of parents or physicians. The study also examined ChatGPT's
+accessibility, scalability, processing speed, and learning from       ability to predict diagnoses from the vignettes, achieving a
+feedback to remain up-to-date with medical knowledge and              diagnostic accuracy of 75.6% on a set of 45 vignettes, which
+guidelines. Speed is a major strength of ChatGPT. ChatGPT             is comparable to physicians' performance of 72% on the same
+can access and process terabytes of data in a time of the             set.
+order of seconds. Thus, ChatGPT can help in improving
+the speed of diagnosis, particularly when patients may have              ChatGPT excels in comprehending input prompts and gener-
+difficulty describing their symptoms or cases where a decision        ating natural text in a conversational style. In [7], doctors from
+would require doctors to go through large piles of reports and        Cleveland Clinic and Stanford University evaluated ChatGPT's
+clinical notes. These capabilities have the potential to enhance      responses to questions about cardiovascular diseases, finding
+patient care and medical decision-making, but significant risks       21 out of 25 responses "appropriate". On top of it, Chat-
+associated with vulnerabilities like hallucinations and non-          GPT provided "comprehensible reasoning and valid clinical
+factual information must be addressed. It is necessary that           insights" while explaining the responses. In [8], ChatGPT's
+ChatGPT's reliability and safety be subjected to a thorough           ability to pass the United States Medical Licensing Exam
+clinical validation before implementing it in healthcare in line      (USMLE) was evaluated, with scores close to the threshold
+with the Hippocratic principle of "do no harm." In this paper,        achieved for all three exams. The USMLE encompasses a
+we aim to highlight the various opportunities and use cases for       diverse range of medical knowledge, including basic biology,
+using ChatGPT in healthcare settings, as well as the challenges       clinical rationale, medical management, and biomedical ethics.
+and risks that must be addressed before widespread adoption.          It is worth mentioning that preparation for the step 1 exam of
+We note that while this paper's discussion is mostly focussed         the USMLE would usually require a dedicated study of more
+on ChatGPT, these also extend more or less to other LLMs,             than 300 hours. Furthermore, passing the examination requires
+for example, Google Bard1, Meta LLaMA2.                               trained doctors and physicians to have acquired multiple years
+                                                                      of training in clinical knowledge, management, and ethics.
+         II. RECENT APPLICATIONS IN HEALTHCARE
+                                                                                              III. OPPORTUNITIES
+   ChatGPT can be very useful for report generation. In a
+study [4], ChatGPT was utilized to generate a patient discharge          Below are ChatGPT's potential significant contributions to
+report using a brief prompt. Notably, the discharge report            healthcare (see Figure 3).
+produced by ChatGPT included additional details that were
+not specified in the prompt (although this can be a potential            Report Summarization and Auto-Completion: The
+drawback if incorrect information is included). Additionally,         strength of ChatGPT lies in text generation, hence, it can be
+in [5], ChatGPT was employed to rephrase and summarize                adopted for sentence completion in clinical notes, eventually
+radiology reports, highlighting its potential to reduce patient       saving the doctors' time, as demonstrated in [4], [5].
+waiting times and alleviate the workload of healthcare pro-
+fessionals. ChatGPT can also be used to assist in creating               Knowledge Extraction from Unstructured Text: Clinical
+clinical vignettes, which are a valuable tool for healthcare          notes and electronic health records are mostly unstructured
+education. A recent study [6] utilized ChatGPT to generate            data. ChatGPT can extract key information from unstructured
+                                                                      clinical notes and turn this into structured notes or use it to
+   1https://bard.google.com/                                          generate electronic health records. Thus, digitizing of health-
+   2https://ai.facebook.com/blog/large-language-model-llama-meta-ai/  care data will also be supported.
+
+                                                                         Personal Health Advice: Ideally, ChatGPT can access all
+                                                                      the publicly available medical data on the Internet. Hence, it
+                                                                      can be fine-tuned on authentic medical literature and standard
+                                                                      clinical guidelines [6]. Thus, it can be used as a basic diag-
+                                                                      nosis and personal consultancy tool, eventually reducing the
+                                                                      workload from primary healthcare centers. As demonstrated
+                                                                      in [7], ChatGPT will open new ways for the public to interact
+                                                                      with digital healthcare and personalized medicine consultancy.
+
+                                                                         Accessible Customized Content: ChatGPT can generate
+                                                                      text from the first-person perspective of na¨ive individuals as
+                                                                      well as expert physicians. Accordingly, it can input the text
+                                                                      related to disease symptoms given by low literacy patients,
+                                                                      restructure them as if they were written by expert physicians,
+                                                                      and provide suitable diagnoses. Effectively, this would em-
+                                                                      power patients and lead them to make informed decisions.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:33:13 UTC from IEEE Xplore. Restrictions apply.
+Fig. 3: Key opportunities and risks for ChatGPT in healthcare.
+
+   Medical Education and Research: A relatively straight-       accountability, explanability, and fairness are fundamental
+forward application of ChatGPT is to use it for medical         concerns associated with results generated by ChatGPT.
+education purposes. So, it could be used to provide virtual
+training modules to medical students worldwide, particularly       Human emotions and respect: Patients interacting with
+those with limited access to training material. Overall, it     ChatGPT-based tools may feel they are not being treated with
+will transform medical education through democratizing and      the respect and dignity that they deserve, and may not be
+disseminating knowledge [6]. Similarly, it will also revolu-    willing to divulge their full medical history to a machine.
+tionalize the education of patients who can get personal-
+ized healthcare information. Likewise, ChatGPT will help in        Data privacy: In healthcare, data privacy is a critical con-
+advancing medical research through faster analysis of large     cern, and patient data must be protected at all times. ChatGPT
+medical data, identification of complex patterns in healthcare  requires access to sensitive patient data to provide personalized
+data, and relationship extraction for drug design.              recommendations, which raises concerns about data security
+                                                                and privacy. It is essential to ensure that appropriate measures
+                               IV. RISKS                        are in place to protect patient data and that patients are fully
+                                                                informed about the use of their data.
+   Current studies on ChatGPT are preliminary and not nec-
+essarily completely free from errors. So, caution is advised       Interpretability and Reliability: ChatGPT's recommenda-
+while interpreting the results, as reported by the studies      tions lack transparency due to its opaque nature, which hinders
+[4], [5]. While ChatGPT has many potential opportunities        acceptance from healthcare professionals where explainability
+in healthcare, some of the risks associated with the use of     is vital. Additionally, biases in the training data may affect
+ChatGPT in healthcare, are summarized below.                    accuracy and lead to incorrect diagnoses or treatment recom-
+                                                                mendations. It is crucial for medical professionals to carefully
+   Ethical concerns: ChatGPT is a computer program and          review and validate ChatGPT's recommendations before using
+cannot be a substitute to human touch and empathy that doc-     them in clinical decision-making.
+tors and medical professionals provide. So, patients may feel
+uncomfortable with a machine diagnosing them. Eventually,          Standardization: There is currently a lack of standardiza-
+healthcare may lead to dehumanization. Lack of transparency,    tion in the implementation of ChatGPT in healthcare. This
+                                                                means that the way the model is used and the types of data it is
+                                                                trained on can vary widely between institutions and healthcare
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:33:13 UTC from IEEE Xplore. Restrictions apply.
+systems. This lack of standardization can make it difficult to                                 REFERENCES
+compare and evaluate the performance of different ChatGPT
+models, and it can also lead to inconsistencies in patient care.   [1] R. Hu, K. Y. Fan, P. Pandey, Z. Hu, O. Yau, M. Teng, P. Wang, A. Li,
+                                                                        M. Ashraf, and R. Singla, "Insights from teaching artificial intelligence
+   Integration with existing healthcare systems: The inte-              to medical students in canada," Communications Medicine, vol. 2, no. 1,
+gration of ChatGPT with existing healthcare systems presents            p. 63, 2022.
+a significant challenge as healthcare systems are complex.
+ChatGPT must be integrated into existing electronic health         [2] S. Zhu, M. Gilbert, I. Chetty, and F. Siddiqui, "The 2021 landscape
+record systems and clinical workflows without disrutption to            of fda-approved artificial intelligence/machine learning-enabled medical
+the existing clinical workflows. For developing economies               devices: an analysis of the characteristics and intended use," Interna-
+where the digital divide is huge and healthcare data is not             tional journal of medical informatics, vol. 165, p. 104828, 2022.
+entirely digitized, the potential of ChatGPT will be restricted
+due to a lack of usable data.                                      [3] U. Food, D. Administration, et al., "Artificial intelligence and machine
+                                                                        learning (ai/ml)-enabled medical devices," 2022. Accessed: 30 April
+   Resistance from stakeholders: Incorporating ChatGPT                  2023.
+into healthcare does not necessarily imply that doctors will
+benefit from the financial gains; rather, corporates may do so.    [4] S. B. Patel and K. Lam, "Chatgpt: the future of discharge summaries?,"
+Potential resistance from doctors cannot be ruled out, as they          The Lancet Digital Health, vol. 5, no. 3, pp. e107-e108, 2023.
+will not benefit from the revenue generated. Private healthcare
+that incorporates such systems may tend to ask for an increased    [5] K. Jeblick, B. Schachtner, J. Dexl, A. Mittermeier, A. T. Stu¨ber,
+price as a cost for their faster and better systems.                    J. Topalis, T. Weber, P. Wesp, B. Sabel, J. Ricke, et al., "Chatgpt makes
+                                                                        medicine easy to swallow: An exploratory case study on simplified
+   Tradeoffs between human errors and machine errors:                   radiology reports," arXiv preprint arXiv:2212.14882, 2022.
+Both humans and machines are fallible and have their own
+strengths. Hospitals and healthcare centers have shown to          [6] J. R. Benoit, "Chatgpt for clinical vignette generation, revision, and
+be susceptible to patient safety lapses, with a reported 25%            evaluation," medRxiv, pp. 2023-02, 2023.
+of patients in hospitals experiencing harm due to human
+errors [9]. Similarly, ChatGPT can make mistakes, including        [7] A. Sarraju, D. Bruemmer, E. Van Iterson, L. Cho, F. Rodriguez,
+hallucinating non-factual information and providing biased              and L. Laffin, "Appropriateness of cardiovascular disease prevention
+advice [10]. The question of how to use these tools in medical          recommendations obtained from a popular online chat-based artificial
+education can benefit from the educational insights developed           intelligence model," JAMA, vol. 329, no. 10, pp. 842-844, 2023.
+in other domains [11]. It is important to develop a hybrid
+human-machine based system with a functional split that            [8] T. H. Kung, M. Cheatham, A. Medenilla, C. Sillos, L. De Leon,
+leverages the strengths of both humans and machines and                 C. Elepan~o, M. Madriaga, R. Aggabao, G. Diaz-Candido, J. Maningo,
+mitigates the errors made by both.                                      et al., "Performance of chatgpt on usmle: Potential for ai-assisted
+                                                                        medical education using large language models," PLoS digital health,
+                           V. CONCLUSION                                vol. 2, no. 2, p. e0000198, 2023.
+
+   ChatGPT has proved to be a disruptive technology tool for       [9] D. W. Bates, D. M. Levine, H. Salmasian, A. Syrowatka, D. M. Shahian,
+natural language processing and medical AI applications. In             S. Lipsitz, J. P. Zebrowski, L. C. Myers, M. S. Logan, C. G. Roy, et al.,
+this paper, we presented the potential of ChatGPT to transform          "The safety of inpatient health care," New England Journal of Medicine,
+healthcare. Through a brief discussion of the case studies, we          vol. 388, no. 2, pp. 142-153, 2023.
+showed that ChatGPT has attracted doctors and healthcare
+researchers to use it for diagnosis, clinical note generation,    [10] Z. Ji, N. Lee, R. Frieske, T. Yu, D. Su, Y. Xu, E. Ishii, Y. J. Bang,
+and medical education. We listed key opportunities offered              A. Madotto, and P. Fung, "Survey of hallucination in natural language
+by ChatGPT in the healthcare domain. Finally, we have also              generation," ACM Computing Surveys, vol. 55, no. 12, pp. 1-38, 2023.
+provided a brief description of the associated challenges and
+preventive measures that one must consider while using the        [11] J. Qadir, "Engineering education in the era of chatgpt: Promise and
+tool in healthcare applications. While the discussion around            pitfalls of generative ai for education," in 2023 IEEE Global Engineering
+opportunities in transforming healthcare is focussed on Chat-           Education Conference (EDUCON), pp. 1-9, IEEE, 2023.
+GPT, many of the insights and possibilities discussed here
+would be equally applicable to other language models as
+they are now pouring in (for example, Google Bard, Falcon,
+Meta LLaMA). The field of LLMs is rapidly evolving, with
+new knowledge and models continuously emerging. It is not
+uncommon for new concepts to be developed and novel results
+to be published while we are drafting this work. This dynamic
+nature of the field emphasizes the importance of continually
+updating and remaining adaptable in our comprehension and
+utilization of ChatGPT/LLMs.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:33:13 UTC from IEEE Xplore. Restrictions apply.
+

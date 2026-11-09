@@ -1,0 +1,1194 @@
+1122                                                                           IEEE/CAA JOURNAL OF AUTOMATICA SINICA, VOL. 10, NO. 5, MAY 2023
+
+A Brief Overview of ChatGPT: The History, Status
+       Quo and Potential Future Development
+
+  Tianyu Wu , Shizhu He , Jingping Liu , Siqi Sun , Kang Liu , Qing-Long Han , Fellow, IEEE, and
+                                              Yang Tang , Senior Member, IEEE
+
+  Abstract--ChatGPT, an artificial intelligence generated con-                 refers to that users can use AI to create contents (e.g., images,
+tent (AIGC) model developed by OpenAI, has attracted world-                    text, and videos) automatically according to their personal-
+wide attention for its capability of dealing with challenging lan-             ized requirements [1]-[3]. With the iterative development of
+guage understanding and generation tasks in the form of conver-                AI algorithms and network structures [4], [5], significant
+sations. This paper briefly provides an overview on the history,               progress has been made in AIGC. Generative adversarial net-
+status quo and potential future development of ChatGPT, help-                  work (GAN) [6], [7], contrastive language-image pre-training
+ing to provide an entry point to think about ChatGPT. Specifi-                 (CLIP) [8], diffusion model [9], [10] and multimodal genera-
+cally, from the limited open-accessed resources, we conclude the               tion [11], [12] are core technologies for various fields of
+core techniques of ChatGPT, mainly including large-scale lan-                  AIGC so that contents with high quality can be generated
+guage models, in-context learning, reinforcement learning from                 automatically. Moreover, with the advancement of GPU and
+human feedback and the key technical steps for developing Chat-                the increase in computational power, large scale deep net-
+GPT. We further analyze the pros and cons of ChatGPT and we                    works with huge amounts of parameters are trained so that
+rethink the duality of ChatGPT in various fields. Although it has              more information can be learned to deal with general down-
+been widely acknowledged that ChatGPT brings plenty of oppor-                  stream tasks with better performance [13]. Based on the above
+tunities for various fields, mankind should still treat and use                technological developments, in the year of 2022, various of
+ChatGPT properly to avoid the potential threat, e.g., academic                 AIGC products were developed and iterated by the world's
+integrity and safety challenge. Finally, we discuss several open               leading technology companies, for example DALL-E-2 of
+problems as the potential development of ChatGPT.                              OpenAI [14] can generate images of high-quality with giving
+                                                                               specific descriptions and Meta proposes Make-A-Video [15]
+  Index Terms--AIGC, ChatGPT, GPT-3, GPT-4, human feedback,                    to directly translate texts to videos. In the end of 2022, Ope-
+large language models.                                                         nAI released the public version of ChatGPT, which further
+                                                                               attracts worldwide attention on perfectly responding to any
+                            I. Introduction                                    human requests described in natural language. ChatGPT has
+                                                                               surpassed 100 million monthly active users till the end of Jan-
+A RTIFICIAL intelligence generated content (AIGC),                             uary 2023, just two months after its launch, according to the
+      which is one of the most fascinating frontier technology,                report of UBS1. In this paper, we carry out several in-depth
+                                                                               thoughts and discussions on ChatGPT.
+   Manuscript received March 25, 2023; revised April 13, 2023; accepted
+April 15, 2023. This work was supported by National Key Research and             ChatGPT is an intelligent chatting robot which is able to
+Development Program of China (2021YFB1714300), National Natural                provide a detailed response according to an instruction in a
+Science Foundation of China (62293502, 61831022, 61976211) and Youth           prompt. As a member of AIGC, ChatGPT has shown power-
+Innovation Promotion Association CAS. Recommended by Associate Editor          ful functions on various language understanding and genera-
+Xin Luo. (Tianyu Wu, Shizhu He, Jingping Liu, Siqi Sun, and Kang Liu           tion tasks such as multilingual machine translation, code
+contributed equally to this work. Corresponding authors: Qing-Long Han and     debugging, stroy writing, admitting mistakes and even reject-
+Yang Tang.)                                                                    ing inappropriate requests according to the official statement.
+                                                                               Unlike previous chatting robots, ChatGPT is able to remem-
+   Citation: T. Y. Wu, S. Z. He, J. P. Liu, S. Q. Sun, K. Liu, Q.-L. Han, and  ber what the user has said earlier in the conversation which
+Y. Tang, "A brief overview of ChatGPT: The history, status quo and potential   helps for continuous dialogue [16]. In March 2023, with the
+future development," IEEE/CAA J. Autom. Sinica, vol. 10, no. 5, pp.            publication of GPT-4 created by OpenAI [17], ChatGPT also
+1122-1136, May 2023.                                                           has enjoyed a strong update with further functions. Specifi-
+                                                                               cally, users now can input texts and visual images in parallel,
+   T. Y. Wu and Y. Tang are with the Key Laboratory of Smart                   thus more challenging multimodal tasks can be completed
+Manufacturing in Energy Chemical Process, East China University of Science     such as image captioning, chart reasoning, paper summariz-
+and Technology, Shanghai 200237, China (e-mail: y20200093@mail.ecust.          ing2 (as shown in Fig. 1).
+edu.cn; yangtang@ecust.edu.cn).
+                                                                               1 https://archive.is/XRl0R
+   J. P. Liu is with the School of Information Science and Engineering, East   2 https://openai.com/research/gpt-4
+China University of Science and Technology, Shanghai 200237, China (e-
+mail: jingpingliu@ecust.edu.cn).
+
+   S. Z. He and K. Liu are with the Laboratory of Cognition and Decision
+Intelligence for Complex Systems, Institute of Automation, Chinese Academy
+of Sciences, Beijing 100190, and also with the School of Artificial
+Intelligence, University of Chinese Academy of Sciences, Beijing 100049,
+China (e-mail: shizhu.he@nlpr.ia.ac.cn; kliu@nlpr.ia.ac.cn).
+
+   S. Q. Sun is with the Research Institute of Intelligent Complex Systems,
+Fudan University, Shanghai 200437, China (e-mail: siqisun@fudan.edu.cn).
+
+   Q.-L. Han is with the School of Science, Computing and Engineering
+Technologies, Swinburne University of Technology, Melbourne VIC 3122,
+Australia (e-mail: qhan@swin.edu.au).
+
+   Color versions of one or more of the figures in this paper are available
+online at http://ieeexplore.ieee.org.
+
+   Digital Object Identifier 10.1109/JAS.2023.123618
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:31:27 UTC from IEEE Xplore. Restrictions apply.
+WU et al.: A BRIEF OVERVIEW OF CHATGPT: THE HISTORY, STATUS QUO AND POTENTIAL FUTURE DEVELOPMENT                                           1123
+
+                                Multimodal generation                                          ChatGPT (OpenAl)
+
+                        Text
+
+                        to                                          T5
+
+                        text
+
+Various                 Visual                                                                                        Text/Image input
+AIGC                      to                                                                                          Text output
+                         text
+                        ...     A large brown bear laying                                                             Visual tasks:
+                        Multi   on top of grass.                                                                      Paper summary
+                        modal                                                                                         Image description
+                                                         Text               Atari images                              Language tasks:
+                                               I'm going to London      and discrete actions                          Question answering
+                                                                                                                      Code debugging
+                                                         ...
+                                                                                                                               ...
+
+Fig. 1. Strong function of AIGC, including text-to-text generation, visual-to-text generation and further multimodal generation. For ChatGPT of OpenAI,
+which combines text and visual images as input, can handle various of language and visual tasks. Cases are adapted from [1], [3], [11], [17].
+
+                                                                 TABLE I
+                                Comparative Analysis of GPT-1, GPT-2, GPT-3 and GPT-4
+
+    Released date                          GPT-1                               GPT-2                   GPT-3                  GPT-4
+ Model parameters                                                                                                          March 2023
+  Context window                         June 2018                         February 2019             May 2020             Unpublished
+Pre-training data size            117 million 12 layers                 1.5 billion 48 layers  175 billion 96 layers       8195 tokens
+                                                                                                12 888 dimensions         Unpublished
+    Source of data                   768 dimensions                      1600 dimensions                                  Unpublished
+   Learning target                      512 tokens                          1024 tokens             2048 tokens       Multimodal learning
+
+                                       About 5 GB                               40 GB                  45 TB
+
+                                BooksCorpus, Wikipedia                        WebText          Common Crawl, etc.
+                                 Unsupervised learning                  Multi-task learning     In-context learning
+
+  ChatGPT, with so many strong functions, is an integration             better follow and align with the user's intent. Finally, when it
+of multiple technologies such as deep learning, unsupervised            comes to GPT-4, a large multimodal model with accepting
+learning, instruction fine-tuning, multi-task learning, in-con-         image and text inputs and emitting text outputs, ChatGPT
+text learning and reinforcement learning. It is built upon the          exhibits human-level performance on arious professional and
+initial GPT (Generative pre-trained Transformer) model,                 academic benchmarks [17].
+which has been iteratively updated from GPT-1 to GPT-4 (as
+shown in Table I ). GPT-1 [18], developed in 2018, is firstly             In addition to the quick update on techniques, the enlarge-
+dedicated to train a generative language model based on a               ment of model capacity and the number of data for pre-train-
+Transformer framework via unsupervised learning [19]-[21],              ing further helps the model to better understand the meaning
+and the pretrained model is further fine-tuned on downstream            and intent behind a given piece of text. The parameters and
+tasks. GPT-2, developed in 2019 [22], mainly introduces the             the data of GPT-1 only reach 117 million and 5 GB, respec-
+idea of multi-task learning [23] with more network parame-              tively, while in GPT-3 the number increases to 175 billion and
+ters and data than GPT for training, so that the pretrained gen-        45 TB. Even if the details of GPT-4 have not been publicly
+erative language model can be generalized to most of the                released, it is expected that the parameters and data may still
+supervised subtasks without further fine-tuning. To further             have a huge increase. In this way, the success of ChatGPT
+improve the model performance on few-shot or zero-shot [24]             relies on multi aspects of supports such as financial backing,
+settings, GPT-3 [25] combines meta-learning [26], [27] with             computational power, data resources. Till now, ChatGPT/GPT-
+in-context learning [28] so that the generalization ability of          4 has shown promising performance as a general purpose mul-
+the model has been greatly improved with surpassing most of             timodal task-solver [30], which has been widely used in the
+the existing methods on various downstream tasks. Moreover,             field of we-media, data analysis, etc. However, the strong cre-
+the parameter scale of GPT-3 has increased by 100 times than            ativity of ChatGPT is a double-edged sword, especially in the
+GPT-2 and it is the first language model to surpass a parame-           filed of education and science [31], [32]. How to prevent the
+ter scale of 100 billion. When it comes to the pilot version of         cheating or plagiarism and how to avoid the abuse of strong
+ChatGPT (InstructGPT, also known as one of the derivative               ChatGPT are still important topics for further discussion.
+version of GPT3.5 series models), the researchers use rein-
+forcement learning with human feedback (RLHF) to incre-                   The aim of this paper is to provide a brief overview on the
+mentally train the GPT-3 model [29] so that the model can               history, status quo and potential future development of Chat-
+                                                                        GPT, helping to provide an entry point to think about Chat-
+                                                                        GPT. Main contributions are as follows:
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:31:27 UTC from IEEE Xplore. Restrictions apply.
+1124                                                                                             IEEE/CAA JOURNAL OF AUTOMATICA SINICA, VOL. 10, NO. 5, MAY 2023
+
+  1) Core techniques of ChatGPT, mainly including pre-                                           driven researchers to model complex natural language and
+trained large-scale language models, in-context learning, rein-                                  multiple tasks [36], [37] with a wide range of deep neural net-
+forcement learning from human feedback and the key techni-                                       work structures such as multilayer perceptron (MLP), convo-
+cal steps for developing ChatGPT are specified.                                                  lutional neural network (CNN) and recurrent neural network
+                                                                                                 (RNN), and thus formed representative static language mod-
+  2) The pros and cons of ChatGPT and the duality of Chat-                                       els such as word2vec [38], [39] and RNNLM [40], [41]. NLM
+GPT in various field are provided.                                                               utilizes low-dimensional embedding to represent words and
+                                                                                                 their composition, and realizes the prediction of conditional
+  3) Several open problems on potential research trends of                                       probability through the calculation of neural network.
+ChatGPT are discussed.
+                                                                                                   Since 2018, the pre-trained language models (PLM), which
+  In Section II, we delve into the core techniques of ChatGPT.                                   utilize self-supervised learning over raw large-scale texts,
+In Section III, we discuss the advantages and disadvantages of                                   have received more and more attention [42]. And it promotes
+the ChapGPT. In Section IV, we present the potential impact                                      the birth and development of the two-stage learning paradigm
+of ChatGPT across various social fields. In Section V, we con-                                   of pre-training and fine-tuning. For example, the relevant
+sider the future research trends of ChatGPT. Finally, a simple                                   models of ELMo [43], BERT [44] and GPT-3 [25] have won
+conclusion is conducted in Section VI.                                                           the best paper award of NAACL 2018, NAACL 2019 and
+                                                                                                 NeurIPS 2020, respectively. PLM learns general language
+    II. Important Technologies Behind the ChatGPT                                                models on large-scale texts based on self-learning tasks such
+                                                                                                 as masked word prediction [44], sequence recognition of sen-
+  Although the technical details (including architecture, hard-                                  tences, text filling in the blank [45], and text generation [2]. It
+ware, dataset construction and training method, or similar) of                                   not only improves the semantic description of words from
+GPT-4 has not been shared, the main techniques of GPT-4 are                                      static representation to context-aware dynamic representation,
+still similar to GPT-3/GPT-3.5 [17]. In this way, we can only                                    but also provides a unified modeling framework for NLP
+analyze it based on the public information and its twin model,                                   tasks.
+InstructGPT [29]. First, we introduce the pre-trained language
+model, which is the foundation technology of ChatGPT. Then,                                        At present, there are three typical model structures of PLM,
+we introduce the in-context learning that models general tasks                                   autoregressive LM, autoencoding LM, and hybrid LM (as
+with a self-learning paradigm, we also append the novel tech-                                    shown in Fig. 2 ). Their representative models are GPT [18],
+nologies of chain-of-thought prompting and instruction fine-                                     BERT [44] and T5 [1], respectively. Autoregressive LM is a
+tuning into this subsection. Next, we introduce the reinforce-                                   standard language model, which adopts decoder-only manner
+ment learning from human feedback, which can continuously                                        of language modeling with one-way language encoding-
+optimize the dialogue model. Finally, we introduce the three                                     decoding and token-by-token prediction of words. Autoencod-
+main steps in the implementation of ChatGPT/InstructGPT                                          ing LM randomly masks the words in the sentence, and utiliz-
+with public information: supervised fine-tuning (SFT), reward                                    ing bidirectional encoding, and then predicts the masked
+modeling (RM) and dialogue-oriented RLHF.                                                        words based on the context encoding information (e.g., take
+                                                                                                 the input "[CLS] x1 x2[M]x3 x4[M]" and predict the words " x3"
+A. Pre-Trained Language Model                                                                    and " x5" on the masked position marked by "[M]" ). Hybrid
+                                                                                                 LM combines the two methods above. After randomly mask-
+  Language models are statistical models that describe the                                       ing the words in the sentence and bidirectional encoding, input
+probability distribution of natural language [33]. It is dedi-                                   the previous text in one direction and predict the subsequent
+cated to estimating the probability of a given sentence (e.g.,                                   words step by step (e.g., take the input "[CLS]x1 x2[M]x3 x4[M]"
+P(S ) = P(w1, w2, . . . , wn) used to compute the probability of                                 and "[CLS] x1 x2 x3 x4 x5" and gradually output " x1 x2 x3 x4 x5
+the sentence S containing n words), or the probability of gen-                                   [SEP]"). Since BERT released by Google has refreshed the
+erating other contents given a part of the sentence (e.g.,                                       best record of 11 NLP tasks at the beginning, and GPT-2's
+P(wi, ..wn|w1, . . . , wi-1) used to compute the probability of pre-                             performance on typical NLP tasks is not better than BERT,
+dicting the content of the next part given the content of the                                    BERT and its autoencoding pre-training methods have been
+previous part of the sentence), which is the core task of natu-                                  followed by the vast majority of academia and industry
+ral language processing and can be used on almost all down-                                      [46]-[52].
+stream NLP tasks.
+                                                                                                   Comparatively, with the use of the best neural network
+  Different modeling methods of statistical language models                                      structure Transformer [53] at present, OpenAI still adheres to
+denote the technical level of natural language processing. In                                    the autoregressive method and continues to release GPT-1
+the early n-gram language model (N-gram LM), the condi-                                          [18], GPT-2 [22], GPT-3 [25] and GPT-4 [17] (as shown in
+tional probability is estimated by the frequency statistics of n-                                Table I). GPT-1 first learns a general language model on unla-
+grams P(wi|wi-1, . . . , wi-(n-1)) = C(wi-1,...,wi-(n-1),wi) C(wi-1,...,wi-(n-1)) . It can only  beled raw texts, and then fine-tunes it according to specific
+consider a fixed length (window size) of word sequences                                          tasks. Although GPT-1 has some effect on NLP tasks that
+based on the Markov assumption, and the probability estima-                                      have not been fine-tuned, its generalization ability is far lower
+tion of language model is inaccurate due to the cures of                                         than fine-tuned models on supervised tasks. GPT-2 does not
+dimensionality with symbol combinations. N-gram LM drives                                        carry out different model framework with GPT-1 but uses
+the development of information retrieval technology based on                                     larger network parameters and learned on more datasets. GPT-
+keyword search and document relevance computation. The
+neural language model (NLM) [34], [35] started in 2010 has
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:31:27 UTC from IEEE Xplore. Restrictions apply.
+WU et al.: A BRIEF OVERVIEW OF CHATGPT: THE HISTORY, STATUS QUO AND POTENTIAL FUTURE DEVELOPMENT                              1125
+
+x1 x2 x3 x4 x5 [SEP]    x3                        x5                                              x1 x2 x3 x4 x5 [SEP]
+
+[CLS] x1 x2 x3 x4 x5    [CLS] x1 x2 [M] x4 [M]                        [CLS] x1 x2 [M] x4 [M] [CLS] x1 x2 x3 x4 x5
+
+     Autoregressive LM          Autoencoder LM                                                     Hybrid LM
+
+ Encoding/Decoding         Autoregressive LM                                Autoencoder LM                Hybrid LM
+        strategy        Unidirectional encoder                          Bidirectional encoder
+                        + step-by-step decoding                       + masked based decoding       Sequence to sequence
+Input-output example
+                              [CLS]x1x2x3x4x5                             [CLS]x1x2[M]x4[M]         [CLS]x1x2[M]x4[M] +
+ Learning paradigm           x1x2x3x4x5[SEP]                                       x3x5                 [CLS]x1x2x3x4x5
+    Support tasks
+                        Pre-training (zero-shot)                      Pre-training + Fine-tuning       x1x2x3x4x5[SEP]
+Representative model          NLU + NLG                                            NLU            Pre-training + Fine-tuning
+                                   GPT                                            BERT
+                                                                                                         NLU + NLG
+                                                                                                            BERT/T5
+
+Fig. 2. There three typical types of PLM: autoregressive LM, autoencoder LM and hybrid LM. Their working mechanisms are listed and compared in this
+table.
+
+3 follows the structure of GPT-2, but has made great improve-         B. In-Context Learning
+ment in model capacity. Surprisingly, the GPT-3 shows excel-
+lent performance in many text generation tasks such as                  GPT-3 and the following GPT-3.5 serial models are the
+machine translation, question answering, dialogue, reading            foundation of many powerful capabilities of ChatGPT.
+comprehension and story generation. In fact, it is difficult to       Among them, the in-context learning (ICL) introduced by
+distinguish the text generated by GPT-3 and written by                GPT-3 plays a crucial role. As a meta-learning method that
+humans. Moreover, GPT-3 easily supports zero-shot and few-            contains an internal loop, ICL can model more context infor-
+shot learning scenarios [54]. Since then, the pre-trained model       mation to solve specific tasks, which can not only improve the
+has entered the era of large-scale parameters (also known as          effects of various tasks, but also better deal with zero-shot and
+large language model [55] or foundation model [56]). Build-           few-shot learning scenarios. With the support of ICL, GPT-
+ing on the success of GPT-3, OpenAI has continued to                  3.5 series models can achieve good results without any train-
+develop multiple GPT-3.5 series models such as Code-                  ing and fine-tuning of NLP tasks, and even achieved very
+davinci-001, Text-davinci-001, Code-davinci-002, and Text-            shocking results in some logical and creative tasks such as
+davinci-002 through technical improvements such as code-              article generation and code writing. Next, we will provide a
+based pre-training, instruction fine-tuning, and reinforcement        detailed introduction to ICL and the technologies of chain-of-
+learning from human feedback3. OpenAI provides Play-                  thought and instruction fine-tuning that promote the success of
+ground and APIs for users to use these advanced models. Till          large models.
+now, when it comes to GPT-4 [17], which is a large multi-
+modal model as the latest milestone in OpenAI's effort in               1) In-Context Learning: ICL has become a new paradigm of
+scaling up deep learning, GPT-4 shows stronger capability to          natural language processing (NLP) [28]. ICL can append a
+handle much more nuanced instructions than GPT-3 based                few exemplars to the context, which allows the model to learn
+models.                                                               and complete tasks by imitation. For example, as shown in
+                                                                      Fig. 3 (left part), in order to translate the English phrase
+  The development of artificial intelligence technology shows         "cheese" into French, the task description and related exem-
+that large models can learn more complex and higher-order             plars are concatenated and input into the PLM as the context,
+features/patterns from raw data (texts for large language mod-        and the model is allowed to generate the France phrase
+els, text-image for large multimodal models), so as to exhibit        autonomously. ICL estimates the likelihood of potential
+stronger capabilities in understanding and generating data. By        answers over a trained language model. The core idea of ICL
+learning all kinds of abstract knowledge from the raw data,           is to learning to complete tasks with analogies. Supervised
+large-scale pre-trained language models have better general-          learning or fine-tuning requires the use of backward gradients
+ity and generalization. In addition, to better support general        to update model parameters in the training phase. Unlike this,
+task processing capabilities (realizing the general artificial        ICL does not need parameter updates, it directly performs ana-
+intelligence), the autoregressive language model adopted by           logical learning and task predictions over pre-trained lan-
+GPT-3 and its subsequent GPT3.5 series models has more                guage models. ICL expects to learn the hidden patterns in the
+advantages, and it can directly utilize natural language to           demonstrations and make correct predictions. By adapting
+describe different tasks in different fields. Furthermore,            ICL, the zero-shot and few-shot learning capabilities are
+researchers are looking forward to the transparency of GPT-4.         formed by directly describing the task or appending a small
+                                                                      number of exemplars into the content as prompts.
+3 https://yaofu.notion.site/GPT-3-5-360081d91ec245f29029d37b54573756
+                                                                        2) Chain-of-Thought: Recently, chain-of-thought (CoT)
+                                                                      prompting is proposed to further improve the ability to solve
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:31:27 UTC from IEEE Xplore. Restrictions apply.
+1126                                                              IEEE/CAA JOURNAL OF AUTOMATICA SINICA, VOL. 10, NO. 5, MAY 2023
+
+         · Zero-shot learning                              · Chain-of-thought                                                                  · Instruction fine-tuning
+                                                          A chain of thought is a series of intermediate reasoning steps.                      Instruction fine-tuning refers to fine-tuning a
+         The model predicts the answer given only a                                                                                            language model on a dataset described by
+         natural language description of the task. No           Input                                                                          instructions.
+         gradient updates are performed.
+                                                              Q: Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each can            Input
+         Translate English to French:         Task            has 3 tennis balls. How many tennis balls does he have now?                       Q: Please answer the following question.
+         cheese =>                         description        A: Roger started with 5 balls. 2 cans of 3 tennis balls each is 6 tennis balls.   What is the boiling point of Nitrogen?
+                                                              5 + 6 = 11. The answer is 11.
+                                             Prompt           Q: The cafeteria had 23 apples. If they used 20 to make lunch and bought             Output
+                                                              6 more, how many apples do they have?
+                                                                                                                                                A: -320.4F.
+                                                               Output
+
+                                                            A: The cafeteria had 23 apples originally. They used 20 to make
+                                                            lunch. So they had 23 - 20 = 3. They bought 6 more apples, so they
+                                                            have 3 + 6 = 9. The answer is 9.
+
+         · Few-shot learning                                      Instruction finetuning
+
+         In addition to the task description, the model               Please answer the following question.                                                -320.4F
+         utilizes a few examples in addressing the task.              What is the boiling point of Nitrogen?
+         No gradient updates are performed.                                                                                                                  The cafeteria had 23 apples
+                                                                    Chain-of-thought finetuning                                                              originally. They used 20 to
+         1 Translate English to French:       Task                 Answer the following question by                                            Language      make lunch. So they had 23 -
+         2 sea otter => loutre de mer      description             reasoning step-by-step.                                                       model       20 = 3. They bought 6 more
+         3 peppermint => menthe poivrée                            The cafeteria had 23 apples. If they                                                      apples, so they have 3 + 6 = 9.
+         4 plush girafe => girafe peluche  Exemplars               used 20 for lunch and bought 6 more,
+         5 cheese =>                                               how many apples do they have?                                                         Geoffrey Hinton is a British-Canadian
+                                            Prompt                                                                                                       computer scientist born in 1947. George
+                                                          Multi-task instruction finetuning (1.8K tasks)                                                 Washington died in 1799. Thus, they
+                                                          Inference: generalization to unseen tasks                                                      could not have had a conversation
+                                                                                                                                                         together. So the answer is "no".
+                                                                        Q: Can Geoffrey Hinton have a
+                                                                        conversation with George Washington?
+                                                                        Give the rationale before answering.
+
+                                                          Flan-T5 [64] finetune various language models on 1.8K tasks phrased
+                                                                                           as instructions.
+
+Fig. 3.  Examples of different types in ICL, mainly including zero/few-shot learning, chain-of-thought and instruction fine-tuning (adapted from [64]).
+
+complex tasks such as answering arithmetic, commonsense,          tions " Please answer the following question." in front of the
+and logical reasoning questions [57]. CoT is dedicated to con-    question "What is the boiling point of Nitrogen?". IFT unifies
+structing a series of intermediate steps to simulate the think-   almost all tasks into the same text-to-text form based on the
+ing process of humans in completing complex tasks [58]. With      generative pre-training model. For example, as a representa-
+CoT, LLM such as GPT-3 can be used to generate the reason-        tive model of the IFT model, FLAN [66] uses 137B parame-
+ing steps and answers at the same time. For example, as           ters to continually train the pre-trained language model, and
+shown in Fig. 3 (middle part), in order to answer the question    adjusts model parameters on more than 60 NLP datasets
+"The cafeteria had 23 apples. If they used 20 to make lunch       through natural language instructions. Flan-T5 [64] greatly
+and bought 6 more, how many apples do they have?", CoT is         improves the performance of the large language model on spe-
+driven to imitate the previous example (the output "Roger         cific NLP tasks and the generalization ability for new tasks.
+started with 5 balls. 2 cans of 3 tennis balls each is 6 tennis
+balls. 5+6 = 11. The answer is 11." for the input "Roger has 5    C. Reinforcement Learning From Human Feedback
+tennis balls. He buys 2 more cans of tennis balls. Each can
+have 3 tennis balls. How many tennis balls does he have             Reinforcement learning (RL) mainly focuses on learning the
+now?") and generate a description of the reasoning process        optimal policy to maximize the desired reward or reach spe-
+"The cafeteria had 23 apples originally. They used 20 to make     cific targets through the interactions between the agent and the
+lunch. So they had 23-20 = 3.They bought 6 more apples, so        environment [67]. Reinforcement learning has shown strong
+they have 3+6 = 9." and the answer description "The answer is     capacities on tasks with large action spaces, e.g., gaming
+9." in the following. Subsequently, researchers began to          [68]-[70], robotics control [71]-[73], molecular optimization
+improve the reasoning of large language models from multi-        [74], [75] and other fields [76], [77]. The general paradigm of
+ple different research perspectives, such as automatically gen-   reinforcement learning is a Markov decision process (MDP).
+erating CoT prompts (zero-shot reasoner) [59], generating         An MDP can be defined as a tuple M = (S , A, R, T, p), where S
+multiple associated simple sub-tasks to complete a complex        is the state space, A is the set of actions, R : S × A  R is the
+task [60], [61], building multiple reasoning chains to com-       reward function, T (st+1|st, at) is the transition probability from
+plete target tasks in combination with consistent learning [62],  state st to state st+1 when taking action at, p(s0) is the initial
+and select a better answer by self-verification [63].             state distribution. Moreover, a policy (a|s) is a function
+                                                                  which computes the corresponding conditional probability. In
+  3) Instruction Fine-Tuning: Moreover, in order to improve       this way, the goal of MDP is to learn a optimal policy  and
+the task generalization ability of the large language model and   the cumulative reward is maximized within an episode of
+deal with new tasks, researchers began to explore instruction     length L:
+fine-tuning (IFT) [64], [65]. That is, IFT describes all NLP
+tasks using natural language instructions and fine-tune large                                                  = arg max Esp(s0)[R(s)]                                                            (1)
+language models, so as to achieve the general ability of under-
+standing and processing instructions. For example, as shown                                                                                    
+in Fig. 3 (right part), IFT places the natural language instruc-
+                                                                  where is the set of all policies, and the return of the state
+
+                                                                  R(s) can be calculated as
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:31:27 UTC from IEEE Xplore. Restrictions apply.
+WU et al.: A BRIEF OVERVIEW OF CHATGPT: THE HISTORY, STATUS QUO AND POTENTIAL FUTURE DEVELOPMENT                                                    1127
+
+(a) Human feedback reinforcement learning                                   (b) RLHF in NLP                            Fine-tune
+
+                  Action                                                                       Large languagePromptOutput         Reward
+                                                                                                     model
+       Predicted            Human                                                                                      Reward
+        reward             feedback                                                                                     model
+
+                                                                                                                       Update     Ranked
+                                                                                                                                   score
+Agent             Reward             Environment                            Reward                             Output
+                  model                                                        model
+                                                                                    Prompt
+
+                  Observation                                                               Large language             Human
+                                                                                                 model
+
+Fig. 4. Schematic illustration of (a) reinforcement learning from human feedback (RLHF) and (b) reinforcement learning from human feedback in NLP.
+
+                                              L                             applying RLHF as a low-tax alignment technique, language
+        R(s) = Eat(at|st),st+1T (st+1|st,at)[ R(st, at, st+1)]. (2)         models become much more robust to handle real-world varia-
+                                                                            tions and nuances in that language. However, there still exist
+                                                               t=0          limitations and challenges deserve to be addressed, including
+                                                                            the demand for high-quality human feedback, the time and
+  Up to now, various RL algorithms have been developed for                  cost required to obtain this feedback, and the effectiveness of
+different situations [78], e.g., TRPO [79], SAC [80], PPO                   reinforcement learning algorithms.
+[81], TD3 [82], and REDQ [83].
+                                                                            D. Key Technical Steps for Developing ChatGPT/InstructGPT
+  One crucial factor for training a successful reinforcement
+learning agent is a well-specified reward function. However,                  The technical details of ChatGPT and GPT-4 have not been
+for tasks (e.g., table cleaning or clothes folding) of which                shared, and the official4 states that its implementation is simi-
+goals are complex and poorly-defined, it is difficult to con-               lar to InstructGPT [29], which is a sibling model to ChatGPT,
+struct a precise reward function to evaluate whether the task is            yet distinguished by the data collection and the pre-trained
+well finished with limited sensor information [84]. In this                 backbone. Hence, we next describe the technical steps of
+way, to further avoid the misalignment between human prefer-                InstructGPT, mainly including supervised fine-tuning (SFT),
+ences and the objectives of RL agents, and to accelerate the                reward modeling (RM), and reinforcement learning (RL), as
+efficiency when learning from scratch, human intuition or                   depicted in Fig. 5.
+human expertise are further considered for knowledge trans-
+ferring [85]. With the quick development of deep reinforce-                   1) SFT Model: In InstructGPT, this is a supervised policy
+ment learning, this technique has attracted lots of attention               model that is fine-tuned on GPT-3 [25]. The prompt is the
+[86], [87] and can be concluded as reinforcement learning                   input, and the response is the output. Note that the backbone
+with human feedback (RLHF) [29] (as shown in Fig. 4(a)),                    of ChatGPT is a pre-trained model from the GPT-3.5 series.
+which has also been applied in ChatGPT.
+                                                                              Since SFT is a supervised model, it requires labeled data for
+  In fact, using human feedback directly when training the                  training. Data is gathered from two different sources. First,
+agent is quite expensive since massive amount of experience                 some of the data is sampled from the OpenAI API of the ear-
+is needed to be evaluated manually. Hence, a reward model is                lier InstructGPT version, which was trained with a subset of
+trained to replace such works and rewards of human prefer-                  demonstration data. Second, others are provided by labeler,
+ences can be provided in an economical way with offering                    which includes three types of prompts: plain (any arbitrary
+several human data for training [84].                                       task), few-shot (an instruction with multiple query/response
+                                                                            pairs), and user-based prompts (specific use cases that were
+  The process of training the reward model can be mainly                    requested for application in OpenAI). For each natural lan-
+divided into three steps: 1) the agent interacts with the envi-             guage prompt, the task is accompanied directly by an instruc-
+ronment under the current policy  to collect a series of trajec-            tion (e.g., "Tell me about..."), but also indirectly through few-
+tories of states, actions and rewards {s1, a1, r1, . . . , st, at, rt}, 2)  shot examples (e.g., giving two examples of a story, and
+pairs of segments are selected from the trajectories generated              prompting the model to write another story about the same
+in step 1, and thees segments are sent to humans for compari-               topic) or implicit continuation (e.g., giving the start of a story,
+son and evaluation, 3) the parameters of the reward model is                and asking the model to finish it). As a result, the SFT dataset
+updated via supervised learning to fit human preferences. In                has about 13k training prompts.
+this way, RLHF can be applied for more complex or cus-
+tomized tasks with a well-specified reward model.                             2) RM Model: This is a reward model that takes a pair of
+                                                                            prompt and response as the input and produces a scalar reward
+  In the natural language process, aligning the pre-trained                 as the output. The model is a 6B GPT-3 in InstructGPT, ini-
+large-scale language models (LMs) with human preference is                  tialized by SFT with the final unembedding layer removed.
+greatly decided whether the models can generate truly "good"
+texts. Thus, RLHF has been positively applied to fine-tuning                  Since RM model is also a supervised model, labeled data is
+language models in most domains in natural language process                 required for training. To this end, prompts are obtained
+(NLP) such as dialogue [88], [89], translation [90], [91], story            through both the OpenAI API and manual annotation, and the
+generation [92], evidence extraction [93], [94], and semantic               SFT model generates 4 to 9 responses for each prompt. Since
+parsing [95]. Note that in GPT-4, an additional safety reward
+signal has been incorporated to reduce harmful outputs, help-               4 https://openai.com/blog/chatgpt/
+ing to judging the safety boundaries for risk relieving. With
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:31:27 UTC from IEEE Xplore. Restrictions apply.
+1128                                                                             IEEE/CAA JOURNAL OF AUTOMATICA SINICA, VOL. 10, NO. 5, MAY 2023
+
+                Step 1 : Collect demonstrate data and train a supervised policy
+
+                Given a prompt  Demonstrated        Response      Fine-tune on      SFT model
+                                 by a labeler                      a GPT-3.5
+
+                Step 2: Collect comparison data and train a reward model
+
+                Given a prompt  Input into      K responses               Ranked from best to  D > C > A = B  Train       RM model
+                                SFT Model      (A, B, C, D, ...)           worst by a labeler                              Reward
+
+                Step 3 : Optimize policy by reinforcement learning algorithm PPO
+
+                Given a prompt  Input                     Output          Response  Input                         Output
+                                        PPO model                                              RM model
+
+Fig. 5. The training process of InstructGPT, which is a sibling model to ChatGPT, including the SFT model, RM model, and RL model.
+
+it is difficult to form a unified scoring standard among annota-                              III. Capability Analysis of ChatGPT
+tors, they tend to rank these responses to build the RM dataset,                   By trying the ChatGPT system5, we can easily appreciate its
+where the rankings are the labels. The dataset includes 33k                      powerful capabilities, and at the same time, we can also find
+training prompts. To train the RM model on this dataset, the                     its shortcomings in various aspects. This section will conduct
+rankings are converted to scalars since they cannot be directly                  a tantalising glimpses capability analysis of ChatGPT based
+used as rewards. For example, for the sorting D > C > A = B,                     on use experiences and OpenAI's public information [17],
+they assign scores of 7, 6, 4, and 4, respectively.                              [29].
+
+  Formally, the loss function of the RM model is defined as                      A. Advantage Analysis and Strengths of ChatGPT
+follows:
+                                                                                   Presently, ChatGPT is initially based on GPT-3.5 and now
+                   1                                                             utilizes GPT-4 of large-scale pre-trained model, and is a gen-
+       L() = - (K ) E(x,yh,yl)D[log((r(x, yh) - r(x, yl)))] (3)                  eral-purpose human-computer conversation system obtained
+                                                                                 by combining human-labeled data and reinforcement learning
+                          2                                                      training for various dialogue tasks according to the multi-
+                                                                                 modal inputs of texts and images. It can understand various
+where r(x, y) is a scalar produced by the RM model for the                       instructions of human beings and can complete tasks such as
+given prompt x and response y, yh ranks higher than yl for the                   text generation, code writing and modification, image caption-
+prompt x, D is the RM dataset, and  is a set of parameters in                    ing, chart reasoning and paper summarizing etc. The specific
+the model.                                                                       analysis of the outstanding capabilities demonstrated by Chat-
+                                                                                 GPT is as follows:
+  3) RL Model: Following the previous work [96], this model
+is fine-tuned on SFT with the proximal policy optimization                         1) Multimodal (Language and Image) Understanding and
+(PPO) algorithm, where the input is a prompt and the output is                   Text Generation: The most intuitive feeling of using Chat-
+a response. PPO serves as the agent in the RL model and is                       GPT is that it can accurately understand the user's intention
+initialized with the SFT model from the first step. The envi-                    with prompts of texts (up to 2.5 million tokes) and images
+ronment is a prompt generator that produces a random input                       (still in further research), and generate various types of texts
+prompt and expects a response to the prompt. Rewards are                         in the interactive process of dialogue. It first requires a strong
+derived from the RM model for scoring the pair of prompt and                     multimodal understanding ability which needs to accurately
+response. Formally, the RL model's objective is to maximize                      understand the dialogue context and the image input. Chat-
+the following function:                                                          GPT can not only deal with typical NLP task instructions such
+                                                                                 as classification, matching, translation, re-writing (relevant
+RL() = E(x,y)DRL [r(x, y) -  log(RL(y|x)/S FT (y|x))]                            data has been processed during model training), but also deal
+                                                                                 with new tasks, which require accurate intent understanding or
+                                                                                 visual understanding, for example, organizing outputs in the
+                                                                                 form of lists and image captioning [17].
+           + ExDpretrain [log(RL(x))]                                     (4)
+                                                                                   Moreover, ChatGPT has reached or exceeded human-level
+where  RL  and  S FT  are  the  policy  model  and  trained   model,             performance in several text generation tasks such as answer-
+                                                                                 ing questions, providing suggestions, summarizing and polish-
+                                                                                 ing texts [97]. For example, when answering a question, it will
+                                                                                 not only give an accurate answer, and the generated response
+Dpretrain is the pre-training distribution.  and  are used to                    text will reveal the thought process involved in answering the
+                                                                                 question, and even continuously adjust and correct the answer
+control the KL penalty and pre-training gradients. The above                     according to the user's guidance. We believe that ChatGPT
+                                                                                 may have two reasons for this advantage: 1) the large lan-
+equation consists of three parts: a scoring function, Kullback-                  guage model trained on massive data of various forms and
+                                                                                 tasks has fully grasped language laws, and is able to under-
+Leibler (KL) divergence, and a pre-training target of GPT-3.
+                                                                                 5 https://chat.openai.com/chat
+First, the RM model scores a prompt-response pair, with a
+
+higher score indicating a better response. Second, KL diver-
+
+gence is used to measure the distance between the distribu-
+
+tions of responses generated by the PPO and SFT models. A
+
+smaller distance is preferable in this step since the SFT model
+
+is trained on manually labeled data, and over-optimizing it
+
+could lead to inaccurate evaluations of the responses. Finally,
+
+this part is used to calculate the probability that the RL model
+
+generates the prompt x. Note that this part contains 31k train-
+
+ing prompts.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:31:27 UTC from IEEE Xplore. Restrictions apply.
+WU et al.: A BRIEF OVERVIEW OF CHATGPT: THE HISTORY, STATUS QUO AND POTENTIAL FUTURE DEVELOPMENT               1129
+
+stand and generate language well; 2) it has learned universal       ther usage.
+task solving ability through IFT on diverse tasks.
+                                                                    B. Disadvantage Analysis and Limitations of ChatGPT
+  2) Strong Reasoning Ability and Rich Creativity: ChatGPT
+has good reasoning ability, especially in answering scientific        Although ChatGPT has powerful abilities in handling vari-
+questions, knowledge related questions and complex logic            ous tasks and aligning with human instructions, ChatGPT still
+questions [30]. For example, ChatGPT can give the proof of a        has the following limitations.
+certain theorem, and perform multi-hop reasoning according
+to the logical chain. ChatGPT/GPT-4 can also analyze a pic-           1) Factual Errors and Hallucination Results: Although
+ture, such as ChatGPT/GPT-4 can answer the question "What           ChatGPT can integrate multiple kinds of resources to gener-
+can you make according to the materials in the picture?"            ate fluent replies, the replies generated often have factual
+Moreover, ChatGPT can complete various tasks in accor-              errors (often called " hallucination problem"). Those factual
+dance with the logical chain specified by the user. Moreover,       errors may be due to errors and noise in the training data
+ChatGPT has rich creativity and it can generate, edit, and iter-    [100], [101]. At the same time, the internal logic and mecha-
+atively collaborate with users on creative and technical writ-      nism of data-driven deep learning model is still a black box
+ing tasks such as composing music, writing scripts, or learn-       for humans, so the speculation as to why the current answer
+ing the user's writing style. We believe that ChatGPT may           was generated can neither be proven nor falsified. For some
+have two reasons for this advantage: 1) the model trained on        application scenarios with high accuracy requirements, such
+code data can better perform task decomposition and logical         as medical consultation, the randomness of ChatGPT answers
+thinking; 2) models with large-scale parameters may have            may lead to serious consequences. In addition, the ability of
+formed the ability to emerge.                                       ChatGPT to align with human instructions comes from manu-
+                                                                    ally labeled data. ChatGPT does not have the ability to clarify
+  3) Knowledge Modeling and Planning: ChatGPT can com-              and confirm fuzzy queries beyond the human annotations,
+plete almost all kinds of information consulting tasks very         which also brings untrustworthy obstacles to the use of Chat-
+well, and can also achieve good results in some areas requir-       GPT in real scenarios. It should be noted that currently pro-
+ing professional knowledge such as medical, judicial, and           posed technologies such as Toolformer [102] and Plugin7 can
+financial. For example, passing the American Medical Exami-         partially alleviate the problem of factual errors, and a large
+nation [98], and the test in the Chinese environment is also        amount of work has been proposed [103]-[105]. However,
+good6. This is due to the knowledge modeling ability of Chat-       their effectiveness in various tasks and industries still needs to
+GPT and its basic pre-trained large model. Meanwhile, experi-       be continuously observed and explored.
+ments have shown that GPT-4 performs at a level comparable
+to human performance on a variety of specialized tests and            2) Insufficient Modeling of Explicit Knowledge: Although a
+academic benchmarks. For example, it passed a simulated bar         large amount of data and hundreds of billions of parameters
+exam with a score in the top 10% of test takers, whereas GPT-       are used, the GPT series models still only use the simplest
+3.5 scored in the bottom 10%. On this basis, ChatGPT has            information processing method in human wisdom, i.e., pre-
+preliminary intelligent planning capabilities. For example, it      dicting the next possible word of a sentence. ChatGPT lacks
+can show the step-by-step solution ability when answering           the ability to produce and model accurate information. For
+complex questions, it can show the planning ability when            example, there are often wrong facts and complex mathemati-
+writing, and it can reflect the order of task execution and logi-   cal operations can not be performed. In fact, the advanced
+cal relationship when providing suggestions. It also has the        intelligence of human beings such as cognition and decision-
+ability to even provide missing details in planning goals           making are very dependent on knowledge accumulated by
+autonomously using commonsense knowledge and reasoning              social civilization for a long time. However, the GPT series
+[99]. We believe that knowledge modeling and acquisition is         models including ChatGPT have never considered the
+the key to the success of artificial intelligence systems. Com-     retrieval and utilization of such explicit knowledge (e.g.,
+pared with traditional knowledge engineering such as knowl-         knowledge graphs), nor have any knowledge extracting,
+edge graph, which describes the limited knowledge content of        updating, and reusing modules.
+a fixed schema in a symbolic way, large language model
+obtain model parameters and their operation processes                 3) Research and Development Costs are High: Achieving
+through end-to-end self-learning, which can implicitly model        stable training of large models and obtaining excellent perfor-
+richer and more comprehensive knowledge content.                    mance requires extremely high computing costs and engineer-
+                                                                    ing experience. OpenAI owns and utilizes the complete
+  In brief, ChatGPT/GPT-4 has excellent language and image          Microsoft Azure cloud platform to perform stable and persis-
+understanding and generation abilities, certain reasoning and       tent model training. For example, the training of the basic
+creating abilities, and powerful knowledge modeling abilities.      large model GPT-3 costs 12 million US dollars. In fact, the
+Moreover, ChatGPT also has many other advantages and                instability of large-scale data and large model training requires
+strengths, such as general task processing, machine transla-        continuous data, code, and engineering tuning, which requires
+tion for vast majority of languages, and embodied interaction,      long-time technical accumulation and rich experience in sys-
+etc. To further make full use of ChatGPT, scientist can try to      tem optimization.
+use it with multiple tools to solve more complex tasks for fur-
+                                                                      In brief, the current ChatGPT has some limitations in terms
+                                                                    of reliability, explicit knowledge modeling, and high research
+
+6 https://k.sina.com.cn/article_6208490735_1720e0cef01901d0sb.html  7 https://openai.com/blog/chatgpt-plugins
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:31:27 UTC from IEEE Xplore. Restrictions apply.
+1130                                                                IEEE/CAA JOURNAL OF AUTOMATICA SINICA, VOL. 10, NO. 5, MAY 2023
+
+and development costs that need to be further improved.             tries, it may also bring certain risks and challenges. Several
+Moreover, there still exist other limitations that have not been    examples of these challenges are as follows:
+deeply discussed in this manuscript such as data bias in politi-
+cal, ideological, and other area, and a lack of planning in arith-    1) Intellectual Property Protection: The answer provided by
+metic/reasoning questions or long text generation [106]. Sci-       ChatGPT is generated automatically, making it difficult to
+entist are making more efforts to improve these aspects.            verify the source of the data. ChatGPT is trained on a wide
+                                                                    range of data, including poetry, legal documents, natural con-
+  IV. The Impact of ChatGPT Across Different Fields                 versations, blogs, and emails. These data inevitably contain
+                                                                    copyrighted information. Consequently, ChatGPT's responses
+  ChatGPT has emerged as a popular topic of discussion              may over-reference other people's work or articles, poten-
+across various industries [107]-[109]. As of the end of Jan-        tially leading to infringement disputes.
+uary 2023, ChatGPT boasted over 100 million monthly active
+users, making it the fastest-growing application in history.          2) Safety Aspects: ChatGPT is easily to be used to generate
+Hence, we next discuss the impact of ChatGPT on society             misleading information or phishing emails for cyber scams at
+from multiple aspects and analyze the key challenges for            scale. At the same time, it can also help criminals find secu-
+application.                                                        rity holes in websites and generate network attack scripts
+                                                                    faster and easier. In other words, generative AI will undoubt-
+  From an academic perspective, ChatGPT is an important             edly greatly reduce the threshold of cyber attacks, because it
+milestone in the field of AI, revealing the potential for achiev-   not only expands the number of potential threats, but also
+ing artificial general intelligence. In the past, AI research has   empowers novices to participate in security attacks.
+mainly focused on the analytical capabilities of models. That
+is, by analyzing a given set of data, the model aims to dis-          3) Ethics and Integrity: Due to ChatGPT's high efficiency
+cover the features and patterns used in practical tasks. Unlike     and high quality of response, it surpasses most of the existing
+past AI technologies, ChatGPT is a large-scale generative lan-      problem-solving software. However, its diverse responses to
+guage model, and with the publication of GPT-4 image inputs         the same question make it difficult to detect plagiarism or
+has also been allowed, proving the feasibility of multimodal        cheating. This could lead to students and researchers using the
+generation. ChatGPT assists humans in a range of tasks by           tool to cheat, which could have adverse consequences for
+learning and understanding human intent to generate content         teaching and academic integrity. Furthermore, abusing
+in a conversational manner. The emergence of ChatGPT signi-         ChapGPT may cause more social ethics problems (e.g., gener-
+fies the transformation of artificial intelligence from data        ating harmful contents) without proper mitigation measures.
+understanding to data generation, achieving a leap from
+machine perception to machine creation. Due to its powerful           4) Environmental Impact: Since ChatGPT involves a huge
+text generation capabilities, ChatGPT has the strong ability to     amount of parameters and pre-training data, it consumes a sig-
+produce large-scale synthetic data at a low cost. This over-        nificant amount of hardware resources during training. Provid-
+comes the data limitation in the process of AI tasks and fur-       ing ChatGPT services to millions of users every day also gen-
+ther prompts the wider application of AI technology.                erates carbon emissions, which accumulate daily and are chal-
+                                                                    lenging to estimate.
+  From an industry perspective, ChatGPT has shown to be a
+valuable tool in a wide range of industries (e.g., IT, customer       Hence, to develop generative AI technology responsibly,
+service, film and television, education, and medical care           safely, and controllably, one should prioritize the following
+industries) that rely on human knowledge creation in an effi-       concepts for achieving high-quality, healthy, and sustainable
+cient, high-quality, and low-cost manner. With the develop-         development. First, transparency and accountability are cru-
+ment of generative AI technology, the model may assist or           cial. The application and development of ChatGPT need to be
+even completely replace humans to achieve most of the con-          open and transparent to ensure that society and relevant stake-
+tent creation work in the future. In essence, ChatGPT is a tool     holders understand its use and potential risks. Moreover, one
+for quickly building materials. It enables low-cost or even         should establish accountability mechanisms to ensure that
+zero-cost automated content creation, revolutionizing the con-      ChatGPT users and developers are responsible for its use and
+tent production paradigm across various industries. For             application. Second, one should follow moral and legal princi-
+instance, in the financial industry, ChatGPT can generate           ples. The development and use of ChatGPT must align with
+financial texts like investment and analysis reports to enhance     ethical and legal principles. One needs to ensure that its appli-
+work efficiency and quality. In the media industry, ChatGPT         cation does not violate ethical and legal regulations, such as
+can enable intelligent writing, such as the automatic creation      those related to fraud, invasion of privacy, discrimination, and
+of news reports and articles, for creators to refine and process,   other undesirable purposes. Third, one needs to focus on envi-
+significantly reducing the creative cycle. In summary, Chat-        ronmental protection and sustainability. The use of ChatGPT
+GPT has a vast range of potential applications and can play a       can consume significant computing resources and energy,
+crucial role in almost any field that requires processing and       leading to substantial carbon emissions. Therefore, one should
+understanding natural language. As technology continues to          pay attention to environmental protection and sustainability,
+develop and innovate, ChatGPT's influence and application           reduce the impact on the environment as much as possible,
+will continue to expand and deepen.                                 and apply the technology in a more sustainable way.
+
+  However, every technology is a " double-edged sword".                        V. The Potential Future Development
+While ChatGPT is showing great promise in related indus-                                      Trends of ChatGPT
+
+                                                                      Even GPT-4 brings significant improvements for ChatGPT,
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:31:27 UTC from IEEE Xplore. Restrictions apply.
+WU et al.: A BRIEF OVERVIEW OF CHATGPT: THE HISTORY, STATUS QUO AND POTENTIAL FUTURE DEVELOPMENT  1131
+
+several core problems are also still not been solved yet. Thus,                     cations.
+this section analyzes the future development of ChatGPT.
+First we discuss the hallucination problem, existing in most of                     B. Model Compression for LLM
+the large-scale models, including ChatGPT. Then, consider-
+ing the huge cost and the large-scale hardware requirements,                          Researchers have shown that the capabilities of transformer-
+we discuss how to reduce the size of language models for                            based language models grow log-linearly with the number of
+model compression. Finally, we propose several other trends                         parameters [113], [114], and some promising abilities such as
+in future, and the overview diagram is shown in Fig. 6.                             in-context learning [25] and chain-of-thoughts [57] emerge
+                                                                                    when the model size exceeds certain thresholds. Equipped
+                     Current problems                  Solutions                    with the scaling law [114], today's modern large language
+                                                                                    models have revolutionized natural language processing with
+Hallucination                                  · Incorporating external             their remarkable performance on various language tasks.
+                                                 knowledge                          However, these models come with a significant cost. They
+               · Generation of erroneous                                            usually contain over 100 billion parameters, which presents
+                  information                  · Developing retrieval-              challenges for practical usage, including increased costs for
+                                                 augmented language                 storage, distribution, and deployment in real-world applica-
+               · Poor performance in             model                              tions. As a result, researchers need to develop new approaches
+                  knowledge-extensive fields                                        for model compression and optimization to make these mod-
+                                               · Distillation-based methods         els more practical and accessible for real-world use cases.
+               · Ethical concerns              · Pruning-based methods
+                                               · Quantization-based                   Reducing the size of language models while maintaining
+Model compression                                                                   their performance on downstream tasks has been a long-stand-
+                                                 methods                            ing challenge in the field, and researchers have proposed mul-
+               · Enormous parameters                                                tiple approaches to tackle this problem. Distillation-based
+               · Costly to store, distribute,                                       approaches, such as those proposed in [49], [115]-[117],
+                                                                                    involve training a smaller student model using extra training
+                  and deploy                                                        data or soft labels generated by a larger teacher model (LLM
+                                                                                    or ChatGPT). Teacher model by hundreds or even thousands
+Other future trends                                                                 of times while maintaining the emerging properties remains an
+                                                                                    open problem that requires further research. Pruning-based
+     ...                                                             CC(O)OC1CC     approaches [118], [119] aim to reduce the size of the model by
+                                                                     CCC1C(O)O      removing a number of unimportant weights, while achieving
+New            New                                                                  similar performance to the original model. Quantization-based
+message 1 ... message N                                            SMILES notation  approaches [120], [121] use 8-bit or even binary numbers to
+                                                         Compound                   store the model weights, thereby reducing the model size com-
+                                                                                    pared to 32-bit storage. Although these approaches success-
+Lifelong learning           Complex reasoning            Cross-disciplinary         fully reduce the model size, special hardware design is often
+· Training seamlessly from  · Introducing more advanced  · Incorporating other      required to accelerate model inference speed, which can limit
+                                                                                    their usage. Please refer to [122] for a more comprehensive
+  new data instead of         knowledge representation     systems, such as         survey of the field.
+  retraining from scratch     and reasoning techniques     chemical language
+                                                                                    C. Other Future Trends
+Fig. 6. The future trends of ChatGPT for hallucination, model compression
+and other important trends. Image materials are adapted from the Internet8.           ChatGPT has a vast potential for potential future develop-
+                                                                                    ment from both research and practical perspectives, and it is
+A. Solving the Hallucination Problem of ChatGPT                                     impossible to list them all in this paper. As discussed in the
+                                                                                    previous section, we have provided a few examples to illus-
+  Recent advances in large-scale language models (LLM),                             trate the wide range of possibilities for the model's future
+have enabled the generation of seemingly high-quality lan-                          direction.
+guage from appropriately formulated prompts. However, these
+models are known to generate "hallucinated" facts, which can                          1) Lifelong Learning Incorporation: Experiments have
+lead to misleading conclusions. The potential for generating                        proved that ChatGPT published in January 2023 can solve
+erroneous information remains a significant concern in the use                      70% theory of mind (ToM) tasks, which is comparable with
+of such models, which limits their applicability in knowledge-                      that of seven-year-old children [123]. However, this does
+extensive fields such as finance, legal advisement and medi-                        mean that ChatGPT has mind as humans and it is just the
+cal suggestions. In response to this problem, some researchers                      results of strong capability of the language models. Message
+have proposed incorporating external knowledge sources to                           of current affairs may forever not be learned by ChapGPT if
+mitigate "hallucination" and the " retrieval-augmented lan-                         we stop updating the model. To adapt to such changes, one
+guage" model has emerged as a popular approach [110]-                               possible approach is to incorporate lifelong learning [124] into
+[112]. Typically, these systems retrieve relevant knowledge                         the ChatGPT model. By doing so, the model can seamlessly
+from a large knowledge base such as Wikipedia or other web                          incorporate new data without requiring retraining from
+texts, given a prompt, and generate a response by leveraging                        scratch. This is particularly advantageous for large-scale lan-
+the retrieved knowledge. By incorporating external knowl-
+edge sources, such as named entities or specific facts, these
+systems can improve their accuracy and reduce the potential
+for generating misleading or incorrect information.
+
+  However, the use of external knowledge sources also poses
+challenges, such as the need for effective retrieval methods
+and the possibility of introducing bias into the models. There-
+fore, further research is needed to improve the effectiveness of
+these approaches and to address potential ethical concerns
+when deploying large-scale language models in various appli-
+
+8 https://www.quora.com/Will-Chat-GPT-take-over-Google,
+https://www.appnovation.com/blog/seo-google-algorithm-and-knowledge-
+graph
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:31:27 UTC from IEEE Xplore. Restrictions apply.
+1132                                                                 IEEE/CAA JOURNAL OF AUTOMATICA SINICA, VOL. 10, NO. 5, MAY 2023
+
+guage models such as ChatGPT, as it saves computing                  emergence in large language models to understand how the
+resources and enables more efficient and effective perfor-           emergence appears and what kind of abilities does it may
+mance. Additionally, lifelong learning can enable the model to       have. This could be important in creating stronger AIGC mod-
+evolve in real-time, leading to more personalized and relevant       els.
+results. This is particularly beneficial in ChatGPT, where user
+interactions are constantly evolving, and up-to-date informa-          Currently, more and more companies and research groups
+tion is critical. Overall, incorporating lifelong learning into      are following OpenAI's lead in developing their own Chat-
+ChatGPT can lead to improved performance and more accu-              GPT-like products or AIGC products. For example, Microsoft
+rate results, benefiting both researchers and users alike.           has combined ChatGPT with their search engine Bing to
+                                                                     improve the quality of the search results, Baidu has published
+  2) Complex Reasoning Abilities Enhancement: While Chat-            their ChatGPT aliked robot called ERNIE Bot, which can gen-
+GPT already has impressive reasoning abilities, there is             erate images based on text descriptions, and Sensetime has
+always room for improvement to tackle even more complex              developed their SenseChat robot, which can generate figures,
+problems. Further research can focus on enhancing the reason-        videos, and 3D contents. ChatGPT-related technologies have
+ing capabilities of the model by incorporating advanced              attracted worldwide attention and it becomes a major force in
+knowledge representation and reasoning techniques, such as           computer science.
+knowledge graphs [125], [126] and logical reasoning [127].
+These improvements help the model better understand and                In brief, the essence of ChatGPT-like products is still a kind
+reason over complex structures and relationships between dif-        of AIGC instead of reaching artificial super intelligence
+ferent concepts. By advancing the reasoning abilities of Chat-       (ASI). In this way, people should further focus the side-effects
+GPT, the model can become even more powerful and versa-              of technology products, such as the reliability and validity of
+tile in its applications.                                            the answers by artificial intelligence and the potential for
+                                                                     cheating to occur. Overall, when people are looking forward
+  3) Cross-Disciplinary Integration: The significant language        to more powerful artificial intelligence, consensus on ethical
+processing performance of ChapGPT also has the potential to          and responsible usage are also required to be carefully consid-
+be fused with chemical system. Simplified molecular input            ered.
+linear entry system (SMILES) [128] is composed of specific
+ASCII symbols which is used to define chemical, represent-                                        References
+ing the compositions and structure for molecules. SMILES
+can also be seen as a kind of language system, and thus it is          [1] C. Raffel, N. Shazeer, A. Roberts, K. Lee, S. Narang, M. Matena, Y.
+also deserved to be chained with ChatGPT for further                         Q. Zhou, W. Li, and J. Liu, "Exploring the limits of transfer learning
+research.                                                                    with a unified text-to-text transformer," J. Mach. Learn. Res., vol. 21,
+                                                                             no. 1, p. 140, Jan. 2020.
+  In addition to the above points, we have also identified sev-
+eral other future trends or directions of ChatGPT: 1) realizing        [2] H. Y. Du, Z. H. Li, D. Niyato, J. W. Kang, Z. H. Xiong, X. M. Shen,
+a larger long-term memory may help to better understand and                  and D. I. Kim, " Enabling AI-generated content (AIGC) services in
+process more complex tasks, such as reading a book; 2)                       wireless edge networks," arXiv preprint arXiv: 2301.03220, 2023.
+improving the robustness and sensitivity to inputs is impor-
+tant since the prompts and their sequence may greatly influ-           [3] Y. Ming, N. N. Hu, C. X. Fan, F. Feng, J. W. Zhou, and H. Yu,
+ence the outputs, leading to suboptimal or non-aligned results;              "Visuals to text: A comprehensive review on automatic image
+3) improving transparency, interpretability and consistency is               captioning," IEEE/CAA J. Autom. Sinica, vol. 9, no. 8, pp. 1339-1365,
+also important, as it helps to establish better trust or collabora-          Aug. 2022.
+tion with the user; and 4) external calls should be considered
+for application expansion. There is still much work to be done         [4] C. Q. Zhao, Q. Y. Sun, C. Z. Zhang, Y. Tang, and F. Qian,
+to create a better ChatGPT model or an AGI model.                            "Monocular depth estimation based on deep learning: An overview,"
+                                                                             Sci. China Technol. Sci., vol. 63, no. 9, pp. 1612-1627, Jun. 2020.
+                            VI. Conclusion
+                                                                       [5] J. Lü, G. H. Wen, R. Q. Lu, Y. Wang, and S. M. Zhang, "Networked
+  In this paper, we provide a brief overview on the recently                 knowledge and complex networks: An engineering view," IEEE/CAA
+released AI agent ChatGPT, including its predecessor,                        J. Autom. Sinica, vol. 9, no. 8, pp. 1366-1383, Aug. 2022.
+strengths and the limitations, social impact and potential
+future development. We discuss the core techniques of Chat-            [6] A. Creswell, T. White, V. Dumoulin, K. Arulkumaran, B. Sengupta,
+GPT, mainly including large-scale language models, in-con-                   and A. A. Bharath, " Generative adversarial networks: An overview,"
+text learning, reinforcement learning from human feedback                    IEEE Signal Process. Mag., vol. 35, no. 1, pp. 53-65, Jan. 2018.
+and their potential relationship. In a nutshell, ChatGPT is a
+phenomenal technology product that holds significant impor-            [7] J. Chen, K. L. Wu, Y. Yu, and L. B. Luo, "CDP-GAN: Near-infrared
+tance in both academic and industry domains.                                 and visible image fusion via color distribution preserved GAN,"
+                                                                             IEEE/CAA J. Autom. Sinica, vol. 9, no. 9, pp. 1698-1701, Sept. 2022.
+  However, it is still unclear how ChatGPT can realize such
+powerful functions by combing simple algorithmic compo-                [8] A. Radford, J. W. Kim, C. Hallacy, A. Ramesh, G. Goh, S. Agarwal,
+nents of gradient descent, large-scale language models con-                  G. Sastry, A. Askell, P. Mishkin, J. Clark, G. Krueger, and I.
+structed by Transformer, and vast amounts of data. One                       Sutskever, "Learning transferable visual models from natural language
+important future direction is to research the phenomenon of                  supervision," in Proc. 38th Int. Conf. Machine Learning, 2021, pp.
+                                                                             8748-8763.
+
+                                                                       [9] L. Yang, Z. L. Zhang, Y. Song, S. D. Hong, R. S. Xu, Y. Zhao, W. T.
+                                                                             Zhang, B. Cui, and M.-H. Yang, "Diffusion models: A comprehensive
+                                                                             survey of methods and applications," arXiv preprint arXiv:
+                                                                             2209.00796, 2022.
+
+                                                                      [10] C. C. Leng, H. Zhang, G. R. Cai, Z. Chen, and A. Basu, "Total
+                                                                             variation constrained non-negative matrix factorization for medical
+                                                                             image registration," IEEE/CAA J. Autom. Sinica, vol. 8, no. 5,
+                                                                             pp. 1025-1037, May 2021.
+
+                                                                      [11] S. Reed, K. Zolna, E. Parisotto, S. G. Colmenarejo, A. Novikov, G.
+                                                                             Barth-Maron, M. Gimenez, Y. Sulsky, J. Kay, J. T. Springenberg, T.
+                                                                             Eccles, J. Bruce, A. Razavi, A. Edwards, N. Heess, Y. T. Chen, R.
+                                                                             Hadsell, O. Vinyals, M. Bordbar, and N. de Freitas, " A generalist
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:31:27 UTC from IEEE Xplore. Restrictions apply.
+WU et al.: A BRIEF OVERVIEW OF CHATGPT: THE HISTORY, STATUS QUO AND POTENTIAL FUTURE DEVELOPMENT  1133
+
+       agent," arXiv preprint arXiv: 2205.06175, 2022.                                 Jan. 2023.
+
+[12] Y. Liu, Y. Shi, F. H. Mu, J. Cheng, and X. Chen, "Glioma                   [33] C. X. Zhai, Statistical Language Models for Information Retrieval.
+       segmentation-oriented multi-modal MR image fusion with adversarial              Hanover, USA: Now Publishers Inc., 2008, pp. 1-141.
+       learning," IEEE/CAA J. Autom. Sinica, vol. 9, no. 8, pp. 1528-1531,
+       Aug. 2022.                                                               [34] Y. Bengio, R. Ducharme, and P. Vincent, " A neural probabilistic
+                                                                                       language model," in Proc. 13th Int. Conf. Neural Information
+[13] J. Gusak, D. Cherniuk, A. Shilova, A. Katrutsa, D. Bershatsky, X. Y.              Processing Systems, Denver, USA, 2000, pp. 893-899.
+       Zhao, L. Eyraud-Dubois, O. Shlyazhko, D. Dimitrov, I. Oseledets, and
+       O. Beaumont, "Survey on large scale neural network training," arXiv      [35] R. Collobert, J. Weston, L. Bottou, M. Karlen, K. Kavukcuoglu, and
+       preprint arXiv: 2202.10435, 2022.                                               Kuksa, "Natural language processing (almost) from scratch," J. Mach.
+                                                                                       Learn. Res., vol. 12, pp. 2493-2537, Nov. 2011.
+[14] A. Ramesh, P. Dhariwal, A. Nichol, C. Chu, and M. Chen,
+       "Hierarchical text-conditional image generation with CLIP latents,"      [36] Y. M. Ju, Y. Z. Zhang, K. Liu, and J. Zhao, "Generating hierarchical
+       arXiv preprint arXiv: 2204.06125, 2022.                                         explanations on text classification without connecting rules," arXiv
+                                                                                       preprint arXiv: 2210.13270, 2022.
+[15] U. Singer, A. Polyak, T. Hayes, X. Yin, J. An, S. Y. Zhang, Q. Y. Hu,
+       H. Yang, O. Ashual, O. Gafni, D. Parikh, S. Gupta, and Y. Taigman,       [37] M. J. Zhu, Y. X. Weng, S. Z. He, K. Liu, and J. Zhao, " Learning to
+       "Make-a-video: Text-to-video generation without text-video data,"               answer complex visual questions from multi-view analysis," in Proc.
+       arXiv preprint arXiv: 2209.14792, 2022.                                         7th China Conf. Knowledge Graph and Semantic Computing,
+                                                                                       Qinhuangdao, China, 2022, pp. 154-162.
+[16] W. X. Jiao, W. X. Wang, J.-T. Huang, X. Wang, and Z. P. Tu, "Is
+       ChatGPT a good translator? Yes with GPT-4 as the engine," arXiv          [38] T. Mikolov, K. Chen, G. Corrado, and J. Dean, "Efficient estimation of
+       preprint arXiv: 2301.08745, 2023.                                               word representations in vector space," in Proc. 1st Int. Conf. Learning
+                                                                                       Representations, Scottsdale, USA, 2013.
+[17] OpenAI, " Gpt-4 technical report," 2023. [Online]. Available: https://
+       cdn.openai.com/papers/gpt-4.pdf.                                         [39] T. Mikolov, I. Sutskever, K. Chen, G. Corrado, and J. Dean,
+                                                                                       "Distributed representations of words and phrases and their
+[18] A. Radford, K. Narasimhan, T. Salimans, and I. Sutskever, "Improving              compositionality," in Proc. 26th Int. Conf. Neural Information
+       language understanding by generative pre-training," 2018.                       Processing Systems, Lake Tahoe, USA, 2013, pp. 3111-3119.
+
+[19] M. Khosla, A. Anand, and V. Setty, "A comprehensive comparison of          [40] T. Mikolov, M. Karafiat, L. Burget, J. Cernocký, and S. Khudanpur,
+       unsupervised network representation learning methods," arXiv preprint           "Recurrent neural network based language model," in Proc. 11th
+       arXiv: 1903.07902, 2019.                                                        Annu. Conf. Int. Speech Communication Association, Makuhari, Japan,
+                                                                                       2010, pp. 1045-1048.
+[20] Q. Y. Sun, C. Q. Zhao, Y. Ju, and F. Qian, "A survey on unsupervised
+       domain adaptation in computer vision tasks," Sci. Sinica Technol., vol.  [41] M. Sundermeyer, R. Schlueter, and H. Ney, " LSTM neural networks
+       52, no. 1, pp. 26-54, 2022.                                                     for language modeling," in Proc. 13th Annu. Conf. Int. Speech
+                                                                                       Communication Association, Portland, USA, 2012, pp. 194-197.
+[21] C. Ieracitano, A. Paviglianiti, M. Campolo, A. Hussain, E. Pasero, and
+       F. C. Morabito, " A novel automatic classification system based on       [42] X. Qiu, T. X. Sun, Y. G. Xu, Y. F. Shao, N. Dai, and X. J. Huang,
+       hybrid unsupervised and supervised machine learning for electrospun             "Pre-trained models for natural language processing: A survey," Sci.
+       nanofibers," IEEE/CAA J. Autom. Sinica, vol. 8, no. 1, pp. 64-76, Jan.          China Technol. Sci., vol. 63, no. 10, pp. 1872-1897, Sept. 2020.
+       2021.
+                                                                                [43] M. E. Peters, M. Neumann, M. Iyyer, M. Gardner, C. Clark, K. Lee,
+[22] A. Radford, J. Wu, R. Child, D. Luan, D. Amodei, and I. Sutskever,                and L. Zettlemoyer, " Deep contextualized word representations," in
+       "Language models are unsupervised multitask learners," OpenAI Blog,             Proc. Conf. North American Chapter of the Association for
+       vol. 1, no. 8, pp. 9, 2019.                                                     Computational Linguistics, New Orleans, USA, 2018, pp. 2227-2237.
+
+[23] Y. Zhang and Q. Yang, " A survey on multi-task learning," IEEE             [44] J. Devlin, M.-W. Chang, K. Lee, and K. Toutanova, " BERT: Pre-
+       Trans. Knowl. Data Eng., vol. 34, no. 12, pp. 5586-5609, Dec. 2022.             training of deep bidirectional transformers for language
+                                                                                       understanding," in Proc. Conf. North American Chapter of the
+[24] Y. Q. Wang, Q. M. Yao, J. T. Kwok, and L. M. Ni, "Generalizing                    Association for Computational Linguistics: Human Language
+       from a few examples: A survey on few-shot learning," ACM Comput.                Technologies, Minneapolis, USA, 2019, pp. 4171-4186.
+       Surv., vol. 53, no. 3, p. 63, May 2021.
+                                                                                [45] M. Lewis, Y. H. Liu, N. Goyal, M. Ghazvininejad, A. Mohamed, O.
+[25] T. B. Brown, B. Mann, N. Ryder, M. Subbiah, J. Kaplan, P. Dhariwal,               Levy, V. Stoyanov, and L. Zettlemoyer, "BART: Denoising sequence-
+       A. Neelakantan, P. Shyam, G. Sastry, A. Askell, S. Agarwal, A.                  to-sequence pre-training for natural language generation, translation,
+       Herbert-Voss, G. Krueger, T. Henighan, R. Child, A. Ramesh, D. M.               and comprehension," in Proc. 58th Annu. Meeting of the Association
+       Ziegler, J. Wu, C. Winter, C. Hesse, M. Chen, E. Sigler, M. Litwin, S.          for Computational Linguistics, 2020, pp. 7871-7880.
+       Gray, B. Chess, J. Clark, C. Berner, S. McCandlish, A. Radford, I.
+       Sutskever, and D. Amodei, " Language models are few-shot learners,"      [46] Y. H. Liu, M. Ott, N. Goyal, J. F. Du, M. Joshi, D. Q. Chen, O. Levy,
+       in Proc. 34th Int. Conf. Neural Information Processing Systems,                 M. Lewis, L. Zettlemoyer, and V. Stoyanov, " RoBERTa: A robustly
+       Vancouver, Canada, 2020, pp. 1877-1901.                                         optimized BERT pretraining approach," arXiv preprint arXiv:
+                                                                                       1907.11692, 2019.
+[26] C. Finn, P. Abbeel, and S. Levine, "Model-agnostic meta-learning for
+       fast adaptation of deep networks," in Proc. 34th Int. Conf. Machine      [47] Z. Z. Lan, M. D. Chen, S. Goodman, K. Gimpel, P. Sharma, and R.
+       Learning, Sydney, Australia, 2017, pp. 1126-1135.                               Soricut, " ALBERT: A lite BERT for self-supervised learning of
+                                                                                       language representations," in Proc. 8th Int. Conf. Learning
+[27] J. Beck, R. Vuorio, E. Z. Liu, Z. Xiong, L. Zintgraf, C. Finn, and S.             Representations, Addis Ababa, Ethiopia, 2020.
+       Whiteson, " A survey of meta-reinforcement learning," arXiv preprint
+       arXiv: 2301.08028, 2023.                                                 [48] V. Sanh, L. Debut, J. Chaumond, and T. Wolf, "DistilBERT, a distilled
+                                                                                       version of BERT: Smaller, faster, cheaper and lighter," arXiv preprint
+[28] Q. X. Dong, L. Li, D. M. Dai, C. Zheng, Z. Y. Wu, B. B. Chang, X.                 arXiv: 1910.01108, 2019.
+       Sun, J. J. Xu, L. Li, and Z. F. Sui, "A survey on in-context learning,"
+       arXiv preprint arXiv: 2301.00234, 2022.                                  [49] X. Q. Jiao, Y. C. Yin, L. F. Shang, X. Jiang, X. Chen, L. L. Li, F.
+                                                                                       Wang, and Q. Liu, "TinyBERT: Distilling BERT for natural language
+[29] L. Ouyang, J. Wu, X. Jiang, D. Almeida, C. L. Wainwright, P.                      understanding," in Proc. Findings of the Association for
+       Mishkin, C. Zhang, S. Agarwal, K. Slama, A. Ray, J. Schulman, J.                Computational Linguistics, 2020, pp. 4163-4174.
+       Hilton, F. Kelton, L. Miller, M. Simens, A. Askell, P. Welinder, P.
+       Christiano, J. Leike, and R. Lowe, " Training language models to         [50] Y. M. Cui, W. X. Che, T. Liu, B. Qin, and Z. Q. Yang, "Pre-training
+       follow instructions with human feedback," arXiv preprint arXiv:                 with whole word masking for Chinese BERT," IEEE/ACM Trans.
+       2203.02155, 2022.                                                               Audio, Speech, Lang. Process., vol. 29, pp. 3504-3514, Nov. 2021.
+
+[30] C. W. Qin, A. Zhang, Z. S. Zhang, J. A. Chen, M. Yasunaga, and D.          [51] W. J. Liu, P. Zhou, Z. Zhao, Z. R. Wang, Q. Ju, H. T. Deng, and P.
+       Y. Yang, "Is ChatGPT a general-purpose natural language processing              Wang, " K-BERT: Enabling language representation with knowledge
+       task solver?" arXiv preprint arXiv: 2302.06476, 2023.                           graph," in Proc. 34th AAAI Conf. Artificial Intelligence, New York,
+                                                                                       USA, 2019, pp. 2901-2908.
+[31] C. Stokel-Walker and R. Van Noorden, " What ChatGPT and
+       generative AI mean for science," Nature , vol. 614, no. 7947,            [52] A. Rogers, O. Kovaleva, and A. Rumshisky, "A primer in BERTology:
+       pp. 214-216, Feb. 2023.                                                         What we know about how BERT works," Trans. Assoc. Comput.
+                                                                                       Linguist., vol. 8, pp. 842-866, 2020.
+[32] C. Stokel-Walker, " ChatGPT listed as author on research papers:
+       Many scientists disapprove," Nature , vol. 613, no. 7945, pp. 620-621,   [53] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:31:27 UTC from IEEE Xplore. Restrictions apply.
+1134                                                                            IEEE/CAA JOURNAL OF AUTOMATICA SINICA, VOL. 10, NO. 5, MAY 2023
+
+       Gomez, L. Kaiser, and I. Polosukhin, " Attention is all you need," in    [69] D. Silver, T. Hubert, J. Schrittwieser, I. Antonoglou, M. Lai, A. Guez,
+       Proc. 31st Int. Conf. Neural Information Processing Systems, Long               M. Lanctot, L. Sifre, D. Kumaran, T. Graepel, T. Lillicrap, K.
+       Beach, USA, 2017, pp. 6000-6010.                                                Simonyan, and D. Hassabis, " A general reinforcement learning
+                                                                                       algorithm that masters chess, shogi, and go through self-play,"
+[54] W. Q. Ren, Y. Tang, Q. Y. Sun, C. Q. Zhao, and Q.-L. Han, "Visual                 Science, vol. 362, no. 6419, pp. 1140-1144, Dec. 2018.
+       semantic segmentation based on few/zero-shot learning: An
+       overview," arXiv preprint arXiv: 2211.08352, 2022.                       [70] O. Vinyals, I. Babuschkin, W. M. Czarnecki, M. Mathieu, A. Dudzik,
+                                                                                       J. Chung, D. H. Choi, R. Powell, T. Ewalds, Georgiev, J. Oh, D.
+[55] S. Smith, M. Patwary, B. Norick, P. LeGresley, S. Rajbhandari, J.                 Horgan, M. Kroiss, I. Danihelka, A. Huang, L. Sifre, T. Cai, J.
+       Casper, Z. Liu, S. Prabhumoye, G. Zerveas, V. Korthikanti, E. Zhang,            Agapiou, M. Jaderberg, A. S. Vezhnevets, R. Leblond, T. Pohlen, V.
+       R. Child, R. Y. Aminabadi, J. Bernauer, X. Song, M. Shoeybi, Y. X.              Dalibard, D. Budden, Y. Sulsky, J. Molloy, T. L. Paine, C. Gulcehre,
+       He, M. Houston, S. Tiwary, and B. Catanzaro, "Using DeepSpeed and               Z. Y. Wang, T. Pfaff, Y. H. Wu, R. Ring, D. Yogatama, D. Wünsch,
+       megatron to train megatron-turing NLG 530B, a large-scale generative            K. McKinney, O. Smith, T. Schaul, T. Lillicrap, K. Kavukcuoglu, D.
+       language model," arXiv preprint arXiv: 2201.11990, 2022.                        Hassabis, C. Apps, and D. Silver, " Grandmaster level in StarCraft II
+                                                                                       using multi-agent reinforcement learning," Nature , vol. 575, no. 7782,
+[56] R. Bommasani, D. A. Hudson, E. Adeli, R. Altman, S. Arora, S. Von                 pp. 350-354, Oct. 2019.
+       Arx, M. S. Bernstein, J. Bohg, A. Bosselut, E. Brunskill, E.
+       Brynjolfsson, S. Buch, D. Card, R. Castellon, N. Chatterji, A. Chen, K.  [71] Y. B. Jin, X. W. Liu, Y. C. Shao, H. T. Wang, and W. Yang, "High-
+       Creel, J. Q. Davis, D. Demszky, C. Donahue, M. Doumbouya, E.                    speed quadrupedal locomotion by imitation-relaxation reinforcement
+       Durmus, S. Ermon, J. Etchemendy, K. Ethayarajh, L. Fei-Fei, C. Finn,            learning," Nat. Mach. Intell., vol. 4, no. 12, pp. 1198-1208, Dec. 2022.
+       T. Gale, L. Gillespie, K. Goel, N. Goodman, S. Grossman, N. Guha, T.
+       Hashimoto, P. Henderson, J. Hewitt, D. E. Ho, J. Hong, K. Hsu, J.        [72] A. Ecoffet, J. Huizinga, J. Lehman, K. O. Stanley, and J. Clune, "First
+       Huang, T. Icard, S. Jain, D. Jurafsky, P. Kalluri, S. Karamcheti, G.            return, then explore," Nature , vol. 590, no. 7847, pp. 580-586, Feb.
+       Keeling, F. Khani, O. Khattab, P. W. Koh, M. Krass, R. Krishna, R.              2021.
+       Kuditipudi, A. Kumar, F. Ladhak, M. Lee, T. Lee, J. Leskovec, I.
+       Levent, X. L. Li, X. C. Li, T. Y. Ma, A. Malik, C. D. Manning, S.        [73] R. F. Wu, Z. K. Yao, J. Si, and H. H. Huang, "Robotic knee tracking
+       Mirchandani, E. Mitchell, Z. Munyikwa, S. Nair, A. Narayan, D.                  control to mimic the intact human knee profile based on actor-critic
+       Narayanan, B. Newman, A. Nie, J. C. Niebles, H. Nilforoshan, J.                 reinforcement learning," IEEE/CAA J. Autom. Sinica, vol. 9, no. 1,
+       Nyarko, G. Ogut, L. Orr, I. Papadimitriou, J. S. Park, C. Piech, E.             pp. 19-30, Jan. 2021.
+       Portelance, C. Potts, A. Raghunathan, R. Reich, H. Y. Ren, F. Rong,
+       Y. Roohani, C. Ruiz, J. Ryan, C. Ré, D. Sadigh, S. Sagawa, K.            [74] S. K. Gottipati, B. Sattarov, S. F. Niu, Y. Pathak, H. R. Wei, S. C. Liu,
+       Santhanam, A. Shih, K. Srinivasan, A. Tamkin, R. Taori, A. W.                   K. J. Thomas, S. Blackburn, C. W. Coley, J. Tang, S. Chandar, S.
+       Thomas, F. Tramèr, R. E. Wang, W. Wang, B. H. Wu, J. J. Wu, Y. H.               Chandar, and Y. Bengio, " Learning to navigate the synthetically
+       Wu, S. M. Xie, M. Yasunaga, J. X. You, M. Zaharia, M. Zhang, T. Y.              accessible chemical space using reinforcement learning," in Proc. 37th
+       Zhang, X. K. Zhang, Y. H. Zhang, L. Zheng, K. Zhou, and P. Liang,               Int. Conf. Machine Learning, 2020, pp. 344.
+       "On the opportunities and risks of foundation models," arXiv preprint
+       arXiv: 2108.07258, 2021.                                                 [75] J. K. Wang, C.-Y. Hsieh, M. Y. Wang, X. R. Wang, Z. X. Wu, D. J.
+                                                                                       Jiang, B. B. Liao, X. J. Zhang, B. Yang, Q. J. He, D. S. Cao, and T. J.
+[57] J. Wei, X. Z. Wang, D. Schuurmans, M. Bosma, B. Ichter, F. Xia, E.                Hou, " Multi-constraint molecular generation based on conditional
+       Chi, Q. Le, and D. Zhou, " Chain-of-thought prompting elicits                   transformer, knowledge distillation and reinforcement learning," Nat.
+       reasoning in large language models," arXiv preprint arXiv:                      Mach. Intell., vol. 3, no. 10, pp. 914-922, Oct. 2021.
+       2201.11903, 2022.
+                                                                                [76] Y. N. Wan, J. H. Qin, X. H. Yu, T. Yang, and Y. Kang, "Price-based
+[58] J. Huang and K. C.-C. Chang, " Towards reasoning in large language                residential demand response management in smart grids: A
+       models: A survey," arXiv preprint arXiv: 2212.10403, 2022.                      reinforcement learning-based approach," IEEE/CAA J. Autom. Sinica,
+                                                                                       vol. 9, no. 1, pp. 123-134, Jan. 2022.
+[59] T. Kojima, S. S. Gu, M. Reid, Y. Matsuo, and Y. Iwasawa, "Large
+       language models are zero-shot reasoners," arXiv preprint arXiv:          [77] W. Z. Liu, L. Dong, D. Niu, and C. Y. Sun, "Efficient exploration for
+       2205.11916, 2022.                                                               multi-agent reinforcement learning via transferable successor
+                                                                                       features," IEEE/CAA J. Autom. Sinica, vol. 9, no. 9, pp. 1673-1686,
+[60] Z. S. Zhang, A. Zhang, M. Li, and A. Smola, " Automatic chain of                  Sept. 2022.
+       thought prompting in large language models," arXiv preprint arXiv:
+       2210.03493, 2022.                                                        [78] J. Y. Weng, H. Y. Chen, D. Yan, K. C. You, A. Duburcq, M. H.
+                                                                                       Zhang, Y. Su, H. Su, and J. Zhu, " Tianshou: A highly modularized
+[61] D. Zhou, N. Scharli, L. Hou, J. Wei, N. Scales, X. Z. Wang, D.                    deep reinforcement learning library," J. Mach. Learn. Res., vol. 23,
+       Schuurmans, C. Cui, O. Bousquet, Q. Le, and E. Chi, "Least-to-most              no. 267, pp. 1-6, Aug. 2022.
+       prompting enables complex reasoning in large language models,"
+       arXiv preprint arXiv: 2205.10625, 2022.                                  [79] J. Schulman, S. Levine, P. Moritz, M. Jordan, and P. Abbeel, "Trust
+                                                                                       region policy optimization," in Proc. 32nd Int. Conf. Int. Conf.
+[62] X. Z. Wang, J. Wei, D. Schuurmans, Q. Le, E. Chi, S. Narang, A.                   Machine Learning, Lille, France, 2015, pp. 1889-1897.
+       Chowdhery, and D. Zhou, "Self-consistency improves chain of thought
+       reasoning in language models," arXiv preprint arXiv: 2203.11171,         [80] T. Haarnoja, A. Zhou, K. Hartikainen, G. Tucker, S. Ha, J. Tan, V.
+       2022.                                                                           Kumar, H. Zhu, A. Gupta, P. Abbeel, and S. Levine, "Soft actor-critic
+                                                                                       algorithms and applications," arXiv preprint arXiv: 1812.05905, 2018.
+[63] Y. X. Weng, M. J. Zhu, F. Xia, B. Li, S. Z. He, K. Liu, and J. Zhao,
+       "Large language models are reasoners with self-verification," arXiv      [81] J. Schulman, F. Wolski, P. Dhariwal, A. Radford, and O. Klimov,
+       preprint arXiv: 2212.09561, 2022.                                               "Proximal policy optimization algorithms," arXiv preprint arXiv:
+                                                                                       1707.06347, 2017.
+[64] H. W. Chung, L. Hou, S. Longpre, B. Zoph, Y. Tay, W. Fedus, Y. X.
+       Li, X. Z. Wang, M. Dehghani, S. Brahma, A. Webson, S. S. Gu, Z. Y.       [82] S. Fujimoto, H. Van Hoof, and D. Meger, " Addressing function
+       Dai, M. Suzgun, X. Y. Chen, A. Chowdhery, A. Castro-Ros, M. Pellat,             approximation error in actor-critic methods," in Proc. 35th Int. Conf.
+       K. Robinson, D. Valter, S. Narang, G. Mishra, A. Yu, V. Zhao, Y. P.             Machine Learning, Stockholm, Sweden, 2018, pp. 1582-1591.
+       Huang, A. Dai, H. K. Yu, S. Petrov, E. H. Chi, J. Dean, J. Devlin, A.
+       Roberts, D. Zhou, Q. V. Le, and J. Wei, "Scaling instruction-finetuned   [83] X. Y. Chen, C. Wang, Z. J. Zhou, and K. W. Ross, "Randomized
+       language models," arXiv preprint arXiv: 2210.11416, 2022.                       ensembled double q-learning: Learning fast without a model," in Proc.
+                                                                                       9th Int. Conf. Learning Representations, 2021.
+[65] D. Goldwasser and D. Roth, " Learning from natural instructions,"
+       Mach. Learn., vol. 94, no. 2, pp. 205-232, Feb. 2014.                    [84] P. F. Christiano, J. Leike, T. B. Brown, M. Martic, S. Legg, and D.
+                                                                                       Amodei, " Deep reinforcement learning from human preferences," in
+[66] J. Wei, M. Bosma, V. Y. Zhao, K. Guu, A. W. Yu, B. Lester, N. Du,                 Proc. 31st Int. Conf. Neural Information Processing Systems, Long
+       A. M. Dai, and Q. V. Le, " Finetuned language models are zero-shot              Beach, USA, 2017, pp. 4302-4310.
+       learners," in Proc. 10th Int. Conf. Learning Representations, 2022.
+                                                                                [85] W. B. Knox and P. Stone, "TAMER: Training an agent manually via
+[67] R. S. Sutton and A. G. Barto, Reinforcement Learning: An                          evaluative reinforcement," in Proc. 7th IEEE Int. Conf. Development
+       Introduction. 2nd ed. MIT Press, 2018.                                          and Learning, Monterey, USA, 2008, pp. 292-297.
+
+[68] L. Xue, C. Y. Sun, D. Wunsch, Y. J. Zhou, and F. Yu, "An adaptive          [86] J. MacGlashan, M. K. Ho, R. Loftin, B. Peng, G. Wang, D. L. Roberts,
+       strategy via reinforcement learning for the prisoner's dilemma game,"           M. E. Taylor, and M. L. Littman, " Interactive learning from policy-
+       IEEE/CAA J. Autom. Sinica, vol. 5, no. 1, pp. 301-310, Jan. 2018.               dependent human feedback," in Proc. 34th Int. Conf. Machine
+                                                                                       Learning, Sydney, Australia, 2017, pp. 2285-2294.
+
+                                                                                [87] G. Warnell, N. R. Waytowich, V. Lawhern, and P. Stone, "Deep
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:31:27 UTC from IEEE Xplore. Restrictions apply.
+WU et al.: A BRIEF OVERVIEW OF CHATGPT: THE HISTORY, STATUS QUO AND POTENTIAL FUTURE DEVELOPMENT  1135
+
+ [88]  TAMER: Interactive agent shaping in high-dimensional state spaces,"       [104]  prompting for large language models," arXiv preprint arXiv:
+       in Proc. 32nd AAAI Conf. Artificial Intelligence, New Orleans, USA,              2303.11315, 2023.
+ [89]  2018, pp. 1545-1554.                                                      [105]
+ [90]                                                                            [106]  A. Madaan, N. Tandon, P. Gupta, S. Hallinan, L. Y. Gao, S.
+ [91]  A. Glaese, N. McAleese, M. Trbacz, J. Aslanides, V. Firoiu, T.                   Wiegreffe, U. Alon, N. Dziri, S. Prabhumoye, Y. M. Yang, S.
+ [92]  Ewalds, M. Rauh, L. Weidinger, M. Chadwick, P. Thacker, L.                [107]  Welleck, B. P. Majumder, S. Gupta, A. Yazdanbakhsh, and P. Clark,
+ [93]  Campbell-Gillingham, J. Uesato, P.-S. Huang, R. Comanescu, F.             [108]  "Self-refine: Iterative refinement with self-feedback," arXiv preprint
+ [94]  Yang, A. See, S. Dathathri, R. Greig, C. Chen, D. Fritz, J. S. Elias, R.  [109]  arXiv: 2303.17651, 2023.
+ [95]  Green, S. Mokrá, N. Fernando, B. X. Wu, R. Foley, S. Young, I.            [110]
+ [96]  Gabriel, W. Isaac, J. Mellor, D. Hassabis, K. Kavukcuoglu, L. A.          [111]  B. Paranjape, S. Lundberg, S. Singh, H. Hajishirzi, L. Zettlemoyer, and
+ [97]  Hendricks, and G. Irving, "Improving alignment of dialogue agents via            M. T. Ribeiro, "ART: Automatic multi-step reasoning and tool-use for
+       targeted human judgements," arXiv preprint arXiv: 2209.14375, 2022.       [112]  large language models," arXiv preprint arXiv: 2303.09014, 2023.
+ [98]                                                                            [113]
+ [99]  D. Cohen, M. Ryu, Y. Chow, O. Keller, I. Greenberg, A. Hassidim, M.       [114]  S. Bubeck, V. Chandrasekaran, R. Eldan, J. Gehrke, E. Horvitz, E.
+[100]  Fink, Y. Matias, I. Szpektor, C. Boutilier, and G. Elidan, "Dynamic       [115]  Kamar, P. Lee, Y. T. Lee, Y. Z. Li, S. Lundberg, H. Nori, H. Palangi,
+[101]  planning in open-ended dialogue using reinforcement learning," arXiv      [116]  M. T. Ribeiro, and Y. Zhang, "Sparks of artificial general intelligence:
+[102]  preprint arXiv: 2208.02294, 2022.                                                Early experiments with GPT-4," arXiv preprint arXiv: 2303.12712,
+[103]                                                                            [117]  2023.
+       J. Kreutzer, S. Khadivi, E. Matusov, and S. Riezler, " Can neural         [118]
+       machine translation be improved with user feedback?" in Proc. Conf.       [119]  F.-Y. Wang, J. Yang, X. X. Wang, J. J. Li, and Q.-L. Han, "Chat with
+       North American Chapter of the Association for Computational               [120]  ChatGPT on industry 5.0: Learning and decision-making for intelligent
+       Linguistics: Human Language Technologies, New Orleans, USA,               [121]  industries," IEEE/CAA J. Autom. Sinica, vol. 10, no. 4, pp. 831-834,
+       2018, pp. 92-105.                                                                Apr. 2023.
+
+       S. Kiegeland and J. Kreutzer, " Revisiting the weaknesses of                     F.-Y. Wang, Q. H. Miao, X. Li, X. X. Wang, and Y. L. Lin, "What
+       reinforcement learning for neural machine translation," in Proc. Conf.           does ChatGPT say: The DAO from algorithmic intelligence to
+       North American Chapter of the Association for Computational                      linguistic intelligence," IEEE/CAA J. Autom. Sinica, vol. 10, no. 3,
+       Linguistics: Human Language Technologies, 2021, pp. 1673-1681.                   pp. 575-579, Mar. 2023.
+
+       W. C. S. Zhou and K. Xu, "Learning to compare for better training and            Q. H. Miao, W. B. Zheng, Y. S. Lv, M. Huang, W. W. Ding, and F.-Y.
+       evaluation of open domain natural language generation models," in                Wang, "DAO to HANOI via DeSci: AI paradigm shifts from AlphaGo
+       Proc. 34th AAAI Conf. Artificial Intelligence, New York, USA, 2020,              to ChatGPT," IEEE/CAA J. Autom. Sinica, vol. 10, no. 4, pp. 877-897,
+       pp. 9717-9724.                                                                   Apr. 2023.
+
+       E. Perez, S. Karamcheti, R. Fergus, J. Weston, D. Kiela, and K. Cho,             K. Guu, K. Lee, Z. Tung, P. Pasupat, and M.-W. Chang, "Retrieval
+       "Finding generalizable evidence by learning to convince Q&A                      augmented language model pre-training," in Proc. 37th Int. Conf.
+       models," in Proc. Conf. Empirical Methods in Natural Language                    Machine Learning, 2020, pp. 3929-3938.
+       Processing and the 9th Int. Joint Conf. Natural Language Processing,
+       Hong Kong, China, 2019, pp. 2402-2411.                                           P. S. H. Lewis, E. Perez, A. Piktus, F. Petroni, V. Karpukhin, N.
+                                                                                        Goyal, H. Küttler, M. Lewis, W.-T. Yih, T. Rocktäschel, S. Riedel,
+       A. Madaan, N. Tandon, P. Clark, and Y. M. Yang, "Memory-assisted                 and D. Kiela, " Retrieval-augmented generation for knowledge-
+       prompt editing to improve GPT-3 after deployment," in Proc. Conf.                intensive NLP tasks," in Proc. 34th Advances in Neural Information
+       Empirical Methods in Natural Language Processing, Abu Dhabi,                     Processing Systems, 2020, pp. 9459-9474.
+       United Arab Emirates, 2022, pp. 2833-2861.
+                                                                                        Y. Z. Zhang, S. Q. Sun, X. Gao, Y. W. Fang, C. Brockett, M. Galley,
+       C. Lawrence and S. Riezler, " Improving a neural semantic parser by              J. F. Gao, and B. Dolan, "RetGen: A joint framework for retrieval and
+       counterfactual learning from human bandit feedback," in Proc. 56th               grounded text generation modeling," in Proc. 36th AAAI Conf.
+       Annu. Meeting of the Association for Computational Linguistics,                  Artificial Intelligence, 2022, pp. 11739-11747.
+       Melbourne, Australia, 2018, pp. 1820-1830.
+                                                                                        J. Wei, Y. Tay, R. Bommasani, C. Raffel, B. Zoph, S. Borgeaud, D.
+       N. Stiennon, L. Ouyang, J. Wu, D. M. Ziegler, R. Lowe, C. Voss, A.               Yogatama, M. Bosma, D. Zhou, D. Metzler, E. H. Chi, T. Hashimoto,
+       Radford, D. Amodei, and P. F. Christiano, " Learning to summarize                O. Vinyals, P. Liang, J. Dean, and W. Fedus, " Emergent abilities of
+       with human feedback," in Proc. 34th Neural Information Processing                large language models," arXiv preprint arXiv: 2206.07682, 2022.
+       Systems, 2020, pp. 3008-3021.
+                                                                                        J. Kaplan, S. McCandlish, T. Henighan, T. B. Brown, B. Chess, R.
+       P. Liang, R. Bommasani, T. Lee, D. Tsipras, D. Soylu, M. Yasunaga,               Child, S. Gray, A. Radford, J. Wu, and D. Amodei, "Scaling laws for
+       Y. A. Zhang, D. Narayanan, Y. H. Wu, A. Kumar, B. Newman, B. H.                  neural language models," arXiv preprint arXiv: 2001.08361, 2020.
+       Yuan, B. Yan, C. Zhang, C. Cosgrove, C. D. Manning, C. Ré, D.
+       Acosta-Navas, D. A. Hudson, E. Zelikman, E. Durmus, F. Ladhak, F.                G. Hinton, O. Vinyals, and J. Dean, " Distilling the knowledge in a
+       Rong, H. Y. Ren, H. X. Yao, J. Wang, K. Santhanam, L. Orr, L.                    neural network," arXiv preprint arXiv: 1503.02531, 2015.
+       Zheng, M. Yuksekgonul, M. Suzgun, N. Kim, N. Guha, N. Chatterji,
+       O. Khattab, P. Henderson, Q. Huang, R. Chi, S. M. Xie, S. Santurkar,             S. Q. Sun, Y. Cheng, Z. Gan, and J. J. Liu, " Patient knowledge
+       S. Ganguli, T. Hashimoto, T. Icard, T. Y. Zhang, V. Chaudhary, W.                distillation for BERT model compression," in Proc. Conf. Empirical
+       Wang, X. C. Li, Y. F. Mai, Y. H. Zhang, and Y. Koreeda, "Holistic                Methods in Natural Language Processing and the 9th Int. Joint Conf.
+       evaluation of language models," arXiv preprint arXiv: 2211.09110,                Natural Language Processing, Hong Kong, China, 2019, pp.
+       2022.                                                                            4323-4332.
+
+       T. H. Kung, M. Cheatham, A. Medenilla, C. Sillos, L. De Leon, C.                 Z. Q. Sun, H. K. Yu, X. D. Song, R. J. Liu, Y. M. Yang, and D. Zhou,
+       Elepaño, M. Madriaga, R. Aggabao, G. Diaz-Candido, J. Maningo, and               "MobileBERT: A compact task-agnostic BERT for resource-limited
+       V. Tseng, " Performance of ChatGPT on USMLE: Potential for AI-                   devices," in Proc. 58th Annu. Meeting of the Association for
+       assisted medical education using large language models," PLoS Digit.             Computational Linguistics, 2020, pp. 2158-2170.
+       Health, vol. 2, no. 2, p. e0000198, 2023.
+                                                                                        M. Gordon, K. Duh, and N. Andrews, "Compressing BERT: Studying
+       Y. Q. Xie, C. Yu, T. Y. Zhu, J. B. Bai, Z. Gong, and H. Soh,                     the effects of weight pruning on transfer learning," in Proc. 5th
+       "Translating natural language to planning goals with large-language              Workshop on Representation Learning for NLP, 2020, pp. 143-155.
+       models," arXiv preprint arXiv: 2302.05128, 2023.
+                                                                                        T. L. Chen, J. Frankle, S. Y. Chang, S. J. Liu, Y. Zhang, Z. Y. Wang,
+       A. Borji, "A categorical archive of ChatGPT failures," arXiv preprint            and M. Carbin, " The lottery ticket hypothesis for pre-trained BERT
+       arXiv: 2302.03494, 2023.                                                         networks," in Proc. 34th Int. Conf. Neural Information Processing
+                                                                                        Systems, Vancouver, Canada, 2020, pp. 1328.
+       S. Frieder, L. Pinchetti, R.-R. Griffiths, T. Salvatori, T. Lukasiewicz,
+       P. C. Petersen, A. Chevalier, and J. Berner, "Mathematical capabilities          S. Shen, Z. Dong, J. Y. Ye, L. J. Ma, Z. W. Yao, A. Gholami, M. W.
+       of ChatGPT," arXiv preprint arXiv: 2301.13867, 2023.                             Mahoney, and K. Keutzer, " Q-BERT: Hessian based ultra low
+                                                                                        precision quantization of BERT," in Proc. 34th AAAI Conf. Artificial
+       T. Schick, J. Dwivedi-Yu, R. Dessì, R. Raileanu, M. Lomeli, L.                   Intelligence, New York, USA, 2020, pp. 8815-8821.
+       Zettlemoyer, N. Cancedda, and T. Scialom, " Toolformer: Language
+       models can teach themselves to use tools," arXiv preprint arXiv:                 H. L. Bai, W. Zhang, L. Hou, L. F. Shang, J. Jin, X. Jiang, Q. Liu, M.
+       2302.04761, 2023.                                                                Lyu, and I. King, " BinaryBERT: Pushing the limit of BERT
+                                                                                        quantization," in Proc. 59th Annu. Meeting of the Association for
+       W. X. Zhou, S. Zhang, H. Poon, and M. Chen, "Context-faithful                    Computational Linguistics and the 11th Int. Joint Conf. Natural
+                                                                                        Language Processing, 2020, pp. 4334-4348.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:31:27 UTC from IEEE Xplore. Restrictions apply.
+1136                                                                         IEEE/CAA JOURNAL OF AUTOMATICA SINICA, VOL. 10, NO. 5, MAY 2023
+
+[122]  Y. Cheng, D. Wang, P. Zhou, and T. Zhang, " A survey of model                                       Kang Liu received the Ph.D. degree in pattern
+[123]  compression and acceleration for deep neural networks," arXiv                                       recognition and intelligent system from Institute of
+[124]  preprint arXiv: 1710.09282, 2017.                                                                   Automation, Chinese Academy of Sciences, in 2010.
+[125]                                                                                                      He is currently a Professor in Institute of Automa-
+[126]  M. Kosinski, " Theory of mind may have spontaneously emerged in                                     tion, Chinese Academy of Sciences. His research
+[127]  large language models," arXiv preprint arXiv: 2302.02083, 2023.                                     interests include knowledge graph, deep learning,
+                                                                                                           and natural language processing.
+[128]  G. I. Parisi, R. Kemker, J. L. Part, C. Kanan, and S. Wermter,
+       "Continual lifelong learning with neural networks: A review," Neural                                Qing-Long Han (Fellow, IEEE) received the B.Sc.
+       Netw., vol. 113, pp. 54-71, May 2019.                                                               degree in mathematics from Shandong Normal Uni-
+                                                                                                           versity in 1983, and the M.Sc. and Ph.D. degrees in
+       S. X. Ji, S. R. Pan, E. Cambria, Marttinen, and S. Yu, " A survey on                                control engineering from East China University of
+       knowledge graphs: Representation, acquisition, and applications,"                                   Science and Technology, in 1992 and 1997, respec-
+       IEEE Trans. Neural Netw. Learn. Syst., vol. 33, no. 2, pp. 494-514,                                 tively.
+       Feb. 2022.
+                                                                                                               Professor Han is Pro Vice-Chancellor (Research
+       Y. Y. Lan, S. Z. He, K. Liu, and J. Zhao, " Knowledge reasoning via                                 Quality) and a Distinguished Professor at Swinburne
+       jointly modeling knowledge graphs and soft rules," arXiv preprint                                   University of Technology, Australia. He held vari-
+       arXiv: 2301.02781, 2023.                                                                            ous academic and management positions at Griffith
+                                                                             University and Central Queensland University, Australia. His research inter-
+       Y. J. Bang, S. Cahyawijaya, N. Lee, W. L. Dai, D. Su, B. Wilie, H.    ests include networked control systems, multi-agent systems, time-delay sys-
+       Lovenia, Z. W. Ji, T. Z. Yu, W. Chung, Q. V. Do, Y. Xu, and P. Fung,  tems, smart grids, unmanned surface vehicles, and neural networks.
+       "A multitask, multilingual, multimodal evaluation of ChatGPT on          Professor Han was awarded The 2021 Norbert Wiener Award (the Highest
+       reasoning, hallucination, and interactivity," arXiv preprint arXiv:   Award in systems science and engineering, and cybernetics) and The 2021 M.
+       2302.04023, 2023.                                                     A. Sargent Medal (the Highest Award of the Electrical College Board of
+                                                                             Engineers Australia). He was the recipient of The 2022 IEEE SMC Society
+       D. Weininger, "SMILEs, a chemical language and information system.    Andrew P. Sage Best Transactions Paper Award, The 2021 IEEE/CAA Jour-
+       1. Introduction to methodology and encoding rules," J. Chem. Inf.     nal of Automatica Sinica Norbert Wiener Review Award, The 2020 IEEE
+       Comput. Sci., vol. 28, no. 1, pp. 31-36, 1988.                        Systems, Man, and Cybernetics Society Andrew P. Sage Best Transactions
+                                                                             Paper Award, The 2020 IEEE Transactions on Industrial Informatics Out-
+       Tianyu Wu received the B.S. degree in automation                      standing Paper Award, and The 2019 IEEE Systems, Man, and Cybernetics
+       from East China University of Science and Technol-                    Society Society Andrew P. Sage Best Transactions Paper Award.
+       ogy in 2020, where he is currently pursuing the Ph.D.                     Professor Han is a Member of the Academia Europaea (The Academy of
+       degree with control science and engineering. His                      Europe). He is a Fellow of The International Federation of Automatic Con-
+       fields of interests include molecular representation                  trol (IFAC), a Fellow of The Institution of Engineers Australia (IEAust) and a
+       learning, reinforcement learning, and natural lan-                    Fellow of Chinese Association of Automation (CAA). He is a Highly Cited
+       guage processing.                                                     Researcher in both Engineering and Computer Science (Clarivate). He has
+                                                                             served as an AdCom Member of IEEE Industrial Electronics Society (IES), a
+       Shizhu He received the Ph.D. degree in pattern                        Member of IEEE IES Fellows Committee, and Chair of IEEE IES Technical
+       recognition and intelligent system from Institute of                  Committee on Networked Control.
+       Automation, Chinese Academy of Sciences, in 2016.
+       Currently, he is an Associate Researcher in Institute                                               Yang Tang (Senior Member, IEEE) received the
+       of Automation, Chinese Academy of Sciences. His                                                     B.S. and Ph.D. degrees in electrical engineering from
+       research interests focus on question answering, deep                                                Donghua University, in 2006 and 2010, respectively.
+       learning, and natural language processing.                                                          From 2008 to 2010, he was a Research Associate
+                                                                                                           with The Hong Kong Polytechnic University, Hong
+       Jingping Liu received the Ph.D. degree from the                                                     Kong, China. From 2011 to 2015, he was a Post-
+       School of Computer Science, Fudan University, in                                                    Doctoral Researcher with the Humboldt University
+       2021. He now is a Lecturer at the School of Informa-                                                of Berlin, Germany, and with the Potsdam Institute
+       tion Science and Engineering, East China University                                                 for Climate Impact Research, Germany. He is now a
+       of Science and Technology. His research interests                                                   Professor with the East China University of Science
+       include pre-trained language model, knowledge                         and Technology. His current research interests include distributed
+       graph, and data mining.                                               estimation/control/optimization, cyber-physical systems, hybrid dynamical
+                                                                             systems, computer vision, reinforcement learning and their applications.
+       Siqi Sun received the Ph.D. degree in computer sci-                      Prof. Tang was a recipient of the Alexander von Humboldt Fellowship and
+       ence at the Toyota Technological Institute in                         has been the ISI Highly Cited Researchers Award by Clarivate Analytics from
+       Chicago, USA. He now holds a position as a Young                      2017. He is a Senior Board Member of Scientific Reports, an Associate Edi-
+       Investigator at the Research Institute of Intelligent                 tor of IEEE Transactions on Neural Networks and Learning Systems, IEEE
+       Complex Systems at Fudan University. His primary                      Transactions on Cybernetics, IEEE Transactions on Industrial Informatics,
+       research interests include AI for science and natural                 IEEE Transactions on Circuits and Systems-I: Regular Papers, IEEE Trans-
+       language processing.                                                  actions on Cognitive and Developmental Systems, IEEE Transactions on
+                                                                             Emerging Topics in Computational Intelligence, IEEE Systems Journal, Engi-
+                                                                             neering Applications of Artificial Intelligence (IFAC Journal) and Science
+                                                                             China Information Sciences, etc. He is a (leading) Guest Editor for several
+                                                                             special issues focusing on autonomous systems, robotics, and industrial intel-
+                                                                             ligence in IEEE Transactions on Neural Networks and Learning Systems,
+                                                                             IEEE Transactions on Cybernetics, IEEE Transactions on Cognitive and
+                                                                             Developmental Systems, IEEE Transactions on Emerging Topics in Computa-
+                                                                             tional Intelligence.
+
+Authorized licensed use limited to: b-on: Instituto Politecnico do Porto. Downloaded on November 09,2026 at 11:31:27 UTC from IEEE Xplore. Restrictions apply.
+

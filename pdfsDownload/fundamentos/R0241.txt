@@ -1,0 +1,554 @@
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and
+                                   content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3742187
+
+Semantic Clinical Knowledge Augmentation Improves Medical Question Answering
+
+Across Commercial and Open Large Language Models
+
+ Peter L. Elkin, MDa,b; Aaron N. Elkin, JDa; Guresh Mehta, MSa; Frank LeHouilliera; Jonathan R. Nebeker, MDb;
+                                           Nazmus Saquibd; Steven H. Brown, MDb,c
+
+                      a Department of Biomedical Informatics, University at Buffalo, Buffalo, New York, USA
+                            b Clinical Informatics, Department of Veterans Affairs, Washington, DC, USA
+                                             c Vanderbilt University, Nashville, Tennessee, USA
+
+                 d School of Dental Medicine, State University of New York at Buffalo, Buffalo, New York, USA
+
+      ORCID IDs: Peter Elkin 0000-0001-9616-6811; Guresh Mehta 0009-0008-2324-1559; Aaron Elkin 0009-0005-3672-9543; Frank
+ LeHouillier 0000-0002-2961-1273; Jonathan Nebeker 0000-0001-5355-5008; Nazmus Saquib 0009-0001-1255-7987; Steven Brown 0000-
+
+                                                                           0001-6103-1845
+
+Abstract                                    from 93.6% to 94.2%. Within model gains
+                                            were statistically significant for Gemini,
+Objective: To evaluate whether semantic     Llama 3 70B, and DeepSeek-R1-Distill on
+clinical knowledge augmentation through     all three steps, but not for Copilot. The
+Semantic Clinical Artificial Intelligence   best single model result was Llama 3 70B
+(SCAI) improves medical question            plus SCAI on Step 3 (121/123, 98.4%).
+answering across commercial and open        Gemini plus SCAI was the numerically
+large language models, and to examine       strongest commercial system.
+how a reasoning distilled model performs    Conclusions: SCAI was associated with
+on the same benchmark. Materials and        materially better accuracy and lower
+Methods: We evaluated Google Gemini,        confabulation (False Positive Results)
+Microsoft Copilot, Meta Llama 3 70B, and    across several heterogeneous LLMs,
+DeepSeek-R1-Distill-Llama-70B on official   supporting a semantically grounded
+text only United States Medical Licensing   pipeline in which a dedicated SCAI LLM
+Exam (USMLE) sample questions from          generates clinical context for a host LLM
+Step 1 (n=87), Step 2 CK (n=103), and Step  while suggesting that strong general
+3 (n=123), with and without SCAI. SCAI      reasoning performance does not
+comprised HD-NLP parsing, graph and         automatically translate into healthcare
+knowledge graph embeddings, a trained       readiness.
+SCAI LLM semantic knowledge reasoner,
+and a semantic knowledge base; the          Index Terms: large language models;
+current implementation contained            semantic clinical AI; semantic knowledge
+33,023,902 triples across 246 relation      reasoner; retrieval augmented generation;
+labels. Responses were scored against       clinical knowledge graphs; semantic
+the answer key with secondary human         reasoning; biomedical informatics;
+verification. All models produced a         USMLE; medical question answering
+response to every text only item, so
+incorrect responses were counted as         Introduction
+confabulations. Results: Across 313
+items, accuracy increased from 90.7% to     Large language models (LLMs) are rapidly
+97.1% for Gemini, 82.4% to 92.0% for        moving from speculative discussion to
+Llama 3 70B, and 55.3% to 81.8% for         practical use in clinical education, research,
+DeepSeek-R1-Distill; Copilot changed        and assistive information work. Clinician
+                                            surveys and large-scale query analyses
+
+                                                        Revised manuscript draft
+
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 License.
+                          For more information, see https://creativecommons.org/licenses/by-nc-nd/4.0/
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and
+                                   content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3742187
+
+suggest growing clinician interest and real-    searches the knowledge base with the
+world use, especially when humans remain in     original and expanded codes and relations,
+the loop [1,2]. The central informatics         translates the retrieved facts into English, and
+question is therefore not whether LLMs will     then passes that grounded context to the
+be used in medicine, but how to make their      host LLM. Retrieval augmented prompting is
+outputs more reliable, better grounded, and     therefore part of the operational pipeline, but
+more appropriate for high stakes tasks.         it is not the entirety of SCAI.
+
+Retrieval augmented generation (RAG) offers     Our group previously reported that SCAI
+one path toward that goal. By exposing a        improved open weight Llama models on the
+model to relevant external knowledge at         USMLE [6]. The present study extends that
+inference time, RAG can improve                 line of work in two directions. First, it
+performance on knowledge intensive tasks        compares commercial and open models
+without retraining the foundation model [3].    within a common evaluation framework.
+Recent syntheses in biomedicine suggest         Second, it evaluates the DeepSeek-R1-Distill-
+that RAG often improves accuracy, but that      Llama-70B model, which attracted broad
+the size of the benefit depends on the          attention after DeepSeek-R1 demonstrated
+retrieval source, retrieval quality, available  strong reasoning performance on nonmedical
+context window, and fit between task and        benchmarks and stimulated discussion about
+model [4,5]. This heterogeneity is especially   whether lower cost reasoning-oriented
+important in medicine, where the difference     models might transfer effectively to
+between an approximately correct answer         healthcare applications [7,8]. Peng et al.
+and a consistently grounded answer may          specifically called for systematic evaluation of
+matter for safety, trust, and adoption.         reasoning-oriented models on medical
+                                                licensing benchmarks [8]; the present study
+Most current biomedical RAG                     provides one such evaluation.
+implementations retrieve free text passages
+ranked by embedding similarity, which is        We therefore undertook a comparative
+effective but still largely oriented around     effectiveness study of Gemini, Microsoft
+document chunks [4,5]. SCAI takes a             Copilot, Meta Llama 3 70B, and DeepSeek-
+different approach. Authoritative clinical      R1-Distill-Llama-70B (hereafter DeepSeek-
+materials and the biomedical literature are     R1-Distill), each evaluated with and without
+parsed with HD-NLP into coded semantic          SCAI. In the augmented condition, a trained
+triples that are used both to build a large     SCAI LLM generated question specific clinical
+semantic knowledge base and to train a          context for the host model. Our primary
+semantic knowledge reasoner through graph       objective was to determine whether
+and knowledge graph embeddings [6,9,10].        semantically grounded clinical knowledge
+In the prior SCAI report, the trained           augmentation improves medical question
+embedding output was described as the SCAI      answering across heterogeneous LLM
+LLM semantic knowledge reasoner [6].            families. A secondary objective was to
+Accordingly, SCAI includes its own trained      examine whether a reasoning distilled model
+semantic LLM, distinct from the downstream      that performs well in general domains also
+host LLM that produces the final natural        performs well on physician licensure style
+language answer in this benchmark. At           medical questions.
+question time, the SCAI LLM parses the
+incoming question into coded triples, expands
+related triples through the trained reasoner,
+
+                                                        Revised manuscript draft
+
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 License.
+                          For more information, see https://creativecommons.org/licenses/by-nc-nd/4.0/
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and
+                                   content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3742187
+
+Methods                                         preserved technical implementation
+                                                placeholder below.
+Study Design and Benchmark
+This comparative effectiveness evaluation       SCAI LLM Architecture and Question
+was conducted between June 2025 and             Time Workflow
+February 2026 at the Department of
+Biomedical Informatics, University at Buffalo.  The SCAI pipeline builds on methods
+The benchmark consisted of official USMLE       described previously [6,9,10]. During system
+sample questions from Step 1 (June 2022         construction, authoritative clinical sources
+release), Step 2 CK (July 2023 release), and    and the biomedical literature were parsed
+Step 3 (August 2023 release) [11-14]. The       with HD-NLP into coded semantic structures
+primary analysis used the text only question    and transformed into subject relation object
+sets: 87 questions from Step 1, 103 from        triples. In parallel, those triples were used to
+Step 2 CK, and 123 from Step 3. Across four     build a semantic knowledge base and to train
+models, two conditions, and 313 questions,      graph and knowledge graph embeddings that
+the study comprised 2,504 item level scoring    capture weighted relations and co-occurrence
+decisions. Items that required visual           patterns between clinical entities. Consistent
+interpretation were excluded from the main      with the prior SCAI report [6], the trained
+quantitative comparison and reserved for        embedding output is referred to here as the
+separate future evaluation.                     SCAI LLM semantic knowledge reasoner. In
+                                                other words, SCAI includes its own trained
+Model Families and Deployment                   semantic LLM in addition to the downstream
+We evaluated Google Gemini, Microsoft           host LLM used for answer generation in this
+Copilot, Meta Llama 3 70B, and DeepSeek-        benchmark. In the current implementation,
+R1-Distill-Llama-70B. Each model was tested     the knowledge base contained 33,023,902
+both in its native condition and within the     semantic triples spanning 246 relation labels
+same question specific SCAI pipeline. Open      (Supplementary Table S2).
+weight models were run on institutional
+servers with 96 CPU cores and eight NVIDIA      At question time, the USMLE question stem
+A6000 GPUs with 48 GB of memory each.           and answer options were parsed into
+                                                Sytematized Nomemclature of Medicine
+In the interfaces tested during the study       Clinical Terms (SNOMED CT), Logical
+period (June 2025 to February 2026), Gemini     Observation Identifiers Names and Codes
+accepted up to approximately 1 million tokens   (LOINC), and RxNorm grounded triples using
+of retrieved context, Llama 3 70B and           the trained SCAI system. Those triples were
+DeepSeek-R1-Distill each accepted               then submitted to the trained SCAI LLM
+approximately 125,000 tokens, and Copilot       semantic knowledge reasoner, which
+accepted approximately 8,000 tokens.            produced additional clinically related triples
+Commercial systems were accessed through        learned during training. Codes and relations
+their standard consumer facing interfaces       from both the original and expanded triples
+during the study period; generation             were used to search the semantic knowledge
+parameters were not user exposed and were       base across related stored triples, because
+not controlled by the investigators. Detailed   clinically relevant facts may be represented
+decoding parameters and runtime settings for    under different relation labels or directions
+the local open weight deployments remain        and may not have been stored in a single
+intentionally reserved for insertion into the   canonical form. Retrieved triples were
+                                                translated into English and inserted as
+
+Revised manuscript draft
+
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 License.
+                          For more information, see https://creativecommons.org/licenses/by-nc-nd/4.0/
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and
+                                   content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3742187
+
+grounded context before the original question  LLM and the associated semantic knowledge
+was presented to the host LLM (Figure 1).      base. A separate schematic of offline training
+The host LLM generated the final answer, but   and knowledge base construction is provided
+the RAG content was created by the SCAI        in Supplementary Figure S1.
+
+    Figure 1. Question time SCAI augmentation workflow used in the benchmark. The USMLE
+   question stem and answer options are parsed by 1) HD-NLP into SNOMED CT, LOINC, and
+RxNorm based triples. These triples are 2) passed to the trained SCAI LLM semantic knowledge
+    reasoner, which expands clinically related triples. Codes and relations from the original and
+ expanded triples are then used to search the 3) SCAI semantic knowledge base across related
+stored facts. Retrieved triples are 4) translated into English, assembled as grounded context, and
+
+    inserted into the prompt presented to the host LLM, which then produces the final answer.
+
+Technical Implementation Details               importance of neighboring entities using
+                                               attention mechanisms, combined with
+We used a multi-layer Graph Attention          ComplEx scoring for relational link prediction.
+Network. We trained two new graph              RGCN uses a two-layer Relational Graph
+embedding models, RGAT (Relational Graph       Convolutional Network with basis
+Attention Network) and RGCN (Relational        decomposition, TransE-margin loss, and
+Graph Convolutional Network), for the          hard-negative mining. Both were trained via
+updated SCAI LLM. RGAT is a two-layer          link prediction on the biomedical knowledge
+multi-head Graph Attention Network (4          graph using neighbor sampling and achieved
+heads) that dynamically learns the             an MRR of approximately 92.5 on the
+
+                                                        Revised manuscript draft
+
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 License.
+                          For more information, see https://creativecommons.org/licenses/by-nc-nd/4.0/
+              This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and
+                                                 content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3742187
+
+validation set. The resulting embeddings are            We followed the Professional Society for
+considerably faster than previous versions for          Health Economics and Outcomes Research
+related-code retrieval, with RGAT showing               (ISPOR) guidance for comparative
+the best overall performance.                           effectiveness studies [15]. The analysis was
+                                                        done using the McNemar test (RStudio
+Outcome Measures and Statistical                        2026.07.1).
+Analysis
+                                                        Ethics
+The primary outcome was answer                          No patient data were used. The study was
+correctness relative to the official answer key.        therefore IRB exempt from institutional review
+A secondary outcome was confabulation                   board oversight as it was considered non-
+(false positive results), defined here as an            human subjects research as there was no
+incorrect answer that was not null.                     PHI used in this study. The authors
+Responses were scored algorithmically                   recomment not entering PHI, PII or VA
+against the answer key and then verified by             sensitive information into SCAI as internet
+secondary human review, with any discrepant             connections are not HIPAA secure.
+cases resolved by reference to the official
+key. No null or unparseable responses                   Results
+occurred in the text only benchmark;
+accordingly, confabulation counts in this               Table 1. Performance of commercial and
+evaluation were numerically identical to                open large language models with and without
+incorrect answer counts.                                SCAI on text only USMLE questions.
+
+USMLE step            Model        Native correct, n/N     Native    SCAI correct, n/N                                   SCAI      P value
+                                            (%)         confabulati           (%)                                     confabulati
+
+                                                           ons, n                                                        ons, n
+
+USMLE Step 1 Gemini                83/87 (95.4%)        4            87/87 (100.0%)                                   0            0.125
+
+USMLE Step 1 Llama 3 70B           75/87 (86.2%)        12           80/87 (92.0%)                                    7            0.0010
+
+USMLE Step 1 Microsoft Copilot     83/87 (95.4%)        4            83/87 (95.4%)                                    4            NS
+
+USMLE Step 1 DeepSeek-R1-Distill   57/87 (65.5%)        30           76/87 (87.4%)                                    11           <0.0001
+
+USMLE Step 2  Gemini               91/103 (88.3%)       12           99/103 (96.1%)                                   4            0.0156
+CK
+
+USMLE Step 2  Llama 3 70B          76/103 (73.8%)       27           87/103 (84.5%)                                   16           0.0266
+CK
+
+USMLE Step 2  Microsoft Copilot    96/103 (93.2%)       7            98/103 (95.1%)                                   5            NS
+CK
+
+USMLE Step 2  DeepSeek-R1-Distill  60/103 (58.3%)       43           81/103 (78.6%)                                   22           0.0075
+CK
+
+USMLE Step 3 Gemini                110/123 (89.4%)      13           118/123 (95.9%)                                  5            0.0078
+
+USMLE Step 3 Llama 3 70B           107/123 (87.0%)      16           121/123 (98.4%)                                  2            <0.0001
+
+USMLE Step 3 Microsoft Copilot     115/123 (93.5%)      8            120/123 (97.6%)                                  3            NS
+
+USMLE Step 3 DeepSeek-R1-Distill   56/123 (45.5%)       67           99/123 (80.5%)                                   24           <0.0001
+
+Abbreviations: SCAI, Semantic Clinical Artificial Intelligence; NS, not significant. Note: P values
+compare native and SCAI augmented performance within the same model family and USMLE step
+
+                                                                      Revised manuscript draft
+
+              This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 License.
+                                        For more information, see https://creativecommons.org/licenses/by-nc-nd/4.0/
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and
+                                   content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3742187
+
+and are reported as carried forward from the source study analysis. Exact 95% confidence
+intervals are reported in Supplementary Table S1. In the tested interface, Microsoft Copilot
+accepted only approximately 8,000 tokens of retrieved context, which likely limited the effect size of
+augmentation in that pipeline.
+
+SCAI was associated with higher accuracy for       context, which likely constrained the effect
+Gemini, Llama 3 70B, and DeepSeek-R1-              size of augmentation. Among commercial
+Distill across all three USMLE steps, with little  systems, Copilot matched Gemini at baseline
+change for Copilot (Table 1). Across the           on Step 1 and outperformed Gemini on Step
+pooled set of 313 text only questions, overall     2 CK and Step 3, but Gemini was the
+accuracy increased from 90.7% to 97.1% for         numerically highest performing commercial
+Gemini, from 82.4% to 92.0% for Llama 3            system after SCAI augmentation.
+70B, and from 55.3% to 81.8% for
+DeepSeek-R1-Distill. By contrast, Copilot          Confabulation counts also decreased in
+changed only modestly, from 93.6% to               parallel with the gains in accuracy. Across the
+94.2%. Pooled figures are provided for             pooled benchmark, confabulations fell from
+descriptive overview; per step results in Table    29 to 9 for Gemini, from 55 to 25 for Llama 3
+1 constitute the primary comparisons. Exact        70B, and from 140 to 57 for DeepSeek-R1-
+95% confidence intervals for both step level       Distill; Copilot decreased only slightly from 20
+and pooled estimates are reported in               to 18. Because no null or unparseable
+Supplementary Table S1.                            responses occurred in the text only
+                                                   benchmark, those reductions numerically
+Gemini plus SCAI was the numerically               mirrored reductions in incorrect answers. The
+highest performing commercial pipeline on          baseline relative ordering of Copilot, Gemini,
+every step. Its accuracy rose to 100.0% on         and DeepSeek-R1-Distill was directionally
+Step 1, 96.1% on Step 2 CK, and 95.9% on           consistent with a recent pharmacology
+Step 3. Llama 3 70B plus SCAI achieved the         multiple choice evaluation in which Copilot
+strongest single model result in the study on      outperformed Gemini and DeepSeek [16].
+Step 3, answering 121 of 123 questions
+correctly (98.4%). DeepSeek-R1-Distill             Discussion
+improved on every step when augmented
+with SCAI, but even after augmentation             The principal finding of this study is that
+remained below the other evaluated systems:        semantic clinical knowledge augmentation
+87.4% on Step 1, 78.6% on Step 2 CK, and           remained beneficial when extended beyond
+80.5% on Step 3.                                   previously studied open weight Llama
+                                                   systems to a heterogeneous mix of
+Within model gains were statistically              commercial and open models. The pattern
+significant for Gemini on Step 1 (p=0.041),        was strongest when the host model could
+Step 2 CK (p=0.019), and Step 3 (p=0.014);         accept substantial grounded context
+for Llama 3 70B on Step 1 (p=0.049), Step 2        generated by the SCAI LLM and the semantic
+CK (p=0.003), and Step 3 (p<0.001); and for        knowledge base. In practical terms, the
+DeepSeek-R1-Distill on all three steps (all        benefit of SCAI depends both on the quality
+p<0.001). The changes observed for Copilot         of the SCAI LLM semantic reasoner and
+were not significant. The minimal change           knowledge base and on how much of that
+observed for Copilot should be interpreted         grounded output the destination model can
+cautiously, as the tested interface admitted       admit and use. The minimal change observed
+only approximately 8,000 tokens of retrieved
+
+                                                        Revised manuscript draft
+
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 License.
+                          For more information, see https://creativecommons.org/licenses/by-nc-nd/4.0/
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and
+                                   content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3742187
+
+for Copilot should therefore be interpreted as    robust medical question answering.
+reflecting an interface limitation on admitted    Healthcare deployment still requires task
+context rather than as evidence against SCAI      specific grounding and domain specific
+mediated augmentation for that model family.      evaluation.
+
+This study extends prior SCAI findings [6] and    The strongest results were observed on Step
+aligns with the broader biomedical RAG            3, the most clinically oriented of the three
+literature, which has generally found that        USMLE examinations. Llama 3 70B plus
+domain specific retrieval improves                SCAI answered 121 of 123 Step 3 items
+downstream performance while leaving room         correctly, and Gemini plus SCAI answered
+for meaningful variation between models           118. These near ceiling scores are
+[4,5]. The present comparison is useful           encouraging for clinician supervised
+because it places multiple model families         educational and question answering
+inside the same SCAI architecture, in which a     applications. They should not be taken as
+trained SCAI LLM creates question specific        proof of autonomous clinical readiness,
+clinical context for a separate host LLM. It      because public USMLE sample items are a
+reframes the question from brand level            useful proxy benchmark rather than an official
+comparison toward a more scientifically           scaled examination or a prospective clinical
+useful issue: which model families benefit        validation study. Near ceiling accuracy on
+from clinically grounded augmentation, and        several augmented systems also indicates
+under what operational constraints? The           that this benchmark may lack sufficient
+SCAI knowledge base has also expanded             headroom to discriminate among the
+substantially since the prior evaluation, from    strongest performing pipelines; harder or
+approximately 13 million to more than 33          more granular evaluation sets will be needed
+million semantic triples, which may have          for finer differentiation. Even incremental
+contributed to the broader gains observed         accuracy improvements are clinically relevant
+here, although the present study cannot           given the persistent burden of preventable
+isolate the effect of knowledge base growth       adverse events in routine practice [17].
+from other design changes.
+                                                  The broader implication is not autonomous
+DeepSeek-R1 and its distilled derivatives         substitution for clinicians, but a stronger
+generated justified interest because of their     human-computer partnership in which SCAI
+reported reasoning performance and lower          (see Figure 2) augmented LLMs contribute
+cost profile in nonmedical domains [7,8]. In      rapid synthesis, explanation, and question
+this benchmark, however, DeepSeek-R1-             answering while human users retain
+Distill-Llama-70B underperformed both the         interpretive and ethical responsibility.
+base Llama 3 70B system and the other             Informally, the Llama 3 70B outputs in this
+evaluated models. That result should be           study tended to be shorter and more concise,
+interpreted narrowly. It does not establish that  whereas Gemini plus SCAI often produced
+DeepSeek methods are intrinsically                more structured explanatory answers. Future
+unsuitable for healthcare. Rather, it suggests    work could examine whether such differences
+that strong general reasoning results,            in response style differentially serve clinician
+distillation choices, and favorable benchmark     and patient information needs in applied
+publicity do not automatically translate into     settings.
+
+                                                        Revised manuscript draft
+
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 License.
+                          For more information, see https://creativecommons.org/licenses/by-nc-nd/4.0/
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and
+                                   content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3742187
+
+Figure 2: SCAI Interface which can be used for Human-AI
+Collaboration over a patient's case. (Image Generated by
+Gemini to the prompt, "Human AI Collaboration toward
+improved Clinical Outcomes")
+
+containing USMLE items were excluded from         reproducibility even when the same interface
+the primary benchmark.                            names are used.
+
+Limitations                                       Third, retrieval context windows differed
+Several limitations should temper                 materially across systems, so some
+interpretation. First, the benchmark used         heterogeneity probably reflects interface
+publicly available USMLE sample questions         constraints as well as inherent model
+rather than real clinical encounters, patient     capability. Because the evaluated systems
+outcomes, or workflow integrated decisions.       also differ simultaneously in architecture,
+Publicly released sample questions may also       training data, alignment approach,
+differ from actual examination items in           deployment interface, and effective context
+difficulty, topic distribution, and psychometric  window, the present design can demonstrate
+structure. Second, proprietary systems are        that models benefit differently from SCAI
+moving targets, and vendor side model             augmentation but cannot isolate which model
+Thirty-four image updates may limit perfect       level properties drive those differences.
+
+                                                  Fourth, we measured correctness and
+                                                  confabulation, but not calibration, latency,
+                                                  cost, explanation quality, bias, or downstream
+                                                  clinical utility. Sample sizes per step, 87 to
+                                                  123 items, were sufficient for large effects but
+                                                  offered limited sensitivity for small
+                                                  differences, as reflected in the confidence
+                                                  intervals in Supplementary Table S1. No
+                                                  formal correction for multiple comparisons
+                                                  was applied across the 12 within model tests,
+                                                  so marginal p values should be interpreted
+                                                  cautiously. Fifth, the p values reported here
+                                                  are carried forward from the source study
+                                                  analysis rather than recalculated in this
+                                                  manuscript version because question specific
+                                                  native versus SCAI concordance data are not
+                                                  presented here. A confirmatory paired
+                                                  reanalysis remains warranted once those
+                                                  tables are reassembled. Finally, the study
+                                                  does not establish safety for unsupervised
+                                                  patient care.
+
+                                                        Revised manuscript draft
+
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 License.
+                          For more information, see https://creativecommons.org/licenses/by-nc-nd/4.0/
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and
+                                   content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3742187
+
+Conclusion                                       the position or policy of the Department of
+                                                 Veterans Affairs or the United States
+Semantic clinical knowledge augmentation         government. The author(s) have no conflicts
+via the SCAI LLM semantic knowledge              of interest to disclose. Gemini AI was used to
+reasoner and semantic knowledge base was         check grammar and consistency of language
+associated with significantly improved           in the manuscript. All final content has been
+medical question answering across                reviewed and accepted by all authors.
+heterogeneous commercial and open LLMs,
+particularly when the host model could accept    References
+sufficiently large grounded context. On this
+benchmark, Gemini plus SCAI was the              [1] Spotnitz M, Idnay B, Gordon ER, Shyu R,
+numerically strongest commercial system and          Zhang G, Liu C, Cimino JJ, Weng C. A
+Llama 3 70B plus SCAI achieved the highest           Survey of Clinicians' Views of the Utility of
+Step 3 accuracy. DeepSeek-R1-Distill-Llama-          Large Language Models. Appl Clin
+70B improved with augmentation but still             Inform. 2024;15(2):306-312.
+underperformed the other evaluated systems,          doi:10.1055/a-2281-7092.
+underscoring that general reasoning
+advances do not ensure healthcare                [2] Qiu L, Tang C, Bi X, Burtch G, Chen Y,
+readiness. A pipeline in which the SCAI LLM          Zhang H. Physician Use of Large
+generates grounded clinical context for a host       Language Models: A Quantitative Study
+LLM appears to be a promising path for safer         Based on Large-Scale Query-Level Data.
+and more effective biomedical LLM                    J Med Internet Res. 2025;27:e76941.
+deployment. Future work should extend these          doi:10.2196/76941.
+findings with confirmatory paired statistical
+reanalysis, prospective workflow evaluation,     [3] Lewis P, Perez E, Piktus A, Petroni F,
+and formal study of image containing                 Karpukhin V, Goyal N, et al. Retrieval-
+questions in a fully analyzed design.                Augmented Generation for Knowledge-
+                                                     Intensive NLP Tasks. Adv Neural Inf
+Data and Code Availability                           Process Syst. 2020;33:9459-9474.
+
+The USMLE sample questions used in this          [4] Liu S, McCoy AB, Wright A. Improving
+evaluation are publicly available from the           large language model applications in
+USMLE website [11-14]. Commercial model              biomedicine with retrieval-augmented
+outputs were obtained through consumer               generation: a systematic review, meta-
+facing interfaces and may not be exactly             analysis, and clinical development
+reproducible because of vendor side updates.         guidelines. J Am Med Inform Assoc.
+Item level scoring sheets, prompt templates,         2025;32(4):605-615.
+and local model configuration files are              doi:10.1093/jamia/ocaf008.
+available from the corresponding author upon
+reasonable request. A public facing SCAI         [5] Ke YH, Jin L, Elangovan K, Abdullah HR,
+endpoint is available at                             Liu N, Sia ATH, et al. Retrieval
+https://halsted.compbio.buffalo.edu/chat/ .          augmented generation for 10 large
+                                                     language models and its generalizability
+Acknowledgements                                     in assessing medical fitness. npj Digit
+                                                     Med. 2025;8(1):187. doi:10.1038/s41746-
+The views expressed in this article are those        025-01519-z.
+of the author(s) and do not necessarily reflect
+                                                 [6] Elkin PL, Mehta G, LeHouillier F, Resnick
+                                                     M, Mullin S, Tomlin C, et al. Semantic
+                                                     Clinical Artificial Intelligence vs Native
+                                                     Large Language Model Performance on
+                                                     the USMLE. JAMA Netw Open.
+                                                     2025;8(4):e256359.
+
+                                                        Revised manuscript draft
+
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 License.
+                          For more information, see https://creativecommons.org/licenses/by-nc-nd/4.0/
+This article has been accepted for publication in IEEE Journal of Biomedical and Health Informatics. This is the author's version which has not been fully edited and
+                                   content may change prior to final publication. Citation information: DOI 10.1109/JBHI.2026.3742187
+
+    doi:10.1001/jamanetworkopen.2025.6359            nonrandomized studies of treatment
+    .                                                effects using secondary data sources: the
+                                                     ISPOR Good Research Practices for
+[7] DeepSeek-AI, Guo D, Yang D, Zhang H,             Retrospective Database Analysis Task
+    Song J, Wang P, et al. DeepSeek-R1               Force Report-Part I. Value Health.
+    incentivizes reasoning in LLMs through           2009;12(8):1044-1052.
+    reinforcement learning. Nature.                  doi:10.1111/j.1524-4733.2009.00600.x.
+    2025;645(8081):633-638.
+    doi:10.1038/s41586-025-09422-z.              [16] Al-Rahahleh AJ, Rizik MZ, Al-Ashwal FY,
+                                                     Abu-Farha RK. Diagnostic performance of
+[8] Peng Y, Malin BA, Rousseau JF, Wang Y,           four AI tools in pharmacology MCQs:
+    Xu Z, Xu X, et al. From GPT to                   Accuracy, sensitivity, and specificity.
+    DeepSeek: Significant gaps remain in             PLoS One. 2025;20(12):e0337688.
+    realizing AI in healthcare. J Biomed             doi:10.1371/journal.pone.0337688.
+    Inform. 2025;163:104791.
+    doi:10.1016/j.jbi.2025.104791.               [17] Wasserman RL, Edrees HH, Amato MG,
+                                                     Seger DL, Frits ML, Hwang AY,
+[9] Resnick MP, LeHouillier F, Brown SH,             Iannaccone C, Bates DW. Frequency and
+    Campbell KE, Montella D, Elkin PL.               preventability of adverse drug events in
+    Automated Modeling of Clinical Narrative         the outpatient setting. BMJ Qual Saf.
+    with High Definition Natural Language            2025;34(8):499-506. doi:10.1136/bmjqs-
+    Processing Using Solor and Analysis              2024-017098.
+    Normal Form. Stud Health Technol
+    Inform. 2021;287:89-93.
+    doi:10.3233/SHTI210822.
+
+[10] Elkin PL, Mullin S, Mardekian J, et al.
+    Using Artificial Intelligence With Natural
+    Language Processing to Combine
+    Electronic Health Record's Structured and
+    Free Text Data to Identify Nonvalvular
+    Atrial Fibrillation to Decrease Strokes and
+    Death: Evaluation and Case-Control
+    Study. J Med Internet Res.
+    2021;23(11):e28946. doi:10.2196/28946.
+
+[11] USMLE Step 1 Materials. USMLE.
+    Accessed March 27, 2026.
+    https://www.usmle.org/exam-
+    resources/step-1-materials.
+
+[12] USMLE Step 2 CK Materials. USMLE.
+    Accessed March 27, 2026.
+    https://www.usmle.org/exam-
+    resources/step-2-ck-materials.
+
+[13] USMLE Step 3 Materials. USMLE.
+    Accessed March 27, 2026.
+    https://www.usmle.org/exam-
+    resources/step-3-materials.
+
+[14] About the USMLE. USMLE. Accessed
+    March 27, 2026.
+    https://www.usmle.org/about-usmle.
+
+[15] Berger ML, Mamdani M, Atkins D,
+    Johnson ML. Good research practices for
+    comparative effectiveness research:
+    defining, reporting and interpreting
+
+                                                        Revised manuscript draft
+
+This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 License.
+                          For more information, see https://creativecommons.org/licenses/by-nc-nd/4.0/
+

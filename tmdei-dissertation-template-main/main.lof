@@ -1,15 +1,16 @@
 \babel@toc {portuguese}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Construção do prompt no EchoMind}}{11}{figure.caption.46}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Efeito da temperatura na escolha do token seguinte}}{12}{figure.caption.47}%
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Agrupamento de perguntas no AskNow}}{13}{figure.caption.50}%
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Duas formas de fornecer contexto ao modelo}}{14}{figure.caption.53}%
-\contentsline {figure}{\numberline {2.5}{\ignorespaces Diagrama PRISMA da seleção dos estudos}}{18}{figure.caption.64}%
-\contentsline {figure}{\numberline {2.6}{\ignorespaces Arquitetura do AskNow}}{25}{figure.caption.75}%
-\contentsline {figure}{\numberline {2.7}{\ignorespaces Defesa em camadas e custos reportados}}{25}{figure.caption.79}%
-\contentsline {figure}{\numberline {2.8}{\ignorespaces Fluxo de decisão do ChatTEDU}}{26}{figure.caption.81}%
-\addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Arquitetura do assistente}}{36}{figure.caption.108}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Arquitetura do Transformer}}{11}{figure.caption.44}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Evolução dos principais LLM por arquitetura}}{12}{figure.caption.46}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Ajuste fino com LoRA}}{13}{figure.caption.47}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Construção do prompt no EchoMind}}{16}{figure.caption.53}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Efeito da temperatura na escolha do token seguinte}}{16}{figure.caption.54}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Agrupamento de perguntas no AskNow}}{18}{figure.caption.57}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Duas formas de fornecer contexto ao modelo}}{19}{figure.caption.60}%
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Diagrama PRISMA da seleção dos estudos}}{24}{figure.caption.71}%
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Arquitetura do AskNow}}{29}{figure.caption.82}%
+\contentsline {figure}{\numberline {2.10}{\ignorespaces Defesa em camadas e custos reportados}}{31}{figure.caption.86}%
+\contentsline {figure}{\numberline {2.11}{\ignorespaces Fluxo de decisão do ChatTEDU}}{32}{figure.caption.88}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

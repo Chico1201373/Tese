@@ -1,15 +1,15 @@
-[0] Config.pm:308> INFO - This is Biber 2.20
-[0] Config.pm:311> INFO - Logfile is 'main.blg'
-[43] biber-darwin:340> INFO - === Wed Nov  4, 2026, 12:55:52
-[54] Biber.pm:420> INFO - Reading 'main.bcf'
-[166] Biber.pm:994> INFO - Found 79 citekeys in bib section 0
-[175] Biber.pm:4463> INFO - Processing section 0
-[181] Biber.pm:4654> INFO - Looking for bibtex file 'mainbibliography.bib' for section 0
-[185] bibtex.pm:1713> INFO - LaTeX decoding ...
-[223] bibtex.pm:1519> INFO - Found BibTeX data source 'mainbibliography.bib'
-[536] UCollate.pm:68> INFO - Overriding locale 'pt-PT' defaults 'variable = shifted' with 'variable = non-ignorable'
-[536] UCollate.pm:68> INFO - Overriding locale 'pt-PT' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[536] Biber.pm:4283> INFO - Sorting list 'nyt/global//global/global/global' of type 'entry' with template 'nyt' and locale 'pt-PT'
-[536] Biber.pm:4289> INFO - No sort tailoring available for locale 'pt-PT'
-[592] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[615] bbl.pm:779> INFO - Output to main.bbl
+[0] Config.pm:329> INFO - This is Biber 2.22
+[0] Config.pm:332> INFO - Logfile is 'main.blg'
+[85] biber-MSWIN64:342> INFO - === 
+[112] Biber.pm:421> INFO - Reading 'main.bcf'
+[332] Biber.pm:1002> INFO - Found 76 citekeys in bib section 0
+[345] Biber.pm:4487> INFO - Processing section 0
+[353] Biber.pm:4680> INFO - Looking for bibtex file 'mainbibliography.bib' for section 0
+[392] bibtex.pm:1713> INFO - LaTeX decoding ...
+[460] bibtex.pm:1519> INFO - Found BibTeX data source 'mainbibliography.bib'
+[860] UCollate.pm:68> INFO - Overriding locale 'pt-PT' defaults 'variable = shifted' with 'variable = non-ignorable'
+[860] UCollate.pm:68> INFO - Overriding locale 'pt-PT' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[860] Biber.pm:4307> INFO - Sorting list 'nyt/global//global/global/global' of type 'entry' with template 'nyt' and locale 'pt-PT'
+[860] Biber.pm:4313> INFO - No sort tailoring available for locale 'pt-PT'
+[940] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[984] bbl.pm:779> INFO - Output to main.bbl

@@ -1,0 +1,14 @@
+{
+  "Q1": {
+    "title": "Fundamentos e evolução dos LLM (surveys)",
+    "q": "(\"large language model\" OR \"large language models\") AND (survey OR overview) AND (transformer OR \"instruction tuning\" OR \"in-context learning\" OR \"open-source\")"
+  },
+  "Q2": {
+    "title": "LLM em exames médicos",
+    "q": "(\"large language model\" OR LLM OR ChatGPT OR GPT-4) AND (USMLE OR MedQA OR \"medical licensing\" OR \"medical examination\" OR \"board examination\")"
+  },
+  "Q3": {
+    "title": "Adaptação eficiente de LLM (ajuste fino e quantização)",
+    "q": "(\"large language model\" OR \"large language models\") AND (\"parameter-efficient\" OR LoRA OR QLoRA OR quantization) AND (survey OR review OR \"empirical study\")"
+  }
+}

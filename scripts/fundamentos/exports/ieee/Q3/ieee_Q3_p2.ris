@@ -1,0 +1,1821 @@
+TY  - CONF
+TI  - Enhancing LLMs with LoRA Fine-Tuning Using Medical Data and Knowledge Graph Enrichment for Improved Healthcare Outcomes
+T2  - 2025 MIPRO 48th ICT and Electronics Convention
+SP  - 131
+EP  - 136
+AU  - A. Jankov
+AU  - M. Toshevska
+AU  - S. Gievska
+PY  - 2025
+KW  - Drugs
+KW  - Training
+KW  - Ethics
+KW  - Reviews
+KW  - Large language models
+KW  - Medical services
+KW  - Knowledge graphs
+KW  - Natural language processing
+KW  - Medical diagnostic imaging
+KW  - Context modeling
+KW  - artificial intelligence
+KW  - natural language processing
+KW  - large language models
+KW  - fine-tuning
+KW  - medical domain
+DO  - 10.1109/MIPRO65660.2025.11131859
+JO  - 2025 MIPRO 48th ICT and Electronics Convention
+IS  - 
+SN  - 1847-3938
+VO  - 
+VL  - 
+JA  - 2025 MIPRO 48th ICT and Electronics Convention
+Y1  - 2-6 June 2025
+AB  - This research paper investigates the enhancement of large language models (LLMs) within the medical domain, focusing on members of the Llama family of LLMs. While LLMs have demonstrated remarkable success across various general-purpose natural language processing tasks, their application in specialized domains like medicine is often hindered by limited training on domain-specific data, resulting in suboptimal accuracy and contextual relevance. To address these limitations, this research employs low-rank adaptation (LoRA) to fine-tune LLMs on real-world patientphysician dialogues, effectively capturing the intricacies of medical discourse. Additionally, the knowledge of the LLM is enriched with the SPOKE knowledge graph, a structured repository of medical domain information, allowing the model to generate outputs that are both contextually and scientifically grounded. The experimental results underscore the transformative impact of this dual approach, demonstrating significant advancements in tasks such as automatic diagnosis generation and personalized drug recommendation. However, this research should be viewed as an exploratory proof of concept. Significant limitations, including the constrained evaluation scope and the critical need for expert clinical validation and thorough ethical review, must be addressed in future work before considering real-world applicability.
+ER  - 
+
+TY  - CONF
+TI  - Leveraging Fine-Tuned Large Language Models for Personalized Feedback in Undergraduate Object-Oriented Programming Education
+T2  - 2026 International Joint Conference on Neural Networks (IJCNN)
+SP  - 1
+EP  - 7
+AU  - Z. Li
+AU  - J. Wu
+AU  - Q. Liu
+AU  - Q. Sun
+AU  - J. Li
+AU  - W. Rong
+PY  - 2026
+KW  - Modeling
+KW  - Codes
+KW  - Printing
+KW  - Tuning
+KW  - Design methodology
+KW  - Measurement units
+KW  - Large language models
+KW  - Conferences
+KW  - Software engineering
+KW  - Training
+KW  - Automated Feedback
+KW  - Education Technology
+KW  - LoRA Fine-tuning
+KW  - Object-Oriented Design
+DO  - 10.1109/IJCNN69854.2026.11729842
+JO  - 2026 International Joint Conference on Neural Networks (IJCNN)
+IS  - 
+SN  - 2161-4407
+VO  - 
+VL  - 
+JA  - 2026 International Joint Conference on Neural Networks (IJCNN)
+Y1  - 22-26 June 2026
+AB  - In undergraduate software engineering education, architectural design courses are pivotal for fostering higher-order engineering skills through complex, iterative projects. However, providing effective feedback in these courses remains challenges: traditional static analysis verifies functional correctness but cannot evaluate architectural quality, while manual review is unscalable for large student cohorts. To address these challenges, this paper proposes a generalizable LLM-based feedback framework, named Helper, which integrates three core modules: course-adaptable data preparation; lightweight fine-tuning for general models; and context-aware recommendation generation. This paper also presents a dedicated fine-tuning dataset tailored to the Object-Oriented Design (OOD) course. The Helper’s specific instantiation of the OOD course is named OO-Helper. Experimental validation demonstrates that OO-Helper outperforms general foundation models in modification accuracy and design compliance. Qualitative feedback from students confirms that it can act as an effective pedagogical scaffold. The modular framework enables seamless cross-disciplinary migration with minor adjustments, offering broad practical value for CS education.
+ER  - 
+
+TY  - JOUR
+TI  - Benchmarking Prompt Engineering Against Fine-Tuning for Multi-Label Vulnerability Detection in Solidity Smart Contracts: An Empirical Study
+T2  - IEEE Access
+SP  - 138876
+EP  - 138892
+AU  - B. Chachar
+AU  - J. F. Ferreira
+AU  - M. Cavazza
+AU  - P. Ferrara
+AU  - A. Cortesi
+PY  - 2026
+KW  - Modeling
+KW  - Labeling
+KW  - Tuning
+KW  - Contracts
+KW  - Testing
+KW  - Prompt engineering
+KW  - Training
+KW  - Smart contracts
+KW  - Signal detection
+KW  - Codes
+KW  - Large language models
+KW  - prompting strategies
+KW  - smart contracts
+KW  - solidity
+KW  - vulnerability detection
+DO  - 10.1109/ACCESS.2026.3731743
+JO  - IEEE Access
+IS  - 
+SN  - 2169-3536
+VO  - 14
+VL  - 14
+JA  - IEEE Access
+Y1  - 2026
+AB  - Large Language Models (LLMs) are increasingly being deployed for smart contract security, yet a fundamental question remains unresolved for practitioners: when confronted with the realistic, multi-label setting where a single contract may harbor several concurrent vulnerabilities, which deployment strategy is more effective — prompt engineering or fine-tuning? This paper provides a rigorous empirical benchmark to answer that question. We evaluate five prompt engineering strategies (Zero-shot, Chain-of-Thought, Structured Chain-of-Thought, Step-back, and Few-shot) across five state-of-the-art open-source LLMs (7B – 24B parameters), and compare them against the same models fine-tuned with QLoRA on a standardized multi-label dataset of real-world Ethereum contracts. Our benchmark yields three specific, quantified findings. First, the performance gap is large and consistent: the best prompt engineering configuration achieves a macro F1-score of 0.311, while fine-tuned models reach 0.79, a gap that holds across all five model architectures. Second, scale alone did not compensate for the absence of task-specific training in this setting: a 24B-parameter model under the best prompting strategy was outperformed by a 7B fine-tuned model, suggesting that the benefit of scale was not sufficient to close the paradigm gap on this structured multi-label task. Third, advanced reasoning strategies (Chain-of-Thought, Structured CoT, Step-back) provided negligible improvement over the zero-shot baseline for this task, suggesting that the evaluated prompt-only approaches struggled with structured multi-label output requirements rather than with reasoning quality per se. These results hold for the five open-source model architectures, five prompting strategies, and Slither-derived benchmark labels used in this study. These findings provide actionable guidance for researchers and practitioners designing LLM-based security tools for Solidity smart contracts.
+ER  - 
+
+TY  - CONF
+TI  - Personalized Federated Learning for Sovereign Personal AI Agents: A Review
+T2  - 2026 18th International Conference on Electronics, Computer, and Computation (ICECCO)
+SP  - 1
+EP  - 6
+AU  - A. Akhmetov
+AU  - B. Sharimbayev
+AU  - M. A. Ala'anzy
+PY  - 2026
+KW  - Filtering
+KW  - Recommender systems
+KW  - Filters
+KW  - Information filtering
+KW  - Electronic mail
+KW  - LoRa
+KW  - Communication systems
+KW  - Protocols
+KW  - Routing
+KW  - Semantic communication
+KW  - Personalized Federated Learning
+KW  - Sovereign AI
+KW  - Large Language Models
+KW  - Privacy Preservation
+KW  - Edge AI
+KW  - Data Sovereignty
+DO  - 10.1109/ICECCO67619.2026.11488769
+JO  - 2026 18th International Conference on Electronics, Computer, and Computation (ICECCO)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 18th International Conference on Electronics, Computer, and Computation (ICECCO)
+Y1  - 10-11 April 2026
+AB  - The field of Artificial Intelligence (AI) is at an inflection point, shifting from the “One Model Fits All” philosophy represented by centralized models like ChatGPT to “Hyper-Personalized AI” that honors user data sovereignty while retaining the collaborative learning advantages. This review examines the convergence of Personalized Federated Learning (PFL), Large Language Models (LLMs), and privacy-preserving technologies to create truly sovereign personal AI agents. We review over 39 peer-reviewed articles (2020-2025) on these topics, with particular emphasis on three major areas: architectural innovations in personalization using Low-Rank Adaptation (LoRA) adapters and knowledge graphs, privacy-preserving technologies like Differential Privacy (DP) and secure aggregation, and frameworks that allow users' personal data to be used to train personal agents locally without requiring cloud access. Our review demonstrates that PFL is at the core of creating the “Sovereign Data Ecosystem” where users can retain personal data like their calendar, email, and health records locally while contributing to global model improvements through aggregated gradient sharing. We also outline future research directions towards Federated Agent Swarms and how PFL redefines the relationship between user data ownership, model personalization, and algorithmic transparency.
+ER  - 
+
+TY  - CONF
+TI  - Employing AI/ML/DL/RL/LLM Tools to Advance Aviation Maintenance Processes for Improved Safety and Reduced Costs: A Survey
+T2  - 2025 AIAA DATC/IEEE 44th Digital Avionics Systems Conference (DASC)
+SP  - 1
+EP  - 10
+AU  - S. Kalari
+AU  - G. Lenkala
+AU  - V. Ashok
+AU  - R. Mukkamala
+PY  - 2025
+KW  - Surveys
+KW  - Visualization
+KW  - Large language models
+KW  - Taxonomy
+KW  - Maintenance
+KW  - Safety
+KW  - Synchronization
+KW  - Telemetry
+KW  - Spectrogram
+KW  - Videos
+KW  - artificial intelligence
+KW  - aviation
+KW  - large language models
+KW  - maintenance
+KW  - safety
+KW  - taxonomy
+DO  - 10.1109/DASC66011.2025.11257316
+JO  - 2025 AIAA DATC/IEEE 44th Digital Avionics Systems Conference (DASC)
+IS  - 
+SN  - 2155-7209
+VO  - 
+VL  - 
+JA  - 2025 AIAA DATC/IEEE 44th Digital Avionics Systems Conference (DASC)
+Y1  - 14-18 Sept. 2025
+AB  - Aircraft maintenance is among the most safety-critical and cost-intensive operation in commercial aviation, where delayed fault detection and fragmented diagnostic workflows can lead to costly Aircraft-On-Ground events and elevated safety risks. In this paper, we review recent advancements across three key AI paradigms: classical machine learning and deep learning (ML/DL), large language models, and multimodal LLMs. These approaches collectively aim to unify visual inspections, high-rate sensor data, and acoustic diagnostics into an integrated decision-support framework. We begin by categorizing over 100 peer-reviewed studies using a generalized taxonomy. We then identify core limitations in existing systems. To address these gaps, we introduce a prototype system that employs Chain-of-Thought prompting with GPT-4o to process synchronized video frames, sensor telemetry, and audio spectrograms, generating per-frame condition labels and maintenance summaries. We evaluate its performance and highlight three key deployment challenges: data fidelity, memory footprint, and modality synchronization. Finally, we outline a roadmap for future research, including the development of standardized multimodal benchmarks, parameter-efficient adaptation techniques, blockchain-based provenance for explainability, and federated inference for privacy-preserving deployment.
+ER  - 
+
+TY  - CONF
+TI  - A State-of-the-Art Survey of Generative AI for Mobile Edge Computing: Architectures, Optimization, and Applications
+T2  - 2026 8th International Conference on Internet of Things, Automation and Artificial Intelligence (IoTAAI)
+SP  - 75
+EP  - 84
+AU  - M. Chu
+PY  - 2026
+KW  - Modeling
+KW  - Optimization
+KW  - Generative AI
+KW  - Printing
+KW  - Architecture
+KW  - Clouds
+KW  - Computer architecture
+KW  - Large language models
+KW  - Security
+KW  - Surveys
+KW  - Generative AI
+KW  - Large Language Models
+KW  - Mobile Edge Computing
+KW  - 6G
+KW  - Split Learning
+KW  - Semantic Communications
+DO  - 10.1109/IoTAAI70471.2026.11607704
+JO  - 2026 8th International Conference on Internet of Things, Automation and Artificial Intelligence (IoTAAI)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 8th International Conference on Internet of Things, Automation and Artificial Intelligence (IoTAAI)
+Y1  - 29-31 May 2026
+AB  - The integration of Generative Artificial Intelligence (GenAI), particularly Large Language Models (LLMs) and Diffusion Models, into Mobile Edge Computing (MEC) signifies a transformative shift from “Connected Intelligence” to “Generative Intelligence” in the 6 G era. Despite its potential to revolutionize user experiences and network orchestration, the deployment of GenAI at the edge is hindered by a stark dichotomy between the massive computational demands of foundation models and the inherent resource constraints of mobile devices. This paper provides a state-of-the-art survey of the GenAIMEC ecosystem, proposing a holistic four-layer taxonomy: OnDevice GenAI, Infrastructure Edge Deployment, Cloud-EdgeEnd Collaboration, and GenAI-driven Network Management. We systematically analyze key enabling technologies, including model compression (quantization and pruning), split learning, and semantic communications. Furthermore, we investigate the dual role of GenAI in security and identify critical unresolved challenges such as semantic reliability and the “Green Edge” sustainability dilemma. This survey provides a comprehensive roadmap for researchers to navigate the complexities of deploying generative intelligence in future wireless landscapes.
+ER  - 
+
+TY  - CONF
+TI  - LLM Based Sentiment Classification from Bangladesh E-Commerce Reviews
+T2  - 2025 28th International Conference on Computer and Information Technology (ICCIT)
+SP  - 281
+EP  - 286
+AU  - S. Tabassum
+PY  - 2025
+KW  - Filtering
+KW  - Filters
+KW  - LoRa
+KW  - Smart phones
+KW  - Internet
+KW  - Protocols
+KW  - Communication systems
+KW  - Computer networks
+KW  - HTTP
+KW  - Data communication
+KW  - Sentiment analysis
+KW  - Large Language Model (LLM)
+KW  - E-commerce
+KW  - Text analysis
+DO  - 10.1109/ICCIT68739.2025.11491094
+JO  - 2025 28th International Conference on Computer and Information Technology (ICCIT)
+IS  - 
+SN  - 2474-9656
+VO  - 
+VL  - 
+JA  - 2025 28th International Conference on Computer and Information Technology (ICCIT)
+Y1  - 19-21 Dec. 2025
+AB  - Sentiment analysis is an essential part of text analysis, which is a larger field that includes determining and evaluating the author's emotional state. This method is essential since it makes it easier to comprehend consumers' feelings, viewpoints, and preferences holistically. The introduction of large language models (LLMs), such as Llama, has greatly increased the availability of cutting-edge model applications, such as sentiment analysis. However, accurate sentiment analysis is hampered by the intricacy of written language and the diversity of languages used in evaluations. The viability of using transformer-based BERT models and other LLMs for sentiment analysis from Bangladesh ecommerce reviews is investigated in this paper. A subset of 4000 samples from the original dataset of Bangla and English customer reviews was utilized to fine-tune the model. The finetuned Llama-3.1-8B model outperformed other fine-tuned models, including Phi-3.5-mini-instruct, Mistral-7B-v0.1, DistilBERT-multilingual, mBERT, and XLM-R-base, with an overall accuracy, precision, recall, and $\mathbf{F 1}$ score of 95.5%, $93 \%, 88 \%, 90 {\%}$. The study emphasizes how parameterefficient fine-tuning methods (LoRA and PEFT) can lower computational overhead and make it appropriate for contexts with limited resources. The results show how LLMs can help advance sentiment analysis for low-resource languages.
+ER  - 
+
+TY  - CONF
+TI  - Towards Uncertainty-Aware Low-Bit Quantized LLMs for On-Device Inference
+T2  - 2025 IEEE International Conference on Big Data (BigData)
+SP  - 5930
+EP  - 5939
+AU  - L. Sparrenberg
+AU  - T. Schneider
+AU  - T. Deußer
+AU  - A. Berger
+AU  - R. Sifa
+PY  - 2025
+KW  - Economics
+KW  - Adaptation models
+KW  - Quantization (signal)
+KW  - Uncertainty
+KW  - Large language models
+KW  - Computational modeling
+KW  - Stochastic processes
+KW  - Probability distribution
+KW  - Calibration
+KW  - Reliability
+KW  - large language models
+KW  - LLM
+KW  - quantization
+KW  - regression
+KW  - classification
+KW  - Qwen
+KW  - Qwen 2.5
+KW  - GPT
+DO  - 10.1109/BigData66926.2025.11400739
+JO  - 2025 IEEE International Conference on Big Data (BigData)
+IS  - 
+SN  - 2573-2978
+VO  - 
+VL  - 
+JA  - 2025 IEEE International Conference on Big Data (BigData)
+Y1  - 8-11 Dec. 2025
+AB  - Quantizing large language models (LLMs) significantly reduces memory usage and computational requirements, enabling efficient on-device inference. However, aggressive quantization can degrade model performance and exacerbate prediction uncertainty. To address this critical issue, we propose a logits-based calibration strategy where the model is restricted to generating a single token from a limited set of predefined decision tokens. By applying a temperature-scaled softmax directly on the logits corresponding to these tokens, we obtain calibrated and interpretable probability distributions, explicitly circumventing stochastic methods such as top-k sampling by directly leveraging deterministic logit values, revealing subtle behavioral shifts caused by quantization. Using Qwen-2.5 models ranging from 7 B to 72 B parameters at various quantization levels (2, 4, 6 and 8-bit), we evaluate our method across four recently released benchmarks encompassing regression (README++, CompLex-ZH, GIRAI) and classification (DarkBench) tasks. Thus, minimizing the risk of data leakage into pre-training data. Results indicate moderate quantization (4-bit) as optimal, particularly when combined with minimal few-shot prompting, enabling quantized LLMs to closely match or surpass proprietary models such as GPT-4o and GPT-4.1 in certain tasks. Our opensource toolkit facilitates straightforward deployment of reliable, uncertainty-aware quantized LLMs for privacy-preserving, ondevice inference, making them suitable for sensitive settings such as human-subject economic experiments and survey analysis.
+ER  - 
+
+TY  - CONF
+TI  - LENS: Layers of Evaluation of Hallucination in GenAI Systems
+T2  - 2024 7th International Conference on Universal Village (UV)
+SP  - 1
+EP  - 85
+AU  - C. Gu
+AU  - W. Zhang
+AU  - Z. Huang
+AU  - J. Kou
+AU  - Z. Liu
+AU  - C. Zhao
+AU  - C. Liu
+AU  - L. Zhang
+AU  - W. Lin
+AU  - Z. Wang
+AU  - J. Deng
+AU  - Y. Xie
+AU  - G. Huang
+AU  - C. Zhang
+AU  - X. Lu
+AU  - C. Wang
+AU  - Z. Zhang
+AU  - H. Yuan
+AU  - X. Duan
+AU  - Y. Fang
+PY  - 2024
+KW  - Analytical models
+KW  - Accuracy
+KW  - Uncertainty
+KW  - Prevention and mitigation
+KW  - Large language models
+KW  - Transforms
+KW  - Benchmark testing
+KW  - Cognition
+KW  - Robustness
+KW  - Lenses
+KW  - Large language models
+KW  - vision-language models
+KW  - hallucination evaluation
+KW  - hallucination mitigation
+KW  - retrieval-augmented generation
+KW  - comprehensive hallucination evaluation
+KW  - horizontal vs vertical evaluation
+KW  - generative AI evaluation
+KW  - LENS framework
+KW  - multi-dimensional metrics
+KW  - multi-layered assessment structures
+KW  - cross-domain evaluation
+KW  - visual-textual misalignment
+KW  - cross-modal inconsistencies
+KW  - dynamic knowledge
+KW  - evolving benchmarks
+KW  - tool necessity detection
+KW  - tool selection accuracy
+KW  - hierarchical query decomposition
+KW  - faithfulness evaluation
+KW  - domain-specific benchmarks
+KW  - user-centric benchmark construction
+KW  - transparency and interpretability
+KW  - surface-level accuracy
+KW  - compositional complexity
+KW  - ground truth ambiguity
+KW  - reasoning failures
+KW  - adversarial robustness
+KW  - factuality assessment
+KW  - uncertainty quantification
+KW  - evidence grounding
+KW  - tree-of-thoughts
+KW  - reliability and robustness
+KW  - causal reasoning capability
+KW  - proactive risk assessment
+KW  - computational efficiency
+KW  - actionable error attribution
+KW  - traceable evidence chains
+KW  - post-hoc error detection
+KW  - trustworthy AI
+KW  - domain-specific queries
+KW  - temporal drift
+KW  - Universal Village
+KW  - system theory
+KW  - metacognitive evaluation
+KW  - mechanistic interpretability
+KW  - multimodal hallucination
+KW  - causal attribution
+DO  - 10.1109/UV63228.2024.11189150
+JO  - 2024 7th International Conference on Universal Village (UV)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2024 7th International Conference on Universal Village (UV)
+Y1  - 19-22 Oct. 2024
+AB  - Large Language Models (LLMs) and Vision-Language Models (VLMs) demonstrate remarkable capabilities but remain vulnerable to hallucinations—producing plausible yet factually incorrect content—with error rates ranging from as low as 1.47% in clinical applications [1] to as high as 75% in domain-specific queries [2]. Despite growing attention, existing hallucination evaluation frameworks remain insufficient to meet critical needs. Through a comprehensive survey of over 100 evaluation methods spanning six methodological paradigms (probe-based, adversarial testing, causal intervention, uncertainty-guided, internal state analysis, and online evaluation), we identify fundamental limitations: current approaches fall short of enabling objective model comparison, providing diagnostic insights into failure modes, supporting domain-evolving benchmark construction, and guiding targeted mitigation strategies. Our analysis reveals that evaluations remain fragmented, operating either horizontally—comparing models across tasks and domains—or vertically—probing reasoning chains within single outputs. This fragmentation limits holistic assessment: horizontal evaluations provide breadth but risk superficiality, while vertical assessments deliver depth but lack generalizability. Moreover, we identify five critical gaps: (1) dimensional poverty reducing hallucinations to binary metrics, (2) failure to integrate horizontal breadth with vertical depth, (3) metacognitive blind spots overlooking when models should seek external verification, (4) adaptability crisis from static benchmarks, and (5) transparency deficits providing scores without actionable insights. Beyond surveying the landscape, this paper articulates eight fundamental challenges confronting comprehensive evaluation—from epistemological difficulties in defining ground truth and computational complexity of scaling assessment, to attribution opacity obscuring causal mechanisms and dynamic knowledge evolution rendering benchmarks obsolete. These challenges span multimodal complexity, scale and diversity requirements, adversarial robustness, and human alignment considerations. We present LENS (Layers of Evaluation of Hallucination in GenAI Systems), a unified framework addressing these gaps through hierarchical, tree-based query decomposition. LENS transforms complex evaluation tasks into multi-layered assessment structures via a six-stage pipeline (task formulation, decomposition, tool-augmented execution, structured generation, multi-dimensional scoring, and trace analysis), enabling MRI-like scanning of inference processes to reveal where and why hallucinations originate. The framework introduces four key innovations: (1) Tool Necessity Detection and Selection (TND/TSA) – explicitly evaluating when models should consult external sources versus relying on parametric memory, addressing a fundamental hallucination source. (2) Multi-Dimensional Metrics – assessing degree (accuracy, faithfulness, tool appropriateness), quantity (coverage, completeness), stability (consistency, robustness), and risk (uncertainty quantification) beyond binary detection. (3) User-Centric Benchmark Construction – empowering organizations to design custom evaluations from their evolving knowledge bases while maintaining methodological rigor. (4) Actionable Error Attribution – providing hierarchical decomposition traces with causal attribution, evidence chains, and OpenTelemetry-based reproducibility for transparent auditing. Our systematic taxonomy unifies previously fragmented approaches across evaluation targets (task-specific, modality-based, hallucination-type, domain-specific), dimensions (factuality, faithfulness, consistency, robustness, causal reasoning, interpretability), and methodologies. We introduce unified metrics transcending individual dimensions and present mitigation-aware evaluation strategies integrating RAG, parameter-efficient fine-tuning, knowledge distillation, preference optimization, and temporal intervention approaches. By combining horizontal breadth (across domains and architectures) with vertical depth (into reasoning processes), LENS advances hallucination evaluation from post-hoc error detection to proactive risk assessment. Case studies in medical diagnosis, legal analysis, and financial reasoning demonstrate the framework’s transformative impact, enabling objective model comparison, informed selection, diagnostic insights, domain-evolving benchmarks, and targeted mitigation development—fostering calibrated trust in AI systems deployed in safety-critical applications where accuracy, interpretability, and accountability are indispensable.
+ER  - 
+
+TY  - JOUR
+TI  - Can Quantized On-Premise LLMs Flag Semantic Inflation in Employee Work Logs? A Privacy-Preserving Decision-Support Workflow
+T2  - IEEE Access
+SP  - 97065
+EP  - 97079
+AU  - S. Gao
+AU  - M. Huang
+PY  - 2026
+KW  - Modeling
+KW  - Quantization (signal)
+KW  - Reviews
+KW  - Large language models
+KW  - Training
+KW  - Vocabulary
+KW  - Correlation
+KW  - Labeling
+KW  - Air gaps
+KW  - Artificial intelligence
+KW  - Impression management
+KW  - large language models
+KW  - on-premise deployment
+KW  - organizational behavior
+KW  - post-training quantization
+KW  - privacy-preserving computing
+KW  - semantic alignment
+KW  - semantic inflation
+DO  - 10.1109/ACCESS.2026.3702481
+JO  - IEEE Access
+IS  - 
+SN  - 2169-3536
+VO  - 14
+VL  - 14
+JA  - IEEE Access
+Y1  - 2026
+AB  - Monthly self-reported work logs are a standard instrument in Chinese knowledge-intensive firms, used both as attendance evidence and as inputs to measuring individual contribution. Their textual nature, however, makes them susceptible to “Impression Management” (IM), in which employees may use rhetorical complexity to inflate perceived workload. We refer to this specific phenomenon as Semantic Inflation: the case where a log’s textual volume and complexity are disproportionate to its recognized output. Manual auditing of such logs is labor-intensive and subjective, whereas routing sensitive internal logs to cloud-based Large Language Models (LLMs) is often restricted by enterprise compliance policies. To explore an alternative, we present a privacy-preserving, on-premise inference workflow that uses quantized open-weight LLMs (e.g., Qwen-2.5-7B) on a single consumer-grade GPU (no model training or fine-tuning is performed). We define the Semantic Inflation Rate (SIR), a decision-support indicator that combines a Semantic Deviation Index with log length and leader-approved work hours, to flag logs whose textual elaboration is disproportionate to their recognized output. Using a longitudinal dataset of 8,603 monthly-report entries from a single R&D division of one Chinese technology enterprise (2014–2024), we observe an Inverse Precision Effect: within the Qwen-2.5-7B family, both the 2-bit and 4-bit variants align more closely with leader-approved hours than the 8-bit variant (full-sample Pearson  $R \approx 0.50$ , 0.50, and 0.41 for the 2-, 4-, and 8-bit variants, respectively). A test for differences between dependent correlations indicates that the 2- and 4-bit variants are each significantly better aligned than the 8-bit variant but are statistically indistinguishable from each other, so we summarize the ordering conservatively as Q $2~\approx $  Q4 > Q8. These correlations are moderate. We read them as consistent with information-bottleneck reasoning, namely that aggressive post-training quantization may implicitly attenuate low-density rhetorical content, though the mechanism itself is not demonstrated here. SIR is positioned as a decision-support tool that helps managers triage logs for human review. Practical implications: the workflow is feasible on commodity hardware within an air-gapped network, lower-bit quantization does not necessarily degrade alignment on this task, and SIR can surface candidate outliers for human-in-the-loop review while preserving data sovereignty.
+ER  - 
+
+TY  - CONF
+TI  - Optimizing Attention for Efficient LLM Inference: A Review
+T2  - 2025 8th World Conference on Computing and Communication Technologies (WCCCT)
+SP  - 482
+EP  - 491
+AU  - S. Sun
+AU  - J. Yu
+AU  - H. Liu
+AU  - H. Guo
+AU  - Y. Cao
+AU  - S. Zhang
+AU  - J. Zhou
+PY  - 2025
+KW  - Attention mechanisms
+KW  - Quantization (signal)
+KW  - Reviews
+KW  - Computational modeling
+KW  - Large language models
+KW  - Memory management
+KW  - Optimization methods
+KW  - Real-time systems
+KW  - Computational efficiency
+KW  - Computational complexity
+KW  - Large Language Models
+KW  - Attention Mechanism Optimization
+KW  - Inference Efficiency
+KW  - Long-Sequence Modeling
+DO  - 10.1109/WCCCT65447.2025.11027973
+JO  - 2025 8th World Conference on Computing and Communication Technologies (WCCCT)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 8th World Conference on Computing and Communication Technologies (WCCCT)
+Y1  - 11-13 April 2025
+AB  - The rapid advancement of deep learning has led to significant progress in large language models (LLMs), with the Attention mechanism serving as a core component of their success. However, the computational and memory demands of Attention mechanisms pose bottlenecks for efficient inference, especially in long-sequence and real-time tasks. This paper systematically reviews optimization strategies for Attention mechanisms, including sparse attention, low-rank decomposition, quantization techniques, block-based parallel computation, and memory management. These approaches have demonstrated notable improvements in reducing computational complexity, optimizing memory usage, and enhancing inference performance. This review highlights the key challenges of computational efficiency, long-sequence modeling, and cross-task generalization through an in-depth analysis of existing methods, their advantages, and limitations. Future research directions, including dynamic precision, hardware-aware optimization, and lightweight architectures offer insights for advancing LLM inference theory and practice.
+ER  - 
+
+TY  - CONF
+TI  - How Does Quantization Impact Privacy Risk on LLMS for Code?
+T2  - 2025 2nd IEEE/ACM International Conference on AI-powered Software (AIware)
+SP  - 50
+EP  - 60
+AU  - M. N. Haque
+AU  - H. Yang
+AU  - Z. Yang
+AU  - B. Xu
+PY  - 2025
+KW  - Training
+KW  - Privacy
+KW  - Data privacy
+KW  - Adaptation models
+KW  - Quantization (signal)
+KW  - Codes
+KW  - Computational modeling
+KW  - Training data
+KW  - Data models
+KW  - Software
+KW  - quantization
+KW  - privacy
+KW  - CodeLLMs
+KW  - Security and privacy
+DO  - 10.1109/AIware69974.2025.00013
+JO  - 2025 2nd IEEE/ACM International Conference on AI-powered Software (AIware)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 2nd IEEE/ACM International Conference on AI-powered Software (AIware)
+Y1  - 19-20 Nov. 2025
+AB  - Large language models for code (LLMs4Code) rely heavily on massive training data, including sensitive data, such as cloud service credentials of the projects and personal identifiable information of the developers, raising serious privacy concerns. Membership inference (MI) has recently emerged as an effective tool for assessing privacy risk by identifying whether specific data belong to a model's training set. In parallel, model compression techniques, especially quantization, have gained traction for reducing computational costs and enabling the deployment of large models. However, while quantized models still retain knowledge learned from the original training data, it remains unclear whether quantization affects their ability to retain and expose privacy information. Answering this question is of great importance to understanding privacy risks in real-world deployments. In this work, we conduct the first empirical study on how quantization influences task performance and privacy risk simultaneously in LLMs4Code. To do this, we implement widely used quantization techniques (static and dynamic) to four representative model families, namely Pythia, CodeGen, GPT-Neo, and starcoder2. Our results demonstrate that quantization has a significant impact on reducing the privacy risk relative to the original model. We also uncover a positive correlation between task performance and privacy risk, indicating an underlying trade-off. Moreover, we reveal the possibility that quantizing larger models could yield better balance than using full-precision small models. Finally, we demonstrate that these findings generalize across different architectures, model sizes and MI methods, offering practical guidance for safeguarding privacy when deploying compressed LLMs4Code.
+ER  - 
+
+TY  - CONF
+TI  - Unlocking Sentiment Analysis Potential for Low-Resource Bangla Language by Fine-Tuning LLaMA Model
+T2  - 2024 27th International Conference on Computer and Information Technology (ICCIT)
+SP  - 2806
+EP  - 2811
+AU  - Z. Ahmed
+AU  - S. S. Shanto
+AU  - A. I. Jony
+PY  - 2024
+KW  - Training
+KW  - Sentiment analysis
+KW  - Analytical models
+KW  - Adaptation models
+KW  - Accuracy
+KW  - Text analysis
+KW  - Reviews
+KW  - Computational modeling
+KW  - Large language models
+KW  - Information technology
+KW  - Natural Language Processing (NLP)
+KW  - Bangla Sentiment analysis
+KW  - Large Language Model (LLM)
+KW  - LLaMA
+KW  - E-commerce
+DO  - 10.1109/ICCIT64611.2024.11021810
+JO  - 2024 27th International Conference on Computer and Information Technology (ICCIT)
+IS  - 
+SN  - 2474-9656
+VO  - 
+VL  - 
+JA  - 2024 27th International Conference on Computer and Information Technology (ICCIT)
+Y1  - 20-22 Dec. 2024
+AB  - Sentiment analysis, which involves the identification and assessment of the emotional state of the author, constitutes an integral component within the broader context of text analysis. This approach is crucial since it facilitates a holistic understanding of users’ emotions, perspectives, and preferences. The advent of large language models (LLMs), exemplified by LLaMA, has significantly expanded the accessibility of state-of-the-art model applications, including sentiment analysis. Nevertheless, the potential of LLMs in addressing various sentiment analysis challenges has not been extensively explored. This work explores the feasibility of leveraging LLaMA, a Large Language Model (LLM), for sentiment analysis in Bangla, a low-resource language. A dataset of 1,000 Bangla customer reviews was used to fine-tune the model, achieving an overall accuracy of 89.76%, outperforming existing models such as Bangla-BERT by 1%. The study highlights the use of parameter-efficient fine-tuning techniques (LORA and PEFT) to reduce computational overhead, making it suitable for resource-constrained environments. The findings demonstrate the potential of LLMs in advancing sentiment analysis for low-resource languages.
+ER  - 
+
+TY  - JOUR
+TI  - Proof of Unlearning for Semantic Knowledge Bases in Large Language Models-Enabled Semantic Communication
+T2  - IEEE Communications Magazine
+SP  - 58
+EP  - 64
+AU  - Y. Lin
+AU  - Z. Chai
+AU  - J. Wang
+AU  - Z. Gao
+AU  - N. Ma
+AU  - P. Zhang
+AU  - D. Niyato
+PY  - 2026
+KW  - Training
+KW  - Knowledge based systems
+KW  - Semantic communication
+KW  - Computational modeling
+KW  - Adaptation models
+KW  - LoRa
+KW  - Symbols
+KW  - Receivers
+KW  - Decoding
+KW  - Large language models
+DO  - 10.1109/MCOM.001.2500479
+JO  - IEEE Communications Magazine
+IS  - 4
+SN  - 1558-1896
+VO  - 64
+VL  - 64
+JA  - IEEE Communications Magazine
+Y1  - April 2026
+AB  - Semantic communication is a paradigm shift in wireless systems that transmits semantic information, such as intent, context, and meaning, instead of raw data to reduce redundant data. At its core, semantic knowledge bases (SKBs) store and organize the contextual knowledge required for accurate encoding, decoding, and reasoning over semantic information. Recently, large language models (LLMs), pretrained on massive and diverse text corpora, have been integrated into SKBs to generate high-quality semantic embeddings, enable zero-shot retrieval of relevant knowledge, and support complex inference tasks across a wide range of domains. However, since the training corpus of LLM may include outdated, malicious, or privacy-sensitive content, LLM-enabled SKBs should be updated efficiently and verifiably to remove specific data without retraining from scratch. In this article, we first conduct a survey on related works and then propose a model-agnostic proof of unlearning framework for LLM-driven SKBs in semantic communications. Specifically, we track the evolution of the unlearning process by measuring drifts in the LoRA adapter subspace. We then execute successive reverse steps and generate the proof trace that a verifier can compare to provide a quantitative and verifiable unlearning guarantee. Finally, experimental results demonstrate the effectiveness of our proposed framework.
+ER  - 
+
+TY  - CONF
+TI  - Distributed Edge Inference for LLMs and DNNs: An Assessment of Optimization Techniques, Coverage Gaps, and Research Directions
+T2  - 2026 2nd International Symposium on AI-Driven Engineering Systems (ISADES)
+SP  - 1
+EP  - 8
+AU  - E. E. Uslu
+AU  - O. Dagdeviren
+PY  - 2026
+KW  - Modeling
+KW  - Large language models
+KW  - Optimization
+KW  - Printing
+KW  - Quantization (signal)
+KW  - Timing
+KW  - Conferences
+KW  - Memory
+KW  - Clouds
+KW  - Internet of Things
+KW  - Distributed inference
+KW  - large language models
+KW  - edge computing
+KW  - model compression
+KW  - model partitioning
+KW  - tensor parallelism
+KW  - quantization
+KW  - scheduling
+DO  - 10.1109/ISADES69945.2026.11608080
+JO  - 2026 2nd International Symposium on AI-Driven Engineering Systems (ISADES)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 2nd International Symposium on AI-Driven Engineering Systems (ISADES)
+Y1  - 19-20 June 2026
+AB  - Edge deployment of Large Language Models (LLMs) and Deep Neural Networks (DNNs) is bounded by tight limits on per-device memory, compute throughput, energy draw, and inter-node bandwidth that no single device can satisfy alone. We organize the optimization landscape under five technical pillars covering model compression, model partitioning, collaborative inference, hardware-aware optimization and scheduling, and adaptive inference. Following a screening procedure modeled on PRISMA (Preferred Reporting Items for Systematic Reviews and Meta-Analyses), a corpus of 52 peer-reviewed studies spanning 2018–2026 together with 20 production inference systems is assessed, with explicit attention to PagedAttention, continuous batching, and GGUF quantization. A cross-paper coverage analysis indicates that latency and memory targets dominate the literature, whereas only 6 of the 52 reviewed papers tackle fault tolerance and only 5 treat privacy. From these observations we extract six open gaps and an agenda that addresses fault-tolerant execution, privacy-preserving distribution, Key-Value (KV) cache–aware serving, and carbon-aware scheduling.
+ER  - 
+
+TY  - CONF
+TI  - Prompt2Graph: Leveraging LLMs to Construct Knowledge Graphs from Technical Manuals
+T2  - 2025 4th International Conference on Innovative Mechanisms for Industry Applications (ICIMIA)
+SP  - 912
+EP  - 919
+AU  - A. Dudhipala
+AU  - R. Karne
+AU  - P. K. Pativada
+PY  - 2025
+KW  - Text analysis
+KW  - Reviews
+KW  - Large language models
+KW  - Industry applications
+KW  - Knowledge graphs
+KW  - Manuals
+KW  - Ontologies
+KW  - Information retrieval
+KW  - Maintenance
+KW  - Prompt engineering
+KW  - knowledge graph
+KW  - information extraction
+KW  - large language model
+KW  - domain ontology
+KW  - prompt engineering
+KW  - LoRA fine-tuning
+DO  - 10.1109/ICIMIA67127.2025.11200177
+JO  - 2025 4th International Conference on Innovative Mechanisms for Industry Applications (ICIMIA)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 4th International Conference on Innovative Mechanisms for Industry Applications (ICIMIA)
+Y1  - 3-5 Sept. 2025
+AB  - A structured knowledge graph (KG) can significantly support information retrieval and reasoning in technical contexts when extracting information from unstructured instructional documents. This paper presents a low-overhead process to map tool-part relational triples from textual instructions using a large language model (LLM) and a domain ontology. By using LoRA to fine-tune an LLM to identify domain-specific entities (Tools and Parts) and relations (for instance, "uses," "removes," and "attached") from maintenance and assembly manuals, the approach achieves respectable precision and recall against a test set with expert annotations. A thorough error analysis documents common extraction failures (missing triples, incorrect relation types, etc.) and discusses how ontology changes may resolve such issues. Extraction performance per relation and entity is then reported to highlight which relation and entity types are better represented by the model. An expert review of illustrative extracted triples indicates that the resulting KG will likely be accurately and usefully employed in practice. Finally, lessons learned and future improvements (rule-based post-processing, better alignment with procedural local steps, etc.) are explored to improve KG construction in this domain.
+ER  - 
+
+TY  - JOUR
+TI  - LLM Integration in XR: A Survey on Architectural Frameworks, Data Processing, Optimization, and Evaluation
+T2  - IEEE Access
+SP  - 83683
+EP  - 83691
+AU  - S. Santoso
+AU  - I. Setyawan
+AU  - D. Manongga
+AU  - H. D. Purnomo
+AU  - Hendry
+PY  - 2026
+KW  - Large language models
+KW  - Extended reality
+KW  - Modeling
+KW  - Optimization
+KW  - Conferences
+KW  - Virtual reality
+KW  - Measurement
+KW  - Computers
+KW  - Artificial intelligence
+KW  - Educational institutions
+KW  - Extended reality
+KW  - artificial intelligence
+KW  - large language model
+DO  - 10.1109/ACCESS.2026.3695487
+JO  - IEEE Access
+IS  - 
+SN  - 2169-3536
+VO  - 14
+VL  - 14
+JA  - IEEE Access
+Y1  - 2026
+AB  - Extended reality and artificial intelligence (especially LLMs) in recent times have shown an increase in adoption and the number of research projects. This shows not only a growing interest in either topic but also a potential for integration between them. The natural way in which LLM interacts with users transfers well to XR’s immersive characteristics, and XR provides a new environment for LLM where LLM can interact with users via multiple modalities. Other reviews on this topic focus on the application of LLM in XR however, the technical aspect of this integration remains underexplored. This study conducts a systematic literature review of 76 peer-reviewed articles between 2020 and 2025 from three reputable databases and seeks to give an overview of state-of-the-art integration between LLM and XR in architecture, optimization, and evaluation. Findings conclude that LLM integration with XR most commonly uses cloud LLM as their main architecture with speech as the main modality. The most common technique of optimization is quantization with local development, and the most dominant evaluation metrics are latency and user experience. A decision support framework is then constructed to aid researchers in determining the type of architecture and optimization needed for their work. These findings are beneficial to locate technical research gaps in LLM and XR integration and provide XR and LLM researchers a means to formulate and design their future works.
+ER  - 
+
+TY  - CONF
+TI  - ACT360: An Efficient 360-Degree Action Detection and Summarization Framework for Mission-Critical Training and Debriefing
+T2  - 2025 IEEE International Conference on Smart Computing (SMARTCOMP)
+SP  - 34
+EP  - 41
+AU  - A. Tiwari
+AU  - K. Nahrstedt
+PY  - 2025
+KW  - Training
+KW  - Technological innovation
+KW  - Quantization (signal)
+KW  - Accuracy
+KW  - Convolution
+KW  - Large language models
+KW  - Mission critical systems
+KW  - Self-supervised learning
+KW  - Distortion
+KW  - Robustness
+KW  - 360-degree video analysis
+KW  - mission-critical training
+KW  - action detection
+KW  - machine learning
+KW  - spatial attention
+KW  - non-maximum suppression
+KW  - confidence thresholding
+KW  - quantization
+KW  - pruning
+KW  - latency-aware system
+KW  - data labeling
+KW  - large language models
+KW  - summarization
+DO  - 10.1109/SMARTCOMP65954.2025.00053
+JO  - 2025 IEEE International Conference on Smart Computing (SMARTCOMP)
+IS  - 
+SN  - 2693-8340
+VO  - 
+VL  - 
+JA  - 2025 IEEE International Conference on Smart Computing (SMARTCOMP)
+Y1  - 16-19 June 2025
+AB  - Effective training and debriefing are critical in high-stakes, mission-critical environments such as firefighting, where precision and error minimization are paramount. The traditional post-training analysis relies on the manual review of 2D video, a process that is time-consuming and lacks comprehensive situational awareness. To address these limitations, we introduce ACT360, a novel system that leverages 360-degree video and machine learning for automated action detection and efficient debriefing. ACT360 incorporates 360YOWO, a customized You Only Watch Once (YOWO) model enhanced with a spatial attention mechanism and equirectangular-aware convolution (EAC) to handle the unique distortions of panoramic video data. To enable deployment in resource-constrained environments, we apply quantization and model pruning, reducing the model size by 74% while maintaining robust accuracy (mAP drop of only 1.5 %, from 0.865 to 0.850) and improving inference speed. We validate our approach on a new, publicly available dataset of 55 labeled 360-degree videos covering seven key firefighting actions, recorded across various real-world practice sessions and environmental conditions. Furthermore, we integrate the pipeline with 360AIE (Action Insight Explorer), a web-based interface that provides automatic action detection, retrieval, and textual summarization of key events using large language models (LLMs), significantly improving post-incident analysis efficiency. ACT360 serves as a generalized framework for mission-critical debriefing, incorporating techniques such as EAC, spatial attention, summarization, and model optimization. These innovations apply to any training environment requiring lightweight action detection and structured nost-exercise analysis.
+ER  - 
+
+TY  - JOUR
+TI  - Harnessing LLMs for Cyber-Resilience: A Systematic Survey in Threat Mitigation and Future Trajectories
+T2  - IEEE Access
+SP  - 61294
+EP  - 61315
+AU  - N. Ahmad
+AU  - U. Sehar
+AU  - J. Zhou
+AU  - Y. Peng
+AU  - C. Zhang
+PY  - 2026
+KW  - Payloads
+KW  - Aerospace and electronic systems
+KW  - Telemetry
+KW  - Military aircraft
+KW  - Space technology
+KW  - Feeds
+KW  - Filtering
+KW  - Filters
+KW  - Feedback
+KW  - Circuits
+KW  - Cybersecurity
+KW  - information extraction
+KW  - large language models
+KW  - threat mitigation
+KW  - fine-tuning
+KW  - web content protection
+DO  - 10.1109/ACCESS.2026.3682720
+JO  - IEEE Access
+IS  - 
+SN  - 2169-3536
+VO  - 14
+VL  - 14
+JA  - IEEE Access
+Y1  - 2026
+AB  - By enabling contextual reasoning, adaptive defense mechanisms, and intelligent threat detection, the quick development of LLMs has drastically changed the cybersecurity landscape. LLMs provide a single framework that can comprehend complex cyber threats across disparate data sources, in contrast to standard machine learning approaches that mostly rely on handcrafted features and task-specific models. With a focus on domain-specific fine-tuning techniques and web content protection, this research methodically investigates how LLMs are used to promote AI-driven cybersecurity. A structured keyword selection and screening process was carried out in accordance with PRISMA criteria, yielding a curated collection of representative phrases that directed the literature investigation. For cybersecurity activities like phishing and spam detection, cyber threat intelligence, intrusion detection, malicious URL identification, DDoS mitigation, and IoT security, the report summarizes recent research on optimized LLMs. In order to adapt general-purpose LLMs to security-sensitive contexts, special attention is paid to parameter-efficient fine-tuning techniques, continuous pretraining, and instruction tweaking. Additionally, this research demonstrates how LLMs improve the security of web content by using contextual knowledge and reasoning to detect emerging dangers and social engineering assaults that circumvent conventional rule-based systems. This paper offers a succinct of the state of LLM-driven cybersecurity research by classifying the literature into logical subject areas and using graph-based representations to visualize keyword correlations. The review seeks to assist researchers and practitioners in comprehending current approaches, pointing out constraints, and spotting new trends in the safe and efficient use of LLMs for cybersecurity operations.
+ER  - 
+
+TY  - CONF
+TI  - Comparative Analysis of Multimodal RAG Deployment Strategies for Medical Image Understanding: API-Based, Local Fine-Tuning, and Hybrid Approaches
+T2  - 2025 Second International Conference on Artificial Intelligence for Medicine, Health and Care (AIxMHC)
+SP  - 116
+EP  - 122
+AU  - K. -C. Yang
+AU  - H. -T. Chu
+PY  - 2025
+KW  - Data privacy
+KW  - Visualization
+KW  - Large language models
+KW  - Retrieval augmented generation
+KW  - Knowledge based systems
+KW  - Medical services
+KW  - Vision language model
+KW  - Question answering (information retrieval)
+KW  - General Data Protection Regulation
+KW  - Biomedical imaging
+KW  - Multimodal RAG
+KW  - Medical Imaging
+KW  - Vision Language Models
+KW  - LoRA
+KW  - DoRA
+KW  - API
+KW  - CLIP
+KW  - MedCLIP
+KW  - BiomedCLIP
+KW  - Local VLM
+KW  - Hybrid MRAG
+KW  - Visual Question Answering
+KW  - Clinical Decision Support
+KW  - Data Privacy
+KW  - IRB
+KW  - HIPAA
+KW  - GDPR
+KW  - Healthcare AI
+KW  - Deployment Strategies
+KW  - Decision Framework
+DO  - 10.1109/AIxMHC65380.2025.00028
+JO  - 2025 Second International Conference on Artificial Intelligence for Medicine, Health and Care (AIxMHC)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 Second International Conference on Artificial Intelligence for Medicine, Health and Care (AIxMHC)
+Y1  - 13-15 Oct. 2025
+AB  - The advancement of clinical decision support systems depends on the essential integration of medical images together with their corresponding textual reports. The paradigm of Multimodal Retrieval-Augmented Generation (MRAG) shows promise because it uses external knowledge sources to support Large Language Model (LLM) responses. Recent advances such as MMed-RAG demonstrate up to 43.8% improvement in factual accuracy for medical vision-language tasks. This research investigates three main approaches to implement MRAG for medical image understanding through (1) API-based access to strong general-purpose Multimodal Large Language Models (MLLMs) (e.g., GPT-4V, Gemini), (2) local deployment of Vision Language Models (VLMs) with parameter-efficient fine-tuning (e.g., LoRA, DoRA), and (3) a hybrid method that uses pre-trained embedding models (e.g., CLIP, MedCLIP, BiomedCLIP) for local structured knowledge base retrieval alongside a local VLM for secure context-aware response generation. The evaluation assesses these methods through their documented capabilities and literature-based model efficacy and data privacy aspects for Protected Health Information (PHI) and evaluates their deployment complexity and cost alongside scalability and customizability and latency and transparency and knowledge updatability. Through a conceptual case study and decision framework, we analyze the trade-offs for typical healthcare institutions. The research establishes particular medical use cases which demonstrate the best fit for each approach under strict Institutional Review Board (IRB) regulations and data privacy standards including HIPAA and GDPR. This research establishes a decision framework for healthcare ecosystem MRAG solution selection and implementation to address specific healthcare challenges.
+ER  - 
+
+TY  - JOUR
+TI  - A Lightweight Large-Model Security Framework for Consumer Electronics Based on Sentiment Analysis in Online Consumer Platforms
+T2  - IEEE Transactions on Consumer Electronics
+SP  - 1
+EP  - 1
+AU  - P. Xu
+AU  - H. Zhao
+AU  - C. Chakraborty
+AU  - M. Guduri
+AU  - Z. Guo
+AU  - A. Tolba
+PY  - 2026
+KW  - Modeling
+KW  - Reviews
+KW  - Sentiment analysis
+KW  - LoRa
+KW  - Security
+KW  - Accuracy
+KW  - Timing
+KW  - Training
+KW  - Electrons
+KW  - Matrices
+KW  - Consumer Electronics
+KW  - Sentiment Analysis
+KW  - Lightweight Large Language Models
+KW  - Model Compression
+DO  - 10.1109/TCE.2026.3702980
+JO  - IEEE Transactions on Consumer Electronics
+IS  - 
+SN  - 1558-4127
+VO  - 
+VL  - 
+JA  - IEEE Transactions on Consumer Electronics
+Y1  - 
+AB  - With the widespread deployment of consumer electronics and online consumer platforms, user-generated reviews have become a key source of emotional information for consumer-facing intelligent services. Although large language models achieve strong sentiment analysis performance, their high computational cost limits practical deployment in resource-constrained consumer electronics environments requiring real-time responses and efficient resource utilization. To address this issue, this paper proposes a lightweight large-model security framework for consumer electronics based on sentiment analysis in online consumer platforms. The framework integrates the Low-Rank Adaptation (LoRA) technique into RoBERTa to construct a RoBERTa-LoRA model, enabling efficient fine-tuning with minimal additional parameters while preserving semantic representation capability. Based on this model, a lightweight framework, RoBERTaL, is developed to support real-time sentiment-aware security analysis in consumer-facing applications. Experimental results on a real-world product review dataset show that RoBERTa-LoRA achieves an accuracy of 81.2% with only 0.3M additional parameters, demonstrating improved computational efficiency, deployment feasibility, and effectiveness in mitigating AI-driven opinion manipulation in consumer electronics systems.
+ER  - 
+
+TY  - CONF
+TI  - A Review of FPGA-Driven LLM Acceleration
+T2  - 2025 IEEE 18th International Symposium on Embedded Multicore/Many-core Systems-on-Chip (MCSoC)
+SP  - 49
+EP  - 52
+AU  - Y. Fu
+AU  - J. Li
+AU  - C. Cheng
+AU  - S. L. Ma
+AU  - C. -W. Sham
+AU  - N. Zou
+PY  - 2025
+KW  - Quantization (signal)
+KW  - Reviews
+KW  - Computational modeling
+KW  - Bandwidth
+KW  - Reconfigurable logic
+KW  - Programmable logic arrays
+KW  - Throughput
+KW  - Field programmable gate arrays
+KW  - Optimization
+KW  - Software development management
+KW  - FPGA
+KW  - LLMs
+KW  - Optimization Strategy
+DO  - 10.1109/MCSoC67473.2025.00018
+JO  - 2025 IEEE 18th International Symposium on Embedded Multicore/Many-core Systems-on-Chip (MCSoC)
+IS  - 
+SN  - 2771-3075
+VO  - 
+VL  - 
+JA  - 2025 IEEE 18th International Symposium on Embedded Multicore/Many-core Systems-on-Chip (MCSoC)
+Y1  - 15-18 Dec. 2025
+AB  - This paper provides a brief review of FPGA-based acceleration strategies for large language models (LLMs). As LLMs continue to increase in scale and complexity, efficiently deploying these models presents significant challenges, particularly in scenarios constrained by computational resources and memory bandwidth. This study highlights the unique advantages of Field Programmable Gate Arrays (FPGAs), including reconfigurable logic, fine-grained parallelism, and superior energy efficiency, which make them efficient for accelerating LLMs. Key findings indicate that optimizing bandwidth utilization is crucial for deploying larger models and achieving higher throughput. Furthermore, the review explores advanced optimization techniques from both model-layer and algorithm-layer perspectives, including sparsity quantization, memory access and bandwidth optimization strategies. These techniques improve data access patterns and alleviate FPGA memory limitations through innovative offloading strategies and the effective utilization of high-bandwidth memory technologies. Additionally, we have curated and organized the collected literature, which is available for public access and review on our github repository: https://github.com/FYL-Lib/FPGA.git.
+ER  - 
+
+TY  - CONF
+TI  - On-Device Small Language Model Inference Acceleration for Real-Time Robotics: A Survey
+T2  - 2026 IEEE 16th Annual Computing and Communication Workshop and Conference (CCWC)
+SP  - 669
+EP  - 675
+AU  - A. Dawane
+PY  - 2026
+KW  - Surveys
+KW  - Runtime
+KW  - Quantization (signal)
+KW  - Semantics
+KW  - Natural languages
+KW  - Real-time systems
+KW  - Inference algorithms
+KW  - Hardware
+KW  - Scheduling
+KW  - Robots
+KW  - Small language models
+KW  - on-device inference
+KW  - robotics
+KW  - real-time systems
+KW  - quantization
+KW  - edge AI
+KW  - vision-language-action
+DO  - 10.1109/CCWC67433.2026.11393726
+JO  - 2026 IEEE 16th Annual Computing and Communication Workshop and Conference (CCWC)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 IEEE 16th Annual Computing and Communication Workshop and Conference (CCWC)
+Y1  - 5-7 Jan. 2026
+AB  - Small language models (SLMs) and on-device large language model (LLM) deployments are rapidly becoming key enablers of natural language interaction, high-level decision making, and semantic perception in robotics. Unlike datacenter-scale models, robotic deployments must satisfy tight latency, energy, and memory constraints while operating on embedded platforms such as NVIDIA Jetson, mobile systems-on-chip (SoCs), or custom controllers, often without reliable network connectivity. This paper surveys inference acceleration methods for on-device SLMs with a focus on real-time robotic use cases. We organize techniques into four layers: (i) model-level approaches such as low-bit quantization, distillation, architecture optimization, and sparsity; (ii) algorithmic methods including efficient attention, KV-cache compression, and speculative and multi-token decoding; (iii) system-level runtimes and scheduling techniques for embedded and edge platforms; and (iv) hardware trends spanning mobile neural processing units (NPUs), Jetson-class GPUs, FPGAs, and vision-language-action (VLA) accelerators. We highlight representative state-of-the-art SLM families (e.g., Llama 3.2, Phi-3, Gemma, Qwen 2.5, MobileLLM, MobileLLMPro) and robotics-oriented models such as Gemini Robotics ondevice and edge LLMs for ground robots. We also summarize design trade-offs through a comparison of inference frameworks (ExecuTorch, MLC-LLM, NanoLLM, llama.cpp, MediaPipe LLM, TensorRT-based stacks) and discuss open challenges for deploying language models as real-time components in robotic systems.
+ER  - 
+
+TY  - CONF
+TI  - Beyond Attention Complexity: A Survey of Efficient and Frugal Transformers for Long-Context Deployment
+T2  - 2026 6th International Conference on Innovative Research in Applied Science, Engineering and Technology (IRASET)
+SP  - 1
+EP  - 8
+AU  - Z. Hassain
+AU  - A. Ouhmida
+AU  - M. Mestari
+PY  - 2026
+KW  - Memory
+KW  - Modeling
+KW  - Transformers
+KW  - Sequences
+KW  - Sequential analysis
+KW  - Training
+KW  - Design methodology
+KW  - Context
+KW  - Costing
+KW  - Costs
+KW  - Transformers
+KW  - Frugal Models
+KW  - Efficient Attention
+KW  - Long-Context Modeling
+KW  - Key–Value Cache
+KW  - State Space Models
+KW  - FlashAttention
+KW  - Quantization
+DO  - 10.1109/IRASET68627.2026.11538727
+JO  - 2026 6th International Conference on Innovative Research in Applied Science, Engineering and Technology (IRASET)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 6th International Conference on Innovative Research in Applied Science, Engineering and Technology (IRASET)
+Y1  - 14-15 May 2026
+AB  - Transformer models are now the most common way to model sequences in natural language processing, vision, and multimodal learning. In recent years, their use has quickly moved to long-context situations, where the length of the input has grown from a few thousand tokens to hundreds of thousands or even millions of tokens. This change has completely changed how efficient Transformers are. Early research focused mostly on making self-attention less computationally complex. However, recent large-scale deployments have shown that memory usage during inference, especially due to key-value (KV) caching, is now the main problem for scalability, latency, and energy efficiency. This survey looks at modern Transformer systems from a costand frugality-focused point of view, with a focus on changes that will happen between 2023 and 2025. We first look again at the memory and computational costs of Transformer models during training and inference, focusing on the change from attention computation to memory-bound inference. Next, we look at some recent improvements in efficient attention mechanisms, such as hardware-aware exact attention (like FlashAttention-3) and latent or compressed attention formulations (like Multi-head Latent Attention in DeepSeek-V3) that cut down on KV cache memory by a lot. We also look at new architectural paradigms like state space models (Mamba, Mamba-2) and hybrid attention-SSM architectures, which make it possible to model sequences in linear time and get rid of or reduce KV caching.Lastly, we talk about low-cost training and inference methods, such as low-precision computation, 1-bit large language models, and system-level KV cache optimizations for serving large amounts of data. This survey gives a current look at the design principles that will shape the next generation of efficient and frugal sequence models by bringing together model-level, architectural, and system-level points of view.
+ER  - 
+
+TY  - CONF
+TI  - The Role of Small Language Models in Edge Computing and On-Device AI: A Review
+T2  - 2026 Second International Conference on Intelligent Systems for Communication, IoT and Security (ICISCoIS)
+SP  - 1
+EP  - 6
+AU  - J. S. D. J
+AU  - L. M
+AU  - A. Geo Vargheese
+PY  - 2026
+KW  - Adaptation models
+KW  - Quantization (signal)
+KW  - Biological system modeling
+KW  - Computational modeling
+KW  - Hardware
+KW  - Data models
+KW  - Low latency communication
+KW  - Optimization
+KW  - Tuning
+KW  - Edge computing
+KW  - The Internet of Things
+KW  - real-time inference
+KW  - resource efficiency
+KW  - compact language models
+KW  - edge computing
+KW  - on-device AI
+KW  - model compression
+KW  - quantization
+KW  - privacy
+KW  - knowledge distillation
+DO  - 10.1109/ICISCoIS62701.2026.11447893
+JO  - 2026 Second International Conference on Intelligent Systems for Communication, IoT and Security (ICISCoIS)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 Second International Conference on Intelligent Systems for Communication, IoT and Security (ICISCoIS)
+Y1  - 8-10 Jan. 2026
+AB  - Small Language Models (SLMs) have surfaced as effective and efficient substitutes for Large Language Models, particularly in low-power, memory-limited, and privacyconscious settings. This paper offers a thorough examination of the architectures, optimization strategies, and deployment methodologies that facilitate high-performance on-device and edge-based inference utilizing SLMs. Contemporary encoder- and decoder-based SLMs-including DistilBERT, TinyBERT, MobileBERT, MiniLM, Qwen2, and Llama-3 8B-are analyzed with an emphasis on their architectural design decisions, compression techniques, and computational trade-offs. Essential optimization approaches such as pruning, quantization, and knowledge distillation are investigated, along with deployment-specific improvements including operator fusion, hardware-aware tuning, and adaptive model scaling. Practical deployment workflows for edge devices like the Raspberry Pi 5 are also outlined to illustrate real-world applicability. Additionally, the paper underscores significant areas where SLMs are transforming edge intelligence, including on-device voice assistants, customer support systems, predictive text engines, industrial IoT analytics, and healthcare diagnostics. The findings indicate that SLMs provide low-latency, privacy-preserving, and energy-efficient AI functionalities, underscoring their importance in the forthcoming generation of intelligent edge systems.
+ER  - 
+
+TY  - CONF
+TI  - Weight Pruning Amplifies Bias: A Multi-Method Study of Compressed LLMs for Edge AI
+T2  - 2026 IEEE World AI IoT Congress (AIIoT)
+SP  - 0292
+EP  - 0299
+AU  - P. K. Rath
+AU  - R. Maliakkal
+PY  - 2026
+KW  - Internet of Things
+KW  - Modeling
+KW  - Quantization (signal)
+KW  - Printing
+KW  - Large language models
+KW  - Poles and zeros
+KW  - Safety
+KW  - Aluminum
+KW  - Accuracy
+KW  - Hardware
+KW  - large language models
+KW  - weight pruning
+KW  - bias amplification
+KW  - model compression
+KW  - fairness
+KW  - IoT deployment
+KW  - edge AI
+DO  - 10.1109/AIIoT68874.2026.11569526
+JO  - 2026 IEEE World AI IoT Congress (AIIoT)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 IEEE World AI IoT Congress (AIIoT)
+Y1  - 20-22 May 2026
+AB  - Weight pruning is widely advocated for deploying Large Language Models on resource-constrained IoT and edge devices, yet its impact on model fairness remains poorly understood. We conduct a controlled empirical study of three instruction-tuned models (Gemma-2-9b-it, Mistral-7B-Instruct-v0.3, Phi-3.5-mini-instruct) across three pruning methods (Random, Magnitude, Wanda) at four sparsity levels (10–70%) on 12,148 BBQ bias benchmark items with 5 random seeds, totaling 2,368,860 inference records. Our results reveal a Smart Pruning Paradox: activation-aware pruning (Wanda) preserves perplexity nearly perfectly, just 3.5% increase at 50% sparsity for Mistral-7B, yet produces the highest bias amplification, with Stereotype Reliance Score increasing 83.7% and 47–59% of previously unbiased items developing new stereotypical behaviors at 70% sparsity. Random pruning destroys language capability entirely (perplexity exceeding 104 and reaching 108) but produces only random-chance bias. We further demonstrate that unstructured pruning provides zero storage savings and zero inference latency reduction on real edge hardware, undermining the primary motivation for its use in IoT deployment. Of 180 statistical comparisons between dense and pruned models, 141 (78.3%) are significant (p < 0.05) with mean |Cohen’s h| = 0.305. Published quantization studies report up to 21% of responses flipping between biased and unbiased states [24]; our pruning results show transition rates nearly three times higher (47–59%), suggesting pruning poses a categorically greater risk to alignment than quantization. These findings demonstrate that perplexity-based evaluation provides false assurance of behavioral equivalence, and that IoT deployment pipelines require bias-aware validation before deploying pruned models at the edge.
+ER  - 
+
+TY  - JOUR
+TI  - Text-to-Mapper: Generating Executable MyBatis ORM Artifacts From Natural Language Requirements
+T2  - IEEE Transactions on Software Engineering
+SP  - 2688
+EP  - 2703
+AU  - Z. Chen
+AU  - X. Lin
+AU  - Y. Chen
+AU  - R. Huang
+AU  - J. Yan
+AU  - Z. Chi
+AU  - J. Dai
+AU  - Z. Cai
+AU  - L. Wang
+AU  - Y. Zhong
+PY  - 2026
+KW  - Modeling
+KW  - Structured Query Language
+KW  - Java
+KW  - Databases
+KW  - Labeling
+KW  - Measurement
+KW  - Rendering (computer graphics)
+KW  - Aging
+KW  - ASA
+KW  - Radio access networks
+KW  - Text-to-Mapper
+KW  - MyBatis
+KW  - ORM
+KW  - code generation
+KW  - large language models
+KW  - object semantic alignment
+KW  - database applications
+DO  - 10.1109/TSE.2026.3702824
+JO  - IEEE Transactions on Software Engineering
+IS  - 9
+SN  - 1939-3520
+VO  - 52
+VL  - 52
+JA  - IEEE Transactions on Software Engineering
+Y1  - Sept. 2026
+AB  - Enterprise database applications are typically mediated by Object–Relational Mapping (ORM) frameworks such as MyBatis rather than by raw SQL, yet most natural-language interfaces to data target single SQL strings and bypass the mapper layer. This paper formulates the pioneering task of Text-to-Mapper, generating executable MyBatis mapper files from natural-language requirements given database schemas and Java entity specifications. To support this setting, a high-quality dataset, MyBatis-Spider together with an evaluation pipeline that exercises candidates through a parse-build-execute-align runtime chain. To capture execution-level semantics, an execution-based metric, Object Semantic Alignment (OSA), compares the Java objects produced by generated and reference mappers. Our empirical study of direct-transfer baselines highlights recurring field-column-type binding errors; motivated by this, we introduce Across-Struct-Table (AST), a compact two-dimensional representation that makes these correspondences explicit. Systematic experiments with commercial and open-weights large language models show that AST yields consistent OSA improvements by reducing field-level mismatches. With parameter-efficient fine-tuning (PEFT) on top of AST, mid-scale open-weights models narrow the gap to larger general-purpose models, and in some settings match or slightly exceed them on this benchmark, suggesting a viable path toward controllable, on-premise Text-to-Mapper systems.
+ER  - 
+
+TY  - CONF
+TI  - CrashExpert: Expert-Rationale Supervised Fine-Tuning for Traffic Accident Type Classification in Surveillance Scenes
+T2  - 2026 International Conference on Image, Signal Processing and Pattern Recognition (ISPP)
+SP  - 1219
+EP  - 1224
+AU  - L. Tian
+AU  - B. Han
+AU  - P. Wan
+AU  - Y. Xu
+AU  - W. Zhou
+PY  - 2026
+KW  - Modeling
+KW  - Accidents
+KW  - Vehicles
+KW  - Tuning
+KW  - Labeling
+KW  - Printing
+KW  - Pedestrians
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Surveillance
+KW  - traffic accident classification
+KW  - multimodal large language model
+KW  - rationale-augmented fine-tuning
+KW  - surveillance scene understanding
+KW  - explainable AI
+DO  - 10.1109/ISPP69262.2026.11542968
+JO  - 2026 International Conference on Image, Signal Processing and Pattern Recognition (ISPP)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 International Conference on Image, Signal Processing and Pattern Recognition (ISPP)
+Y1  - 10-12 April 2026
+AB  - Existing vision-based traffic accident analysis methods suffer from limited generalization to long-tail accident types and lack semantic-level explanations for their outputs. This paper proposes CrashExpert, an Expert-Rationale Supervised Fine-Tuning framework built upon multimodal large language models. Given a single surveillance image, CrashExpert pairs visual tokens extracted by Qwen3-VL-8B-Instruct with structured expert rationales organized into a six-level reasoning chain (Perception, Category, Pattern, Severity, Cause, Conclusion). A hybrid fine-tuning strategy-full fine-tuning of the projection layer combined with LoRA adaptation of the LLM-enables the model to simultaneously output accident type labels and generate interpretable structured rationales. Experiments on our privately constructed dataset Traffic-Crash-Sight demonstrate that CrashExpert achieves the highest recall on the safetycritical pedestrian-vehicle category (80.49 %) among all compared methods, while uniquely providing readable reasoning traces for post-hoc accident review.
+ER  - 
+
+TY  - CONF
+TI  - Meta-Learning for Cold-Start Personalization in Prompt-Tuned LLMs
+T2  - 2025 4th International Conference on Cloud Computing, Big Data Application and Software Engineering (CBASE)
+SP  - 462
+EP  - 467
+AU  - Y. Zhao
+AU  - H. Shen
+AU  - D. Li
+AU  - L. Chang
+AU  - C. Zhou
+AU  - Y. Yang
+PY  - 2025
+KW  - Metalearning
+KW  - Adaptation models
+KW  - Technological innovation
+KW  - Reviews
+KW  - Large language models
+KW  - Medical services
+KW  - Real-time systems
+KW  - Recommender systems
+KW  - Tuning
+KW  - Resilience
+KW  - Meta-Learning
+KW  - Cold-Start Personalization
+KW  - Prompt Tuning
+KW  - Large Language Models (LLMs)
+KW  - Few-Shot Learning
+KW  - Model-Agnostic Meta-Learning (MAML)
+DO  - 10.1109/CBASE67452.2025.11335518
+JO  - 2025 4th International Conference on Cloud Computing, Big Data Application and Software Engineering (CBASE)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 4th International Conference on Cloud Computing, Big Data Application and Software Engineering (CBASE)
+Y1  - 24-26 Oct. 2025
+AB  - Generative, explainable, and flexible recommender systems, derived using Large Language Models (LLM) are promising and poorly adapted to the cold-start user situation, where there is little to no history of interaction. The current solutions i.e. supervised fine-tuning and collaborative filtering are dense-user-item focused and would be expensive to maintain and update. This paper introduces a meta-learning framework, that can be used to perform parameter-efficient prompt-tuning, to effectively personalize LLM-based recommender systems quickly at cold-start. The model learns soft prompt embeddings with firstorder (Reptile) and second-order (MAML) optimization by treating each of the users as the tasks. As augmentations to the input tokens, these learnable vectors are the differentiable control variables that represent user behavioral priors. The prompts are meta-optimized through episodic sampling, inner-loop adaptation, and outer-loop generalization. On MovieLens-1M, Amazon Reviews, and Recbole, we can see that our adaptive model outperforms strong baselines in NDCG@10, HR@10, and MRR, and it runs in real-time (i.e., below 300 ms) on consumer GPUs. Zero-history personalization is also supported by this scalable solution, and its 275 ms rate of adaptation allows successful realtime risk profiling of financial systems by shortening detection latency and improving payment network stability.Crucially, the 275 ms adaptation capability can enable real-time risk profiling for financial institutions, reducing systemic vulnerability detection latency significantly versus traditional compliance checks. By preventing contagion in payment networks (e.g., Fedwire), the framework strengthens national financial infrastructure resilience.
+ER  - 
+
+TY  - CONF
+TI  - PEFT-Enabled AI Scaffolding for Adaptive Problem-Based Learning A Systematic Literature Review
+T2  - 2026 5th International Conference on Creative Communication and Innovative Technology (ICCIT)
+SP  - 1
+EP  - 6
+AU  - Kusnadi
+AU  - E. Utami
+AU  - Kusrini
+AU  - T. Hidayat
+PY  - 2026
+KW  - Learning (artificial intelligence)
+KW  - Modeling
+KW  - Artificial intelligence
+KW  - Printing
+KW  - Reviews
+KW  - Feedback
+KW  - Large language models
+KW  - Systematic literature review
+KW  - Tuning
+KW  - Systematics
+KW  - PEFT
+KW  - Scaffolding
+KW  - Problem-Based Learning
+KW  - Information Systems
+KW  - Adaptive Gamification
+DO  - 10.1109/ICCIT70127.2026.11749122
+JO  - 2026 5th International Conference on Creative Communication and Innovative Technology (ICCIT)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 5th International Conference on Creative Communication and Innovative Technology (ICCIT)
+Y1  - 24-25 Sept. 2026
+AB  - Parameter Efficient Fine Tuning offers a computationally viable foundation for Large Language Models to deliver adaptive cognitive scaffolding and real-time feedback in Problem-Based Learning environments. Educational institutions frequently face computational resource constraints and model hallucination risks when attempting to deploy generative models for personalized instruction. This study presents a systematic literature review examining how parameter-efficient model adaptation techniques, particularly Low-Rank Adaptation, support adaptive gamification and cognitive scaffolding within Problem-Based Learning. Following Preferred Reporting Items for Systematic Reviews and Meta-Analyses guidelines, a comprehensive search across Scopus, IEEE Xplore, ScienceDirect, SpringerLink, and Google Scholar identified 1,147 records, from which 45 peer-reviewed journal articles published between 2022 and 2025 were selected after applying AMSTAR quality criteria. The synthesized findings reveal that Low-Rank Adaptation tuned models like Llama-3.2 and Mistral-7B outperform traditional baselines in classroom dialogue analysis while reducing hardware overhead. Across the reviewed studies, PEFT-enabled adaptive gamification increased student motivation by up to 35.3 percent, enhanced knowledge retention by 32%, automated 61.7% of instructional content creation, and achieved 93.1% accuracy in mitigating hallucination risks via multi-agent scaffolding. System designers and educators can leverage these open-source adaptation frameworks to implement reliable, resource-efficient adaptive gamification in localized learning management systems.
+ER  - 
+
+TY  - JOUR
+TI  - Reinforcement Learning for Neural Network Compression: A Taxonomy of MDP Design, Action Spaces, Reward Engineering, and Learning Algorithms
+T2  - IEEE Access
+SP  - 1
+EP  - 1
+AU  - F. Baradaran
+AU  - M. Raji
+PY  - 2026
+KW  - Modeling
+KW  - Quantization (signal)
+KW  - Optimization
+KW  - Learning (artificial intelligence)
+KW  - Reinforcement learning
+KW  - Model compression
+KW  - Hardware
+KW  - Design methodology
+KW  - Neural networks
+KW  - Computer architecture
+KW  - Model Compression
+KW  - Reinforcement Learning (RL)
+KW  - Automated Model Compression
+KW  - Network Pruning
+KW  - Quantization
+DO  - 10.1109/ACCESS.2026.3749513
+JO  - IEEE Access
+IS  - 
+SN  - 2169-3536
+VO  - 
+VL  - 
+JA  - IEEE Access
+Y1  - 
+AB  - Deploying large Deep Neural Networks (DNNs) and Large Language Models (LLMs) on resource-constrained hardware remains challenging due to their high computational, memory, and energy requirements. Conventional compression techniques, including pruning, quantization, and architectural optimization, can reduce these costs effectively; however, they often rely on manually designed heuristics and rule-based strategies. Such approaches face difficulties in efficiently exploring the large search spaces of modern neural architectures, frequently leading to sub-optimal trade-offs between model accuracy and efficiency. To address these limitations, Reinforcement Learning (RL) has emerged as an effective framework for automated model compression by formulating the optimization process as a Markov Decision Process (MDP). Although numerous RL-based compression methods have recently been proposed, existing survey studies primarily categorize the literature according to the compression type, such as pruning or quantization, while providing limited analysis of the underlying RL mechanisms and design strategies. To address this gap, this survey presents, to the best of current knowledge, the first comprehensive RL-centric taxonomy for model compression. The state-of-the-art methods are systematically analyzed across four key dimensions: (1) MDP modeling strategies, including sequential layer-wise, topology-aware, multi-agent, dynamic runtime, and efficient environment modeling formulations; (2) action space design, covering quantization-oriented, pruning-oriented, joint compression, dynamic input-adaptive, and hierarchical action spaces; (3) reward function engineering, including accuracy-oriented, compression-aware, hardware-aware, multi-objective, and task-specific reward formulations; and (4) reinforcement learning algorithms, encompassing value-based methods, actor–critic approaches, policy-gradient techniques, Multi-Agent Reinforcement Learning (MARL), and hybrid/model-based RL frameworks. The survey further examines recent developments ranging from pruning and mixed-precision quantization in Convolutional Neural Networks (CNNs) to token pruning, context compression, and Chain-of-Thought (CoT) pruning in Vision Transformers (ViTs) and LLMs, highlighting the relationships between RL design choices and compression performance. The review also describes the literature-selection scope, summarizes representative quantitative results, and discusses key limitations affecting scalability, transferability, benchmarking, and deployment. Overall, this paper provides a structured RL-centric perspective on automated model compression, identifies current challenges and research gaps, and outlines promising directions for developing scalable, adaptive, and hardware-aware compression systems.
+ER  - 
+
+TY  - CONF
+TI  - Longitudinal Summarization of Mental Health Clinical Notes Using Fine-Tuned LLM and Hybrid RAG
+T2  - 2026 International Conference on Emerging Technologies in Computing and Communication (ETCC)
+SP  - 1
+EP  - 6
+AU  - R. Dilip
+AU  - M. Venugopalan
+PY  - 2026
+KW  - Modeling
+KW  - Retrieval augmented generation
+KW  - Printing
+KW  - Tuning
+KW  - Recording
+KW  - Timing
+KW  - Large language models
+KW  - Measurement
+KW  - Grounding
+KW  - Natural language processing
+KW  - Longitudinal Clinical Summarization
+KW  - Mental Health NLP
+KW  - Retrieval-Augmented Generation
+KW  - Weak Supervision
+KW  - Large Language Models
+DO  - 10.1109/ETCC69750.2026.11681980
+JO  - 2026 International Conference on Emerging Technologies in Computing and Communication (ETCC)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 International Conference on Emerging Technologies in Computing and Communication (ETCC)
+Y1  - 30-31 July 2026
+AB  - The ability to summarise longitudinal psychiatric clinical notes will be vital for timely and informed clinical decisions during multiple hospital admissions, as they will carry important information related to symptom trajectory, treatment response and risk evolution. The unstructured and temporally disjointed nature of these records, however, poses significant problems for manual review and for current automated summarization systems that often handle the process of summarizing individual admissions separately, and potentially produce temporally inconsistent or unsupported information. In this work, a longitudinal clinical summarization framework is presented which integrates the heuristic-based instruction tuning with a Hybrid Retrieper-Augmented Generation (Hybrid RAG) model to enhance factual grounding and temporal consistency. Admission-scoped patient history is built from raw psychiatric notes, and weakly supervised data pairs are created with clinically motivated heuristics, which allows using parameter-efficient finetuning methods such as QLoRA to train a LLM on this data. The multi-stage retrieval pipeline with sparse retrieval, dense semantic retrieval, and cross-encoder re-ranking are used to retrieve the evidence to support the generation of the summary during the inference stage, to guide the generation of the admission-specific summary. The longitudinal psychiatric records are used to evaluate the proposed framework on standard summarization metrics and retrieval and temporal consistency proxy measures. The experimental results show that our model outperforms the fine-tuned model with ROUGE-1 score of 0.5034, ROUGE-2 score of 0.4026 and BERTScore F1 score of 0.8884. The framework also gains a temporal precision proxy score of 1.0000, representing perfect temporal consistency in the retrieval using clinician-annotated temporal correctness as the proxy. The findings suggest that the proposed framework could enhance the reliability of longitudinal psychiatric clinical summarization by providing well-founded facts, structural coherence, and temporal consistency.
+ER  - 
+
+TY  - CONF
+TI  - Federated Learning Architectures for Mental Health Data: A Systematic Review of Privacy-Preserving Approaches and Clinical Efficacy
+T2  - 2025 International Conference on Sustainable Communication Networks and Application (ICSCN)
+SP  - 1916
+EP  - 1923
+AU  - P. Hadke
+AU  - S. Patil
+PY  - 2025
+KW  - Privacy
+KW  - Translation
+KW  - Federated learning
+KW  - Pipelines
+KW  - Mental health
+KW  - Benchmark testing
+KW  - Depression
+KW  - Data models
+KW  - Psychiatry
+KW  - Systematic literature review
+KW  - Federated learning
+KW  - differential privacy
+KW  - secure aggregation
+KW  - mental health
+KW  - digital phenotyping
+KW  - depression detection
+KW  - privacy–utility trade-off
+KW  - personalised federated learning
+KW  - multimodal sensing
+KW  - clinical efficacy
+DO  - 10.1109/ICSCN67106.2025.11308361
+JO  - 2025 International Conference on Sustainable Communication Networks and Application (ICSCN)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 International Conference on Sustainable Communication Networks and Application (ICSCN)
+Y1  - 15-17 Oct. 2025
+AB  - Mental-health information are sensitive by nature but need to be aggregated to train robust machine-learning models capable of detecting depression, anxiety, PTSD, and bipolar disorders at scale. Federated learning (FL) is a privacy-safeguarding paradigm in which the models are locally trained and shared only via gradients or distilled parameters; however, plain vanilla FL continues to leak patient data via model weights or memorisation. From 2022 to 2025, the space quickly coalesced around differential-privacy (DP)-enabled FL, secure-aggregation methods, and customized federated fine-tuning for balancing high privacy budgets (ϵ ≤ 1) with clinical effectiveness. We conducted a systematic review of 43 peer-reviewed papers that deployed FL for mental-health prediction or monitoring on human data. Across depression, PTSD, bipolar, and stress tasks under stress, depression, PTSD, and bipolar conditions, privacy-hardened FL attained a pooled AUC of 0.87 ± 0.03, or a mean reduction of only 1.2% (95% CI 0.9–1.6%) compared to centralised baselines below the 3% non-inferiority threshold accepted by regulatory bodies for model equivalence. Perhaps most encThisagingly, multimodal wearable-to-text pipelines and large-language-model-based therapy chatbots provided the biggest privacy utility improvements when paired with adaptive DP budgets and LoRA-style parameter-efficient fine-tuning. Deployment issues persist non-independent and identically distributed (non-IID) data heterogeneity perturbed 91% of studies, and communication bottlenecks were encountered in 72%. We advocate a roadmap that integrates OMOP-CDM harmonisation, fairness constraints, and open-sThisce benchmarking to speed clinical translation. This results suggest that, through stringent privacy calibration, federated mental-health analytics can satisfy both ethical–legal requirements and clinical performance benchmarks, laying the foundation for population-scale yet privacy-preserving digital psychiatry.
+ER  - 
+
+TY  - CONF
+TI  - Inference Acceleration Techniques for Large AI Models: A Survey
+T2  - 2026 6th International Conference on Innovative Research in Applied Science, Engineering and Technology (IRASET)
+SP  - 1
+EP  - 9
+AU  - F. A. Mohamed
+AU  - M. -A. Chadi
+AU  - H. Mousannif
+PY  - 2026
+KW  - Modeling
+KW  - Quantization (signal)
+KW  - Optimization
+KW  - Timing
+KW  - Hardware
+KW  - Information rates
+KW  - Printing
+KW  - Throughput
+KW  - Memory
+KW  - Accuracy
+KW  - Inference Acceleration
+KW  - Acceleration Techniques
+KW  - Acceleration Metrics
+DO  - 10.1109/IRASET68627.2026.11538859
+JO  - 2026 6th International Conference on Innovative Research in Applied Science, Engineering and Technology (IRASET)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 6th International Conference on Innovative Research in Applied Science, Engineering and Technology (IRASET)
+Y1  - 14-15 May 2026
+AB  - The rapid growth of large AI models such as large language models (LLMs), vision transformers (ViTs), and multimodal models has created a critical need for efficient inference. This survey reviews a broad spectrum of inference acceleration techniques from algorithmic and architectural methods to model compression, hardware optimizations, and system-level strategies. We discuss dynamic inference methods such as early exiting, mixture-of-experts, and adaptive attention; model compression including pruning, quantization, and weight sharing; hardwareaware optimizations including inference compilers and custom kernels; and system strategies including batching, caching, and scheduling. We compare techniques in terms of latency, throughput, memory, and accuracy trade-offs, providing useful details for practitioners. Notably, methods like aggressive quantization can yield approximately three to four times throughput improvements, knowledge distillation can speed up inference by approximately two times, and advanced schedulers can boost multi-query serving throughput by approximately two to five times. This paper serves as a reference for practitioners and researchers seeking a unified view of inference acceleration techniques.
+ER  - 
+
+TY  - CONF
+TI  - Advanced Deep Learning Architectures for Sign Language Recognition, Translation, and Multimodal Gesture Processing: A Comprehensive Survey
+T2  - 2026 8th International Conference on Inventive Material Science and Applications (ICIMA)
+SP  - 906
+EP  - 912
+AU  - P. I. Rasool
+AU  - N. Shanthi
+AU  - N. Aravindhraj
+AU  - V. Manimaran
+AU  - A. Kamaleshwaran
+AU  - P. Krishnan
+PY  - 2026
+KW  - Modeling
+KW  - Sign language
+KW  - Printing
+KW  - Translation
+KW  - Multilingual
+KW  - Videos
+KW  - Hands
+KW  - Conferences
+KW  - Convolutional neural networks
+KW  - Timing
+KW  - Sign Language Processing
+KW  - Gloss-Free Translation
+KW  - Deep Learning Architectures
+KW  - Multimodal Learning
+KW  - Accessibility Equity
+DO  - 10.1109/ICIMA68728.2026.11564355
+JO  - 2026 8th International Conference on Inventive Material Science and Applications (ICIMA)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 8th International Conference on Inventive Material Science and Applications (ICIMA)
+Y1  - 13-15 May 2026
+AB  - The paper will provide a survey of the recent developments in Sign Language Processing (SLP), the field in which there is a paradigm shift to a deep learning architecture based on accessibility equity rather than relying on traditional gloss-based pipelines. The survey critically examines the major advancements in Sign Language Recognition (SLR), Sign Language Translation (SLT), and Sign Language Production (SLP) and outlines the architecture of the evolution from the hybrid CNN-RNN models to Transformer-based frameworks and Multimodal Large Language Models (MLLMs). It is observed that there is a definite trend of gloss-free translation, which is facilitated by discrete latent tokenization, vector quantization (SignLLM), and segment-aware encoding schemes like Low-SAGE. The survey also looks at the combination of heterogeneous sensory modalities, such as RGB and depth streams, skeletal grids, neuromorphic event cameras (VECSL), and electromyography (sEMG), to overcome issues such as motion blur and occlusion. Specific attention is given to linguistic inclusivity by examining large-scale standards of under-resourced sign languages, such as Indian (FDMSE-ISL), Persian, Bangla (BdSLW401), and Russian (Logos). This survey summarizes the ongoing challenges of the deployment of continuous recognition, retrieval-enhanced translation (OVSLT), and diffusion-based avatar synthesis (TDM, SOKE) and forms the outlook of how powerful, bi-directional, and human-friendly sign language foundation models can be built.
+ER  - 
+
+TY  - CONF
+TI  - Bridging Carbon Efficiency and Carbon Awareness in Green AI: A Systematic Literature Review
+T2  - 2026 10th International Artificial Intelligence and Data Processing Symposium (IDAP)
+SP  - 1
+EP  - 11
+AU  - D. O. Gupit
+AU  - G. Lahayon
+AU  - V. Pitogo
+PY  - 2026
+KW  - Artificial intelligence
+KW  - Carbon
+KW  - Modeling
+KW  - Green (sustainability)
+KW  - Machine learning
+KW  - Printing
+KW  - Optimization
+KW  - Energy
+KW  - Reviews
+KW  - Carbon footprint
+KW  - Green AI
+KW  - Sustainable Computing
+KW  - Carbon-Aware Scheduling
+KW  - Model Compression
+KW  - Algorithmic Efficiency
+DO  - 10.1109/IDAP71869.2026.11728099
+JO  - 2026 10th International Artificial Intelligence and Data Processing Symposium (IDAP)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 10th International Artificial Intelligence and Data Processing Symposium (IDAP)
+Y1  - 5-6 Sept. 2026
+AB  - Recent advances in Artificial Intelligence (AI), particularly Large Language Models (LLMs) and computationally intensive deep learning systems, have increased concerns about energy consumption and associated carbon emissions. This study presents a systematic literature review (SLR) of 55 primary studies examining the relationship between model-centric carbon efficiency and grid-responsive carbon awareness in Green AI. Following PRISMA 2020-guided study selection and narrative thematic synthesis, the review identified model-centric approaches, including pruning, quantization, knowledge distillation, and parameter-efficient methods, that reduce baseline computational and energy requirements. Carbon-aware approaches, including temporal load shifting, spatial workload migration, and telemetry-informed scheduling, adapt AI workload execution to variations in electricity-grid carbon intensity. The synthesis reveals that these research streams are often investigated independently, with persistent gaps in standardized carbon reporting, lifecycle assessment, and production-scale validation. The findings highlight the need for cross-layer approaches that integrate model-level efficiency with carbon-aware workload orchestration to support more environmentally sustainable AI systems.
+ER  - 
+
+TY  - JOUR
+TI  - Backdoor Attacks and Countermeasures in Natural Language Processing Models: A Comprehensive Security Review
+T2  - IEEE Transactions on Neural Networks and Learning Systems
+SP  - 13628
+EP  - 13648
+AU  - P. Cheng
+AU  - Z. Wu
+AU  - W. Du
+AU  - H. Zhao
+AU  - W. Lu
+AU  - G. Liu
+PY  - 2025
+KW  - Training
+KW  - Reviews
+KW  - Inspection
+KW  - Data models
+KW  - Natural language processing
+KW  - Benchmark testing
+KW  - Security
+KW  - Large language models
+KW  - Text categorization
+KW  - Outsourcing
+KW  - Artificial intelligence (AI) security
+KW  - backdoor attacks
+KW  - backdoor countermeasures
+KW  - natural language processing (NLP)
+DO  - 10.1109/TNNLS.2025.3540303
+JO  - IEEE Transactions on Neural Networks and Learning Systems
+IS  - 8
+SN  - 2162-2388
+VO  - 36
+VL  - 36
+JA  - IEEE Transactions on Neural Networks and Learning Systems
+Y1  - Aug. 2025
+AB  - Language models (LMs) are becoming increasingly popular in real-world applications. Outsourcing model training and data hosting to third-party platforms has become a standard method for reducing costs. In such a situation, the attacker can manipulate the training process or data to inject a backdoor into models. Backdoor attacks are a serious threat where malicious behavior is activated when triggers are present; otherwise, the model operates normally. However, there is still no systematic and comprehensive review of LMs from the attacker’s capabilities and purposes on different backdoor attack surfaces. Moreover, there is a shortage of analysis and comparison of the diverse emerging backdoor countermeasures. Therefore, this work aims to provide the natural language processing (NLP) community with a timely review of backdoor attacks and countermeasures. According to the attackers’ capability and affected stage of the LMs, the attack surfaces are formalized into four categorizations: attacking the pretrained model with fine-tuning (APMF) or parameter-efficient fine-tuning (PEFT), attacking the final model with training (AFMT), and attacking large language model (ALLM). Thus, attacks under each categorization are combed. The countermeasures are categorized into two general classes: sample inspection and model inspection. Thus, we review countermeasures and analyze their advantages and disadvantages. Also, we summarize the benchmark datasets and provide comparable evaluations for representative attacks and defenses. Drawing the insights from the review, we point out the crucial areas for future research on the backdoor, especially soliciting more efficient and practical countermeasures.
+ER  - 
+
+TY  - CONF
+TI  - Multimodal Sentiment Analysis in Indian Regional Languages: A Comprehensive Literature Review and Unified Framework
+T2  - 2026 International Conference on Secure Information Systems and Technologies (ICSIST)
+SP  - 1374
+EP  - 1381
+AU  - S. Chinnaiahgari
+AU  - P. O. Prakash Reddy
+AU  - A. Bujunuru
+AU  - R. Leelavathi
+AU  - A. Vani
+AU  - T. Padmavathi
+PY  - 2026
+KW  - Modeling
+KW  - Codes
+KW  - Sentiment analysis
+KW  - Multilingual
+KW  - Social networking (online)
+KW  - Labeling
+KW  - Transformers
+KW  - Tuning
+KW  - Training
+KW  - Machine learning
+KW  - Sentiment Analysis
+KW  - Indian Languages
+KW  - Code- Mixing
+KW  - Multimodal Learning
+KW  - Transformers
+KW  - Low-Resource NLP
+DO  - 10.1109/ICSIST70215.2026.11705818
+JO  - 2026 International Conference on Secure Information Systems and Technologies (ICSIST)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 International Conference on Secure Information Systems and Technologies (ICSIST)
+Y1  - 17-19 Aug. 2026
+AB  - Sentiment analysis of Indian regional language has been of growing significance as a result of the rising development of social media content in languages other than English that are linguistically diverse, code mixed and multimodal in nature. Although there has been significant improvement in high- resource languages, sentiment analysis in Indian settings is not an easy task because of the lack of annotated information, the prevalence of code-mixing, inconsistency in transliteration, and increased popularity of multimodal content like memes and short videos. Available literature tends to solve these issues one at a time and therefore, either unimodal text processing, code-mixed processing, or multimodal sentiment detection, which leaves the solutions isolated and task-specific. The current paper provides a syntactic summary of the sentiment analysis studies on the Indian regional and code-mixed languages, which critically examines the methodological underpinnings, empirical results and the new trends in unimodal, code-mixed and multimodal contexts. The review reveals some important insights into the effectiveness of classical machine learning in the case of data deficiency, the use of multilingual and language-specific transformers, and the increased relevance of large language models with parameter-efficient fine-tuning. The paper suggests a single multimodal sentiment analysis system based on the gaps in the research that can be used to jointly model the textual, visual, and acoustic information with a common semantic structure. In the proposed architecture, the multilingual transformers, parameter-efficient adaptation and cross-modal attention-related fusion are proposed to outstandingly capture the sentiment articulated in different modalities of heterogeneity. This work summarizes the existing literature and offers a generalizable and scalable architectural framework that can guide the development of sentiment analysis in the Indian regional and code-mixed setting, as well as offer theoretical knowledge on the topic. The suggested methodology provides a solid basis of the future empirical assessment and practical implementation of multi-modal sentiment analysis systems.
+ER  - 
+
+TY  - JOUR
+TI  - Minimizing Response Latency in LLM-Based Agent Systems: A Comprehensive Survey
+T2  - IEEE Access
+SP  - 26140
+EP  - 26168
+AU  - G. Park
+AU  - S. Lee
+AU  - Y. Park
+PY  - 2026
+KW  - Optimization
+KW  - Surveys
+KW  - Delays
+KW  - Planning
+KW  - Memory management
+KW  - Cognition
+KW  - Usability
+KW  - Reviews
+KW  - Multi-agent systems
+KW  - Logic
+KW  - Latency optimization
+KW  - LLM-based agents
+KW  - multi-agent systems
+KW  - system performance
+DO  - 10.1109/ACCESS.2026.3664226
+JO  - IEEE Access
+IS  - 
+SN  - 2169-3536
+VO  - 14
+VL  - 14
+JA  - IEEE Access
+Y1  - 2026
+AB  - The advent of Large Language Model (LLM)-based agent systems represents a significant paradigm shift in Artificial Intelligence, enabling unprecedented capabilities in autonomous reasoning, planning, and interaction. However, the transformative potential of these agents is fundamentally constrained by a critical operational challenge: high response latency. This latency, which impairs usability, restricts real-time applicability, and challenges economic viability, is a paramount barrier to their widespread adoption in complex, real-world scenarios. This survey provides a comprehensive and structured analysis of the multifaceted latency problem in LLM-based agent systems. We present a structured taxonomy that deconstructs end-to-end latency into its constituent sources, offering a holistic view of the entire agent stack. Our review spans four primary layers of optimization: 1) Core LLM Inference, covering techniques to accelerate the foundational model, including quantization, pruning, efficient attention mechanisms, and speculative decoding; 2) Agent-Level Frameworks, detailing strategies to refine the agent’s cognitive loop, such as accelerating planning cycles, optimizing tool use, and implementing latency-aware memory management; 3) System-Level and Infrastructure, encompassing optimizations for the underlying deployment environment, including advanced serving systems, hardware acceleration, dynamic resource allocation, and distributed architectures; and 4) Multi-Agent Systems, addressing specialized methods for mitigating communication and coordination overhead in collaborative agent ensembles. We identify key unresolved challenges and outline promising future research directions—including hardware-software co-design, novel agent architectures, and AI-driven system orchestration—to guide the ongoing quest for ultra-low latency intelligent systems.
+ER  - 
+
+TY  - CONF
+TI  - Lightweight Intrusion Detection for SOHO and IoT Networks: A Comprehensive Survey
+T2  - 2026 6th International Conference on Electrical, Computer and Energy Technologies (ICECET)
+SP  - 1
+EP  - 5
+AU  - A. Sandu
+AU  - I. V. Sita
+AU  - V. Muresan
+PY  - 2026
+KW  - Internet of Things
+KW  - Modeling
+KW  - Printing
+KW  - Quantization (signal)
+KW  - Security
+KW  - Hardware
+KW  - Tiny machine learning
+KW  - Signal detection
+KW  - Intrusion detection
+KW  - Conferences
+KW  - IoT Security
+KW  - Lightweight IDS
+KW  - TinyML
+KW  - SOHO Networks
+KW  - Generative AI
+KW  - LLMs
+KW  - Edge Computing
+KW  - Gamification
+DO  - 10.1109/ICECET65726.2026.11633197
+JO  - 2026 6th International Conference on Electrical, Computer and Energy Technologies (ICECET)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 6th International Conference on Electrical, Computer and Energy Technologies (ICECET)
+Y1  - 6-9 July 2026
+AB  - The exponential proliferation of Internet of Things (IoT) devices has fundamentally altered the landscape of Small Office/Home Office (SOHO) networks, introducing a heterogeneous and expanding attack surface that traditional security paradigms struggle to address. As consumer-grade appliances, industrial sensors, and smart infrastructure components become ubiquitous, they bring with them severe resource constraints—limited processing power, memory, and energy—that render conventional, resource-intensive Intrusion Detection Systems (IDS) obsolete. This survey provides an exhaustive critical analysis of the emerging field of lightweight IDS, specifically tailored for these constrained environments. We propose a multidimensional taxonomy categorizing state-of-the-art systems based on architectural deployment, detection methodology, and advanced optimization techniques (TinyML, quantization, structural pruning). We systematically benchmark commonly used IoT IDS datasets and explicitly contrast academic lightweight systems with commercial SOHO solutions. Furthermore, this report bridges the technical-cognitive gap by exploring the integration of Generative AI, Large Language Models (LLMs), and gamification strategies to enhance security awareness among non-expert users, highlighting recent empirical case studies. Through a rigorous comparative analysis of performance metrics, we identify the optimal trade-offs required for securing the modern edge. The survey concludes by outlining significant knowledge gaps, the necessity for statistical validation in benchmarking, and future research directions for robust, user-centric SOHO security.
+ER  - 
+
+TY  - JOUR
+TI  - An Overview of Multilevel Co-Design for AI Accelerator: From Fundamentals to the Frontier
+T2  - IEEE Access
+SP  - 84286
+EP  - 84318
+AU  - L. -T. N. Thi
+AU  - P. -P. Duong
+AU  - D. -T. Mai
+AU  - D. -H. Le
+AU  - C. -K. Pham
+PY  - 2026
+KW  - Design methodology
+KW  - Modeling
+KW  - Hardware
+KW  - Memory
+KW  - Computer architecture
+KW  - Architecture
+KW  - Optimization
+KW  - Bandwidth
+KW  - In-memory computing
+KW  - AI accelerators
+KW  - AI accelerators
+KW  - co-design
+KW  - hardware
+KW  - algorithm-architecture co-design
+KW  - deep learning hardware
+KW  - generative AI
+KW  - large language models
+KW  - neuromorphic computing
+KW  - processing-in-memory
+DO  - 10.1109/ACCESS.2026.3695927
+JO  - IEEE Access
+IS  - 
+SN  - 2169-3536
+VO  - 14
+VL  - 14
+JA  - IEEE Access
+Y1  - 2026
+AB  - The breakdown of Moore’s Law has shifted deep learning acceleration from compute-bound to memory-bound optimization, necessitating comprehensive co-design across multiple abstraction layers. This analysis examines key co-design methodologies spanning the algorithm-architecture, architecture-physics, and integration-system domains for modern AI hardware, addressing the limitations of conventional silicon approaches. CNNs match spatial hardware arrays with tailored dataflow mapping, while GNNs manage irregular access patterns. Similarly, LLM accelerators embed key-value cache optimizations and hierarchical compression directly into the silicon, and edge inference systems adapt to physical constraints by jointly tailoring quantization at the hardware-software boundary. Furthermore, architecture and physics co-design methods, including processing-in-memory architectures, non-volatile memory interfaces, and neuromorphic computing, directly challenge von Neumann bottlenecks by integrating computation with storage at the circuit level. Chiplet ecosystems, 3D stacking, and advanced interconnect architectures enable system scaling beyond single-die limitations, with thermal management and power delivery emerging as critical factors in post-Moore hardware deployment. This survey presents a multi-level co-design perspective for AI accelerators, unifying algorithmic, architectural, and system layers through a cross-layer taxonomy and a general analytical model for computation and data movement. By synthesizing quantitative evidence across state-of-the-art designs and outlining key open challenges, it provides a structured overview of modern accelerator trends and the remaining technical gaps in the field.
+ER  - 
+
+TY  - CONF
+TI  - Machine Learning Approach Using LLMs for Early Detection of Nomophobia in University Students
+T2  - 2025 IEEE International Conference on Biomedical Engineering, Computer and Information Technology for Health (BECITHCON)
+SP  - 628
+EP  - 632
+AU  - M. A. Uddin Alif
+AU  - B. A. Joyel
+AU  - A. A. Orchy
+PY  - 2025
+KW  - Modeling
+KW  - Accuracy
+KW  - Educational institutions
+KW  - Social networking (online)
+KW  - Printing
+KW  - Mobile handsets
+KW  - Smart phones
+KW  - Surveys
+KW  - Artificial intelligence
+KW  - Tuning
+KW  - Nomophobia
+KW  - LoRA
+KW  - Qwen 3
+KW  - Gemma 2B
+KW  - Mistral 7B
+DO  - 10.1109/BECITHCON69222.2025.11504199
+JO  - 2025 IEEE International Conference on Biomedical Engineering, Computer and Information Technology for Health (BECITHCON)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 IEEE International Conference on Biomedical Engineering, Computer and Information Technology for Health (BECITHCON)
+Y1  - 29-30 Nov. 2025
+AB  - Nomophobia, or "No Mobile Phone Phobia," is increasingly prevalent among university students, often manifesting as anxiety, stress, and academic difficulties. With smartphones deeply integrated into daily life, students may experience discomfort or panic when separated from their devices, negatively affecting mental well-being and learning outcomes. Early and accurate detection is therefore crucial; however, traditional survey-based assessments are often time-consuming, subjective, and limited in predictive capability. This research proposes a machine learning framework leveraging Large Language Models (LLMs) for multi-class classification of nomophobia severity in students. A structured survey dataset of 113 responses was collected and preprocessed through rigorous cleaning, anonymization, and preservation of linguistic context. The dataset was stratified into training, validation, and testing subsets to ensure robust evaluation and prevent overfitting. Multiple state-of-the-art LLMs including Qwen 3, Mistral 7B, Gemma 2B, and Phi-3 Mini were fine-tuned using Quantized Low-Rank Adaptation (QLoRA) for optimal classification performance. Experimental results showed Qwen 3 achieved the highest performance with 92.25% accuracy, 92.27% precision, 92.25% recall, and a 92.19% F1-score. Mistral 7B and Gemma 2B also performed strongly, with accuracies of 91.25% and 91.00%, respectively, while the lightweight Phi-3 Mini attained a competitive 90.25% accuracy. These results demonstrate the effectiveness of fine-tuned LLMs in predicting nomophobia, highlighting their potential to deliver timely, data-driven insights for educators and mental health professionals. Such frameworks can facilitate early intervention, reduce anxiety, and enhance academic outcomes among university students.
+ER  - 
+
+TY  - CONF
+TI  - Enhancing Fine-Tuning of LLMs for Domain-Specific Literature Review
+T2  - 2025 IEEE 4th International Conference on Industrial Electronics for Sustainable Energy Systems (IESES)
+SP  - 453
+EP  - 458
+AU  - M. Xu
+AU  - T. Xu
+AU  - X. Zhu
+AU  - Y. Wang
+AU  - Y. Zou
+AU  - C. Wang
+PY  - 2025
+KW  - Training
+KW  - Measurement
+KW  - Adaptation models
+KW  - Analytical models
+KW  - Accuracy
+KW  - Computational modeling
+KW  - Standards
+KW  - Optimization
+KW  - Systematic literature review
+KW  - Investment
+DO  - 10.1109/IESES66335.2025.11359889
+JO  - 2025 IEEE 4th International Conference on Industrial Electronics for Sustainable Energy Systems (IESES)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2025 IEEE 4th International Conference on Industrial Electronics for Sustainable Energy Systems (IESES)
+Y1  - 22-24 Sept. 2025
+AB  - Large Language Models (LLMs) offer transformative capabilities for automating literature reviews in specialized domains such as engineering and new energy research. We present an enhanced approach to fine-tuning a state-of-theart LLM with greater technical depth, emphasizing efficient adaptation techniques, robust data preparation, and optimized training on limited computing resources. Our methodology constructs a domain-specific dataset of literature in the new energy domain and formats it for supervised fine-tuning of a 7 billionparameter open LLM (e.g., LLaMA-7B), using cross-entropy loss minimization as the training objective. We discuss parameterefficient strategies (e.g., LoRA) that drastically reduce trainable parameters while maintaining performance [1], [2]. The model was trained on a multi-GPU setup with memory optimizations to handle the LLMs scale [3]. Quantitative evaluation using standard metrics for language generation-ROUGE for summarization quality and BLEU for content overlap-indicates improved output relevance after fine-tuning. The fine-tuned model demonstrates better recall of domain-specific terminology and produces more concise, informative summaries, reflected in higher ROUGE scores compared to the base model. We also analyze the trade-offs between model performance and computational cost: our fine-tuning approach balances accuracy gains against resource expenditure, ensuring the investment is justified by significant time savings in literature analysis. This work provides a blueprint for efficiently adapting LLMs to specialized research tasks, with implications for scaling AI solutions in scientific knowledge management across various engineering domains.
+ER  - 
+
+TY  - CONF
+TI  - Reasoning models, test-time compute, self refinement
+T2  - 2026 IEEE 8th International Conference and Workshop Óbuda on Electrical and Power Engineering (CANDO-EPE)
+SP  - 000143
+EP  - 000148
+AU  - J. Levente Zsolt
+PY  - 2026
+KW  - Modeling
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Timing
+KW  - Training
+KW  - Large language models
+KW  - Printing
+KW  - Accuracy
+KW  - Tuning
+KW  - Testing
+DO  - 10.1109/CANDO-EPE71091.2026.11569472
+JO  - 2026 IEEE 8th International Conference and Workshop Óbuda on Electrical and Power Engineering (CANDO-EPE)
+IS  - 
+SN  - 2831-4506
+VO  - 
+VL  - 
+JA  - 2026 IEEE 8th International Conference and Workshop Óbuda on Electrical and Power Engineering (CANDO-EPE)
+Y1  - 26-28 May 2026
+AB  - Reasoning models represent a specialized class of Large Language Models (LLMs) that are significantly advancing the field of artificial intelligence. This paper examines the fundamental characteristics of reasoning models and explores the methodologies employed to enhance their mathematical-logical performance. The empirical study evaluates the application of the self-refinement test-time compute scaling technique on a parameter-efficient model (Qwen 0.6B). Keywords—large language models, reasoning models, inference-time computing, self refinement
+ER  - 
+
+TY  - CONF
+TI  - Design and Implementation of an AIGC-based Cybersecurity Education Animation Generation and Recommendation System
+T2  - 2026 International Conference on Computer Intelligence and Software Engineering (CICSE)
+SP  - 125
+EP  - 131
+AU  - J. Guan
+PY  - 2026
+KW  - Modeling
+KW  - Equations
+KW  - Animation
+KW  - Modules (abstract algebra)
+KW  - Timing
+KW  - Computer security
+KW  - Tagging
+KW  - Tuning
+KW  - Learning (artificial intelligence)
+KW  - Training
+KW  - AIGC
+KW  - cybersecurity education
+KW  - animation generation
+KW  - personalized recommendation
+KW  - Wide&Deep model
+DO  - 10.1109/CICSE70286.2026.11620665
+JO  - 2026 International Conference on Computer Intelligence and Software Engineering (CICSE)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 International Conference on Computer Intelligence and Software Engineering (CICSE)
+Y1  - 12-14 June 2026
+AB  - In response to the industry pain points of low content supply efficiency, rigid forms, and insufficient personalized adaptability in current cybersecurity education, as well as the research gap in the integrated generation and recommendation solutions of AIGC technology in the vertical education field, this paper designs and implements an AIGC animation generation and personalized recommendation system for cybersecurity education. The system first builds a vertical domain knowledge base covering the core knowledge points of cybersecurity and a content compliance normative system. It uses a large language model fine-tuned based on domain instructions to automatically generate educational animation storyboards, and employs a LoRA fine-tuned AnimateDiff diffusion model to complete the standardized rendering of coherent animation visual content. It integrates voice synthesis and subtitle generation modules to output complete animation works. At the same time, it adopts a Wide&Deep deep recommendation model to build a personalized recommendation module that integrates multidimensional user portraits and the progressive logic of knowledge points, and is equipped with a full-chain multi-modal content security review mechanism. To verify the effectiveness and performance of the system, this paper sets up a dedicated experimental environment to complete multi-dimensional comparative tests. The results show that the ROUGE-L value of the fine-tuned script generation model reaches 87.2%, an increase of 19.5 percentage points compared to the baseline of the general large language model. The FID value of the animation visual generation module drops to 12.38, and the subjective MOS score for content educational adaptability reaches 4.62/5.00. The recommendation model adopted in this paper improves the Top10 NDCG value by 22.7% compared to the traditional collaborative filtering model. In the online A/B test, the user content completion rate increases by 31.4%. All functions and performance indicators of the system meet the requirements for large-scale application. This research realizes the low-cost large-scale generation and precise personalized distribution of cybersecurity education animation content, providing a reusable technical solution and practical reference for the digital and intelligent transformation of cybersecurity education.
+ER  - 
+
+TY  - CONF
+TI  - A Retrieval-Augmented Medical Chatbot for Evidence-based Clinical Question Answering
+T2  - 2026 7th International Conference on Intelligent Communication Technologies and Virtual Mobile Networks (ICICV)
+SP  - 1909
+EP  - 1914
+AU  - C. Beuria
+AU  - P. Shaw
+AU  - M. Mohan
+AU  - J.Shanthini
+PY  - 2026
+KW  - Modeling
+KW  - Retrieval augmented generation
+KW  - Printing
+KW  - LoRa
+KW  - Aluminum
+KW  - Multilingual
+KW  - Equations
+KW  - Training
+KW  - Pipelines
+KW  - Cognition
+KW  - component
+KW  - formatting
+KW  - style
+KW  - styling
+KW  - insert (key words)
+DO  - 10.1109/ICICV68925.2026.11554752
+JO  - 2026 7th International Conference on Intelligent Communication Technologies and Virtual Mobile Networks (ICICV)
+IS  - 
+SN  - 
+VO  - 
+VL  - 
+JA  - 2026 7th International Conference on Intelligent Communication Technologies and Virtual Mobile Networks (ICICV)
+Y1  - 20-22 May 2026
+AB  - Medical informatics is the field that combines healthcare, computer science, and information technology. Recent progress in Large Language Models (LLMs) has made it possible to make conversational systems that can answer medical questions. However, general-purpose LLMs frequently produce erroneous medical assertions, commonly referred to as hallucinations. When these systems are used to help with clinical work, these mistakes can be very dangerous. This study suggests a domain-specific generative medical chatbot that integrates Retrieval-Augmented Generation (RAG) with Low-Rank Adaptation (LoRA). The system gets peer-reviewed clinical evidence from the NCBI PubMed database and uses it to help create responses. The model lessens the chance of unproven medical claims by basing responses on verified literature. The Microsoft Phi-3-Mini model is used to build the framework. It has been fine-tuned with QLoRA and is connected to an FAISS vector retrieval pipeline. The system also supports multiple languages and can explain how it came up with its answers by using citation and confidence scoring. The experimental assessment has high levels of factual basis reaching F1 of 89.4% with a hallucination rate of only 2.1%. The proposed approach demonstrates that affordable hardware and local configuration of reliable medical conversation systems can be established and do not make things hidden and hard to repeat.
+ER  - 
+
+TY  - JOUR
+TI  - Toward Democratized Generative AI in Next-Generation Mobile Edge Networks
+T2  - IEEE Network
+SP  - 251
+EP  - 260
+AU  - R. Zhang
+AU  - J. He
+AU  - X. Luo
+AU  - D. Niyato
+AU  - J. Kang
+AU  - Z. Xiong
+AU  - Y. Li
+AU  - B. Sikdar
+PY  - 2025
+KW  - Generative AI
+KW  - Artificial intelligence
+KW  - Computational modeling
+KW  - Adaptation models
+KW  - Performance evaluation
+KW  - Training
+KW  - Quantization (signal)
+KW  - Mobile handsets
+KW  - Memory management
+KW  - Biological system modeling
+KW  - Democratized AI
+KW  - generative AI
+KW  - LLM
+KW  - compact model
+KW  - mobile edge networks
+DO  - 10.1109/MNET.2025.3541078
+JO  - IEEE Network
+IS  - 6
+SN  - 1558-156X
+VO  - 39
+VL  - 39
+JA  - IEEE Network
+Y1  - Nov. 2025
+AB  - The rapid development of generative artificial intelligence (AI) technologies, including large language models (LLMs), has brought transformative changes to various fields. However, deploying such advanced models on mobile and edge devices remains challenging due to their high computational, memory, communication, and energy requirements. To address these challenges, we propose a model-centric framework for democratizing generative AI deployment on mobile and edge networks. First, we comprehensively review key compact model strategies, such as quantization, model pruning, and knowledge distillation, and present key performance metrics to optimize generative AI for mobile deployment. Next, we provide a focused review of mobile and edge networks, emphasizing the specific challenges and requirements of these environments. We further conduct a case study demonstrating the effectiveness of these strategies by deploying LLMs on real mobile edge devices. Experimental results highlight the practicality of democratized LLMs, with significant improvements in generalization accuracy, hallucination rate, accessibility, and resource consumption. Finally, we discuss potential research directions to further advance the deployment of generative AI in resource-constrained environments.
+ER  - 
+
+TY  - JOUR
+TI  - 6G Needs Agents: Toward Agentic AI-Native Networks for Autonomous Intelligence
+T2  - IEEE Open Journal of the Communications Society
+SP  - 7254
+EP  - 7282
+AU  - M. A. Ferrag
+AU  - A. Lakas
+AU  - M. Debbah
+PY  - 2026
+KW  - Cognition
+KW  - Cognitive systems
+KW  - Artificial intelligence
+KW  - Modeling
+KW  - Large language models
+KW  - Architecture
+KW  - Computer architecture
+KW  - Agentic AI
+KW  - Optimization
+KW  - Radio access networks
+KW  - 6G
+KW  - AI-native networks
+KW  - LLM agents
+KW  - autonomous networks
+KW  - self-reasoning systems
+KW  - network intelligence
+DO  - 10.1109/OJCOMS.2026.3707904
+JO  - IEEE Open Journal of the Communications Society
+IS  - 
+SN  - 2644-125X
+VO  - 7
+VL  - 7
+JA  - IEEE Open Journal of the Communications Society
+Y1  - 2026
+AB  - Sixth-generation (6G) networks are increasingly envisioned as AI-native infrastructures integrating communication, sensing, and computing into a unified fabric. However, existing approaches remain largely optimization-centric, relying on closed-loop control with limited reasoning capability. In this paper, we argue for a paradigm shift toward Agentic AI-Native 6G, in which Large Language Model (LLM)-based agents operate as bounded, policy-governed reasoning entities within a semantic control plane layered above deterministic 3GPP infrastructure. We propose a four-layer architecture that integrates deterministic network infrastructure, semantic abstraction of intent and context, hierarchical reasoning, and a distributed multi-agent fabric spanning device, edge, and core domains. To assess the feasibility of deploying reasoning-capable agents within the proposed architecture, we develop an agentic reasoning and orchestration framework and conduct an extensive empirical study using a domain-specific 6G benchmark under realistic deployment constraints. Our results reveal a fundamental tradeoff between reasoning capability and system efficiency, showing that no single model simultaneously satisfies latency, throughput, and accuracy requirements. Instead, heterogeneous deployment of LLM agents across the device–edge–core continuum is necessary to balance these constraints. We further demonstrate that quantization introduces non-uniform effects across models, reinforcing the need for system-level optimization rather than model-level compression alone. These findings establish agentic intelligence as a viable architectural direction for 6G and highlight key challenges in achieving scalable, trustworthy, and self-reasoning networks. All experimental results and evaluation scripts are publicly available to support reproducibility at https://github.com/maferrag/6G-Bench/tree/main/Agentic6G
+ER  - 
+
+

@@ -1,0 +1,99 @@
+@startwbs eap
+' EAP (WBS) da dissertação — orientada a entregáveis
+' Unidades curriculares: PREPD = 1.1 e 1.2 (laranja); DIMEI = 1.3 a 1.8 (azul)
+<style>
+wbsDiagram {
+  FontName Arial
+  FontSize 12
+  LineColor #64748B
+  RoundCorner 6
+  Padding 6
+  :depth(0) {
+    BackgroundColor #17324D
+    LineColor #17324D
+    FontColor #FFFFFF
+    FontStyle bold
+    FontSize 14
+  }
+  :depth(1) {
+    BackgroundColor #DCEBFF
+    LineColor #5B8FD6
+    FontStyle bold
+  }
+  :depth(2) {
+    BackgroundColor #F4F6F9
+    LineColor #8A94A3
+  }
+  .prepd {
+    BackgroundColor #FFE7C2
+    LineColor #E0A040
+  }
+  .dimei {
+    BackgroundColor #DCEBFF
+    LineColor #5B8FD6
+  }
+  .uc {
+    LineColor transparent
+    BackgroundColor transparent
+    FontSize 15
+    FontStyle bold
+    FontColor #555555
+  }
+}
+</style>
+
+* Dissertação: assistente conversacional\npara o Adhara QBank
+
+**_ PREPD <<uc>>
+** 1.1 Documento de PREPD <<prepd>>
+*** 1.1.1 Problema, objetivos e questões\nde investigação
+*** 1.1.2 Proposta metodológica\ne de avaliação
+*** 1.1.3 Planeamento\n(EAP e cronograma)
+*** 1.1.4 Extended abstract
+*** 1.1.5 Documento final
+*** 1.1.6 Apresentação
+
+** 1.2 Revisão sistemática\nda literatura <<prepd>>
+*** 1.2.1 Protocolo da revisão
+*** 1.2.2 Pesquisa e seleção (PRISMA)
+*** 1.2.3 Avaliação da qualidade
+*** 1.2.4 Extração e síntese
+*** 1.2.5 Lacuna de investigação
+
+**_ DIMEI <<uc>>
+** 1.3 Requisitos <<dimei>>
+*** 1.3.1 Levantamento com a Adhara
+*** 1.3.2 Requisitos funcionais\ne não funcionais
+*** 1.3.3 Critérios de aceitação\ne de sucesso
+
+** 1.4 Análise experimental\nde LLM <<dimei>>
+*** 1.4.1 Modelos candidatos\n(API e locais)
+*** 1.4.2 Conjunto de teste
+*** 1.4.3 Prompt e campos\ndo contexto
+*** 1.4.4 Resultados comparativos
+*** 1.4.5 Escolha do modelo\ne da configuração
+
+** 1.5 Avaliação <<dimei>>
+*** 1.5.1 Avaliação por especialistas
+*** 1.5.2 Questionário a utilizadores
+*** 1.5.3 Latência e custo em uso
+*** 1.5.4 Análise de resultados
+
+** 1.6 Assistente\nimplementado <<dimei>>
+*** 1.6.1 Arquitetura e integração\nno QBank
+*** 1.6.2 Interface de conversa
+*** 1.6.3 Serviço de conversa\ne ligação ao LLM
+*** 1.6.4 Segurança e privacidade
+*** 1.6.5 Funcionalidades extra\npedidas pela Adhara
+
+** 1.7 Verificação\ne testes <<dimei>>
+*** 1.7.1 Testes unitários\ne de componentes
+*** 1.7.2 Testes de integração\ne de sistema
+*** 1.7.3 Testes de âmbito\ne de segurança
+*** 1.7.4 Testes de aceitação
+
+** 1.8 Dissertação <<dimei>>
+*** 1.8.1 Documento da dissertação
+*** 1.8.2 Versão final submetida
+*** 1.8.3 Apresentação da defesa
+@endwbs
